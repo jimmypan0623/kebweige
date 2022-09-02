@@ -1,0 +1,78 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>JST產品技術通報歸檔及查詢</title>
+<link href="include/Q78.css" rel="stylesheet">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"> 
+<script type="text/javascript" src='include/add-load-listener.js'></script>
+<script type="text/javascript" src='include/handle_events9.js'></script>
+<script type="text/javascript" src='include/cookie.js'></script> 
+<script type="text/javascript" src='include/djntime.js'></script> 
+<script type="text/javascript" src='include/psdchg.js'></script>  
+<script type="text/javascript" src='include/q78.js'></script>  
+<script type="text/javascript" src='include/rgst.js'></script>  
+<script type="text/javascript" src='include/get-scrolling-position.js'></script>
+<script type="text/javascript" src='include/get_elements_by_attribute.js'></script>
+<script type="text/javascript" src='include/identify-browser.js'></script>
+<script type="text/javascript" src='include/sort_tables_by_columns.js'></script>
+</head><body>
+<table class="outframe" border="0" cellpadding="0" cellspacing="1">
+  <thead>
+   <tr> 
+     <td  class="topbanner" id="flttgt" style="width: 50%;font-size:medium;">
+       <span id="holder"><span style="font-family:Arial;color:#2132ac;font-weight:bold"> Q78.JST產品技術通報歸檔及查詢.  目前登入帳號：<span id='user_who'>登入者</span> </span> </span>     
+     </td>
+     <td class="topbanner" style="font-size:small;text-align:center;"><span  id="currentTime">
+      更新時間2017/01/01 10:50 am
+    </span>   </td>
+  </tr>
+  <tr> <td class="mainpart" style="text-align:left;">  
+       	<p style="font-family;Arial;">第 <select id="recmth"></select> 頁 &nbsp&nbsp&nbsp 搜尋:
+		<select id="recfield">
+				            	<option value="F01">通報文號</option>
+				            	<option value="F02">發行日期</option>
+				            	<option value="F03">發行主旨</option>
+								<option value="F04">實施日期</option>
+								<option value="F05">收件日期</option>
+								<option value="F06">變更類別</option>
+								<option value="F07">材料系列</option>								
+				            	</select> 欄&nbsp&nbsp&nbsp <input type="text" class="txt" name="srch" id="srch" 
+                                placeholder="輸入搜尋關鍵字" size="20" tabindex="1" style="width:25%;">
+		
+	<input type="button" id='seekfrm' class='btn' value="検索"><div id="serverResponse" style="color:red;text-align:center;">&nbsp </div></p>
+      </td>
+      <td class="mainpart" style="text-align:left;">	  
+	   <input type="button" id='lgt' class='btn' value="離開">&nbsp &nbsp &nbsp 
+	   <input type="button" id='NEW_BOTT' class='btn' value="新增">
+	   <input type="button" id='EDIT_BOTT' class='btn' value="修改">	
+	   <input type="button" id='DEL_BOTT' class='btn' value="刪除">	
+	   <input type="button" id='B01_BOTT' class='btn' value="相關料號">	
+	  
+	</td></tr>
+ 
+   </thead>
+   <tbody  style="height:500px;">		  
+   <tr><td rospan=2>       
+   <div class="div_table">
+   <table class="datalist" summary="Technology issue of JST" id="member">   
+ 	<thead id="mainthead">
+    <tr id="headrow"><th style="display:none;">NO.</th>
+	<th style="width:129px;">通報文號</th> 
+	<th style="width:101px;">發行日期</th>
+	<th style="width:227px;">發行主旨</th>
+	<th style="width:101px;">實施日期</th>
+	<th style="width:101px;">收件日期</th>
+	<th style="width:98px;">變更類別</th>
+	<th style="width:128px;">材料系列</th>
+	<th style="width:41px;">連結</th>   
+     </thead> 
+	 <tbody id="maintbody");>	 
+     <!--js產生表格資料插在此處-->
+     </tbody>
+	</table>      
+   </td>   
+  </tr>   
+ </tbody></table>
+ </div>
+</body>
+</html>

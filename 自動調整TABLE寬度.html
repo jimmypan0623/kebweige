@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>自動調整寬度</title>
+<style>
+ table { 
+    border: 1px solid green; 
+    border-collapse: collapse; 
+    width:100%; 
+} 
+
+table td { 
+    border: 1px solid green; 
+} 
+
+table td.shrink { 
+    white-space:nowrap 
+} 
+table td.expand { 
+    width: 99% 
+} 
+  
+</style>
+</head>
+
+ 
+<body>
+    <!-- 實現一個固定表頭，可滾動的table -->
+   <table> 
+    <tr> 
+     <td class="shrink">element1</td> 
+     <td class="shrink">data</td> 
+     <td class="shrink">junk here</td> 
+     <td class="expand">last column</td> 
+    </tr> 
+    <tr> 
+     <td class="shrink">elem</td> 
+     <td class="shrink">more data</td> 
+     <td class="shrink">other stuff</td> 
+     <td class="expand">again, last column</td> 
+    </tr> 
+    <tr> 
+     <td class="shrink">more</td> 
+     <td class="shrink">of </td> 
+     <td class="shrink">these</td> 
+     <td class="expand">rows</td> 
+    </tr> 
+</table> 
+  </body>
+</body>
+</html>

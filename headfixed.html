@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>转载自·威易网CSS教程</title>
+<style>
+    /* 給容器一個寬度，並在頁面居中 */
+      div {
+        width: 500px;
+        margin: 0 auto;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        border: 1px solid gray;
+        text-align: center;
+      }
+      table thead {
+        background-color: orange;
+      }
+      table tbody tr:nth-of-type(even) {
+        background-color: lightblue;
+      }
+	  /* 使用最簡單的滾動方法，在y軸實現滾動效果 */
+      table tbody {
+        display: block;
+        height: 100px;
+        overflow-y: scroll;
+      }
+	   /* tr設定寬度，並採用table佈局 */
+      table tr {
+        width: 100%;
+        display: table;
+      }
+	   table tbody {
+        /* firefox */
+        scrollbar-width: none;
+        /* ie10+ */
+        -ms-overflow-style: none;
+      }
+      /* chrome safari */
+      table tbody::-webkit-scrollbar {
+        display: none;
+      }
+  
+</style>
+</head>
+
+ 
+<body>
+    <!-- 實現一個固定表頭，可滾動的table -->
+    <div>
+      <table>
+        <thead>
+          <th>第一列</th>
+          <th>第二列</th>
+          <th>第三列</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>aaaa</td>
+            <td>bbbb</td>
+            <td>cccc</td>
+          </tr>
+          <tr>
+            <td>aaaa</td>
+            <td>bbbb</td>
+            <td>cccc</td>
+          </tr>
+          <tr>
+            <td>aaaa</td>
+            <td>bbbb</td>
+            <td>cccc</td>
+          </tr>
+          <tr>
+            <td>aaaa</td>
+            <td>bbbb</td>
+            <td>cccc</td>
+          </tr>
+          <tr>
+            <td>aaaa</td>
+            <td>bbbb</td>
+            <td>cccc</td>
+          </tr>
+          <tr>
+            <td>aaaa</td>
+            <td>bbbb</td>
+            <td>cccc</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</body>
+</html>

@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+
+<html>
+
+
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>德通端子內部網頁介面系統登入畫面</title>
+<style>
+
+
+</style>
+<link href="include/loginstyle.css" rel="stylesheet">
+<script type="text/javascript" src='include/cookie.js'></script> 
+</head>
+
+<body>
+
+<form id="login" method="post" action="loginchk.php"  onsubmit=return(ch_input())>
+    <h1>Log In</h1>
+    <fieldset id="inputs">
+        <input id="account" name="account" type="text" placeholder="Account"  autofocus required>   
+        <input id="password" name= "password" type="password" placeholder="Password" required>
+    </fieldset>
+    <fieldset id="actions">
+        <input type="submit" id="submit" value="Log in">
+        <!--<a href="">Forgot your password?</a><a href="">Register</a>-->
+    </fieldset>
+<!--     <a href="/slick-login-form-with-html5-css3" id="back">Back to article...</a> -->
+     
+</form>
+
+
+
+</body>
+</html>

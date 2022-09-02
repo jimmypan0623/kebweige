@@ -1,0 +1,197 @@
+/****主畫面CSS設定****/ 
+input {padding:5px 15px; background:#ccc; border:0 none;
+cursor:pointer;
+-webkit-border-radius: 5px;
+border-radius: 5px; }
+input.txt{
+    border:1px inset #00008b;
+	background-color:#FFFFB9;
+	font-size:100%;
+}
+textarea{
+	 border:1px inset #00008b;
+	 background-color:#FFFFB9;
+	 font-size:100%;
+}
+input.btn{
+     border:1px solid #744011;
+	 font: bold 15px Arial, Helvetica;
+	color:#744011;
+	background-color:#ffb94b;	 
+    margin:2px;	
+}
+ 
+select{
+  background-color:#FFFFB9;  
+  font-size:100%;
+  font-weight:bold;
+  cursor:pointer;
+} 
+#currentTime{
+     
+	font-weight:bold;
+}
+#filestand
+{
+	position:absolute;
+	left:10px;
+	top:100px;
+}
+span.errorMsg{
+   color:#cd5c5c;
+   font-family:標楷體;
+    
+}
+a{
+  font-family:標楷體;
+  font-size:1em;
+  text-align:center;
+  margin:3px;
+}
+a:link, a:visted{
+  color:#A62020;
+  padding:4px 10px 4px 10px;
+  text-decoration:none;
+  border-top:1px solid #EEEEEE; /*陰影效果*/
+  border-left:1px solid #EEEEEE;
+  border-bottom:1px solid #717171;
+  border-right:1px solid #717171;
+}
+a:hover{
+  color:#821818;
+  padding:5px 8px 3px 12px;
+  background-color:#e2c4c9;
+  border-top:1px solid #717171;
+  border-lefgt:1px solid #717171;
+  border-bottom:1px solid #EEEEEE;
+  border-right:1px solid #EEEEEE;
+}
+#navigation{
+   width:158px;
+   font-family:Arial;
+   position: fixed;
+}
+
+   
+}
+body{
+    padding:opx;
+    margin:opx;
+    background-color:#eaddef;  /*背景顏色*/ 
+}
+.topbanner{
+    background-color:#FFFFFF;  /*頂端banner的顏色#1e0c25*/
+    color=#ffffff;
+    font-family:"標楷體";
+    font-size:20px;  
+}
+.leftbanner{
+    width:160px; height:100%;
+    vertical-align:top;
+    background-color:#FFFFFF;    /*左側選項背景顏色#22072c*/
+    color:#ffffff;
+    text-align:left;
+    padding-left:0px;
+    font-size:2em;	
+}
+.mainpart{
+    /*background: url(//localhost/picture/dsc00228.jpg) no-repeat top;*/
+    text-align:center;
+	 
+	 
+}
+
+
+
+/* #submit:hover,#submit:focus,#rgstedit:hover,#rgstedit:focus,#bttn:hover,#bttn:focus */
+.bttn:hover,.bttn:focus,.btn:hover,.btn:focus
+{		
+    background-color: #fddb6f;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#ffb94b), to(#fddb6f));
+    background-image: -webkit-linear-gradient(top, #ffb94b, #fddb6f);
+    background-image: -moz-linear-gradient(top, #ffb94b, #fddb6f);
+    background-image: -ms-linear-gradient(top, #ffb94b, #fddb6f);
+    background-image: -o-linear-gradient(top, #ffb94b, #fddb6f);
+    background-image: linear-gradient(top, #ffb94b, #fddb6f);
+}	 
+
+.outframe tbody {
+    display:block;
+    overflow:auto;
+}
+.outframe thead, .outframe tbody .outframe tr {
+    display:table;
+    width:100%;
+    table-layout:fixed;
+}
+.outframe tbody{
+   width:1030px;
+}
+/**/
+/*.outframe  {
+    width:100%;
+	 
+}*/
+.datalist{
+	border:1px solid #744011;	/* 表格邊框 */
+	font-family:Arial;
+	border-collapse:collapse;	/* 邊框重疊 */
+	background-color:#BAF4D8;	/* 表格背景色 */	 
+	font-size:15px;
+	table-layout:fixed;word-break:break-all;
+}
+.datalist th{
+	border:1px solid #744011;	/* 行名稱邊框 */
+	background-color:#F2E6E6;	/* 行名稱背景色 */
+	color:#FFFFFF;				/* 行名稱顏色 */
+	font-weight:bold;
+	font-size:120%;
+/*	padding-top:4px; padding-bottom:4px;
+	padding-left:12px; padding-right:12px;*/
+	text-align:center;
+}
+.datalist td{
+	border:1px solid #744011;	/* 單元格邊框 */
+	text-align:left;
+	font-size:120%;
+	text-align:center;
+}
+
+datalist td.expand { 
+    width: 99% 
+} 
+/*datalist { 
+    border: 1px solid green; 
+    border-collapse: collapse; 
+    width:100%; 
+} 
+
+datalist td { 
+    border: 1px solid green; 
+} 
+
+datalist td.shrink { 
+    white-space:nowrap 
+} 
+datalist td.expand { 
+    width: 99% 
+}  */
+.datalist tr:hover, .datalist tr.altrow{
+	background-color:#dca06b;	/* 動態變色 */
+
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}

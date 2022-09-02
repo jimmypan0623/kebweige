@@ -1,0 +1,22 @@
+<html>
+><script>
+>function formTest(){
+>	if (event.keyCode == 13) {
+>	alert('now, you get it');
+>	}
+>}
+>function textTest(){
+>	alert('you input :' + String.fromCharCode(event.keyCode));
+>}
+></script>
+><body>
+><center>
+>	<form onkeydown='formTest()'>
+>	將滑鼠在表格內點一下, 按 enter
+>	<table border='1' bordercolor='red' width='200' height='100'>
+>	<tr><td><input type='text' onkeypress='textTest()'></td></tr>
+>	</table>
+>	</form>
+></center>
+></body>
+></html>
