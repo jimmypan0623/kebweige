@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="author" content="潘振銘">
+<meta name="description" content="系統操作人員權限設定">
+<meta name="revised" content="最後更新2023/06/13">
+<title>A07.權限設定作業</title>
+ 
+<link href="A07/A07.css" rel="stylesheet">
+ 
+<script type="text/javascript" src='include/add-load-listener.js'></script>
+<script type="text/javascript" src='include/handle_events9.js'></script>
+<script type="text/javascript" src='include/cookie.js'></script>  
+<script type="text/javascript" src='include/djntime.js'></script> 
+<script type="text/javascript" src='A07/A07psdchg.js?v=1.2'></script>  
+<script type="text/javascript" src='A07/A07.js?v=1.4'></script>  
+<script type="text/javascript" src='A07/A07rgst.js?v=1.3'></script>  
+<script type="text/javascript" src='A07/A07srch.js'></script>  
+<script type="text/javascript" src='include/get-scrolling-position.js'></script>
+<script type="text/javascript" src='include/get_elements_by_attribute.js'></script>
+<script type="text/javascript" src='include/identify-browser.js'></script>
+</head>
+<body>     
+<div class="tab_css">
+    	<!-- TAB1 打包區塊 start -->
+	<input id="tab1" type="radio" name="tab" class="tab" checked="checked"/>
+	<label for="tab1">表頭：操作人員帳號瀏覽</label>
+	<div class="tab_content">
+		第 <select id="recmth"></select> 頁 &nbsp&nbsp&nbsp 搜尋:
+		<select id="recfield">
+				            	<option value="a01.F0101">登入帳號</option>				            	
+				            	<option value="a01.F0302">姓名</option>
+								<option value="a01.F0403">部門編號</option>
+								<option value="a14.F0204">部門名稱</option>
+				            	</select> 欄&nbsp=&nbsp <input type="text" class="txt" name="srch" id="srch" 
+                                placeholder="輸入搜尋關鍵字" size="20" tabindex="1" style="width:25%;">		
+	     <input type="button" id='seekfrm' class='btn' value="検索">   
+		&nbsp &nbsp &nbsp <input type="button" id='COPY_BOTT' class='btn' value="複製權限">	
+		<input type="button" id='REMOVE_BOTT' class='btn' value="移除權限">	
+	   <div id="serverResponse1" style="color:red;text-align:center;">&nbsp </div>
+   <table class="datalist" summary="Technology issue of JST" id="member" style="width:100%;">   
+ 	<thead id="mainthead">
+    <tr id="headrow"><th style="display:none;">NO.</th>
+	 
+	<th style="width:45px;">登入帳號</th> 
+	<th style="width:41px;">姓名</th>
+	<th style="width:40px;">部門編號</th>	
+	<th style="width:41px;">部門名稱</th>   
+	<th style="width:64px;">連絡電話</th> 
+	<th style="width:20px;" id="AUTH">選取</th></tr>
+    
+     </thead> 
+	 <tbody id="maintbody" >	 <!--style="height:330px;width:100%;"-->
+     <!--js產生表格資料插在此處-->
+	 <!--SELECT s27.F01,s27.F0B,a14.F02,a01.F03,s27.F04,s27.F05,s27.F06,s27.F07,s27.F08 FROM `s27`,`a14`,`a01` WHERE a01.F01=s27.F0C AND a14.F01=a01.F04--->
+     </tbody>
+	</table>      
+   
+ </tbody></table>
+
+
+ 
+
+	</div>
+	
+	<!-- TAB1 打包區塊 end -->
+
+	<!-- TAB2 打包區塊 start -->
+	<input id="tab2" type="radio" class="tab" name="tab"/>
+	<label for="tab2">表身：帳號可用程式權限</label>
+	<div class="tab_content">
+	編輯帳戶:
+	<input type="text"  name="fatherkey" id="fatherkey" 
+                                value="帳號" size="20" class="txt" tabindex="1" style="width:8%;font-size:100%;font-weight:bold;background-color:#B9B9FF;" readonly> 
+								<span style="font-size:100%;font-weight:bold;color:#28004D;" id="keydscrpt">&nbsp</span>&nbsp
+								<input type="button" id='previousPage' class="btn" value="▲" >
+				                <input type="button" id='nextPage' class="btn" value="▼">
+								&nbsp搜尋:<select id="recfield2">
+				            	<option value="a02.F0301">程式編號</option>				            	
+				            	<option value="a03.F0202">程式名稱</option>
+						
+				            	</select> 欄&nbsp=&nbsp<input type="text" class="txt" name="srch2" id="srch2" 
+                                placeholder="輸入搜尋關鍵字" size="20" tabindex="1" style="width:18%;">
+								 <input type="button" id='seekfrm2' class='btn' value="検索"> &nbsp &nbsp
+							 <input type="button" id='NEW_BOTT' class='btn' value="新增">
+	   <input type="button" id='EDIT_BOTT' class='btn' value="修改">	
+	   <input type="button" id='DEL_BOTT' class='btn' value="刪除">	
+	  
+	    <div id="serverResponse2" style="color:red;text-align:center;">&nbsp </div>
+	<table class="datalist" id="member2">   
+ 	<thead id="mainthead2">
+    <tr id="headrow2"><th style="display:none;">NO.</th>
+	<th style="width:30px;">程式編號</th> 
+	<th style="width:100px;">程式名稱</th>
+	<th style="width:20px;">新增</th>
+	<th style="width:20px;">修改</th>
+	<th style="width:20px;">刪除</th>
+	<th style="width:20px;">列印</th>
+    <th style="width:40px;">附加權限一</th>
+     <th style="width:40px;">附加權限二</th>
+	  <th style="width:40px;">附加權限三</th>
+	   <th style="width:40px;">附加權限四</th>
+	    <th style="width:40px;">附加權限五</th>
+		<th style="width:20px;" id="AUTH2">選取</th></tr>
+     </thead> 
+	 <tbody id="maintbody2" >	   <!--style="height:330px;width:100%;"-->
+     <!--js產生表格資料插在此處-->
+     </tbody>
+	</table>     
+		 
+		
+	</div>
+	<!-- TAB2 打包區塊 end -->
+
+	<!-- TAB3 打包區塊 start -->
+<!-- 	<input id="tab3" type="radio" class="tab" name="tab"/>
+	<label for="tab3">頁籤 3</label>
+	<div class="tab_content">
+		第 3 個頁籤內容區塊<br/>
+		WFU BLOG | Blogger 調校資料庫<br/>
+		第 3 個頁籤內容區塊<br/>
+		WFU BLOG | Blogger 調校資料庫<br/>
+		第 3 個頁籤內容區塊<br/>
+		WFU BLOG | Blogger 調校資料庫<br/>
+	</div> -->
+	<!-- TAB3 打包區塊 end -->
+	   &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+	    &nbsp&nbsp&nbsp&nbsp&nbsp目前登入帳號：<span id='user_who'>登入者</span>&nbsp&nbsp&nbsp&nbsp&nbsp<input type="button" id='lgt' class='btn' value="離開">      
+</div>
+ 
+<div id="currentTime">
+   <p>更新時間2017/01/01 10:50 am</p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html>
+<body>
+  <!--操作範例-->
+  <div id="elem">滑鼠移入時改變顏色</div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      let elem = document.getElementById('elem');
+
+      //滑鼠移入時改變背景顏色（藍）
+      elem.addEventListener('mouseover', function () {
+        this.style.backgroundColor = 'blue';
+      })
+
+      //滑鼠移出時恢復背景顏色
+      elem.addEventListener('mouseout', function () {
+        this.style.backgroundColor = '';
+      })
+    })
+  </script>
+  <script>
+css = 'table td:hover{ background-color: #00ff00 }';
+var style = document.createElement('style');
+
+if (style.styleSheet) {
+    style.styleSheet.cssText = css;
+} else {
+    style.appendChild(document.createTextNode(css));
+}
+
+document.getElementsByTagName('head')[0].appendChild(style);
+</script>
+</body>
+
+</html>
