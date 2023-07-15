@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html "zh-tw">
+<head>
+<meta  charset=utf-8">
+<meta name="author" content="潘振銘">
+<meta name="description" content="物料基本主檔">
+<meta name="revised" content="最後更新2023/06/13">
+<title>B01.物料基本主檔</title>
+ 
+<link href="B01/B01.css" rel="stylesheet">
+ 
+<script type="text/javascript" src='include/add-load-listener.js'></script>
+<script type="text/javascript" src='include/handle_events9.js'></script>
+<script type="text/javascript" src='include/cookie.js'></script>  
+<script type="text/javascript" src='include/djntime.js'></script> 
+<script type="text/javascript" src='B01/B01psdchg.js?v=1.2'></script>  
+<script type="text/javascript" src='B01/B01.js?v=1.5'></script>  
+<script type="text/javascript" src='B01/B01rgst.js?v=1.3'></script>  
+<script type="text/javascript" src='B01/B01srch.js'></script>  
+<script type="text/javascript" src='include/get-scrolling-position.js'></script>
+<script type="text/javascript" src='include/get_elements_by_attribute.js'></script>
+<script type="text/javascript" src='include/identify-browser.js'></script>
+</head>
+<body>     
+<div class="tab_css" > 
+    	<!-- TAB1 打包區塊 start -->
+	<input id="tab1" type="radio" name="tab" class="tab" checked="checked"/>
+	<label for="tab1">物料基本主檔</label>
+	<div class="tab_content" style="background-color:#FCFCFC;">
+		第 <select id="recmth"></select> 頁 &nbsp&nbsp&nbsp 搜尋:
+		<select id="recfield">
+				            	<option value="b01.F01">料品編號</option>				            	
+				            	<option value="b01.F02">品名規格</option>
+								
+				            	</select> 欄&nbsp=&nbsp <input type="text" class="txt" name="srch" id="srch" 
+                                placeholder="輸入搜尋關鍵字" size="20" tabindex="1" style="width:18%;">		
+	     <input type="button" id='seekfrm' class='btn' value="検索">   
+		&nbsp &nbsp &nbsp 
+		<input type="button" id='NEW_BOTT' class='btn' value="新增">
+	   <input type="button" id='EDIT_BOTT' class='btn' value="修改">	
+	   <input type="button" id='DEL_BOTT' class='btn' value="刪除">	
+	   <div id="serverResponse1" style="color:red;text-align:center;">&nbsp </div>
+ <!-- <div>-->
+   <table class="datalist" summary="Technology issue of JST" id="member" style="width:20%;">   
+ 	<thead id="mainthead">
+    <tr id="headrow"><th style="display:none;">NO.</th>
+	 
+	<th style="width:226px;">料品編號</th> 
+	<th style="width:180px;">品名規格</th>
+
+	<th style="width:40px;display:none;" id="AUTH" >選取</th></tr>
+    
+     </thead> 
+	 <tbody id="maintbody">	 <!--style="height:330px;width:100%;"-->
+     <!--js產生表格資料插在此處-->
+	 <!--SELECT s27.F01,s27.F0B,a14.F02,a01.F03,s27.F04,s27.F05,s27.F06,s27.F07,s27.F08 FROM `s27`,`a14`,`a01` WHERE a01.F01=s27.F0C AND a14.F01=a01.F04--->
+     </tbody>
+	</table>      
+ 
+    <table id="member3" >
+	 
+	<tr><td class="b01key">料品編號:</td><td><span name="b01value" id="stock_no" ></span></td><td class="b01key">品名規格:</td><td><span name="b01value" id="stock_name"></span></td></tr>
+	
+	<tr><td class="b01key">管理類別:</td><td><span name="b01value" id="type_of_mnge"></span></td><td class="b01key">歸屬類別:</td><td><span name="b01value" id="kind_of_belong_to"></span></td></tr>
+	<tr><td class="b01key">採購單位:</td><td><span name="b01value" id="each_prchs"></span></td><td class="b01key">庫存計料單位:</td><td><span name="b01value" id="each_count"></span></td></tr>
+	<tr><td class="b01key">採購/計料換算:</td><td><span name="b01value" id="dividing"></span></td><td class="b01key">保管部門:</td><td><span name="b01value" id="who_hold"></td></tr>	
+    <tr><td class="b01key">總庫存量:</td><td><span name="b01value" id="totalqty"></span></td><td class="b01key">在庫數量:</td><td><span name="b01value" id="qyt_on_hand"></span></td></tr>
+	<tr><td class="b01key">庫存上限:</td><td><span name="b01value" id="maxlimit_of_inv"></span></td><td class="b01key">安全存量:</td><td><span name="b01value" id="qty_of_safe"></span></td></tr>	
+	<tr><td class="b01key">料架位置:</td><td><span name="b01value" id="where_is"></span></td><td class="b01key">建立料表:</td><td><span name="b01value" id="bom_should_be"></span></td></tr>
+	<tr><td class="b01key">採購/生產前置:</td><td><span name="b01value" id="leadtm_prchs"></span></td><td class="b01key">收發料前置:</td><td><span name="b01value" id="leadtm_ready"></span></td></tr>
+	<tr><td class="b01key">領料類別:</td><td><span name="b01value" id="type_of_apply"></td></span><td class="b01key">批號管理:</td><td><span name="b01value" id="lotNoUse"></span></td></tr>	
+	<tr class="costauth"><td class="b01key">銷售成本:</td><td><span name="b01value" id="sales_cost"></span></td><td class="b01key">平均成本:</td><td><span name="b01value" id="avg_cost"></span></td></tr>	
+	<tr><td class="b01key">備註說明:</td><td><span name="b01value" id="remark1"></span></td><td class="b01key">安全資料:</td><td><span name="b01value" id="who_and_when"></span></td></tr>
+	<tr><td class="b01key">機種別:</td><td><span name="b01value" id="modelseries"></span></td><td class="b01key">生產批量:</td><td><span name="b01value" id="lot_product"></span></td></tr>
+	<tr><td class="b01key">產地:</td><td><span name="b01value" id="origin"></span></td><td class="b01key">包裝方式:</td><td><span name="b01value" id="way_of_pack"></span></td></tr>
+	<tr><td class="b01key">基本包裝量:</td><td><span name="b01value" id="basic_qty"></span></td><td class="b01key">外箱包裝量:</td><td><span name="b01value" id="out_qty"></span></td></tr>
+	<tr><td class="b01key">最少下單量:</td><td><span name="b01value" id="mini_order"></span></td><td class="b01key">淨重:</td><td><span name="b01value" id="net_weight"></span></td></tr>
+	<tr><td class="b01key">毛重:</td><td><span name="b01value" id="gross_weight"></span></td><td class="b01key">材積:</td><td><span name="b01value" id="cubic_meter"></span></td></tr>
+	</table> 
+	 
+ <!--   </div>-->
+  
+ 
+ 
+
+
+	 </div> 
+	
+	<!-- TAB1 打包區塊 end -->
+
+	<!-- TAB2 打包區塊 start -->
+ <!--<input id="tab2" type="radio" class="tab" name="tab"/>-->
+
+	<!-- TAB2 打包區塊 end -->
+
+	<!-- TAB3 打包區塊 start -->
+<!-- 	<input id="tab3" type="radio" class="tab" name="tab"/>
+	<label for="tab3">頁籤 3</label>
+	<div class="tab_content">
+		第 3 個頁籤內容區塊<br/>
+		WFU BLOG | Blogger 調校資料庫<br/>
+		第 3 個頁籤內容區塊<br/>
+		WFU BLOG | Blogger 調校資料庫<br/>
+		第 3 個頁籤內容區塊<br/>
+		WFU BLOG | Blogger 調校資料庫<br/>
+	</div> -->
+	<!-- TAB3 打包區塊 end -->
+	   &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+	    &nbsp&nbsp&nbsp&nbsp&nbsp目前登入帳號：<span id='user_who'>登入者</span>&nbsp&nbsp&nbsp&nbsp&nbsp<input type="button" id='lgt' class='btn' value="離開">      
+</div>
+     
+    <div id="currentTime">
+   <p>更新時間2017/01/01 10:50 am</p>
+   </div>
+   
+<style>
+ body{
+     overflow-y:hidden; 
+ }
+ #member3 {
+    background-color:#F0F0F0;
+    position:relative;
+	width:63%;
+	height:429px;
+	top:-430px;
+	left:435px;
+ 	font-size:18px;  
+	margin-bottom:-429px; 
+	display:block;
+    overflow-y:scroll; 
+ }
+ .b01key{
+   text-align:right;
+   width:17%;
+ }
+ #member3 span{
+    font-family:Arial;
+	font-weight:bold;
+	
+ }
+ #member4{
+    background-color:#F0F0F0;
+    position:relative;
+	width:100%;
+	height:417px;
+	
+	/*left:435px;*/
+ 	font-size:18px; 
+	overflow-y:hidden;
+	 
+ 
+ }
+</style>
+</body>
+</html>
