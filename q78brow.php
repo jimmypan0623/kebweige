@@ -34,7 +34,7 @@
 					 'lnkfle'=>$list3['F08']);                      						 
 		array_push($arr,$atr);
 	}
-	
+	mysqli_close($link);
 	 //最後使用usort來做排序
         // usort(要排序的陣列,使用的函數) 
       //usort($arr, 'score_sort');  //料號再排序一次        

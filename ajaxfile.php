@@ -2,7 +2,7 @@
 if(isset($_FILES['file']['name'])){
    // file name
    //$filename = $_FILES['file']['name'];
-   $filename=mb_convert_encoding($_FILES["file"]["name"],"big5","utf-8");
+   $filename=mb_convert_encoding($_FILES["file"]["name"],"utf-8");
    // Location
    $location = 'upload/'.$filename;
 

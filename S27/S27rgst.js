@@ -210,7 +210,7 @@ function TableToJson(myaccount,lversn,lveplace,tchman,tchphone,backtime,nbrflag)
      }		
 	 request.onreadystatechange = respond;
  
-     request.open("POST", "S27wrt.php", true);        //新增記錄的php檔
+     request.open("POST", "S27/S27wrt.php", true);        //新增記錄的php檔
  
      request.setRequestHeader("Content-type", "application/json");
      request.send(str_json);
@@ -286,7 +286,7 @@ function sendFilePrc(nbrflg){     //新增資料上傳檔案及修改程序
    
 	  
    }else {   //如果是修改
-	  
+	   
 	    var maintable=document.getElementById("member");
 	    myThgrp=maintable.getElementsByTagName("th");
 		myThgrp[myThgrp.length-1].childNodes[0].textContent="選取";	
@@ -344,7 +344,7 @@ function delConfirm(event){     //確定刪除
 	   	   var request = new XMLHttpRequest();
         }			 
 		
-		var url="S27del.php?timestamp="+new Date().getTime();	     
+		var url="S27/S27del.php?timestamp="+new Date().getTime();	     
 	    request.open("POST",url);	 
 	    request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 	    request.send(sendDeleRec);
