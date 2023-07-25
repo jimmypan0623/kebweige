@@ -396,18 +396,18 @@ function commontemp(idn,stk){
 	     responseDiv.innerHTML="Searching......";
 	  }
 	
-	return
+	return;
 }
 function chooserc(event)
 {
-	 if(event==1){  //初始畫面呼叫
+	 if(event>0){  //初始畫面呼叫
 	    var tabs=getElementsByAttribute("class","tab");
 	    if (tabs[0].checked){
 	        var maintable=document.getElementById("maintbody");
 	    }else{
 			var maintable=document.getElementById("maintbody2");
-		}
-	    targetA=maintable.rows[0].cells[maintable.rows[0].cells.length-1].childNodes[0];	  	  
+		}		
+	    targetA=maintable.rows[event-1].cells[maintable.rows[event-1].cells.length-1].childNodes[0];	  	  
 	    targetA.checked=true;
      }else{
         if (typeof event=="undefined")
@@ -425,9 +425,10 @@ function chooserc(event)
 	var chsntail=0;
 	for(var i=0;i<tables.length;i++){
 		
-		if(targetG.id==tables[i].id)
+		if(targetG.id==tables[i].id){
 			 chsntail=i;
-		//break;
+		     break;
+		}
 	}	 	
 	var targetTd=targetA.parentNode;
 	
@@ -489,9 +490,10 @@ function rowchoose(event){   //點選列ROW就可以選擇該筆資料
 	var tabs=getElementsByAttribute('class','tab');
 	var tables=getElementsByAttribute("class","datalist");
 	for(var i=0;i<tables.length;i++){		
-		if(targetG.id==tables[i].id)
+		if(targetG.id==tables[i].id){
 			 chsntail=i;
-		//break;
+		     break;
+		}
 	}
 	if(targetRow.lastChild.firstChild.checked){
 		targetRow.lastChild.firstChild.checked=false;

@@ -84,9 +84,9 @@ function initDialog()
 			copyClick.style.visibility="hidden";
 		 }
 		 var prvspge=document.getElementById("previousPage");
-		 attachEventListener(prvspge,"click",prvspgeClick,false);  //在第二頁點正三角形按鈕(上一張)
+		 attachEventListener(prvspge,"click",HeadPageChange,false);  //在第二頁點正三角形按鈕(上一張)
 		 var nxtpge=document.getElementById("nextPage");
-		 attachEventListener(nxtpge,"click",nxtpgeClick,false);  //在第二頁點倒三角形按鈕(下一張)
+		 attachEventListener(nxtpge,"click",HeadPageChange,false);  //在第二頁點倒三角形按鈕(下一張)
      }
 }
 function outprocs(event){	  
@@ -227,21 +227,34 @@ function keysrchchg(event){
 	
 }
 
-function prvspgeClick(event){     //在第二頁按上一張按鈕(正三角形)
-    if (typeof event=="undefined"){
+function HeadPageChange(event){       //在表身按上下一張按鈕(正三角形與倒三角形)翻表頭頁面隨即連動表身資料
+	    if (typeof event=="undefined"){
 		event=window.event;		
      }
-	 target=getEventTarget(event);
-	 alert(target);
+	 target=getEventTarget(event);	 
+	 if(target.id=="previousPage"){  //判斷往上或往下翻頁
+		 var crntrec=0;
+	 }else{
+		  var crntrec=2;
+	 }
+	 var tabs=getElementsByAttribute("class","tab");	 	
+	 tabs[0].checked=true;
+	 var recChecked=document.getElementsByName("recordchosen1");    //尋找表頭每一筆CHCKBOX			 
+	 for(var i=0;i<recChecked.length;i++){				 
+		if (recChecked[i].checked==true){					     
+			if(i+(crntrec==2?1:0)==(crntrec==2?recChecked.length:0)){
+			   blkshow('請至表頭翻到'+(crntrec==2?'下':'上')+'一頁');	
+			}else{									
+				 crntrec+=i;
+				  chooserc(crntrec);      
+			}
+			break; 	 
+		}				  
+	}
+   
+	tabs[1].checked=true;
+	tab2View(event);
 }
-function nxtpgeClick(event){     //在第二頁按上一張按鈕(正三角形)
-    if (typeof event=="undefined"){
-		event=window.event;		
-     }
-	 target=getEventTarget(event);
-	 alert(target);
-}   
-
 	function tab1View(event){	  
        if (typeof event=="undefined"){
 		   event=window.event;
@@ -250,7 +263,7 @@ function nxtpgeClick(event){     //在第二頁按上一張按鈕(正三角形)
 	     cko[1](bibau*(-1));    //將表身閉包變數歸零		
 	}
 
-	function tab2View(event){	  
+function tab2View(event){	  
        if (typeof event=="undefined"){
 		event=window.event;
     	}
@@ -292,43 +305,10 @@ function nxtpgeClick(event){     //在第二頁按上一張按鈕(正三角形)
 	                           attachEventListener(txtseek,'keypress',textEnter,false); 
 						  commontemp(fthkey.value,"a02.F01");
 						  
-        }
+}
 	
 
 
-
-/* function getCookie(sName) {
-    var aCookie = document.cookie.split('; ');
-    for (var i=0; i < aCookie.length; i++) {
-    var aCrumb = aCookie[i].split('=');
-    if (sName == aCrumb[0])
-    return decodeURI(aCrumb[1]);
- }
- return '';
-} */
-/* function setCookie(name, value) {
-	var argv = setCookie.arguments;
-	var argc = setCookie.arguments.length;
-	var expires = (argc > 2) ? argv[2] : null;
-	var path = (argc > 3) ? argv[3] : null;
-	var domain = (argc > 4) ? argv[4] : null;
-	var secure = (argc > 5) ? argv[5] : null;
-
-	document.cookie = escape(name) + "=" + escape(value) +
-	((expires == null) ? "" : ("; expires=" + expires.toGMTString())) +
-	((path == null) ? "" : ("; path=" + path)) +
-	((domain == null) ? "" : ("; domain=" + domain)) +
-	((secure == null) ? "" : ("; secure=" + secure));
-} */
-
-/* function delCookie(name)
-{
-    var exp = new Date();
-    exp.setTime(exp.getTime() - 1);
-    var cval=getCookie(name);
-    if(cval!=null)
-        document.cookie= name + "="+cval+";expires="+exp.toGMTString();
-} */
 function sourceAccount(){   //尋找被勾選的帳號
 	var maintable=document.getElementById("member");
 	var respAccount; 
