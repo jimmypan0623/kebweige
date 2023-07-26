@@ -178,12 +178,12 @@ function blkshow(txtword)
 	             oTd.setAttribute('style','text-align:right;width:15%');	
 	            oTd.innerHTML='採購/生產前置:';				
 	            var oTd = oTr.insertCell(1);
-	            oTd.innerHTML="<input type='text' name='b01update' id='leadtime' class='txt' maxlength='20' autosize  />";                             
+	            oTd.innerHTML="<input type='text' name='b01update' id='leadtime' class='txt' title='請輸入採購或生產所需天數' maxlength='20' autosize  />";                             
 	             var oTd = oTr.insertCell(2);
 	             oTd.setAttribute('style','text-align:right;width:15%');	
 	            oTd.innerHTML='收發料前置:';
 	            var oTd = oTr.insertCell(3);
-	            oTd.innerHTML="<input type='text' name='b01update' id='timeforshipping' class='txt' maxlength='2' autosize  />"; 
+	            oTd.innerHTML="<input type='text' name='b01update' id='timeforshipping' class='txt' title='請輸入倉庫收料上架所需天數' maxlength='2' autosize  />"; 
 		        var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	             var oTd = oTr.insertCell(0);
 	             oTd.setAttribute('style','text-align:right;width:15%');	

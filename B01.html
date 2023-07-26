@@ -27,7 +27,12 @@
 	<input id="tab1" type="radio" name="tab" class="tab" checked="checked"/>
 	<label for="tab1">物料基本主檔</label>
 	<div class="tab_content" style="background-color:#FCFCFC;">
-		第 <select id="recmth"></select> 頁 &nbsp&nbsp&nbsp 搜尋:
+	<input type="button" id='TopPage' class="btn" value='&laquo' title="快速鍵 Alt+T" accesskey="T">
+	<input type="button" id='LastPage' class="btn" value='&#060' title="快速鍵 Alt+J" accesskey="J">
+		第 <select id="recmth"></select> 頁 
+	<input type="button" id='AfterPage' class="btn" value='&#062' title="快速鍵 Alt+K" accesskey="K">
+	<input type="button" id='BottomPage' class="btn" value='&raquo' title="快速鍵 Alt+V" accesskey="V">
+		&nbsp&nbsp&nbsp 搜尋:
 		<select id="recfield">
 				            	<option value="b01.F01">料品編號</option>				            	
 				            	<option value="b01.F02">品名規格</option>

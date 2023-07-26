@@ -83,6 +83,14 @@ function initDialog()
 		 }else{
 			copyClick.style.visibility="hidden";
 		 }
+		 var toppge=document.getElementById("TopPage");
+		 attachEventListener(toppge,"click",rollChange,false);  //在第一頁點 << 形按鈕(第一張)
+		 var bottompge=document.getElementById("BottomPage");
+		 attachEventListener(bottompge,"click",rollChange,false);  //在第一頁點 >> 形按鈕(最後一張)
+		 var lastpge=document.getElementById("LastPage");
+		 attachEventListener(lastpge,"click",rollChange,false);  //在第一頁點 < 形按鈕(上一張)
+		 var afterpge=document.getElementById("AfterPage");
+		 attachEventListener(afterpge,"click",rollChange,false);  //在第一頁點 > 形按鈕(下一張)
 		 var prvspge=document.getElementById("previousPage");
 		 attachEventListener(prvspge,"click",HeadPageChange,false);  //在第二頁點正三角形按鈕(上一張)
 		 var nxtpge=document.getElementById("nextPage");
@@ -223,7 +231,6 @@ function keysrchchg(event){
 		}
 		
 	}
-
 	
 }
 
@@ -254,6 +261,41 @@ function HeadPageChange(event){       //在表身按上下一張按鈕(正三角
    
 	tabs[1].checked=true;
 	tab2View(event);
+}
+function rollChange(event){
+	 if (typeof event=="undefined"){
+		event=window.event;		
+     }
+	 target=getEventTarget(event);	 
+     var crntrec=0;	 
+	 var slt2=document.getElementById('recmth');	
+	 switch (target.id){
+		 case 'TopPage':
+		      crntrec=0;
+		      break;
+		 case 'BottomPage':		      
+			   crntrec=slt2.length-1;
+		      break;
+		 case 'LastPage':
+		       crntrec=slt2.value-2;
+				if(crntrec<0){
+					 blkshow('已到第一頁');	
+				   crntrec=0;
+				}
+		      break;
+		 case 'AfterPage':
+			   crntrec=slt2.value*1;
+			   if(crntrec==slt2.length){
+				   blkshow('已到最後一頁');	
+				  crntrec=slt2.value*1-1;
+			   }
+			   break;
+	     default:
+			   crntrec=0;
+	 }
+	   slt2.options[crntrec].selected=true;
+        choiceClick();	 
+	
 }
 	function tab1View(event){	  
        if (typeof event=="undefined"){
