@@ -250,7 +250,7 @@ function HeadPageChange(event){       //在表身按上下一張按鈕(正三角
 	 for(var i=0;i<recChecked.length;i++){				 
 		if (recChecked[i].checked==true){					     
 			if(i+(crntrec==2?1:0)==(crntrec==2?recChecked.length:0)){
-			   blkshow('請至表頭翻到'+(crntrec==2?'下':'上')+'一頁');	
+			   blkshow('請至表頭翻到'+(crntrec==2?'下':'上')+'一頁');				
 			}else{									
 				 crntrec+=i;
 				  chooserc(crntrec);      
@@ -262,7 +262,7 @@ function HeadPageChange(event){       //在表身按上下一張按鈕(正三角
 	tabs[1].checked=true;
 	tab2View(event);
 }
-function rollChange(event){
+function rollChange(event){       //按鈕翻頁
 	 if (typeof event=="undefined"){
 		event=window.event;		
      }
@@ -270,10 +270,10 @@ function rollChange(event){
      var crntrec=0;	 
 	 var slt2=document.getElementById('recmth');	
 	 switch (target.id){
-		 case 'TopPage':
+		 case 'TopPage':     //首頁
 		      crntrec=0;
 		      break;
-		 case 'BottomPage':		      
+		 case 'BottomPage':		      //最後一頁
 			   crntrec=slt2.length-1;
 		      break;
 		 case 'LastPage':
@@ -289,6 +289,10 @@ function rollChange(event){
 				   blkshow('已到最後一頁');	
 				  crntrec=slt2.value*1-1;
 			   }
+			   break;
+		  case 'nextPage':  
+		        crntrec=slt2.value*1;
+			   
 			   break;
 	     default:
 			   crntrec=0;

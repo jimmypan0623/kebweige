@@ -174,7 +174,7 @@ function keysrchchg(event){
 
 	
 }
-function rollChange(event){
+function rollChange(event){    //按鈕翻頁
 	 if (typeof event=="undefined"){
 		event=window.event;		
      }
