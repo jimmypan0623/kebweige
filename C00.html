@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html "zh-tw">
+<head>
+<meta  charset=utf-8">
+<meta name="author" content="潘振銘">
+<meta name="description" content="設定業務匯率">
+<meta name="revised" content="最後更新2023/10/19">
+<title>C00.設定業務匯率</title> 
+<link href="C00/C00.css" rel="stylesheet">
+<link rel="shortcut icon" href="digits/ROL.gif"> 
+<script type="text/javascript" src='include/add-load-listener.js'></script>
+<script type="text/javascript" src='include/handle_events9.js'></script>
+<script type="text/javascript" src='include/cookie.js'></script>  
+<script type="text/javascript" src='include/djntime.js'></script> 
+<script type="text/javascript" src='C00/C00psdchg.js?v=1.2.2'></script>  
+<script type="text/javascript" src='C00/C00.js?v=1.5.1'></script>  
+<script type="text/javascript" src='C00/C00rgst.js?v=1.3.0'></script>  
+<script type="text/javascript" src='include/get-scrolling-position.js'></script>
+<script type="text/javascript" src='include/get_elements_by_attribute.js'></script>
+<script type="text/javascript" src='include/identify-browser.js'></script>
+</head>
+<body>     
+<div class="tab_css"> 
+    	<!-- TAB1 打包區塊 start -->
+	<input id="tab1" type="radio" name="tab" class="tab" checked="checked"/>
+	<label for="tab1">設定業務匯率</label>
+	<div class="tab_content" style="background-color:#FCFCFC;">
+	<input type="button" id='TopPage' class="btn" value='&laquo' title="到首頁，快速鍵 Alt+T" accesskey="T" >
+	<input type="button" id='LastPage' class="btn" value='&#060' title="到上頁，快速鍵 Alt+J" accesskey="J">
+ 		第 <select id="recmth"></select> 頁 
+	<input type="button" id='AfterPage' class="btn" value='&#062' title="到下頁，快速鍵 Alt+K" accesskey="K">
+	<input type="button" id='BottomPage' class="btn" value='&raquo' title="到末頁，快速鍵 Alt+V" accesskey="V">
+		&nbsp&nbsp&nbsp 搜尋:
+		<select id="recfield">
+				            	<option value="c00.F01">幣別代號</option>				            	
+				            	<option value="c00.F04">幣別名稱</option>
+								
+				            	</select> 欄&nbsp=&nbsp <input type="text" class="txt" name="srch" id="srch" 
+                                placeholder="輸入搜尋關鍵字" size="43" tabindex="1" style="width:15%;">		
+	     <input type="button" id='seekfrm' class='btn' value="検索">   
+		 &nbsp&nbsp&nbsp       	
+		
+	   <div id="serverResponse1" style="color:red;text-align:center;">&nbsp </div>
+ <!-- <div>-->
+   <table class="gridlist" summary="Technology issue of JST" id="member" style="width:100%;">   
+ 	<thead id="mainthead">
+    <tr id="headrow"><th style="display:none;">NO.</th>
+	 
+	<th >幣別代號</th> 
+	<th >幣別名稱</th>  
+    <th >匯率</th>  	
+	 <th >最後異動</th>  	
+	<th style="width:80px;display:none;" id="AUTH" >選取</th></tr>
+    
+     </thead> 
+	 <tbody id="maintbody">	 <!--style="height:330px;width:100%;"-->
+     <!--js產生表格資料插在此處-->
+     </tbody>
+	</table>      
+ 
+ 
+ 
+	 </div> 
+	
+	<!-- TAB1 打包區塊 end -->
+
+	<!-- TAB2 打包區塊 start -->
+<!-- <input id="tab2" type="radio" class="tab" name="tab"/> 
+ <label for="tab2">報價紀錄</label>
+	<div class="tab_content">
+	   詢價紀錄內容
+	</div>  -->
+	<!-- TAB2 打包區塊 end -->
+
+	<!-- TAB3 打包區塊 start -->
+ <!-- 	<input id="tab3" type="radio" class="tab" name="tab"/>
+	<label for="tab3">出貨紀錄</label>
+	<div class="tab_content">
+		第 3 個頁籤內容區塊<br/>
+		WFU BLOG | Blogger 調校資料庫<br/>
+		第 3 個頁籤內容區塊<br/>
+		WFU BLOG | Blogger 調校資料庫<br/>
+		第 3 個頁籤內容區塊<br/>
+		WFU BLOG | Blogger 調校資料庫<br/>
+	</div>  -->
+	<!-- TAB3 打包區塊 end -->
+	   &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+	    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="button" id='lgt' class='btn' value="離開" title="離開本作業，快速鍵Alt+Q" accesskey="Q"> 
+       &nbsp&nbsp&nbsp&nbsp&nbsp
+	   <input type="button" id='NEW_BOTT' class='btn' value="新增" title="新增一筆紀錄，快速鍵Alt+N" accesskey="N">
+	   <input type="button" id='EDIT_BOTT' class='btn' value="修改" title="修改所選紀錄，快速鍵Alt+U" accesskey="U">	
+	   <input type="button" id='DEL_BOTT' class='btn' value="刪除" title="刪除所選紀錄，快速鍵Alt+R" accesskey="R">	
+
+
+</div>
+     
+    <div>
+   <span id="currentTime">更新時間2017/01/01 10:50 am</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp目前登入帳號：<span id='user_who'>登入者</span>   
+   </div>
+ <style>
+body{
+     overflow-y:hidden; 
+ }
+
+ 
+ 
+#aplyform2 tr,#aplyform2 td {
+    border: 1px solid #FFFFFF;border-collapse: collapse;
+} 
+ 
+ #srch,#recfield,#recfield option {
+   font-family:Arial;
+	font-weight:bold;
+ }
+ 
+</style>
+</body>
+</html>

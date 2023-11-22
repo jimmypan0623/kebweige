@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+<html "zh-tw">
+<head>
+<meta  charset=utf-8">
+<meta name="author" content="潘振銘">
+<meta name="description" content="客戶基本主檔">
+<meta name="revised" content="最後更新2023/10/19">
+<title>C01.客戶基本主檔</title> 
+<link href="C01/C01.css" rel="stylesheet">
+<link rel="shortcut icon" href="digits/ROL.gif"> 
+<script type="text/javascript" src='include/add-load-listener.js'></script>
+<script type="text/javascript" src='include/handle_events9.js'></script>
+<script type="text/javascript" src='include/cookie.js'></script>  
+<script type="text/javascript" src='include/djntime.js'></script> 
+<script type="text/javascript" src='C01/C01psdchg.js?v=1.2.2'></script>  
+<script type="text/javascript" src='C01/C01.js?v=1.5.1'></script>  
+<script type="text/javascript" src='C01/C01rgst.js?v=1.3.0'></script>  
+<script type="text/javascript" src='C01/A01srch.js?v=0.1.3'></script>  
+<script type="text/javascript" src='include/get-scrolling-position.js'></script>
+<script type="text/javascript" src='include/get_elements_by_attribute.js'></script>
+<script type="text/javascript" src='include/identify-browser.js'></script>
+</head>
+<body>     
+<div class="tab_css"> 
+    	<!-- TAB1 打包區塊 start -->
+	<input id="tab1" type="radio" name="tab" class="tab" checked="checked"/>
+	<label for="tab1">客戶基本資料</label>
+	<div class="tab_content" style="background-color:#FCFCFC;">
+	<input type="button" id='TopPage' class="btn" value='&laquo' title="到首頁，快速鍵 Alt+T" accesskey="T" >
+	<input type="button" id='LastPage' class="btn" value='&#060' title="到上頁，快速鍵 Alt+J" accesskey="J">
+		第 <select id="recmth"></select> 頁 
+	<input type="button" id='AfterPage' class="btn" value='&#062' title="到下頁，快速鍵 Alt+K" accesskey="K">
+    <input type="button" id='BottomPage' class="btn" value='&raquo' title="到末頁，快速鍵 Alt+V" accesskey="V">
+
+		&nbsp&nbsp&nbsp 搜尋:
+		<select id="recfield">
+				            	<option value="c01.F01">客戶編號</option>				            	
+				            	<option value="c01.F04">客戶名稱</option>
+								<option value="c01.F10">統一編號</option>	
+								<option value="c01.F20">地區別</option>	
+				            	</select> 欄&nbsp=&nbsp <input type="text" class="txt" name="srch" id="srch" 
+                                placeholder="輸入搜尋關鍵字" size="43" tabindex="1" style="width:15%;">		
+	     <input type="button" id='seekfrm' class='btn' value="検索">   
+		 &nbsp&nbsp&nbsp       	 
+		
+	   <div id="serverResponse1" style="color:red;text-align:center;">&nbsp </div>
+ <!-- <div>-->
+   <table class="gridlist" summary="Technology issue of JST" id="member" style="width:20%;order:0;">   
+ 	<thead id="mainthead">
+    <tr id="headrow"><th style="display:none;">NO.</th>
+	 
+	<th style="width:80px;">客戶編號</th> 
+	<th style="width:285px;">客戶名稱</th>    
+	<th style="width:80px;display:none;" id="AUTH" >選取</th></tr>
+    
+     </thead> 
+	 <tbody id="maintbody">	 <!--style="height:330px;width:100%;"-->
+     <!--js產生表格資料插在此處-->
+     </tbody>
+	</table>      
+ 
+    <table id="member3" >	 	 	 
+	<tr><td class="c01key">客戶編號:</td><td><span name="c01value" id="custom_no" ></span></td><td  class="c01key">客戶名稱:</td><td colspan=3><span name="c01value" id="custom_name"></span></td></tr>	
+	<tr><td class="c01key">客戶簡稱:</td><td><span name="c01value" id="custom_name_abbrv"></span></td><td class="c01key">重要等級:</td><td><span name="c01value" id="level_of_impt"></span></td><td class="c01key">統一編號:</td><td><span name="c01value" id="unite_no"></span></td></tr>
+	<tr><td class="c01key">客戶類型:</td><td><span name="c01value" id="business_type"></span></td><td class="c01key">主要產品:</td><td><span name="c01value" id="main_product"></span></td><td class="c01key">地區別:</td><td><span name="c01value" id="area_domain"></span></td></tr>
+	<tr><td class="c01key">發票抬頭:</td><td colspan=3><span name="c01value" id="title_invoice"></span></td><td class="c01key">發票品號:</td><td><span name="c01value" id="partno_invoice"></td></tr>	
+	<tr><td class="c01key" >發票種類:</td><td colspan=2><span name="c01value" id="typeofincoice"></span></td><td class="c01key" >課稅別:</td><td colspan=2><span name="c01value" id="typeoftax"></span></td></tr>	    
+	<tr><td class="c01key">英文名稱:</td><td colspan=5><span name="c01value" id="englishname"></span></td></tr>
+	<tr><td class="c01key">公司地址:</td><td colspan=5><span name="c01value" id="addrss"></span></td></tr>	
+	<tr><td class="c01key">送貨地址:</td><td colspan=5><span name="c01value" id="shipaddrss"></span></td></tr>
+	<tr><td class="c01key">英文地址:</td><td colspan=5><span name="c01value" id="englishaddrss"></span></td></tr>	
+	<tr><td class="c01key">出貨指示:</td><td colspan=5><span name="c01value" id="guide_ship"></span></td></tr>
+	<tr><td class="c01key">聯絡人:</td><td colspan=2><span name="c01value" id="window_man"></span></td><td class="c01key">負責人:</td><td colspan=2><span name="c01value" id="representive"></span></td></tr>	
+	<tr><td class="c01key">電話:</td><td colspan=2><span name="c01value" id="tel_no"></span></td><td class="c01key">傳真:</td><td colspan=2><span name="c01value" id="fax_no"></span></td></tr>
+	<tr><td class="c01key">E-mail:</td><td colspan=3><span name="c01value" id="emailaddrss"></span></td><td class="c01key">群組編號:</td><td><span name="c01value" id="gtoupno"></span></td></tr>
+	<tr><td class="c01key">交易幣別:</td><td><span name="c01value" id="typeofcrnt"></span></td><td class="c01key">結帳日期:</td><td><span name="c01value" id="dayofincount"></span></td><td class="c01key">每月請款日:</td><td><span name="c01value" id="dayofcharge"></span></td></tr>
+	<tr><td class="c01key">付款方式:</td><td colspan=2><span name="c01value" id="typeofpay"></span></td><td class="c01key">票期(T/T)天數:</td><td colspan=2><span name="c01value" id="paymentterm"></span></td></tr>
+	<tr><td class="c01key">業務擔當:</td><td colspan=2><span name="c01value" id="sales_no"></span>&nbsp&nbsp<span name="c01value" id="sales_name"></span></td><td class="c01key" >業務助理:</td><td colspan=2><span name="c01value" id="assistant_no"></span>&nbsp&nbsp<span name="c01value" id="assistant_name"></span></td></tr>	
+	<tr><td class="c01key" >交貨方式:</td><td colspan=3><span name="c01value" id="wayofship"></span></td><td class="c01key">收件人:</td><td><span name="c01value" id="receiver"></span></td></tr>	
+	<tr><td class="c01key">其他備註:</td><td colspan=5><span name="c01value" id="otherremark"></span></td></tr>
+	<tr><td class="c01key">最後交易日:</td><td colspan=2><span name="c01value" id="lasttrade"></span></td><td class="c01key">最後報價日:</td><td colspan=2><span name="c01value" id="lastquot"></span></td></tr>
+	<tr><td class="c01key">最後更新:</td><td colspan=5><span name="c01value" id="lastchange"></span></td></tr>	 
+	</table> 
+	 
+ <!--   </div>--> 
+ 
+	 </div> 
+	
+	<!-- TAB1 打包區塊 end -->
+
+	<!-- TAB2 打包區塊 start -->
+ <input id="tab2" type="radio" class="tab" name="tab"/> 
+ <label for="tab2">報價紀錄</label>
+	<div class="tab_content">
+	   詢價紀錄內容
+	</div>
+	<!-- TAB2 打包區塊 end -->
+
+	<!-- TAB3 打包區塊 start -->
+ <!-- 	<input id="tab3" type="radio" class="tab" name="tab"/>
+	<label for="tab3">出貨紀錄</label>
+	<div class="tab_content">
+		第 3 個頁籤內容區塊<br/>
+		WFU BLOG | Blogger 調校資料庫<br/>
+		第 3 個頁籤內容區塊<br/>
+		WFU BLOG | Blogger 調校資料庫<br/>
+		第 3 個頁籤內容區塊<br/>
+		WFU BLOG | Blogger 調校資料庫<br/>
+	</div>  -->
+	<!-- TAB3 打包區塊 end -->
+	   &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+	    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="button" id='lgt' class='btn' value="離開" title="離開本作業，快速鍵Alt+Q" accesskey="Q"> 
+       &nbsp&nbsp&nbsp&nbsp&nbsp
+	   <input type="button" id='NEW_BOTT' class='btn' value="新增" title="新增一筆紀錄，快速鍵Alt+N" accesskey="N">
+	   <input type="button" id='EDIT_BOTT' class='btn' value="修改" title="修改所選紀錄，快速鍵Alt+U" accesskey="U">	
+	   <input type="button" id='DEL_BOTT' class='btn' value="刪除" title="刪除所選紀錄，快速鍵Alt+R" accesskey="R">	
+
+
+</div>
+     
+    <div>
+   <span id="currentTime">更新時間2017/01/01 10:50 am</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp目前登入帳號：<span id='user_who'>登入者</span>   
+   </div>
+ <style>
+body{
+     overflow-y:hidden; 
+ }
+ #member3 {
+   background-color:#F0F0F0; 
+    position:relative;
+	width:66.5%;
+	height:429px;
+	top:-430px;
+	left:390px;
+ 	font-size:18px;  
+    margin-bottom:-429px; 
+	display:block; 
+    overflow-y:scroll; 	
+	order:1; 
+ }
+ .c01key{
+   text-align:right;
+   width:15%;
+ }
+ #member3 span{
+    font-family:Arial;
+	font-weight:bold;
+	
+ }
+ #member3 tr,#member3 td {
+    border: 1px solid #000000;border-collapse: collapse;
+} 
+#aplyform2 tr,#aplyform2 td {
+    border: 1px solid #ffffff;border-collapse: collapse;
+} 
+
+ #member4{
+    background-color:#F0F0F0;
+    position:relative;
+	width:100%;
+	height:417px;
+	
+	/*left:435px;*/
+ 	font-size:18px; 
+	overflow-y:hidden;
+
+ } 
+ #srch,#recfield,#recfield option {
+   font-family:Arial;
+	font-weight:bold;
+ }
+ 
+</style>
+</body>
+</html>
