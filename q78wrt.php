@@ -59,7 +59,7 @@ if($brr[8]==1){        //如果旗標指示為新增
        echo $brr[8];
 } 
    
-	
+mysqli_close($link);	
  	
 ?>
  

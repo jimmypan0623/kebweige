@@ -3,6 +3,7 @@
    header("Content-Type:text/html; charset=utf-8"); 
   //include("include/mysqli_server.php");  
   $dbc = @mysqli_connect('localhost','root','5039','tkdata');
+  
        $user_account = mysqli_real_escape_string($dbc,$_POST['account']);
        $user_password = mysqli_real_escape_string($dbc,$_POST['password']);
         if(!empty($user_account)&&!empty($user_password)){
@@ -18,7 +19,8 @@
               setcookie('useraccount',$row[1]);// time()+7*24*60*60);
 			  setcookie('password',$row[2]);
 			   
-			  setcookie('username',urlencode($row[3]));
+			  setcookie('username',escape($row[3]));
+		       
 			   setcookie('dptno',$row[4]);
 			  
 			/*  $logintime=date(Y)."-".date(m)."-".date(d)." ".date(H).":".date(i).":".date(s); 
@@ -46,6 +48,15 @@
 			   setcookie('newauth', '', time()-999);			  
 			   setcookie('editauth', '', time()-999);
 			   setcookie('delauth', '', time()-999);
+			    setcookie('auth01', '', time()-999);
+			    setcookie('auth02', '', time()-999);
+			    setcookie('auth03', '', time()-999);
+			    setcookie('auth04', '', time()-999);
+			    setcookie('auth05', '', time()-999);
+			    setcookie('auth06', '', time()-999);
+			    setcookie('auth07', '', time()-999);
+			    setcookie('auth08', '', time()-999);
+			    setcookie('auth09', '', time()-999);
 			   header('refresh:3; url=blgexlogin.html');			   
                echo "使用者名稱或密碼錯誤,系統將在3秒後跳轉到登入介面,請重新填寫登入資訊!";
 			   
@@ -55,5 +66,51 @@
            echo '帳號密碼不得空白.';    //基本上程序不會跑到此因為登入畫面有設定空白就不能離開畫面
 
         }
+
+
+
+ function convcode($str){
+	  $encoding = mb_detect_encoding($str, array('ASCII','EUC-CN','BIG-5','UTF-8'));
+                if ($encoding != false) {
+                   $str = iconv($encoding, 'UTF-8', $str);
+                }else {
+                   $str = mb_convert_encoding($str, 'UTF-8','Unicode');
+                }              
+			    if (substr($str,0,1)==','){
+				    $str=substr_replace($str,'',0,1);
+			    }
+		        $cart =json_decode($str);	
+	
+	return $cart;
+}  
+	
+ /* function escape($str)
+ {
+  preg_match_all("/[\x80-\xff].|[\x01-\x7f]+/",$str,$r);
+   $encoding = mb_detect_encoding($str, array('ASCII','EUC-CN','BIG-5','UTF-8'));
+   
+   $ar = $r[0];
+   foreach($ar as $k=>$v)
+    {
+     if(ord($v[0]) < 128)
+       $ar[$k] = rawurlencode($v);
+     else
+        $ar[$k] = "%u".bin2hex(iconv($encoding,"UTF-8",$v));
+    }
+    return join("",$ar);
+
+ }  */
+function    escape($str)    {   
+   preg_match_all("/[\\x80-\\xff].|[\\x01-\\x7f]+/",$str,$r);   
+   $ar    =    $r[0];   
+   foreach($ar    as    $k=>$v)    {   
+    if(ord($v[0])    <    128)   
+     $ar[$k]    =    rawurlencode($v);   
+    else   
+     $ar[$k]    =    "%u".bin2hex(iconv("GB2312","UCS-2",$v));   
+   }   
+   return    join("",$ar);   
+}
+	
 	
  ?>

@@ -1,5 +1,8 @@
 ﻿<?php
    header("Content-Type:text/html; charset=utf-8");   
+   /*header('Access-Control-Allow-Origin:*');
+   header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+   header('Access-Control-Allow-Headers: X-Requested-With, Content-Type, Accept');*/
    $filearray=array();
    $listno=array();
    if (substr($_POST['filename'],0,5)=="STOCK"){
@@ -7,7 +10,7 @@
    }else{
 	    $searchRecord =$_POST['filename'];
        // Use fopen function to open a file
-        $file = fopen("STOCKTTL.txt", "r");
+        $file = fopen("json/STOCKTTL.txt", "r");
        // Read the file line by line until the end
        $k=0;      
        while (!feof($file)) {
@@ -20,9 +23,9 @@
             $findme=str_replace(')','\)',str_replace('(','\(',$searchRecord));
             if (preg_match("/$findme/i",$value)){ 
 			    array_push($listno,trim(strval($k)));
-                $cnt=ceil($k/20);				
+                $cnt=ceil($k/50);				
 				 
-				$fnb=str_pad(strval($cnt),2,'0',STR_PAD_LEFT);
+				$fnb=str_pad(strval($cnt),3,'0',STR_PAD_LEFT);
 				 
 				if(end($filearray)!="STOCK".$fnb){
 				   array_push($filearray,"STOCK".$fnb);
@@ -36,7 +39,7 @@
 	$aNum=count($filearray);
 	$arr=array();	
 	for($i=0;$i<$aNum;$i++){ 
-	   $path=$filearray[$i].'.json';
+	   $path='json/'.$filearray[$i].'.json';
        if (file_exists($path)){      	
           $lines = file($path);
           $mx=sizeof($lines);	          	   

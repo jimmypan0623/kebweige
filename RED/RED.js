@@ -76,8 +76,7 @@ function getProfile(str1) {
 	                  tmpItemName='';
                       authField='';					  
 			     }else{
-				    authField+=arr[i][jk];
-				   
+				    authField+=arr[i][jk];								   
 			     }	
 				  
 		      }
@@ -106,7 +105,7 @@ function commontemp(){
 	 else if(window.XMLHttpRequest)
 		var request = new XMLHttpRequest();
 	request.onreadystatechange = respond;    
-	var url="REDbrow.php?timestamp="+new Date().getTime();
+	var url="RED/REDbrow.php?timestamp="+new Date().getTime();
 	var queryString=createQueryString();
 	request.open("POST",url);	 
 	request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
@@ -114,8 +113,11 @@ function commontemp(){
 	
 	function respond(){
        if (request.readyState == 4 && request.status == 200) {	       	     
-		  //window.eval(request.responseText);		  
-          evalinstead(request.responseText);		  
+		  //window.eval(request.responseText);		 
+          var rsp=JSON.parse(request.responseText); 
+		 
+		  getProfile(rsp);
+          //evalinstead(request.responseText);		  
 	  }
     }
 	function createQueryString(){	    
@@ -125,11 +127,6 @@ function commontemp(){
 	    	
 	    return queryString;	// 
 	}
-	 
-    
-	 
-	  
-	
 	return
 }
 
@@ -162,6 +159,18 @@ function summaryName(dtshow){
     case 'C':
          return '營業管理';
     break;
+	case 'D':          
+         return '採購管理';
+    break;    
+	case 'E':          
+         return '生產管理';
+    break;    	
+	case 'F':          
+         return '料表管理';
+    break;   	
+	case 'G':          
+         return '成本管理';
+    break;   		
     case 'Q':
          return '品保文管';
     break;
@@ -169,7 +178,7 @@ function summaryName(dtshow){
          return '出勤管理';
     break;	
     default: 
-	     return '還沒想到';
+	     return '其他';
         //當 expression 的值都不符合上述條件
         //要執行的陳述句
     break;

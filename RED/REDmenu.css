@@ -1,12 +1,20 @@
 /****功能菜單畫面CSS設定****/ 
-body{
-	background-color:#ffdee0;
-}
-#navigation {
-	width:250px;
-	font-family:Arial;
-	
+ body{
 	 
+	/* background-color:#ffdee0; */
+	 background-image: url(../IMAGE/IMG_0023dk.png) ;
+	 background-repeat:no-repeat;
+	background-position:right center;
+	background-attachment:fixed;
+	  
+} 
+ 
+#navigation {
+	width:300px;
+	font-family:Arial;
+    font-size:18px;
+    box-shadow:gray 7px 7px 7px;
+	scroll-behavior: auto;
 }
 #navigation > ul {
 	list-style-type:none;				/* 不顯示項目符號 */
@@ -63,7 +71,9 @@ body{
 }
 #navigation ul li ul.myShow{	/* 顯示子選單 */
 	display:block;
+	 
 }
+
 input {padding:5px 15px; background:#ccc; border:0 none;
 cursor:pointer;
 -webkit-border-radius: 5px;
@@ -106,7 +116,7 @@ li.hasmenu>a:rollover:visited
 .close {
   color: #aaaaaa;
   float: right;
-  font-size: 28px;
+  font-size: 28px;   /*28*/
   font-weight: bold;
 }
 
