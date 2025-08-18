@@ -1,12 +1,34 @@
 /****功能菜單畫面CSS設定****/ 
-body{
-	background-color:#ffdee0;
-}
-#navigation {
-	width:250px;
-	font-family:Arial;
-	
+ body{
 	 
+	 background-color:#0;    /*#ffdee0;  */
+	 background-image:url(../digits/computer.jpg);
+	 background-repeat:no-repeat;
+	background-position:right center;
+	background-attachment:fixed;
+	  
+} 
+
+ #container{100%;display:flex;flex-direction:row;flex-wrap:wrap;}
+ header{
+       width:100%;
+	   height:5%; 
+	   text-align:center;
+	   font-size:120%;	  
+	   font-weight:bold;	 
+       background:linear-gradient(to right,#F5DEB3,#EEE8AA,#FFFACD);
+	   box-shadow:gray 7px 7px 7px;
+	  position:fixed;
+	   
+} 
+#navigation {
+	top:35px;
+	width:300px;
+	font-family:Arial;
+    font-size:18px;
+    box-shadow:gray 7px 7px 7px;	
+    scroll-behavior: auto;
+	position:relative;
 }
 #navigation > ul {
 	list-style-type:none;				/* 不顯示項目符號 */
@@ -15,21 +37,21 @@ body{
 	
 }
 #navigation > ul > li {
-	border-bottom:1px solid #ED9F9F;	/* 新增下劃線 */
+	border-bottom:1px solid #30D5C8; 	/* 新增下劃線 #ED9F9F;*/
 }
 #navigation > ul > li > a{
 	display:block;						/* 區塊顯示 */
 	padding:5px 5px 5px 0.5em;
 	text-decoration:none;
-	border-left:12px solid #711515;		/* 左邊的粗紅邊 */
-	border-right:1px solid #711515;		/* 右側陰影 */
+	border-left:12px solid #3D578A;		/* 左邊的粗紅邊 #711515;	*/  
+	border-right:1px solid #3D578A;		/* 右側陰影 #711515;*/
 }
 #navigation > ul > li > a:link, #navigation > ul > li > a:visited{
-	background-color:#c11136;
-	color:#FFFFFF;
+	background-color:#082567;    /*#c11136;#007FFF;#3C00FF ;#0D33FF;*/
+	color:#FFFDD0;                /*#FFFFFF;*/
 }
-#navigation > ul > li > a:hover{		/* 鼠標經過時 */
-	background-color:#990020;			/* 改變背景色 */
+#navigation > ul > li > a:hover{		/* 滑鼠經過時 */
+	background-color:#002BAA;			/* 改變背景色 #990020;*/
 	color:#ffff00;						/* 改變文字顏色 */
 }
 
@@ -41,29 +63,32 @@ body{
 	 
 }
 #navigation ul li ul li{
-	border-top:1px solid #ED9F9F;
+	border-top:1px solid #30D5C8; /*#ED9F9F;*/
 }
 #navigation ul li ul li a{
 	display:block;
 	padding:3px 3px 3px 0.5em;
 	text-decoration:none;
-	border-left:28px solid #a71f1f;
-	border-right:1px solid #711515;
+	border-left:28px solid 	#191970;     /*#a71f1f;#593D8A*/
+	border-right:1px solid #3D578A;    /*#711515;*/
 }
 #navigation ul li ul li a:link, #navigation ul li ul li a:visited{
-	background-color:#e85070;
-	color:#FFFFFF;
+	background-color:#002FA7;   /*#e85070;	#4169E1;*/
+	color:#FFFDD0;              /*#FFFFFF;*/
 }
 #navigation ul li ul li a:hover{
-	background-color:#c2425d;
+	background-color:#144E90;   /*#c2425d;#144190; */
 	color:#ffff00;
 }
 #navigation ul li ul.myHide{	/* 隱藏子選單 */
 	display:none;
+	
 }
 #navigation ul li ul.myShow{	/* 顯示子選單 */
 	display:block;
+	
 }
+
 input {padding:5px 15px; background:#ccc; border:0 none;
 cursor:pointer;
 -webkit-border-radius: 5px;
@@ -87,12 +112,10 @@ input.btn{
 }	 
 
 /*子菜單指示箭頭*/
-li.hasmenu>a:link,
-li.hasmenu>a:visited
-{
-	
-	
-	background:url(../digits/widget_open.gif) #ffefcf no-repeat 95% 50%;
+ li.hasmenu>a:link,
+ li.hasmenu>a:visited
+{		
+	background:url(../digits/add.gif) #ffefcf no-repeat 95% 50%;	
 }
 li.hasmenu>a:hover,
 li.hasmenu>a:focus,
@@ -100,14 +123,15 @@ li.hasmenu>a:active,
 li.hasmenu>a:rollover:link,
 li.hasmenu>a:rollover:visited
 {
-	background:url(../digits/toolbar.arrowright.gif) #ffefcf no-repeat 95% 50%;
+	background:url(../digits/up.gif ) #ffefcf no-repeat 95% 50%;	
 }
 /* The Close Button */
 .close {
   color: #aaaaaa;
   float: right;
-  font-size: 28px;
+  font-size: 28px;   /*28*/
   font-weight: bold;
+ 
 }
 
 .close:hover,
@@ -116,3 +140,16 @@ li.hasmenu>a:rollover:visited
   text-decoration: none;
   cursor: pointer;
 }
+#frl {
+   background-color:#0; 
+    position:relative;
+	width:30%;
+	height:300px;
+    top:60.5%;
+	left:42.3%;  
+ 	font-size:18px;  
+  /*  margin-bottom:-130px; */
+	display:block;      	
+	border:0 ;
+	 
+ }

@@ -5,22 +5,21 @@
 
 <head>
 <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-<title>德通端子內部網頁介面系統登入畫面</title>
+<title>知訊數位營運管理系統登入畫面</title>
 <style>
-
-
+ 
 </style>
 <link href="include/loginstyle.css" rel="stylesheet">
-<script type="text/javascript" src='include/cookie.js'></script> 
+<link rel="shortcut icon" href="digits/kandm.gif">
 </head>
 
 <body>
-
-<form id="login" method="post" action="loginchk.php"  onsubmit=return(ch_input())>
+ 
+<form id="login" method="post" action="loginchk.php"  >   
     <h1>Log In</h1>
     <fieldset id="inputs">
-        <input id="account" name="account" type="text" placeholder="Account"  autofocus required>   
-        <input id="password" name= "password" type="password" placeholder="Password" required>
+        <input id="account" name="account" type="text" placeholder="Account"  autocomplete="account" autofocus required>   
+        <input id="password" name= "password" type="password" autocomplete="current-password" placeholder="Password" required>
     </fieldset>
     <fieldset id="actions">
         <input type="submit" id="submit" value="Log in">

@@ -2,7 +2,7 @@ var Cookies = {};
 
     /**
 
-    * 設置Cookies
+    * SET COOKIES
 
     */
 
@@ -22,7 +22,7 @@ var Cookies = {};
  
        } 
  
-        alert(exp.toGMTString());
+       // alert(exp.toGMTString());
  
         var path = (argc > 3) ? argv[3] : '/';
  
@@ -44,7 +44,7 @@ var Cookies = {};
  
     /**
  
-    * 讀取Cookies
+    * READ COOKIES
  
     */
  
@@ -82,7 +82,7 @@ var Cookies = {};
  
     /**
  
-    * 清除Cookies
+    * CLEAR COOKIE
 
     */
 
@@ -92,12 +92,11 @@ var Cookies = {};
  
         var expdate = new Date(); 
  
-        expdate.setTime(expdate.getTime() - (86400 * 1000 * 1)); 
- 
+        expdate.setTime(expdate.getTime() - (86400 * 1000 * 1));       
         Cookies.set(name, "", expdate); 
  
     }
- 
+
 };
  
     Cookies.getCookieVal = function(offset){

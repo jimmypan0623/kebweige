@@ -1,9 +1,11 @@
 <?php 
 header('Content-type:text/html; charset=utf-8');
+ include("include/mysqli_server.php");    
 // 登出後的操作
+
 session_start();
 // 清除Session
-$username = $_SESSION['username'];  //用於後面的提示資訊
+//$username = $_SESSION['username'];  //用於後面的提示資訊
 $_SESSION = array();
 session_destroy();
  
@@ -22,8 +24,28 @@ session_destroy();
 				    setcookie('auth07', '', time()-999);
 					 setcookie('auth08', '', time()-999);
 					  setcookie('auth09', '', time()-999);
+					  setcookie('svripmd5', '', time()-999);
+					  	setcookie('funNo', '', time()-999);
+				 setcookie('howpge','',time()-999);
+				setcookie('MorP','',time()-999);
+				setcookie('kindofda','',time()-999);
+				setcookie('adddpt','',time()-999);
+	  
+	  
+	  $sql3="select F01,F06 from a26 where F04<>'T' order by F01"; 
+	   
+	           
+               $sql4=@mysqli_query($link,$sql3); 
+			  
+			    //if(mysqli_num_rows($sql4)==1){
+	            while ($list3=mysqli_fetch_array($sql4)){	
+				 
+                       setcookie($list3['F01'],'', time()-999);			   	   	              
+	            
+				}    
+	mysqli_close($link);			
 // 提示資訊
-echo "歡迎下次光臨, ".$username.'<br>';
+//echo "歡迎下次光臨, ".$username.'<br>';
 //echo "<a href='blgexlogin.html'>重新登入</a>";
 $home_url = 'blgexlogin.html';
 header('Location:'.$home_url); 

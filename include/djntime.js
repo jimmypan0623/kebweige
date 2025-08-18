@@ -4,7 +4,7 @@
 
 //擷取日期各欄位並指定值
 function MyTimer()
-{
+{	
     //生成Date物件實例,同時透過其它方法提取日期各欄位
            var nowTime=new Date();
            var iyear=nowTime.getFullYear();

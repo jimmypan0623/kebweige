@@ -45,7 +45,7 @@ function initDialog()
 		     delrcath.style.visibility="hidden";
 		 }
 		 var srchstockno=document.getElementById("B01_BOTT");
-		 if (Cookies.get('auth08')=='Y'){
+		 if (Cookies.get('auth05')=='Y'){
 			srchstockno.style.visibility="visible"
 		    attachEventListener(srchstockno,"click",stknosrch,false);  //歸社打卡按鈕程序
 		 }else{
@@ -138,7 +138,7 @@ function stknosrch(event){
 		event=window.event;
 	}
 	var Today=new Date();
-　  var nowday=Today.getFullYear()+ "-" + paddingLeft((Today.getMonth()+1).toString(),2) + "-" + paddingLeft((Today.getDate()).toString(),2) ;
+    var nowday=Today.getFullYear()+ "-" + paddingLeft((Today.getMonth()+1).toString(),2) + "-" + paddingLeft((Today.getDate()).toString(),2) ;
 	var myAccount=Cookies.get('useraccount');
 	var flg=0;
 	

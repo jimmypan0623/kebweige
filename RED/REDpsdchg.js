@@ -1,10 +1,7 @@
-addLoadListener(initDialog);
-function initDialog()
+function selfTag(jsvsn)
 {        
-	  var myAccount=Cookies.get('useraccount');
-	 
-	 var i;
-	 
+	var myAccount=Cookies.get('useraccount');	 
+	var i;	 
 	 if(!myAccount){
          (function myLoop(i) {
              setTimeout(function() {
@@ -12,45 +9,86 @@ function initDialog()
                if (--i) myLoop(i);   //  decrement i and call myLoop again if i > 0
                 }, 9000)
           })(10);                   //  pass the number of iterations as an argument
-
-        
+       
 		document.location.href="logOut.php";
-     }
+     }else{
+		 loadScript(`RED/RED.js?v=${jsvsn}`,function(){commontemp();});	
+	     var plsElmnts=document.getElementById('company_name').parentNode;
+		 var iflm=document.createElement('iframe');
+		 var htmfile='ROL/'+Cookies.get('INT_HTM');
+		 iflm.id="frl";
+		 iflm.src=htmfile;
+		 plsElmnts.appendChild(iflm);
+	 }		 
 }
 function redmenuchange(event){    //畫面展開縮起來
 	//通過父元素li，找到兄弟元素ul
 	if (typeof event=="undefined"){
 		event=window.event;
     }			 
-	var target=getEventTarget(event);	
+	var target=getEventTarget(event);	 
 	var oSecondDiv = target.parentNode.getElementsByTagName("ul")[0];
-	//CSS交替更換來實現顯、隱
-	if(oSecondDiv.className == "myHide")
-		oSecondDiv.className = "myShow";
-	else
-		oSecondDiv.className = "myHide";
+	//CSS交替更換來實現顯、隱		
+	if(oSecondDiv!=undefined){			    
+  	    if(oSecondDiv.className == "myHide"){	 	
+		    var closeother=getElementsByAttribute('class','myShow');			   		 
+		    for(var i=0;i<closeother.length;i++){
+		        if(closeother[i].className="myShow"){					
+		           closeother[i].className= "myHide";
+			       closeother[i].parentNode.getElementsByTagName("a")[0].style.backgroundImage="url('digits/add.gif')";
+			      break;
+		        }
+		    }						
+	        oSecondDiv.className = "myShow";	 
+			target.style.backgroundImage="url('digits/up.gif')";					
+	    }
+	    else{			 
+	   	    oSecondDiv.className = "myHide";					
+            target.style.backgroundImage="url('digits/add.gif')";				
+	    }
+		window.scrollTo(0,0);  //先置頂	
+		target.scrollIntoView({
+            behavior: 'smooth'
+        }); 		
+	}			 
 }
 function excuteFun(event){
 	if (typeof event=="undefined"){
 		event=window.event;
     }			 
-	var target=getEventTarget(event);	
-	var exucPrgNo=target.childNodes[0].textContent.slice(0,3)+'.html';
+	var target=getEventTarget(event);
+	var exucPrgNo=target.childNodes[0].textContent;		
+	setCookie('funNo',exucPrgNo);
 	var authArray=target.parentNode.childNodes[1].textContent.split("");  //切割成陣列	
-	for(var i=1;i<10;i++){
-		var authorder='auth'+paddingLeft(i.toString(),2);
-		 
-		if(authArray[i-1]=='Y'){  //auth01:新增  auth02:修改 auth03:刪除  auth04:列印....
-		  setCookie(authorder,'Y');
-	    }else{
-	       setCookie(authorder,'');
-		}  
-		
-	}
-	document.location.href=exucPrgNo;
+	for(var i=1;i<10;i++){   //該登入者之權限設定
+		var authorder='auth'+paddingLeft(i.toString(),2);		 
+		if(authArray[i-1]=='E'){  //auth01:新增  auth02:修改 auth03:刪除  auth04:列印....
+		  setCookie(authorder,'E');
+	    }else if(authArray[i-1]=='Y'){
+	       setCookie(authorder,'Y');
+		}else{
+		   setCookie(authorder,'N');
+		}					
+	}	  
+	////authArray[9]開始為該程式之屬性馬判別
+	////[9]:數字表示該程式畫面有幾頁,
+	////[10]:M首頁為月份分頁P為固定筆數分頁,
+	////[11]:類別,R為單據,B為基本資料,A為分析資料,S為系統檔
+	////[12]:首頁分頁為月份外判斷是否多加部門別分頁D:多加部門別下拉選項		
+	setCookie('howpge',authArray[9]);
+	setCookie('MorP',authArray[10]);
+	setCookie('kindofda',authArray[11]);
+	setCookie('adddpt',authArray[12]);
+	var urlcmp=(decodeURI(window.location.search));
+	var username=urlcmp.substr(urlcmp.indexOf('=')+1);	
+	document.location.href='ZRO.html'+"?username="+username+"&ourcompany="+encodeURI(document.getElementById('company_name').innerHTML);	
+    window.scrollTo(0,0);  //先置頂	 
+	target.scrollIntoView({
+        behavior: 'smooth' 
+    }); 	
 }	
 
-function blockshow(txtword)    //變更密碼程序
+function blockPsdshow(txtword)    //變更密碼程序
 {
 /*'<div id="myModal" class="modal" style="display:block"><div class="modal-content"><span class="close">&times;</span><p>'.$error_msg.'(或是註冊申請表)</p></div></div>'*/
 /*用JavaScript DOM 的建立方式建立如上列顯示之html標籤，同時把該有的css屬性加入以作彈跳視窗*/
@@ -80,7 +118,7 @@ function blockshow(txtword)    //變更密碼程序
 	dropsheet_content.style.padding="20px";
 	dropsheet_content.style.width="38%";	
 	dropsheet_content.style.border="1px solid #888";
-	dropsheet_content.style.fontSize="22px";	  	  
+	dropsheet_content.style.fontSize="22px";	  	  /*22*/
 	dropsheet.appendChild(dropsheet_content);  //訊息內框加入	
 	    if (txtword!=event){             //判斷呼叫方傳來的(或是沒有傳來)的參數，若非事件表示從主畫面登入錯誤傳來的訊息	
 		    dropsheet_content.style.width="38%";
@@ -88,19 +126,19 @@ function blockshow(txtword)    //變更密碼程序
  	       closeSpan.setAttribute("class","close");
 	       closeSpan.style.color="#aaaaaa";
 	       closeSpan.style.float="right";
-	       closeSpan.style.fontSize="28px";
+	       closeSpan.style.fontSize="28px";   /*28*/
 	       closeSpan.style.fontWeight="bold";
-           closeSpan.innerHTML = '&times;';   
-           attachEventListener(closeSpan,"click",blocksclose,false);	//按叉叉關視窗
+           closeSpan.innerHTML = '\u{274E}' //'&times;';   
+           attachEventListener(closeSpan,"click",blockPsdclose,false);	//按叉叉關視窗
 	   	   dropsheet_content.appendChild(closeSpan);        //加進內容框		
 			var p_tx=document.createElement('p');            //主畫面登入錯誤訊息顯示內容
 		    p_tx.style.color="blue";
-	        p_tx.innerHTML=txtword;	                         　//將傳來的這一段文字加入準備顯示
+	        p_tx.innerHTML=txtword;	                         //將傳來的這一段文字加入準備顯示
 			dropsheet_content.appendChild(p_tx);				
 	    } else{		//若是事件表示直接修改密碼按鈕點下去傳過來要求開視窗	
 	       var headtitle='帳號:'+Cookies.get('useraccount') ;
-	　　　 dropsheet.style.paddingTop="20px"; /* Location of the box */
-		    	　　　　　
+	      dropsheet.style.paddingTop="20px"; /* Location of the box */
+		    	
 		  // var target=getEventTarget(event);		   
 		  // dropsheet_content.style.width="50%";
 		   var dialog=document.createElement("div");		//開始從畫面密碼修改欄位
@@ -131,7 +169,7 @@ function blockshow(txtword)    //變更密碼程序
 		   dialogButton3.setAttribute("type","button");
 		   dialogButton3.setAttribute("class","btn");
 		   dialogButton3.setAttribute("value","取消");
-		   attachEventListener(dialogButton3,"click",blocksclose,false);		 	  	      		  
+		   attachEventListener(dialogButton3,"click",blockPsdclose,false);		 	  	      		  
 		   var oTd = oTr.insertCell(0);	   		     //將兩個按鈕加入畫面   
 	       oTd.appendChild(dialogButton1);		 
 		   oTd.appendChild(dialogButton3);		   		  
@@ -145,13 +183,13 @@ function blockshow(txtword)    //變更密碼程序
 	       oTd.setAttribute('style','text-align:right;font-size:medium;');
 	       oTd.innerHTML='再確認';
 	       var oTd = oTr.insertCell(1);
-	       oTd.innerHTML="<input type='password' name='txt_password_chk' id='txt_password_chk' class='txt checkPassword)chk' maxlength='10' style='width:30%;'  />";
+	       oTd.innerHTML="<input type='password' name='txt_password_chk' id='txt_password_chk' class='txt checkPassword chk' maxlength='10' style='width:50%;'  />";
 		   var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	       var oTd = oTr.insertCell(0);
 	       oTd.setAttribute('style','text-align:right;font-size:medium;' );
 	       oTd.innerHTML='新密碼';
 	       var oTd = oTr.insertCell(1);
-	       oTd.innerHTML="<input type='password' name='txt_password' id='txt_password' class='txt checkPassword' maxlength='10' style='width:30%;'  />";
+	       oTd.innerHTML="<input type='password' name='txt_password' id='txt_password' class='txt checkPassword' maxlength='10' style='width:50%;'  />";
 		 		  
 			   var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	           var oTd = oTr.insertCell(0);
@@ -174,10 +212,10 @@ function blockshow(txtword)    //變更密碼程序
 
 		   document.getElementById("orgtxt_password").focus();
 	    }
-	　  return true;
+        return true;
 }
 
-function blocksclose(event)  //關閉註冊彈出視窗
+function blockPsdclose(event)  //關閉註冊彈出視窗
 {
 	if (typeof event=="undefined"){
 		event=window.event;
@@ -272,10 +310,10 @@ function confirmClick(event){     //修改密碼檢查程序
   
 	   var rspns=TableToJson(myCookieUser_id,myCookieACccount,customerPassword.value);
   
-	blocksclose();			//關掉原視窗	
+	blockPsdclose();			//關掉原視窗	
 		
 	
-	blockshow(rspns);      //顯示修改密碼資訊視窗
+	blockPsdshow(rspns);      //顯示修改密碼資訊視窗
 
 	 
 	
@@ -290,7 +328,7 @@ function TableToJson(user_id,account,password) {   //由此紀錄剩餘的table�
    
 	//以下為註冊或密碼修改內容
 	
-　　　  var rsp="";
+        var rsp="";
 	    var rspns="密碼已變更！下次登入請記得使用新密碼。"
 		var order_head="{"+"\""+"Password"+"\""+":"+"\""+password+"\""+",";
             order_head+="\""+"User_id"+"\""+":"+"\""+user_id+"\""+",";					
@@ -306,7 +344,7 @@ function TableToJson(user_id,account,password) {   //由此紀錄剩餘的table�
      }		
 	 request.onreadystatechange = respond;
 
-		request.open("POST", "REDpdchg.php", true);        //更改密碼的的php檔
+		request.open("POST", "RED/REDpdchg.php", true);        //更改密碼的的php檔
 		
 	 
      request.setRequestHeader("Content-type", "application/json");
@@ -342,7 +380,7 @@ function setCookie(name, value) {
 	((domain == null) ? "" : ("; domain=" + domain)) +
 	((secure == null) ? "" : ("; secure=" + secure));
 }
-
+/* 
 function delCookie(name)
 {
     var exp = new Date();
@@ -359,4 +397,6 @@ function getCookie(sName) {
     return decodeURI(aCrumb[1]);
  }
  return '';
-}
+} */
+
+

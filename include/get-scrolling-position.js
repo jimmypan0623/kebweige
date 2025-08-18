@@ -15,3 +15,15 @@ function getScrollingPosition()
 	}
 	return position;
 }
+function getPosition(theElement){
+    var positionX=0;
+	var positionY=0;
+	while (theElement!=null)
+	{
+		positionX += theElement.offsetLeft;
+		positionY += theElement.offsetTop;
+		theElement=theElement.offsetparent;
+	}
+	return [positionX,positionY];
+
+}

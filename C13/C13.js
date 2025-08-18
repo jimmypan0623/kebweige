@@ -19,7 +19,10 @@ function getXML(addressXML){
 	xmlHttp.open("GET",url);
 	xmlHttp.send(null);
 }
-
+function handleStateChange(){	
+	if(xmlHttp.readyState == 4 && xmlHttp.status == 200)	  
+	  DrawTable(xmlHttp.responseXML);	//responseXML獲取到XML文檔(初始畫面)   		  		 
+}
 function DrawTable(myXML){
 	//用DOM方法操作XML文檔
 	
@@ -36,12 +39,14 @@ function DrawTable(myXML){
 	slt1=document.getElementById('recyear');
 	slt1.setAttribute('name','year');	 
 	var ytmp=document.getElementById('currentTime').innerHTML.substring(0,4);	 
-	for (var i=-2;i<2;i++){		
+	for (var i=-3;i<1;i++){		
 	    var varItem = new Option((1*ytmp+i) +'年',''+(1*ytmp+i));
 		slt1.options.add(varItem);
-		if (i==0)
-			slt1.options[2].selected=true;	  
+		//if (i==0)
+			 
+		//slt1.length-1
     }			 
+	slt1.options[slt1.length-1].selected=true;	 
 	attachEventListener(slt1,'change',choiceClick,false);
 	var slt2=document.getElementById('recmth');
 	slt2.setAttribute('name','month');	     
@@ -56,10 +61,7 @@ function DrawTable(myXML){
 	attachEventListener(slt2,'change',choiceClick,false);   
 	choiceClick();	 
 }
-function handleStateChange(){	
-	if(xmlHttp.readyState == 4 && xmlHttp.status == 200)	  
-	  DrawTable(xmlHttp.responseXML);	//responseXML獲取到XML文檔(初始畫面)   		  		 
-}
+
 
 function getProfile(str1) {    
 

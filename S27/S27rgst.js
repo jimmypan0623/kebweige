@@ -42,7 +42,7 @@ function blkshow(txtword)
 	   	dropsheet_content.appendChild(closeSpan);        //加進內容框		
 	    var p_tx=document.createElement('p');            //主畫面登入錯誤訊息顯示內容
 		p_tx.style.color="blue";
-	    p_tx.innerHTML=txtword;	                         　//將傳來的這一段文字加入準備顯示
+	    p_tx.innerHTML=txtword;	                         //將傳來的這一段文字加入準備顯示
 		dropsheet_content.appendChild(p_tx);				
     }else{
 
@@ -210,7 +210,7 @@ function TableToJson(myaccount,lversn,lveplace,tchman,tchphone,backtime,nbrflag)
      }		
 	 request.onreadystatechange = respond;
  
-     request.open("POST", "S27wrt.php", true);        //新增記錄的php檔
+     request.open("POST", "S27/S27wrt.php", true);        //新增記錄的php檔
  
      request.setRequestHeader("Content-type", "application/json");
      request.send(str_json);
@@ -231,7 +231,7 @@ function TableToJson(myaccount,lversn,lveplace,tchman,tchphone,backtime,nbrflag)
         }
     }  
    
-	return true;　　　
+	return true; 
 }  
 
 function sendFilePrc(nbrflg){     //新增資料上傳檔案及修改程序
@@ -286,7 +286,7 @@ function sendFilePrc(nbrflg){     //新增資料上傳檔案及修改程序
    
 	  
    }else {   //如果是修改
-	  
+	   
 	    var maintable=document.getElementById("member");
 	    myThgrp=maintable.getElementsByTagName("th");
 		myThgrp[myThgrp.length-1].childNodes[0].textContent="選取";	
@@ -344,7 +344,7 @@ function delConfirm(event){     //確定刪除
 	   	   var request = new XMLHttpRequest();
         }			 
 		
-		var url="S27del.php?timestamp="+new Date().getTime();	     
+		var url="S27/S27del.php?timestamp="+new Date().getTime();	     
 	    request.open("POST",url);	 
 	    request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 	    request.send(sendDeleRec);

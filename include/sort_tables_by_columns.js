@@ -28,6 +28,7 @@ function initSortabletables()
 				    attachEventListener(newA,"click",canCelshr,false);
 			}
 		}
+		
 	}
 	return true;
 }
@@ -158,7 +159,7 @@ function sortColumn(event)
 	stopDefaultAction(event);	
 	var responseDiv=document.getElementById("serverResponse");	 
 	responseDiv.innerHTML='&nbsp'; 	 
-	return false;
+	return false;   //覺得這裡有問題改成true
 }
 
 function getInternalText(target)
@@ -222,5 +223,5 @@ function canCelshr(event)  //最後一欄取消選取或全選
         targetA.textContent="選取";
 		targetA.setAttribute("title","全部選取");
    }	
-	return true;		
+	return false;		
 }				

@@ -72,7 +72,7 @@ function getProfile(str1,pagecount) {
 	}
 	
     var Today=new Date();
-　  var nowday=Today.getFullYear()+ "-" + paddingLeft((Today.getMonth()+1).toString(),2) + "-" + paddingLeft((Today.getDate()).toString(),2) ;
+    var nowday=Today.getFullYear()+ "-" + paddingLeft((Today.getMonth()+1).toString(),2) + "-" + paddingLeft((Today.getDate()).toString(),2) ;
     var cnt=0;
 	var arr = str1; 
     var oTable = document.getElementById("maintbody");		 
@@ -265,7 +265,7 @@ function commontemp(idn,stk){
 	 else if(window.XMLHttpRequest)
 		var request = new XMLHttpRequest();
 	request.onreadystatechange = respond;    
-	var url="S27brow.php?timestamp="+new Date().getTime();
+	var url="S27/S27brow.php?timestamp="+new Date().getTime();
 	var queryString=createQueryString();
 	request.open("POST",url);	 
 	request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
@@ -273,8 +273,11 @@ function commontemp(idn,stk){
 	
 	function respond(){
        if (request.readyState == 4 && request.status == 200) {	       	     
-		  //window.eval(request.responseText);		  
-          evalinstead(request.responseText);		  
+		  //window.eval(request.responseText);	
+		  var rsp=JSON.parse(request.responseText);
+		  getProfile(rsp.recdrow,rsp.pgttl);
+          //evalinstead(request.responseText);
+     
 	  }
     }
 	function createQueryString(){	    
