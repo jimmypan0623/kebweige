@@ -1,0 +1,136 @@
+/****主畫面A07CSS設定****/ 
+table thead th{ background:#ccc;}
+	.gridlist{
+	border:1px solid #744011;	/* 表格邊框 */
+	font-family:Arial;
+	border-collapse:collapse;	/* 邊框重疊 */
+	font-size:15px;
+}
+.gridlist th{
+	border:1px solid #744011;	/* 行名稱邊框 */
+	background-color:#a16128;	/* 行名稱背景色 */
+	color:#FFFFFF;				/* 行名稱顏色 */
+	font-weight:bold;
+	font-size:120%;
+/*	padding-top:4px; padding-bottom:4px;
+	padding-left:12px; padding-right:12px;*/
+	text-align:center;
+}
+.gridlist tr{
+	background-color:#BAF4D8;	/* 表格背景色 */	 
+}
+.gridlist td{
+	border:1px solid #744011;	/* 單元格邊框 */
+	text-align:left;
+	font-size:120%;
+	text-align:center;
+}
+.gridlist tr:hover, .gridlist tr.altrow{
+	background-color:#dca06b;	 /*動態變色 */
+
+}
+
+input {padding:5px 15px; background:#ccc; border:0 none;
+cursor:pointer;
+-webkit-border-radius: 5px;
+border-radius: 5px; 
+}
+input.txt{
+    border:1px inset #00008b;
+	background-color:#FFFFB9;
+	font-size:100%;
+}
+input.btn{
+     border:1px solid #744011;
+	 color:#744011;
+	 
+}
+.btn:hover {
+    /* :hover 代表滑鼠移到元素上時的狀態 */ 
+    transform: scale(1.03);
+  }
+
+.btn:active {
+    /* :active是滑鼠點擊元素的狀態 */
+    transform: scale(1);
+    box-shadow: inset 0 0 10px 1px rgba(0, 0, 0, .2);
+  }
+.txt:focus{
+	background-color:#FFFF8C;
+}	
+select{
+  background-color:#FFFFB9;  
+  font-size:120%;
+  /*font-weight:bold;*/
+  cursor:pointer;
+} 
+select:focus{
+	background-color:#FFFF8C;
+}	 
+#currentTime{
+     
+	font-weight:bold;
+}
+#filestand
+{
+	position:absolute;
+	left:10px;
+	top:100px;
+}
+span.errorMsg{
+   color:#cd5c5c;
+   font-family:標楷體;
+    
+}
+input.text{
+    border:1px inset #00008b;
+	background-color:#FFFFB9;
+	font-size:100%;
+}
+input.btn{
+     border:1px solid #744011;
+	 font: bold 15px Arial, Helvetica;
+	color:#744011;
+	background-color:#ffb94b;	 
+    margin:2px;	
+}
+
+	.tab_css{display:flex;flex-wrap:wrap;justify-content:center;}
+	.tab_css input.tab{display:none}
+    .tab_css label{margin: 0 5px 5px 0; padding: 4px 6px; cursor: pointer; border-radius: 5px; background: #859217; color: #fff; opacity: 0.5;}	 
+	.tab_content{order:1;display: none; width:100%; border-bottom: 3px solid #ddd; line-height: 1.6; font-size: .9em; padding:8px; border: 1px solid #ddd; border-radius: 5px;}
+	.tab_css input.tab:checked + label, .tab_css label:hover{opacity: 1; font-weight:bold;}
+	.tab_css input.tab:checked + label + .tab_content{display: initial;}
+.tab_css .gridlist  tbody {
+    display:block;
+    height:397px;
+    overflow-y:scroll;
+   }
+
+.tab_css table thead,tbody tr {
+display:table;
+width:100%;
+table-layout:fixed;
+}
+
+.tab_css table thead{
+width: calc( 100% - 1em )
+}
+
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+#lclbtnbk{
+    border: 2px solid #F3FAF9; 
+	background-color:#F3FAF9; 
+    box-shadow: sandybrown 5px 10px 10px 7px; 
+}
