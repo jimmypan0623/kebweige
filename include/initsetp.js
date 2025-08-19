@@ -44,10 +44,10 @@ function initDialog()
 	            tabs[i].parentNode.removeChild(tabs[i]);
 	            divcontents[i].parentNode.removeChild(divcontents[i]);
 	        }	
-			
-		    var urljsname=left(nowExcute,3)+'/'+left(nowExcute,3)+'elmcrt.js?v='+gifarray[nwsd]+
-			(document.getElementById('currentTime').innerHTML.substr(-2));//1.6.9'; 
-		
+			var cmmjsvs=gifarray[nwsd]+
+			(document.getElementById('currentTime').innerHTML.substr(-2));
+		    var urljsname=left(nowExcute,3)+'/'+left(nowExcute,3)+'elmcrt.js?v='+cmmjsvs; 
+		    loadScript(`include/commonrgst.js?v=${cmmjsvs}`); 
             loadScript(urljsname,function(){crtElm();});  
 		    var mthjudge=Cookies.get("MorP");
 	        var contentdiv=getElementsByAttribute('class','tab_content');

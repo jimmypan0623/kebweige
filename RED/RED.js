@@ -1,6 +1,3 @@
- addLoadListener(commontemp);
-//從這邊開始 DrawTable  commontemp
-
 function getProfile(str1,cmpnme) {       
     document.getElementById('company_name').innerHTML=cmpnme; 
     var authField='';    
