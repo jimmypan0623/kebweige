@@ -34,7 +34,7 @@ function crtElm(){
 		
 	}			
 	  var thr2=document.getElementById('headrow2');
-     var array3 = ['料品編號','品名規格','訂單號碼', '出貨數量','單價','小計','收貨部門','客戶品號','客戶PO'];
+     var array3 = ['料品編號','品名規格','訂單號碼', '退/折數量','單價','小計','收貨部門','客戶品號','客戶PO','補貨日期'];
 	 var array4 = ['14%','14%','10%', '8%','8%','8%','8%','14%','14%'];
 	for (var k = 0; k < array3.length; k++) {
 		var th2 = document.createElement('th'); //column		   
