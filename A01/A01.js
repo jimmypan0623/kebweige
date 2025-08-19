@@ -172,5 +172,3 @@ function rowchoseExtraDeal(targetRow){    //首頁紀錄點選移動額外處理
 function rowchoseSecond(targetRow){    //紀錄移動
    return true;	
 }
-
-
