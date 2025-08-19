@@ -19,51 +19,51 @@ function initDialog()
                if (--i) myLoop(i);   //  decrement i and call myLoop again if i > 0
                 }, 9000)
           })(10);                   //  pass the number of iterations as an argument
-
 		document.location.href="logOut.php";
-    }else{	
-        var nwdt=new Date();	
-	    var nwsd=Math.floor(Math.random()*nwdt.getSeconds())%20;
-	    var nowExcute=Cookies.get("funNo");
-		if(nowExcute){
-			var divcontainer=document.getElementById('container');
-			divcontainer.style.display='none';
-			var links=document.getElementsByTagName('link');
+    }else{		 	    
+	    var divcontainer=document.getElementById('container');
+	    var tabcsses=getElementsByAttribute('class','tab_css');			
+	    var links=document.getElementsByTagName('link');
+		var nwdt=new Date();	
+		var nwsd=Math.floor(Math.random()*nwdt.getSeconds())%20;			
+		var nowExcute=Cookies.get("funNo");
+		if(nowExcute){				 
+			divcontainer.style.display='none';							
 			 links[0].href="B04/B04.css?v=0.0.1" ;						 
 			 var gifarray=['ROL','0','cell','1','fngbtn','2','spec','3','stckgood',
 			 '4','00002','5','smlbulb','6','myrndm','7','openfile','8','enlight','9']; 			
 			 links[1].href="digits/"+gifarray[nwsd]+".gif";			
-	        var urlfolder=document.getElementsByTagName('title');
-	        urlfolder[0].innerHTML=nowExcute; 				
-	        var divcontents=getElementsByAttribute('class','tab_content');
-            var tabs=getElementsByAttribute('name','tab');
-	        var tablblnames=getElementsByAttribute('name','tablbl');	
-	        var pages=Cookies.get("howpge");
-	        for(var i=pages;i<tablblnames.length;i++){
-	            tablblnames[i].parentNode.removeChild(tablblnames[i]);
-	            tabs[i].parentNode.removeChild(tabs[i]);
-	            divcontents[i].parentNode.removeChild(divcontents[i]);
-	        }	
+			var urlfolder=document.getElementsByTagName('title');
+			urlfolder[0].innerHTML=nowExcute; 				
+			var divcontents=getElementsByAttribute('class','tab_content');
+			var tabs=getElementsByAttribute('name','tab');
+			var tablblnames=getElementsByAttribute('name','tablbl');	
+			var pages=Cookies.get("howpge");
+			for(var i=pages;i<tablblnames.length;i++){
+				tablblnames[i].parentNode.removeChild(tablblnames[i]);
+				tabs[i].parentNode.removeChild(tabs[i]);
+				divcontents[i].parentNode.removeChild(divcontents[i]);
+			}	
 			var cmmjsvs=gifarray[nwsd]+
 			(document.getElementById('currentTime').innerHTML.substr(-2));
-		    var urljsname=left(nowExcute,3)+'/'+left(nowExcute,3)+'elmcrt.js?v='+cmmjsvs; 
-		    loadScript(`include/commonrgst.js?v=${cmmjsvs}`); 
-            loadScript(urljsname,function(){crtElm();});  
-		    var mthjudge=Cookies.get("MorP");
-	        var contentdiv=getElementsByAttribute('class','tab_content');
-	        var initFirstNode=(contentdiv[0].firstChild);
-		    if (mthjudge!='M'){    //如果非月份檔	 
-	            if(contentdiv){
-			        var initFirstNode=(contentdiv[0].firstChild);
-		            var pageTopButton=document.createElement("input");		   
-		            pageTopButton.setAttribute("type","button");
-		            pageTopButton.setAttribute("class","btn");
-		            pageTopButton.setAttribute("value","\u{23EE}");   
-				    pageTopButton.setAttribute("title","到首頁，快速鍵 Alt+T");
-				    pageTopButton.setAttribute("accesskey","T");					
-				    pageTopButton.id="TopPage";		
-				    attachEventListener(pageTopButton,"click",rollChange,false);  //在第一頁點 << 形按鈕(第一張)
-				    var pageLastButton=document.createElement("input");		   
+			var urljsname=left(nowExcute,3)+'/'+left(nowExcute,3)+'elmcrt.js?v='+cmmjsvs; 
+			loadScript(`include/commonrgst.js?v=${cmmjsvs}`); 
+			loadScript(urljsname,function(){crtElm();});  
+			var mthjudge=Cookies.get("MorP");
+			var contentdiv=getElementsByAttribute('class','tab_content');
+			var initFirstNode=(contentdiv[0].firstChild);
+			if (mthjudge!='M'){    //如果非月份檔	 
+				if(contentdiv){
+					var initFirstNode=(contentdiv[0].firstChild);
+					var pageTopButton=document.createElement("input");		   
+					pageTopButton.setAttribute("type","button");
+					pageTopButton.setAttribute("class","btn");
+					pageTopButton.setAttribute("value","\u{23EE}");   
+					pageTopButton.setAttribute("title","到首頁，快速鍵 Alt+T");
+					pageTopButton.setAttribute("accesskey","T");					
+					pageTopButton.id="TopPage";		
+					attachEventListener(pageTopButton,"click",rollChange,false);  //在第一頁點 << 形按鈕(第一張)
+					var pageLastButton=document.createElement("input");		   
 					pageLastButton.setAttribute("type","button");
 					pageLastButton.setAttribute("class","btn");
 					pageLastButton.setAttribute("value","\u{25C0}");  
@@ -104,7 +104,7 @@ function initDialog()
 					contentdiv[0].insertBefore(text4, initFirstNode);
 					contentdiv[0].insertBefore(pageBottomButton, initFirstNode);
 					contentdiv[0].insertBefore(text5, initFirstNode);
-	            }
+				}
 			}else{                                                   //月份檔
 				var mthspan=document.createElement("span");
 				var text1 = document.createTextNode('年月\u{A0}');
@@ -117,16 +117,16 @@ function initDialog()
 				contentdiv[0].insertBefore(sltPage, initFirstNode);
 				contentdiv[0].insertBefore(text5, initFirstNode);
 			}
-		    var urlcmp=(decodeURI(window.location.search));
-	        var rslt=getUrlParams2(urlcmp);
-		    var text9 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}登入者:');
-		    var username=document.createElement("span");	
-		    username.innerHTML=rslt.username;
-		    var ftbtm=document.getElementById("footbottom");
-		    ftbtm.appendChild(text9);
-	        ftbtm.appendChild(username);
-        //document.getElementById('user_who').innerHTML=myAccount; 
-		    var mainSpan1=document.getElementById('lclbtnbk')
+			var urlcmp=(decodeURI(window.location.search));
+			var rslt=getUrlParams2(urlcmp);
+			var text9 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}登入者:');
+			var username=document.createElement("span");	
+			username.innerHTML=rslt.username;
+			var ftbtm=document.getElementById("footbottom");
+			ftbtm.appendChild(text9);
+			ftbtm.appendChild(username);
+		//document.getElementById('user_who').innerHTML=myAccount; 
+			var mainSpan1=document.getElementById('lclbtnbk')
 			if(mainSpan1){
 				var text1 = document.createTextNode('\u{A0}');
 				var text2 = document.createTextNode('\u{A0}');
@@ -143,8 +143,7 @@ function initDialog()
 				attachEventListener(orpButton1,"click",seekrec,false); 
 				mainSpan1.appendChild(text1);
 				mainSpan1.appendChild(orpButton1);
-				var cokath1=Cookies.get('auth01');
-				
+				var cokath1=Cookies.get('auth01');					
 				if (cokath1!='E'){                  //新增			 
 					var orpButton2=document.createElement("input");		   
 					orpButton2.setAttribute("type","button");
@@ -270,11 +269,10 @@ function initDialog()
 				attachEventListener(seekrcd,"click",seekrec,false);  //搜尋按鈕
 			 }		 
 		}else{  
-		     var tabcsses=getElementsByAttribute('class','tab_css');	
+			 
 			 for(var i=0;i<tabcsses.length;i++){
-			    tabcsses[i].style.display='none';
-			 }
-			 var links=document.getElementsByTagName('link');
+				tabcsses[i].style.display='none';
+			 }		                				 
 			 links[0].href="RED/REDmenu.css?v=1.1.8";			 			 
 			 links[1].href="digits/CYC25.gif";
 			nowExcute='RED.知訊數位營運管理系統';
@@ -282,8 +280,9 @@ function initDialog()
 		}
 		var jsvsn=nwsd.toString()+(document.getElementById('currentTime').innerHTML.substr(-2)).toString();
 		var urljsname=nowExcute.substr(0,3)+'/'+nowExcute.substr(0,3)+'psdchg.js?v='+jsvsn;		 
-        loadScript(urljsname,function(){selfTag(jsvsn);});  		
-	}
+		loadScript(urljsname,function(){selfTag(jsvsn);});  		
+	     
+	}	
 }
 
 function chooserc(event){   //初始或直接跳該筆	   從 1 開始計數!!!

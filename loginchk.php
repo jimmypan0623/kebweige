@@ -11,7 +11,7 @@
 		   
 			
             //$query = "SELECT a01.F01,a01.F02,a01.F03,a01.F04,a07.F04,a07.F05,a07.F06 FROM a01,a07 Where a01.F01 = '$user_account' AND "."a01.F02 = '$user_password' AND a07.F01=a01.F01 AND a07.F03='Q78'"; 
-			$query = "SELECT a01.F00,a01.F01,a01.F02,a01.F03,a01.F04 FROM a01 Where a01.F01 = '$user_account' AND "."a01.F02 = '$user_password' "; 
+			$query = "SELECT a01.F00,a01.F01,a01.F02,a01.F03,a01.F04 FROM a01 Where a01.F01 ='".$user_account."' AND a01.F02 = '".$user_password."' "; 
            //用使用者名稱和密碼進行查詢
           
 		   $data = mysqli_query($link,$query);
@@ -42,16 +42,14 @@
 			    //if(mysqli_num_rows($sql4)==1){
 	            while ($list3=mysqli_fetch_array($sql4)){	
 				 
-                       setcookie($list3['F01'],$list3['F06']);			   	   	              
-	            
+                       setcookie($list3['F01'],$list3['F06']);			   	   	              	            
 				}    
 			  //////
 			    $server_hostname=gethostname();
                 $server_hostname.=".";
                 $server_ip=gethostbyname($server_hostname);	
-		        setcookie('svripmd5',md5($server_ip));	
-			   // $home_url = 'REDmenu.html?username='.$row[3];  //此處改為主畫面也就是部落格畫面的網頁
-                 $home_url = 'ZRO.html?username='.$row[3]; 
+		        setcookie('svripmd5',md5($server_ip));					  			
+                 $home_url = 'ZRO.html?username='.$row[3];       //此處改為主畫面也就是部落格畫面的網頁
 				header('Location: '.$home_url);  			 			   
             }else{//若查到的記錄不對，則設定錯誤資訊
 			  
