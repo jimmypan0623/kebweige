@@ -34,6 +34,6 @@ header('Content-type:text/html; charset=utf-8');
 // 提示資訊
 //echo "歡迎下次光臨, ".$username.'<br>';
 //echo "<a href='blgexlogin.html'>重新登入</a>";
-$home_url = 'blgexlogin.html';
+$home_url = 'ZRO.html';
 header('Location:'.$home_url); 
  ?>

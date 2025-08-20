@@ -23,8 +23,8 @@ function crtElm(){
 	spn3.innerHTML='0';
 	 cntdiv[1].insertBefore(spn3,rspn2);
      var thr1=document.getElementById('headrow1');	 
-	 var array1 = ['出退單號','客戶編號','客戶簡稱', '日期','業務擔當','原出貨月','發票號碼','類別','稅別','幣別','匯率','退/折'];
-	 var array2 = ['10%','7%','7%', '4%','7%','7%','10%','4%','5%','4%','8%','4%','8%'];
+	 var array1 = ['出退單號','客戶編號','客戶簡稱', '日期','業務擔當','原出貨月','發票號碼','出貨單號','類別','稅別','幣別','匯率','退/折'];
+	 var array2 = ['10%','7%','7%', '4%','7%','7%','10%','10%','4%','5%','4%','8%','4%','7%'];
 	for (var j = 0; j < array1.length; j++) {
 		var th1 = document.createElement('th'); //column		   
 		var text = document.createTextNode(array1[j]); //cell		

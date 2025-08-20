@@ -9,26 +9,28 @@ cko[5] = chkCount();  //第四頁選擇計數(gridlist)
 cko[6] = chkCount();  //畫面主搜尋(也只有一個)功能目前鍵值紀錄指向計數
 
 function initDialog()
-{        	 
-	 var myAccount=Cookies.get('useraccount');
-	 var i;		 
-	 if(!myAccount){
-         (function myLoop(i) {
-             setTimeout(function() {
-               blkshow("請先從登入畫面登入帳號密碼"); //  your code here                
-               if (--i) myLoop(i);   //  decrement i and call myLoop again if i > 0
-                }, 9000)
-          })(10);                   //  pass the number of iterations as an argument
-		document.location.href="logOut.php";
-    }else{		 	    
-	    var divcontainer=document.getElementById('container');
-	    var tabcsses=getElementsByAttribute('class','tab_css');			
-	    var links=document.getElementsByTagName('link');
+{    
+    var btmshowtme=document.getElementById('currentTime');   
+    var loginform=document.getElementById('login');
+    var divcontainer=document.getElementById('container');
+	var tabcsses=getElementsByAttribute('class','tab_css');			
+	var links=document.getElementsByTagName('link');    	 
+	var myAccount=Cookies.get('useraccount');
+	if(!myAccount){    //如果沒有從登入畫面進來則必無登入帳號
+	    divcontainer.style.display="none";
+		for(var i=0;i<tabcsses.length;i++){
+			tabcsses[i].style.display='none';
+		}			
+		 links[0].href="include/loginstyle.css" ;	
+		 links[1].href="digits/kandm.gif";	
+         btmshowtme.style.display="none";		 
+    }else{		 	    	   
 		var nwdt=new Date();	
-		var nwsd=Math.floor(Math.random()*nwdt.getSeconds())%20;			
+		var nwsd=Math.floor(Math.random()*nwdt.getSeconds())%20;		
 		var nowExcute=Cookies.get("funNo");
 		if(nowExcute){				 
-			divcontainer.style.display='none';							
+			divcontainer.style.display='none';		
+			loginform.style.display='none';	
 			 links[0].href="B04/B04.css?v=0.0.1" ;						 
 			 var gifarray=['ROL','0','cell','1','fngbtn','2','spec','3','stckgood',
 			 '4','00002','5','smlbulb','6','myrndm','7','openfile','8','enlight','9']; 			
@@ -44,8 +46,7 @@ function initDialog()
 				tabs[i].parentNode.removeChild(tabs[i]);
 				divcontents[i].parentNode.removeChild(divcontents[i]);
 			}	
-			var cmmjsvs=gifarray[nwsd]+
-			(document.getElementById('currentTime').innerHTML.substr(-2));
+			var cmmjsvs=gifarray[nwsd]+btmshowtme.innerHTML.substr(-2)			
 			var urljsname=left(nowExcute,3)+'/'+left(nowExcute,3)+'elmcrt.js?v='+cmmjsvs; 
 			loadScript(`include/commonrgst.js?v=${cmmjsvs}`); 
 			loadScript(urljsname,function(){crtElm();});  
@@ -125,7 +126,6 @@ function initDialog()
 			var ftbtm=document.getElementById("footbottom");
 			ftbtm.appendChild(text9);
 			ftbtm.appendChild(username);
-		//document.getElementById('user_who').innerHTML=myAccount; 
 			var mainSpan1=document.getElementById('lclbtnbk')
 			if(mainSpan1){
 				var text1 = document.createTextNode('\u{A0}');
@@ -159,10 +159,8 @@ function initDialog()
 					}else{
 						attachEventListener(orpButton2,"click",addrec,false);  //新增紀錄按鈕程序
 					}   
-				}
-				
-				var cokath2=Cookies.get('auth02');
-				
+				}						
+				var cokath2=Cookies.get('auth02');				
 				if (cokath2!=='E'){			 
 					var orpButton3=document.createElement("input");		   
 					orpButton3.setAttribute("type","button");
@@ -178,8 +176,7 @@ function initDialog()
 					}else{
 						attachEventListener(orpButton3,"click",edtrec,false);  //修改紀錄按鈕程序
 					}					
-				}
-				
+				}				
 				var cokath3=Cookies.get('auth03');
 				if (cokath3!='E'){			
 					var orpButton4=document.createElement("input");		   
@@ -269,10 +266,11 @@ function initDialog()
 				attachEventListener(seekrcd,"click",seekrec,false);  //搜尋按鈕
 			 }		 
 		}else{  
-			 
+			 loginform.style.display='none';	
 			 for(var i=0;i<tabcsses.length;i++){
 				tabcsses[i].style.display='none';
-			 }		                				 
+			 }			
+			  btmshowtme.style.display="none";		
 			 links[0].href="RED/REDmenu.css?v=1.1.8";			 			 
 			 links[1].href="digits/CYC25.gif";
 			nowExcute='RED.知訊數位營運管理系統';

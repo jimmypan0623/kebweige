@@ -24,7 +24,8 @@
 					 'dept_no'=>$list3['F05'],
 					 'dept_name'=>$list3['F0C'],
 					 'custom_partno'=>$list3['F08'],  
-                     'custom_po'=>$list3['F09'],  		                     				
+                     'custom_po'=>$list3['F09'],  	
+					 'ship_date'=>$list3['F12'],  	
                      'lastupdate'=>$list3['F11']);                      						 
 		array_push($arr,$atr);
 	}

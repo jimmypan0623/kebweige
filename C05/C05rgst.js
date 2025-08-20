@@ -1,4 +1,3 @@
-
 function blocksclose(event)  //關閉註冊彈出視窗
 {	
 	if (typeof event=="undefined"){
@@ -50,25 +49,10 @@ function searchOptionsKey(tbno,slt5){
 	 slt5.options.add(new Option('業務姓名','a01.F03'));
 }
 
-function page1Detail01(ajTable,dialogButton3){
-    ajTable.id="srchTable";
-	ajTable.childNodes[0].removeChild(ajTable.childNodes[0].childNodes[0]);  //先把關閉按鈕移除
-	ajTable.className="gridlist";                 
-	var oTr = document.createElement('tr');				 
-	var array = ['出貨單號','預出貨日','部門編號', '部門名稱','預出貨量'];
-	var oTr=ajTable.insertRow(ajTable,ajTable.length);
-	for (var j = 0; j < array.length; j++) {
-		var th = document.createElement('th'); //column		
-		var text = document.createTextNode(array[j]); //cell		
-		th.appendChild(text);
-		oTr.appendChild(th);
-	}					
-	 var div = document.createElement('div');
-	 div.appendChild(dialogButton3);    
-	 var text20 = document.createTextNode('\u{A0}\u{A0}');
-	 ajTable.appendChild(text20 );
-	 ajTable.appendChild(div);     //再把關閉按鈕加到最後	 
-	 dialogButton3.setAttribute("style","position:relative;left:210px;");			
+function page1Detail01(ajTable){
+	ajTable.childNodes[0].childNodes[0].style.backgroundColor='white';
+    ajTable.id="srchTable";	
+	ajTable.className="gridlist";                 	 	 		
 	 if(window.ActiveXObject){
 		var request = new ActiveXObject("Microsoft.XMLHttp");
 	 }else if(window.XMLHttpRequest){
@@ -83,16 +67,16 @@ function page1Detail01(ajTable,dialogButton3){
 	 function respond(){
 		if (request.readyState == 4 && request.status == 200) {	       	     		
 			 rsp=JSON.parse(request.responseText);						   
-			 searchReadyship(rsp,ajTable,dialogButton3);		  
+			 searchReadyship(rsp,ajTable);		  
 		
 		}			
 	 }	 
 }
-function searchReadyship(str1,ajTable,dialogButton3) {       //搜尋相關料號
+function searchReadyship(str1,ajTable) {       //搜尋相關料號
     var cnt=0;
 	var arr = str1;     
-	for(var i=0;i<arr.length;i++){				 
-		var oTr=ajTable.insertRow(-1);		 		
+	for(var i=0;i<arr.length;i++){				 		 
+		var oTr=ajTable.insertRow(ajTable,ajTable.length);
 		cnt++;         
 		for(var jk in arr[i]){		   
 		   var oTd = oTr.insertCell(oTr.cells.length); 
@@ -104,7 +88,15 @@ function searchReadyship(str1,ajTable,dialogButton3) {       //搜尋相關料�
 			}				
 	    }	
      
-	}		
+	}
+    var array = ['出貨單號','預出貨日','部門編號', '部門名稱','預出貨量'];
+	var oTr=ajTable.insertRow(ajTable,ajTable.length);
+	for (var j = 0; j < array.length; j++) {
+		var th = document.createElement('th'); //column		
+		var text = document.createTextNode(array[j]); //cell		
+		th.appendChild(text);
+		oTr.appendChild(th);
+	}						
 }
 
 function searchKeyHint(tbno){    //搜尋畫面出現提示

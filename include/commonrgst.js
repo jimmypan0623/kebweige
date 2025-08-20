@@ -236,10 +236,10 @@ function blkshow(txtword)
 			bodyCopyList(ajTable);			    			 
 		} 
 		if(txtword==101){  
-		    page1Detail01(ajTable,dialogButton3);
+		    page1Detail01(ajTable);
 		}
 		if(txtword==201){  
-		    page2Detail01(ajTable,dialogButton3);
+		    page2Detail01(ajTable);
 		}
 		var formJason=document.createElement('form');		   
 		formJason.id="formdata";

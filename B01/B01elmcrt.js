@@ -17,6 +17,7 @@ function crtElm(){
 ////////	
     var righttbl1=document.createElement("table");
 	righttbl1.id="rightMember1";	 
+	righttbl1.style.marginBottom='-434px'; 	
     var arrayRgt1=["料品編號","品名規格","管理類別","歸屬類別","採購單位:","計料單位:",
 	"採/計單位比:","保管部門:","總庫存量:","在庫數量:","庫存上限:","安全存量:",
 	"料架位置:","建立料表:","領料類別:","領用批量:","採購前置:","收發料前置:",

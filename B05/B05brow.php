@@ -3,8 +3,8 @@
    include("../include/mysqli_server.php");                              //引用檔   
    if (substr($_POST['filename'],0,3)=="PGE"){	  
 	   $pgeno=getNeedBetween($_POST['filename'],'E','|'); // 月次 
-	   $sql3="SELECT b05.F00,b05.F01,b05.F02,b05.F06,b05.F10,b05.F09,b05.F24,b05.F12,b05.F14,b05.F16,b05.F20,b05.F21,b05.F22,b05.F23,b05.F24,b05.F13,
-	        c01.F05 as F0E,c01.F04 AS F0D,c01.F10 AS F1Z,c01.F12 AS F1B,c01.F13,a01.F03 as F0C FROM b05 
+	   $sql3="SELECT b05.F00,b05.F01,b05.F02,b05.F06,b05.F08,b05.F10,b05.F09,b05.F24,b05.F14,b05.F16,b05.F20,b05.F21,b05.F22,b05.F23,b05.F13,
+	        c01.F05 as F0E,c01.F04 AS F0D,c01.F10 AS F1Z,c01.F12 ,c01.F13 AS F1C,a01.F03 as F0C FROM b05 
 	        left outer join c01 on c01.F01=b05.F06
             left outer join a01 on a01.F01=b05.F09 			
 			WHERE b05.F90='".$pgeno."' ORDER BY b05.F01 DESC";	   
@@ -13,8 +13,8 @@
 		$filterKey=getNeedBetween($_POST['filename'],'|','_');  
 		$pgeno=substr(strrchr($_POST['filename'],'_'),1); // 月次
 	    //$searchRecord =$_POST['filename'];
-	 	$sql3="SELECT b05.F00,b05.F01,b05.F02,b05.F06,b05.F10,b05.F09,b05.F24,b05.F12,b05.F14,b05.F16,b05.F20,b05.F21,b05.F22,b05.F23,b05.F24,b05.F13,
-	         c01.F05 as F0E,c01.F04 AS F0D,c01.F10 AS F1Z,c01.F12 AS F1B,c01.F13 AS F1C,a01.F03 as F0C FROM b05 
+	 	$sql3="SELECT b05.F00,b05.F01,b05.F02,b05.F06,b05.F08,b05.F10,b05.F09,b05.F24,b05.F14,b05.F16,b05.F20,b05.F21,b05.F22,b05.F23,b05.F13,
+	         c01.F05 as F0E,c01.F04 AS F0D,c01.F10 AS F1Z,c01.F12 ,c01.F13 AS F1C,a01.F03 as F0C FROM b05 
 	        left outer join c01 on c01.F01=b05.F06 
             left outer join a01 on a01.F01=b05.F09 	
 		    WHERE b05.F90='".$pgeno."' and ".$fieldNo." like '%".trim($filterKey)."%' order by ".$fieldNo." b05.F02"; 
@@ -33,20 +33,20 @@
                      'custom_no'=>$list3['F06'],	
                      'custom_name'=>$list3['F0E'],	
                      'custom_fullname'=>$list3['F0D'],	
-					  'unitedno'=>$list3['F1Z'],
-					  'contact'=>$list3['F1B'],	
-					   'tel'=>$list3['F1C'],		
+					 'unitedno'=>$list3['F1Z'],
+					 'contact'=>$list3['F12'],	
+					 'tel'=>$list3['F1C'],		
                      'query_date'=>$list3['F02'],
                      'sales_no'=>$list3['F09'],		
 					 'sales_name'=>$list3['F0C'],	
-					 'crncy_type'=>$list3['F14'],	
-                     'crncy_rate'=>$list3['F16'],	
-                     'invoice_no'=>$list3['F20'],     						 
+					 'orign_date'=>$list3['F08'],
+					 'invoice_no'=>$list3['F20'],     	                    
+                     'ship_bill'=>$list3['F21'],  					 
                      'invoice_type'=>$list3['F22'],     						                  
-					 'tax_type'=>$list3['F23'],  
-					  'payment'=>$list3['F21'],  
-					 'ship_address'=>$list3['F12'],  	
-					 'ship_direct'=>$list3['F24'],  	
+					 'tax_type'=>$list3['F23'],  					 									
+					 'crncy_type'=>$list3['F14'],	
+					 'crncy_rate'=>$list3['F16'],	
+					 'discount_ship'=>$list3['F24'], 
                      'shure'=>$list3['F10'],     					 
 					 'lastupdate'=>$list3['F13']                      				 
 					 );                      			

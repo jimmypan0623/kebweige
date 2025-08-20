@@ -53,7 +53,7 @@ function getProfile(str1,trncde,tbno) {
 			   if(jk=='rc_no'  || jk=='sales_no' || jk=='lastupdate'){			 //表頭資料匯入
 				   oTd.setAttribute("class","directdata");
 				   oTd.setAttribute("style","display:none;");		  	  
-			   }else if(jk=='query_no' || jk=='invoice_no'){	
+			   }else if(jk=='query_no' || jk=='invoice_no' || jk=='ship_bill'){	
 				  oTd.setAttribute("class","directdata");				   
 				  oTd.setAttribute("style","width:10%;");		
 				  attachEventListener(oTd,'click',rowchoose,false);		//點選資料  */
@@ -100,10 +100,7 @@ function getProfile(str1,trncde,tbno) {
 					   oTd.innerHTML=whichtax(arr[i][jk]);
 					 oTd.setAttribute("style","width:4%;");
 					 attachEventListener(oTd,'click',rowchoose,false);		//點選資料		
-				 }else if(jk=='payment' || jk=='ship_direct'){	
-				  oTd.setAttribute("class","directdata");				   
-				  oTd.setAttribute("style","width:8%;");		
-				  attachEventListener(oTd,'click',rowchoose,false);		//點選資料  */	 
+				 
 			   }else if(jk=='shure' || jk=='custom_fullname' || jk=='unitedno' || jk=='contact' || jk=='tel'){		  
 				   oTd.setAttribute("class","indirectdata");
 				   oTd.setAttribute("style","display:none;");	
@@ -315,11 +312,11 @@ function rowchoseSecond(targetRow){    //紀錄移動
 function whichinvoice(tpe){
 	 var tpemsg="";
      switch(tpe){
-      case '31': {    
+      case '33': {    
           tpemsg = '三聯式';    
           break;  
       }
-      case '32': {    
+      case '34': {    
           tpemsg = '二聯式';   
           break;
 	  }	 

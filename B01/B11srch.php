@@ -6,7 +6,7 @@
        $rndnb=$_COOKIE['INT_001'];  //參數設定的小數位數
     
 	    $searchRecord =$_POST['filename'];
-		 $sql3="SELECT b11.F01,a14.F02,b11.F03,b11.F04,b11.F05,b11.F06,DATEDIFF(CURDATE( ),b11.F05) as diffdate FROM b11 LEFT OUTER JOIN a14 ON a14.F01=b11.F01 WHERE b11.F04!=0 and b11.F03='".$searchRecord."' ORDER BY b11.F01";
+		 $sql3="SELECT b11.F01,a14.F02,b11.F03,b11.F04,b11.F05,b11.F06,DATEDIFF(CURDATE( ),b11.F05) as diffdate FROM b11 LEFT OUTER JOIN a14 ON a14.F01=b11.F01 WHERE b11.F04!=0 and b11.F03='".$searchRecord."' ORDER BY b11.F01 DESC";
     $arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_array($sql4)){

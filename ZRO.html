@@ -7,15 +7,27 @@
 <meta name="description" content="知訊數位管理資訊系統">
 <meta name="revised" content="最後更新2025/07/04">
 <title>RED.知訊數位營運管理系統</title> 
-<link href="B04/B04.css?v=0.0.1" rel="stylesheet">
-<link rel="shortcut icon" href="digits/openfile.gif"> 
+<link href="include/loginstyle.css" rel="stylesheet">
+<link rel="shortcut icon" href="digits/kandm.gif"> 
 <script type="text/javascript" src='include/add-load-listener.js'></script> 
-<script type="text/javascript" src='include/start_function_events95.js?v=0.0.4'></script> 
+<script type="text/javascript" src='include/start_function_events95.js?v=0.0.4'></script>  
 <script type="text/javascript" src='include/cookie.js?v=0.0.1'></script>  
 <script type="text/javascript" src='include/djntime.js'></script> 
-<script type="text/javascript" src='include/initsetp.js?v=1.1.6'></script>  
+<script type="text/javascript" src='include/initsetp.js?v=1.1.8'></script>  
 </head>
-<body>     
+<body>    
+<!--登入畫面--> 
+<form id="login" method="post" action="loginchk.php"  >   
+    <h1>Log In</h1>
+    <fieldset id="inputs">
+        <input id="account" name="account" type="text" placeholder="Account"  autocomplete="account" autofocus required>   
+        <input id="password" name= "password" type="password" autocomplete="current-password" placeholder="Password" required>
+    </fieldset>
+    <fieldset id="actions">
+        <input type="submit" id="submit" value="Log in">     
+    </fieldset>    
+</form>
+<!--選單畫面-->
 	<div id="container"> 
 		<header >
 		   <span  id='company_name'></span> 
@@ -26,8 +38,7 @@
 			</ul>
 		</nav>
 	</div>
-
-
+<!--操作畫面--> 
     <div class="tab_css">     	 
 	    <input id="tab1" type="radio" name="tab" class="tab" checked="checked"/>
 	    <label for="tab1" name="tablbl">表頭資料</label>

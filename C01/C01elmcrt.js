@@ -19,10 +19,7 @@ function crtElm(){
 	righttbl1.style.left='32.3%';	
 	righttbl1.style.height='432px';
     righttbl1.style.top='-88.5%';
-	
-	
-	righttbl1.style.marginBottom='-438px'; 		
-	
+	righttbl1.style.marginBottom='-438px'; 			
 	var arrayRgt1=["客戶編號:","客戶名稱:","客戶簡稱:","重要等級:","統一編號:","客戶類型:",
 	"主要產品:","地區別:","發票抬頭:","發票品號:","發票種類:","課稅別:",
 	"英文名稱:","公司地址:","送貨地址:","英文地址:","出貨指示:","聯絡人:",

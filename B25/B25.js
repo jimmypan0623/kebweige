@@ -1,7 +1,3 @@
-//addLoadListener(DrawTable);
-//從這邊開始 
- 
-
 function getProfile(str1,reccount) {    
    
     var Today=new Date();

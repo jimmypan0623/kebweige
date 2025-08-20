@@ -6,7 +6,7 @@
  
 		$sql3="SELECT * FROM b26 ";			  
 
-	   	$sql3.=" WHERE b26.F02='".$str[1]."' AND b26.F01='".$str[0]."'  AND F90='".$str[2]."' order by b26.F03 "; 
+	   	$sql3.=" WHERE b26.F02='".$str[1]."' AND b26.F01='".$str[0]."'  AND F90='".$str[2]."' order by b26.F03,b26.F07 "; 
     
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 

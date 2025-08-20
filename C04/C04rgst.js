@@ -609,27 +609,10 @@ function searchOptionsKey(tbno,slt5){
 	  }
 }
 
-function page2Detail01(ajTable,dialogButton3){
-	ajTable.childNodes[0].removeChild(ajTable.childNodes[0].childNodes[0]);  //先把關閉按鈕移除
-	
-		
+function page2Detail01(ajTable){
+	    ajTable.childNodes[0].childNodes[0].style.backgroundColor='white';
 		ajTable.id="srchTable";		
-		ajTable.className="gridlist";                 
-		var oTr = document.createElement('tr');				 
-			var array = ['出貨日期', '出貨單號','出貨數量'];
-		var oTr=ajTable.insertRow(ajTable,ajTable.length);
-		for (var j = 0; j < array.length; j++) {
-			var th = document.createElement('th'); //column		
-			var text = document.createTextNode(array[j]); //cell		
-			th.appendChild(text);
-			oTr.appendChild(th);
-		}					
-		var div = document.createElement('div');
-		div.appendChild(dialogButton3);    
-		var text20 = document.createTextNode('\u{A0}\u{A0}');
-		 ajTable.appendChild(text20 );
-		 ajTable.appendChild(div);     //再把關閉按鈕加到最後	 
-		 dialogButton3.setAttribute("style","position:relative;left:200px;");		
+		ajTable.className="gridlist";               
 		 if(window.ActiveXObject){
 			var request = new ActiveXObject("Microsoft.XMLHttp");
 		 }else if(window.XMLHttpRequest){
@@ -645,24 +628,33 @@ function page2Detail01(ajTable,dialogButton3){
 		 function respond(){
 			if (request.readyState == 4 && request.status == 200) {	       	     		
 				 rsp=JSON.parse(request.responseText);						   
-				 srchOutRcd(rsp,ajTable,dialogButton3);		  
+				 srchOutRcd(rsp,ajTable);		  
 			}	  
 		 }	
     
 }
 
-function srchOutRcd(str1,ajTable,dialogButton3) {       //搜尋相關料號
+function srchOutRcd(str1,ajTable) {       //搜尋相關料號
     var cnt=0;
 	var arr = str1;  	  
 	for(var i=0;i<arr.length;i++){				 
-		var oTr=ajTable.insertRow(-1);		     
+	   var oTr=ajTable.insertRow(ajTable,ajTable.length);	     
 		cnt++;         
 		for(var jk in arr[i]){		   
 		   var oTd = oTr.insertCell(oTr.cells.length); 
 			oTd.innerHTML=arr[i][jk];    		    		 		    		    			 
 		    oTd.setAttribute("style","text-align:center;");		 
 	    }	        
-	}	
+	}
+    var array = ['出貨日期', '出貨單號','出貨數量'];  //表頭最後再加
+	var oTr=ajTable.insertRow(ajTable,ajTable.length);
+	for (var j = 0; j < array.length; j++) {
+		var th = document.createElement('th'); //column		
+		var text = document.createTextNode(array[j]); //cell		
+		th.appendChild(text);
+		oTr.appendChild(th);
+	}		
+   
 }
 
 function  addNewRecordHint(tbno){
