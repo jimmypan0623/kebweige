@@ -1,7 +1,7 @@
 ﻿<?php
    header("Content-Type:text/html; charset=utf-8");   
 
- include("../../BKND/include/mysqli_server.php");                              //引用檔
+ include("../../include/BKND/mysqli_server.php");                              //引用檔
         $str=explode('|',$_POST['filename']);  //將上面字串以逗號分割成陣列
  
 		$sql3="SELECT b0d.F01,b04.F90,b04.F02,B0d.F05,a14.F02 AS F0B,b0d.F04 FROM b0d,b04,a14 ";			  
