@@ -17,9 +17,9 @@ function initDialog()
 	var links=document.getElementsByTagName('link');    	 
 	var myAccount=Cookies.get('useraccount');
 	if(!myAccount){    //如果沒有從登入畫面進來則必無登入帳號
-	    divcontainer.style.display="none";
+		divcontainer.parentNode.removeChild(divcontainer);
 		for(var i=0;i<tabcsses.length;i++){
-			tabcsses[i].style.display='none';
+			tabcsses[i].parentNode.removeChild(tabcsses[i]);
 		}			
 		 links[0].href="include/loginstyle.css" ;	
 		 links[1].href="digits/kandm.gif";	
@@ -28,9 +28,9 @@ function initDialog()
 		var nwdt=new Date();	
 		var nwsd=Math.floor(Math.random()*nwdt.getSeconds())%20;		
 		var nowExcute=Cookies.get("funNo");
-		if(nowExcute){				 
-			divcontainer.style.display='none';		
-			loginform.style.display='none';	
+		if(nowExcute){				 			
+			divcontainer.parentNode.removeChild(divcontainer);		
+			loginform.parentNode.removeChild(loginform);
 			 links[0].href="B04/B04.css?v=0.0.1" ;						 
 			 var gifarray=['ROL','0','cell','1','fngbtn','2','spec','3','stckgood',
 			 '4','00002','5','smlbulb','6','myrndm','7','openfile','8','enlight','9']; 			
@@ -266,9 +266,9 @@ function initDialog()
 				attachEventListener(seekrcd,"click",seekrec,false);  //搜尋按鈕
 			 }		 
 		}else{  
-			 loginform.style.display='none';	
+			 loginform.parentNode.removeChild(loginform);
 			 for(var i=0;i<tabcsses.length;i++){
-				tabcsses[i].style.display='none';
+				tabcsses[i].parentNode.removeChild(tabcsses[i]);
 			 }			
 			  btmshowtme.style.display="none";		
 			 links[0].href="RED/REDmenu.css?v=1.1.8";			 			 
