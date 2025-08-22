@@ -1,6 +1,6 @@
 <?php         
     header("Content-Type:text/html; charset=utf-8"); 
-    include("include/mysqli_server.php");               
+    include("include/BKND/mysqli_server.php");               
        $user_account = mysqli_real_escape_string($link,$_POST['account']);
        $user_password = mysqli_real_escape_string($link,$_POST['password']);	   
         if(!empty($user_account)&&!empty($user_password)){
@@ -13,7 +13,7 @@
               //cookie保留7天			                 
 			  setcookie('userid',$row[0]);
               setcookie('useraccount',$row[1]);// time()+7*24*60*60);
-			  setcookie('password',$row[2]);		       
+			  //setcookie('password',$row[2]);		       
 			   setcookie('dptno',$row[4]);
 			   //////以下這幾行要先清空
 			    setcookie('funNo','',time()-999);	 
