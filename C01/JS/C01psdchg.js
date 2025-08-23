@@ -22,7 +22,7 @@ function tab1View(event){
 		var srchbtt=document.getElementById('SEEK_BOTT');		
 		srchbtt.style.visibility="visible";	
 		var newrcath=document.getElementById('NEW_BOTT');       //新增按鈕
-		 if (Cookies.get('auth01')=='Y'){
+		 if (getCookie('auth01')=='Y'){
              newrcath.style.visibility="visible";	
 			 attachEventListener(newrcath,"click",addrec,false);  //新增紀錄按鈕程序
          }else{
@@ -31,7 +31,7 @@ function tab1View(event){
          }			 
 		var editbtt=document.getElementById("EDIT_BOTT");
 		
-		if(Cookies.get('auth02')=='Y'){
+		if(getCookie('auth02')=='Y'){
 			editbtt.setAttribute("style","visibility:visible;");
 			attachEventListener(editbtt,"click",  edtrec,false);
 		}else{
@@ -39,7 +39,7 @@ function tab1View(event){
 			detachEventListener(editbtt,"click",  edtrec,false);
 		}
 		var delbtt=document.getElementById("DEL_BOTT");
-		if(Cookies.get('auth03')=='Y'){
+		if(getCookie('auth03')=='Y'){
 			delbtt.setAttribute("style","visibility:visible;");
 			attachEventListener(delbtt,"click",  delrec,false);
 		}else{
@@ -65,7 +65,7 @@ function tab2View(event){
 		 localbottoncl.style.backgroundColor="#F9FAD9";
 		 localbottoncl.style.border=" 2px solid #F9FAD9";
 		 localbottoncl.style.boxShadow="olivedrab 5px 10px 10px 7px";
-      if(Cookies.get('auth05')!='Y'){		     
+      if(getCookie('auth05')!='Y'){		     
 		 blkshow("你無查看報價紀錄權限");		 
 	     document.getElementById("tab1").checked=true;	
 		 return false;	 
@@ -96,21 +96,21 @@ function tab2View(event){
 	   fthkey.innerHTML=aWaitUpdate[1];
 	    
 	   if(aWaitUpdate[23]==fthkey.innerHTML){	   //群組編號等於自己編號
-           if (Cookies.get('auth01')=='Y'){
+           if (getCookie('auth01')=='Y'){
                newrcath.setAttribute("style","visibility:visible;");
 			   attachEventListener(newrcath,"click",addrec,false);  //新增紀錄按鈕程序
 			}else{
 			   newrcath.setAttribute("style","visibility:hidden;");
 			   detachEventListener(newrcath,"click",addrec,false);  //取消新增按鈕程序
 			}
-			if(Cookies.get('auth02')=='Y'){
+			if(getCookie('auth02')=='Y'){
 				    editbtt.setAttribute("style","visibility:visible;");
 				    attachEventListener(editbtt,"click",edtrec,false);
 			}else{
 			    editbtt.setAttribute("style","visibility:hidden;");
 			    detachEventListener(editbtt,"click",edtrec,false);
 			}
-			if(Cookies.get('auth03')=='Y'){
+			if(getCookie('auth03')=='Y'){
 				    delbtt.setAttribute("style","visibility:visible;");
 				    attachEventListener(delbtt,"click",delrec,false);
 			}else{

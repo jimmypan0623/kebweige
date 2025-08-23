@@ -467,7 +467,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    oTd.innerHTML='平均成本:';
 	    var oTd = oTr.insertCell(3);
 	    oTd.innerHTML="<input type='number' name='b01update' id='averagecost' class='txt' maxlength='11' value=0.000 style='width:30%;text-align:right;'  />"; 
-		if(Cookies.get('auth07')!='Y'){    //如果無權限處理成本欄位則不顯示
+		if(getCookie('auth07')!='Y'){    //如果無權限處理成本欄位則不顯示
 			oTr.style.display='none';
 		}		                
 		var oTr=ajTable.insertRow(ajTable,ajTable.length);
@@ -589,7 +589,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
  
 	   }else{
 		oTd.innerHTML="<input type='text' name='b01update' id='stockno' class='txt' style='width:90%;' maxlength='43' />"; 
-		optionitem(Cookies.get("INT_193"),slt3.id,6,"B01/BKND/A14srch.php");	
+		optionitem(getCookie("INT_193"),slt3.id,6,"B01/BKND/A14srch.php");	
 		 
 	   }			 
 	   var oTd = oTr.insertCell(2);
@@ -696,7 +696,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 			optionitem(aWaitUpdate[3],slt4.id,4,"C01/BKND/C00srch.php");	   	   
 		}else{
 		   oTd.innerHTML="<input type='text' name='c02others' id='customname' class='txt' style='width:30%;' maxlength='8'    />";  				 					  
-		   optionitem(Cookies.get('INT_011'),slt4.id,4,"C01/BKND/C00srch.php");				//參數預設幣別
+		   optionitem(getCookie('INT_011'),slt4.id,4,"C01/BKND/C00srch.php");				//參數預設幣別
 		   var srchButton8=document.createElement("input");				   
 		   srchButton8.setAttribute("type","button");	
 		   srchButton8.setAttribute("class","scopelook");				   
@@ -801,7 +801,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 			optionitem(aWaitUpdate[3],slt4.id,4,"D01/BKND/D00srch.php");				   				   
 		}else{
 		    oTd.innerHTML="<input type='text' name='d02others' id='vendorname' class='txt' style='width:30%;' maxlength='8'    />";  				 				    					  
-		    optionitem(Cookies.get('INT_011'),slt4.id,4,"D01/BKND/D00srch.php");				//參數預設幣別
+		    optionitem(getCookie('INT_011'),slt4.id,4,"D01/BKND/D00srch.php");				//參數預設幣別
 		    var srchButton8=document.createElement("input");				   
 		    srchButton8.setAttribute("type","button");	
 		    srchButton8.setAttribute("class","scopelook");				   
@@ -844,7 +844,7 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 				document.getElementById("c02validstart").value=thtdy;  //日期都設為今天
 				//以下這一串是在算往後推的日期
 				var today=new Date();
-				var endday=today.addDays(parseInt(Cookies.get('INT_126'))); //加上參數預設有效天數
+				var endday=today.addDays(parseInt(getCookie('INT_126'))); //加上參數預設有效天數
 				var endaydash=endday.getFullYear()+'-'+MyMonth(endday.getMonth())+'-'+((endday.getDate()<10) ? "0" : "") + endday.getDate();	
 				document.getElementById("c02validend").value=endaydash;  //日期往後推
 				var cstNo=document.getElementById("customno");
@@ -856,7 +856,7 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 				 document.getElementById("d02validstart").value=thtdy;  //日期都設為今天
 				//以下這一串是在算往後推的日期
 				var today=new Date();
-				var endday=today.addDays(parseInt(Cookies.get('INT_126'))); //加上參數預設有效天數
+				var endday=today.addDays(parseInt(getCookie('INT_126'))); //加上參數預設有效天數
 				var endaydash=endday.getFullYear()+'-'+MyMonth(endday.getMonth())+'-'+((endday.getDate()<10) ? "0" : "") + endday.getDate();	
 				document.getElementById("d02validend").value=endaydash;  //日期往後推
 				var vndNo=document.getElementById("vendorno");

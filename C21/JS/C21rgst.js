@@ -6,7 +6,7 @@ function blocksclose(event)  //關閉註冊彈出視窗
 	var target=getEventTarget(event);
 	var tabs=getElementsByAttribute('class','tab');			
 	if (tabs[0].checked){
-	   if (target.value=="\u{274E}"  && Cookies.get('INT_127')=='Y'){
+	   if (target.value=="\u{274E}"  && getCookie('INT_127')=='Y'){
 		   var maintable=document.getElementById("maintbody1");		 		
 		   var tablerowindex=0;
 		   for(var i=0;i< maintable.rows.length; i++){			 
@@ -147,7 +147,7 @@ function calculateTtl(tbno,maintable,i){     //刪除確認(delConfirm)中挑出
 	return;
 }
  function billNoReCreate(currentNo){         //刪除確認(delConfirm)中挑出之個別程序 
-     if (Cookies.get('INT_099')=='Y' && Cookies.get('INT_127')=='Y'){ //如果是系統參數設為自動編號且刪掉號碼重用						      
+     if (getCookie('INT_099')=='Y' && getCookie('INT_127')=='Y'){ //如果是系統參數設為自動編號且刪掉號碼重用						      
 		 var showTime=document.getElementById('currentTime'); //利用djtime.js顯示畫面的預設日期日期輸入欄之值為今天
 		 var thtdy=(showTime.innerHTML.substring(0,4)+'-'+showTime.innerHTML.substring(5,7)+'-'+showTime.innerHTML.substring(8,10)); //中間一定要用減號分隔年月日				  
 		 var crntmth=thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase();							  
@@ -301,7 +301,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		    optionitem(aWaitUpdate[5],slt4.id,4,"C01/BKND/C00srch.php");		//幣別欄位	
 	    }else{					
 		   oTd.innerHTML="<input type='text' name='c26update' id='queryno' class='txt' style='width:25%;' maxlength='10'/>"; 					 
-		   optionitem(Cookies.get('INT_011'),slt4.id,4,"C01/BKND/C00srch.php");	
+		   optionitem(getCookie('INT_011'),slt4.id,4,"C01/BKND/C00srch.php");	
 	    }			 	              
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);  //以下第一列都隱藏起來當變數
 	    var oTd = oTr.insertCell(0);	             
@@ -419,7 +419,7 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 		   var thtdy=(showTime.innerHTML.substring(0,4)+'-'+showTime.innerHTML.substring(5,7)+'-'+showTime.innerHTML.substring(8,10)); //中間一定要用減號分隔年月日			        
 		   if (tbno==0){					  
 			   document.getElementById("querydate").value=thtdy;  //日期都設為今天
-				if(Cookies.get('INT_127')=='Y'){       //如果參數設為系統自動編號
+				if(getCookie('INT_127')=='Y'){       //如果參數設為系統自動編號
 				  objGetNo('queryno','CC'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase());
 				   var cstNo=document.getElementById("customno");
 				   cstNo.focus();	
@@ -431,7 +431,7 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 				document.getElementById("validstart").value=thtdy;  //日期都設為今天
 				//以下這一串是在算往後推的日期
 				var today=new Date();
-				var endday=today.addDays(parseInt(Cookies.get('INT_126'))); //加上參數預設有效天數
+				var endday=today.addDays(parseInt(getCookie('INT_126'))); //加上參數預設有效天數
 				var endaydash=endday.getFullYear()+'-'+MyMonth(endday.getMonth())+'-'+((endday.getDate()<10) ? "0" : "") + endday.getDate();						
 				////////////////
 				document.getElementById("validend").value=endaydash;  //日期往後推
@@ -471,7 +471,7 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 }
 
 function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nongs,tbno)函數內新增紀錄後呼叫的畫面更動   
-    var rnddgt=Cookies.get('INT_069');  //四捨五入到幾位         
+    var rnddgt=getCookie('INT_069');  //四捨五入到幾位         
     if (tbno==0){     //先整理表頭新增後的資料
 	    for(var i=0;i<2;i++){
 		    var oTd = oTr.insertCell(oTr.cells.length);
@@ -573,7 +573,7 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 }
 
 function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,nongs,tbno)函數修改紀錄後呼叫的畫面更動
-    var rnddgt=Cookies.get('INT_069');  //四捨五入到幾位     
+    var rnddgt=getCookie('INT_069');  //四捨五入到幾位     
     if (tbno==0){
 	    var maintable=document.getElementById("maintbody1");					   			            
 	    maintable.rows[args[arglth-1]].cells[2].innerHTML=args[1];						 			           
@@ -588,7 +588,7 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 	    }						   
 	    maintable.rows[args[arglth-1]].cells[tbrlth-2].innerHTML=rsp.lastupdate; //最後異動						   	                  
 	}else{	               
-	    var rnddgt=Cookies.get('INT_069');  //四捨五入到幾位
+	    var rnddgt=getCookie('INT_069');  //四捨五入到幾位
 	    var maintable=document.getElementById("maintbody2");					   
 		var tbrlth=maintable.rows[args[arglth-1]].cells.length;	
 		for (var j=3;j<5;j++){				            

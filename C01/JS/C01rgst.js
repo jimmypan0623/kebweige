@@ -4,7 +4,7 @@ function blocksclose(event)  //關閉註冊彈出視窗
 		event=window.event;
 	}	
 	var target=getEventTarget(event);
-	if (target.value=="\u{274E}"  && Cookies.get('INT_003')=='Y'){	   //直接點結束按鈕(新增修改刪除共用)
+	if (target.value=="\u{274E}"  && getCookie('INT_003')=='Y'){	   //直接點結束按鈕(新增修改刪除共用)
 	   if(document.getElementById('customno')!=null){   //非於放棄刪除的狀態下
 	      var currentNo=document.getElementById('customno').value;	   
 	      if (currentNo.trim()!="" && currentNo.trim()!=document.getElementById('custom_no').innerHTML){ //如果非修改
@@ -453,7 +453,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		    optionitem(aWaitUpdate[24],slt4.id,4,"C01/BKND/C00srch.php");		//幣別欄位			 
 		 }else{
 			oTd.innerHTML="<input type='text' name='c01update' id='customno' class='txt' style='width:65%;' maxlength='6'/>"; 
-			optionitem(Cookies.get('INT_011'),slt4.id,4,"C01/BKND/C00srch.php");				//參數預設幣別
+			optionitem(getCookie('INT_011'),slt4.id,4,"C01/BKND/C00srch.php");				//參數預設幣別
 		 }			 
 		 var oTd = oTr.insertCell(2);	   
 		 oTd.setAttribute('style','text-align:right;width:12%');					
@@ -612,7 +612,7 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
     switch (txtword) {
 		case 1:                                   //如果是新增
 			 if (tbno==0){	
-				if(Cookies.get('INT_003')=='Y'){       //如果參數設為系統自動編號
+				if(getCookie('INT_003')=='Y'){       //如果參數設為系統自動編號
 				    objGetNo('customno','C0000');
 				}	 
 				var cstNo=document.getElementById("customno");
@@ -624,7 +624,7 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 				 document.getElementById("validstart").value=thtdy;  //日期都設為今天
 				//以下這一串是在算往後推的日期
 				var today=new Date();
-				var endday=today.addDays(parseInt(Cookies.get('INT_126'))); //加上參數預設有效天數
+				var endday=today.addDays(parseInt(getCookie('INT_126'))); //加上參數預設有效天數
 				var endaydash=endday.getFullYear()+'-'+MyMonth(endday.getMonth())+'-'+((endday.getDate()<10) ? "0" : "") + endday.getDate();	
 				document.getElementById("validend").value=endaydash;  //日期往後推			 
 			 }

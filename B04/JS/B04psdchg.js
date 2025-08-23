@@ -86,7 +86,7 @@ function tab1View(event){
 		   event=window.event;
     	}
 		 var newrcath=document.getElementById('NEW_BOTT');       //新增按鈕
-		 if (Cookies.get('auth01')=='Y' && cko[0](0)==0 ){
+		 if (getCookie('auth01')=='Y' && cko[0](0)==0 ){
              newrcath.style.visibility="visible";	
 			 attachEventListener(newrcath,"click",addrec,false);  //新增紀錄按鈕程序
          }else{
@@ -148,7 +148,7 @@ function tab2View(event){
 			 newrcath.style.visibility="hidden";
 			 detachEventListener(newrcath,"click",addrec,false);  //取消新增按鈕程序
          }else{
-			  if (Cookies.get('auth01')=='Y' && cko[0](0)==0){
+			  if (getCookie('auth01')=='Y' && cko[0](0)==0){
                  newrcath.style.visibility="visible";	
 			     attachEventListener(newrcath,"click",addrec,false);  //新增紀錄按鈕程序
 			  }

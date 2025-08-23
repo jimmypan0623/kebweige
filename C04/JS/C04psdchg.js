@@ -34,7 +34,7 @@ function selfTag(jsvsn){
 	maindiv[0].insertBefore(orpButton9,orpButton5);
 	maindiv[0].insertBefore(text21,orpButton5);				 
 	orpButton9.setAttribute("style","visiblity:visible;font-size:130%;margin:0;color:black;");		
-	var cokath4=Cookies.get('auth04');
+	var cokath4=getCookie('auth04');
 	if (cokath4=='Y'){	   
 		var text15 = document.createTextNode('\u{A0}\u{A0}');
 		var orpButton6=document.createElement("input");		   
@@ -71,7 +71,7 @@ function tab1View(event){
 		   event=window.event;
     	}
 		 var newrcath=document.getElementById('NEW_BOTT');       //新增按鈕
-		 if (Cookies.get('auth01')=='Y'){
+		 if (getCookie('auth01')=='Y'){
              newrcath.style.visibility="visible";	
 			 attachEventListener(newrcath,"click",addrec,false);  //新增紀錄按鈕程序
          }else{
@@ -132,7 +132,7 @@ function tab2View(event){
 			 newrcath.style.visibility="hidden";
 			 detachEventListener(newrcath,"click",addrec,false);  //取消新增按鈕程序
          }else{
-			  if (Cookies.get('auth01')=='Y'){
+			  if (getCookie('auth01')=='Y'){
                  newrcath.style.visibility="visible";	
 			     attachEventListener(newrcath,"click",addrec,false);  //新增紀錄按鈕程序
 			  }

@@ -4,7 +4,7 @@ function selfTag(jsvsn){
 	 var text6 = document.createTextNode('\u{A0}');
 	var contentdiv=getElementsByAttribute('class','tab_content');	
 	var svrSpns1=document.getElementById('serverResponse1'); 
-    if (Cookies.get('auth05')=='Y'){	 
+    if (getCookie('auth05')=='Y'){	 
 	    var cpyAuthButton=document.createElement("input");		   
 		cpyAuthButton.setAttribute("type","button");
 		cpyAuthButton.setAttribute("class","btn");
@@ -17,7 +17,7 @@ function selfTag(jsvsn){
 	    contentdiv[0].insertBefore(cpyAuthButton,svrSpns1);
 		contentdiv[0].insertBefore(text6,svrSpns1);
 	}
-	if (Cookies.get('auth06')=='Y'){	 
+	if (getCookie('auth06')=='Y'){	 
 	    var reMoveButton=document.createElement("input");		   
 		reMoveButton.setAttribute("type","button");
 		reMoveButton.setAttribute("class","btn");

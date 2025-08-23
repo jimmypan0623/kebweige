@@ -1,11 +1,11 @@
 function getProfile(str1,reccount,tbno) {      
     var cnt=0;
 	var arr = str1; 
-    var ath1=Cookies.get('auth01');  //cookie新增
-	var ath2=Cookies.get('auth02');  //cookie修改
-	var ath3=Cookies.get('auth03');  //cookie刪除
+    var ath1=getCookie('auth01');  //cookie新增
+	var ath2=getCookie('auth02');  //cookie修改
+	var ath3=getCookie('auth03');  //cookie刪除
 	var notOnlyEdit=(ath1=='Y' && ath2=='Y' && ath3=='Y');
-    var pagecount=Math.ceil(reccount/parseInt(Cookies.get('INT_RCD')));
+    var pagecount=Math.ceil(reccount/parseInt(getCookie('INT_RCD')));
     var optdigts= (pagecount.toString()).length;	    
 	var slt2=document.getElementById('recmth');
 	if (slt2.options.length<pagecount){

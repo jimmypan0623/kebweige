@@ -1,5 +1,3 @@
-
-
 function blocksclose(event)  //關閉註冊彈出視窗
 {
 	if (typeof event=="undefined"){

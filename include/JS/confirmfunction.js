@@ -76,11 +76,11 @@ function shurePrc(event){        //單據確認程序
 	delbtt.setAttribute("style","visibility:hidden;");
 	detachEventListener(delbtt,"click",delrec,false);
 	if(target.value=="\u{2705}"){
-	   if (Cookies.get('auth09')=='Y'){
+	   if (getCookie('auth09')=='Y'){
 		   vrsbtt.setAttribute("style","display:block;");
 		   attachEventListener(vrsbtt,"click",vrsproc,false);  //反確認按鈕程序  
 	   }		
-	   if (Cookies.get('auth07')=='Y' && Cookies.get('INT_013')=='Y' &&target.value=="\u{2705}"){
+	   if (getCookie('auth07')=='Y' && getCookie('INT_013')=='Y' &&target.value=="\u{2705}"){
 		   if(trnsbtt){
 			  trnsbtt.setAttribute("style","visibility:visible;");
 			  attachEventListener(trnsbtt,"click",trnsproc,false);  //轉訂單程序   
@@ -151,7 +151,7 @@ function vrshrPrc(event){
 	       var responseDiv=document.getElementById("serverResponse1"); 
 	  }else{
 
-		 if (Cookies.get('auth01')=='Y'){
+		 if (getCookie('auth01')=='Y'){
 			  var newrcath=document.getElementById('NEW_BOTT');       //新增按鈕
              newrcath.style.visibility="visible";	
 			 attachEventListener(newrcath,"click",addrec,false);  //新增紀錄按鈕程序
@@ -164,16 +164,16 @@ function vrshrPrc(event){
 	     trnsbtt.setAttribute("style","visibility:hidden;");
 	     detachEventListener(trnsbtt,"click",trnsproc,false);	
 	  } 
-	  	if (Cookies.get('auth08')=='Y'){
+	  	if (getCookie('auth08')=='Y'){
 		    ansbtt.setAttribute("style","display:block;");
 			attachEventListener(ansbtt,"click",ansproc,false);  //確認按鈕程序  
 		}		
-		 if (Cookies.get('auth02')=='Y'){			 
+		 if (getCookie('auth02')=='Y'){			 
 	        editbtt.style.visibility="visible";
 			attachEventListener(editbtt,"click",edtrec,false);  //修改紀錄按鈕程序
 		 }
 	  
-		 if (Cookies.get('auth03')=='Y'){
+		 if (getCookie('auth03')=='Y'){
 			 delbtt.style.visibility="visible";
 			 attachEventListener(delbtt,"click",delrec,false);  //刪除紀錄按鈕程序
 		 }

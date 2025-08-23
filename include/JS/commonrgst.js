@@ -262,7 +262,7 @@ function blkshow(txtword)
 function TableToJson(args,nongs,tbno){	
 	
     
-		var yesbill=Cookies.get("kindofda");  //	判斷是否為單據
+		var yesbill=getCookie("kindofda");  //	判斷是否為單據
         var rsp="";      
         if (tbno==0){		
 		    var order_head="{";

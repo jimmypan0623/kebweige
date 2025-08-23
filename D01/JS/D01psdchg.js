@@ -20,7 +20,7 @@ function tab1View(event){
 		   event=window.event;
     	}
 		var newrcath=document.getElementById('NEW_BOTT');       //新增按鈕
-		 if (Cookies.get('auth01')=='Y'){
+		 if (getCookie('auth01')=='Y'){
              newrcath.style.visibility="visible";	
 			 attachEventListener(newrcath,"click",addrec,false);  //新增紀錄按鈕程序
          }else{
@@ -45,7 +45,7 @@ function tab2View(event){
 		 localbottoncl.style.backgroundColor="#F9FAD9";
 		 localbottoncl.style.border=" 2px solid #F9FAD9";
 		 localbottoncl.style.boxShadow="olivedrab 5px 10px 10px 7px";
-      if(Cookies.get('auth05')!='Y'){		     
+      if(getCookie('auth05')!='Y'){		     
 		 blkshow("你無查看報價紀錄權限");		 
 	     document.getElementById("tab1").checked=true;	
 		 return false;	 

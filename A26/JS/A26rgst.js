@@ -192,9 +192,9 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 			     
 				   break;
 			    case 2:                                                     //如果是修改，要先顯示目前該筆資料
-				    var ath1=Cookies.get('auth01');  //cookie新增
-			        var ath2=Cookies.get('auth02');  //cookie修改
-					var ath3=Cookies.get('auth03');  //cookie刪除
+				    var ath1=getCookie('auth01');  //cookie新增
+			        var ath2=getCookie('auth02');  //cookie修改
+					var ath3=getCookie('auth03');  //cookie刪除
 					var notOnlyEdit=(ath1=='Y' && ath2=='Y' && ath3=='Y');
 				  
 				    if (!notOnlyEdit){

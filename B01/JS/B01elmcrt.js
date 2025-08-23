@@ -39,7 +39,7 @@ function crtElm(){
 		    var oTr=righttbl1.insertRow(-1);
 			if(i==18){
 				 oTr.setAttribute("class","costauth");
-				 if(Cookies.get('auth07')!='Y'){
+				 if(getCookie('auth07')!='Y'){
 				     oTr.setAttribute("style","display:none;");				
 				 }
 			}
@@ -54,7 +54,7 @@ function crtElm(){
 ///////////	
     var keynames=getElementsByAttribute('name','keyname');	
 	 var fatherkeys=getElementsByAttribute('name','fatherkey');	
-    if(Cookies.get('auth05')=='Y'){	 //有查看報價紀錄權限時
+    if(getCookie('auth05')=='Y'){	 //有查看報價紀錄權限時
 	    var thr2=document.getElementById('headrow2');
         var array3 = ['客戶編號','客戶簡稱','客戶品號', '幣別','單價','包裝基量','最少訂購','付款方式','報價單號','生效日期','有效期限','備註說明'];
 	    var array4 = ['7%','7%','10%', '4%','8%','7%','7%','10%','10%','10%','10%','10%'];
@@ -86,7 +86,7 @@ function crtElm(){
         cntdiv[1].style.display='none';
 	    tabnames[1].style.display='none';        
     }	   
-    if(Cookies.get('auth06')=='Y'){	        //有查看詢價紀錄權限時
+    if(getCookie('auth06')=='Y'){	        //有查看詢價紀錄權限時
         var thr3=document.getElementById('headrow3');
         var array5 = ['廠商編號','廠商簡稱','廠商品號', '幣別','單價','包裝基量','最少訂購','付款方式','前置天數','生效日期','有效期限','備註說明'];
 	    var array6 = ['7%','7%','10%', '4%','8%','7%','7%','10%','7%','10%','10%','10%'];

@@ -54,15 +54,7 @@ function getProfile(str1,cmpnme) {
 	      oLiUncle.appendChild(newC);
 		  mainUl.appendChild(oLiUncle);	      
 }
-function getCookie(sName) {
-    var aCookie = document.cookie.split('; ');
-    for (var i=0; i < aCookie.length; i++) {
-    var aCrumb = aCookie[i].split('=');
-    if (sName == aCrumb[0])
-    return decodeURI(aCrumb[1]);
- }
- return '';
-}
+
 function summaryName(dtshow){
 	switch (dtshow) {
         case 'A':

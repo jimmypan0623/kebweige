@@ -1,11 +1,11 @@
 function getProfile(str1,reccount) {      
     var cnt=0;
-	var rnddgt=Cookies.get('INT_069');  //四捨五入到幾位
+	var rnddgt=getCookie('INT_069');  //四捨五入到幾位
 	var arr = str1; 
 	var queryttl=0;
 	var scndttl=document.getElementById('ttlmny');   //次頁表頭的總金額物件
     var tabs=getElementsByAttribute("class","tab");
-	var pagecount=Math.ceil(reccount/parseInt(Cookies.get('INT_RCD')));
+	var pagecount=Math.ceil(reccount/parseInt(getCookie('INT_RCD')));
 	var optdigts= (pagecount.toString()).length;	    
 	var slt2=document.getElementById('recmth');
 	if (slt2.options.length<pagecount){

@@ -1,7 +1,7 @@
 function selfTag(jsvsn){
-	var ath1=Cookies.get('auth01');  //cookie新增
-	var ath2=Cookies.get('auth02');  //cookie修改
-	var ath3=Cookies.get('auth03');  //cookie刪除
+	var ath1=getCookies.get('auth01');  //getCookie新增
+	var ath2=getCookies.get('auth02');  //getCookie修改
+	var ath3=getCookies.get('auth03');  //getCookie刪除
 	var notOnlyEdit=(ath1=='Y' && ath2=='Y' && ath3=='Y');
 	var tables=getElementsByAttribute("class","gridlist");
 	var ths=tables[0].getElementsByTagName("th");			 				

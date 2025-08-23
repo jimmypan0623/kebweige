@@ -15,7 +15,7 @@ function initDialog()
     var divcontainer=document.getElementById('container');
 	var tabcsses=getElementsByAttribute('class','tab_css');			
 	var links=document.getElementsByTagName('link');    	 
-	var myAccount=Cookies.get('useraccount');
+	var myAccount=getCookie('useraccount');
 	if(!myAccount){    //如果沒有從登入畫面進來則必無登入帳號
 		divcontainer.parentNode.removeChild(divcontainer);
 		for(var i=0;i<tabcsses.length;i++){
@@ -27,7 +27,7 @@ function initDialog()
     }else{		 	    	   
 		var nwdt=new Date();	
 		var nwsd=Math.floor(Math.random()*nwdt.getSeconds())%20;		
-		var nowExcute=Cookies.get("funNo");
+		var nowExcute=getCookie("funNo");
 		if(nowExcute){				 			
 			divcontainer.parentNode.removeChild(divcontainer);		
 			loginform.parentNode.removeChild(loginform);
@@ -40,7 +40,7 @@ function initDialog()
 			var divcontents=getElementsByAttribute('class','tab_content');
 			var tabs=getElementsByAttribute('name','tab');
 			var tablblnames=getElementsByAttribute('name','tablbl');	
-			var pages=Cookies.get("howpge");
+			var pages=getCookie("howpge");
 			for(var i=pages;i<tablblnames.length;i++){
 				tablblnames[i].parentNode.removeChild(tablblnames[i]);
 				tabs[i].parentNode.removeChild(tabs[i]);
@@ -50,7 +50,7 @@ function initDialog()
 			var urljsname=left(nowExcute,3)+'/JS/'+left(nowExcute,3)+'elmcrt.js?v='+cmmjsvs; 
 			loadScript(`include/JS/commonrgst.js?v=${cmmjsvs}`); 
 			loadScript(urljsname,function(){crtElm();});  
-			var mthjudge=Cookies.get("MorP");
+			var mthjudge=getCookie("MorP");
 			var contentdiv=getElementsByAttribute('class','tab_content');
 			var initFirstNode=(contentdiv[0].firstChild);
 			if (mthjudge!='M'){    //如果非月份檔	 
@@ -143,7 +143,7 @@ function initDialog()
 				attachEventListener(orpButton1,"click",seekrec,false); 
 				mainSpan1.appendChild(text1);
 				mainSpan1.appendChild(orpButton1);
-				var cokath1=Cookies.get('auth01');					
+				var cokath1=getCookie('auth01');					
 				if (cokath1!='E'){                  //新增			 
 					var orpButton2=document.createElement("input");		   
 					orpButton2.setAttribute("type","button");
@@ -160,7 +160,7 @@ function initDialog()
 						attachEventListener(orpButton2,"click",addrec,false);  //新增紀錄按鈕程序
 					}   
 				}						
-				var cokath2=Cookies.get('auth02');				
+				var cokath2=getCookie('auth02');				
 				if (cokath2!=='E'){			 
 					var orpButton3=document.createElement("input");		   
 					orpButton3.setAttribute("type","button");
@@ -177,7 +177,7 @@ function initDialog()
 						attachEventListener(orpButton3,"click",edtrec,false);  //修改紀錄按鈕程序
 					}					
 				}				
-				var cokath3=Cookies.get('auth03');
+				var cokath3=getCookie('auth03');
 				if (cokath3!='E'){			
 					var orpButton4=document.createElement("input");		   
 					orpButton4.setAttribute("type","button");
@@ -422,9 +422,9 @@ function delConfirm(event){     //確定刪除
 		event=window.event;
     }	
 	var target=getEventTarget(event);	  
-	var mthjudge=Cookies.get("MorP");   //是否為月份檔
-	var yesbill=Cookies.get("kindofda");      //是否為單據檔
-	var mainrightValue=left(Cookies.get("funNo"),3);
+	var mthjudge=getCookie("MorP");   //是否為月份檔
+	var yesbill=getCookie("kindofda");      //是否為單據檔
+	var mainrightValue=left(getCookie("funNo"),3);
 	var ttls=getElementsByAttribute('class','ttl');		//表頭或表身有無總計數字
 	var tabs=getElementsByAttribute('class','tab');	 	  
 	var tbno=0;
@@ -492,10 +492,9 @@ function delConfirm(event){     //確定刪除
 					}						////
 					var responseDiv=document.getElementById("serverResponse1");	 		   	           							       
 					 ////  非月份單據檔						
-					//if (mthjudge.innerHTML!='依月份顯示'){    //如果非月份檔 
 					if (mthjudge!='M'){    //如果非月份檔 
 						cko[0](-1);    //閉包記錄變數減一筆
-						var ckrcd=parseInt(Cookies.get('INT_RCD'));
+						var ckrcd=parseInt(getCookie('INT_RCD'));
 						var slt2=document.getElementById('recmth');	
 						var pagecount=Math.ceil(cko[0](0)/ckrcd);
 						if(slt2.options.length>pagecount){		//檢查頁數是否該減少.

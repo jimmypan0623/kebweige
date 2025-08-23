@@ -60,7 +60,7 @@ function crtElm(){
 	tabnames[0].innerHTML="廠商基本資料";
     var keynames=getElementsByAttribute('name','keyname');	
 	 
-    if(Cookies.get('auth05')=='Y'){	 //有查看報價紀錄權限時
+    if(getCookie('auth05')=='Y'){	 //有查看報價紀錄權限時
 	    var thr2=document.getElementById('headrow2');
         var array3 = ['料品編號','品名規格','廠商品號', '幣別','單價','包裝基量','最少訂購','前置天數','生效日期','有效期限','備註說明'];
 	    var array4 = ['12%','12%','12%', '4%','7%','7%','7%','7%','8%','8%','12%'];

@@ -14,7 +14,7 @@
 			newbtt.setAttribute("style","visibility:hidden;");			
 			detachEventListener(newbtt,"click",addrec,false);					  			
 		}else{
-			var cokath1=Cookies.get('auth01'); 
+			var cokath1=getCookie('auth01'); 
 			if (cokath1=='Y'){
 		        newbtt.setAttribute("style","visibility:visible;");			 
 			    attachEventListener(newbtt,"click",addrec,false);  //新增紀錄按鈕程序恢復
@@ -22,7 +22,7 @@
 			    newbtt.setAttribute("style","visibility:hidden;");			
 			    detachEventListener(newbtt,"click",addrec,false);					 
 			}
-			var cokath4=Cookies.get('auth04');
+			var cokath4=getCookie('auth04');
 	        if (cokath4=='Y'){
 			    prnbtt.setAttribute("style","visiblity:visible;font-size:130%;margin:0;color:black;");			
 			    attachEventListener(prnbtt,"click",prntproc,false);	
@@ -37,7 +37,7 @@
 	    var oTable = document.getElementById("maintbody2");
 		var fld=document.getElementById('recfield2');
 	}		
-	var rnddgt=Cookies.get('INT_069');  //四捨五入到幾位
+	var rnddgt=getCookie('INT_069');  //四捨五入到幾位
 	var scndttl=document.getElementById('ttlmny');   //次頁表頭的總金額物件	
 	for(var i=0;i<arr.length;i++){		
 		var oTr=oTable.insertRow(-1);	
@@ -258,7 +258,7 @@ function choseExtraDeal(targetTrChildren,targetTr){   //紀錄移動
 	    detachEventListener(delbtt,"click",delrec,false);	 
 	    apprv.setAttribute("style","color:red;font-size:20px;font-weight:bold;");
 	    apprv.innerHTML='\u{329E}\u{A0}\u{A0}\u{A0}\u{A0}';	 
-	    if(Cookies.get('auth09')=='Y' && cko[0](0)==0){				 
+	    if(getCookie('auth09')=='Y' && cko[0](0)==0){				 
 			vrsbtt.setAttribute("style","display:block;");
 			attachEventListener(vrsbtt,"click",vrsproc,false);			 
 	    }else{
@@ -270,21 +270,21 @@ function choseExtraDeal(targetTrChildren,targetTr){   //紀錄移動
 		apprv.innerHTML='\u{3246}\u{A0}\u{A0}\u{A0}\u{A0}'; 
 		vrsbtt.setAttribute("style","display:none;");
 		detachEventListener(vrsbtt,"click",vrsproc,false);
-	    if(Cookies.get('auth08')=='Y' && cko[0](0)==0){			
+	    if(getCookie('auth08')=='Y' && cko[0](0)==0){			
 			ansbtt.setAttribute("style","display:block;");  					
 			attachEventListener(ansbtt,"click",ansproc,false);													
 	    }else{
 			ansbtt.setAttribute("style","display:none;");  					
 			detachEventListener(ansbtt,"click",ansproc,false);	
 	    }
-	    if(Cookies.get('auth02')=='Y' && cko[0](0)==0){
+	    if(getCookie('auth02')=='Y' && cko[0](0)==0){
 		   editbtt.setAttribute("style","visibility:visible;");
 		   attachEventListener(editbtt,"click",edtrec,false);
 	    }else{
 		   editbtt.setAttribute("style","visibility:hidden;");
 		   detachEventListener(editbtt,"click",edtrec,false);	   
 	    }
-	   if(Cookies.get('auth03')=='Y' && cko[0](0)!=1){
+	   if(getCookie('auth03')=='Y' && cko[0](0)!=1){
 		  delbtt.setAttribute("style","visibility:visible;");
 		  attachEventListener(delbtt,"click",delrec,false);
 	   }else{
@@ -311,7 +311,7 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 		detachEventListener(delbtt,"click",delrec,false);	           
 		apprv.setAttribute("style","color:red;font-size:20px;font-weight:bold;;");
 		apprv.innerHTML='\u{329E}\u{A0}\u{A0}\u{A0}\u{A0}';			
-		if(Cookies.get('auth09')=='Y' && cko[0](0)==0){			 
+		if(getCookie('auth09')=='Y' && cko[0](0)==0){			 
 			vrsbtt.setAttribute("style","display:block;");
 			attachEventListener(vrsbtt,"click",vrsproc,false);				 
 		}else{
@@ -323,21 +323,21 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 		apprv.innerHTML='\u{3246}\u{A0}\u{A0}\u{A0}\u{A0}'; 
 		vrsbtt.setAttribute("style","display:none;");
 		detachEventListener(vrsbtt,"click",vrsproc,false);
-		if(Cookies.get('auth08')=='Y' && cko[0](0)==0 ){			 
+		if(getCookie('auth08')=='Y' && cko[0](0)==0 ){			 
 			ansbtt.setAttribute("style","display:block;");  				   
 			attachEventListener(ansbtt,"click",ansproc,false);								 
 		}else{
 			ansbtt.setAttribute("style","display:none;");  				   
 			detachEventListener(ansbtt,"click",ansproc,false);			
 		}
-		if(Cookies.get('auth02')=='Y' && cko[0](0)==0){
+		if(getCookie('auth02')=='Y' && cko[0](0)==0){
 			editbtt.setAttribute("style","visibility:visible;");
 			attachEventListener(editbtt,"click",edtrec,false);
 		}else{
 			 editbtt.setAttribute("style","visibility:hidden;");
 			detachEventListener(editbtt,"click",edtrec,false);
 		}
-		if(Cookies.get('auth03')=='Y' && cko[0](0)==0){
+		if(getCookie('auth03')=='Y' && cko[0](0)==0){
 		   delbtt.setAttribute("style","visibility:visible;");
 		   attachEventListener(delbtt,"click",delrec,false);
 		}else{

@@ -6,7 +6,7 @@ function blocksclose(event)  //關閉註冊彈出視窗
 	var target=getEventTarget(event);
 	var tabs=getElementsByAttribute('class','tab');			
 	if (tabs[0].checked){
-	   if (target.value=="\u{274E}"  && Cookies.get('INT_013')=='Y'){
+	   if (target.value=="\u{274E}"  && getCookie('INT_013')=='Y'){
 		   var maintable=document.getElementById("maintbody1");		 		
 		   var tablerowindex=0;
 		   for(var i=0;i< maintable.rows.length; i++){			 
@@ -143,7 +143,7 @@ function calculateTtl(tbno,maintable,i){
 	return;
 }
  function billNoReCreate(currentNo){
-     if (Cookies.get('INT_099')=='Y' && Cookies.get('INT_013')=='Y'){ //如果是系統參數設為自動編號且刪掉號碼重用						      
+     if (getCookie('INT_099')=='Y' && getCookie('INT_013')=='Y'){ //如果是系統參數設為自動編號且刪掉號碼重用						      
 		var showTime=document.getElementById('currentTime'); //利用djtime.js顯示畫面的預設日期日期輸入欄之值為今天
 		var thtdy=(showTime.innerHTML.substring(0,4)+'-'+showTime.innerHTML.substring(5,7)+'-'+showTime.innerHTML.substring(8,10)); //中間一定要用減號分隔年月日				  
 		var crntmth=thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase();							  
@@ -297,7 +297,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 			optionitem(aWaitUpdate[5],slt4.id,4,"C01/BKND/C00srch.php");		//幣別欄位					 
 		}else{
 			oTd.innerHTML="<input type='text' name='c03update' id='queryno' class='txt' style='width:25%;' maxlength='10'/>"; 
-			optionitem(Cookies.get('INT_011'),slt4.id,4,"C01/BKND/C00srch.php");	
+			optionitem(getCookie('INT_011'),slt4.id,4,"C01/BKND/C00srch.php");	
 		}			 	              
 		var oTr=ajTable.insertRow(ajTable,ajTable.length);  //以下第一列都隱藏起來當變數
 		var oTd = oTr.insertCell(0);	             
@@ -389,7 +389,7 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 		   var thtdy=(showTime.innerHTML.substring(0,4)+'-'+showTime.innerHTML.substring(5,7)+'-'+showTime.innerHTML.substring(8,10)); //中間一定要用減號分隔年月日			        
 		   if (tbno==0){					  
 			   document.getElementById("querydate").value=thtdy;  //日期都設為今天
-				if(Cookies.get('INT_013')=='Y'){       //如果參數設為系統自動編號
+				if(getCookie('INT_013')=='Y'){       //如果參數設為系統自動編號
 				  objGetNo('queryno','CA'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase());
 				   var cstNo=document.getElementById("customno");
 				   cstNo.focus();	
@@ -436,7 +436,7 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 }
 
 function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nongs,tbno)函數內新增紀錄後呼叫的畫面更動 
-    var rnddgt=Cookies.get('INT_069');  //四捨五入到幾位     
+    var rnddgt=getCookie('INT_069');  //四捨五入到幾位     
     if (tbno==0){     //先整理表頭新增後的資料
 	    for(var i=0;i<2;i++){
 		    var oTd = oTr.insertCell(oTr.cells.length);
@@ -551,7 +551,7 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 }
 
 function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,nongs,tbno)函數修改紀錄後呼叫的畫面更動
-    var rnddgt=Cookies.get('INT_069');  //四捨五入到幾位     
+    var rnddgt=getCookie('INT_069');  //四捨五入到幾位     
     if (tbno==0){
 	   var maintable=document.getElementById("maintbody1");					   			            
 	   maintable.rows[args[arglth-1]].cells[2].innerHTML=args[1];						 			           

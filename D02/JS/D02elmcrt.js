@@ -12,19 +12,3 @@ function crtElm(){
 		thr1.appendChild(th);		
 	}				  
 }
-
-
-/* <th >料品編號</th> 	
-    <th style="width:7%;">廠商編號</th>  
-     <th style="width:7%;">廠商簡稱</th>  
-     <th >廠商品號</th>  	
-    <th style="width:4%;">幣別</th>	
-    <th style="width:7%;">單價</th>	
-	<th style="width:7%;">最少訂購</th>	
-	<th style="width:7%;">包裝基量</th>
-	<th >付款條件</th>
-	<th style="width:7%;" >前置天數</th>
-    <th style="width:8%;">生效日期</th>  
-	<th style="width:8%;">有效日期</th> 
-	<th >備註</th> 
-	*/

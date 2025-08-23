@@ -12,7 +12,7 @@ function selfTag(jsvsn){
 		}
 		contentdiv[1].insertBefore(hintSpan,svrSpns2);		
     }		 
-	if (Cookies.get('auth06')=='Y'){	 
+	if (getCookie('auth06')=='Y'){	 
 	     var text5 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
 	    var reMoveButton=document.createElement("input");		   
 		reMoveButton.setAttribute("type","button");

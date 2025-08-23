@@ -7,7 +7,7 @@ function selfTag(jsvsn){
 	  dptspan.setAttribute("style","font-size:120%;");
 	  var slt3=document.createElement("select");
 	    slt3.setAttribute("id","departNoOption");
-  	    optionitem(Cookies.get("INT_193"),slt3.id,6,"B01/BKND/A14srch.php");	
+  	    optionitem(getCookie("INT_193"),slt3.id,6,"B01/BKND/A14srch.php");	
 		attachEventListener(slt3,'change',choiceClick,false); 
       	contentdiv[0].insertBefore(dptspan,svrSpns1);
 		contentdiv[0].insertBefore(slt3,svrSpns1);

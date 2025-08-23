@@ -1,6 +1,6 @@
 function selfTag(jsvsn)
 {        
-	var myAccount=Cookies.get('useraccount');	 
+	var myAccount=getCookie('useraccount');	 
 	var i;	 
 	 if(!myAccount){
          (function myLoop(i) {
@@ -15,7 +15,7 @@ function selfTag(jsvsn)
 		 loadScript(`RED/JS/RED.js?v=${jsvsn}`,function(){commontemp();});	
 	     var plsElmnts=document.getElementById('company_name').parentNode;
 		 var iflm=document.createElement('iframe');
-		 var htmfile='ROL/'+Cookies.get('INT_HTM');
+		 var htmfile='ROL/'+getCookie('INT_HTM');
 		 iflm.id="frl";
 		 iflm.src=htmfile;
 		 plsElmnts.appendChild(iflm);
@@ -136,7 +136,7 @@ function blockPsdshow(txtword)    //變更密碼程序
 	        p_tx.innerHTML=txtword;	                         //將傳來的這一段文字加入準備顯示
 			dropsheet_content.appendChild(p_tx);				
 	    } else{		//若是事件表示直接修改密碼按鈕點下去傳過來要求開視窗	
-	       var headtitle='帳號:'+Cookies.get('useraccount') ;
+	       var headtitle='帳號:'+getCookie('useraccount') ;
 	      dropsheet.style.paddingTop="20px"; /* Location of the box */
 		    	
 		  // var target=getEventTarget(event);		   
@@ -239,7 +239,7 @@ function confirmClick(event){     //修改密碼檢查程序
 	var customerOrgPassword=document.getElementById("orgtxt_password");  //原始密碼
 	var customerPassword=document.getElementById("txt_password");      //設定新密碼
     var customerPassword_chk=document.getElementById("txt_password_chk");	//再次打入確認的新密碼
-    var myCookiePassword = Cookies.get('password'); //取得目前cooike紀錄的密碼
+    var myCookiePassword = getCookie('password'); //取得目前cooike紀錄的密碼
 	//var md5cmp=md5(customerOrgPassword.value); 	 暫時不用md5編碼	 
 	if(customerOrgPassword.value!=myCookiePassword ){
 	    if(!customerOrgPassword.nextSibling){
@@ -304,8 +304,8 @@ function confirmClick(event){     //修改密碼檢查程序
 		   customerPassword_chk.parentNode.removeChild(customerPassword_chk.nextSibling);
 		} 
 	}
-       var myCookieACccount = Cookies.get('username'); //取得cookie目前記錄得id號碼
-	   var myCookieUser_id = Cookies.get('userid'); //取得cookie目前記錄得id號碼
+       var myCookieACccount = getCookie('username'); //取得cookie目前記錄得id號碼
+	   var myCookieUser_id = getCookie('userid'); //取得cookie目前記錄得id號碼
 	
   
 	   var rspns=TableToJson(myCookieUser_id,myCookieACccount,customerPassword.value);
@@ -366,6 +366,7 @@ function TableToJson(user_id,account,password) {   //由此紀錄剩餘的table�
 	}   
 	//return json;  //測試資料用
 }  
+
 function setCookie(name, value) {
 	var argv = setCookie.arguments;
 	var argc = setCookie.arguments.length;
@@ -380,23 +381,4 @@ function setCookie(name, value) {
 	((domain == null) ? "" : ("; domain=" + domain)) +
 	((secure == null) ? "" : ("; secure=" + secure));
 }
-/* 
-function delCookie(name)
-{
-    var exp = new Date();
-    exp.setTime(exp.getTime() - 1);
-    var cval=getCookie(name);
-    if(cval!=null)
-        document.cookie= name + "="+cval+";expires="+exp.toGMTString();
-}
-function getCookie(sName) {
-    var aCookie = document.cookie.split('; ');
-    for (var i=0; i < aCookie.length; i++) {
-    var aCrumb = aCookie[i].split('=');
-    if (sName == aCrumb[0])
-    return decodeURI(aCrumb[1]);
- }
- return '';
-} */
-
 

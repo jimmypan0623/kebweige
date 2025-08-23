@@ -12,12 +12,3 @@ function crtElm(){
 		thr1.appendChild(th);		
 	}				  
 }
-
-
-/* <th >料品編號</th> 
-	<th>品名規格</th>	
-    <th style="width:8%;">廠商編號</th>  
-     <th style="width:8%;">廠商簡稱</th>  
-     <th >廠商品號</th>  	 
-    <th style="width:10%;">資料來源</th>
-	*/

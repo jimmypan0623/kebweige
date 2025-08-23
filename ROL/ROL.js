@@ -1,6 +1,5 @@
  addLoadListener(draw_m);
 //從這邊開始 
-
 var wgp=[];  //設定閉包變數與函數
  wgp[0] = wgpCount();
  wgp[1] = wgpCount();
@@ -12,12 +11,11 @@ function wgpCount() {
        return f;
 }		 
 function draw_m(){ 
-     var metas=document.getElementsByTagName('meta');	
-	 
-    var htmfile=Cookies.get('INT_HTM');
+    var metas=document.getElementsByTagName('meta');		 
+    var htmfile=getCookie('INT_HTM');
 	var urlfolder=document.getElementsByTagName('title');
 	var urlpath=urlfolder[0].innerHTML;
-	var dataIp=Cookies.get('svripmd5');	
+	var dataIp=getCookie('svripmd5');	
 	if(htmfile==urlpath && dataIp==metas[1].content){
 	   //////
 	    var rat=0.6;      //倍率

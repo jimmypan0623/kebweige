@@ -217,7 +217,7 @@ function DrawTable(){
 	var tabs=getElementsByAttribute("class","tab");
 	if (tabs[0].checked){
 	   var slt2=document.getElementById('recmth');	
-       var yesmth=Cookies.get("MorP");
+       var yesmth=getCookie("MorP");
 	    if (yesmth=='P'){  //如果非月份檔
 		   var item_no=paddingLeft(1,3);
 		   var varItem=new Option(item_no,item_no);
@@ -290,8 +290,8 @@ function commontemp(idn,stk){
 	    var urlfolder=document.getElementsByTagName('title');  //菜單主畫面程式還是抓取title前三碼
 	    var urlpath=(left(urlfolder[0].innerHTML,3));          //所以其他程式沿用 
 	    
-		if(!urlpath){    //此段甚為重要!!有時會抓不到title,一開始就使用Cookies.get("funNo")則菜單無法執行,更容易造成null值
-		    var nowExcute=left(Cookies.get("funNo"),3);
+		if(!urlpath){    //此段甚為重要!!有時會抓不到title,一開始就使用getCookie("funNo")則菜單無法執行,更容易造成null值
+		    var nowExcute=left(getCookie("funNo"),3);
 		    urlpath=nowExcute;
 		}
 
@@ -321,8 +321,8 @@ function commontemp(idn,stk){
 	function createQueryString(){	
 	     
 		if(tabs.length>0 && urlpath!='RED'){	
-			var yesmth=Cookies.get("MorP");
-			var yesdpt=Cookies.get("adddpt");
+			var yesmth=getCookie("MorP");
+			var yesdpt=getCookie("adddpt");
 		    if (stk=="PGE"){	
 
 				if (yesmth=='P'){  //如果非月份檔
@@ -332,7 +332,7 @@ function commontemp(idn,stk){
 					if(yesdpt=='D'){   //如果為部門別檔
 					   var dptoption= document.getElementById('departNoOption').value;
 					 
-				       var queryString ="filename="+stk+idn+'|'+((dptoption)?dptoption:Cookies.get("INT_193"));
+				       var queryString ="filename="+stk+idn+'|'+((dptoption)?dptoption:getCookie("INT_193"));
 					   
 					}else{
 					   var queryString ="filename="+stk+idn+'|';
@@ -346,7 +346,7 @@ function commontemp(idn,stk){
 
 						if(yesdpt=='D'){   //如果為部門別檔
 						     var dptoption= document.getElementById('departNoOption').value;
-					         var queryString ="filename="+stk.substring(0,7)+"|"+idn+"_"+document.getElementById('recmth').value+"~"+((dptoption)?dptoption:Cookies.get("INT_193"));
+					         var queryString ="filename="+stk.substring(0,7)+"|"+idn+"_"+document.getElementById('recmth').value+"~"+((dptoption)?dptoption:getCookie("INT_193"));
 					    }else{  
 					 
 					        var queryString ="filename="+stk.substring(0,7)+"|"+idn+"_"+document.getElementById('recmth').value;
@@ -363,7 +363,7 @@ function commontemp(idn,stk){
 		    }		
         }else{
 			if(urlpath=='RED'){  //如果是主目錄
-              var myAccount=Cookies.get('useraccount'); 
+              var myAccount=getCookie('useraccount'); 
 	          var queryString ="filename="+"'"+myAccount+"'";
 			}  
 		}
@@ -404,7 +404,7 @@ function addrec(event){
 	responseDiv.innerHTML='&nbsp';	
 	var Today=new Date();
    var nowday=Today.getFullYear()+ "-" + paddingLeft((Today.getMonth()+1).toString(),2) + "-" + paddingLeft((Today.getDate()).toString(),2) ;
-	var myAccount=Cookies.get('useraccount');
+	var myAccount=getCookie('useraccount');
 	var flg=0;
 
 	var targetTrs=targetTbody.getElementsByTagName("tr");   
@@ -823,9 +823,33 @@ function loadScript(url, callback) {        //動態加入js
   document.head.appendChild(script); // 或 document.body.appendChild(script);
 }
 
-
 function delCookie(name) {
 	var expDate = new Date();
 	expDate.setTime(expDate.getTime()-1);	// 設定 Cookie 的失效時間比目前時間還早
 	document.cookie = escape(name) + "=; expires=" + expDate.toGMTString();	// 重新設定 Cookie
 }
+
+function getCookie(name){  //取得COOKIE 
+	var arg = name + "="; 
+	var alen = arg.length; 
+	var clen = document.cookie.length; 
+	var i = 0; 
+	var j = 0;
+	while(i < clen){ 
+		j = i + alen; 
+		if (document.cookie.substring(i, j) == arg) 
+			return getCookieVal(j); 
+		i = document.cookie.indexOf(" ", i) + 1; 
+		if(i == 0) 
+			break;
+	} 
+	return null; 
+} 
+  
+function getCookieVal(offset){ 
+	var endstr = document.cookie.indexOf(";", offset); 
+	if(endstr == -1){ 
+		endstr = document.cookie.length;
+	} 
+	return unescape(document.cookie.substring(offset, endstr)); 
+} 

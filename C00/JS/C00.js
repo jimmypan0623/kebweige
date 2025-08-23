@@ -1,7 +1,7 @@
  function getProfile(str1,reccount,tbno) {      
     var cnt=0;
 	var arr = str1; 
-        var pagecount=Math.ceil(reccount/parseInt(Cookies.get('INT_RCD')));
+        var pagecount=Math.ceil(reccount/parseInt(getCookie('INT_RCD')));
         var optdigts= (pagecount.toString()).length;
 	if (tbno==0){     //如果是表頭      
         var slt2=document.getElementById('recmth');
@@ -85,7 +85,7 @@
 
 function choseExtraDeal(targetTrChildren,targetTr){   //紀錄移動
     var delbtt=document.getElementById("DEL_BOTT");
-    if(Cookies.get('INT_011')==targetTrChildren[1].innerHTML || Cookies.get('auth03')!='Y'){
+    if(getCookie('INT_011')==targetTrChildren[1].innerHTML || getCookie('auth03')!='Y'){
 	    delbtt.setAttribute("style","visibility:hidden;");
 	    detachEventListener(delbtt,"click",delrec,false);	    
     }else{
@@ -100,7 +100,7 @@ function choseSecond(targetTrChildren,targetTr){   //紀錄移動表身
 }
 function rowchoseExtraDeal(targetRow){    //紀錄移動
     var delbtt=document.getElementById("DEL_BOTT");
-    if(Cookies.get('INT_011')==targetRow.childNodes[1].innerHTML || Cookies.get('auth03')!='Y'){
+    if(getCookie('INT_011')==targetRow.childNodes[1].innerHTML || getCookie('auth03')!='Y'){
 		delbtt.setAttribute("style","visibility:hidden;");
 	    detachEventListener(delbtt,"click",delrec,false);	  
 	}else{

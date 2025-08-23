@@ -1,4 +1,3 @@
-
 function blocksclose(event)  //關閉註冊彈出視窗
 {	
 	if (typeof event=="undefined"){
@@ -293,7 +292,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		    optionitem(aWaitUpdate[3],slt3.id,6,"A02/A14srch.php");	
 		}else{
 			oTd.innerHTML="<input type='text' name='a02update' id='accountNo' class='txt' style='width:50%;' maxlength='10'/>"; 
-			optionitem(Cookies.get("INT_193"),slt3.id,6,"A02/A14srch.php");	
+			optionitem(getCookie("INT_193"),slt3.id,6,"A02/A14srch.php");	
 		}			 
 	    var oTd = oTr.insertCell(2);	   
         oTd.setAttribute('style','text-align:right;width:15%');					

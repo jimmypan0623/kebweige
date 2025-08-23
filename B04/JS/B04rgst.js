@@ -6,7 +6,7 @@ function blocksclose(event)  //關閉註冊彈出視窗
 	var target=getEventTarget(event);
 	var tabs=getElementsByAttribute('class','tab');			
 	if (tabs[0].checked){
-	   if (target.value=="\u{274E}"  && Cookies.get('INT_127')=='Y'){
+	   if (target.value=="\u{274E}"  && getCookie('INT_127')=='Y'){
 		   var maintable=document.getElementById("maintbody1");		 		
 		   var tablerowindex=0;
 		   for(var i=0;i< maintable.rows.length; i++){			 
@@ -154,7 +154,7 @@ function calculateTtl(tbno,maintable,i){      //刪除確認(delConfirm)中挑�
 	return;
 }
  function billNoReCreate(currentNo){         //刪除確認(delConfirm)中挑出之個別程序
-    if (Cookies.get('INT_099')=='Y' && Cookies.get('INT_127')=='Y'){ //如果是系統參數設為自動編號且刪掉號碼重用						      
+    if (getCookie('INT_099')=='Y' && getCookie('INT_127')=='Y'){ //如果是系統參數設為自動編號且刪掉號碼重用						      
 		var thtdy=document.getElementById('recmth').value;
 		discardNoRec('BC'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase(),currentNo.trim());
 	} 
@@ -220,7 +220,7 @@ function rateSrch(event){   //出貨日期異動順便更動匯率
 	var crtNow=document.getElementById('crntopt').value;
 	var ckc=document.getElementById("recmth");
 	var rte=document.getElementById('curncy');
-    if(Cookies.get('INT_011')!=crtNow){	
+    if(getCookie('INT_011')!=crtNow){	
 	   var sendSrcRec="filename="+crtNow+"|"+ckc.value+"|"+target.value;	
         
 		var rsp="";  	
@@ -446,7 +446,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	         
 		}else{
 		   oTd.innerHTML="<input type='text' name='b04update' id='queryno' class='txt' style='width:25%;' maxlength='10'/>"; 
-		   optionitem(Cookies.get('INT_011'),slt4.id,4,"C01/BKND/C00srch.php");			 
+		   optionitem(getCookie('INT_011'),slt4.id,4,"C01/BKND/C00srch.php");			 
 	    }			 	              
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);  //以下第一列都隱藏起來當變數
 	    var oTd = oTr.insertCell(0);	             
@@ -619,7 +619,7 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 }
 
 function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nongs,tbno)函數內新增紀錄後呼叫的畫面更動   
-    var rnddgt=Cookies.get('INT_069');  //四捨五入到幾位         
+    var rnddgt=getCookie('INT_069');  //四捨五入到幾位         
     if (tbno==0){     //先整理表頭新增後的資料
 	    for(var i=0;i<2;i++){
 		    var oTd = oTr.insertCell(oTr.cells.length);
@@ -762,7 +762,7 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 }
 
 function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,nongs,tbno)函數修改紀錄後呼叫的畫面更動
-    var rnddgt=Cookies.get('INT_069');  //四捨五入到幾位     
+    var rnddgt=getCookie('INT_069');  //四捨五入到幾位     
     if (tbno==0){
 	    var maintable=document.getElementById("maintbody1");					   			            	  
 	    maintable.rows[args[arglth-1]].cells[8].innerHTML=paddingLeft(args[2].trim(),2); 	  

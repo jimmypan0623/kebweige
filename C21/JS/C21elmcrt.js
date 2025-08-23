@@ -1,5 +1,4 @@
-function crtElm(){	
-     
+function crtElm(){	    
     var maindiv=getElementsByAttribute('class','tab_css');	
 	var beinsertedid=document.getElementById('tab1');
 	var spn=document.createElement('span');
@@ -23,8 +22,6 @@ function crtElm(){
     spn3.setAttribute("style","font-size:120%;font-weight:bold;");
 	spn3.innerHTML='0';
 	 cntdiv[1].insertBefore(spn3,rspn2);
-
-
      var thr1=document.getElementById('headrow1');	 
 	 var array1 = ['報價單號','客戶編號','客戶簡稱', '報價日期','業務擔當','幣別','聯絡人','交貨方式','付款方式','備註說明'];
 	 var array2 = ['10%','7%','7%', '10%','7%','4%','13%','13%','13%','13'];

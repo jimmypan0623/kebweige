@@ -1,17 +1,12 @@
-function crtElm(){
-	
-     var thr1=document.getElementById('headrow1');
-	 
+function crtElm(){	
+     var thr1=document.getElementById('headrow1');	 
 	 var array1 = ['表格代號','表格名稱','表格類別', '備註說明','最後異動'];
 	// var array2 = ['8%','8%','8%', '8%','12%','20%','8%','8%'];
 	for (var j = 0; j < array1.length; j++) {
 		var th1 = document.createElement('th'); //column		   
 		var text = document.createTextNode(array1[j]); //cell	
-	
-		//th1.style.width=array2[j];
 		th1.appendChild(text);
-		thr1.appendChild(th1);
-		
+		thr1.appendChild(th1);		
 	}			
 	  var thr2=document.getElementById('headrow2');
      var array3 = ['欄位代號','欄位說明','欄位型態', '欄位長度','小數位數','預設值','最後異動'];

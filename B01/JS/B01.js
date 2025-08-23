@@ -1,7 +1,7 @@
 function getProfile(str1,reccount,tbno) {      
     var cnt=0;
 	var arr = str1; 
-    var pagecount=Math.ceil(reccount/parseInt(Cookies.get('INT_RCD'))); 
+    var pagecount=Math.ceil(reccount/parseInt(getCookie('INT_RCD'))); 
     var optdigts= (pagecount.toString()).length;
 	if (tbno==0){     //如果是表頭  	
         var slt2=document.getElementById('recmth');
@@ -211,7 +211,7 @@ function choseExtraDeal(targetTrChildren,targetTr){
                if(b01a_value_names[9].innerHTML.trim()==0 && b01a_value_names[10].innerHTML.trim()==0){
 				  invdtl.setAttribute("style","visibility:hidden;");				  
 				   detachEventListener(invdtl,"click",page1OtherButton1,false);
-				    if(Cookies.get('auth03')=='Y'){
+				    if(getCookie('auth03')=='Y'){
 					   delbtt.setAttribute("style","visibility:visible;font-size:17px;");
 				       attachEventListener(delbtt,"click",delrec,false);
 					}else{
@@ -247,7 +247,7 @@ function rowchoseExtraDeal(targetRow){
 				invdtl.setAttribute("style","visibility:hidden;");
 				//detachEventListener(invdtl,"click",srchB11show,false);
 				detachEventListener(invdtl,"click",page1OtherButton1,false);
-				if(Cookies.get('auth03')=='Y'){
+				if(getCookie('auth03')=='Y'){
 				    delbtt.setAttribute("style","visibility:visible;font-size:17px;");
 				    attachEventListener(delbtt,"click",delrec,false);
 				 }else{
