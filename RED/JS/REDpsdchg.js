@@ -366,19 +366,3 @@ function TableToJson(user_id,account,password) {   //由此紀錄剩餘的table�
 	}   
 	//return json;  //測試資料用
 }  
-
-function setCookie(name, value) {
-	var argv = setCookie.arguments;
-	var argc = setCookie.arguments.length;
-	var expires = (argc > 2) ? argv[2] : null;
-	var path = (argc > 3) ? argv[3] : null;
-	var domain = (argc > 4) ? argv[4] : null;
-	var secure = (argc > 5) ? argv[5] : null;
-
-	document.cookie = escape(name) + "=" + escape(value) +
-	((expires == null) ? "" : ("; expires=" + expires.toGMTString())) +
-	((path == null) ? "" : ("; path=" + path)) +
-	((domain == null) ? "" : ("; domain=" + domain)) +
-	((secure == null) ? "" : ("; secure=" + secure));
-}
-

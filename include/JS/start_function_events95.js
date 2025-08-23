@@ -197,7 +197,7 @@ function outprocs(event){
 	delCookie('howpge');
 	delCookie('MorP');
 	delCookie('kindofda');
-	delCookie('adddpt'); 
+	delCookie('adddpt'); 	
 	for(var i=1;i<10;i++){   //該登入者之權限設定
 		var authorder='auth'+paddingLeft(i.toString(),2);	
 	 
@@ -209,7 +209,7 @@ function outprocs(event){
 	       scriptall[j].parentNode.removeChild(scriptall[j]);
 		}
 	}	
-	history.back();	
+	history.back();		 
 }
 
 //起始畫面
@@ -823,33 +823,4 @@ function loadScript(url, callback) {        //動態加入js
   document.head.appendChild(script); // 或 document.body.appendChild(script);
 }
 
-function delCookie(name) {
-	var expDate = new Date();
-	expDate.setTime(expDate.getTime()-1);	// 設定 Cookie 的失效時間比目前時間還早
-	document.cookie = escape(name) + "=; expires=" + expDate.toGMTString();	// 重新設定 Cookie
-}
 
-function getCookie(name){  //取得COOKIE 
-	var arg = name + "="; 
-	var alen = arg.length; 
-	var clen = document.cookie.length; 
-	var i = 0; 
-	var j = 0;
-	while(i < clen){ 
-		j = i + alen; 
-		if (document.cookie.substring(i, j) == arg) 
-			return getCookieVal(j); 
-		i = document.cookie.indexOf(" ", i) + 1; 
-		if(i == 0) 
-			break;
-	} 
-	return null; 
-} 
-  
-function getCookieVal(offset){ 
-	var endstr = document.cookie.indexOf(";", offset); 
-	if(endstr == -1){ 
-		endstr = document.cookie.length;
-	} 
-	return unescape(document.cookie.substring(offset, endstr)); 
-} 
