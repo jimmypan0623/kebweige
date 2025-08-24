@@ -13,11 +13,12 @@
 <script type="text/javascript" src='include/JS/start_function_events95.js?v=0.0.8'></script>  
 <script type="text/javascript" src='include/JS/djntime.js?v=0.0.1'></script> 
 <script type="text/javascript" src='include/JS/cookie.js?v=0.0.1'></script> 
-<script type="text/javascript" src='include/JS/initsetp.js?v=1.2.3'></script>  
+<script type="text/javascript" src='include/JS/commonrgst.js?v=0.0.1'></script> 
+<script type="text/javascript" src='include/JS/initsetp.js?v=1.2.5'></script>  
 </head>
 <body>    
 <!--登入畫面--> 
-<form id="login" method="post" action="loginchk.php"  >   
+<form id="login" method="post" action="loginchk.php">   
     <h1>LOG IN</h1>
     <fieldset id="inputs">
         <input id="account" name="account" type="text" placeholder="Account"  autocomplete="account" autofocus required>   
@@ -31,6 +32,21 @@
     <fieldset id="actions">
         <input type="submit" id="submit" value="Log in">  
     </fieldset>    
+	<script type="text/javascript">
+	function blocksclose(event)  //關閉註冊彈出視窗
+    {	
+		if (typeof event=="undefined"){
+			event=window.event;
+		}	
+		var target=getEventTarget(event);
+		var dropsheet=document.getElementById("myModal");
+		dropsheet.style.display="none";       //關閉視窗 
+		if (dropsheet!=null){		
+		   dropsheet.parentNode.removeChild(dropsheet);  //並將這些元素移除	 
+		}   	 	
+		return true;
+    }   	
+	</script>
 </form>
 <!--選單畫面-->
 	<div id="container"> 

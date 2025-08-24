@@ -9,15 +9,15 @@ cko[5] = chkCount();  //第四頁選擇計數(gridlist)
 cko[6] = chkCount();  //畫面主搜尋(也只有一個)功能目前鍵值紀錄指向計數
 
 function initDialog()
-{    
-        
+{           
     var btmshowtme=document.getElementById('currentTime');   
     var loginform=document.getElementById('login');
     var divcontainer=document.getElementById('container');
 	var tabcsses=getElementsByAttribute('class','tab_css');			
-	var links=document.getElementsByTagName('link');    	 
+	var links=document.getElementsByTagName('link');  
 	var myAccount=getCookie('useraccount');
 	if(!myAccount){    //如果沒有從登入畫面進來則必無登入帳號
+	   
 	    btmshowtme.style.display="none";
 		divcontainer.parentNode.removeChild(divcontainer);
 		for(var i=0;i<tabcsses.length;i++){
@@ -48,6 +48,20 @@ function initDialog()
 		var d0=(nwsd*Math.floor(Math.random()*mnte+scnd)%10).toString();
 		img4.src="digits/"+d0+".gif"; 
 		setCookie("CAPTCHA",d0+d1+d2+d3);
+		var errMsg=getCookie('errmsg');
+		if(errMsg){
+			document.getElementById('account').value=getCookie('tmpacnt');
+			document.getElementById('password').value=getCookie('tmppswd');
+		   if(errMsg=='A1'){			  	   
+			   blkshow("帳號或密碼錯誤");
+		   }else{			  
+			   blkshow("驗證碼錯誤");
+		   }
+		   delCookie('errmsg');	
+           delCookie('tmpacnt');	
+		   delCookie('tmppswd');
+		}
+		
     }else{		 	    	   
 		var nwdt=new Date();	
 		var nwsd=Math.floor(Math.random()*nwdt.getSeconds())%20;		
@@ -72,7 +86,7 @@ function initDialog()
 			}	
 			var cmmjsvs=gifarray[nwsd]+btmshowtme.innerHTML.substr(-2);			
 			var urljsname=left(nowExcute,3)+'/JS/'+left(nowExcute,3)+'elmcrt.js?v='+cmmjsvs; 
-			loadScript(`include/JS/commonrgst.js?v=${cmmjsvs}`); 
+			
 			loadScript(urljsname,function(){crtElm();});  
 			var mthjudge=getCookie("MorP");
 			var contentdiv=getElementsByAttribute('class','tab_content');
