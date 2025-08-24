@@ -2,13 +2,17 @@
     header("Content-Type:text/html; charset=utf-8"); 
     include("include/BKND/mysqli_server.php");               
        $user_account = mysqli_real_escape_string($link,$_POST['account']);
-       $user_password = mysqli_real_escape_string($link,$_POST['password']);	   
+       $user_password = mysqli_real_escape_string($link,$_POST['password']);
+	    $user_validcode = mysqli_real_escape_string($link,$_POST['validcode']);
+	if($_POST['validcode']==$_COOKIE['CAPTCHA'] ){	
+	  
+	
         if(!empty($user_account)&&!empty($user_password)){
 			$query = "SELECT a01.F00,a01.F01,a01.F02,a01.F03,a01.F04 FROM a01 Where a01.F01 ='".$user_account."' AND a01.F02 = '".$user_password."' "; 
            //用使用者名稱和密碼進行查詢         
 		   $data = mysqli_query($link,$query);		   
            //若查到的記錄正好為一條，則設定COOKIE，同時進行頁面重定向
-           if(mysqli_num_rows($data)==1){
+            if(mysqli_num_rows($data)==1){
               $row = mysqli_fetch_array($data);				
               //cookie保留7天			                 
 			  setcookie('userid',$row[0]);
@@ -20,7 +24,8 @@
 	            setcookie('howpge','',time()-999);
 	            setcookie('MorP','',time()-999);
 	            setcookie('kindofda','',time()-999);
-	            setcookie('adddpt','',time()-999); 
+	            setcookie('adddpt','',time()-999); 	
+				setcookie('CAPTCHA','',time()-999);	 
 		    //////		
 		      $sql3="select F01,F06 from a26 where F04<>'T' order by F01";    //系統參數
                $sql4=@mysqli_query($link,$sql3); 
@@ -58,6 +63,7 @@
 				setcookie('MorP','',time()-999);
 				setcookie('kindofda','',time()-999);
 				setcookie('adddpt','',time()-999);	 
+				setcookie('CAPTCHA','',time()-999);	 
 			    header('refresh:3; url=ZRO.html');			   
                 echo "使用者名稱或密碼錯誤,系統將在3秒後跳轉到登入介面,請重新填寫登入資訊!";			   
                 exit;			   
@@ -65,5 +71,11 @@
 		}else{
            echo '帳號密碼不得空白.';    //基本上程序不會跑到此因為登入畫面有設定空白就不能離開畫面
         }
+	}else{
+		setcookie('CAPTCHA','',time()-999);	 
+	   echo '驗證碼錯誤.'; 
+	    $home_url = 'ZRO.html';       //此處改為主畫面
+		header('Location: '.$home_url);  		
+	}		
     mysqli_close($link);	
 ?>

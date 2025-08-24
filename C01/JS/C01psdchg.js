@@ -19,8 +19,9 @@ function tab1View(event){
 	   if (typeof event=="undefined"){
 		   event=window.event;
     	}
-		var srchbtt=document.getElementById('SEEK_BOTT');		
-		srchbtt.style.visibility="visible";	
+		var target=getEventTarget(event);
+	/* 	var srchbtt=document.getElementById('SEEK_BOTT');		
+		srchbtt.style.visibility="visible";	 */
 		var newrcath=document.getElementById('NEW_BOTT');       //新增按鈕
 		 if (getCookie('auth01')=='Y'){
              newrcath.style.visibility="visible";	
@@ -29,7 +30,7 @@ function tab1View(event){
 			 newrcath.style.visibility="hidden";
 			 detachEventListener(newrcath,"click",addrec,false);
          }			 
-		var editbtt=document.getElementById("EDIT_BOTT");
+/* 		var editbtt=document.getElementById("EDIT_BOTT");
 		
 		if(getCookie('auth02')=='Y'){
 			editbtt.setAttribute("style","visibility:visible;");
@@ -45,7 +46,7 @@ function tab1View(event){
 		}else{
 		    delbtt.setAttribute("style","visibility:hidden;");
 			detachEventListener(delbtt,"click",  delrec,false);
-		}
+		} */
 		 var localbottoncl=document.getElementById('lclbtnbk');       //按鈕背景
 		 localbottoncl.style.backgroundColor="#FCFCFC";
 		 localbottoncl.style.border=" 2px solid #FCFCFC";

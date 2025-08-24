@@ -10,6 +10,7 @@ cko[6] = chkCount();  //畫面主搜尋(也只有一個)功能目前鍵值紀錄
 
 function initDialog()
 {    
+        
     var btmshowtme=document.getElementById('currentTime');   
     var loginform=document.getElementById('login');
     var divcontainer=document.getElementById('container');
@@ -17,13 +18,36 @@ function initDialog()
 	var links=document.getElementsByTagName('link');    	 
 	var myAccount=getCookie('useraccount');
 	if(!myAccount){    //如果沒有從登入畫面進來則必無登入帳號
+	    btmshowtme.style.display="none";
 		divcontainer.parentNode.removeChild(divcontainer);
 		for(var i=0;i<tabcsses.length;i++){
 			tabcsses[i].parentNode.removeChild(tabcsses[i]);
 		}			
-		 links[0].href="include/loginstyle.css" ;	
-		 links[1].href="digits/kandm.gif";	
-         btmshowtme.style.display="none";		 
+		links[0].href="include/loginstyle.css" ;	
+		links[1].href="digits/kandm.gif";	         
+		var img1=document.getElementById('img1');
+		var img2=document.getElementById('img2');
+		var img3=document.getElementById('img3');
+		var img4=document.getElementById('img4');
+		var scnd=btmshowtme.innerHTML.substr(-2);
+		var mnte=btmshowtme.innerHTML.substr(-5,2);
+		var nwdt=new Date();	
+		var nwsd=Math.ceil(Math.random()*60);  
+        var d3=(nwsd*Math.floor(Math.random()*mnte+scnd)%10).toString();		
+		img1.src="digits/"+d3+".gif";
+		var nwdt=new Date();			 
+		var nwsd=Math.floor(Math.random()*nwdt.getSeconds());	
+		var d2=(nwsd*Math.floor(Math.random()*mnte+scnd)%10).toString();
+		img2.src="digits/"+d2+".gif";
+		var nwdt=new Date();			
+		var nwsd=Math.floor(Math.random()*nwdt.getSeconds());
+        var d1=(nwsd*Math.floor(Math.random()*mnte+scnd)%10).toString();		
+		img3.src="digits/"+d1+".gif";
+        var nwdt=new Date();	
+		var nwsd=Math.floor(Math.random()*nwdt.getSeconds());	
+		var d0=(nwsd*Math.floor(Math.random()*mnte+scnd)%10).toString();
+		img4.src="digits/"+d0+".gif"; 
+		setCookie("CAPTCHA",d0+d1+d2+d3);
     }else{		 	    	   
 		var nwdt=new Date();	
 		var nwsd=Math.floor(Math.random()*nwdt.getSeconds())%20;		
@@ -46,7 +70,7 @@ function initDialog()
 				tabs[i].parentNode.removeChild(tabs[i]);
 				divcontents[i].parentNode.removeChild(divcontents[i]);
 			}	
-			var cmmjsvs=gifarray[nwsd]+btmshowtme.innerHTML.substr(-2)			
+			var cmmjsvs=gifarray[nwsd]+btmshowtme.innerHTML.substr(-2);			
 			var urljsname=left(nowExcute,3)+'/JS/'+left(nowExcute,3)+'elmcrt.js?v='+cmmjsvs; 
 			loadScript(`include/JS/commonrgst.js?v=${cmmjsvs}`); 
 			loadScript(urljsname,function(){crtElm();});  
@@ -592,4 +616,3 @@ function rollChange(event){    //按鈕翻頁
        	 
 	
 }
-

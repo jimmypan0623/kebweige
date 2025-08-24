@@ -742,12 +742,9 @@ function filtermsg(vlobj,msgtxt){
 		   return;
 }		   
 
-
-
 function thousands(num){  //三位點逗號
     return num.toLocaleString();
 }
-
 
 function getElementsByAttribute(attribute,attributeValue)   //同屬性物件
 {
@@ -822,5 +819,3 @@ function loadScript(url, callback) {        //動態加入js
   script.src = url;
   document.head.appendChild(script); // 或 document.body.appendChild(script);
 }
-
-

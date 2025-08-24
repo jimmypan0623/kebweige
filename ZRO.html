@@ -7,24 +7,29 @@
 <meta name="description" content="知訊數位管理資訊系統">
 <meta name="revised" content="最後更新2025/07/04">
 <title>RED.知訊數位營運管理系統</title> 
-<link href="include/loginstyle.css" rel="stylesheet">
+<link href="include/loginstyle.css?v=0.0.1" rel="stylesheet">
 <link rel="shortcut icon" href="digits/kandm.gif"> 
 <script type="text/javascript" src='include/JS/add-load-listener.js?v=0.0.1'></script> 
-<script type="text/javascript" src='include/JS/start_function_events95.js?v=0.0.7'></script>  
+<script type="text/javascript" src='include/JS/start_function_events95.js?v=0.0.8'></script>  
 <script type="text/javascript" src='include/JS/djntime.js?v=0.0.1'></script> 
 <script type="text/javascript" src='include/JS/cookie.js?v=0.0.1'></script> 
-<script type="text/javascript" src='include/JS/initsetp.js?v=1.2.1'></script>  
+<script type="text/javascript" src='include/JS/initsetp.js?v=1.2.3'></script>  
 </head>
 <body>    
 <!--登入畫面--> 
 <form id="login" method="post" action="loginchk.php"  >   
-    <h1>Log In</h1>
+    <h1>LOG IN</h1>
     <fieldset id="inputs">
         <input id="account" name="account" type="text" placeholder="Account"  autocomplete="account" autofocus required>   
         <input id="password" name= "password" type="password" autocomplete="current-password" placeholder="Password" required>
+        <input id="validcode" name= "validcode" type="text" style="width:55%;"  placeholder="輸入右邊驗證碼" maxlength='4' required>	 
+         <img id="img1" style="width:2rem; height:2rem;">  
+		<img id="img2"> 
+		<img id="img3">		 	 
+		<img id="img4">		 
     </fieldset>
     <fieldset id="actions">
-        <input type="submit" id="submit" value="Log in">     
+        <input type="submit" id="submit" value="Log in">  
     </fieldset>    
 </form>
 <!--選單畫面-->
@@ -36,7 +41,7 @@
 			<ul id="listUL">
 				<li ><a href="logOut.php">返回登入畫面</a></li>		
 			</ul>
-		</nav>
+		</nav>		
 	</div>
 <!--操作畫面--> 
     <div class="tab_css">     	 

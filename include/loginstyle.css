@@ -28,12 +28,12 @@ body
     background-image: -ms-linear-gradient(top, #fff, #eee);
     background-image: -o-linear-gradient(top, #fff, #eee);
     background-image: linear-gradient(top, #fff, #eee);  
-    height: 240px;
+    height: 280px;
     width: 400px;
     margin: -150px 0 0 -230px;
     padding: 30px;
     position: absolute;
-    top: 50%;
+    top: 47%;
     left: 50%;
     z-index: 0;
     -moz-border-radius: 3px;
@@ -147,9 +147,10 @@ fieldset
     -moz-box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;
     -webkit-box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;
     box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;
+	 font: bold 15px Arial, Helvetica;
 }
 
-#username
+#account
 {
     background-position: 5px -2px !important;
 }
@@ -157,6 +158,10 @@ fieldset
 #password
 {
     background-position: 5px -52px !important;
+}
+#validcode
+{
+    background-position: 5px -102px !important;
 }
 
 #inputs input:focus
@@ -255,4 +260,10 @@ fieldset
 span.errorMsg{
    color:#0080FF;
    font-family:標楷體;    
+}
+
+#img1, #img2,#img3,#img4 {
+  float: right;
+  width: 2rem;
+  height: 2rem;
 }
