@@ -7,7 +7,7 @@
 <meta name="description" content="知訊數位管理資訊系統">
 <meta name="revised" content="最後更新2025/07/04">
 <title>RED.知訊數位營運管理系統</title> 
-<link href="include/loginstyle.css?v=0.0.1" rel="stylesheet">
+<link href="include/loginstyle.css?v=0.0.2" rel="stylesheet">
 <link rel="shortcut icon" href="digits/kandm.gif"> 
 <script type="text/javascript" src='include/JS/add-load-listener.js?v=0.0.1'></script> 
 <script type="text/javascript" src='include/JS/start_function_events95.js?v=0.0.8'></script>  
@@ -24,25 +24,25 @@
         <input id="account" name="account" type="text" placeholder="Account"  autocomplete="account" autofocus required>   
         <input id="password" name= "password" type="password" autocomplete="current-password" placeholder="Password" required>
         <input id="validcode" name= "validcode" type="text" style="width:55%;"  placeholder="輸入右邊驗證碼" maxlength='4' required>	 
-         <img id="img1" style="width:2rem; height:2rem;">  
+          <img id="img1" style="width:2rem; height:2rem;">  
 		<img id="img2"> 
 		<img id="img3">		 	 
-		<img id="img4">		 
+		<img id="img4"> 	 
     </fieldset>
     <fieldset id="actions">
         <input type="submit" id="submit" value="Log in">  
     </fieldset>    
 	<script type="text/javascript">
-	function blocksclose(event)  //關閉註冊彈出視窗
+	function blocksclose(event)  
     {	
 		if (typeof event=="undefined"){
 			event=window.event;
 		}	
 		var target=getEventTarget(event);
 		var dropsheet=document.getElementById("myModal");
-		dropsheet.style.display="none";       //關閉視窗 
+		dropsheet.style.display="none";       
 		if (dropsheet!=null){		
-		   dropsheet.parentNode.removeChild(dropsheet);  //並將這些元素移除	 
+		   dropsheet.parentNode.removeChild(dropsheet);  
 		}   	 	
 		return true;
     }   	

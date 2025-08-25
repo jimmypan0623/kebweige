@@ -809,7 +809,7 @@ function searchOptionsKey(tbno,slt5){
 		 slt5.options.add(new Option('出貨單號','b04.F01'));
 		 slt5.options.add(new Option('客戶編號','b04.F06'));
 		 slt5.options.add(new Option('客戶簡稱','c01.F05'));
-		 //slt5.options.add(new Option('出貨日期','b04.F02'));
+		 slt5.options.add(new Option('出貨日期','b04.F02'));
 		 slt5.options.add(new Option('業務編號','b04.F09'));
 		 slt5.options.add(new Option('業務姓名','a01.F03'));
 		 slt5.options.add(new Option('發票號碼','b04.F20')); 

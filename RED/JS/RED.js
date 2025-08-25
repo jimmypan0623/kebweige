@@ -47,7 +47,7 @@ function getProfile(str1,cmpnme) {
 			  oLison.appendChild(newSpan);			 
          }
 	      var oLiUncle=document.createElement('li');   //最底下再新增一個li tag修改密碼
-		  attachEventListener(oLiUncle,"click",blockPsdshow,false);  //修改密碼按鈕程序
+		  attachEventListener(oLiUncle,"click",blockPsdshow,false);  //修改密碼按鈕程序		   
 		  var newC=document.createElement("a");
 		  newC.setAttribute("href","#");
 		  newC.appendChild(document.createTextNode("變更登入系統密碼"));

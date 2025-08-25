@@ -51,58 +51,60 @@ function blkshow(txtword)
 		   //新增||修改||刪除||
 		var tbno=0;
 		var tabs=getElementsByAttribute('class','tab');	
-		 for(var i=0;i<tabs.length;i++){
-				   if(tabs[i].checked){
-					  var tbno=i;
-					  break;
-				   }
+		for(var i=0;i<tabs.length;i++){
+		    if(tabs[i].checked){
+			   var tbno=i;
+			   break;
+		    }
 		}
 		//新增修改畫面提示訊息
 		switch(txtword){
 			case 1:	 			    //新增
-				
-				  var headtitle= addNewRecordHint(tbno)+"(新增完畢請按\u{274E}結束鈕)";
-				  break;					  
+				    if(addNewRecordHint(tbno)=="修改密碼："){
+				        var headtitle= addNewRecordHint(tbno);
+				    }else{
+					  var headtitle= addNewRecordHint(tbno)+"(新增完畢請按\u{274E}結束鈕)"; 
+				    }
+				    break;					  
 			case 4:				                //刪除
-				   var headtitle="確定刪除所點選紀錄?";
-				  break;	   
+				    var headtitle="確定刪除所點選紀錄?";
+				    break;	   
 			case 3:				 	      //確認或過帳
-				  if (tbno==0){  //表頭資料	
-				    if(sourceAccount(1,0)){
-					   var headtitle='單號:'+sourceAccount(1,0)+",核准確認?";
-					}else{
-						blkshow("無資料可確認!");
-						return false;
-					}
-				  }else{				 
-					  var headtitle='單號:'+document.getElementById('fatherkey').innerHTML+",核准確認?";					 
-				  }
-				  break;
+				    if (tbno==0){  //表頭資料	
+				        if(sourceAccount(1,0)){
+					       var headtitle='單號:'+sourceAccount(1,0)+",核准確認?";
+					    }else{
+						   blkshow("無資料可確認!");
+						   return false;
+					    }
+				    }else{				 
+					    var headtitle='單號:'+document.getElementById('fatherkey').innerHTML+",核准確認?";					 
+				    }
+				    break;
 			case 5:                             //反確認或反過帳
-				  if (tbno==0){  //表頭資料	
-				     if(sourceAccount(1,0)){
-					     var headtitle='單號:'+sourceAccount(1,0)+",反確認修正?";
-					 }else{
-						blkshow("無資料可反確認!");
-						return false;
-					}
-				  }else{
-					 var headtitle='單號:'+document.getElementById('fatherkey').innerHTML+",反確認修正?";
-				  }	                   
-				   break;
+				    if (tbno==0){  //表頭資料	
+				        if(sourceAccount(1,0)){
+					        var headtitle='單號:'+sourceAccount(1,0)+",反確認修正?";
+					    }else{
+						   blkshow("無資料可反確認!");
+						   return false;
+					   }
+				    }else{
+					    var headtitle='單號:'+document.getElementById('fatherkey').innerHTML+",反確認修正?";
+				    }	                   
+				    break;
 			case 6:                                    //轉單				 
-				   var headtitle=transRecordHint(tbno);
-				  break;	  
+				    var headtitle=transRecordHint(tbno);
+				    break;	  
 			case 7:                                  //搜尋				      
-				   var headtitle=searchKeyHint(tbno);
-				   break;		   	  
+				    var headtitle=searchKeyHint(tbno);
+				    break;		   	  
 			case 8:	              //複製該表頭之表身所有紀錄到另一個表頭下
-				  var headtitle=copyToOtherList(tbno);
-				  break;
+				   var headtitle=copyToOtherList(tbno);
+				   break;
 			case 9:                            //表頭保留但移除該表頭的表身所有紀錄
-				 var headtitle=removeAllList(tbno);
-				 break;	   
-					  break;	  
+				   var headtitle=removeAllList(tbno);
+				   break;	   					 
 			case 101:                                  //第一頁其他第一按鈕功能開窗			 			       
 				    var headtitle=page1OtherWindow1();					
 				   break;		  
@@ -110,25 +112,23 @@ function blkshow(txtword)
 				   var headtitle=page2OtherWindow1();
 				   break;		 	   
 			case 2:                             //修改
-				  var aWaitUpdate=[];	//準備記錄修改時欄位的內容資料
-				  var notWaitdata=[];    //不直接異動的資料	 							
-				  
-				  var maintable=document.getElementById("maintbody"+(tbno+1).toString());	
-						  
-				  for(var i=0;i< maintable.rows.length; i++){			 		            
-					  if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
-						 for (j=0;j<maintable.rows[i].cells.length-1;j++){
-							 if(maintable.rows[i].cells[j].className=='directdata'){							
-								aWaitUpdate.push(maintable.rows[i].cells[j].innerHTML);  //將待修改欄位資料存入陣列
-							 }else{
-							   notWaitdata.push(maintable.rows[i].cells[j].innerHTML);  // 直接傳入後端的資料也先收集起來
-							 }
-						 }					   			   	   
-						 break;					   
-					  }
-				  } 				 			
-				  var headtitle=editRecordHint(tbno);
-				  break;					  
+				    var aWaitUpdate=[];	//準備記錄修改時欄位的內容資料
+				    var notWaitdata=[];    //不直接異動的資料	 											  
+				    var maintable=document.getElementById("maintbody"+(tbno+1).toString());							  
+				    for(var i=0;i< maintable.rows.length; i++){			 		            
+					    if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
+					  	    for (j=0;j<maintable.rows[i].cells.length-1;j++){
+						   	    if(maintable.rows[i].cells[j].className=='directdata'){							
+								   aWaitUpdate.push(maintable.rows[i].cells[j].innerHTML);  //將待修改欄位資料存入陣列
+							    }else{
+							      notWaitdata.push(maintable.rows[i].cells[j].innerHTML);  // 直接傳入後端的資料也先收集起來
+							    }
+						    }					   			   	   
+						    break;					   
+					    }
+				    } 				 			
+				    var headtitle=editRecordHint(tbno);
+				    break;					  
 		} 		    
 		var dialog=document.createElement("div");		//開始從畫面產生新增紀錄欄位			 
 		dialog.className="crncyDialog"; 		 
@@ -278,7 +278,7 @@ function TableToJson(args,nongs,tbno){
 		}									
 		var json=order_head.slice(0,-1)+"}";   //去掉最後一個逗號再加上右大引號	 	 
 	
-     var str_json=JSON.stringify(json);	 	   
+     var str_json=JSON.stringify(json);	
 	  var mainright=document.getElementsByTagName('title'); 
 	 if(window.ActiveXObject){
 		var request = new ActiveXObject("Microsoft.XMLHttp");
@@ -302,7 +302,8 @@ function TableToJson(args,nongs,tbno){
      request.setRequestHeader("Content-type", "application/json");
      request.send(str_json);
     function respondUpdate() {		
-        if (request.readyState == 4 && request.status == 200) {     		    
+        if (request.readyState == 4 && request.status == 200) {   
+           		
 			rsp=JSON.parse(request.responseText);	
 			var lastmodifydate=rsp.lastupdate;    //最後異動先丟入變數,否則丟入之函數無法呼叫			
 		  

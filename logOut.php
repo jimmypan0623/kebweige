@@ -6,7 +6,7 @@ header('Content-type:text/html; charset=utf-8');
 // 清除Cookie  
 	setcookie('userid', '', time()-999);
 	setcookie('useraccount', '', time()-999);
-	//setcookie('pasasword', '', time()-999);
+	setcookie('pasasword', '', time()-999);
 	setcookie('username', '', time()-999);
 	setcookie('dptno', '', time()-999);			  
 	setcookie('auth01', '', time()-999);

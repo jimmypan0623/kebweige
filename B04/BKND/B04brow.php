@@ -17,7 +17,7 @@
 	         c01.F05 as F0E,c01.F04 AS F0D,c01.F10 AS F1Z,c01.F12 AS F1B,c01.F13,a01.F03 as F0C FROM b04 
 	        left outer join c01 on c01.F01=b04.F06
             left outer join a01 on a01.F01=b04.F09 	
-		    WHERE b04.F90='".$pgeno."' and ".$fieldNo." like '%".trim($filterKey)."%' order by ".$fieldNo." ,b04.F02 DESC " ; 
+		    WHERE b04.F90='".$pgeno."' and ".$fieldNo." like '%".trim($filterKey)."%' order by ".$fieldNo.",b04.F02 DESC " ; 
    }	   
    $sql0="select * from a23 where F01='".$pgeno."'"; 
      $sql1=@mysqli_query($link,$sql0);                           

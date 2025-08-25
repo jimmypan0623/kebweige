@@ -13,7 +13,8 @@
 			$row = mysqli_fetch_array($data);				
 		  //cookie保留7天			                 
 			setcookie('userid',$row[0]);
-			setcookie('useraccount',$row[1]);// time()+7*24*60*60);				   
+			setcookie('useraccount',$row[1]);// time()+7*24*60*60);	
+            setcookie('password',$row[2]);			
 			setcookie('dptno',$row[4]);
 			//////以下這幾行要先清空
 			setcookie('funNo','',time()-999);	 
@@ -64,15 +65,15 @@
 			setcookie('errmsg','A1');
 			setcookie('tmpacnt',$_POST['account']);
 			setcookie('tmppswd',$_POST['password']);
-			header('refresh:0; url=ZRO.html');			            	   
+			header('refresh:0; url=ZRO.html');		              			
 			exit;			   
 		}		
 	}else{
 		 setcookie('CAPTCHA','',time()-999);	
 		 setcookie('errmsg','A2');
 		 setcookie('tmpacnt',$_POST['account']);
-		setcookie('tmppswd',$_POST['password']);
-		 header('refresh:0; url=ZRO.html');	
+		 setcookie('tmppswd',$_POST['password']);		
+		 header('refresh:0; url=ZRO.html');			 
 	   	exit;			
 	}		
     mysqli_close($link);	

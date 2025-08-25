@@ -278,7 +278,7 @@ function editRecordHint(tbno){
 
 function searchKeyHint(tbno){    //搜尋畫面出現提示
   
-	   return "搜尋參數設定欄位選擇";	;
+	   return "搜尋參數設定欄位選擇";	
    
 }
 
