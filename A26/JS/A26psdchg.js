@@ -6,7 +6,7 @@ function selfTag(jsvsn){
 	var tables=getElementsByAttribute("class","gridlist");
 	var ths=tables[0].getElementsByTagName("th");			 				
 	if(!notOnlyEdit){
-        ths[ths.length-3].parentNode.removeChild(ths[ths.length-3]);
+        ths[ths.length-2].parentNode.removeChild(ths[ths.length-2]);
 	}
 	loadScript(`A26/JS/A26.js?v=${jsvsn}`,function(){DrawTable();});		 
 	loadScript(`A26/JS/A26rgst.js?v=${jsvsn}`);

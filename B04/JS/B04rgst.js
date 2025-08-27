@@ -830,7 +830,7 @@ function  addNewRecordHint(tbno){
     if (tbno==0){  //表頭資料
 	   return "請輸入出貨單表頭資料：";
     }else{
-	   return "請輸入出貨單內容資料："; 
+	   return "請輸入出貨單:"+sourceAccount(1,0)+"內容資料："; 
     }		
 }
 
@@ -838,7 +838,7 @@ function editRecordHint(tbno){
     if (tbno==0){  
 		return "修改出貨單表頭資料："; 
 	}else{
-		return "修改出貨單內容資料："; 
+		return "修改出貨單:"+sourceAccount(1,0)+"內容資料："; 
 	}	 
 }
 /* function transRecordHint(tbno){

@@ -235,7 +235,7 @@ function blkshow(txtword)
 		if(txtword==8){         //複製提示畫面新增欄位
 			bodyCopyList(ajTable);			    			 
 		} 
-		if(txtword==101){  
+		if(txtword==101){  		    
 		    page1Detail01(ajTable);
 		}
 		if(txtword==201){  
@@ -257,56 +257,47 @@ function blkshow(txtword)
 }
 
 /////  將table內容資料轉為jason
-
 	//以下為新增內容
-function TableToJson(args,nongs,tbno){	
-	
-    
-		var yesbill=getCookie("kindofda");  //	判斷是否為單據
-        var rsp="";      
-        if (tbno==0){		
-		    var order_head="{";
-		}else if(tbno==1){
-			var fthkey=document.getElementById('fatherkey');  
-		    var order_head="{"+"\""+"elema"+"\""+":"+"\""+fthkey.innerHTML.trim()+"\""+",";
-		}else if(tbno==2){
-		      var fthkey=document.getElementById('fatherkey1');  
-		    var order_head="{"+"\""+"elema"+"\""+":"+"\""+fthkey.innerHTML.trim()+"\""+",";
-		}
-		for (var n=0;n<args.length;n++){
-			order_head+="\""+"elem"+String(n)+"\""+":"+"\""+args[n]+"\""+",";
-		}									
-		var json=order_head.slice(0,-1)+"}";   //去掉最後一個逗號再加上右大引號	 	 
-	
-     var str_json=JSON.stringify(json);	
-	  var mainright=document.getElementsByTagName('title'); 
-	 if(window.ActiveXObject){
-		var request = new ActiveXObject("Microsoft.XMLHttp");
-	 }	
-	 else if(window.XMLHttpRequest){
+function TableToJson(args,nongs,tbno){		    
+	var yesbill=getCookie("kindofda");  //	判斷是否為單據
+	var rsp="";      
+	if (tbno==0){		
+		var order_head="{";
+	}else if(tbno==1){
+		var fthkey=document.getElementById('fatherkey');  
+		var order_head="{"+"\""+"elema"+"\""+":"+"\""+fthkey.innerHTML.trim()+"\""+",";
+	}else if(tbno==2){
+		  var fthkey=document.getElementById('fatherkey1');  
+		var order_head="{"+"\""+"elema"+"\""+":"+"\""+fthkey.innerHTML.trim()+"\""+",";
+	}
+	for (var n=0;n<args.length;n++){
+		order_head+="\""+"elem"+String(n)+"\""+":"+"\""+args[n]+"\""+",";
+	}									
+	var json=order_head.slice(0,-1)+"}";   //去掉最後一個逗號再加上右大引號	 	 	
+    var str_json=JSON.stringify(json);	
+	var mainright=document.getElementsByTagName('title'); 
+	if(window.ActiveXObject){
+	    var request = new ActiveXObject("Microsoft.XMLHttp");
+	}	
+	else if(window.XMLHttpRequest){
 		var request = new XMLHttpRequest();
-     }		
-	 request.onreadystatechange = respondUpdate;
-	 var mainrightValue=(left(mainright[0].innerHTML,3)).toUpperCase();
-	 if (tbno==0){	
-	      var url=mainrightValue+"/BKND/"+mainrightValue+"wrt.php?timestamp="+new Date().getTime();	
-          
-	 }else if(tbno==1){
-		   var url=mainrightValue+"/BKND/"+mainrightValue+"bodywrt.php?timestamp="+new Date().getTime();	
-	       
-	 }else if (tbno==2){
-		 var url=mainrightValue+"/BKND/"+mainrightValue+"hipswrt.php?timestamp="+new Date().getTime();		  
-	 }
-	 
-	 request.open("POST",url);	
-     request.setRequestHeader("Content-type", "application/json");
-     request.send(str_json);
+    }		
+	request.onreadystatechange = respondUpdate;
+	var mainrightValue=(left(mainright[0].innerHTML,3)).toUpperCase();
+	if (tbno==0){	
+	    var url=mainrightValue+"/BKND/"+mainrightValue+"wrt.php?timestamp="+new Date().getTime();	          
+	}else if(tbno==1){
+		  var url=mainrightValue+"/BKND/"+mainrightValue+"bodywrt.php?timestamp="+new Date().getTime();		       
+	}else if (tbno==2){
+		var url=mainrightValue+"/BKND/"+mainrightValue+"hipswrt.php?timestamp="+new Date().getTime();		  
+	}	 
+	request.open("POST",url);	
+    request.setRequestHeader("Content-type", "application/json");
+    request.send(str_json);
     function respondUpdate() {		
-        if (request.readyState == 4 && request.status == 200) {   
-           		
+        if (request.readyState == 4 && request.status == 200) {              		
 			rsp=JSON.parse(request.responseText);	
-			var lastmodifydate=rsp.lastupdate;    //最後異動先丟入變數,否則丟入之函數無法呼叫			
-		  
+			var lastmodifydate=rsp.lastupdate;    //最後異動先丟入變數,否則丟入之函數無法呼叫					  
             var arglth=	args.length;		
 			if(!isNaN(Number(rsp.order_no))){     			   
 			   if(args[arglth-2]==0){     //如果回傳為新增記錄號碼且旗標值為0表示新增成功就做表格插入一列		
@@ -343,7 +334,6 @@ function TableToJson(args,nongs,tbno){
 			   }else{            //如果是修改則原列更改內容		                    		   								
 
 					colomnContextChange(tbno,args,nongs,arglth,rsp);   //修改確認後表格欄位處理
-
 			   }			   
 			}else{
 				blkshow(rsp);   //新增不成功才顯示訊息					
@@ -357,8 +347,7 @@ function notIceChg(event){
     if (typeof event=="undefined"){
 		event=window.event;		
     }			 
-	var target=getEventTarget(event);
-   
+	var target=getEventTarget(event);   
     var slt = target.selectedIndex;		
 	if(slt!=cko[6](0)){   //如果紀錄的鍵值不等於現在選得鍵值
 	   var bau=cko[6](0);
@@ -366,8 +355,7 @@ function notIceChg(event){
 	   cko[6](slt);
 	} 
 	var srch=document.getElementById('searchWords');
-	var srchPar=srch.parentNode;	
-	
+	var srchPar=srch.parentNode;		
 	var rdochk=document.getElementById('rdchg1');	
 	if(target.options[slt].text.indexOf('(Y/N)')>0){		 			
 		srch.style.display="none";		 			
@@ -385,8 +373,7 @@ function notIceChg(event){
 		        basechklbl.setAttribute('name','lblrdo');					
 		        basechklbl.setAttribute('for',bsechkbx.id);
 		        basechklbl.innerHTML=sureChoice[l-1]+'&nbsp&nbsp';
-				bsechkbx.value=((l==1)?' ':((l==2)?'Y':'N'));
-				
+				bsechkbx.value=((l==1)?' ':((l==2)?'Y':'N'));				
 		        srchPar.appendChild(bsechkbx);
 		        srchPar.appendChild(basechklbl);					 
 				if (l==1){   //預設值

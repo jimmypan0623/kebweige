@@ -76,12 +76,12 @@ function getProfile(str1,trncde,tbno) {
 					  oTd.setAttribute("style","width:7%;");		
 					   oTd.setAttribute("class","indirectdata");			
 					  attachEventListener(oTd,'click',rowchoose,false);		//點選資料  */ 
-				 }else if(jk=='customer_po'){					    
+				 }else if(jk=='ship_bill'){					    
 					  oTd.setAttribute("style","width:12%;");		
 					   oTd.setAttribute("class","directdata");			
 					  attachEventListener(oTd,'click',rowchoose,false);		//點選資料  */
-				 }else if(jk=='shipdirect'){					    
-					  oTd.setAttribute("style","width:15%;");		
+				 }else if(jk=='invlice_no'){					    
+					  oTd.setAttribute("style","width:12%;");		
 					   oTd.setAttribute("class","directdata");			
 					  attachEventListener(oTd,'click',rowchoose,false);		//點選資料  */
 				}else if(jk=='invoice_type'){					    
@@ -98,7 +98,13 @@ function getProfile(str1,trncde,tbno) {
 					   oTd.innerHTML=whichtax(arr[i][jk]);
 					 oTd.setAttribute("style","width:4%;");
 					 attachEventListener(oTd,'click',rowchoose,false);		//點選資料		
-				 
+				 }else if(jk=='discount_ship'){
+					 oTd.setAttribute("style","display:none;");		
+					   oTd.setAttribute("class","directdata");		
+					   var oTd = oTr.insertCell(oTr.cells.length);
+					   oTd.innerHTML=(arr[i][jk]=='1'?'退貨':'折讓');
+					   oTd.setAttribute("style","width:4%;");
+					  attachEventListener(oTd,'click',rowchoose,false);		//點選資料		
 			   }else if(jk=='shure' || jk=='custom_fullname' || jk=='unitedno' || jk=='contact' || jk=='tel'){		  
 				   oTd.setAttribute("class","indirectdata");
 				   oTd.setAttribute("style","display:none;");	

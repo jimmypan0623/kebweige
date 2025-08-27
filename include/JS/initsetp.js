@@ -25,13 +25,12 @@ function initDialog()
 		for(var i=0;i<tabcsses.length;i++){
 			tabcsses[i].parentNode.removeChild(tabcsses[i]);
 		}			
-		links[0].href="include/loginstyle.css" ;	
+		//links[0].href=`include/loginstyle.css?v=${scnd+mnte}` ;		
 		links[1].href="digits/kandm.gif";	         
 		var img1=document.getElementById('img1');
 		var img2=document.getElementById('img2');
 		var img3=document.getElementById('img3');
-		var img4=document.getElementById('img4');
-		
+		var img4=document.getElementById('img4');		
 		var nwdt=new Date();	
 		var nwsd=Math.ceil(Math.random()*60);  
         var d3=(nwsd*Math.floor(Math.random()*scnd+mnte)%10).toString();		
@@ -61,7 +60,7 @@ function initDialog()
 		    delCookie('errmsg');	
             delCookie('tmpacnt');	
 		    delCookie('tmppswd');
-		}		
+		}	       
     }else{		 	    	   
 		var nwdt=new Date();	
 		var nwsd=Math.floor(Math.random()*nwdt.getSeconds())%20;		
@@ -70,7 +69,7 @@ function initDialog()
             delCookie("funNo");		
 			divcontainer.parentNode.removeChild(divcontainer);		
 			loginform.parentNode.removeChild(loginform);
-			 links[0].href="B04/B04.css?v=0.0.1" ;						 
+			 links[0].href=`include/Operate.css?v=${scnd+mnte}` ;						 
 			 var gifarray=['ROL','0','cell','1','fngbtn','2','spec','3','stckgood',
 			 '4','00002','5','smlbulb','6','myrndm','7','openfile','8','enlight','9']; 			
 			 links[1].href="digits/"+gifarray[nwsd]+".gif";			
@@ -311,7 +310,7 @@ function initDialog()
 				tabcsses[i].parentNode.removeChild(tabcsses[i]);
 			 }			
 			  btmshowtme.style.display="none";		
-			 links[0].href="RED/REDmenu.css?v=1.1.9";			 			 
+			 links[0].href=`RED/REDmenu.css?v=${nwsd.toString()+scnd}`;			 			 
 			 links[1].href="digits/CYC25.gif";
 			nowExcute='RED.知訊數位營運管理系統';
 			document.getElementsByTagName('title').innerHTML=nowExcute;			 

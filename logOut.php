@@ -6,8 +6,7 @@ header('Content-type:text/html; charset=utf-8');
 // 清除Cookie  
 	setcookie('userid', '', time()-999);
 	setcookie('useraccount', '', time()-999);
-	setcookie('pasasword', '', time()-999);
-	setcookie('username', '', time()-999);
+	setcookie('password', '', time()-999);
 	setcookie('dptno', '', time()-999);			  
 	setcookie('auth01', '', time()-999);
 	setcookie('auth02', '', time()-999);
@@ -31,9 +30,6 @@ header('Content-type:text/html; charset=utf-8');
         setcookie($list3['F01'],'', time()-999);			   	   	              	            
 	}    
 	mysqli_close($link);			
-// 提示資訊
-//echo "歡迎下次光臨, ".$username.'<br>';
-//echo "<a href='blgexlogin.html'>重新登入</a>";
-$home_url = 'ZRO.html';
-header('Location:'.$home_url); 
+    $home_url = 'ZRO.html';
+    header('Location:'.$home_url); 
  ?>

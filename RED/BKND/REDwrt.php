@@ -12,6 +12,6 @@ $brr=array();
     $sql=$mscnt;                                               //寫入MySQL 	member->users
     mysqli_query($link ,$sql) or die(mysqli_error($link)); 
 	mysqli_close($link);
-	setcookie('password',$brr[2]);	
+	
 	echo  json_encode("密碼已變更！下次登入請記得使用新密碼。");
 ?>
