@@ -32,7 +32,7 @@ function initDialog()
 		var img3=document.getElementById('img3');
 		var img4=document.getElementById('img4');		
 		var nwdt=new Date();	
-		var nwsd=Math.ceil(Math.random()*60);  
+		var nwsd=Math.ceil(Math.random()*61);  
         var d3=(nwsd*Math.floor(Math.random()*scnd+mnte)%10).toString();		
 		img1.src="digits/"+d3+".gif";
 		var nwdt=new Date();			 

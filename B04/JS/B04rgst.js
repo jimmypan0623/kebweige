@@ -440,7 +440,8 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    oTd.innerHTML='出貨單號:';
 	    var oTd = oTr.insertCell(1);		
 	    oTd.colspan=3;				  
-	    if(txtword==2){   //如果是修改		                
+	    if(txtword==2){   //如果是修改		         
+            
 	 	   oTd.innerHTML="<input type='text' name='b04update' id='queryno' class='txt' style='background-color:#B9B9FF;width:25%;' maxlength='10' readOnly=true  />"; 					
 		   optionitem(aWaitUpdate[5],slt4.id,4,"C01/BKND/C00srch.php");		//幣別欄位					 
 	         
@@ -604,8 +605,7 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 			  document.getElementById('deptname').innerHTML=notWaitdata[2];
 		   }
 		   for(var k=0;k<editinit.length;k++){ 
-			   editinit[k].value=aWaitUpdate[k];
-							   
+			   editinit[k].value=aWaitUpdate[k]			 							   
 		   }		
 			//alert(document.getElementById('howpay').value.match(/\d+/g)*1);   //				
 		   break;	
