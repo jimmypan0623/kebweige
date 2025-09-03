@@ -103,7 +103,7 @@ function custnoshow(event)
 	   	              var request = new XMLHttpRequest();
 				 }
 	             request.onreadystatechange = respond;   
-	             var url="B04/BKND/C01srch.php?timestamp="+new Date().getTime();   	               				 
+	             var url="B05/BKND/C01srch.php?timestamp="+new Date().getTime();   	               				 
 	             request.open("POST",url);	 
 	             request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");		
                   		
@@ -142,10 +142,10 @@ function chseprg(event)  //選擇客戶
 	 var rprsntname=document.getElementById('whonameEx');
 	 var crnttpe=document.getElementById('crntopt');
 	 var contactman=document.getElementById('winman');
-     var shipway=document.getElementById('howship');
-	 var paymenttp=document.getElementById('howpay');
+  /*   var shipway=document.getElementById('howship');
+	  var paymenttp=document.getElementById('howpay');
 	 var shipplace=document.getElementById('dlvrplace');
-	 var shipdirect=document.getElementById('shipdirect');
+	 var shipdirect=document.getElementById('shipdirect'); */
 	 var crntrate=document.getElementById('curncy');
 	 var invoicetype=document.getElementById('invtype');
 	 var taxkind=document.getElementById('taxtype');	 
@@ -165,7 +165,7 @@ function chseprg(event)  //選擇客戶
 				 if(crnttpe){
 				    crnttpe.value=maintable.rows[i].cells[4].innerHTML;
 				 }
-				 if(contactman){
+				 /* if(contactman){
 				    contactman.value=maintable.rows[i].cells[5].innerHTML;
 				 }
 				 if(shipway){
@@ -198,13 +198,13 @@ function chseprg(event)  //選擇客戶
 				
 			        }	 
 				    paymenttp.value=tpy+(maintable.rows[i].cells[8].innerHTML==0?'':maintable.rows[i].cells[8].innerHTML+'天');
-				 }	
+				 }	 
 				 if(shipplace){
 					 shipplace.value=maintable.rows[i].cells[9].innerHTML;
 				 }
 				  if(shipdirect){
 					 shipdirect.value=maintable.rows[i].cells[10].innerHTML;
-				 }
+				 }*/
 				 if(crntrate){
 					 crntrate.value=maintable.rows[i].cells[11].innerHTML;
 				 }

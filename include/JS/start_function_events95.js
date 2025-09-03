@@ -208,7 +208,7 @@ function outprocs(event){
 	    if(scriptall[j].id){
 	       scriptall[j].parentNode.removeChild(scriptall[j]);
 		}
-	}	
+	}	 
 	history.back();		 
 }
 

@@ -23,7 +23,7 @@ function crtElm(){
 	spn3.innerHTML='0';
 	 cntdiv[1].insertBefore(spn3,rspn2);
      var thr1=document.getElementById('headrow1');	 
-	 var array1 = ['出退單號','客戶編號','客戶簡稱', '日期','業務擔當','原出貨月','出貨單號','發票號碼','類別','稅別','幣別','匯率','退/折'];
+	 var array1 = ['出貨退回單號','客戶編號','客戶簡稱', '日期','業務擔當','原出貨月','出貨單號','發票號碼','類別','稅別','幣別','匯率','退/折'];
 	 var array2 = ['9%','7%','7%', '4%','7%','7%','9%','9%','5%','4%','4%','7%','4%'];
 	for (var j = 0; j < array1.length; j++) {
 		var th1 = document.createElement('th'); //column		   

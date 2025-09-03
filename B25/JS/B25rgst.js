@@ -62,28 +62,33 @@ function page1Detail01(ajTable){
 }
 function searchHaveshiped(str1,ajTable) {       //搜尋相關料號
     var cnt=0;
-	var arr = str1;     
+	var arr = str1;     	 
+	var initqty=sourceAccount(3,0);    //在此要用3,0
 	for(var i=arr.length-1;i>-1;i--){				 
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 		cnt++;         
 		for(var jk in arr[i]){		   
 		   var oTd = oTr.insertCell(oTr.cells.length); 
-		  
-			oTd.innerHTML=arr[i][jk]; 
-		
+		    if(jk=='calc_qty'){
+			   oTd.innerHTML=arr[i][jk]*1+initqty*1;
+			}else{
+			   oTd.innerHTML=arr[i][jk]; 
+		    }
 		    if(jk=='order_type' || jk=='ship_date' || jk=='ship_order'){
 			     oTd.setAttribute("style","text-align:center;");		   
 		    }else if(jk=='ship_qty' || jk=='calc_qty'){		  
-		        oTd.setAttribute("style","text-align:right;");		   		   
+		        oTd.setAttribute("style","text-align:right;");		   				    
 			}else if(jk=='remark'){
 				oTd.setAttribute("style","width:20%;"); 			 
 			}				
 	    }	    
 	}	
+	  
     if(cnt==0){
 	  blkshow("無資料!");
 	  return false;
 	}else{
+		  
 	    var array = ['異動日期','單據類別','單據編號', '異動數量','累計數量','備註說明'];
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    for (var j = 0; j < array.length; j++) {
@@ -97,6 +102,7 @@ function searchHaveshiped(str1,ajTable) {       //搜尋相關料號
 		    oTr.appendChild(th);		
 	    }						
 	}		
+	
 }
 
 
@@ -108,5 +114,8 @@ function searchKeyHint(tbno){    //搜尋畫面出現提示
 function page1OtherWindow1(){
 	var x = document.getElementById("departNoOption");
 	var i = x.selectedIndex;		
-    return "\u{1F4C5}:\u{300E}"+document.getElementById('recmth').value+"\u{300F}\u{1F6AA}:\u{300E}"+ x.options[i].text+"\u{300F}\u{1F4E6}:\u{300E}"+sourceAccount(1,0)+"\u{300F}之異動紀錄";   
+	var iniyqty=sourceAccount(2,0)*1 ; 
+	 
+    return "\u{1F4C5}:\u{300E}"+document.getElementById('recmth').value+"\u{300F}\u{1F6AA}:\u{300E}"+ x.options[i].text+"\u{300F}\u{1F4E6}:\u{300E}"
++sourceAccount(1,0)+"\u{300F}之異動紀錄"+"\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}期初數量:\u{300C}"+iniyqty.toString()+"\u{300D}";   
 }

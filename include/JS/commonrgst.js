@@ -67,7 +67,11 @@ function blkshow(txtword)
 				    }
 				    break;					  
 			case 4:				                //刪除
-				    var headtitle="確定刪除所點選紀錄?";
+			        if(tbno==0 && getCookie("kindofda")=="R"){
+					    var headtitle="所選為單頭紀錄，連帶會刪除其單身所有內容，請確定？";
+					}else{
+				        var headtitle="確定刪除所點選紀錄?";
+					}
 				    break;	   
 			case 3:				 	      //確認或過帳
 				    if (tbno==0){  //表頭資料	

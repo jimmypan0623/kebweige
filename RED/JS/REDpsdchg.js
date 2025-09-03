@@ -79,10 +79,10 @@ function excuteFun(event){
 	setCookie('howpge',authArray[9]);
 	setCookie('MorP',authArray[10]);
 	setCookie('kindofda',authArray[11]);
-	setCookie('adddpt',authArray[12]);
-	var urlcmp=(decodeURI(window.location.search));
+	setCookie('adddpt',authArray[12]);			
+    var urlcmp=(decodeURI(window.location.search));
 	var username=urlcmp.substr(urlcmp.indexOf('=')+1);	
-	document.location.href='ZRO.html'+"?username="+username+"&ourcompany="+encodeURI(document.getElementById('company_name').innerHTML);	
+	document.location.href='ZRO.html'+"?username="+username+"&ourcompany="+encodeURI(document.getElementById('company_name').innerHTML);
     window.scrollTo(0,0);  //先置頂	 
 	target.scrollIntoView({
         behavior: 'smooth' 

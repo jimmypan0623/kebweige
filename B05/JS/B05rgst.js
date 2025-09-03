@@ -280,9 +280,8 @@ function c01CustomName(event){
 			document.getElementById('curncy').value=rsp[0]['curncy'];
 			document.getElementById('invtype').value=rsp[0]['invtype'];
 			document.getElementById('taxtype').value=rsp[0]['taxtype'];
-			document.getElementById('howpay').value=rsp[0]['howpay'];
-			document.getElementById('dlvrplace').value=rsp[0]['dlvrplace'];
-			document.getElementById('shipdirect').value=rsp[0]['shipdirect'];
+			
+			
 		}
 	}
 	return;
@@ -292,37 +291,22 @@ function c01CustomName(event){
 function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出現之欄位
     if (tbno==0){   //如果異動表頭資料			     				
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
-	    var oTd = oTr.insertCell(0);	   
+		var oTd = oTr.insertCell(0);	   
+	    oTd.setAttribute('style','text-align:right;width:15%');					
+	    oTd.innerHTML='匯率:';
+	    var oTd = oTr.insertCell(1);      
+	    oTd.innerHTML="<input type='number' name='b05update' id='curncy' value=1 class='txt' style='width:35%;text-align:right;' />";
+	    var oTd = oTr.insertCell(2);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
 	    oTd.innerHTML='退貨或折讓:';
-	    var oTd = oTr.insertCell(1);   	     
-	   colspan=3;
-	   var slt9=document.createElement("select");
+	    var oTd = oTr.insertCell(3);   	     	    
+	    var slt9=document.createElement("select");
 	    slt9.options.add(new Option('退貨','1'));
 	    slt9.options.add(new Option('折讓','2'));	    
 	    slt9.setAttribute("id","rjtOrds");
 	    slt9.setAttribute("name","b05update");
 	    oTd.appendChild(slt9);	                        	
-	
-	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
-	    var oTd = oTr.insertCell(0);	   
-	    oTd.setAttribute('style','text-align:right;width:15%');					
-	    oTd.innerHTML='幣別:';
-	    var oTd = oTr.insertCell(1);  
-	    var slt4=document.createElement("select");
-		 attachEventListener(slt4,"change",ratechange,false);	
-	    slt4.setAttribute("id","crntopt");
-	    slt4.setAttribute("name","b05update");	  
-	    oTd.appendChild(slt4);					
-		
-	    var oTd = oTr.insertCell(2);	   
-	    oTd.setAttribute('style','text-align:right;width:15%');					
-	    oTd.innerHTML='匯率:';
-	    var oTd = oTr.insertCell(3);      
-	    oTd.innerHTML="<input type='number' name='b05update' id='curncy' value=1 class='txt' style='width:35%;text-align:right;' />";
-		
-		 var oTr=ajTable.insertRow(ajTable,ajTable.length);
-	   
+		var oTr=ajTable.insertRow(ajTable,ajTable.length);	   
 	    var oTd = oTr.insertCell(0);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
 	    oTd.innerHTML='課稅別:';
@@ -333,13 +317,22 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    slt5.options.add(new Option('免稅','3'));
 	    slt5.setAttribute("id","taxtype");
 	    slt5.setAttribute("name","b05update");
-	    oTd.appendChild(slt5);	                        		
+	    oTd.appendChild(slt5);	    
+        var oTd = oTr.insertCell(2);	   
+	    oTd.setAttribute('style','text-align:right;width:15%');					
+	    oTd.innerHTML='幣別:';
+	    var oTd = oTr.insertCell(3);  
+	    var slt4=document.createElement("select");
+		 attachEventListener(slt4,"change",ratechange,false);	
+	    slt4.setAttribute("id","crntopt");
+	    slt4.setAttribute("name","b05update");	  
+	    oTd.appendChild(slt4);							
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
 	    oTd.innerHTML='發票號碼:';
 	    var oTd = oTr.insertCell(1);   	    
-	    oTd.innerHTML="<input type='text' name='b05update' id='invoiceno' class='txt' style='width:50%;' maxlength='10'    />";  				  			 				  
+	    oTd.innerHTML="<input type='text' name='b05update' id='invoiceno' class='txt' style='width:55%;' maxlength='10'    />";  				  			 				  
 	     var oTd = oTr.insertCell(2);
 	    oTd.setAttribute('style','text-align:right;width:15%');	
 	    oTd.innerHTML='發票種類:';
@@ -366,7 +359,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    oTd.setAttribute('style','text-align:right;width:15%');					
 	    oTd.innerHTML='出貨單號:';
 	    var oTd = oTr.insertCell(3);   
-	    oTd.innerHTML="<input type='text' name='b05update' id='billno' class='txt' style='width:50%;' maxlength='10'    />";  			
+	    oTd.innerHTML="<input type='text' name='b05update' id='billno' class='txt' style='width:55%;' maxlength='10'    />";  			
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
@@ -444,7 +437,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);
 	    oTd.setAttribute('style','text-align:right;width:15%');	
-	    oTd.innerHTML='出退單號:';
+	    oTd.innerHTML='出貨退回單號:';
 	    var oTd = oTr.insertCell(1);		
 	    oTd.colspan=3;				  
 	    if(txtword==2){   //如果是修改		                
@@ -551,7 +544,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 }
 
 function topAndWidthModify(dropsheet_content,dropsheet,txtword,tbno){	 	 
-	dropsheet_content.style.width="55%";   //原訊息內框畫面寬度調整  
+	dropsheet_content.style.width="75%";   //原訊息內框畫面寬度調整  
 		dropsheet.style.paddingTop="25px";      // 高度也往上提 
 		if(txtword!=7){
 		   if (tbno==0){				

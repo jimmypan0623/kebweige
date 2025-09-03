@@ -35,7 +35,7 @@
 			$server_hostname.=".";
 			$server_ip=gethostbyname($server_hostname);	
 			setcookie('svripmd5',md5($server_ip));					  			
-			$home_url = 'ZRO.html?username='.$row[3];       //此處改為主畫面
+			$home_url = 'ZRO.html?username='.$row[3];         //此處改為主畫面
 			header('Location: '.$home_url);  			 			   
 		}else{//若查到的記錄不對，則設定錯誤資訊		  
 			setcookie('userid', '', time()-999); 			

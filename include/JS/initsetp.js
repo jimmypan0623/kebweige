@@ -9,11 +9,10 @@ cko[5] = chkCount();  //第四頁選擇計數(gridlist)
 cko[6] = chkCount();  //畫面主搜尋(也只有一個)功能目前鍵值紀錄指向計數
 
 function initDialog()
-{     
+{       
     var btmshowtme=document.getElementById('currentTime'); 
 	var scnd=btmshowtme.innerHTML.substr(-2);
-	var mnte=btmshowtme.innerHTML.substr(-5,2);
- 
+	var mnte=btmshowtme.innerHTML.substr(-5,2); 
     var loginform=document.getElementById('login');
     var divcontainer=document.getElementById('container');
 	var tabcsses=getElementsByAttribute('class','tab_css');			
@@ -24,36 +23,39 @@ function initDialog()
 		divcontainer.parentNode.removeChild(divcontainer);
 		for(var i=0;i<tabcsses.length;i++){
 			tabcsses[i].parentNode.removeChild(tabcsses[i]);
-		}			
-		//links[0].href=`include/loginstyle.css?v=${scnd+mnte}` ;		
-		links[1].href="digits/kandm.gif";	         
+		}					         
 		var img1=document.getElementById('img1');
 		var img2=document.getElementById('img2');
 		var img3=document.getElementById('img3');
-		var img4=document.getElementById('img4');		
+		var img4=document.getElementById('img4');	
+        var img5=document.getElementById('img5');	
 		var nwdt=new Date();	
-		var nwsd=Math.ceil(Math.random()*61);  
+		var nwsd=Math.ceil(Math.random()*nwdt.getSeconds());  
+        var d4=(nwsd*Math.floor(Math.random()*scnd+mnte)%10).toString();		
+		img1.src="digits/"+d4+".gif";		 
+		var nwdt=new Date();	
+		var nwsd=Math.ceil(Math.random()*nwdt.getSeconds());  
         var d3=(nwsd*Math.floor(Math.random()*scnd+mnte)%10).toString();		
-		img1.src="digits/"+d3+".gif";
-		var nwdt=new Date();			 
+		img2.src="digits/"+d3+".gif";
+		var nwdt=new Date();		 		 
 		var nwsd=Math.floor(Math.random()*nwdt.getSeconds());	
 		var d2=(nwsd*Math.floor(Math.random()*scnd+mnte)%10).toString();
-		img2.src="digits/"+d2+".gif";
+		img3.src="digits/"+d2+".gif";	 		
 		var nwdt=new Date();			
 		var nwsd=Math.floor(Math.random()*nwdt.getSeconds());
         var d1=(nwsd*Math.floor(Math.random()*scnd+mnte)%10).toString();		
-		img3.src="digits/"+d1+".gif";
+		img4.src="digits/"+d1+".gif";	 	
         var nwdt=new Date();	
 		var nwsd=Math.floor(Math.random()*nwdt.getSeconds());	
 		var d0=(nwsd*Math.floor(Math.random()*scnd+mnte)%10).toString();
-		img4.src="digits/"+d0+".gif"; 
-		setCookie("CAPTCHA",d0+d1+d2+d3);
+		img5.src="digits/"+d0+".gif"; 		
+		setCookie("CAPTCHA",d0+d1+d2+d3+d4);
 		var errMsg=getCookie('errmsg');
 		if(errMsg){		 
 			document.getElementById('account').value=getCookie('tmpacnt');			 
 			document.getElementById('password').value=getCookie('tmppswd');
 		    if(errMsg=='A1'){			      
-			   blkshow("帳號或密碼錯誤");			   
+			   blkshow("帳號或密碼錯誤");				  
 		    }else{			  		        
 			   blkshow("驗證碼錯誤");			  
 		    }
@@ -66,10 +68,10 @@ function initDialog()
 		var nwsd=Math.floor(Math.random()*nwdt.getSeconds())%20;		
 		var nowExcute=getCookie("funNo");
 		if(nowExcute){				
-            delCookie("funNo");		
+            //delCookie("funNo");		
 			divcontainer.parentNode.removeChild(divcontainer);		
 			loginform.parentNode.removeChild(loginform);
-			 links[0].href=`include/Operate.css?v=${scnd+mnte}` ;						 
+			 links[0].href="include/Operate.css?v=0.0.2" ;						 
 			 var gifarray=['ROL','0','cell','1','fngbtn','2','spec','3','stckgood',
 			 '4','00002','5','smlbulb','6','myrndm','7','openfile','8','enlight','9']; 			
 			 links[1].href="digits/"+gifarray[nwsd]+".gif";			
@@ -157,13 +159,13 @@ function initDialog()
 				contentdiv[0].insertBefore(text5, initFirstNode);
 			}
 			var urlcmp=(decodeURI(window.location.search));
-			var rslt=getUrlParams2(urlcmp);
-			var text9 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}登入者:');
-			var username=document.createElement("span");	
-			username.innerHTML=rslt.username;
-			var ftbtm=document.getElementById("footbottom");
-			ftbtm.appendChild(text9);
-			ftbtm.appendChild(username);
+	        var rslt=getUrlParams2(urlcmp);
+		    var text9 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}登入者:');
+		    var username=document.createElement("span");	
+		    username.innerHTML=rslt.username;
+		    var ftbtm=document.getElementById("footbottom");
+		    ftbtm.appendChild(text9);
+	        ftbtm.appendChild(username);
 			var mainSpan1=document.getElementById('lclbtnbk')
 			if(mainSpan1){
 				var text1 = document.createTextNode('\u{A0}');
@@ -308,17 +310,16 @@ function initDialog()
 			 loginform.parentNode.removeChild(loginform);
 			 for(var i=0;i<tabcsses.length;i++){
 				tabcsses[i].parentNode.removeChild(tabcsses[i]);
-			 }			
+			 }						
 			  btmshowtme.style.display="none";		
-			 links[0].href=`RED/REDmenu.css?v=${nwsd.toString()+scnd}`;			 			 
+			 links[0].href="RED/REDmenu.css?v=0.0.2";			 			 
 			 links[1].href="digits/CYC25.gif";
 			nowExcute='RED.知訊數位營運管理系統';
-			document.getElementsByTagName('title').innerHTML=nowExcute;			 
+			document.getElementsByTagName('title').innerHTML=nowExcute;				   
 		}
 		var jsvsn=nwsd.toString()+scnd;
 		var urljsname=nowExcute.substr(0,3)+'/JS/'+nowExcute.substr(0,3)+'psdchg.js?v='+jsvsn;		 
-		loadScript(urljsname,function(){selfTag(jsvsn);});  		
-	     
+		loadScript(urljsname,function(){selfTag(jsvsn);});  			     
 	}	
 }
 
@@ -463,7 +464,8 @@ function delConfirm(event){     //確定刪除
 	var target=getEventTarget(event);	  
 	var mthjudge=getCookie("MorP");   //是否為月份檔
 	var yesbill=getCookie("kindofda");      //是否為單據檔
-	var mainrightValue=left(getCookie("funNo"),3);
+	var urlfolder=document.getElementsByTagName('title');
+	var mainrightValue=left(urlfolder[0].innerHTML,3);
 	var ttls=getElementsByAttribute('class','ttl');		//表頭或表身有無總計數字
 	var tabs=getElementsByAttribute('class','tab');	 	  
 	var tbno=0;

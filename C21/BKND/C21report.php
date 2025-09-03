@@ -1,8 +1,5 @@
-<?php
-// Include the main TCPDF library (search for installation path).
-
+<?php 
 require_once('../../tcpdf/tcpdf.php');
-
 $msgsend=$_GET['queryNo'];
 // Extend the TCPDF class to create custom Header and Footer
 // 自訂頁首與頁尾
@@ -219,4 +216,3 @@ $pdf->writeHTMLCell(0, 0, '', '', $html,0, 1, 0, true, '', true);
 // This method has several options, check the source code documentation for more information.
 // 下載 PDF 的檔案名稱 (不可取中文名，即使有也會自動省略中文名)
 $pdf->Output($msgsend.'.pdf', 'I');
-

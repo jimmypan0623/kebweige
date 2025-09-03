@@ -551,7 +551,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 }
 
 function topAndWidthModify(dropsheet_content,dropsheet,txtword,tbno){	 	 
-	dropsheet_content.style.width="55%";   //原訊息內框畫面寬度調整  
+	dropsheet_content.style.width="75%";   //原訊息內框畫面寬度調整  
 		dropsheet.style.paddingTop="25px";      // 高度也往上提 
 		if(txtword!=7){
 		   if (tbno==0){				
