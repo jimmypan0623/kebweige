@@ -45,7 +45,7 @@ if($rows1==0 || $rows2==0){
             //寫入json檔(其實就是文字檔只是每一筆以json格式存放)
  
         	//以下處理MySQL記錄新增  	        
-	           $mscnt="INSERT INTO b04(F01,F06,F02,F09,F14,F16,F20,F22,F23,F21,F12,F24,F90,F11)  VALUES (";  //先把準備插入記錄的SQL 語法前半段先寫在字串中	 			   
+	           $mscnt="INSERT INTO b04(F01,F06,F02,F09,F14,F16,F20,F22,F23,F21,F12,F24,F90,F10,F11)  VALUES (";  //先把準備插入記錄的SQL 語法前半段先寫在字串中	 			   
 	           $mscnt.="'".$brr[0]."',";
 	           $mscnt.="'".$brr[1]."',";
    	           $mscnt.="'".str_pad(trim($brr[2]),2,"0",STR_PAD_LEFT)."',";	 
@@ -58,7 +58,8 @@ if($rows1==0 || $rows2==0){
 			   $mscnt.="'".$brr[9]."',";
                $mscnt.="'".$brr[10]."',";	
                $mscnt.="'".$brr[11]."',";	 
-               $mscnt.="'".$brr[12]."',";	  				   
+               $mscnt.="'".$brr[12]."',";	  	
+			   $mscnt.="'N',";	
 	           $mscnt.="'".$lastdate.$list4['F03']."')";		      
 	           $sql=$mscnt;                                               //寫入MySQL 	 
                mysqli_query($link ,$sql) or die(mysqli_error($link));  
@@ -76,7 +77,7 @@ if($rows1==0 || $rows2==0){
 	   $mscnt.="F23="."'".$brr[8]."',";	 
 	   $mscnt.="F21="."'".$brr[9]."',";	 
 	   $mscnt.="F12="."'".$brr[10]."',";	 
-	   $mscnt.="F24="."'".$brr[11]."',";	      
+	   $mscnt.="F24="."'".$brr[11]."',";	         	  	   
 	   $mscnt.="F11="."'".$lastdate.$list4['F03']."'";
 	   $mscnt.=" WHERE F00="."'".$brr[$mArlth-2]."'";
 	   $sql=$mscnt;                                                 //寫入MySQL 	 

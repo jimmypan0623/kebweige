@@ -68,15 +68,15 @@ function searchHaveshiped(str1,ajTable) {       //搜尋相關料號
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 		cnt++;         
 		for(var jk in arr[i]){		   
-		   var oTd = oTr.insertCell(oTr.cells.length); 
-		    if(jk=='calc_qty'){
-			   oTd.innerHTML=arr[i][jk]*1+initqty*1;
+		    var oTd = oTr.insertCell(oTr.cells.length); 
+			if(jk=='calc_qty'){
+			    oTd.innerHTML=arr[i][jk]*1+initqty*1;
 			}else{
-			   oTd.innerHTML=arr[i][jk]; 
-		    }
+			    oTd.innerHTML=arr[i][jk];
+			}				
 		    if(jk=='order_type' || jk=='ship_date' || jk=='ship_order'){
 			     oTd.setAttribute("style","text-align:center;");		   
-		    }else if(jk=='ship_qty' || jk=='calc_qty'){		  
+		    }else if(jk=='ship_qty' || jk=='calc_qty'){		
 		        oTd.setAttribute("style","text-align:right;");		   				    
 			}else if(jk=='remark'){
 				oTd.setAttribute("style","width:20%;"); 			 

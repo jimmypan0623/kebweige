@@ -33,7 +33,7 @@ function custnoshow(event)
 	dropsheet_content.style.backgroundColor="#fefefe";		
 	dropsheet_content.style.margin="auto";
 	dropsheet_content.style.padding="20px";
-	dropsheet_content.style.width="50%";	
+	dropsheet_content.style.width="60%";	
 	dropsheet_content.style.border="1px solid #888";
 	dropsheet_content.style.fontSize="22px";	 
 	dropsheet_content.style.boxShadow = "5px 5px 5px 5px #003153";  //
@@ -271,7 +271,7 @@ function srchCustNo(str1) {       //開窗顯示人員選項
 		}  		
 		 
 		 var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
-	      oTd.setAttribute("style","width:40px;display:none");   //勾選不顯示
+	      oTd.setAttribute("style","display:none");   //勾選不顯示
 	 	   var myCheck=document.createElement('input'); 
 		   myCheck.type="checkbox";
 		    var tables=getElementsByAttribute("class","gridlist");

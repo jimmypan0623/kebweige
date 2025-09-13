@@ -71,7 +71,7 @@ function stocknoshow(event)
 				  srchTable.appendChild(tblname);
 				 srchTable.appendChild(srchHead);				 				
                 var oTr = document.createElement('tr');				 
-                var array = ['料品編號', '品名規格','訂單號碼','預定交期','出貨數量','單價','客戶品號','客戶PO'];
+                var array = ['料品編號', '品名規格','訂單號碼','出貨數量','單價','客戶品號','客戶PO'];
                 for (var j = 0; j < array.length; j++) {
                     var th = document.createElement('th'); //column
 					//th.style.width=(120-Math.pow(-2,j)*15)+'px';
@@ -103,17 +103,18 @@ function stocknoshow(event)
 	   	              var request = new XMLHttpRequest();
 				 }
 	             request.onreadystatechange = respond;   
-	             var url="B04/BKND/B01srch.php?timestamp="+new Date().getTime();   	               				 
+	             var url="B05/BKND/B01srch.php?timestamp="+new Date().getTime();   	               				 
 	             request.open("POST",url);	 
 	             request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");		
-                 var cstno=document.getElementById('keydscrpt').innerHTML;
-			
+                 //var shpno=document.getElementById('keydscrpt').innerHTML;
+			     var shp_no=sourceAccount(12,0);
+				
                  if (noorname.id=='stockno'){		 
 				    var stockno=document.getElementById('stockno').value; 
-				    var queryString ="filename="+"c04.F02"+"|"+stockno+"_"+cstno;    
+				    var queryString ="filename="+"b0d.F03"+"|"+stockno+"_"+shp_no;    
                  }else if(noorname.id=='stockname'){
 					 var stockname=document.getElementById('stockname').value; 
-					 var queryString ="filename="+"b01.F02"+"|"+stockname+"_"+cstno; 
+					 var queryString ="filename="+"b01.F02"+"|"+stockname+"_"+shp_no; 
                  
 				 }					 
 				 request.send(queryString);
@@ -158,22 +159,22 @@ function stckchg(event)  //選擇料號
 				    orderNo.value=maintable.rows[i].cells[3].innerHTML;
 			     }
 			     if(shipQty){
-				    shipQty.value=maintable.rows[i].cells[5].innerHTML;
+				    shipQty.value=maintable.rows[i].cells[4].innerHTML;
 			     }
 				 if(shipPrice){
-				    shipPrice.value=maintable.rows[i].cells[6].innerHTML;
+				    shipPrice.value=maintable.rows[i].cells[5].innerHTML;
 			     }
 			     if(custstockno){
-				    custstockno.value=maintable.rows[i].cells[7].innerHTML;
+				    custstockno.value=maintable.rows[i].cells[6].innerHTML;
 			     }  
 		  		 if(custpo){
-				    custpo.value=maintable.rows[i].cells[8].innerHTML;
+				    custpo.value=maintable.rows[i].cells[7].innerHTML;
 			     }   
 				 if(deptno){
-				    deptno.value=maintable.rows[i].cells[9].innerHTML;
+				    deptno.value=maintable.rows[i].cells[8].innerHTML;
 			     }  
 				 if(deptname){
-				    deptname.innerHTML=maintable.rows[i].cells[10].innerHTML;
+				    deptname.innerHTML=maintable.rows[i].cells[9].innerHTML;
 			     }  
 				 break;
 			   }				 

@@ -47,6 +47,7 @@ function selfTag(jsvsn){
 	loadScript(`C01/JS/A09getno.js?v=${jsvsn}`);	
 	loadScript(`B05/JS/B01srch.js?v=${jsvsn}`);	
 	loadScript(`B05/JS/A14srch.js?v=${jsvsn}`);	
+	loadScript(`B05/JS/B04srch.js?v=${jsvsn}`);	
 	loadScript(`include/JS/confirmfunction.js?=${jsvsn}`);	
 	var tab1Click=document.getElementById("tab1");
 	if(tab1Click){
@@ -128,6 +129,23 @@ function tab2View(event){
 	  	  document.getElementById("tab1").checked="checked";		
 		  return false;	
        }
+	   var tables=getElementsByAttribute("class","gridlist");
+	   var ths=tables[1].getElementsByTagName("th");		
+     
+	   if(sourceAccount(20,0)*1==1){	     
+	       if(!ths[9]){
+			   var ths9=document.createElement('th');
+			   var text9 = document.createTextNode('補貨日期');
+			   ths9.appendChild(text9);
+			   ths9.style.width='10%';
+			   ths[8].parentNode.appendChild(ths9);
+	       }
+	   }else{
+		  if(ths[9]){
+		    ths[8].parentNode.removeChild(ths[9]);
+		  }
+	   }
+	   
        var keydescription=document.getElementById('keydscrpt'); 
       	   
        var fthkey=document.getElementById("fatherkey");

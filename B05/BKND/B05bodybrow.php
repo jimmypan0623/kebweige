@@ -26,7 +26,7 @@
 					 'custom_partno'=>$list3['F08'],  
                      'custom_po'=>$list3['F09'],  	
 					 'ship_date'=>$list3['F12'],  	
-                     'lastupdate'=>$list3['F11']);                      						 
+                     'lastupdate'=>$list3['F13']);                      						 
 		array_push($arr,$atr);
 	}
 	mysqli_close($link);

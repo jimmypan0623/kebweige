@@ -346,6 +346,9 @@ function chooserc(event){   //初始或直接跳該筆	   從 1 開始計數!!!
 				case 6:  
 			          var maintable=document.getElementById("prgTbody"); //開窗選擇程式
 			          break;	 	  
+				case 7:  
+			          var maintable=document.getElementById("shipbillTbody"); //開窗選擇進出貨單據
+			          break;	 	  	  
 			   default:			
 		    } 
 	    }else{		   	

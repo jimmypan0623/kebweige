@@ -63,7 +63,7 @@ function blkshow(txtword)
 				    if(addNewRecordHint(tbno)=="修改密碼："){
 				        var headtitle= addNewRecordHint(tbno);
 				    }else{
-					  var headtitle= addNewRecordHint(tbno)+"(新增完畢請按\u{274E}結束鈕)"; 
+					  var headtitle= addNewRecordHint(tbno)+"(新增完畢請按下面\u{274E}結束鈕)"; 
 				    }
 				    break;					  
 			case 4:				                //刪除
@@ -279,6 +279,7 @@ function TableToJson(args,nongs,tbno){
 	}									
 	var json=order_head.slice(0,-1)+"}";   //去掉最後一個逗號再加上右大引號	 	 	
     var str_json=JSON.stringify(json);	
+	//alert(str_json);
 	var mainright=document.getElementsByTagName('title'); 
 	if(window.ActiveXObject){
 	    var request = new ActiveXObject("Microsoft.XMLHttp");

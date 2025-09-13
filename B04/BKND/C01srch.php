@@ -1,5 +1,4 @@
 ﻿<?php
-//$sql3=$sql3."left outer join `a01` on `a01.F01`=`c01.F33` ";,`c01.F33`,`c01.F12`,`c01.F31`,`c01.F15`,`c01.F36`
    header("Content-Type:text/html; charset=utf-8");   
 
   include("../../include/BKND/mysqli_server.php");                              //引用檔   

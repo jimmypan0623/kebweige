@@ -89,9 +89,20 @@ function excuteFun(event){
     }); 	
 }	
 
-function blockPsdshow()    //變更密碼程序
+function blockPsdshow(event)    //變更密碼程序
 {
-	 
-  blkshow(1);    
+    if (typeof event=="undefined"){
+		event=window.event;
+    }			
+    var target=getEventTarget(event);	 	
+    var closeother=getElementsByAttribute('class','myShow');			   		 
+	for(var i=0;i<closeother.length;i++){
+		if(closeother[i].className="myShow"){					
+		    closeother[i].className= "myHide";
+			closeother[i].parentNode.getElementsByTagName("a")[0].style.backgroundImage="url('digits/add.gif')";
+			break;
+		}
+	}						
+    blkshow(1);    
 
 }

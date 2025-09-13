@@ -289,7 +289,14 @@ function c01CustomName(event){
 
 
 function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出現之欄位
-    if (tbno==0){   //如果異動表頭資料			     				
+    if (tbno==0){   //如果異動表頭資料			 
+         var oTr=ajTable.insertRow(ajTable,ajTable.length);
+		var oTd = oTr.insertCell(0);	   
+	    oTd.setAttribute('style','text-align:right;width:15%');					
+	    oTd.innerHTML='備註:';
+	    var oTd = oTr.insertCell(1);      
+		oTd.colspan=3;
+	    oTd.innerHTML="<input type='text' name='b05update' id='remark' class='txt' maxlength='20' style='width:30%;' />";	
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 		var oTd = oTr.insertCell(0);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
@@ -301,8 +308,9 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    oTd.innerHTML='退貨或折讓:';
 	    var oTd = oTr.insertCell(3);   	     	    
 	    var slt9=document.createElement("select");
-	    slt9.options.add(new Option('退貨','1'));
-	    slt9.options.add(new Option('折讓','2'));	    
+	    slt9.options.add(new Option('退貨後補','1'));
+	    slt9.options.add(new Option('退回不補','2'));	 
+		slt9.options.add(new Option('金額折讓','3'));	
 	    slt9.setAttribute("id","rjtOrds");
 	    slt9.setAttribute("name","b05update");
 	    oTd.appendChild(slt9);	                        	
@@ -331,10 +339,20 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    var oTd = oTr.insertCell(0);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
 	    oTd.innerHTML='發票號碼:';
-	    var oTd = oTr.insertCell(1);   	    
-	    oTd.innerHTML="<input type='text' name='b05update' id='invoiceno' class='txt' style='width:55%;' maxlength='10'    />";  				  			 				  
-	     var oTd = oTr.insertCell(2);
-	    oTd.setAttribute('style','text-align:right;width:15%');	
+	    var oTd = oTr.insertCell(1);   	 
+     	if(txtword==2){   //如果是修改		
+	        oTd.innerHTML="<input type='text' name='b05update' id='invoiceno' class='txt' style='background-color:#B9B9FF;width:55%;' maxlength='10' readOnly=true/>";  				  			 				  
+        }else{
+			oTd.innerHTML="<input type='text' name='b05update' id='invoiceno' class='txt' style='width:55%;' maxlength='10'/>";  		
+		    var srchButton5=document.createElement("input");				   
+		    srchButton5.setAttribute("type","button");	
+		    srchButton5.setAttribute("class","scopelook");				   
+		    srchButton5.style.background="url('digits/brows1.png')";   
+		    attachEventListener(srchButton5,"click",shipnoshow,false);				
+		    oTd.appendChild(srchButton5);			
+		}			
+	   var oTd = oTr.insertCell(2);		 
+	    oTd.setAttribute('style','text-align:right;width:15%');        
 	    oTd.innerHTML='發票種類:';
 	    var oTd = oTr.insertCell(3);				
 	    var slt8=document.createElement("select");
@@ -347,7 +365,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    var oTd = oTr.insertCell(0);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
 	    oTd.innerHTML='原出貨月份:';
-	    var oTd = oTr.insertCell(1);    
+	    var oTd = oTr.insertCell(1);    		
         var showTime=document.getElementById('currentTime'); //利用djtime.js顯示畫面的預設日期日期輸入欄之值為今天
 		var thtdy=(showTime.innerHTML.substring(0,4)+'-'+showTime.innerHTML.substring(5,7)+'-'+showTime.innerHTML.substring(8,10)); //中間一定要用減號分隔年月日
 	    var slt11=document.createElement("select");
@@ -359,7 +377,18 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    oTd.setAttribute('style','text-align:right;width:15%');					
 	    oTd.innerHTML='出貨單號:';
 	    var oTd = oTr.insertCell(3);   
-	    oTd.innerHTML="<input type='text' name='b05update' id='billno' class='txt' style='width:55%;' maxlength='10'    />";  			
+		 if(txtword==2){   //如果是修改	
+		    oTd.innerHTML="<input type='text' name='b05update' id='billno' class='txt' style='background-color:#B9B9FF;width:55%;' maxlength='10'  readOnly=true  />";  					              
+	    }else{
+			oTd.innerHTML="<input type='text' name='b05update' id='billno' class='txt' style='width:55%;' maxlength='10'    />";  					   
+		    var srchButton4=document.createElement("input");				   
+		    srchButton4.setAttribute("type","button");	
+		    srchButton4.setAttribute("class","scopelook");				   
+		    srchButton4.style.background="url('digits/brows1.png')";   
+		    attachEventListener(srchButton4,"click",shipnoshow,false);				
+		    oTd.appendChild(srchButton4);			
+	    }	   
+	    
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
@@ -444,6 +473,8 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	 	   oTd.innerHTML="<input type='text' name='b05update' id='queryno' class='txt' style='background-color:#B9B9FF;width:25%;' maxlength='10' readOnly=true  />"; 					
 		   optionitem(aWaitUpdate[10],slt4.id,4,"C01/BKND/C00srch.php");		//幣別欄位					 
 	       optionitem(aWaitUpdate[5],slt11.id,7,"B04/BKND/A23srch.php");  
+		   slt11.style.backgroundColor="#B9B9FF";
+		   slt11.disabled=true;
 		}else{
 		   oTd.innerHTML="<input type='text' name='b05update' id='queryno' class='txt' style='width:25%;' maxlength='10'/>"; 
 		   optionitem(getCookie('INT_011'),slt4.id,4,"C01/BKND/C00srch.php");			 
@@ -454,8 +485,17 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    var oTd = oTr.insertCell(1);	  
 	    oTd.innerHTML="<input type='text' name='b05update' id='rcrd_no' class='txt' maxlength='14' autosize  />";                 
 	    oTr.setAttribute("style","display:none;");	
-    }else{               //異動表身資料			        
-	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
+    }else{               //異動表身資料			  
+        var oTr=ajTable.insertRow(ajTable,ajTable.length);
+	    var oTd = oTr.insertCell(0);
+	    oTd.setAttribute('style','text-align:right;width:15%');	
+	    oTd.innerHTML='補貨日期:';
+	    var oTd = oTr.insertCell(1);		                						  		          				  
+	    oTd.innerHTML="<input type='Date' name='b0eupdate' id='reoutdate' class='txt' style='width:30%;' />"; 				 		
+	    if(sourceAccount(20,0)*1>1){  
+		   oTr.setAttribute("style","display:none;");   //整列隱藏
+		}
+		var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);
 	    oTd.setAttribute('style','text-align:right;width:15%');	
 	    oTd.innerHTML='客戶PO:';
@@ -470,7 +510,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
-	    oTd.innerHTML='出貨部門:';
+	    oTd.innerHTML='收貨部門:';
 	    var oTd = oTr.insertCell(1);               	              
 	    oTd.innerHTML="<input type='text' name='b0eupdate' id='deptno' class='txt' style='width:15%;' maxlength='5'    />";  				  
 	    oTd.innerHTML+="<span name='b0eothers' id='deptname'></span>&nbsp&nbsp";  
@@ -579,7 +619,9 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 				   cstNo.focus();	
 				   attachEventListener(cstNo,"change",c01CustomName,false);	//找客戶名稱
 		   }else{
-																
+			    var showTime=document.getElementById('currentTime'); //利用djtime.js顯示畫面的預設日期日期輸入欄之值為今天
+		        var thtdy=(showTime.innerHTML.substring(0,4)+'-'+showTime.innerHTML.substring(5,7)+'-'+showTime.innerHTML.substring(8,10)); //中間一定要用減號分隔年月日			     
+				document.getElementById("reoutdate").value=thtdy;  //日期都設為今天												
 				document.getElementById("stockno").focus();
 		   }
 		   break;
@@ -603,7 +645,7 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 				   
 		   }		
 		    
-			//alert(document.getElementById('howpay').value.match(/\d+/g)*1);   //				
+			
 		   break;	
 		case 7:   	   	//搜尋   
 		   
@@ -622,9 +664,9 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 		    oTd.innerHTML=args[i];				
 		    oTd.setAttribute("class","directdata");	
 		    if(i==0){						  
-		  	   oTd.setAttribute("style","width:10%;");		
+		  	   oTd.setAttribute("style","width:9%;");		
 		    }else{
-			   oTd.setAttribute("style","width:7%;");		
+			   oTd.setAttribute("style","width:7%;text-align:center;");		
 		    }
 	    }				
 	    var oTd = oTr.insertCell(oTr.cells.length);   //客戶名稱
@@ -647,10 +689,10 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 	    oTd.innerHTML=nongs[4];
 	    oTd.setAttribute("class","indirectdata");		
 		oTd.setAttribute("style","display:none;");	
-	    var oTd = oTr.insertCell(oTr.cells.length);   //出貨日期 		
+	    var oTd = oTr.insertCell(oTr.cells.length);   //退貨日期 		
 		oTd.innerHTML=paddingLeft(args[2].trim(),2);				
 		oTd.setAttribute("class","directdata");		
-		oTd.setAttribute("style","text-align:center;width:4%;");				
+		oTd.setAttribute("style","text-align:center;width:3%;");				
 	    var oTd = oTr.insertCell(oTr.cells.length);    //業務編號
 		oTd.innerHTML=args[3];				
 		oTd.setAttribute("class","directdata");
@@ -658,19 +700,19 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 	    var oTd = oTr.insertCell(oTr.cells.length);     
 		oTd.innerHTML=nongs[5];				
 		oTd.setAttribute("class","indirectdata");  //業務名稱
-		oTd.setAttribute("style","width:7%;");		
-		var oTd = oTr.insertCell(oTr.cells.length);   //幣別 
+		oTd.setAttribute("style","width:7%;");	
+        var oTd = oTr.insertCell(oTr.cells.length);   //原出貨月
 		oTd.innerHTML=args[4];				
 		oTd.setAttribute("class","directdata");		
-		oTd.setAttribute("style","text-align:center;width:4%;");
-		var oTd = oTr.insertCell(oTr.cells.length);   //匯率 
+		oTd.setAttribute("style","width:7%;text-align:center;");     
+		var oTd = oTr.insertCell(oTr.cells.length);   //出貨單號
 		oTd.innerHTML=args[5];				
 		oTd.setAttribute("class","directdata");		
-		oTd.setAttribute("style","text-align:right;width:7%;");  
+		oTd.setAttribute("style","width:9%;");      		
 		var oTd = oTr.insertCell(oTr.cells.length);   //發票號碼
 		oTd.innerHTML=args[6];				
 		oTd.setAttribute("class","directdata");		
-		oTd.setAttribute("style","width:10%;");   
+		oTd.setAttribute("style","width:9%;");   
 		var oTd = oTr.insertCell(oTr.cells.length);   //發票類別代號
 		oTd.innerHTML=args[7];				
 		oTd.setAttribute("class","directdata");		
@@ -678,7 +720,7 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 		var oTd = oTr.insertCell(oTr.cells.length);   //發票類別名稱
 		oTd.innerHTML=whichinvoice(args[7]);				
 		oTd.setAttribute("class","indirectdata");		
-		oTd.setAttribute("style","width:5%;");     
+		oTd.setAttribute("style","width:5%;text-align:center;");     
 		var oTd = oTr.insertCell(oTr.cells.length);   //稅別代號
 		oTd.innerHTML=args[8];				
 		oTd.setAttribute("class","directdata");		
@@ -686,20 +728,27 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 		var oTd = oTr.insertCell(oTr.cells.length);   //稅別
 		oTd.innerHTML=whichtax(args[8]);				
 		oTd.setAttribute("class","indirectdata");		
-		oTd.setAttribute("style","width:4%;");       
-		var oTd = oTr.insertCell(oTr.cells.length);   //付款方式
+		oTd.setAttribute("style","width:4%;text-align:center;");       		
+		var oTd = oTr.insertCell(oTr.cells.length);   //幣別 
 		oTd.innerHTML=args[9];				
 		oTd.setAttribute("class","directdata");		
-		oTd.setAttribute("style","width:8%;");      
-		var oTd = oTr.insertCell(oTr.cells.length);   //送貨地點
+		oTd.setAttribute("style","text-align:center;width:4%;");
+		var oTd = oTr.insertCell(oTr.cells.length);   //匯率 
 		oTd.innerHTML=args[10];				
 		oTd.setAttribute("class","directdata");		
-		oTd.setAttribute("style","text-align:left;");      
-		var oTd = oTr.insertCell(oTr.cells.length);   //出貨指示
+		oTd.setAttribute("style","text-align:right;width:7%;");  
+		var oTd = oTr.insertCell(oTr.cells.length);   //退貨或折讓代號
 		oTd.innerHTML=args[11];				
 		oTd.setAttribute("class","directdata");		
-		oTd.setAttribute("style","width:8%;");    
-		oTr.setAttribute("style","font-weight:bold;color:#704214;");
+		oTd.setAttribute("style","display:none;");    
+		var oTd = oTr.insertCell(oTr.cells.length);   //退貨或折讓	 
+		oTd.innerHTML=(args[11]=='1'?'退貨後補':(args[11]=='2'?'退回不補':'金額折讓'));				
+		oTd.setAttribute("class","indirectdata");		
+		oTd.setAttribute("style","width:7%;text-align:center;");   
+		var oTd = oTr.insertCell(oTr.cells.length);   //備註 
+		oTd.innerHTML=args[12];	
+		oTd.setAttribute("class","indirectdata");		
+		oTd.setAttribute("style","width:9%;");   
 		 //是否過帳
 		var oTd = oTr.insertCell(oTr.cells.length);	
 		oTd.setAttribute("class","indirectdata");					   
@@ -765,14 +814,18 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 	    for (var j=11;j<14;j++){
 		   maintable.rows[args[arglth-1]].cells[j].innerHTML=args[j-7];
 	    }					   	  
-	    maintable.rows[args[arglth-1]].cells[14].innerHTML=args[7];
-	    maintable.rows[args[arglth-1]].cells[15].innerHTML=whichinvoice(args[7]);
+	    maintable.rows[args[arglth-1]].cells[14].innerHTML=args[7];		
+	    maintable.rows[args[arglth-1]].cells[15].innerHTML=whichinvoice(args[7]);		
 	    maintable.rows[args[arglth-1]].cells[16].innerHTML=args[8];
-	    maintable.rows[args[arglth-1]].cells[17].innerHTML=whichtax(args[8]);	   	 	    
-	    for (var j=18;j<tbrlth-3;j++){       //18~20
+	    maintable.rows[args[arglth-1]].cells[17].innerHTML=whichtax(args[8]);	   	 
+	    
+	    for (var j=18;j<tbrlth-4;j++){       //18~19
 		   maintable.rows[args[arglth-1]].cells[j].innerHTML=args[j-9];
 	    }				      
-	    maintable.rows[args[arglth-1]].cells[tbrlth-2].innerHTML=rsp.lastupdate; //最後異動	22	   
+		maintable.rows[args[arglth-1]].cells[20].innerHTML=args[11];
+		maintable.rows[args[arglth-1]].cells[21].innerHTML=(args[11]=='1'?'退貨後補':(args[11]=='2'?'退回不補':'金額折讓'));	
+	    maintable.rows[args[arglth-1]].cells[22].innerHTML=args[12];
+		maintable.rows[args[arglth-1]].cells[tbrlth-2].innerHTML=rsp.lastupdate; //最後異動	22	   
 	}
 	else{
 	    var maintable=document.getElementById("maintbody2");					   
@@ -821,17 +874,17 @@ function searchOptionsKey(tbno,slt5){
 
 function  addNewRecordHint(tbno){
     if (tbno==0){  //表頭資料
-	   return "請輸入報價單表頭資料：";
+	   return "請輸入出貨退回單表頭資料：";
     }else{
-	   return "請輸入出貨單內容資料："; 
+	   return "請輸入出貨退回單內容資料："; 
     }		
 }
 
 function editRecordHint(tbno){
     if (tbno==0){  
-		return "修改出貨單表頭資料："; 
+		return "修改出貨退回單表頭資料："; 
 	}else{
-		return "修改出貨單內容資料："; 
+		return "修改出貨退回單內容資料："; 
 	}	 
 }
 /* function transRecordHint(tbno){

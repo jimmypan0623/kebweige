@@ -3,7 +3,7 @@
    include("../../include/BKND/mysqli_server.php");                              //引用檔   
    if (substr($_POST['filename'],0,3)=="PGE"){	  
 	   $pgeno=getNeedBetween($_POST['filename'],'E','|'); // 月次 
-	   $sql3="SELECT b05.F00,b05.F01,b05.F02,b05.F06,b05.F08,b05.F10,b05.F09,b05.F24,b05.F14,b05.F16,b05.F20,b05.F21,b05.F22,b05.F23,b05.F13,
+	   $sql3="SELECT b05.F00,b05.F01,b05.F02,b05.F06,b05.F08,b05.F10,b05.F09,b05.F24,b05.F14,b05.F16,b05.F20,b05.F21,b05.F22,b05.F23,b05.F25,b05.F13,
 	        c01.F05 as F0E,c01.F04 AS F0D,c01.F10 AS F1Z,c01.F12 ,c01.F13 AS F1C,a01.F03 as F0C FROM b05 
 	        left outer join c01 on c01.F01=b05.F06
             left outer join a01 on a01.F01=b05.F09 			
@@ -13,7 +13,7 @@
 		$filterKey=getNeedBetween($_POST['filename'],'|','_');  
 		$pgeno=substr(strrchr($_POST['filename'],'_'),1); // 月次
 	    //$searchRecord =$_POST['filename'];
-	 	$sql3="SELECT b05.F00,b05.F01,b05.F02,b05.F06,b05.F08,b05.F10,b05.F09,b05.F24,b05.F14,b05.F16,b05.F20,b05.F21,b05.F22,b05.F23,b05.F13,
+	 	$sql3="SELECT b05.F00,b05.F01,b05.F02,b05.F06,b05.F08,b05.F10,b05.F09,b05.F24,b05.F14,b05.F16,b05.F20,b05.F21,b05.F22,b05.F23,b05.F25,b05.F13,
 	         c01.F05 as F0E,c01.F04 AS F0D,c01.F10 AS F1Z,c01.F12 ,c01.F13 AS F1C,a01.F03 as F0C FROM b05 
 	        left outer join c01 on c01.F01=b05.F06 
             left outer join a01 on a01.F01=b05.F09 	
@@ -47,6 +47,7 @@
 					 'crncy_type'=>$list3['F14'],	
 					 'crncy_rate'=>$list3['F16'],	
 					 'discount_ship'=>$list3['F24'], 
+					  'remark'=>$list3['F25'], 
                      'shure'=>$list3['F10'],     					 
 					 'lastupdate'=>$list3['F13']                      				 
 					 );                      			

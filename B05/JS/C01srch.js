@@ -44,7 +44,7 @@ function custnoshow(event)
 		         var dialog=document.createElement("div");		//開始從畫面產生新增紀錄欄位			 
 		         dialog.className="customDialog"; 		 
 		         dialog.style.position="relative";
-             
+              
 		         var dialogButton1=document.createElement("input");		   
 		        dialogButton1.setAttribute("type","button");
 		        dialogButton1.setAttribute("class","btn");
@@ -74,7 +74,7 @@ function custnoshow(event)
                 var array = ['客戶編號', '客戶簡稱'];
                 for (var j = 0; j < array.length; j++) {
                     var th = document.createElement('th'); //column
-					th.style.width=(120-Math.pow(-2,j)*20)+'px';
+					//th.style.width=(120-Math.pow(-2,j)*20)+'px';
                     var text = document.createTextNode(array[j]); //cell
 					
                     th.appendChild(text);
@@ -96,7 +96,8 @@ function custnoshow(event)
 				/*  formJason.appendChild(rspnsv); */
 		         dialog.appendChild(formJason)  				 
 	             dropsheet_content.style.width="28%";	 	 //原訊息內框畫面寬度調整  		  
-		         dropsheet_content.appendChild(dialog);		
+		         dropsheet_content.appendChild(dialog);	
+				
 				 if(window.ActiveXObject){
 		            var request = new ActiveXObject("Microsoft.XMLHttp");
 	             }else if(window.XMLHttpRequest){
@@ -142,10 +143,7 @@ function chseprg(event)  //選擇客戶
 	 var rprsntname=document.getElementById('whonameEx');
 	 var crnttpe=document.getElementById('crntopt');
 	 var contactman=document.getElementById('winman');
-  /*   var shipway=document.getElementById('howship');
-	  var paymenttp=document.getElementById('howpay');
-	 var shipplace=document.getElementById('dlvrplace');
-	 var shipdirect=document.getElementById('shipdirect'); */
+ 
 	 var crntrate=document.getElementById('curncy');
 	 var invoicetype=document.getElementById('invtype');
 	 var taxkind=document.getElementById('taxtype');	 
@@ -165,54 +163,18 @@ function chseprg(event)  //選擇客戶
 				 if(crnttpe){
 				    crnttpe.value=maintable.rows[i].cells[4].innerHTML;
 				 }
-				 /* if(contactman){
+				 if(contactman){
 				    contactman.value=maintable.rows[i].cells[5].innerHTML;
 				 }
-				 if(shipway){
-				    shipway.value=maintable.rows[i].cells[6].innerHTML;
-				 }
-				  
-				 if(paymenttp){
-				    var tpy=maintable.rows[i].cells[7].innerHTML;
-			        switch (tpy){				        
-                        case '0' :{
-						     tpy="現結";
-						     break;
-					    }
-					    case '1' :{
-						     tpy="月結";
-						     break;
-					    }
-					    case '2' :{
-						     tpy="次月結";
-						     break;
-					    }
-					    case '3' :{
-						     tpy="T/T";
-						     break;
-					    }
-                        default: {
-					       tpy='現結';
-                          break;
-                       }	
-				
-			        }	 
-				    paymenttp.value=tpy+(maintable.rows[i].cells[8].innerHTML==0?'':maintable.rows[i].cells[8].innerHTML+'天');
-				 }	 
-				 if(shipplace){
-					 shipplace.value=maintable.rows[i].cells[9].innerHTML;
-				 }
-				  if(shipdirect){
-					 shipdirect.value=maintable.rows[i].cells[10].innerHTML;
-				 }*/
+
 				 if(crntrate){
-					 crntrate.value=maintable.rows[i].cells[11].innerHTML;
+					 crntrate.value=maintable.rows[i].cells[6].innerHTML;
 				 }
 				 if(invoicetype){
-					 invoicetype.value=maintable.rows[i].cells[12].innerHTML;
+					 invoicetype.value=maintable.rows[i].cells[7].innerHTML*1+2;
 				 }
 				  if(taxkind){
-					 taxkind.value=maintable.rows[i].cells[13].innerHTML;
+					 taxkind.value=maintable.rows[i].cells[8].innerHTML;
 				 }
 				 break;
 			   }		
@@ -261,10 +223,10 @@ function srchCustNo(str1) {       //開窗顯示人員選項
 		  }
 		 
 		  if(jk=='cust_no'){
-			     oTd.setAttribute("style","text-align:left;width:100px;");
+			     oTd.setAttribute("style","text-align:left; ");
 		  }else if(jk=='cust_name'){
 			 
-		        oTd.setAttribute("style","text-align:left;width:160px;");
+		        oTd.setAttribute("style","text-align:left;");
 		  }else{
 		         oTd.setAttribute("style","display:none;");   
 		  }		  		   
