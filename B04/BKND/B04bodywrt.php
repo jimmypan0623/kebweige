@@ -20,26 +20,21 @@ if($rows2==0){
     echo json_encode("無此出貨計劃"); 
 }else if($list1['F23']+$list1['F21']+$list1['F09']+$brr[3]>$list1['F03']){
 	echo json_encode("出貨單數量超出本訂單可出數量:".strval($list1['F23']+$list1['F21']+$list1['F09']+$brr[3]-$list1['F03'])); 
-}else{	
-     
+}else{	     
      $sql0="SELECT * FROM a01 WHERE F01="."'".$_COOKIE['useraccount']."'"; 
      $sql1=@mysqli_query($link,$sql0);
      $rows1=@mysqli_num_rows($sql1);                       
      $list4=mysqli_fetch_array($sql1);  //紀錄當前操作者姓名   
 	 $lastdate=date('Y'.'-'.'m'.'-'.'d');
      $mArlth=count($brr);  
-     if($brr[$mArlth-2]==0){        //如果旗標指示為新增	
-	 
+     if($brr[$mArlth-2]==0){        //如果旗標指示為新增		 
 	    $sql="SELECT * FROM b0d WHERE F01='".$brr[0]."' AND F03='".$brr[1]."' AND F07='".$brr[2]."' "; 
         $sql2=mysqli_query($link,$sql);
         $rows=@mysqli_num_rows($sql2);
 		if($rows>0){			 
 			echo json_encode("品號及訂單號碼重複，請至該筆修改數量"); 
 		}else{
-             
-			  
-            //寫入json檔(其實就是文字檔只是每一筆以json格式存放)
- 
+            //寫入json檔(其實就是文字檔只是每一筆以json格式存放) 
         	//以下處理MySQL記錄新增  	        
 	           $mscnt="INSERT INTO b0d(F01,F03,F07,F04,F15,F05,F08,F09,F25,F11)  VALUES (";  //先把準備插入記錄的SQL 語法前半段先寫在字串中	 			   
 	           $mscnt.="'".$brr[0]."',";
@@ -59,6 +54,8 @@ if($rows2==0){
 			   $armstc03="UPDATE c03 SET F08='Y' where F01='".$brr[2]."' ";  	                                               
                mysqli_query($link ,$armstc03) or die(mysqli_error($link));    //寫入MySQL 	 
 	           echo json_encode($arr);
+			   $armstc04="UPDATE c04 SET F23=F23+".$brr[3]." where F02='".$brr[1]."' AND F01='".$brr[2]."' ";  	                                               
+               mysqli_query($link ,$armstc04) or die(mysqli_error($link));    //寫入MySQL 	
 		 } //新增判斷或執行結束   	     
      }else{	   //修改
 	   $mscnt="UPDATE b0d SET F04=F04+".$brr[3].",";	    
@@ -72,13 +69,11 @@ if($rows2==0){
 	   $sql=$mscnt;                                                 //寫入MySQL 	 
        mysqli_query($link ,$sql) or die(mysqli_error($link));  	  
        $arr = array ('order_no'=>$brr[$mArlth-2],'lastupdate'=>$lastdate.$list4['F03']);
-	    echo json_encode($arr);
-      //echo $brr[11];
+	    echo json_encode($arr);  
+	    $armstc04="UPDATE c04 SET F23=F23+".$brr[3]." where F02='".$brr[1]."' AND F01='".$brr[2]."' ";  	                                               
+        mysqli_query($link ,$armstc04) or die(mysqli_error($link));    //寫入MySQL 	
     }  
-	//$armstc05="UPDATE c05 SET F05=F05+".$brr[3]." where F02='".$brr[1]."' AND F01='".$brr[2]."' ";  	                                               
-     //mysqli_query($link ,$armstc05) or die(mysqli_error($link));    //寫入MySQL 	 
-    $armstc04="UPDATE c04 SET F23=F23+".$brr[3]." where F02='".$brr[1]."' AND F01='".$brr[2]."' ";  	                                               
-     mysqli_query($link ,$armstc04) or die(mysqli_error($link));    //寫入MySQL 	
+    
 }  
 mysqli_close($link);	
  	

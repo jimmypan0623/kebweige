@@ -279,7 +279,7 @@ function TableToJson(args,nongs,tbno){
 	}									
 	var json=order_head.slice(0,-1)+"}";   //去掉最後一個逗號再加上右大引號	 	 	
     var str_json=JSON.stringify(json);	
-	//alert(str_json);
+    //alert(str_json);
 	var mainright=document.getElementsByTagName('title'); 
 	if(window.ActiveXObject){
 	    var request = new ActiveXObject("Microsoft.XMLHttp");

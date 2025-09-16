@@ -28,14 +28,14 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){  //在此
     return true;	
 }
 function searchOptionsKey(tbno,slt5){	
-	 slt5.options.add(new Option('料品編號','b0d.F03'));
-	 slt5.options.add(new Option('出貨單號','b0d.F01'));
-	 slt5.options.add(new Option('日期','b04.F02'));
-	  slt5.options.add(new Option('訂單號碼','b0d.F07'));
-	 slt5.options.add(new Option('客戶編號','b04.F06'));
+	 slt5.options.add(new Option('料品編號','c10.F03'));
+	 slt5.options.add(new Option('出貨單號','c10.F04'));
+	 slt5.options.add(new Option('日期','c10.F01'));
+	  slt5.options.add(new Option('訂單號碼','c10.F05'));
+	 slt5.options.add(new Option('客戶編號','c10.F02'));
 	 slt5.options.add(new Option('客戶簡稱','c01.F05'));
-	 slt5.options.add(new Option('客戶PO','b0d.F09'));	
-	  slt5.options.add(new Option('業務編號','b04.F09')); 
+	 slt5.options.add(new Option('客戶PO','c10.F16'));	
+	  slt5.options.add(new Option('業務編號','c10.F10')); 
      slt5.options.add(new Option('業務姓名','a01.F03')); 
 }
 function searchKeyHint(tbno){    //搜尋畫面出現提示

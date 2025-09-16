@@ -223,17 +223,9 @@ function srchStockNo(str1) {       //開窗顯示料號選項
 		  }
 		  if(jk=='item_no' || jk=='depart_no' || jk=='depart_name'){
 			     oTd.setAttribute("style","display:none;");   
-		  }else if(jk=='stock_no'){
-			     oTd.setAttribute("style","text-align:left;");
-		  }else if(jk=='stock_name'){
-			 
-		        oTd.setAttribute("style","text-align:left;");
-		  }else if(jk=='custom_part'){	
-		        		 
-		        oTd.setAttribute("style","text-align:left;");
-		  }else if(jk=='custom_po'){	
-		        		 
-		        oTd.setAttribute("style","text-align:left;");		
+		   }else if(jk=='order_qty' || jk=='unit_price'){
+			     oTd.setAttribute("style","text-align:right;");
+		 	  		
 		  }else{
 		       //oTd.setAttribute("style","display:none;");   
 		  }		  		   

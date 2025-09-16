@@ -17,7 +17,7 @@ include("../../include/BKND/mysqli_server.php");                              //
 if($rows2==0){
     echo json_encode("無此收貨部門"); 		 
 }else if($rows1==0){
-    echo json_encode("無此出貨紀錄"); 
+    echo json_encode("此出貨紀錄無可退或可折讓數量"); 
 }else if($list1['F0I']-$list1['F24']-$brr[3]<0){
 	echo json_encode("此筆退回數量超過已出數量:".strval(($list1['F0I']-$list1['F24']-$brr[3])*(-1))); 
 }else{	
@@ -31,7 +31,8 @@ if($rows2==0){
 	 
 	$sql15="SELECT * FROM b05 WHERE F01='".$brr[0]."' "; 
 	$sql16=@mysqli_query($link,$sql15);
-	$list5=mysqli_fetch_array($sql16);  //紀錄表頭折讓貨退貨	 	 
+	$list5=mysqli_fetch_array($sql16);  //紀錄表頭折讓貨退貨	 
+	
      if($brr[$mArlth-2]==0){        //如果旗標指示為新增		    
 	    $sql="SELECT * FROM b0e WHERE F01='".$brr[0]."' AND F03='".$brr[1]."' AND F07='".$brr[2]."' "; 
         $sql2=mysqli_query($link,$sql);
@@ -41,27 +42,29 @@ if($rows2==0){
 		}else{             
             //寫入json檔(其實就是文字檔只是每一筆以json格式存放) 
         	//以下處理MySQL記錄新增  	        
-	           $mscnt="INSERT INTO b0e(F01,F03,F07,F04,F15,F05,F08,F09,F12,F13)  VALUES (";  //先把準備插入記錄的SQL 語法前半段先寫在字串中	 			   
-	           $mscnt.="'".$brr[0]."',";
-	           $mscnt.="'".$brr[1]."',";
-   	           $mscnt.="'".$brr[2]."',";	 
-               $mscnt.="'".$brr[3]."',";	
-               $mscnt.="'".$brr[4]."',"; 		
-               $mscnt.="'".$brr[5]."',"; 
-			   $mscnt.="'".$brr[6]."',"; 		
-               $mscnt.="'".$brr[7]."',"; 
-			   $mscnt.="'".$brr[8]."',";
-	           $mscnt.="'".$lastdate.$list4['F03']."')";		      
-	           $sql=$mscnt;                                               //寫入MySQL 	 
-               mysqli_query($link ,$sql) or die(mysqli_error($link));  
-			   $last_id = mysqli_insert_id($link);     //找最後一個號碼	          					     
-			   $arr = array ('order_no'=>$last_id,'lastupdate'=>$lastdate.$list4['F03']);
-			   /* $armstc03="UPDATE c04 SET F24=F24+ where F01='".$brr[2]."' ";  	                                               
-               mysqli_query($link ,$armstc03) or die(mysqli_error($link));    //寫入MySQL 	  */
-	           echo json_encode($arr);
-		 } //新增判斷或執行結束   	     
-     }else{	   //修改
-	    
+	            $mscnt="INSERT INTO b0e(F01,F03,F07,F04,F15,F05,F08,F09,F12,F13)  VALUES (";  //先把準備插入記錄的SQL 語法前半段先寫在字串中	 			   
+	            $mscnt.="'".$brr[0]."',";
+	            $mscnt.="'".$brr[1]."',";
+   	            $mscnt.="'".$brr[2]."',";	 
+                $mscnt.="'".$brr[3]."',";	
+                $mscnt.="'".$brr[4]."',"; 		
+                $mscnt.="'".$brr[5]."',"; 
+			    $mscnt.="'".$brr[6]."',"; 		
+                $mscnt.="'".$brr[7]."',"; 
+			    $mscnt.="'".$brr[8]."',";
+	            $mscnt.="'".$lastdate.$list4['F03']."')";		      
+	            $sql=$mscnt;                                               //寫入MySQL 	 
+                mysqli_query($link ,$sql) or die(mysqli_error($link));  
+			    $last_id = mysqli_insert_id($link);     //找最後一個號碼	          					     
+			    $arr = array ('order_no'=>$last_id,'lastupdate'=>$lastdate.$list4['F03']);
+	            echo json_encode($arr);
+			    if(intval($list5['F24'])<3){   //非折讓就要寫入原訂單開單未過帳量
+                  $armstc04="UPDATE c04 SET F24=F24+".$brr[3]." WHERE F02='".$brr[1]."' AND F01='".$brr[2]."' ";  	                                               
+                  mysqli_query($link ,$armstc04) or die(mysqli_error($link));    //寫入MySQL 	
+	            }
+			   
+		} //新增判斷或執行結束   	     
+    }else{	   //修改	    
 	    $mscnt="UPDATE b0e SET F04=F04+".$brr[3].",";	    
 	    $mscnt.="F15="."'".$brr[4]."',";	   
 	    $mscnt.="F05="."'".$brr[5]."',";	 
@@ -76,14 +79,12 @@ if($rows2==0){
         mysqli_query($link ,$sql) or die(mysqli_error($link));  	  
         $arr = array ('order_no'=>$brr[$mArlth-2],'lastupdate'=>$lastdate.$list4['F03']);
 	    echo json_encode($arr);
-      //echo $brr[11];
-    }  
-	if(intval($list5['F24'])<3){   //非折讓就要寫入原訂單開單未過帳量
-       $armstc04="UPDATE c04 SET F24=F24+".$brr[3]." WHERE F02='".$brr[1]."' AND F01='".$brr[2]."' ";  	                                               
-       mysqli_query($link ,$armstc04) or die(mysqli_error($link));    //寫入MySQL 	
-	}
+	    if(intval($list5['F24'])<3){   //非折讓就要寫入原訂單開單未過帳量
+            $armstc04="UPDATE c04 SET F24=F24+".$brr[3]." WHERE F02='".$brr[1]."' AND F01='".$brr[2]."' ";  	                                               
+            mysqli_query($link ,$armstc04) or die(mysqli_error($link));    //寫入MySQL 	
+	    }
+    }  	
 }  
-mysqli_close($link);	
- 	
+mysqli_close($link);	 	
 ?>
  

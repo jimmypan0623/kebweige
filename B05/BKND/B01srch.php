@@ -1,20 +1,19 @@
 ﻿<?php
-
     header("Content-Type:text/html; charset=utf-8");   
     include("../../include/BKND/mysqli_server.php");                              //引用檔   
     $fieldNo=substr($_POST['filename'],0,7);                //料號欄位key		
 	$filterKey=trim(getNeedBetween($_POST['filename'],'|','_')); // 搜尋料號 
 	$shipno=trim(substr(strrchr($_POST['filename'],'_'),1));   //出貨單號		 
 	$searchRecord =trim($filterKey);			
-	//$sql3="SELECT c04.F02,b01.F02 AS F0B,c04.F01,c04.F06,c04.F03-c04.F09-c04.F21-c04.F23 AS avlq,";
-	$sql3="SELECT b0d.F03,b01.F02 AS F0B,b0d.F07,b0d.F04,";
+	$sql3="SELECT b0d.F03,b01.F02 AS F0B,b0d.F07,LEAST((c04.F09-c04.F24),b0d.F04) AS avlq,";   
 	$sql3.="b0d.F15,b0d.F08,b0d.F09,b01.F07 AS F0G,a14.F02 AS FZ2 FROM b0d ";
 	$sql3.="LEFT OUTER JOIN b01 ON b01.F01=b0d.F03 "; 
 	$sql3.="LEFT OUTER JOIN a14 ON a14.F01=b01.F07 ";	  
+	$sql3.="LEFT OUTER JOIN c04 ON c04.F01=b0d.F07 AND c04.F02=b0d.F03 ";	
 	if(strlen($searchRecord)==0) {	  
-        $sql3=$sql3."WHERE b0d.F01='".trim($shipno)."' ";		
+        $sql3=$sql3."WHERE b0d.F01='".trim($shipno)."' AND c04.F09-c04.F24>0 ";		
 	}else{
-		$sql3=$sql3."WHERE ".$fieldNo." LIKE '%".trim($searchRecord)."%' AND b0d.F01='".trim($shipno)."' "; 
+		$sql3=$sql3."WHERE ".$fieldNo." LIKE '%".trim($searchRecord)."%' AND b0d.F01='".trim($shipno)."' AND c04.F09-c04.F24>0 "; 
 	}
 	$sql3=$sql3."ORDER BY ".$fieldNo;
     $arr=array();	
@@ -26,7 +25,7 @@
 		             'stock_no'=>$list3['F03'],  		            	             
 		             'stock_name'=>$list3['F0B'],
 					 'order_no'=>$list3['F07'],					
-					 'order_qty'=>$list3['F04'],
+					 'order_qty'=>$list3['avlq'],
 					 'unit_price'=>$list3['F15'],
 					 'custom_part'=>$list3['F08'],
 					 'custom_po'=>$list3['F09'],

@@ -8,7 +8,6 @@ foreach($cart as $key=>$val){
 }
  $mArlth=count($brr);  
  include("../../include/BKND/mysqli_server.php");                  
-
      $sql5="SELECT * FROM a01 WHERE F01='".$brr[3]."'"; 
 		 $sql6=mysqli_query($link,$sql5) or die(mysqli_error($link));
 		 $rows2=@mysqli_num_rows($sql6);
@@ -69,12 +68,26 @@ if($rows1==0 || $rows2==0){
 	           echo json_encode($arr);
 		} //新增判斷或執行結束   	     
     }else{	   //修改
+	    if(intval($brr[11])>3){
+	        if(intval($brr[11])==9){   //退變折
+			    $c04update="UPDATE c04 SET c04.F24=c04.F24+(-1)
+                *(SELECT b0e.F04 FROM b0e WHERE c04.F01=b0e.F07 AND c04.F02=b0e.F03 AND b0e.F01='".$brr[0]."') 
+                WHERE CONCAT(c04.F01,c04.F02) IN (SELECT CONCAT(F07,F03) FROM b0e WHERE F01='".$brr[0]."')";
+		    }else{              //折變退
+		        $c04update="UPDATE c04 SET c04.F24=c04.F24+
+                (SELECT b0e.F04 FROM b0e WHERE c04.F01=b0e.F07 AND c04.F02=b0e.F03 AND b0e.F01='".$brr[0]."') 
+                WHERE CONCAT(c04.F01,c04.F02) IN (SELECT CONCAT(F07,F03) FROM b0e WHERE F01='".$brr[0]."')";
+		    }
+			mysqli_query($link ,$c04update) or die(mysqli_error($link));  
+		    
+	        $brr[11]=strval(intval($brr[11])-6);
+	    }
 	   $mscnt="UPDATE b05 SET F02='".str_pad(trim($brr[2]),2,"0",STR_PAD_LEFT)."',";	    
 	   $mscnt.="F09='".$brr[3]."',";	   	    	  	
 	   $mscnt.="F22='".$brr[7]."',";	 
 	   $mscnt.="F23='".$brr[8]."',";	 
-	    $mscnt.="F14='".$brr[9]."',";	 
-	   $mscnt.="F16='".$brr[10]."',";	   	  
+	   $mscnt.="F14='".$brr[9]."',";	 
+	   $mscnt.="F16='".$brr[10]."',";	   		   
 	   $mscnt.="F24='".$brr[11]."',";	      
 	   $mscnt.="F25='".$brr[12]."',";	  
 	   $mscnt.="F13='".$lastdate.$list4['F03']."'";

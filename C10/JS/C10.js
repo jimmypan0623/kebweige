@@ -52,7 +52,7 @@ function getProfile(str1,reccount) {
 				  oTd.setAttribute("class","directdata");	
 					 oTd.setAttribute("style","text-align:right;width:7%;"); 	
 			}else if(jk=='rcd_total'){
-				  oTd.setAttribute("class","directdata");	
+				  oTd.setAttribute("class","indirectdata");	
 					 oTd.setAttribute("style","text-align:right;width:8%;");
 					  queryttl+=Number(oTd.innerHTML);					   
 			}else{						 

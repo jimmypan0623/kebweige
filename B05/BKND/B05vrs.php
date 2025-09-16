@@ -2,7 +2,7 @@
   header("Content-Type:text/html; charset=utf-8");   
   include("../../include/BKND/mysqli_server.php");                              //引用檔    
    $delmsg=$_POST['filename'];
-$sql7="SELECT `F10` FROM `b04` where `F01`='".$delmsg."'"; 
+$sql7="SELECT `F10` FROM `b05` where `F01`='".$delmsg."'"; 
  $sql8=@mysqli_query($link,$sql7);                       
   $list2=mysqli_fetch_array($sql8);  //檢查是否已反確認過
 if(trim($list2['F10'])=="Y"){   
@@ -12,7 +12,8 @@ if(trim($list2['F10'])=="Y"){
      $rows1=@mysqli_num_rows($sql1);                       
      $list4=mysqli_fetch_array($sql1);  //紀錄當前操作者姓名   
     $lastdate=date('Y'.'-'.'m'.'-'.'d');
-
+    $mscnt="DELETE FROM `c10` where `F04`='".$delmsg."'";	     
+     mysqli_query($link ,$mscnt) or die(mysqli_error($link)); 
 
 	  $mscnt="DELETE FROM `b26` WHERE `F07`='".$delmsg."'";
 	                        
@@ -21,17 +22,16 @@ if(trim($list2['F10'])=="Y"){
 	  $mscnt="DELETE FROM `c13` WHERE `F02`='".$delmsg."'";
 	                        
       mysqli_query($link ,$mscnt) or die(mysqli_error($link)); 
-	 
-	 ////
-	 $sql3="select b0d.*,b04.F02 As F0B,b04.F90 from b0d,b04 where b0d.F01='".$delmsg."' and b04.F01='".$delmsg."'  order by b0d.F03"; 
-	 
-	 	 $sql4=@mysqli_query($link,$sql3); 
+
+	 $sql3="SELECT b0e.*,b05.F02 As F0B,b05.F24,b05.F90 FROM b0e,b05 WHERE b0e.F01='".$delmsg."' AND b05.F01='".$delmsg."'  ORDER BY b0e.F03"; 	 
+	 $sql4=@mysqli_query($link,$sql3); 
      $arr=array(); 
 	 while ($list3=mysqli_fetch_array($sql4)){
 		 $my_array  = array('query_no'=>$list3['F01'],			              
 					    'stockno'=>$list3['F03'],
 					    'deliveryday'=>$list3['F0B'],
-					    'orderqty'=>$list3['F04'],				
+					    'orderqty'=>($list3['F24']=='3'?0:$list3['F04']),  //折讓貨退貨
+						'cancelqty'=>($list3['F24']=='2'?$list3['F04']:0),  //退回不補取消量
 					    'oring_no'=>$list3['F07'],   //訂單編號				
 					    'unit_price'=>$list3['F15'],  //單價					    
 					    'lastupdate'=>$lastdate.$list4['F03'],
@@ -50,13 +50,13 @@ if(trim($list2['F10'])=="Y"){
 		     $valueStr3 .= "('".$v['departno']."',     
 		     '".$v['stockno']."',
 		     ".$v['orderqty']*(-1).",
-		     ".$v['orderqty'].",
+		     ".$v['orderqty']*(-1).",
 		     '".$v['lastupdate']."',
 	         '".$v['month_no']."'),";
 		     //b11庫存明細
 		     $valueStr4 .= "('".$v['departno']."',  
 		     '".$v['stockno']."',
-		     ".$v['orderqty'].",
+		     ".$v['orderqty']*(-1).",
 		     '".$v['month_no']."-".$v['deliveryday']."'),";
 		     //c04訂單表身
 	    	 $valueStr6 .= "('".$v['oring_no']."',
@@ -65,23 +65,22 @@ if(trim($list2['F10'])=="Y"){
 			 ".$v['unit_price'].",
 			 '".$v['custom_partno']."',
 		     '".$v['month_no']."-".$v['deliveryday']."',
-		     ".$v['orderqty']*(-1).",
+		     ".$v['orderqty'].",
+			 ".$v['cancelqty'].",
 		     '".$v['lastupdate']."',
 	    	 ".$v['orderqty']."),"; 			      
         }       
 	 $valueStr3 = substr($valueStr3,0,strlen($valueStr3)-1);   //去掉最右邊的逗號,異動庫存月報表
 	 $valueStr4 = substr($valueStr4,0,strlen($valueStr4)-1);   //去掉最右邊的逗號,異動即時庫存明細	 
 	 $valueStr6 = substr($valueStr6,0,strlen($valueStr6)-1);   //去掉最右邊的逗號,異動客戶訂單表身  
-	 $insertSql3 = "insert into b25 (F01,F02,F06,F15,F16,F90) values ".$valueStr3." ON DUPLICATE KEY UPDATE F06=F06+VALUES(F06),F15=F15+VALUES(F15),F16=VALUES(F16)"; 
-	 $insertSql4 = "insert into b11 (F01,F03,F04,F05) values ".$valueStr4." ON DUPLICATE KEY UPDATE F04=F04+VALUES(F04),F05=VALUES(F05)";     	
-     $insertSql6 = "insert into c04 (F01,F02,F03,F04,F05,F06,F09,F12,F23) values ".$valueStr6." ON DUPLICATE KEY UPDATE F09=F09+VALUES(F09),F12=VALUES(F12),F23=F23+VALUES(F23)";   
+	 $insertSql3 = "INSERT INTO b25 (F01,F02,F07,F15,F16,F90) values ".$valueStr3." ON DUPLICATE KEY UPDATE F07=F07+VALUES(F07),F15=F15+VALUES(F15),F16=VALUES(F16)"; 
+	 $insertSql4 = "INSERT INTO b11 (F01,F03,F04,F05) values ".$valueStr4." ON DUPLICATE KEY UPDATE F04=F04+VALUES(F04),F05=VALUES(F05)";     	
+     $insertSql6 = "INSERT INTO c04 (F01,F02,F03,F04,F05,F06,F09,F21,F12,F24) values ".$valueStr6." ON DUPLICATE KEY UPDATE F09=F09+VALUES(F09),F21=F21+VALUES(F21),F12=VALUES(F12),F24=F24+VALUES(F24)";   
 	   @mysqli_query($link,$insertSql3) ;  
 	   @mysqli_query($link,$insertSql4) ;  	  
 	   @mysqli_query($link,$insertSql6) ;
 
-
-	
-     $mscnt="UPDATE `b04` SET `F10`='N',`F11`='".$lastdate.$list4['F03']."' WHERE `F01`='".$delmsg."'";
+     $mscnt="UPDATE `b05` SET `F10`='N',`F13`='".$lastdate.$list4['F03']."' WHERE `F01`='".$delmsg."'";
 	 $sql=$mscnt;
                            
     mysqli_query($link ,$sql) or die(mysqli_error($link)); 

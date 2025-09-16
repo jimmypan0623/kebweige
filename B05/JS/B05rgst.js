@@ -116,7 +116,7 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 		        tbjsn.push(blngmth);   //要多一個所屬年月參數
 		    }else{   //表身新增
 		        
-				tbjsn.push(sourceAccount(2,0));  //記住表頭客戶編號 
+				//tbjsn.push(sourceAccount(2,0));  //記住表頭客戶編號 
 		    }			   
 		    tbjsn.push('0');
 		    tbjsn.push('0');	
@@ -130,9 +130,22 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 		    updflg=window.event;
         }			
 	    var target=getEventTarget(updflg);	
+		if(tbno==0){   //如果是表頭
+		   var x1=sourceAccount(20,0)*1-b05elements[12].value*1;
+		   var y1=sourceAccount(20,0)*1+b05elements[12].value*1;
+		   if(x1!=0 && y1>3){  //表示退改折或折改退		     
+		      if(x1<0){
+				tbjsn[11]=9;      
+			  }else if(x1==2){
+				tbjsn[11]=7;     //x1=2=>1
+			  }else{
+				tbjsn[11]=8;     //x1=1=>2
+			  }				  
+		   }
+		}		
 		if(tbno==1){   //如果是表身		   
            tbjsn[2]=b05elements[3].value-sourceAccount(4,1);  //傳到後端為新數量減原出貨數之差
-		   tbjsn.push(document.getElementById('keydscrpt').innerHTML);    //記住表頭客戶編號
+		   //tbjsn.push(document.getElementById('keydscrpt').innerHTML);    //記住表頭客戶編號
 		}  
 		var tablerowindex=sourceAccount(null,tbno);   //記住是目前table的哪一列	
          tbjsn.push(recordNo.value);	
@@ -178,8 +191,7 @@ function lostfocus2(event){
 		event=window.event;
 	}
 	var target=getEventTarget(event);
-	var dptno=sourceAccount(7,1);  //找到目前指向的列數與欄位資料	
-	
+	var dptno=sourceAccount(7,1);  //找到目前指向的列數與欄位資料		
 	if (target.value!=dptno){	       //部門欄位資料變動	
         target.parentNode.childNodes[1].innerHTML="";   //名字清空	
 	    deptshow(event);
@@ -229,10 +241,8 @@ function rateSrch(event){   //出貨日期異動順便更動匯率
 	       else if(window.XMLHttpRequest){
 	   	      var request = new XMLHttpRequest();
         }			 
-		request.onreadystatechange = respond;	
-       
-		var url="B04/BKND/C0ZRateChange.php?timestamp="+new Date().getTime();
-			
+		request.onreadystatechange = respond;	       
+		var url="B04/BKND/C0ZRateChange.php?timestamp="+new Date().getTime();			
 	    request.open("POST",url);	 
 	    request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 	    request.send(sendSrcRec);		
@@ -308,8 +318,8 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    oTd.innerHTML='退貨或折讓:';
 	    var oTd = oTr.insertCell(3);   	     	    
 	    var slt9=document.createElement("select");
-	    slt9.options.add(new Option('退貨後補','1'));
-	    slt9.options.add(new Option('退回不補','2'));	 
+	    slt9.options.add(new Option('退回後補','1'));
+	    slt9.options.add(new Option('退貨不補','2'));	 
 		slt9.options.add(new Option('金額折讓','3'));	
 	    slt9.setAttribute("id","rjtOrds");
 	    slt9.setAttribute("name","b05update");
@@ -629,8 +639,8 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 		   document.getElementById("rcrd_no").value=aWaitUpdate[0];       //把紀錄號碼也存起來	
 		   if (tbno==0){
 			  document.getElementById("shipdate").focus();				  			 				  
-			  //var editinit=document.getElementsByName('b05update');
-			  var editinit=getElementsByAttribute("name","b05update");
+			  var editinit=document.getElementsByName('b05update');
+			  //var editinit=getElementsByAttribute("name","b05update");
 			  document.getElementById('customname').value=notWaitdata[0];
 			  document.getElementById('whonameEx').innerHTML=notWaitdata[5];
 			    
@@ -742,13 +752,14 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 		oTd.setAttribute("class","directdata");		
 		oTd.setAttribute("style","display:none;");    
 		var oTd = oTr.insertCell(oTr.cells.length);   //退貨或折讓	 
-		oTd.innerHTML=(args[11]=='1'?'退貨後補':(args[11]=='2'?'退回不補':'金額折讓'));				
+		oTd.innerHTML=(args[11]=='1'?'退回後補':(args[11]=='2'?'退貨不補':'金額折讓'));				
 		oTd.setAttribute("class","indirectdata");		
 		oTd.setAttribute("style","width:7%;text-align:center;");   
 		var oTd = oTr.insertCell(oTr.cells.length);   //備註 
 		oTd.innerHTML=args[12];	
-		oTd.setAttribute("class","indirectdata");		
+		oTd.setAttribute("class","directdata");		
 		oTd.setAttribute("style","width:9%;");   
+		oTr.setAttribute("style","font-weight:bold;color:#704214;");
 		 //是否過帳
 		var oTd = oTr.insertCell(oTr.cells.length);	
 		oTd.setAttribute("class","indirectdata");					   
@@ -757,11 +768,11 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
     }else{  //整理表身新增資料	  
 	    var oTd = oTr.insertCell(oTr.cells.length);   //料號
 	    oTd.innerHTML=args[0];
-	    oTd.setAttribute("style","text-align:left;");
+	    oTd.setAttribute("style","text-align:left;width:13%;");
 	    oTd.setAttribute("class","directdata");		
 	    var oTd = oTr.insertCell(oTr.cells.length);   //品名
 	    oTd.innerHTML=nongs[0];
-		oTd.setAttribute("style","text-align:left;");
+		oTd.setAttribute("style","text-align:left;width:13%;");
 	    oTd.setAttribute("class","indirectdata");
 	    var oTd = oTr.insertCell(oTr.cells.length);   //訂單號碼
 	    oTd.innerHTML=args[1];
@@ -771,13 +782,13 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 		    var oTd = oTr.insertCell(oTr.cells.length);   //數量&單價
 		    oTd.innerHTML=args[i];
 		    oTd.setAttribute("class","directdata");
-		    oTd.setAttribute("style","width:8%;text-align:right;");
+		    oTd.setAttribute("style","width:7%;text-align:right;");
 		}   
 		var oTd = oTr.insertCell(oTr.cells.length);   //小計
 		var ttlcnt=Number(document.getElementById('ttlmny').innerHTML);
 		oTd.innerHTML=Math.round((args[2]*args[3]+ Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);					    
 		oTd.setAttribute("class","indirectdata");
-		oTd.setAttribute("style","width:8%;text-align:right;");
+		oTd.setAttribute("style","width:7%;text-align:right;");
 		ttlcnt=ttlcnt+Math.round((args[2]*args[3]+ Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);					    
 		document.getElementById('ttlmny').innerHTML=ttlcnt;  //更新畫面上的總金額
 	    var oTd = oTr.insertCell(oTr.cells.length);   //部門代號
@@ -786,15 +797,20 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 	    oTd.setAttribute("class","directdata");		
 	    var oTd = oTr.insertCell(oTr.cells.length);   //部門名稱
 	    oTd.innerHTML=nongs[1];
-	    oTd.setAttribute("style","width:8%;");
+	    oTd.setAttribute("style","width:7%;");
 	    oTd.setAttribute("class","indirectdata");		
 	    for(var i=5;i<7;i++){
 		    var oTd = oTr.insertCell(oTr.cells.length);
 		    oTd.innerHTML=args[i];				
-		    oTd.setAttribute("style","text-align:left;");
+		    oTd.setAttribute("style","text-align:left;width:13%;");
 		    oTd.setAttribute("class","directdata");							   
 	    }
-	   
+	    if(sourceAccount(20,0)=='1'){    //補貨日期
+		  	var oTd = oTr.insertCell(oTr.cells.length);
+		    oTd.innerHTML=args[7];				
+		    oTd.setAttribute("style","text-align:center;width:10%;");
+		    oTd.setAttribute("class","directdata");								
+		}
     }	
 	//最後異動
     var oTd = oTr.insertCell(oTr.cells.length);	
@@ -822,8 +838,11 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 	    for (var j=18;j<tbrlth-4;j++){       //18~19
 		   maintable.rows[args[arglth-1]].cells[j].innerHTML=args[j-9];
 	    }				      
-		maintable.rows[args[arglth-1]].cells[20].innerHTML=args[11];
-		maintable.rows[args[arglth-1]].cells[21].innerHTML=(args[11]=='1'?'退貨後補':(args[11]=='2'?'退回不補':'金額折讓'));	
+	    if (args[11]*1>3){
+		   args[11]=(args[11]*1-6).toString();
+		}
+		maintable.rows[args[arglth-1]].cells[20].innerHTML=args[11];		
+		maintable.rows[args[arglth-1]].cells[21].innerHTML=(args[11]=='1'?'退回後補':(args[11]=='2'?'退貨不補':'金額折讓'));	
 	    maintable.rows[args[arglth-1]].cells[22].innerHTML=args[12];
 		maintable.rows[args[arglth-1]].cells[tbrlth-2].innerHTML=rsp.lastupdate; //最後異動	22	   
 	}
@@ -858,6 +877,7 @@ function searchOptionsKey(tbno,slt5){
 		 //slt5.options.add(new Option('出貨日期','b05.F02'));
 		 slt5.options.add(new Option('業務編號','b05.F09'));
 		 slt5.options.add(new Option('業務姓名','a01.F03'));
+		  slt5.options.add(new Option('出貨單號','b05.F21')); 
 		 slt5.options.add(new Option('發票號碼','b05.F20')); 
 		slt5.options.add(new Option('已確認?(Y/N)','b05.F10')); 
 	

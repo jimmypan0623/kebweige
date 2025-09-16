@@ -17,7 +17,7 @@
 	         c01.F05 as F0E,c01.F04 AS F0D,c01.F10 AS F1Z,c01.F12 ,c01.F13 AS F1C,a01.F03 as F0C FROM b05 
 	        left outer join c01 on c01.F01=b05.F06 
             left outer join a01 on a01.F01=b05.F09 	
-		    WHERE b05.F90='".$pgeno."' and ".$fieldNo." like '%".trim($filterKey)."%' order by ".$fieldNo." b05.F02"; 
+		    WHERE b05.F90='".$pgeno."' and ".$fieldNo." like '%".trim($filterKey)."%' order by '".$fieldNo."', b05.F02"; 
    }	   
    $sql0="select * from a23 where F01='".$pgeno."'"; 
      $sql1=@mysqli_query($link,$sql0);                           
@@ -47,7 +47,7 @@
 					 'crncy_type'=>$list3['F14'],	
 					 'crncy_rate'=>$list3['F16'],	
 					 'discount_ship'=>$list3['F24'], 
-					  'remark'=>$list3['F25'], 
+					 'remark'=>$list3['F25'], 
                      'shure'=>$list3['F10'],     					 
 					 'lastupdate'=>$list3['F13']                      				 
 					 );                      			

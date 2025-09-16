@@ -252,7 +252,7 @@ function choseExtraDeal(targetTrChildren,targetTr){   //紀錄移動
 }
 function choseSecond(targetTrChildren,targetTr){  //紀錄移動表身
 	 var outhis=document.getElementById("OUTRCD_BOTT");
-	 if(targetTrChildren[8].innerHTML*1>0){
+	 if(targetTrChildren[8].innerHTML*1+targetTrChildren[9].innerHTML*1>0){
 		 outhis.setAttribute("style","visibility:visibility;"); 
 		 attachEventListener(outhis,"click",page2OtherButton1,false);
 	 }else{
@@ -336,7 +336,7 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 }	
 function rowchoseSecond(targetRow){    //紀錄移動表身
     var outhis=document.getElementById("OUTRCD_BOTT");
-	 if(targetRow.childNodes[8].innerHTML*1>0){
+	 if(targetRow.childNodes[8].innerHTML*1+targetRow.childNodes[8].innerHTML*1>0){
 		 outhis.setAttribute("style","visibility:visibility;"); 
 		 attachEventListener(outhis,"click",page2OtherButton1,false);
 	 }else{
@@ -345,9 +345,6 @@ function rowchoseSecond(targetRow){    //紀錄移動表身
 	 }
    return true;	
 }
-
-
-
 
 function getUrlParams2(url){  //解析url成物件
    let urlStr=url.split('?')[1];

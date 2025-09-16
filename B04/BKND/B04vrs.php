@@ -12,14 +12,11 @@ if(trim($list2['F10'])=="Y"){
      $rows1=@mysqli_num_rows($sql1);                       
      $list4=mysqli_fetch_array($sql1);  //紀錄當前操作者姓名   
     $lastdate=date('Y'.'-'.'m'.'-'.'d');
-
-
-	  $mscnt="DELETE FROM `b26` WHERE `F07`='".$delmsg."'";
-	                        
+     	$mscnt="DELETE FROM `c10` where `F04`='".$delmsg."'";	     
+       mysqli_query($link ,$mscnt) or die(mysqli_error($link)); 
+	  $mscnt="DELETE FROM `b26` WHERE `F07`='".$delmsg."'";	                        
       mysqli_query($link ,$mscnt) or die(mysqli_error($link)); 
-
-	  $mscnt="DELETE FROM `c13` WHERE `F02`='".$delmsg."'";
-	                        
+	  $mscnt="DELETE FROM `c13` WHERE `F02`='".$delmsg."'";	                        
       mysqli_query($link ,$mscnt) or die(mysqli_error($link)); 
 	 
 	 ////

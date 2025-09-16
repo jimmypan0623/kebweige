@@ -4,11 +4,10 @@ function getProfile(str1,trncde,tbno) {
 	var arr = str1; 
 	if (tbno==0){     //如果是表頭   
         var bibau=cko[0](0);   //找出閉包變數
-	     cko[0](bibau*(-1));    //將閉包變數歸零
-		 cko[0](trncde=='Y'?1:0);      //將此變數當作是否結轉的旗號	
-		    
-			var newbtt=document.getElementById("NEW_BOTT");  
-			var prnbtt=document.getElementById("PRNT_BOTT");
+	    cko[0](bibau*(-1));    //將閉包變數歸零
+		cko[0](trncde=='Y'?1:0);      //將此變數當作是否結轉的旗號			    
+		var newbtt=document.getElementById("NEW_BOTT");  
+		var prnbtt=document.getElementById("PRNT_BOTT");
 		 if(cko[0](0)==1){	   //如果庫存帳已結轉則新增與列印按鈕設為無效		 			
 			prnbtt.setAttribute("style","visibility:hidden;");			
 			detachEventListener(prnbtt,"click",prntproc,false);	
@@ -96,14 +95,14 @@ function getProfile(str1,trncde,tbno) {
 					oTd.setAttribute("style","display:none;");		
 					oTd.setAttribute("class","directdata");		
 					var oTd = oTr.insertCell(oTr.cells.length);
-					oTd.innerHTML=(arr[i][jk]=='1'?'退貨後補':(arr[i][jk]=='2'?'退回不補':'金額折讓'));
+					oTd.innerHTML=(arr[i][jk]=='1'?'退回後補':(arr[i][jk]=='2'?'退貨不補':'金額折讓'));
 					oTd.setAttribute("style","text-align:center;width:7%;");
 					attachEventListener(oTd,'click',rowchoose,false);		//點選資料		
 			    }else if(jk=='shure' || jk=='custom_fullname' || jk=='unitedno' || jk=='contact' || jk=='tel'){		  
 				    oTd.setAttribute("class","indirectdata");
 				    oTd.setAttribute("style","display:none;");	
 			    }else if(jk=='query_date'){
-			        oTd.setAttribute("style","tex-align:center;width:3%;");		
+			        oTd.setAttribute("style","text-align:center;width:3%;");		
 					oTd.setAttribute("class","directdata");			
 					attachEventListener(oTd,'click',rowchoose,false);		//點選資料  */			    
 			    }else{					  	
@@ -117,9 +116,13 @@ function getProfile(str1,trncde,tbno) {
 				if(jk=='rc_no' || jk=='lastupdate'){			 
 				  oTd.setAttribute("style","display:none;");
 				  oTd.setAttribute("class","directdata"); 	
+				}else if(jk=='stockno'){
+					 oTd.setAttribute("class","directdata");	
+					   oTd.setAttribute("style","width:13%;text-align:left;");						 
+					  attachEventListener(oTd,'click',rowchoose,false);		//點選資料				  
 				}else if(jk=='stockname'){
 					 oTd.setAttribute("class","indirectdata");	
-					   oTd.setAttribute("style","text-align:left;");						 
+					   oTd.setAttribute("style","width:13%;text-align:left;");						 
 					  attachEventListener(oTd,'click',rowchoose,false);		//點選資料							  
 				}else if(jk=='order_no'){
 				   oTd.setAttribute("class","directdata");	
@@ -128,7 +131,7 @@ function getProfile(str1,trncde,tbno) {
 				}else if(jk=='query_qty'){
 				   oTd.setAttribute("class","directdata");	
 					 oTd.setAttribute("style","width:7%;text-align:right;");	
-					attachEventListener(oTd,'click',rowchoose,false);		//點選資料		
+					attachEventListener(oTd,'click',rowchoose,false);		//點選資料							
 				}else if(jk=='query_price'){
 					 oTd.setAttribute("class","directdata");	
 					 oTd.setAttribute("style","width:7%;text-align:right;");	
@@ -138,25 +141,27 @@ function getProfile(str1,trncde,tbno) {
 					oTd.setAttribute("class","indirectdata");								
 					oTd.innerHTML=Math.round((oTr.cells[4].innerHTML*oTr.cells[5].innerHTML + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);					    
 					queryttl+=Number(oTd.innerHTML);
-					attachEventListener(oTd,'click',rowchoose,false);		//點選資料	
-					
+					attachEventListener(oTd,'click',rowchoose,false);		//點選資料						
 			   }else if(jk=='dept_no'){
 					oTd.setAttribute("class","directdata");	
 					 oTd.setAttribute("style","display:none;");	
 			   }else if(jk=='dept_name'){
 					oTd.setAttribute("class","indirectdata");							
-					 oTd.setAttribute("style","width:7%;");	  
+					 oTd.setAttribute("style","text-align:center;width:7%;");	  
 					 attachEventListener(oTd,'click',rowchoose,false);		//點選資料	
 				}else if(jk=='ship_date'){
 					oTd.setAttribute("class","directdata");			                    				
-					oTd.setAttribute("style","width:10%;text-align:center;");	  
-					attachEventListener(oTd,'click',rowchoose,false);		//點選資料									
+					oTd.setAttribute("style","text-align:center;width:10%;");				 
+					attachEventListener(oTd,'click',rowchoose,false);		//點選資料		
+				}else if(left(jk,6)=='custom'){
+					oTd.setAttribute("class","directdata");			                    				
+					oTd.setAttribute("style","width:13%;");				 
+					attachEventListener(oTd,'click',rowchoose,false);		//點選資料				
 			  }else {
 					oTd.setAttribute("style","text-align:left;");
 				   oTd.setAttribute("class","directdata"); 
 				   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
-				}			
-				
+				}							
 		    }				
 	    }		   
 		var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	

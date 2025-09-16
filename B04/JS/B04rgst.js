@@ -116,8 +116,7 @@ function sendFilePrc(updflg){     //新增資料及修改程序
                 var blngmth=document.getElementById('recmth').value;
 		        tbjsn.push(blngmth);   //要多一個所屬年月參數
 		    }else{   //表身新增
-		        //tbjsn.push(left(document.getElementById('keydscrpt').innerHTML,6));    //記住表頭客戶編號 				
-				 tbjsn.push(sourceAccount(2,0));
+				 tbjsn.push(sourceAccount(2,0));      //記住表頭客戶編號 
 		    }			   
 		    tbjsn.push('0');
 		    tbjsn.push('0');	

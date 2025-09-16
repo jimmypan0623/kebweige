@@ -39,7 +39,7 @@ function shurePrc(event){        //單據確認程序
 	var urlfolder=document.getElementsByTagName('title');
 	var urlpath=(left(urlfolder[0].innerHTML,3));   
 	var json=shr_head.slice(0,-1)+"}";   //去掉最後一個逗號再加上右大引號	 	      
-    str_json=JSON.stringify(json);	          
+    str_json=JSON.stringify(json);	   
 	if(target.value=="\u{2705}"){   //確認		   	
 	    urlphp=urlpath+"/BKND/"+urlpath+"shrh.php";	
 	}else{			
@@ -61,12 +61,11 @@ function shurePrc(event){        //單據確認程序
 	request.onreadystatechange = respond;	   
     request.open("POST", urlphp, true);        //新增記錄的php檔	  
     request.setRequestHeader("Content-type", "application/json");
-    request.send(str_json);
+    request.send(str_json);	
     function respond() {		
         if (request.readyState == 4 && request.status == 200) { 
 	        var rsp=request.responseText;	
-             headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-2].innerHTML=rsp.lastupdate;			 
-	   
+             headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-2].innerHTML=rsp.lastupdate;	   
 	    }
     }		
 	ansbtt.setAttribute("style","display:none;");
@@ -198,6 +197,10 @@ function whichrspns1(tpe){
           tpemsg = '已確認過帳，請檢查相對應庫存與帳款是否正確...';   
           break;
       }
+	 case 'B05': {    
+          tpemsg = '已確認過帳，請檢查相對應庫存與帳款及訂單未出量是否正確...';   
+          break;
+      }
 	  case 'D04': {    
           tpemsg = '奇月檔';   
           break;     
@@ -221,6 +224,10 @@ function whichrspns2(tpe){
       }
 	   case 'B04': {    
           tpemsg = '本單出貨料號庫存帳已加回，且帳款已減去...';   
+          break;
+      }
+	   case 'B05': {    
+          tpemsg = '本單出貨退回單料號庫存帳已減去，且帳款已加回...';   
           break;
       }
 	  case 'D04': {    
@@ -247,6 +254,10 @@ function whichrspns3(tpe){
       }
 	   case 'B04': {    
           tpemsg = '本單出貨料號庫存帳已加回，且帳款已減去...';   
+          break;
+      }
+	  case 'B05': {    
+          tpemsg = '本單出貨退回料號庫存帳已減去回，且帳款已加回...';   
           break;
       }
 	  case 'D04': {    

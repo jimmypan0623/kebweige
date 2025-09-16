@@ -40,10 +40,10 @@ function getProfile(str1,reccount,tbno) {
 					 oTd.setAttribute("style","width:5%;");		
 			 }else if(jk=='stock_name'){		 
 					 oTd.setAttribute("class","indirectdata");	
-					  oTd.setAttribute("style","text-align:left;");						 
+					  oTd.setAttribute("style","text-align:left;width:13%;");						 
 			}else{						 
 				  oTd.setAttribute("class","directdata");
-				  oTd.setAttribute("style","text-align:left;");
+				  oTd.setAttribute("style","text-align:left;width:13%;");
 			}
 			 attachEventListener(oTd,'click',rowchoose,false);		//點選資料
 	    }
