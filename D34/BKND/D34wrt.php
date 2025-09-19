@@ -20,9 +20,7 @@ include("../../include/BKND/mysqli_server.php");        //引用檔
         $rows=@mysqli_num_rows($sql2);
 		if($rows>0){			 
 			echo json_encode("資料庫已有此編號"); 
-		}else{
-              //$order_no=date(Y).date(m).date(d).date(H).date(i).date(s);
-			  
+		}else{             			
             //寫入json檔(其實就是文字檔只是每一筆以json格式存放)
  
         	//以下處理MySQL記錄新增  	        

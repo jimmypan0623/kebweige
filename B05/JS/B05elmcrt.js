@@ -6,22 +6,27 @@ function crtElm(){
 	maindiv[0].insertBefore(spn,beinsertedid);
     var cntdiv=getElementsByAttribute('class','tab_content');	
 	var rspn2=document.getElementById('serverResponse2'); 
-	 var text01 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
+	 var text01 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
 	 cntdiv[1].insertBefore(text01,rspn2);
+	 var spn2=document.createElement('span');
+	spn2.id="dntOrRjt" ;
+	spn2.setAttribute("style","font-size:150%;");
+    cntdiv[1].insertBefore(spn2,rspn2); 
+	  var text0a = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}');
+	 cntdiv[1].insertBefore(text0a,rspn2);
 	var spn1=document.createElement('span');
 	spn1.id="ttltitle";
 	spn1.setAttribute("style","font-size:120%;font-weight:bold;");
      spn1.innerHTML='總金額:';
 	cntdiv[1].insertBefore(spn1,rspn2);
-	var spn2=document.createElement('span');
-	spn2.id="crncy" ;
-	spn2.setAttribute("style","font-size:120%;font-weight:bold;");
-    cntdiv[1].insertBefore(spn2,rspn2);
+
 	var spn3=document.createElement('span');
 	spn3.id="ttlmny";
     spn3.setAttribute("style","font-size:120%;font-weight:bold;");
 	spn3.innerHTML='0';
 	 cntdiv[1].insertBefore(spn3,rspn2);
+
+	 
      var thr1=document.getElementById('headrow1');	 
 	 var array1 = ['退回單號','客戶編號','客戶簡稱', '日','業務擔當','原出貨月','出貨單號','發票號碼','類別','稅別','幣別','匯率','退/折','備註'];
 	 var array2 = ['9%','7%','7%', '3%','7%','7%','9%','9%','5%','4%','4%','7%','7%','9%'];

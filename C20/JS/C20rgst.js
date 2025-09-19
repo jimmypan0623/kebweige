@@ -241,7 +241,29 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 }
 
 function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nongs,tbno)函數內新增紀錄後呼叫的畫面更動
-    var oTd = oTr.insertCell(oTr.cells.length);   //料號
+    var fldidx=0;
+	var argsNo=0;
+	var nongsNo=0;	
+    while(fldsgsroup(fldidx,tbno)){
+	    var oTd = oTr.insertCell(oTr.cells.length); 
+		if(fldsgsroup(fldidx,tbno)[0]=='directdata'){
+			oTd.innerHTML=args[argsNo];
+			argsNo++;
+		}else{
+			oTd.innerHTML=nongs[nongsNo];	
+			  nongsNo++;
+		}
+		oTd.setAttribute("class",fldsgsroup(fldidx,tbno)[0]);
+		if(fldsgsroup(fldidx,tbno)[1]=='none'){
+				oTd.setAttribute("style","display:none;");		
+		}else{
+			   oTd.style.textAlign=fldsgsroup(fldidx,tbno)[2];				     	
+			   oTd.style.width=fldsgsroup(fldidx,tbno)[3]+"%";				  
+		}					 		
+        fldidx++;
+    }
+ 
+ /*    var oTd = oTr.insertCell(oTr.cells.length);   //料號
     oTd.innerHTML=args[0];
     oTd.setAttribute("style","text-align:left;");	
     oTd.setAttribute("class","directdata");		
@@ -280,7 +302,7 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
     var oTd = oTr.insertCell(oTr.cells.length);   //備註
     oTd.innerHTML=args[8];
 	oTd.setAttribute("style","text-align:left;");	
-    oTd.setAttribute("class","directdata");
+    oTd.setAttribute("class","directdata"); */
 	
 	//最後異動
     var oTd = oTr.insertCell(oTr.cells.length);				       

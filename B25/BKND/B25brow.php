@@ -24,29 +24,26 @@
     $sql0="select F07 from a23 where F01="."'".$pgeno."'"; 
      $sql1=@mysqli_query($link,$sql0);                           
      $list4=mysqli_fetch_array($sql1);  //紀錄當前月份是否已結轉月庫存報表   
-   
-   
+ 
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_array($sql4)){
-		 
-		
-					 
-		$atr = array('rc_no'=>$list3['F00'],  
-                     'stock_no'=>$list3['F02'], 	
-					 'mth_init'=>$list3['F03'], 	
-					 'shipIn'=>$list3['F04'],
-					 'inReject'=>$list3['F05'],  
-					 'shipOut'=>$list3['F06'],	
-					 'outReject'=>$list3['F07'],	
-					 'turnIn'=>$list3['F08'],
-		             'turnOut'=>$list3['F09'], 					 
-                     'product'=>$list3['F10'],	 
-                     'consume'=>$list3['F11'],	 					 
-                     'lose'=>$list3['F14'],
-					 'wend'=>$list3['F13'],  						
-                     'mth_end'=>$list3['F15'],									  
-					 'lastupdate'=>$list3['F16']                      				 
+	 
+		$atr = array('rc_no_DHL_000'=>$list3['F00'],  
+                     'stock_no_DSL_012'=>$list3['F02'], 	
+					 'mth_init_DSR_007'=>$list3['F03'], 	
+					 'shipIn_DSR_007'=>$list3['F04'],
+					 'inReject_DSR_007'=>$list3['F05'],  
+					 'shipOut_DSR_007'=>$list3['F06'],	
+					 'outReject_DSR_007'=>$list3['F07'],	
+					 'turnIn_DSR_007'=>$list3['F08'],
+		             'turnOut_DSR_007'=>$list3['F09'], 					 
+                     'product_DSR_007'=>$list3['F10'],	 
+                     'consume_DSR_007'=>$list3['F11'],	 					 
+                     'lose_DSR_007'=>$list3['F14'],
+					 'wend_DSR_007'=>$list3['F13'],  						
+                     'mth_end_DSR_007'=>$list3['F15'],									  
+					 'lastupdate_DHL_000'=>$list3['F16']                      				 
 					 );                     			 
 		array_push($arr,$atr);
 		

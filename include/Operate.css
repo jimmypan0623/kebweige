@@ -152,8 +152,6 @@ body{
    word-break:break-all;  
 }
 
- 
- 
 #aplyform2 tr,#aplyform2 td {
     border: 1px solid #FFFFFF;border-collapse: collapse;
 } 
@@ -165,7 +163,6 @@ body{
  
 #srchTable tr:hover, #srchTable tr.altrow{
 	background-color:#dca06b;	  
-
 } 
 
 #rightMember1 {

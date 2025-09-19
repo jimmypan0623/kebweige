@@ -146,7 +146,8 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	var oTd = oTr.insertCell(1);
 	oTd.colspan=3;
 	oTd.innerHTML="<input type='text' name='d34update' id='rcrd_no' class='txt' maxlength='14' autosize  />";                 
-	oTr.setAttribute("style","display:none;");	
+	oTr.setAttribute("style","display:none;");		
+	
 }
 
 function topAndWidthModify(dropsheet_content,dropsheet,txtword){
@@ -179,31 +180,29 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 	}				 
 }
 
-function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nongs,tbno)函數內新增紀錄後呼叫的畫面更動
-    var oTd = oTr.insertCell(oTr.cells.length);   //料號
-    oTd.innerHTML=args[0];
-    oTd.setAttribute("class","directdata");	
-	oTd.setAttribute("style","text-align:left;");
-    var oTd = oTr.insertCell(oTr.cells.length);   //品名
-    oTd.innerHTML=nongs[0];
-    oTd.setAttribute("class","indirectdata");
-	oTd.setAttribute("style","text-align:left;");
-    var oTd = oTr.insertCell(oTr.cells.length);   //廠商編號
-    oTd.innerHTML=args[1];
-    oTd.setAttribute("class","directdata");
-    oTd.setAttribute("style","text-align:left;width:8%;");
-	var oTd = oTr.insertCell(oTr.cells.length);   //廠商簡稱
-    oTd.innerHTML=nongs[1];
-    oTd.setAttribute("class","indirectdata");
-    oTd.setAttribute("style","text-align:left;width:8%;");
-    var oTd = oTr.insertCell(oTr.cells.length);   //廠商品號
-    oTd.innerHTML=args[2];
-    oTd.setAttribute("class","directdata");
-    oTd.setAttribute("style","text-align:left;");
-    var oTd = oTr.insertCell(oTr.cells.length);   //來源資料
-    oTd.innerHTML=args[3];
-    oTd.setAttribute("class","directdata");
-    oTd.setAttribute("style","text-align:left;width:10%;");
+function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nongs,tbno)函數內新增紀錄後呼叫的畫面更動 
+    var fldidx=0;
+	var argsNo=0;
+	var nongsNo=0;	
+    while(fldsgsroup(fldidx,tbno)){
+	    var oTd = oTr.insertCell(oTr.cells.length); 
+		if(fldsgsroup(fldidx,tbno)[0]=='directdata'){
+			oTd.innerHTML=args[argsNo];
+			argsNo++;
+		}else{
+			oTd.innerHTML=nongs[nongsNo];	
+			  nongsNo++;
+		}
+		oTd.setAttribute("class",fldsgsroup(fldidx,tbno)[0]);
+		if(fldsgsroup(fldidx,tbno)[1]=='none'){
+				oTd.setAttribute("style","display:none;");		
+		}else{
+			   oTd.style.textAlign=fldsgsroup(fldidx,tbno)[2];				     	
+			   oTd.style.width=fldsgsroup(fldidx,tbno)[3]+"%";				  
+		}					 		
+        fldidx++;
+    }
+	   
 	//最後異動
     var oTd = oTr.insertCell(oTr.cells.length);				       
     oTd.innerHTML=rsp.lastupdate;			

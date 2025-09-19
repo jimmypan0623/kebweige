@@ -642,6 +642,7 @@ function editRecordHint(tbno){
 	}
 	 
 }
+
 function transRecordHint(tbno){
 	if (tbno==0){  //表頭資料	
 		return '報價單號:'+sourceAccount(1,tbno)+",轉正式訂單?";

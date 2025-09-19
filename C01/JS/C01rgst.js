@@ -297,7 +297,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		 oTd.innerHTML="<input type='email' name='c01update' id='mailaddress' class='txt' maxlength='50' style='width:80%;'  />";                             	              		   
 		 var oTd = oTr.insertCell(2);
 		 oTd.setAttribute('style','text-align:right;width:12%');	
-		 oTd.innerHTML='群組編號:';				
+		 oTd.innerHTML='母公司編號:';				
 		 var oTd = oTr.insertCell(3);	                             
 		 oTd.innerHTML="<input type='text' name='c01update' id='noofgroup' class='txt' maxlength='6' style='width:50%;'  />";                             	              		   		                              		    
 		 var oTr=ajTable.insertRow(ajTable,ajTable.length);
@@ -816,7 +816,7 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 	    if(args[22]!=rsp.group_no){					   	
 		    maintable.rows[args[arglth-1]].cells[23].innerHTML=rsp.group_no; //修正群組號碼以免亂打
 		    c01a_value_names[22].innerHTML=rsp.group_no; 
-		    blkshow('群組編號'+args[22]+'不在客戶主檔中!系統自動修正與客戶編號相同!')
+		    blkshow('母公司編號'+args[22]+'不在客戶主檔中!系統自動修正與客戶編號相同!')
 	    }
     }else{    //第二頁修改	   	   
 	    var maintable=document.getElementById("maintbody2");		  		
@@ -837,7 +837,7 @@ function searchOptionsKey(tbno,slt5){
 		slt5.options.add(new Option('地區別','c01.F20'));
 		slt5.options.add(new Option('業務編號','c01.F33'));
 		slt5.options.add(new Option('業助編號','c01.F23'));				
-		slt5.options.add(new Option('群組編號','c01.F44'));		
+		slt5.options.add(new Option('母公司編號','c01.F44'));		
 	} else{
 		slt5.options.add(new Option('料品編號','c02.F03'));
 		slt5.options.add(new Option('品名規格','b01.F02'));

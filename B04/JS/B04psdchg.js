@@ -6,7 +6,7 @@ function selfTag(jsvsn){
 	orpButton7.setAttribute("type","button");
 	orpButton7.setAttribute("class","btn");
 	orpButton7.setAttribute("value","\u{2714}");       	      
-	orpButton7.setAttribute("title","確認所選紀錄，快速鍵Alt+A");  
+	orpButton7.setAttribute("title","確認本張出貨單所有紀錄，快速鍵Alt+A");  
 	orpButton7.setAttribute("accesskey","A");					
 	orpButton7.id="ANS_BOTT";				
 	attachEventListener(orpButton7,"click",ansproc,false);    
@@ -16,7 +16,7 @@ function selfTag(jsvsn){
 	orpButton8.setAttribute("type","button");
 	orpButton8.setAttribute("class","btn");
 	orpButton8.setAttribute("value","\u{1F504}");       	      
-	orpButton8.setAttribute("title","反確認所選紀錄，快速鍵Alt+Z");  
+	orpButton8.setAttribute("title","反確認本張出貨單所有紀錄，快速鍵Alt+Z");  
 	orpButton8.setAttribute("accesskey","Z");					
 	orpButton8.id="VRS_BOTT";				
 	attachEventListener(orpButton8,"click",vrsproc,false);    

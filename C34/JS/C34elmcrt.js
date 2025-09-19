@@ -12,16 +12,3 @@ function crtElm(){
 		thr1.appendChild(th);		
 	}				  
 }
-
-
-/* <th style="display:none;">NO.</th>
-	 
-	<th >料品編號</th> 
-	<th>品名規格</th>	
-    <th style="width:8%;">客戶編號</th>  
-     <th style="width:8%;">客戶簡稱</th>  
-     <th >客戶品號</th>  	 
-    <th style="width:10%;">資料來源</th>  
-	<th style="display:none;">最後更新</th>  	
-	<th style="width:80px;display:none;" id="AUTH" >選取</th>
-	*/

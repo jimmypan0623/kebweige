@@ -885,6 +885,7 @@ function searchOptionsKey(tbno,slt5){
 	}else{
 		 slt5.options.add(new Option('料品編號','b0e.F03'));
 		 slt5.options.add(new Option('品名規格','b01.F02'));
+		 slt5.options.add(new Option('訂單號碼','b0e.F07'));
 		 slt5.options.add(new Option('客戶品號','b0e.F08'));	
 		 slt5.options.add(new Option('客戶PO','b0e.F09'));										  
 	}

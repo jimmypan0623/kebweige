@@ -25,27 +25,26 @@ function getProfile(str1,reccount,tbno) {
 		cnt++;		
 		for(var jk in arr[i]){		   
 			var oTd = oTr.insertCell(oTr.cells.length);		     		  
-			oTd.innerHTML=arr[i][jk];		 	  			 
-			if(jk=='rc_no' || jk=='lastupdate'){			
-				oTd.setAttribute("class","directdata"); 				
-				oTd.setAttribute("style","display:none;");
-			}else if(jk=='pack_way' ){	
-				   oTd.setAttribute("class","directdata");
-				   oTd.setAttribute("style","width:7%;");
-			}else if(jk=='ross_weight' || jk=='net_weight' || jk=='basic_pack' || jk=='out_pack' || jk=='minum_order' || jk=='cubic_qty' ){	
-				   oTd.setAttribute("class","directdata"); 
-				   oTd.setAttribute("style","width:8%;text-align:right;");	 				
-			}else if(jk=='stock_unit'){		 
-					 oTd.setAttribute("class","indirectdata");
-					 oTd.setAttribute("style","width:5%;");		
-			 }else if(jk=='stock_name'){		 
-					 oTd.setAttribute("class","indirectdata");	
-					  oTd.setAttribute("style","text-align:left;width:13%;");						 
-			}else{						 
-				  oTd.setAttribute("class","directdata");
-				  oTd.setAttribute("style","text-align:left;width:13%;");
+			oTd.innerHTML=arr[i][jk];		 	  
+			var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
+			var ks=ara.split('');		
+			//ks[0]:直接或間接 D/I
+			//ks[1]:是否顯示   S/H
+			//ks[2]:靠左中或右 L/C/R	
+			if(ks[0]=="D"){
+				oTd.setAttribute("class","directdata");	
+			}else{
+				oTd.setAttribute("class","indirectdata");	
+			}				 
+			if(ks[1]=='H'){
+				oTd.setAttribute("style","display:none;");		
+			}else{
+			   oTd.style.textAlign=(ks[2]=="L"?"left":(ks[2]=="C"?"center":"right"));
+			   var wdthln=jk.substr(jk.lastIndexOf('_')+1,3);  	  	
+			   oTd.style.width=wdthln+"%";
+			   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
 			}
-			 attachEventListener(oTd,'click',rowchoose,false);		//點選資料
+
 	    }
 
 	    var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
@@ -72,7 +71,9 @@ function getProfile(str1,reccount,tbno) {
 		  chooserc(1);
 	  }	  
 }
-
+function choseSecond(targetTrChildren,targetTr){	 
+   return true;	
+}
 function choseExtraDeal(targetTrChildren){   //紀錄移動
     
     return true;			   
@@ -81,6 +82,23 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
     
     return true;			   
 }	
+function rowchoseSecond(targetRow){    //紀錄移動
+   return true;	
+}
 
-
+function fldsgsroup(fidx,tbno){
+    let groups =[['directdata','block','left','13'],    //stock_no
+			     ['indirectdata','block','left','13'],  //stock_name
+			     ['indirectdata','block','center','5'],     //stock_unit 
+			     ['directdata','block','right','8'],   //basic_pack
+			     ['directdata','block','center','7'],     //pack_way 
+			     ['directdata','block','right','8'],     //out_pack
+			     ['directdata','block','right','8'],     //minum_order
+			     ['directdata','block','right','8'],     //cubic_qty
+				 ['directdata','block','right','8'],     //ross_weight
+				 ['directdata','block','right','8'],     //net_weight
+				 ['directdata','block','left','13'],     //oth_remark
+			    ];  
+    return groups[fidx];			  
+}
 

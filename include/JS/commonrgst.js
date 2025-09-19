@@ -76,25 +76,25 @@ function blkshow(txtword)
 			case 3:				 	      //確認或過帳
 				    if (tbno==0){  //表頭資料	
 				        if(sourceAccount(1,0)){
-					       var headtitle='單號:'+sourceAccount(1,0)+",核准確認?";
+					       var headtitle='單號:'+sourceAccount(1,0)+",之所有資料核准確認?";
 					    }else{
 						   blkshow("無資料可確認!");
 						   return false;
 					    }
 				    }else{				 
-					    var headtitle='單號:'+document.getElementById('fatherkey').innerHTML+",核准確認?";					 
+					    var headtitle='單號:'+document.getElementById('fatherkey').innerHTML+",之所有資料核准確認?";					 
 				    }
 				    break;
 			case 5:                             //反確認或反過帳
 				    if (tbno==0){  //表頭資料	
 				        if(sourceAccount(1,0)){
-					        var headtitle='單號:'+sourceAccount(1,0)+",反確認修正?";
+					        var headtitle='單號:'+sourceAccount(1,0)+",之所有資料反確認修正?";
 					    }else{
 						   blkshow("無資料可反確認!");
 						   return false;
 					   }
 				    }else{
-					    var headtitle='單號:'+document.getElementById('fatherkey').innerHTML+",反確認修正?";
+					    var headtitle='單號:'+document.getElementById('fatherkey').innerHTML+",之所有資料反確認修正?";
 				    }	                   
 				    break;
 			case 6:                                    //轉單				 

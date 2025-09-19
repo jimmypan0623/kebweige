@@ -33,14 +33,14 @@
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_array($sql4)){
 		 
-		$atr = array('rc_no'=>$list3['F00'],  		            	             
-		             'stock_no'=>$list3['F02'], 
-                     'stock_name'=>$list3['F0B'],                     				                     				                                       
-					 'custom_no'=>$list3['F01'],
-					 'custom_name'=>$list3['F0E'], 
-					  'custom_partno'=>$list3['F03'], 	
-					 'origin_data'=>$list3['F04'], 					
-					 'lastupdate'=>$list3['F05']                      				 
+		$atr = array('rc_no_DHL_000'=>$list3['F00'],  		            	             
+		             'stock_no_DSL_024'=>$list3['F02'], 
+                     'stock_name_ISL_024'=>$list3['F0B'],                     				                     				                                       
+					 'custom_no_DSL_008'=>$list3['F01'],
+					 'custom_name_ISL_008'=>$list3['F0E'], 
+					  'custom_partno_DSL_024'=>$list3['F03'], 	
+					 'origin_data_DSL_010'=>$list3['F04'], 					
+					 'lastupdate_DHL_000'=>$list3['F05']                      				 
 					 );                      			
 		array_push($arr,$atr);
 	}

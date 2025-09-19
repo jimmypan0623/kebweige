@@ -31,37 +31,26 @@ function getProfile(str1,reccount) {
 		cnt++;		
 		for(var jk in arr[i]){		   
 			var oTd = oTr.insertCell(oTr.cells.length);		     		  
-			oTd.innerHTML=arr[i][jk];		 	  			 
-			if(jk=='rc_no' || jk=='lastupdate' || jk=='sales_no'){			
-				oTd.setAttribute("class","directdata"); 				
-				oTd.setAttribute("style","display:none;");												               
-			
-			}else if(jk=='custom_no'){		 
-					 oTd.setAttribute("class","directdata");	
-					 oTd.setAttribute("style","text-align:left;width:7%;");		 
-			 }else if(jk=='custom_name' || jk=='sales_name'){		 
-					 oTd.setAttribute("class","indirectdata");	
-					 oTd.setAttribute("style","text-align:left;width:7%;");
-			  }else if(jk=='bill_no'){		 
-					 oTd.setAttribute("class","indirectdata");	
-					 oTd.setAttribute("style","text-align:left;width:10%;");
-			}else if(jk=='crncy_type' || jk=='ship_date' ){
-				  oTd.setAttribute("class","directdata");	
-					 oTd.setAttribute("style","text-align:center;width:4%;"); 
-			}else if(jk=='unit_price' || jk=='crncy_rate' || jk=='ship_qty'){
-				  oTd.setAttribute("class","directdata");	
-					 oTd.setAttribute("style","text-align:right;width:7%;"); 	
-			}else if(jk=='rcd_total'){
-				  oTd.setAttribute("class","indirectdata");	
-					 oTd.setAttribute("style","text-align:right;width:8%;");
-					  queryttl+=Number(oTd.innerHTML);					   
-			}else{						 
-				  oTd.setAttribute("class","directdata");
-				  oTd.setAttribute("style","text-align:left;"); 
-			}
-			 attachEventListener(oTd,'click',rowchoose,false);		//點選資料
-			 
-	   }
+			oTd.innerHTML=arr[i][jk];		 	
+			var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
+			var ks=ara.split('');		
+			//ks[0]:直接或間接 D/I
+			//ks[1]:是否顯示   S/H
+			//ks[2]:靠左中或右 L/C/R	
+			if(ks[0]=="D"){
+				oTd.setAttribute("class","directdata");	
+			}else{
+				oTd.setAttribute("class","indirectdata");	
+			}				 
+			if(ks[1]=='H'){
+				oTd.setAttribute("style","display:none;");		
+			}else{
+			   oTd.style.textAlign=(ks[2]=="L"?"left":(ks[2]=="C"?"center":"right"));
+			   var wdthln=jk.substr(jk.lastIndexOf('_')+1,3);  	  	
+			   oTd.style.width=wdthln+"%";
+			   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
+			}			 
+	    }
 	  
 	   var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
 	   oTd.setAttribute("style","width:40px;display:none");   //勾選不顯示

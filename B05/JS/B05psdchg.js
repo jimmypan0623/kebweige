@@ -6,7 +6,7 @@ function selfTag(jsvsn){
 	orpButton7.setAttribute("type","button");
 	orpButton7.setAttribute("class","btn");
 	orpButton7.setAttribute("value","\u{2714}");       	      
-	orpButton7.setAttribute("title","確認所選紀錄，快速鍵Alt+A");  
+	orpButton7.setAttribute("title","確認本張出貨退回所有紀錄，快速鍵Alt+A");  
 	orpButton7.setAttribute("accesskey","A");					
 	orpButton7.id="ANS_BOTT";				
 	attachEventListener(orpButton7,"click",ansproc,false);    
@@ -18,7 +18,7 @@ function selfTag(jsvsn){
 	orpButton8.setAttribute("type","button");
 	orpButton8.setAttribute("class","btn");
 	orpButton8.setAttribute("value","\u{1F504}");       	      
-	orpButton8.setAttribute("title","反確認所選紀錄，快速鍵Alt+Z");  
+	orpButton8.setAttribute("title","反確認本張出貨退回單所有紀錄，快速鍵Alt+Z");  
 	orpButton8.setAttribute("accesskey","Z");					
 	orpButton8.id="VRS_BOTT";				
 	attachEventListener(orpButton8,"click",vrsproc,false);    
@@ -106,15 +106,11 @@ function tab1View(event){
 		 localbottoncl.style.border=" 2px solid #FCFCFC";
 		 localbottoncl.style.boxShadow ="sandybrown 5px 10px 10px 7px";
 		 var bibau=cko[3](0);   //找出閉包變數現值
-		 //var fthkey=document.getElementById("fatherkey");
-		/*  if(bibau==0){    //如果是要再撈目前指向月份全部單據
-			  var thtdy=document.getElementById('recmth').value;
-			  choiceClick(left(thtdy,7));
-		 }else{         //從表身頁點回主頁 */
+	
 	        cko[3](bibau*(-1));    //將表身閉包變數歸零
 			bibau=cko[6](0);   //找出閉包變數現值
 			cko[6](bibau*(-1));    //將表身閉包變數歸零
-		 //}		 
+				 
 }
 function tab2View(event){	  
        if (typeof event=="undefined"){
@@ -131,8 +127,9 @@ function tab2View(event){
        }
 	   var tables=getElementsByAttribute("class","gridlist");
 	   var ths=tables[1].getElementsByTagName("th");		
-     
-	   if(sourceAccount(20,0)*1==1){	     
+       var rjtdnt=document.getElementById('dntOrRjt');
+	   var srcvlue=sourceAccount(20,0)*1;
+	   if(srcvlue==1){	     
 	       if(!ths[9]){
 			   var ths9=document.createElement('th');
 			   var text9 = document.createTextNode('補貨日期');
@@ -140,10 +137,18 @@ function tab2View(event){
 			   ths9.style.width='10%';
 			   ths[8].parentNode.appendChild(ths9);
 	       }
+		    
+		   rjtdnt.innerHTML='\u{1F69A}';   //'\u{1F3FB}';   //'\u{88DC}';
 	   }else{
 		  if(ths[9]){
 		    ths[8].parentNode.removeChild(ths[9]);
 		  }
+		   
+		   if(srcvlue==3){	
+		      rjtdnt.innerHTML='\u{1F911}'; //'\u{1F9FE}';//'\u{6298}';
+		   }else{
+		       rjtdnt.innerHTML='\u{1F9FA}';//'\u{9000}';
+		   }
 	   }
 	   
        var keydescription=document.getElementById('keydscrpt'); 

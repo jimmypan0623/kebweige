@@ -30,19 +30,19 @@
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_array($sql4)){
 		 
-		$atr = array('rc_no'=>$list3['F00'],  		            	             
-		             'stock_no'=>$list3['F01'], 
-                     'stock_name'=>$list3['F0B'], 
-                     'stock_unit'=>$list3['F0D'], 					                     				                    
-                     'basic_pack'=>$list3['F03'], 
-					 'pack_way'=>$list3['F02'],
-					 'out_pack'=>$list3['F11'], 
-					 'minum_order'=>$list3['F15'], 	
-					  'cubic_qty'=>$list3['F12'],  
-					 'ross_weight'=>$list3['F13'],  
-                     'net_weight'=>$list3['F14'],   				
-					 'oth_remark'=>$list3['F05'],   
-					 'lastupdate'=>$list3['F99']                      				 
+		$atr = array('rc_no_DHL_000'=>$list3['F00'],  		            	             
+		             'stock_no_DSL_013'=>$list3['F01'], 
+                     'stock_name_ISL_013'=>$list3['F0B'], 
+                     'stock_unit_ISC_005'=>$list3['F0D'], 					                     				                    
+                     'basic_pack_DSR_008'=>$list3['F03'], 
+					 'pack_way_DSC_007'=>$list3['F02'],
+					 'out_pack_DSR_008'=>$list3['F11'], 
+					 'minum_order_DSR_008'=>$list3['F15'], 	
+					  'cubic_qty_DSR_008'=>$list3['F12'],  
+					 'ross_weight_DSR_008'=>$list3['F13'],  
+                     'net_weight_DSR_008'=>$list3['F14'],   				
+					 'oth_remark_DSL_013'=>$list3['F05'],   
+					 'lastupdate_DHL_000'=>$list3['F99']                      				 
 					 );                      			
 		array_push($arr,$atr);
 	}

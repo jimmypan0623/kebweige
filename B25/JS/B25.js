@@ -25,7 +25,12 @@ function getProfile(str1,reccount) {
           
 	    }
 		var oTable = document.getElementById("maintbody1");
-		 
+		//var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
+        //let ks=ara.split('');		
+		//ks[0]:直接或間接 D/I
+		//ks[1]:是否顯示   S/H
+		//kd[2]:靠左中或右 L/C/R	
+		// var wdthln=jk.substr(jk.lastIndexOf('_')+1,3)*1; 寬度百分比*1
 	    for(var i=0;i<arr.length;i++){		
 	    	var oTr=oTable.insertRow(-1);	
             oTr.setAttribute("name","mainrow");	      		
@@ -37,21 +42,21 @@ function getProfile(str1,reccount) {
 		        } else{
 			       oTd.innerHTML=arr[i][jk];
 		        }		  
-	    		  	  			 
-	    	    if(jk=='rc_no' || jk=='lastupdate'){			
-                    oTd.setAttribute("class","directdata"); 				
-	    	     	oTd.setAttribute("style","display:none;");												               
-				
-				}else if(jk=='stock_no'){		 
-				         oTd.setAttribute("class","directdata");	
-						 oTd.setAttribute("style","text-align:left;width:12%;");		 
-           
-	    	    }else{						 
-                      oTd.setAttribute("class","directdata");
-					  oTd.setAttribute("style","text-align:right;width:7%;"); 
-				}
-				 attachEventListener(oTd,'click',rowchoose,false);		//點選資料
-				 
+	    		 var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
+                 var ks=ara.split('');		
+		        //ks[0]:直接或間接 D/I
+		        //ks[1]:是否顯示   S/H
+		        //ks[2]:靠左中或右 L/C/R	
+			
+				oTd.setAttribute("Class",ks[0]=="D"?"directdata;":"indirectdata;");
+				if(ks[1]=='H'){
+					oTd.setAttribute("style","display:none;");		
+				}else{
+				   oTd.style.textAlign=(ks[2]=="L"?"left":(ks[2]=="C"?"center":"right"));
+				   var wdthln=jk.substr(jk.lastIndexOf('_')+1,3);  	  	
+				   oTd.style.width=wdthln+"%";
+				   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
+				}				 
 		   }
           
 	       var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	

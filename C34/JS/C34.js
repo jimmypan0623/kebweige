@@ -27,30 +27,27 @@ function getProfile(str1,reccount,tbno) {
             cnt++;		
 	    	for(var jk in arr[i]){		   
 	    	    var oTd = oTr.insertCell(oTr.cells.length);		     		  
-	    		oTd.innerHTML=arr[i][jk];		 	  			 
-	    	    if(jk=='rc_no' || jk=='lastupdate'){			
-                    oTd.setAttribute("class","directdata"); 				
-	    	     	oTd.setAttribute("style","display:none;");												               
-				 }else if(jk=='stock_name'){		 
-				         oTd.setAttribute("class","indirectdata");	
-						 oTd.setAttribute("style","text-align:left;");		 
-				   }else if(jk=='custom_no'){		 
-				         oTd.setAttribute("class","directdata");	
-						 oTd.setAttribute("style","text-align:left;width:8%;");		 
-                 }else if(jk=='custom_name'){		 
-				         oTd.setAttribute("class","indirectdata");	
-						 oTd.setAttribute("style","text-align:left;width:8%;");
-				}else if(jk=='origin_data'){		 
-				         oTd.setAttribute("class","directdata");	
-						 oTd.setAttribute("style","text-align:left;width:10%;"); 
-						   
-	    	    }else{						 
-                      oTd.setAttribute("class","directdata");
-					    oTd.setAttribute("style","text-align:left;"); 
+	    		oTd.innerHTML=arr[i][jk];		
+                var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
+                var ks=ara.split('');		
+		        //ks[0]:直接或間接 D/I
+		        //ks[1]:是否顯示   S/H
+		        //ks[2]:靠左中或右 L/C/R	
+				if(ks[0]=="D"){
+					oTd.setAttribute("class","directdata");	
+				}else{
+					oTd.setAttribute("class","indirectdata");	
+				}				 
+				if(ks[1]=='H'){
+					oTd.setAttribute("style","display:none;");		
+				}else{
+				   oTd.style.textAlign=(ks[2]=="L"?"left":(ks[2]=="C"?"center":"right"));
+				   var wdthln=jk.substr(jk.lastIndexOf('_')+1,3);  	  	
+				   oTd.style.width=wdthln+"%";
+				   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
 				}
-				 attachEventListener(oTd,'click',rowchoose,false);		//點選資料
-				 
-		   }
+
+		    }
 
 	       var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
 	       oTd.setAttribute("style","width:40px;display:none");   //勾選不顯示
@@ -92,5 +89,14 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 function rowchoseSecond(targetRow){    //紀錄移動
    return true;	
 }
-
+function fldsgsroup(fidx,tbno){
+    let groups=[['directdata','block','left','24'],    //stock_no
+			  ['indirectdata','block','left','24'],  //stock_name
+			  ['directdata','block','left','8'],     //custom_no 
+			  ['indirectdata','block','left','8'],   //custom_name
+			  ['directdata','block','left','24'],     //custom_partno
+			  ['directdata','block','left','10'],     //origin_data
+			  ];  
+    return groups[fidx];			  
+}
 
