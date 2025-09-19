@@ -262,48 +262,6 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 		}					 		
         fldidx++;
     }
- 
- /*    var oTd = oTr.insertCell(oTr.cells.length);   //料號
-    oTd.innerHTML=args[0];
-    oTd.setAttribute("style","text-align:left;");	
-    oTd.setAttribute("class","directdata");		
-    var oTd = oTr.insertCell(oTr.cells.length);   //品名
-    oTd.innerHTML=nongs[0];
-	oTd.setAttribute("style","text-align:left;");	
-    oTd.setAttribute("class","indirectdata");
-    var oTd = oTr.insertCell(oTr.cells.length);   //單位
-    oTd.innerHTML=nongs[1];
-    oTd.setAttribute("class","indirectdata");
-    oTd.setAttribute("style","width:5%;");
-	var oTd = oTr.insertCell(oTr.cells.length);   //包裝基量
-    oTd.innerHTML=args[1];
-    oTd.setAttribute("class","directdata");
-    oTd.setAttribute("style","width:8%;");
-    var oTd = oTr.insertCell(oTr.cells.length);   //包裝方式
-    oTd.innerHTML=args[2];
-    oTd.setAttribute("class","directdata");
-    oTd.setAttribute("style","width:7%;"); 
-    for(var i=3;i<5;i++){
-		var oTd = oTr.insertCell(oTr.cells.length);   //外箱數量&最少出貨
-		oTd.innerHTML=args[i];
-		oTd.setAttribute("class","directdata");
-		oTd.setAttribute("style","width:8%;text-align:right;");
-    }   
-    var oTd = oTr.insertCell(oTr.cells.length);   //外箱才積
-    oTd.innerHTML=args[5];
-    oTd.setAttribute("class","directdata");
-    oTd.setAttribute("style","width:8%;text-align:right;"); 
-    for(var i=6;i<8;i++){
-		var oTd = oTr.insertCell(oTr.cells.length);   //單位毛重&單位淨重
-		oTd.innerHTML=args[i];
-		oTd.setAttribute("class","directdata");
-		oTd.setAttribute("style","width:8%;text-align:right;");
-    }    
-    var oTd = oTr.insertCell(oTr.cells.length);   //備註
-    oTd.innerHTML=args[8];
-	oTd.setAttribute("style","text-align:left;");	
-    oTd.setAttribute("class","directdata"); */
-	
 	//最後異動
     var oTd = oTr.insertCell(oTr.cells.length);				       
     oTd.innerHTML=rsp.lastupdate;			

@@ -124,7 +124,7 @@ function blkshow(txtword)
 					  	    for (j=0;j<maintable.rows[i].cells.length-1;j++){
 						   	    if(maintable.rows[i].cells[j].className=='directdata'){							
 								   aWaitUpdate.push(maintable.rows[i].cells[j].innerHTML);  //將待修改欄位資料存入陣列
-							    }else{
+							    }else if(maintable.rows[i].cells[j].className=='indirectdata'){
 							      notWaitdata.push(maintable.rows[i].cells[j].innerHTML);  // 直接傳入後端的資料也先收集起來
 							    }
 						    }					   			   	   

@@ -242,7 +242,6 @@ function topAndWidthModify(dropsheet_content,dropsheet,txtword){
     return true;
 }
 
-
 function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
     switch (txtword) {
 		case 1:                                   //如果是新增		   
@@ -279,50 +278,27 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 }
 
 function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nongs,tbno)函數內新增紀錄後呼叫的畫面更動
-    var oTd = oTr.insertCell(oTr.cells.length);   //料號
-    oTd.innerHTML=args[0];
-    oTd.setAttribute("class","directdata");	
-	oTd.setAttribute("style","text-align:left;");				   
-    var oTd = oTr.insertCell(oTr.cells.length);   //客戶編號
-    oTd.innerHTML=args[1];
-    oTd.setAttribute("class","directdata");
-    oTd.setAttribute("style","text-align:left;width:7%;");
-	var oTd = oTr.insertCell(oTr.cells.length);   //客戶簡稱
-    oTd.innerHTML=nongs[0];
-    oTd.setAttribute("class","indirectdata");
-    oTd.setAttribute("style","text-align:left;width:7%;");
-    var oTd = oTr.insertCell(oTr.cells.length);   //客戶品號
-    oTd.innerHTML=args[2];
-    oTd.setAttribute("class","directdata");
-    oTd.setAttribute("style","text-align:left;");
-    var oTd = oTr.insertCell(oTr.cells.length);   //幣別
-    oTd.innerHTML=args[3];
-    oTd.setAttribute("class","directdata");
-    oTd.setAttribute("style","text-align:left;width:4%;");
-    for(var i=4;i<7;i++){
-	    var oTd = oTr.insertCell(oTr.cells.length);   //單價最少採購包裝基量
-	    oTd.innerHTML=args[i];
-	    oTd.setAttribute("class","directdata");
-	    oTd.setAttribute("style","text-align:right;width:7%;");
+    var fldidx=0;
+	var argsNo=0;
+	var nongsNo=0;	
+    while(fldsgsroup(fldidx,tbno)){
+	    var oTd = oTr.insertCell(oTr.cells.length); 
+		if(fldsgsroup(fldidx,tbno)[0]=='directdata'){
+			oTd.innerHTML=args[argsNo];
+			argsNo++;
+		}else{
+			oTd.innerHTML=nongs[nongsNo];	
+			  nongsNo++;
+		}
+		oTd.setAttribute("class",fldsgsroup(fldidx,tbno)[0]);
+		if(fldsgsroup(fldidx,tbno)[1]=='none'){
+				oTd.setAttribute("style","display:none;");		
+		}else{
+			   oTd.style.textAlign=fldsgsroup(fldidx,tbno)[2];				     	
+			   oTd.style.width=fldsgsroup(fldidx,tbno)[3]+"%";				  
+		}					 		
+        fldidx++;
     }
-	var oTd = oTr.insertCell(oTr.cells.length);   //付款條件
-    oTd.innerHTML=args[7];
-    oTd.setAttribute("class","directdata");
-    oTd.setAttribute("style","text-align:left;");
-    var oTd = oTr.insertCell(oTr.cells.length);   //報價單號
-    oTd.innerHTML=args[8];
-    oTd.setAttribute("class","directdata");
-    oTd.setAttribute("style","text-align:left;");
-    for (var i=9;i<11;i++){
-	    var oTd = oTr.insertCell(oTr.cells.length);   //生效日期失效日期
-	   oTd.innerHTML=args[i];
-	   oTd.setAttribute("class","directdata");
-	   oTd.setAttribute("style","text-align:left;width:8%;");
-    }
-	var oTd = oTr.insertCell(oTr.cells.length);   //備註
-    oTd.innerHTML=args[11];
-    oTd.setAttribute("class","directdata");
-    oTd.setAttribute("style","text-align:left;");
 	//最後異動
     var oTd = oTr.insertCell(oTr.cells.length);				       
     oTd.innerHTML=rsp.lastupdate;			

@@ -18,44 +18,35 @@ function getProfile(str1,reccount,tbno) {
 		cko[0](reccount);      //將筆數記起來	
 	  
 	}
-	var oTable = document.getElementById("maintbody1");
-	 
+	var oTable = document.getElementById("maintbody1");	 
 	for(var i=0;i<arr.length;i++){		
 		var oTr=oTable.insertRow(-1);	
 		oTr.setAttribute("name","mainrow");	      		
 		cnt++;		
 		for(var jk in arr[i]){		   
 			var oTd = oTr.insertCell(oTr.cells.length);		     		  
-			oTd.innerHTML=arr[i][jk];		 	  			 
-			if(jk=='rc_no' || jk=='lastupdate'){			
-				oTd.setAttribute("class","directdata"); 				
-				oTd.setAttribute("style","display:none;");												               
-			
-			}else if(jk=='vendor_no'){		 
-					 oTd.setAttribute("class","directdata");	
-					 oTd.setAttribute("style","text-align:left;width:7%;");		 
-			 }else if(jk=='vendor_name'){		 
-					 oTd.setAttribute("class","indirectdata");	
-					 oTd.setAttribute("style","text-align:left;width:7%;");
-			}else if(jk=='origin_date' || jk=='invalid_date'){		 
-					 oTd.setAttribute("class","directdata");	
-					 oTd.setAttribute("style","text-align:left;width:8%;"); 
-			}else if(jk=='current'){
-				  oTd.setAttribute("class","directdata");	
-					 oTd.setAttribute("style","text-align:left;width:4%;"); 
-			}else if(jk=='price' || jk=='minorder' || jk=='basicpack' || jk=='lead_time'){
-				  oTd.setAttribute("class","directdata");	
-					 oTd.setAttribute("style","text-align:right;width:7%;"); 	
-						 
-			}else{						 
-				  oTd.setAttribute("class","directdata");
-				  oTd.setAttribute("style","text-align:left;"); 
-			}
-			 attachEventListener(oTd,'click',rowchoose,false);		//點選資料
-				 
-		}
+			oTd.innerHTML=arr[i][jk];		 
+            var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
+			var ks=ara.split('');		
+			//ks[0]:直接或間接 D/I
+			//ks[1]:是否顯示   S/H
+			//ks[2]:靠左中或右 L/C/R	
+			if(ks[0]=="D"){
+				oTd.setAttribute("class","directdata");	
+			}else{
+				oTd.setAttribute("class","indirectdata");	
+			}				 
+			if(ks[1]=='H'){
+				oTd.setAttribute("style","display:none;");		
+			}else{
+			   oTd.style.textAlign=(ks[2]=="L"?"left":(ks[2]=="C"?"center":"right"));
+			   var wdthln=jk.substr(jk.lastIndexOf('_')+1,3);  	  	
+			   oTd.style.width=wdthln+"%";
+			   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
+			}			
+        }
 	    var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
-	    oTd.setAttribute("style","width:40px;display:none");   //勾選不顯示
+	    oTd.setAttribute("style","display:none");   //勾選不顯示
 	    var myCheck=document.createElement('input'); 
 	    myCheck.type="checkbox";		  
 	    myCheck.setAttribute("name","chkbxmember1");   //讓使用者勾選的checkbox表頭			
@@ -76,7 +67,9 @@ function getProfile(str1,reccount,tbno) {
 		chooserc(1);
 	}	  
 }
-
+function choseSecond(targetTrChildren,targetTr){	 
+   return true;	
+}
 function choseExtraDeal(targetTrChildren){   //紀錄移動
     
     return true;			   
@@ -85,29 +78,24 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
     
     return true;			   
 }	
- 
-
-  
-function tab1View(event){	  
-       if (typeof event=="undefined"){
-		   event=window.event;
-    	}
-		var maintable=document.getElementById("maintbody1");	  		
-		var tablerowindex=0;
-		for(var i=0;i< maintable.rows.length; i++){			 
-		    if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){		 			 				 							
-				tablerowindex=i;       //記住是目前table的哪一列			 
-				break;
-			}
-		} 			
-		 var bibau=cko[2](0);   //找出閉包變數現值
-	     cko[2](bibau*(-1));    //將表身閉包變數歸零	
-		  bibau=cko[6](0);   //找出閉包變數現值
-	     cko[6](bibau*(-1));    //將表身閉包變數歸零 
-		var crntpge=document.getElementById('recmth') ;
-		if (crntpge.value*1>=1) {
-		  choiceClick(crntpge.value);
-		}
-		 
+function rowchoseSecond(targetRow){    //紀錄移動
+   return true;	
 }
 
+function fldsgsroup(fidx,tbno){
+    let groups =[['directdata','block','left','9'],    //stock_no
+			     ['directdata','block','left','7'],  //custom_no
+			     ['indirectdata','block','left','7'],     //custom_name 
+			     ['directdata','block','left','9'],   //custom_partno
+			     ['directdata','block','center','4'],     //current 
+			     ['directdata','block','right','7'],     //price
+			     ['directdata','block','right','7'],     //minorder
+			     ['directdata','block','right','7'],     //basicpack
+				 ['directdata','block','left','9'],     //payment
+				 ['directdata','block','right','7'],     //LEADTIME
+				 ['directdata','block','center','8'],     //origin_date
+				 ['directdata','block','center','8'],     //invalid_date
+				 ['directdata','block','left','9'],     //remark
+			    ];  
+    return groups[fidx];			  
+}
