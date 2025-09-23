@@ -179,41 +179,43 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 }
 
 function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nongs,tbno)函數內新增紀錄後呼叫的畫面更動
-    if (tbno==0){     //先整理表頭新增後的資料
-	    for(var i=0;i<args.length-2;i++){
-		   var oTd = oTr.insertCell(oTr.cells.length);
-		   oTd.innerHTML=args[i];		
-		   oTd.setAttribute("class","directdata");
-		   oTd.setAttribute("style","text-align:center;");
-	    }				 
-	   //最後異動
-	    var oTd = oTr.insertCell(oTr.cells.length);	
-	    oTd.setAttribute("style","text-align:center;");
-	    oTd.innerHTML=rsp.lastupdate;				 					  
-	 
-    }else{
-	    for(var i=0;i<args.length-2;i++){
-		   var oTd = oTr.insertCell(oTr.cells.length);
-	  	   oTd.innerHTML=args[i];				
-		   oTd.setAttribute("class","directdata");			
-		   oTd.setAttribute("style","text-align:center;");
-	    }				 	    
-	   //最後異動
-	    var oTd = oTr.insertCell(oTr.cells.length);				       
-	    oTd.innerHTML=rsp.lastupdate;	
-	    oTd.setAttribute("style","text-align:center;");
-	  
-    }				
+    var fldidx=0;
+	var argsNo=0;	 
+    while(fldsgsroup(fldidx,tbno)){		 
+	    var oTd = oTr.insertCell(oTr.cells.length); 
+		if(fldsgsroup(fldidx,tbno)[0]=='directdata'){
+			oTd.innerHTML=args[argsNo];
+			argsNo++;		
+		}
+		oTd.setAttribute("class",fldsgsroup(fldidx,tbno)[0]);
+		if(fldsgsroup(fldidx,tbno)[1]=='none'){
+				oTd.setAttribute("style","display:none;");		
+		}else{
+			   oTd.style.textAlign=fldsgsroup(fldidx,tbno)[2];				     	
+			   oTd.style.width=fldsgsroup(fldidx,tbno)[3]+"%";				  
+		}					 		
+        fldidx++;
+    }
+	var oTd = oTr.insertCell(oTr.cells.length);	
+	oTd.innerHTML=rsp.lastupdate;	
+	oTd.setAttribute("style","width:25%;text-align:center;");
 }
 function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,nongs,tbno)函數修改紀錄後呼叫的畫面更動	  		 							                
 	if (tbno==0){		   								
 	   var maintable=document.getElementById("maintbody1");	 
 	}else{
 		var maintable=document.getElementById("maintbody2");	
-	}	
-	for (var j=2;j<arglth-1;j++){				       //表頭表身都是一樣的格式  
-	  maintable.rows[args[arglth-1]].cells[j].innerHTML=args[j-1];						 
-	}										 					              
+	}			 					              
+	var fldidx=1;
+		var argsNo=1;
+		 
+		while(fldsgsroup(fldidx,tbno)){			
+			if(fldsgsroup(fldidx,tbno)[0]=='directdata'){				
+				 maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=args[argsNo];				
+				argsNo++;			
+			}
+			fldidx++;
+		}				
 	maintable.rows[args[arglth-1]].cells[arglth-1].innerHTML=rsp.lastupdate;	
 }
 function searchOptionsKey(tbno,slt5){	

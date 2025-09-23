@@ -10,17 +10,17 @@
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_array($sql4)){
 		 
-		$atr = array('rc_no'=>$list3['F00'],		           
-					 'stockno'=>$list3['F02'], 
-					 'stockname'=>$list3['F0B'],
-					 'query_qty'=>$list3['F03'],	                     
-                     'query_price'=>$list3['F04'],     
-					 'custom_partno'=>$list3['F05'],  
-                     'hopedate'=>$list3['F06'],  		
-                     'already'=>$list3['F09'],  				
-					 'beencancel'=>$list3['F21'],  	
-                     'notout'=>$list3['F23'],					 
-                     'lastupdate'=>$list3['F12']);                      						 
+		$atr = array('rc_no_DHL_000'=>$list3['F00'],		           
+					 'stockno_DSL_013'=>$list3['F02'], 
+					 'stockname_ISL_013'=>$list3['F0B'],
+					 'query_qty_DSR_008'=>$list3['F03'],	                     
+                     'query_price_DSR_008'=>$list3['F04'],     
+					 'custom_partno_DSL_013'=>$list3['F05'],  
+                     'hopedate_DSC_010'=>$list3['F06'],  		
+                     'already_ISR_008'=>$list3['F09'],  		//已出數量		
+					 'beencancel_ISR_008'=>$list3['F21'],  	    //取消數量
+                     'notout_IHR_000'=>$list3['F23'],			//開單未出		 
+                     'lastupdate_DHL_000'=>$list3['F12']);                      						 
 		array_push($arr,$atr);
 	}
 	mysqli_close($link);

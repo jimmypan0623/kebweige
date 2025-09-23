@@ -65,15 +65,15 @@ function initDialog()
 		}	       
     }else{		 	    	   
 		var nwdt=new Date();	
-		var nwsd=Math.floor(Math.random()*nwdt.getSeconds())%20;		
+		var nwsd=Math.floor(Math.random()*nwdt.getSeconds())%26;		
 		var nowExcute=getCookie("funNo");
 		if(nowExcute){				
             //delCookie("funNo");		
 			divcontainer.parentNode.removeChild(divcontainer);		
 			loginform.parentNode.removeChild(loginform);
 			 links[0].href="include/Operate.css?v=0.0.2" ;						 
-			 var gifarray=['ROL','0','cell','1','fngbtn','2','spec','3','stckgood',
-			 '4','00002','5','smlbulb','6','myrndm','7','openfile','8','enlight','9']; 			
+			 var gifarray=['ROL','puto','0','cell','1','birthdaycake','2','spec','3','stckgood','S02',
+			 '4','cddisk','5','smlbulb','6','myrndm','7','S03','openfile','8','penandrule','9','S04','calculator','foreignermoney']; 			
 			 links[1].href="digits/"+gifarray[nwsd]+".gif";			
 			var urlfolder=document.getElementsByTagName('title');
 			urlfolder[0].innerHTML=nowExcute; 				

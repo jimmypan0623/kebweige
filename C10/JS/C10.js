@@ -49,7 +49,10 @@ function getProfile(str1,reccount) {
 			   var wdthln=jk.substr(jk.lastIndexOf('_')+1,3);  	  	
 			   oTd.style.width=wdthln+"%";
 			   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
-			}			 
+			}		
+			if(jk.substr(0,jk.lastIndexOf('_')-4)=='rcd_total'){
+			   queryttl+=Number(oTd.innerHTML);
+			}
 	    }
 	  
 	   var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	

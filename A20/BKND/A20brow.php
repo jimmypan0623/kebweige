@@ -28,12 +28,12 @@
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_array($sql4)){
 		 
-		$atr = array('rc_no'=>$list3['F00'],  		            	             
-		             'table_no'=>$list3['F01'], 					 
-                     'table_name'=>$list3['F07'],					                     
-                     'table_type'=>$list3['F02'],           
-                     'remark'=>$list3['F03'],            					 
-					 'lastupdate'=>$list3['F13']                      				 
+		$atr = array('rc_no_DHL_000'=>$list3['F00'],  		            	             
+		             'table_no_DSC_020'=>$list3['F01'], 					 
+                     'table_name_DSL_020'=>$list3['F07'],					                     
+                     'table_type_DHL_020'=>$list3['F02'],           
+                     'remark_DSL_020'=>$list3['F03'],            					 
+					 'lastupdate_DSL_013'=>$list3['F13']                      				 
 					 );                      			
 		array_push($arr,$atr);
 	}

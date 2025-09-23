@@ -71,7 +71,7 @@ function excuteFun(event){
 		   setCookie(authorder,'N');
 		}					
 	}	  
-	////authArray[9]開始為該程式之屬性馬判別
+	////authArray[9]開始為該程式之屬性碼判別
 	////[9]:數字表示該程式畫面有幾頁,
 	////[10]:M首頁為月份分頁P為固定筆數分頁,
 	////[11]:類別,R為單據,B為基本資料,A為分析資料,S為系統檔

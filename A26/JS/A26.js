@@ -29,40 +29,30 @@ function getProfile(str1,reccount,tbno) {
 		cnt++;		
 		for(var jk in arr[i]){		   
 			var oTd = oTr.insertCell(oTr.cells.length);		     		  
-			oTd.innerHTML=arr[i][jk];		 	  			 
-			if(jk=='rc_no'){			 
-				oTd.setAttribute("style","text-align:center;color:#7f8890;font-style:italic;display:none;");	
-				oTd.setAttribute("class","directdata");
-			}else if(jk=='int_no'){
-				oTd.setAttribute("style","width:7%;");
-				oTd.setAttribute("class","directdata");
-				  attachEventListener(oTd,'click',rowchoose,false);		//點選資料
-			}else if(jk=='lastupdate'){
-				 oTd.setAttribute("style","width:12%;");
-				 oTd.setAttribute("class","directdata");
-				  attachEventListener(oTd,'click',rowchoose,false);		//點選資料		  
-			}else if(jk=='int_type' || jk=='int_length'){	
-			   
-				  oTd.setAttribute("style","width:5%;text-align:center;");					  
-				  attachEventListener(oTd,'click',rowchoose,false);		//點選資料
-					
-				  oTd.setAttribute("class","directdata");
-			}else if(jk=='int_check'){  
-					 if(!notOnlyEdit){	  						  
-						oTd.setAttribute("style","display:none;");
-					 }							 				  			  
-				  oTd.setAttribute("class","directdata");
-				  attachEventListener(oTd,'click',rowchoose,false);		//點選資料
-			}else if(jk=='int_content'){	
-			   
-					oTd.setAttribute("style","text-align:center;");
-					attachEventListener(oTd,'click',rowchoose,false);		//點選資料					 						
-					oTd.setAttribute("class","directdata");
+			oTd.innerHTML=arr[i][jk];	
+			var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
+			var ks=ara.split('');		
+			//ks[0]:直接或間接 D/I
+			//ks[1]:是否顯示   S/H
+			//ks[2]:靠左中或右 L/C/R	
+			if(ks[0]=="D"){
+				oTd.setAttribute("class","directdata");	
 			}else{
-				
-				attachEventListener(oTd,'click',rowchoose,false);		//點選資料	
-				oTd.setAttribute("class","directdata");
-			}					
+				oTd.setAttribute("class","indirectdata");	
+			}				 
+			if(ks[1]=='H'){
+				oTd.setAttribute("style","display:none;");		
+			}else{
+			   oTd.style.textAlign=(ks[2]=="L"?"left":(ks[2]=="C"?"center":"right"));
+			   var wdthln=jk.substr(jk.lastIndexOf('_')+1,3);  	  	
+			   oTd.style.width=wdthln+"%";
+			   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
+			}			
+			if(jk.substr(0,jk.lastIndexOf('_')-4)=='int_check'){
+			   if(!notOnlyEdit){	  						  
+						oTd.setAttribute("style","display:none;");
+				}	
+			}			 
 	   }
 
 	   var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
@@ -98,5 +88,16 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
     return true;			   
 }	
  
-
-
+function fldsgsroup(fidx,tbno){
+	
+    let groups =[['directdata','block','left','07'],    //int_no
+			     ['directdata','block','left','14'],  //int_name
+				 ['directdata','block','left','12'],   //int_range
+				 ['directdata','block','center','4'],   //int_type
+			     ['directdata','block','center','4'],     //int_length
+			     ['directdata','block','center','14'],   //int_content
+			     ['directdata','block','center','14'],     //int_dscrp
+			     ['directdata','block','center','12'],     //int_check			    	     
+			    ];  
+    return groups[fidx];			  
+}

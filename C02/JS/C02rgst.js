@@ -305,15 +305,31 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
     oTd.setAttribute("style","display:none;");   		
 }
 function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,nongs,tbno)函數修改紀錄後呼叫的畫面更動
-	var maintable=document.getElementById("maintbody1");	 
-	var tbrlth=maintable.rows[args[arglth-1]].cells.length;								
+	var maintable=document.getElementById("maintbody1");
+	  var fldidx=1;
+		var argsNo=1;
+		var nongsNo=0;	
+		while(fldsgsroup(fldidx,tbno)){			
+			if(fldsgsroup(fldidx,tbno)[0]=='directdata'){				
+				 maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=args[argsNo];				
+				argsNo++;			
+			}else{
+			   if(fldidx==2){
+			       maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=nongs[nongsNo];	;
+			   }
+			}
+			fldidx++;
+		}				
+	/* var tbrlth=maintable.rows[args[arglth-1]].cells.length;								
 	maintable.rows[args[arglth-1]].cells[2].innerHTML=args[1];						 
 	maintable.rows[args[arglth-1]].cells[3].innerHTML=nongs[0];			
 	for (var j=4;j<tbrlth-2;j++){
 		maintable.rows[args[arglth-1]].cells[j].innerHTML=args[j-2];			
 	}
-	/***********************************************************/                    
-	maintable.rows[args[arglth-1]].cells[tbrlth-2].innerHTML=rsp.lastupdate; //最後異動						   
+	            
+	maintable.rows[args[arglth-1]].cells[tbrlth-2].innerHTML=rsp.lastupdate; //最後異動		 */		
+    //最後異動	 
+	maintable.rows[args[arglth-1]].cells[arglth].innerHTML=rsp.lastupdate;		
 }
 function searchOptionsKey(tbno,slt5){	
 	 slt5.options.add(new Option('料品編號','c02.F03'));

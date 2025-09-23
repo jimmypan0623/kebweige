@@ -269,12 +269,19 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 }
 function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,nongs,tbno)函數修改紀錄後呼叫的畫面更動
 	var maintable=document.getElementById("maintbody1");	 
-	var tbrlth=maintable.rows[args[arglth-1]].cells.length;	
-	for (var j=4;j<tbrlth-2;j++){				        
-		maintable.rows[args[arglth-1]].cells[j].innerHTML=args[j-3];						 
-	}										 
-	/***********************************************************/                    
-	maintable.rows[args[arglth-1]].cells[tbrlth-2].innerHTML=rsp.lastupdate; //最後異動		
+	    var fldidx=3;
+		var argsNo=1;
+		var nongsNo=1;	
+		while(fldsgsroup(fldidx,tbno)){			
+			if(fldsgsroup(fldidx,tbno)[0]=='directdata'){				
+				 maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=args[argsNo];				
+				argsNo++;			
+			}
+			fldidx++;
+		}				
+
+	//最後異動
+	maintable.rows[args[arglth-1]].cells[arglth+1].innerHTML=rsp.lastupdate;	
 }
 function searchOptionsKey(tbno,slt5){	
 	slt5.options.add(new Option('料品編號','c20.F01'));

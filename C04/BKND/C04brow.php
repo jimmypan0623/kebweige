@@ -35,21 +35,21 @@
     $sql4=mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_array($sql4)){
 		 
-		$atr = array('rc_no'=>$list3['F00'],  		            	             
-		             'query_no'=>$list3['F01'], 					 
-                     'custom_no'=>$list3['F03'],	
-                     'custom_name'=>$list3['F0E'],		
-					 'custom_fullname'=>$list3['F0D'],		
-                     'query_date'=>$list3['F02'],
-                     'sales_no'=>$list3['F07'],		
-					 'sales_name'=>$list3['F0C'],	
-					 'crncy_type'=>$list3['F12'],	
-                     'customer_po'=>$list3['F14'],	
-                     'shipplace'=>$list3['F06'],     	
-                     'shipdirect'=>$list3['F13'],     						                  
-					 'trns'=>$list3['F08'],  	
-                     'shure'=>$list3['F04'],     					 
-					 'lastupdate'=>$list3['F10']                      				 
+		$atr = array('rc_no_DHL_000'=>$list3['F00'],  		            	             
+		             'query_no_DSL_010'=>$list3['F01'], 					 
+                     'custom_no_DSL_007'=>$list3['F03'],	
+                     'custom_name_ISL_007'=>$list3['F0E'],		
+					 'custom_fullname_IHC_000'=>$list3['F0D'],		
+                     'query_date_DSC_010'=>$list3['F02'],
+                     'sales_no_DHC_000'=>$list3['F07'],		
+					 'sales_name_ISL_007'=>$list3['F0C'],	
+					 'crncy_type_DSC_004'=>$list3['F12'],	
+                     'customer_po_DSL_012'=>$list3['F14'],	
+                     'shipplace_DSL_026'=>$list3['F06'],     	
+                     'shipdirect_DSL_015'=>$list3['F13'],     						                  
+					 'trns_DHC_000'=>$list3['F08'],  	
+                     'shure_DHC_000'=>$list3['F04'],     					 
+					 'lastupdate_DHC_000'=>$list3['F10']                      				 
 					 );                      			
 		array_push($arr,$atr);
 	}

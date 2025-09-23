@@ -228,20 +228,28 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 }
 
 function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nongs,tbno)函數內新增紀錄後呼叫的畫面更動            
-	 for(var i=0;i<args.length-2;i++){
-	    var oTd = oTr.insertCell(oTr.cells.length);
-	    oTd.innerHTML=args[i];	
-	    oTd.setAttribute("style","word-break: break-all;");	
-	    if(i==0){
-		    oTd.setAttribute("style","width:7%;");	
-	    }
-	    if(i==3 || i==4){	
-	       oTd.setAttribute("style","width:5%;text-align:center");				   
-	     }  
-	     if(i==5){	 
-	    	 oTd.setAttribute("style","text-align:center");			
-	    }	  
-    }				 
+	var fldidx=0;
+		var argsNo=0;
+		var nongsNo=0;	
+		while(fldsgsroup(fldidx,tbno)){
+			var oTd = oTr.insertCell(oTr.cells.length); 
+			if(fldsgsroup(fldidx,tbno)[0]=='directdata'){
+				oTd.innerHTML=args[argsNo];
+				argsNo++;
+			}else{				
+				oTd.innerHTML=nongs[nongsNo];	
+				  nongsNo++;
+			}
+			oTd.setAttribute("class",fldsgsroup(fldidx,tbno)[0]);
+			if(fldsgsroup(fldidx,tbno)[1]=='none'){
+					oTd.setAttribute("style","display:none;");		
+			}else{
+				   oTd.style.textAlign=fldsgsroup(fldidx,tbno)[2];				     	
+				   oTd.style.width=fldsgsroup(fldidx,tbno)[3]+"%";				  
+			}					 		
+			fldidx++;
+		}				
+	
 	//最後異動
     var oTd = oTr.insertCell(oTr.cells.length);				       
     oTd.innerHTML=rsp.lastupdate;		
@@ -281,8 +289,6 @@ function searchKeyHint(tbno){    //搜尋畫面出現提示
 	   return "搜尋參數設定欄位選擇";	
    
 }
-
-
 
 // encode 編碼
 function encodeHTMLText(msgText){

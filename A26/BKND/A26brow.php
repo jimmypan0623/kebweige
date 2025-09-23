@@ -26,18 +26,17 @@
    }	   
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_array($sql4)){
-		 
-		$atr = array('rc_no'=>$list3['F00'],  		            	             
-		             'int_no'=>$list3['F01'], 					 
-                     'int_name'=>$list3['F02'],					                     
-                     'int_range'=>$list3['F03'], 
-					  'int_type'=>$list3['F04'], 
-					   'int_length'=>$list3['F05'], 
-					    'int_content'=>$list3['F06'], 
-					 'int_dscrp'=>$list3['F07'], 
-					  'int_check'=>$list3['F08'], 
-					 'lastupdate'=>$list3['F09']                      				 
+	while ($list3=mysqli_fetch_array($sql4)){		
+		$atr = array('rc_no_DHL_000'=>$list3['F00'],  		            	             
+		             'int_no_DSL_007'=>$list3['F01'], 					 
+                     'int_name_DSL_014'=>$list3['F02'],					                     
+                     'int_range_DSL_012'=>$list3['F03'], 
+					  'int_type_DSC_004'=>$list3['F04'], 
+					   'int_length_DSC_004'=>$list3['F05'], 
+					    'int_content_DSC_014'=>$list3['F06'], 
+					 'int_dscrp_DSL_014'=>$list3['F07'], 
+					  'int_check_DSL_014'=>$list3['F08'], 
+					 'lastupdate_DSL_012'=>$list3['F09']                      				 
 					 );                      			
 		array_push($arr,$atr);
 	}

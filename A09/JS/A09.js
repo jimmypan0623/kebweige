@@ -27,36 +27,31 @@ function getProfile(str1,reccount,tbno) {
 		for(var jk in arr[i]){		   
 			var oTd = oTr.insertCell(oTr.cells.length);		     		  
 			oTd.innerHTML=arr[i][jk];		 	  			 
-			if(jk=='rc_no' ){			
-				oTd.setAttribute("class","directdata"); 				
-				oTd.setAttribute("style","display:none;");												               
-			 }else if(jk=='dpt_no'){		 
-					 oTd.setAttribute("class","directdata");	
-					 oTd.setAttribute("style","text-align:left;width:8%;");		 
-			 }else if(jk=='dpt_name'){		 
-					 oTd.setAttribute("class","directdata");	
-					 oTd.setAttribute("style","text-align:left;width:10%;");		 
-			 }else if(jk=='inv_inc'){		 
-					 oTd.setAttribute("class","directdata");	
-					 oTd.setAttribute("style","text-align:center;width:8%;");
-			}else if(jk=='prod_inc'){		 
-					 oTd.setAttribute("class","directdata");	
-					 oTd.setAttribute("style","text-align:center;width:8%;"); 
-			}else if(jk=='cost_inc'){		 
-					 oTd.setAttribute("class","directdata");	
-					 oTd.setAttribute("style","text-align:center;width:8%;"); 		
-			}else if(jk=='belong_to'){		 
-					 oTd.setAttribute("class","directdata");	
-					 oTd.setAttribute("style","text-align:center;width:8%;"); 		 
-			}else if(jk=='remark'){		 
-					 oTd.setAttribute("class","directdata");	
-					 oTd.setAttribute("style","text-align:left;width:30%;"); 			 
-			}else{						 
-				  oTd.setAttribute("class","directdata");
-					oTd.setAttribute("style","text-align:left;"); 
-			}
-			 attachEventListener(oTd,'click',rowchoose,false);		//點選資料
-			 
+			var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
+			var ks=ara.split('');		
+			//ks[0]:直接或間接 D/I
+			//ks[1]:是否顯示   S/H
+			//ks[2]:靠左中或右 L/C/R	
+			if(ks[0]=="D"){
+				oTd.setAttribute("class","directdata");	
+			}else{
+				oTd.setAttribute("class","indirectdata");	
+			}				 
+			if(ks[1]=='H'){
+				oTd.setAttribute("style","display:none;");		
+			}else{
+			   oTd.style.textAlign=(ks[2]=="L"?"left":(ks[2]=="C"?"center":"right"));
+			   var wdthln=jk.substr(jk.lastIndexOf('_')+1,3);  	  	
+			   oTd.style.width=wdthln+"%";
+			   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
+			}			
+			if(jk.substr(0,jk.lastIndexOf('_')-4)=='who_incharge'){
+			   var oTd = oTr.insertCell(oTr.cells.length);
+			   oTd.setAttribute("class","indirectdata");	
+			   oTd.setAttribute("style","width:4%;text-align:center;");	
+			   oTd.innerHTML=(arr[i][jk]=='1'?'內部':'托外');
+			   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
+			}			 
 	   }
 	   var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
 	   oTd.setAttribute("style","width:40px;display:none");   //勾選不顯示
@@ -91,5 +86,17 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
     return true;			   
 }	
 
-
+function fldsgsroup(fidx,tbno){
+    let groups =[['directdata','block','left','8'],    //dpt_no
+			     ['directdata','block','left','10'],  //dpt_name
+				 ['directdata','none','left','0'],   //who_incharge
+				 ['indirectdata','block','center','4'],   //who_incharge
+			     ['directdata','block','center','8'],     //inv_inc
+			     ['directdata','block','center','8'],   //prod_inc
+			     ['directdata','block','center','8'],     //cost_inc 
+			     ['directdata','block','center','8'],     //is_useful
+			     ['directdata','block','left','30'],     //remark			     
+			    ];  
+    return groups[fidx];			  
+}
 

@@ -30,15 +30,16 @@
 	while ($list3=mysqli_fetch_array($sql4)){
 		 
 		
-	$atr = array('rc_no'=>$list3['F00'],
-		             'dpt_no'=>$list3['F01'], 
-					 'dpt_name'=>$list3['F02'],	                     
-                     'inv_inc'=>$list3['F04'],
-                     'prod_inc'=>$list3['F05'],
-					 'cost_inc'=>$list3['F13'],					
-                     'belong_to'=>$list3['F12'],
-					  'remark'=>$list3['F06'],
-					  'lastupdate'=>$list3['F07'] 
+	$atr = array('rc_no_DHL_000'=>$list3['F00'],
+		             'dpt_no_DSL_008'=>$list3['F01'], 
+					 'dpt_name_DSL_010'=>$list3['F02'],	
+                     'who_incharge_DHL_000'=>$list3['F03'],	
+                     'inv_inc_DSC_008'=>$list3['F04'],
+                     'prod_inc_DSC_008'=>$list3['F05'],
+					 'cost_inc_DSC_008'=>$list3['F13'],					
+                     'is_useful_DSC_008'=>$list3['F12'],
+					  'remark_DSL_030'=>$list3['F06'],
+					  'lastupdate_DSL_013'=>$list3['F07'] 
 					  );                      			
 		array_push($arr,$atr);
 	}

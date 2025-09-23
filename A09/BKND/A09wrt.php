@@ -23,7 +23,7 @@ if($brr[$mArlth-2]==0){        //如果旗標指示為新增
 		}else{
  
 	//以下處理MySQL記錄新增  
-	     $mscnt="INSERT INTO a14(`F01`,`F02`,`F04`,`F05`,`F13`,`F12`,`F06`,`F07`) VALUES (";  //先把準備插入記錄的SQL 語法前半段先寫在字串中	    
+	     $mscnt="INSERT INTO a14(`F01`,`F02`,`F03`,`F04`,`F05`,`F13`,`F12`,`F06`,`F07`) VALUES (";  //先把準備插入記錄的SQL 語法前半段先寫在字串中	    
 	     $mscnt.="'".$brr[0]."',";
 	     $mscnt.="'".$brr[1]."',";
    	     $mscnt.="'".$brr[2]."',";
@@ -31,6 +31,7 @@ if($brr[$mArlth-2]==0){        //如果旗標指示為新增
 	     $mscnt.="'".$brr[4]."',";
 	     $mscnt.="'".$brr[5]."',";	   
 		 $mscnt.="'".$brr[6]."',";	 
+		 $mscnt.="'".$brr[7]."',";	 
  	     $mscnt.="'".$lastdate.$list4['F03']."')";		      
 	           $sql=$mscnt;                                               //寫入MySQL 	 
                mysqli_query($link ,$sql) or die(mysqli_error($link));  
@@ -41,11 +42,12 @@ if($brr[$mArlth-2]==0){        //如果旗標指示為新增
 	    
 }else{
 	   $mscnt="UPDATE a14 SET F02='".$brr[1]."',";
-	   $mscnt.="F04='".$brr[2]."',";
-	   $mscnt.="F05='".$brr[3]."',";
-	   $mscnt.="F13='".$brr[4]."',";
-	   $mscnt.="F12='".$brr[5]."',";
-	   $mscnt.="F06='".$brr[6]."',";	 
+	   $mscnt.="F03='".$brr[2]."',";
+	   $mscnt.="F04='".$brr[3]."',";
+	   $mscnt.="F05='".$brr[4]."',";
+	   $mscnt.="F13='".$brr[5]."',";
+	   $mscnt.="F12='".$brr[6]."',";
+	   $mscnt.="F06='".$brr[7]."',";	 
 	   $mscnt.="F07="."'".$lastdate.$list4['F03']."'";
 	   $mscnt.=" WHERE F00="."'".$brr[$mArlth-2]."'";
 	   $sql=$mscnt;                                                 //寫入MySQL 	 

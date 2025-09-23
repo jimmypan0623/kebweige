@@ -21,7 +21,7 @@ function sendFilePrc(updflg){     //新增資料上傳檔案及修改程序
     var tbno=0;
 	
 	var a09elements=document.getElementsByName('a09update');	
-    for(var q=1;q<3;q++){  	    //開始堆疊待異動資料陣列
+    for(var q=1;q<4;q++){  	    //開始堆疊待異動資料陣列
 		 tbjsn.push(a09elements[q].value);	   
 	}
     var tpchgs=getElementsByAttribute("class","tpchg");
@@ -29,7 +29,7 @@ function sendFilePrc(updflg){     //新增資料上傳檔案及修改程序
 		 tbjsn.push(tpchgs[i].checked?'Y':' ');	   
 	}
     
-	tbjsn.push(a09elements[7].value);
+	tbjsn.push(a09elements[8].value);
 
 	for(var j=1;j<a09elements.length;j++){  //最後一欄備註不過濾
        
@@ -81,11 +81,12 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	            oTd.innerHTML='備註說明';
 	            var oTd = oTr.insertCell(1);
 			    var editSrs=document.createElement("textarea");
-		   	    editSrs.rows=6;
+		   	    editSrs.rows=4;
 			    editSrs.cols=30;
 			    editSrs.id="remark";
-			    editSrs.name="a09update";
-				editSrs.setAttribute('style','font-size:18px;width:80%;');	
+				editSrs.name="a09update";
+			    editSrs.maxLength=120 ;				
+				editSrs.setAttribute('style','font-size:18px;width:80%');	
 			    editSrs.placeholder="描述此部門的功能。";
 				 
 			    oTd.appendChild(editSrs);			
@@ -114,7 +115,18 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 					 baseauthdiv.appendChild(bsechkbx);
 					 baseauthdiv.appendChild(basechklbl);					 
 				}			
-                 oTd.appendChild(baseauthdiv);			   	
+                oTd.appendChild(baseauthdiv);	
+				var oTr=ajTable.insertRow(ajTable,ajTable.length);	   
+	            var oTd = oTr.insertCell(0);	   
+	            oTd.setAttribute('style','text-align:right;width:15%');					
+	            oTd.innerHTML='管理單位:';
+	            var oTd = oTr.insertCell(1);               	              
+	            var slt5=document.createElement("select");
+	            slt5.options.add(new Option('內部','1'));
+	            slt5.options.add(new Option('托外','2'));	            
+	            slt5.setAttribute("id","whoincharge");
+	            slt5.setAttribute("name","a09update");
+	            oTd.appendChild(slt5);	    
                 var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	            var oTd = oTr.insertCell(0);
 	            oTd.setAttribute('style','text-align:right;width:15%;');	
@@ -150,88 +162,96 @@ function topAndWidthModify(dropsheet_content,dropsheet,txtword){
 }
 
 function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
-   switch (txtword) {
+   switch (txtword){
                 case 1:                                     //如果是新增
-			      document.getElementById("depart_no").focus();	
-			     var showTime=document.getElementById('currentTime'); //利用djtime.js顯示畫面的預設日期日期輸入欄之值為今天
-		         var thtdy=(showTime.innerHTML.substring(0,4)+'-'+showTime.innerHTML.substring(5,7)+'-'+showTime.innerHTML.substring(8,10)); //中間一定要用減號分隔年月日
- 	
-				   break;
-			    case 2:        //如果是修改
-			    
-				  var editinit=document.getElementsByName('a09update');
-				  for(var k=0;k<3;k++){ 
+			        document.getElementById("depart_no").focus();	
+			        var showTime=document.getElementById('currentTime'); //利用djtime.js顯示畫面的預設日期日期輸入欄之值為今天
+		            var thtdy=(showTime.innerHTML.substring(0,4)+'-'+showTime.innerHTML.substring(5,7)+'-'+showTime.innerHTML.substring(8,10)); //中間一定要用減號分隔年月日 	
+				    break;
+			    case 2:        //如果是修改			    
+				    var editinit=document.getElementsByName('a09update');
+				    for(var k=0;k<4;k++){ 
 					   editinit[k].value=aWaitUpdate[k];
-				   }		
-				  
-				  var tpchgs=getElementsByAttribute("class","tpchg");
-				  for(var i=0;i<tpchgs.length;i++){
-				     tpchgs[i].checked=(aWaitUpdate[i+3]=="Y");
-				  }
-				
-				   editinit[7].value=aWaitUpdate[7];
-				
-				  
-				  document.getElementById("depart_name").focus();	
-				  	
-				   
-		          break;
+				    }						  
+				    var tpchgs=getElementsByAttribute("class","tpchg");
+				    for(var i=0;i<tpchgs.length;i++){
+				       tpchgs[i].checked=(aWaitUpdate[i+4]=="Y");
+				    }				
+				    editinit[8].value=aWaitUpdate[8];
+				    document.getElementById("depart_name").focus();	
+		            break;
 			    case 7:
-				     var txtseek=document.getElementById('searchWords');
-					  txtseek.focus();
-				      attachEventListener(txtseek,'keypress',textKeypress,false);
-				      break;        
-				 
+				    var txtseek=document.getElementById('searchWords');
+					txtseek.focus();
+				    attachEventListener(txtseek,'keypress',textKeypress,false);
+				     break;        				 
 			 }			
-
 }
 
 function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nongs,tbno)函數內新增紀錄後呼叫的畫面更動
-            if(tbno==0){
-                   var oTd = oTr.insertCell(oTr.cells.length);   //部門編號
-				   oTd.innerHTML=args[0];
-				   oTd.setAttribute("class","directdata");	
-				    oTd.setAttribute("style","text-align:left;width:8%;");
-				 
-				   var oTd = oTr.insertCell(oTr.cells.length);   //部門名稱
-				   oTd.innerHTML=args[1];
-				   oTd.setAttribute("class","directdata");
-				   oTd.setAttribute("style","text-align:left;width:10%;");
-				
-				   var oTd = oTr.insertCell(oTr.cells.length);   //物料存放
-				   oTd.innerHTML=args[2];
-				   oTd.setAttribute("class","directdata");
-				   oTd.setAttribute("style","text-align:center;width:8%;");
-				   var oTd = oTr.insertCell(oTr.cells.length);   //生產加工
-				   oTd.innerHTML=args[3];
-				   oTd.setAttribute("class","directdata");
-				   oTd.setAttribute("style","text-align:center;width:8%;");
-				    var oTd = oTr.insertCell(oTr.cells.length);   //庫存計價
-				   oTd.innerHTML=args[4];
-				   oTd.setAttribute("class","directdata");
-				   oTd.setAttribute("style","text-align:center;width:8%;");
-				   var oTd = oTr.insertCell(oTr.cells.length);   //庫存可用
-				   oTd.innerHTML=args[5];
-				   oTd.setAttribute("class","directdata");
-				   oTd.setAttribute("style","text-align:center;width:8%;");
-				    var oTd = oTr.insertCell(oTr.cells.length);   //備註說明
-				   oTd.innerHTML=args[6];
-				   oTd.setAttribute("class","directdata");
-				   oTd.setAttribute("style","text-align:left;width:30%;");
-				    //最後異動					   
-				  var oTd = oTr.insertCell(oTr.cells.length);				       
-				  oTd.innerHTML=rsp.lastupdate;			
-                  
-			}  		    				   				 			  	
-		         
+    
+		var fldidx=0;
+		var argsNo=0;
+		var nongsNo=0;	
+		while(fldsgsroup(fldidx,tbno)){
+			var oTd = oTr.insertCell(oTr.cells.length); 
+			if(fldsgsroup(fldidx,tbno)[0]=='directdata'){
+				oTd.innerHTML=args[argsNo];
+				argsNo++;
+			}else{
+				if(!nongs[nongsNo]){
+				   nongs[nongsNo]=(args[argsNo-1]=='1'?'內部':'托外');
+				}
+				oTd.innerHTML=nongs[nongsNo];	
+				nongsNo++;
+			}
+			oTd.setAttribute("class",fldsgsroup(fldidx,tbno)[0]);
+			if(fldsgsroup(fldidx,tbno)[1]=='none'){
+					oTd.setAttribute("style","display:none;");		
+			}else{
+				   oTd.style.textAlign=fldsgsroup(fldidx,tbno)[2];				     	
+				   oTd.style.width=fldsgsroup(fldidx,tbno)[3]+"%";				  
+			}					 		
+			fldidx++;
+		}				
+		//最後異動					   
+		var oTd = oTr.insertCell(oTr.cells.length);		
+		oTd.setAttribute("style","width:13%;");
+		oTd.innerHTML=rsp.lastupdate;			                  
+	  		    				   				 			  			         
 }
 
 function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,nongs,tbno)函數修改紀錄後呼叫的畫面更動
-	var maintable=document.getElementById("maintbody1");	 					
-	for (var j=2;j<arglth-1;j++){				       //表頭表身都是一樣的格式  
-		maintable.rows[args[arglth-1]].cells[j].innerHTML=args[j-1];						 			         
-	}										
-	maintable.rows[args[arglth-1]].cells[arglth-1].innerHTML=rsp.lastupdate;		
+	var maintable=document.getElementById("maintbody1");
+	
+	    var fldidx=1;
+		var argsNo=1;
+		var nongsNo=0;	
+		while(fldsgsroup(fldidx,tbno)){			
+			if(fldsgsroup(fldidx,tbno)[0]=='directdata'){
+				 maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=args[argsNo];				
+				argsNo++;
+			}else{
+				if(fldidx==2){
+				   nongs[nongsNo]=(args[argsNo-1]=='1'?'內部':'托外');
+				   maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=nongs[nongsNo];	
+				}				
+				 nongsNo++;
+			}
+
+			fldidx++;
+		}				
+	
+	/* for (var i=2;i<4;i++){	
+	    maintable.rows[args[arglth-1]].cells[i].innerHTML=args[i-1];
+	}
+	maintable.rows[args[arglth-1]].cells[4].innerHTML=(args[2]=='1'?'內部':'托外');	
+	for (var j=5;j<arglth;j++){				       //表頭表身都是一樣的格式  
+	     
+		maintable.rows[args[arglth-1]].cells[j].innerHTML=args[j-2];						 			         
+	}				 */						
+	//最後異動
+    maintable.rows[args[arglth-1]].cells[arglth].innerHTML=rsp.lastupdate;		
 }
 
 function searchOptionsKey(tbno,slt5){	

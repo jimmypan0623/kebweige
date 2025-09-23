@@ -218,7 +218,7 @@ function removeAuthAll(event){     //確定移除所有權限
         }			 
 		request.onreadystatechange = respond;
 		 
-		var url="A02/A02rmv.php?timestamp="+new Date().getTime();	     
+		var url="A02/BKND/A02rmv.php?timestamp="+new Date().getTime();	     
 		 
 	    request.open("POST",url);	 
 	    request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
@@ -289,10 +289,10 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    var oTd = oTr.insertCell(1);		                		
 		if(txtword==2){   //如果是修改		                
 			oTd.innerHTML="<input type='text' name='a02update' id='accountNo' class='txt' style='background-color:#B9B9FF;width:50%;' maxlength='10' readOnly=true  />"; 
-		    optionitem(aWaitUpdate[3],slt3.id,6,"A02/A14srch.php");	
+		    optionitem(aWaitUpdate[3],slt3.id,6,"A02/BKND/A14srch.php");	
 		}else{
 			oTd.innerHTML="<input type='text' name='a02update' id='accountNo' class='txt' style='width:50%;' maxlength='10'/>"; 
-			optionitem(getCookie("INT_193"),slt3.id,6,"A02/A14srch.php");	
+			optionitem(getCookie("INT_193"),slt3.id,6,"A02/BKND/A14srch.php");	
 		}			 
 	    var oTd = oTr.insertCell(2);	   
         oTd.setAttribute('style','text-align:right;width:15%');					

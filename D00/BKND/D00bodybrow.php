@@ -6,10 +6,10 @@
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_array($sql4)){		 
-		$atr = array('rc_no'=>$list3['F00'],		           
-					 'dte3h'=>$list3['F02'], 
-					 'rate'=>$list3['F03'],							
-                     'lastupdate'=>$list3['F04']);                      						 
+		$atr = array('rc_no_DHL_000'=>$list3['F00'],		           
+					 'dte3h_DSC_025'=>$list3['F02'], 
+					 'rate_DSC_025'=>$list3['F03'],							
+                     'lastupdate_DSC_025'=>$list3['F04']);                  						 
 		array_push($arr,$atr);
 	}
 	mysqli_close($link);

@@ -31,35 +31,29 @@
         cnt++;		
 	    for(var jk in arr[i]){		   			
 	    	var oTd = oTr.insertCell(oTr.cells.length);		     		  
-	    	oTd.innerHTML=arr[i][jk];		 
-		    if (tbno==0){	
-	    	    if(jk=='rc_no'){			 
-	    	     	oTd.setAttribute("style","text-align:center;color:#7f8890;font-style:italic;display:none;");
-					   oTd.setAttribute("class","directdata"); 
-	    	    }else{
-					 oTd.setAttribute("style","text-align:center;");
-					 oTd.setAttribute("class","directdata"); 
-                     attachEventListener(oTd,'click',rowchoose,false);		//點選資料
-				}	    	 
-    		}else{
-				if(jk=='rc_no' ){			 
-		    	      oTd.setAttribute("style","text-align:center;color:#7f8890;font-style:italic;display:none;");
-		  	          oTd.setAttribute("class","directdata"); 
-					
-				}else {
-			            oTd.setAttribute("style","text-align:center;");
-					  if(jk=='lastupdate' ){
-						    oTd.setAttribute("class","indirectdata");
-					  }else{
-						 
-					     oTd.setAttribute("class","directdata");
-					  }						 
-					   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
-		         }
-			}	
+	    	oTd.innerHTML=arr[i][jk];		
+			var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
+			var ks=ara.split('');		
+			//ks[0]:直接或間接 D/I
+			//ks[1]:是否顯示   S/H
+			//ks[2]:靠左中或右 L/C/R	
+			if(ks[0]=="D"){
+				oTd.setAttribute("class","directdata");	
+			}else{
+				oTd.setAttribute("class","indirectdata");	
+			}				 
+			if(ks[1]=='H'){
+				oTd.setAttribute("style","display:none;");		
+			}else{
+			   oTd.style.textAlign=(ks[2]=="L"?"left":(ks[2]=="C"?"center":"right"));
+			   var wdthln=jk.substr(jk.lastIndexOf('_')+1,3);  	  	
+			   oTd.style.width=wdthln+"%";
+			   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
+			}
+
 		}			
 		var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
-		oTd.setAttribute("style","width:40px;display:none");   //勾選不顯示
+		oTd.setAttribute("style","display:none");   //勾選不顯示
 		var myCheck=document.createElement('input'); 
 		myCheck.type="checkbox";		  		  
 		myCheck.setAttribute("name","chkbxmember"+(tbno+1).toString());   //讓使用者勾選的checkbox表頭		   		  		
@@ -111,4 +105,19 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 }	
 function rowchoseSecond(targetRow){    //紀錄移動 表身
    return true;	
+}
+
+function fldsgsroup(fidx,tbno){
+	 var groups=[];
+	if(tbno==0){
+       var groups=[['directdata','block','center','25'],     
+	   ['directdata','block','center','25'],   
+	   ['directdata','block','center','25']    
+	   ]; 
+	}else{
+	    var groups=[['directdata','block','center','25'],    
+	   ['directdata','block','center','25']  
+ 	   ]; 	
+	}		
+    return groups[fidx];			  
 }

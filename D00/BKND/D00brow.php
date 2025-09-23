@@ -28,13 +28,12 @@
    }	   
 	$arr=array();	
     $sql4=mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_array($sql4)){
-		 
-		$atr = array('rc_no'=>$list3['F00'],  		            	             
-		             'crncy_no'=>$list3['F01'], 					 
-                     'crncy_name'=>$list3['F04'],					                     
-                     'rate'=>$list3['F02'],                                         
-					 'lastupdate'=>$list3['F03']                      				 
+	while ($list3=mysqli_fetch_array($sql4)){		 
+		$atr = array('rc_no_DHL_000'=>$list3['F00'],  		            	             
+		             'crncy_no_DSC_025'=>$list3['F01'], 					 
+                     'crncy_name_DSC_025'=>$list3['F04'],					                     
+                     'rate_DSC_025'=>$list3['F02'],                                         
+					 'lastupdate_DSC_025'=>$list3['F03']              				 
 					 );                      			
 		array_push($arr,$atr);
 	}

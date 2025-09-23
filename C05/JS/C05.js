@@ -28,7 +28,7 @@ function getProfile(str1,reccount) {
 		for(var jk in arr[i]){		   
 			var oTd = oTr.insertCell(oTr.cells.length);		     		  
 			oTd.innerHTML=arr[i][jk];		
-            			var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
+            var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
 			var ks=ara.split('');		
 			//ks[0]:直接或間接 D/I
 			//ks[1]:是否顯示   S/H
@@ -55,9 +55,9 @@ function getProfile(str1,reccount) {
 	   myCheck.setAttribute("name","chkbxmember1");   //讓使用者勾選的checkbox表頭			
 	   attachEventListener(myCheck,'click',chooserc,false);		   
 	   oTd.appendChild(myCheck);     		    
-		if(arr[i]['readyship_qty']*1>0){  //有開單未過帳量
+		if(arr[i]['readyship_qty_IHR_007']*1>0){  //有開單未過帳量
 			oTr.setAttribute("style","font-weight:bold;color:#704214;");//#949100
-		}else if(arr[i]['diffdate']>0){  //預定交期超過今天紅字
+		}else if(arr[i]['diffdate_IHL_000']>0){  //預定交期超過今天紅字
 			oTr.setAttribute("style","font-weight:bold;color:#E60000;");
 		}		  
 	}

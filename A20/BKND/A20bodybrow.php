@@ -11,14 +11,14 @@
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_array($sql4)){
 		 
-		$atr = array('rc_no'=>$list3['F00'],
-		             'field_no'=>$list3['F01'], 
-					 'field_name'=>$list3['F06'], 
-					 'field_type'=>$list3['F02'],	                     
-                     'field_length'=>$list3['F03'],     
-					 'decimlth'=>$list3['F04'],  
-					 'defaultvalue'=>$list3['F07'],
-                     'lastupdate'=>$list3['F20']);                      						 
+		$atr = array('rc_no_DHL_000'=>$list3['F00'],
+		             'field_no_DSC_014'=>$list3['F01'], 
+					 'field_name_DSL_014'=>$list3['F06'], 
+					 'field_type_DSC_014'=>$list3['F02'],	                     
+                     'field_length_DSC_014'=>$list3['F03'],     
+					 'decimlth_DSC_014'=>$list3['F04'],  
+					 'defaultvalue_DSC_014'=>$list3['F07'],
+                     'lastupdate_DSL_013'=>$list3['F20']);                      						 
 		array_push($arr,$atr);
 	}
 	mysqli_close($link);

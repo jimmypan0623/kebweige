@@ -65,7 +65,7 @@ if(trim($list2['F10'])=="Y"){
 			 '".$v['custom_partno']."',
 			 '".$v['month_no']."-".$v['deliveryday']."',
 			 ".$v['orderqty'].",
-			 ".$v['cancelqty'].",
+			 ".$v['cancelqty']*(-1).",
 			 '".$v['lastupdate']."',
 			 ".$v['orderqty']."),"; 				
         }       
