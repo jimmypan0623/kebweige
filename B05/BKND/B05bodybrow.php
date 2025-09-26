@@ -14,19 +14,18 @@
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_array($sql4)){
-		 
-		$atr = array('rc_no'=>$list3['F00'],		           
-					 'stockno'=>$list3['F03'], 
-					 'stockname'=>$list3['F0B'],
-					  'order_no'=>$list3['F07'], 
-					 'query_qty'=>$list3['F04'],	                     
-                     'query_price'=>$list3['F15'],                         	
-					 'dept_no'=>$list3['F05'],
-					 'dept_name'=>$list3['F0C'],
-					 'custom_partno'=>$list3['F08'],  
-                     'custom_po'=>$list3['F09'],  	
-					 'ship_date'=>$list3['F12'],  	
-                     'lastupdate'=>$list3['F13']);                      						 
+		$atr = array('rc_no_DHL_000'=>$list3['F00'],		           
+					 'stockno_DSL_013'=>$list3['F03'], 
+					 'stockname_ISL_013'=>$list3['F0B'],
+					  'order_no_DSL_010'=>$list3['F07'], 
+					 'query_qty_DSR_007'=>$list3['F04'],	                     
+                     'query_price_DSR_007'=>$list3['F15'],                         	
+					 'dept_no_DHC_000'=>$list3['F05'],
+					 'dept_name_ISL_007'=>$list3['F0C'],
+					 'custom_partno_DSL_013'=>$list3['F08'],  
+                     'custom_po_DSL_013'=>$list3['F09'],  	
+					 'ship_date_DSC_010'=>$list3['F12'],  	
+                     'lastupdate_DHC_000'=>$list3['F13']);                      						 
 		array_push($arr,$atr);
 	}
 	mysqli_close($link);

@@ -36,22 +36,50 @@ function getProfile(str1,reccount,tbno) {
 	    	for(var jk in arr[i]){		   
 	    	    var oTd = oTr.insertCell(oTr.cells.length);		     		  
 	    		oTd.innerHTML=arr[i][jk];	
-                if (tbno==0){				
+				var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
+				var ks=ara.split('');		
+				//ks[0]:直接或間接 D/I
+				//ks[1]:是否顯示   S/H
+				//ks[2]:靠左中或右 L/C/R	
+				if(ks[0]=="D"){
+					oTd.setAttribute("class","directdata");	
+				}else{
+					oTd.setAttribute("class","indirectdata");	
+				}				 
+				if(ks[1]=='H'){
+					oTd.setAttribute("style","display:none;");		
+				}else{
+				   oTd.style.textAlign=(ks[2]=="L"?"left":(ks[2]=="C"?"center":"right"));
+				   var wdthln=jk.substr(jk.lastIndexOf('_')+1,3);  	  	
+				   oTd.style.width=wdthln+"%";
+				   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
+				}		
+				if(jk.substr(0,jk.lastIndexOf('_')-4)=='query_price' && tbno==1){
+					var oTd = oTr.insertCell(oTr.cells.length);
+					oTd.setAttribute("class","indirectdata");					 
+					oTd.setAttribute("style","width:8%;text-align:right;");	
+					oTd.innerHTML=Math.round((oTr.cells[3].innerHTML*oTr.cells[4].innerHTML + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);	
+					queryttl+=Number(oTd.innerHTML);
+					attachEventListener(oTd,'click',rowchoose,false);		//點選資料
+				}		 
+				   
+				
+                /* if (tbno==0){				
 	    	       if(jk=='rc_no'  || jk=='sales_no' || jk=='lastupdate'){			 //表頭資料匯入
 				       oTd.setAttribute("class","directdata");
 	    	     	   oTd.setAttribute("style","display:none;");		  	  
 	    	       }else if(jk=='query_no' || jk=='query_date'){	
                       oTd.setAttribute("class","directdata");				   
 				      oTd.setAttribute("style","width:10%;");		
-					  attachEventListener(oTd,'click',rowchoose,false);		//點選資料  */
+					  attachEventListener(oTd,'click',rowchoose,false);		//點選資料   
 				   }else if(jk=='custom_no'){	
 				      oTd.setAttribute("class","directdata");
 				      oTd.setAttribute("style","width:7%;");							 
-					  attachEventListener(oTd,'click',rowchoose,false);		//點選資料  */
+					  attachEventListener(oTd,'click',rowchoose,false);		//點選資料   
 				   }else if(jk=='custom_name'){	
 				      oTd.setAttribute("class","indirectdata");
 				      oTd.setAttribute("style","width:7%;");											  
-					  attachEventListener(oTd,'click',rowchoose,false);		//點選資料  */  
+					  attachEventListener(oTd,'click',rowchoose,false);		//點選資料     
                   }else if(jk=='custom_fullname'){	
 				      oTd.setAttribute("class","indirectdata");
 				      oTd.setAttribute("style","display:none;");									  
@@ -62,7 +90,7 @@ function getProfile(str1,reccount,tbno) {
 				    }else if(jk=='sales_name'){					    
                           oTd.setAttribute("style","width:7%;");		
 						   oTd.setAttribute("class","indirectdata");			
-                          attachEventListener(oTd,'click',rowchoose,false);		//點選資料  */ 						
+                          attachEventListener(oTd,'click',rowchoose,false);		//點選資料   						
 				  }else if(jk=='shure' || jk=='trns'){		
 				       oTd.setAttribute("class","indirectdata");
 	    	     	   oTd.setAttribute("style","display:none;");	
@@ -107,15 +135,15 @@ function getProfile(str1,reccount,tbno) {
 					   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
 		            }			
 					
-	           }				
+	           }				 */
 		   }		   
 		   var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
-	       oTd.setAttribute("style","width:40px;display:none");   
+	       oTd.setAttribute("style","display:none");   
 	 	   var myCheck=document.createElement('input'); 
 		   myCheck.type="checkbox";
 		   if(tbno==0){
 			  myCheck.setAttribute("name","chkbxmember1");   //讓使用者勾選的checkbox表頭
-			  if(arr[i]['shure']!='Y'){  //未確認
+			  if(arr[i]['shure_IHC_000']!='Y'){  //未確認
 			     oTr.setAttribute("style","font-weight:bold;color:#704214;"); 
 		      } 
 		   }else{
@@ -186,8 +214,7 @@ function choseExtraDeal(targetTrChildren,targetTr){   //紀錄移動
 			    vrsbtt.setAttribute("style","display:none;");
 			    detachEventListener(vrsbtt,"click",vrsproc,false);
 			}
-	    }
-	   
+	    }	   
 	}else{				   
 		 vrsbtt.setAttribute("style","display:none;");
 		 detachEventListener(vrsbtt,"click",vrsproc,false);
@@ -246,8 +273,7 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 			trnsbtt.setAttribute("style","visibility:hidden;");
 			detachEventListener(trnsbtt,"click",trnsproc,false); 
 			vrsbtt.setAttribute("style","display:none;");
-			detachEventListener(vrsbtt,"click",vrsproc,false);
-			
+			detachEventListener(vrsbtt,"click",vrsproc,false);			
 		}else{
 			if(getCookie('auth09')=='Y'){
 			   vrsbtt.setAttribute("style","display:block;");
@@ -300,3 +326,59 @@ function rowchoseSecond(targetRow){    //紀錄移動表身
 }
 //////
 
+function fldsgsroup(fidx,tbno){
+	 var groups=[];
+	if(tbno==0){	
+	/*               'query_no_DSL_010'=>$list3['F01'], 					 
+                     'custom_no_DSL_007'=>$list3['F03'],	
+                     'custom_name_ISL_007'=>$list3['F0E'],				
+					 'custom_fullname_IHL_000'=>$list3['F0D'],		
+                     'query_date_DSC_009'=>$list3['F02'],
+                     'sales_no_DHC_000'=>$list3['F06'],		
+					 'sales_name_ISL_007'=>$list3['F0C'],	
+					 'crncy_type_DSC_004'=>$list3['F14'],	
+                     'sourceman_DSL_013'=>$list3['F07'],	
+                     'shipway_DSL_013'=>$list3['F09'],     	
+                     'payment_DSL_013'=>$list3['F10'],     						 
+                     'remark_DSL_013'=>$list3['F11'],  
+                     'trns_IHC_000'=>$list3['F15'],     					 
+                     'shure_IHC_000'=>$list3['F04'],     					 */
+        var groups=[['directdata','block','left','10'],     
+	               ['directdata','block','left','7'],   
+	               ['indirectdata','block','left','7'],   
+	               ['indirectdata','none','center','0'],   	 
+	               ['directdata','block','center','9'],  	
+                   ['directdata','none','center','0'], 	 	
+				   ['indirectdata','block','left','7'], 	
+				   ['directdata','block','center','4'], 
+				   ['directdata','block','left','13'], 
+				   ['directdata','block','left','13'], 
+				   ['directdata','block','left','13'], 
+				   ['directdata','block','left','13'], 
+				   ['directdata','none','center','0'], 
+				   ['directdata','none','center','0']
+	            ]; 
+	}else{
+		/*           'stockno_DSL_013'=>$list3['F02'], 
+					 'stockname_ISL_013'=>$list3['F0B'],
+					 'query_qty_DSR_008'=>$list3['F03'],	                     
+                     'query_price_DSR_008'=>$list3['F04'],     
+					 'custom_partno_DSL_013'=>$list3['F05'],  
+                     'basic_pack_DSR_007'=>$list3['F06'],  		
+                     'min_order_DSR_007'=>$list3['F07'],  				
+					 'datestart_DSC_010'=>$list3['F15'],  
+					 'dateline_DSC_010'=>$list3['F17'],  				*/
+	    var groups=[['directdata','block','left','13'],    
+				   ['indirectdata','block','left','13'], 
+				   ['directdata','block','right','8'], 
+				   ['directdata','block','right','8'],  
+				   ['indirectdata','block','right','8'],
+				   ['directdata','block','left','13'],  
+				   ['directdata','block','right','7'],  
+				   ['directdata','block','right','7'],  
+				   ['directdata','block','center','10'],  
+				   ['directdata','boock','center','10']  				  
+				   ]; 	
+	}		
+    return groups[fidx];			  
+}

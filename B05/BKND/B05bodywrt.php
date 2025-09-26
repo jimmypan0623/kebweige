@@ -79,7 +79,7 @@ if($rows2==0){
         mysqli_query($link ,$sql) or die(mysqli_error($link));  	  
         $arr = array ('order_no'=>$brr[$mArlth-2],'lastupdate'=>$lastdate.$list4['F03']);
 	    echo json_encode($arr);
-	    if(intval($list5['F24'])<3){   //非折讓就要寫入原訂單開單未過帳量
+	    if(intval($list5['F24'])<3){   //非折讓就要寫入原訂單開單未退帳量
             $armstc04="UPDATE c04 SET F24=F24+".$brr[3]." WHERE F02='".$brr[1]."' AND F01='".$brr[2]."' ";  	                                               
             mysqli_query($link ,$armstc04) or die(mysqli_error($link));    //寫入MySQL 	
 	    }

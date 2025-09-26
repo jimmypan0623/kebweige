@@ -49,7 +49,7 @@ function getProfile(str1,reccount,tbno) {
 			   var oTd = oTr.insertCell(oTr.cells.length);
 			   oTd.setAttribute("class","indirectdata");	
 			   oTd.setAttribute("style","width:4%;text-align:center;");	
-			   oTd.innerHTML=(arr[i][jk]=='1'?'內部':'托外');
+			   oTd.innerHTML=(arr[i][jk]=='1'?'內控':'托外');
 			   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
 			}			 
 	   }

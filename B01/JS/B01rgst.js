@@ -367,8 +367,6 @@ function b11InvHoldQty(dptno,stckno){
 		
 	}
 	return  ;
-
-
 }
 
 function d01VendorName(event){	
@@ -394,10 +392,8 @@ function d01VendorName(event){
 	    request.send(sendSrcRec);		
 	function respond(){           
 		  if (request.readyState == 4 && request.status == 200) {    
-             rsp=JSON.parse(request.responseText);
-			 
-			 document.getElementById('vendorname').value=rsp[0]['vendorname'];			 
-	          
+             rsp=JSON.parse(request.responseText);			 
+			 document.getElementById('vendorname').value=rsp[0]['vendorname'];			 	          
 		  }
 	}
 	return;

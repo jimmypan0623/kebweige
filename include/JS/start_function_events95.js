@@ -199,8 +199,7 @@ function outprocs(event){
 	delCookie('kindofda');
 	delCookie('adddpt'); 	
 	for(var i=1;i<10;i++){   //該登入者之權限設定
-		var authorder='auth'+paddingLeft(i.toString(),2);	
-	 
+		var authorder='auth'+paddingLeft(i.toString(),2);		 
 		delCookie(authorder); 
 	}
 	var scriptall=document.getElementsByTagName("script");
@@ -373,10 +372,7 @@ function commontemp(idn,stk){
    // if(tabs.length> && urlpath!='RED'){
 	if(urlpath!='RED'){ 
 			    var maintable=document.getElementById("member"+(tbno+1).toString());	
-				var responseDiv=document.getElementById("serverResponse"+(tbno+1).toString());
-			  
-	    
-		
+				var responseDiv=document.getElementById("serverResponse"+(tbno+1).toString());		
     }
 	
 	return true; 

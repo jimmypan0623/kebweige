@@ -131,7 +131,7 @@ function sendFilePrc(updflg){     //新增資料及修改程序
         }			
 	    var target=getEventTarget(updflg);	
 		if(tbno==1){   //如果是表身		   
-           tbjsn[2]=b04elements[3].value-sourceAccount(4,1);  //傳到後端為新數量減原出貨數之差
+           tbjsn[2]=b04elements[3].value-sourceAccount(4,1);  //傳到後端為新數量減原出貨數之差(此作法因理開單未過帳量的處理較快)
 		   tbjsn.push(sourceAccount(2,0));    //記住表頭客戶編號
 		}  
 		var tablerowindex=sourceAccount(null,tbno);   //記住是目前table的哪一列	
@@ -374,8 +374,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    srchButton1.setAttribute("class","scopelook");				   
 	    srchButton1.style.background="url('digits/brows1.png')";   
 	    attachEventListener(srchButton1,"click",srchshow,false);				
-	    oTd.appendChild(srchButton1);	
-		
+	    oTd.appendChild(srchButton1);			
 		var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
@@ -387,8 +386,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    oTd.innerHTML='電話:';
 	    var oTd = oTr.insertCell(3);      
 	    oTd.innerHTML="<input type='number' name='b04others' id='telNo'  class='txt' style='width:35%;' maxlength='8'  />";  				
-	   oTr.setAttribute("style","display:none;");   //整列隱藏
-		
+	   oTr.setAttribute("style","display:none;");   //整列隱藏		
 		var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
@@ -400,8 +398,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    oTd.innerHTML='統一編號:';
 	    var oTd = oTr.insertCell(3);      
 	    oTd.innerHTML="<input type='number' name='b04others' id='unitno'  class='txt' style='width:35%;' maxlength='8'  />";  				
-	    oTr.setAttribute("style","display:none;");   //整列隱藏
-	   
+	    oTr.setAttribute("style","display:none;");   //整列隱藏	   
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
@@ -439,11 +436,9 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    oTd.innerHTML='出貨單號:';
 	    var oTd = oTr.insertCell(1);		
 	    oTd.colspan=3;				  
-	    if(txtword==2){   //如果是修改		         
-            
+	    if(txtword==2){   //如果是修改		                    
 	 	   oTd.innerHTML="<input type='text' name='b04update' id='queryno' class='txt' style='background-color:#B9B9FF;width:25%;' maxlength='10' readOnly=true  />"; 					
-		   optionitem(aWaitUpdate[5],slt4.id,4,"C01/BKND/C00srch.php");		//幣別欄位					 
-	         
+		   optionitem(aWaitUpdate[5],slt4.id,4,"C01/BKND/C00srch.php");		//幣別欄位					 	         
 		}else{
 		   oTd.innerHTML="<input type='text' name='b04update' id='queryno' class='txt' style='width:25%;' maxlength='10'/>"; 
 		   optionitem(getCookie('INT_011'),slt4.id,4,"C01/BKND/C00srch.php");			 
@@ -562,12 +557,9 @@ function topAndWidthModify(dropsheet_content,dropsheet,txtword,tbno){
 				var dept_no=document.getElementById('deptno');			
 				 attachEventListener(dept_no,"focusout",lostfocus2,false)
 			}	
-		}else{
-			if (tbno==0){		
-		       dropsheet_content.style.width="60%"; 
-			}
-		}
-	 
+		}else{			
+		    dropsheet_content.style.width="60%"; 
+		}	 
     return true;
 }
 
@@ -619,140 +611,67 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 
 function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nongs,tbno)函數內新增紀錄後呼叫的畫面更動   
     var rnddgt=getCookie('INT_069');  //四捨五入到幾位         
-    if (tbno==0){     //先整理表頭新增後的資料
-	    for(var i=0;i<2;i++){
-		    var oTd = oTr.insertCell(oTr.cells.length);
-		    oTd.innerHTML=args[i];				
-		    oTd.setAttribute("class","directdata");	
-		    if(i==0){						  
-		  	   oTd.setAttribute("style","width:10%;");		
-		    }else{
-			   oTd.setAttribute("style","width:7%;");		
-		    }
-	    }				
-	    var oTd = oTr.insertCell(oTr.cells.length);   //客戶名稱
-	    oTd.innerHTML=nongs[0];
-	    oTd.setAttribute("class","indirectdata");		
-		oTd.setAttribute("style","width:7%;");			 
-        var oTd = oTr.insertCell(oTr.cells.length);   //客戶全名
-	    oTd.innerHTML=nongs[1];
-	    oTd.setAttribute("class","indirectdata");		
-		oTd.setAttribute("style","display:none;");	
-		var oTd = oTr.insertCell(oTr.cells.length);   //統一編號
-	    oTd.innerHTML=nongs[2];
-	    oTd.setAttribute("class","indirectdata");		
-		oTd.setAttribute("style","display:none;");	
-		var oTd = oTr.insertCell(oTr.cells.length);   //聯絡人
-	    oTd.innerHTML=nongs[3];
-	    oTd.setAttribute("class","indirectdata");		
-		oTd.setAttribute("style","display:none;");	
-		var oTd = oTr.insertCell(oTr.cells.length);   //電話
-	    oTd.innerHTML=nongs[4];
-	    oTd.setAttribute("class","indirectdata");		
-		oTd.setAttribute("style","display:none;");	
-	    var oTd = oTr.insertCell(oTr.cells.length);   //出貨日期 		
-		oTd.innerHTML=paddingLeft(args[2].trim(),2);				
-		oTd.setAttribute("class","directdata");		
-		oTd.setAttribute("style","text-align:center;width:4%;");				
-	    var oTd = oTr.insertCell(oTr.cells.length);    //業務編號
-		oTd.innerHTML=args[3];				
-		oTd.setAttribute("class","directdata");
-		oTd.setAttribute("style","display:none;"); //真正的業務編號要隱藏
-	    var oTd = oTr.insertCell(oTr.cells.length);     
-		oTd.innerHTML=nongs[5];				
-		oTd.setAttribute("class","indirectdata");  //業務名稱
-		oTd.setAttribute("style","width:7%;");		
-		var oTd = oTr.insertCell(oTr.cells.length);   //幣別 
-		oTd.innerHTML=args[4];				
-		oTd.setAttribute("class","directdata");		
-		oTd.setAttribute("style","text-align:center;width:4%;");
-		var oTd = oTr.insertCell(oTr.cells.length);   //匯率 
-		oTd.innerHTML=args[5];				
-		oTd.setAttribute("class","directdata");		
-		oTd.setAttribute("style","text-align:right;width:7%;");  
-		var oTd = oTr.insertCell(oTr.cells.length);   //發票號碼
-		oTd.innerHTML=args[6];				
-		oTd.setAttribute("class","directdata");		
-		oTd.setAttribute("style","width:10%;");   
-		var oTd = oTr.insertCell(oTr.cells.length);   //發票類別代號
-		oTd.innerHTML=args[7];				
-		oTd.setAttribute("class","directdata");		
-		oTd.setAttribute("style","display:none;");   
-		var oTd = oTr.insertCell(oTr.cells.length);   //發票類別名稱
-		oTd.innerHTML=whichinvoice(args[7]);				
-		oTd.setAttribute("class","indirectdata");		
-		oTd.setAttribute("style","width:5%;");     
-		var oTd = oTr.insertCell(oTr.cells.length);   //稅別代號
-		oTd.innerHTML=args[8];				
-		oTd.setAttribute("class","directdata");		
-		oTd.setAttribute("style","display:none;");   
-		var oTd = oTr.insertCell(oTr.cells.length);   //稅別
-		oTd.innerHTML=whichtax(args[8]);				
-		oTd.setAttribute("class","indirectdata");		
-		oTd.setAttribute("style","width:4%;");       
-		var oTd = oTr.insertCell(oTr.cells.length);   //付款方式
-		oTd.innerHTML=args[9];				
-		oTd.setAttribute("class","directdata");		
-		oTd.setAttribute("style","width:8%;");      
-		var oTd = oTr.insertCell(oTr.cells.length);   //送貨地點
-		oTd.innerHTML=args[10];				
-		oTd.setAttribute("class","directdata");		
-		oTd.setAttribute("style","text-align:left;");      
-		var oTd = oTr.insertCell(oTr.cells.length);   //出貨指示
-		oTd.innerHTML=args[11];				
-		oTd.setAttribute("class","directdata");		
-		oTd.setAttribute("style","width:8%;");    
-		oTr.setAttribute("style","font-weight:bold;color:#704214;");
-		 //是否過帳
-		var oTd = oTr.insertCell(oTr.cells.length);	
-		oTd.setAttribute("class","indirectdata");					   
-		oTd.innerHTML=nongs[6];	
-		oTd.setAttribute("style","display:none;"); 											
-    }else{  //整理表身新增資料	  
-	    var oTd = oTr.insertCell(oTr.cells.length);   //料號
-	    oTd.innerHTML=args[0];
-	    oTd.setAttribute("style","text-align:left;");
-	    oTd.setAttribute("class","directdata");		
-	    var oTd = oTr.insertCell(oTr.cells.length);   //品名
-	    oTd.innerHTML=nongs[0];
-		oTd.setAttribute("style","text-align:left;");
-	    oTd.setAttribute("class","indirectdata");
-	    var oTd = oTr.insertCell(oTr.cells.length);   //訂單號碼
-	    oTd.innerHTML=args[1];
-	    oTd.setAttribute("style","width:10%;text-align:left;");
-	    oTd.setAttribute("class","directdata");		
-		for(var i=2;i<4;i++){
-		    var oTd = oTr.insertCell(oTr.cells.length);   //數量&單價
-		    oTd.innerHTML=args[i];
-		    oTd.setAttribute("class","directdata");
-		    oTd.setAttribute("style","width:7%;text-align:right;");
-		}   
-		var oTd = oTr.insertCell(oTr.cells.length);   //小計
-		var ttlcnt=Number(document.getElementById('ttlmny').innerHTML);
-		oTd.innerHTML=Math.round((args[2]*args[3]+ Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);					    
-		oTd.setAttribute("class","indirectdata");
-		oTd.setAttribute("style","width:7%;text-align:right;");
-		ttlcnt=ttlcnt+Math.round((args[2]*args[3]+ Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);					    
-		document.getElementById('ttlmny').innerHTML=ttlcnt;  //更新畫面上的總金額
-	    var oTd = oTr.insertCell(oTr.cells.length);   //部門代號
-	    oTd.innerHTML=args[4];
-	    oTd.setAttribute("style","display:none;");
-	    oTd.setAttribute("class","directdata");		
-	    var oTd = oTr.insertCell(oTr.cells.length);   //部門名稱
-	    oTd.innerHTML=nongs[1];
-	    oTd.setAttribute("style","width:7%;");
-	    oTd.setAttribute("class","indirectdata");		
-	    for(var i=5;i<7;i++){
-		    var oTd = oTr.insertCell(oTr.cells.length);
-		    oTd.innerHTML=args[i];						    
-		    oTd.setAttribute("class","directdata");							   
-	    }
-		var oTd = oTr.insertCell(oTr.cells.length);   //備註
-		    oTd.innerHTML=args[7];				
-		    oTd.setAttribute("style","width:10%;");
-		    oTd.setAttribute("class","directdata");		
-	   
-    }	
+	var ttlcnt=Number(document.getElementById('ttlmny').innerHTML);
+		var fldidx=0;
+		var argsNo=0;
+		while(fldsgsroup(fldidx,tbno)){
+			var oTd = oTr.insertCell(oTr.cells.length); 			
+			if(fldsgsroup(fldidx,tbno)[0]=='directdata'){
+				oTd.innerHTML=args[argsNo];
+				argsNo++;
+			}else{		               
+			    if(tbno==0 && fldidx==2){   //客戶簡稱
+				   oTd.innerHTML=nongs[0];				   
+				}
+				if(tbno==0 && fldidx==3){   //客戶全稱
+				   oTd.innerHTML=nongs[1];				  
+				}
+				if(tbno==0 && fldidx==4){   //統一編號
+				   oTd.innerHTML=nongs[2];				  
+				}
+				if(tbno==0 && fldidx==5){   //聯絡人
+				   oTd.innerHTML=nongs[3];				  
+				}
+				if(tbno==0 && fldidx==6){   //電話
+				   oTd.innerHTML=nongs[4];				  
+				}
+				 if(tbno==0 && fldidx==9){   //業務名稱
+				   oTd.innerHTML=nongs[5];				  
+				}
+				if(tbno==0 && fldidx==14){   //發票別
+				    oTd.innerHTML=whichinvoice(args[7]);	
+				}					
+				if(tbno==0 && fldidx==16){   //稅別
+				    oTd.innerHTML=whichtax(args[8]);
+				}				
+				if(tbno==0 && fldidx==20){   //確認				 
+				   oTd.innerHTML='N';				   
+				}				
+			    if(tbno==1 && fldidx==1){   //品名
+				   oTd.innerHTML=nongs[0];				    
+				}
+				if(tbno==1 && fldidx==7){   //部門名稱
+				   oTd.innerHTML=nongs[1];				   
+				}
+			    if(tbno==1 && fldidx==5){				   	//小計
+				   oTd.innerHTML=Math.round((args[2]*args[3]+ Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);			
+				   ttlcnt=ttlcnt+Math.round((args[2]*args[3]+ Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);	
+				   document.getElementById('ttlmny').innerHTML=ttlcnt;  //更新畫面上的總金額					  
+				}				
+			}
+			oTd.setAttribute("class",fldsgsroup(fldidx,tbno)[0]);
+			if(fldsgsroup(fldidx,tbno)[1]=='none'){
+					oTd.setAttribute("style","display:none;");		
+			}else{
+				   oTd.style.textAlign=fldsgsroup(fldidx,tbno)[2];				     	
+				   oTd.style.width=fldsgsroup(fldidx,tbno)[3]+"%";				  
+			}					 		
+			fldidx++;
+		}				
+	    if (tbno==0){
+		    oTr.setAttribute("style","font-weight:bold;color:#704214;");			 
+		}
+
 	//最後異動
     var oTd = oTr.insertCell(oTr.cells.length);	
     oTd.setAttribute("class","directdata");					   
@@ -762,41 +681,53 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 
 function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,nongs,tbno)函數修改紀錄後呼叫的畫面更動
     var rnddgt=getCookie('INT_069');  //四捨五入到幾位     
-    if (tbno==0){
-	    var maintable=document.getElementById("maintbody1");					   			            	  
-	    maintable.rows[args[arglth-1]].cells[8].innerHTML=paddingLeft(args[2].trim(),2); 	  
-	    maintable.rows[args[arglth-1]].cells[9].innerHTML=args[3];					   
-	    maintable.rows[args[arglth-1]].cells[10].innerHTML=nongs[5];	//業務姓名			   
-	    var tbrlth=maintable.rows[args[arglth-1]].cells.length;	
-	    for (var j=11;j<14;j++){
-		   maintable.rows[args[arglth-1]].cells[j].innerHTML=args[j-7];
-	    }					   	  
-	    maintable.rows[args[arglth-1]].cells[14].innerHTML=args[7];
-	    maintable.rows[args[arglth-1]].cells[15].innerHTML=whichinvoice(args[7]);
-	    maintable.rows[args[arglth-1]].cells[16].innerHTML=args[8];
-	    maintable.rows[args[arglth-1]].cells[17].innerHTML=whichtax(args[8]);	   	 	    
-	    for (var j=18;j<tbrlth-3;j++){       //18~20
-		   maintable.rows[args[arglth-1]].cells[j].innerHTML=args[j-9];
-	    }				      
-	    maintable.rows[args[arglth-1]].cells[tbrlth-2].innerHTML=rsp.lastupdate; //最後異動	22	   
+	if (tbno==0){
+	    var maintable=document.getElementById("maintbody1");		
+	    var fldidx=4;
+		var argsNo=2;
+		var nongsNo=5;		   
 	}
 	else{
-	    var maintable=document.getElementById("maintbody2");					   
-		var tbrlth=maintable.rows[args[arglth-1]].cells.length;	
-		var ttlcnt=Number(document.getElementById('ttlmny').innerHTML)-Number(maintable.rows[args[arglth-1]].cells[6].innerHTML);
-		var orderQty=Number(maintable.rows[args[arglth-1]].cells[4].innerHTML)+args[2];						
-		maintable.rows[args[arglth-1]].cells[4].innerHTML=orderQty;						
-		maintable.rows[args[arglth-1]].cells[5].innerHTML=args[3];						
-		maintable.rows[args[arglth-1]].cells[6].innerHTML=Math.round((orderQty*args[3] + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);						   													
-		ttlcnt=ttlcnt+Math.round((orderQty*args[3] + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);					
-		document.getElementById('ttlmny').innerHTML=ttlcnt;  //更新畫面上的總金額						
-		maintable.rows[args[arglth-1]].cells[7].innerHTML=args[4];	
-		maintable.rows[args[arglth-1]].cells[8].innerHTML=nongs[0];	
-		for (var j=9;j<tbrlth-2;j++){		            
-			maintable.rows[args[arglth-1]].cells[j].innerHTML=args[j-4];                           						
-	    }						   
-	    maintable.rows[args[arglth-1]].cells[tbrlth-2].innerHTML=rsp.lastupdate;	                    
-	}  		
+	   var maintable=document.getElementById("maintbody2");
+	    var fldidx=3;
+		var argsNo=2;
+		var nongsNo=0;	
+		var ttlcnt=Number(document.getElementById('ttlmny').innerHTML)-Number(maintable.rows[args[arglth-1]].cells[6].innerHTML);					
+	} 
+		while(fldsgsroup(fldidx,tbno)){			
+		    	
+			if(fldsgsroup(fldidx,tbno)[0]=='directdata'){
+				if(fldidx==3 && tbno==1){
+				    var orderQty=Number(maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML)*1+args[2]*1;						
+		            maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=orderQty;		
+				}else{				
+			   	   maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=args[argsNo];	
+				}  
+				argsNo++;
+			}else{				
+			    if(fldidx==9 && tbno==0){
+				    maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=nongs[5];	//業務姓名	
+				}
+				if(fldidx==14 && tbno==0){
+				    maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=whichinvoice(args[7]);  //發票類別
+				}
+				if(fldidx==16 && tbno==0){
+				    maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=whichtax(args[8]);	     //稅別
+				}
+		        if(fldidx==5 && tbno==1){   //小計
+				    var orderQty=maintable.rows[args[arglth-1]].cells[4].innerHTML*1		  
+			         ttlcnt=ttlcnt+Math.round((orderQty*args[3] + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);							
+		            document.getElementById('ttlmny').innerHTML=ttlcnt;  //更新畫面上的總金額				 
+				    maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=Math.round((orderQty*args[3] + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);				 								
+				}	
+				if(fldidx==7 && tbno==1){
+				    maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=nongs[0];
+				}							
+			}		 		
+			fldidx++;
+		}		
+		maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=rsp.lastupdate;
+
 }
 function transConfirm(oTd){
     //oTd.innerHTML="<input type='text' name='c03update' id='newPono' class='txt' style='display:none;' maxlength='10'/>"; 		
@@ -812,9 +743,7 @@ function searchOptionsKey(tbno,slt5){
 		 slt5.options.add(new Option('業務編號','b04.F09'));
 		 slt5.options.add(new Option('業務姓名','a01.F03'));
 		 slt5.options.add(new Option('發票號碼','b04.F20')); 
-		slt5.options.add(new Option('已確認?(Y/N)','b04.F10')); 
-	
-		
+		 slt5.options.add(new Option('已確認?(Y/N)','b04.F10')); 			
 	}else{
 		 slt5.options.add(new Option('料品編號','b0d.F03'));
 		 slt5.options.add(new Option('品名規格','b01.F02'));
@@ -823,8 +752,6 @@ function searchOptionsKey(tbno,slt5){
 		 slt5.options.add(new Option('客戶PO','b0d.F09'));										  
 	}
 }
-
-
 
 function  addNewRecordHint(tbno){
     if (tbno==0){  //表頭資料

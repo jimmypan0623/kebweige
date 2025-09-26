@@ -12,8 +12,7 @@
 	        $sql2=mysqli_query($link,$sqlK);
    	        $rows=@mysqli_num_rows($sql2);	   	      //主要是在此先算有幾筆資料而不再join處算
 	        $total_pages=ceil($rows/$pagerows);
-        }    
-	 	   
+        }    	 	   
 	   $sql="SELECT c04.F00,c04.F02,b01.F02 AS F0B,c04.F01,c04.F06,c04.F03-c04.F09-c04.F21 AS NSH,c04.F23,c03.F03,c01.F05 As F0E,c04.F05,c03.F14,c03.F07,a01.F03 AS F0C,c04.F12,DATEDIFF(CURDATE( ),c04.F06) as diffdate FROM c04";
 	   $sql.=" LEFT OUTER JOIN b01 ON b01.F01=c04.F02"; 
 	   $sql.=" LEFT OUTER JOIN c03 ON c03.F01=c04.F01"; 

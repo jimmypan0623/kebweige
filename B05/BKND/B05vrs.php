@@ -5,19 +5,14 @@
 $sql7="SELECT `F10`,`F24` FROM `b05` where `F01`='".$delmsg."'"; 
  $sql8=@mysqli_query($link,$sql7);                       
   $list2=mysqli_fetch_array($sql8);  //檢查是否已反確認過
-if(trim($list2['F10'])=="Y"){   
-   
-   $sql0="SELECT * FROM `a01` WHERE F01="."'".$_COOKIE['useraccount']."'"; 
+if(trim($list2['F10'])=="Y"){      
+    $sql0="SELECT * FROM `a01` WHERE F01="."'".$_COOKIE['useraccount']."'"; 
      $sql1=@mysqli_query($link,$sql0);
      $rows1=@mysqli_num_rows($sql1);                       
      $list4=mysqli_fetch_array($sql1);  //紀錄當前操作者姓名   
-    $lastdate=date('Y'.'-'.'m'.'-'.'d');
-    
-
-	  $mscnt="DELETE FROM `c13` WHERE `F02`='".$delmsg."'";
-	                        
+     $lastdate=date('Y'.'-'.'m'.'-'.'d');   
+	  $mscnt="DELETE FROM `c13` WHERE `F02`='".$delmsg."'";	                        
       mysqli_query($link ,$mscnt) or die(mysqli_error($link)); 
-
 	 $sql3="SELECT b0e.*,b05.F02 As F0B,b05.F24,b05.F90 FROM b0e,b05 WHERE b0e.F01='".$delmsg."' AND b05.F01='".$delmsg."'  ORDER BY b0e.F03"; 	 
 	 $sql4=@mysqli_query($link,$sql3); 
      $arr=array(); 
@@ -72,20 +67,17 @@ if(trim($list2['F10'])=="Y"){
 	    $valueStr3 = substr($valueStr3,0,strlen($valueStr3)-1);   //去掉最右邊的逗號,異動庫存月報表
 	    $valueStr4 = substr($valueStr4,0,strlen($valueStr4)-1);   //去掉最右邊的逗號,異動即時庫存明細	 
 	    $valueStr6 = substr($valueStr6,0,strlen($valueStr6)-1);   //去掉最右邊的逗號,異動客戶訂單表身  
-	    $insertSql3 = "INSERT INTO b25 (F01,F02,F07,F15,F16,F90) values ".$valueStr3." ON DUPLICATE KEY UPDATE F07=F07+VALUES(F07),F15=F15+VALUES(F15),F16=VALUES(F16)"; 
-	    $insertSql4 = "INSERT INTO b11 (F01,F03,F04,F05) values ".$valueStr4." ON DUPLICATE KEY UPDATE F04=F04+VALUES(F04),F05=VALUES(F05)";     	
-        $insertSql6 = "INSERT INTO c04 (F01,F02,F03,F04,F05,F06,F09,F21,F12,F24) values ".$valueStr6." ON DUPLICATE KEY UPDATE F09=F09+VALUES(F09),F21=F21+VALUES(F21),F12=VALUES(F12),F24=F24+VALUES(F24)";   
-	    @mysqli_query($link,$insertSql3) ;  
-	    @mysqli_query($link,$insertSql4) ;  	  
-	    @mysqli_query($link,$insertSql6) ;
-    }
-     $mscnt="UPDATE `b05` SET `F10`='N',`F13`='".$lastdate.$list4['F03']."' WHERE `F01`='".$delmsg."'";
-	 $sql=$mscnt;
-                           
-    mysqli_query($link ,$sql) or die(mysqli_error($link)); 
-	 $arr = array ('order_no'=>1,'lastupdate'=>$lastdate.$list4['F03']);
-	    echo json_encode($arr);
+		$insertSql[] = "INSERT INTO b25 (F01,F02,F07,F15,F16,F90) values ".$valueStr3." ON DUPLICATE KEY UPDATE F07=F07+VALUES(F07),F15=F15+VALUES(F15),F16=VALUES(F16)"; 
+	    $insertSql[] = "INSERT INTO b11 (F01,F03,F04,F05) values ".$valueStr4." ON DUPLICATE KEY UPDATE F04=F04+VALUES(F04),F05=VALUES(F05)";     	
+        $insertSql[] = "INSERT INTO c04 (F01,F02,F03,F04,F05,F06,F09,F21,F12,F24) values ".$valueStr6." ON DUPLICATE KEY UPDATE F09=F09+VALUES(F09),F21=F21+VALUES(F21),F12=VALUES(F12),F24=F24+VALUES(F24)";   
+        foreach ($insertSql as  $values){
+		   @mysqli_query($link,$values);
+		}
+	}
+    $mscnt="UPDATE `b05` SET `F10`='N',`F13`='".$lastdate.$list4['F03']."' WHERE `F01`='".$delmsg."'";                  
+    mysqli_query($link ,$mscnt) or die(mysqli_error($link)); 
+	$arr = array ('order_no'=>1,'lastupdate'=>$lastdate.$list4['F03']);
+	echo json_encode($arr);
 }		
 	mysqli_close($link);
-
 ?>

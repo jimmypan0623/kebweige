@@ -21,34 +21,31 @@
    }	   
    $sql0="select * from a23 where F01='".$pgeno."'"; 
      $sql1=@mysqli_query($link,$sql0);                           
-     $list4=mysqli_fetch_array($sql1);  //紀錄當前月份是否已結轉月庫存報表   
-   
-   
+     $list4=mysqli_fetch_array($sql1);  //紀錄當前月份是否已結轉月庫存報表     
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_array($sql4)){
-		 
-		$atr = array('rc_no'=>$list3['F00'],  		            	             
-		             'query_no'=>$list3['F01'], 					 
-                     'custom_no'=>$list3['F06'],	
-                     'custom_name'=>$list3['F0E'],	
-                     'custom_fullname'=>$list3['F0D'],	
-					  'unitedno'=>$list3['F1Z'],
-					  'contact'=>$list3['F1B'],	
-					   'tel'=>$list3['F13'],		
-                     'query_date'=>$list3['F02'],
-                     'sales_no'=>$list3['F09'],		
-					 'sales_name'=>$list3['F0C'],	
-					 'crncy_type'=>$list3['F14'],	
-                     'crncy_rate'=>$list3['F16'],	
-                     'invoice_no'=>$list3['F20'],     						 
-                     'invoice_type'=>$list3['F22'],     						                  
-					 'tax_type'=>$list3['F23'],  
-					  'payment'=>$list3['F21'],  
-					 'ship_address'=>$list3['F12'],  	
-					 'ship_direct'=>$list3['F24'],  	
-                     'shure'=>$list3['F10'],     					 
-					 'lastupdate'=>$list3['F11']                      				 
+	while ($list3=mysqli_fetch_array($sql4)){		 
+		$atr = array('rc_no_DHL_000'=>$list3['F00'],  		            	             
+		             'query_no_DSL_010'=>$list3['F01'], 					 
+                     'custom_no_DSL_007'=>$list3['F06'],	
+                     'custom_name_ISL_007'=>$list3['F0E'],	
+                     'custom_fullname_IHL_000'=>$list3['F0D'],	
+					 'unitedno_IHL_000'=>$list3['F1Z'],
+					 'contact_IHL_000'=>$list3['F1B'],	
+					 'tel_IHL_000'=>$list3['F13'],		
+                     'query_date_DSC_004'=>$list3['F02'],
+                     'sales_no_DHL_000'=>$list3['F09'],		
+					 'sales_name_ISL_007'=>$list3['F0C'],	
+					 'crncy_type_DSC_004'=>$list3['F14'],	
+                     'crncy_rate_DSR_007'=>$list3['F16'],	
+                     'invoice_no_DSL_010'=>$list3['F20'],     						 
+                     'invoice_type_DHL_000'=>$list3['F22'],     						                  
+					 'tax_type_DHL_000'=>$list3['F23'],  
+					 'payment_DSL_008'=>$list3['F21'],  
+					 'ship_address_DSL_016'=>$list3['F12'],  	
+					 'ship_direct_DSL_008'=>$list3['F24'],  	
+                     'shure_IHC_000'=>$list3['F10'],     					 
+					 'lastupdate_DHL_000'=>$list3['F11']                      				 
 					 );                      			
 		array_push($arr,$atr);
 	}

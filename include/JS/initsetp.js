@@ -38,15 +38,15 @@ function initDialog()
         var d3=(nwsd*Math.floor(Math.random()*scnd+mnte)%10).toString();		
 		img2.src="digits/"+d3+".gif";
 		var nwdt=new Date();		 		 
-		var nwsd=Math.floor(Math.random()*nwdt.getSeconds());	
+		var nwsd=Math.ceil(Math.random()*nwdt.getSeconds());	
 		var d2=(nwsd*Math.floor(Math.random()*scnd+mnte)%10).toString();
 		img3.src="digits/"+d2+".gif";	 		
 		var nwdt=new Date();			
-		var nwsd=Math.floor(Math.random()*nwdt.getSeconds());
+		var nwsd=Math.ceil(Math.random()*nwdt.getSeconds());
         var d1=(nwsd*Math.floor(Math.random()*scnd+mnte)%10).toString();		
 		img4.src="digits/"+d1+".gif";	 	
         var nwdt=new Date();	
-		var nwsd=Math.floor(Math.random()*nwdt.getSeconds());	
+		var nwsd=Math.ceil(Math.random()*nwdt.getSeconds());	
 		var d0=(nwsd*Math.floor(Math.random()*scnd+mnte)%10).toString();
 		img5.src="digits/"+d0+".gif"; 		
 		setCookie("CAPTCHA",d0+d1+d2+d3+d4);

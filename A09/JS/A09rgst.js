@@ -122,7 +122,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	            oTd.innerHTML='管理單位:';
 	            var oTd = oTr.insertCell(1);               	              
 	            var slt5=document.createElement("select");
-	            slt5.options.add(new Option('內部','1'));
+	            slt5.options.add(new Option('內控','1'));
 	            slt5.options.add(new Option('托外','2'));	            
 	            slt5.setAttribute("id","whoincharge");
 	            slt5.setAttribute("name","a09update");
@@ -200,7 +200,7 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 				argsNo++;
 			}else{
 				if(!nongs[nongsNo]){
-				   nongs[nongsNo]=(args[argsNo-1]=='1'?'內部':'托外');
+				   nongs[nongsNo]=(args[argsNo-1]=='1'?'內控':'托外');
 				}
 				oTd.innerHTML=nongs[nongsNo];	
 				nongsNo++;
@@ -233,7 +233,7 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 				argsNo++;
 			}else{
 				if(fldidx==2){
-				   nongs[nongsNo]=(args[argsNo-1]=='1'?'內部':'托外');
+				   nongs[nongsNo]=(args[argsNo-1]=='1'?'內控':'托外');
 				   maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=nongs[nongsNo];	
 				}				
 				 nongsNo++;

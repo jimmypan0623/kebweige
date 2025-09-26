@@ -141,16 +141,14 @@ include("../../include/BKND/mysqli_server.php");                              //
 			$valueStr3 = substr($valueStr3,0,strlen($valueStr3)-1);   //去掉最右邊的逗號,異動庫存月報表
 			$valueStr4 = substr($valueStr4,0,strlen($valueStr4)-1);   //去掉最右邊的逗號,異動即時庫存明細	
 			$valueStr6 = substr($valueStr6,0,strlen($valueStr6)-1);   //去掉最右邊的逗號,異動客戶訂單表身      
-			$insertSql1 = "INSERT INTO c10 (F01,F02,F03,F04,F05,F06,F07,F08,F09,F10,F14,F16,F17,F19,F90) VALUES ".$valueStr1;       
-			$insertSql2 = "INSERT INTO b26 (F01,F02,F03,F04,F05,F06,F07,F08,F90) VALUES ".$valueStr2; 
-			$insertSql3 = "INSERT INTO b25 (F01,F02,F07,F15,F16,F90) VALUES ".$valueStr3." ON DUPLICATE KEY UPDATE F07=F07+VALUES(F07),F15=F15+VALUES(F15),F16=VALUES(F16)"; 
-			$insertSql4 = "INSERT INTO b11 (F01,F03,F04,F05) VALUES ".$valueStr4." ON DUPLICATE KEY UPDATE F04=F04+VALUES(F04),F05=VALUES(F05)";     	
-			$insertSql6 = "INSERT INTO c04 (F01,F02,F03,F04,F05,F06,F09,F12,F21,F24) VALUES ".$valueStr6." ON DUPLICATE KEY UPDATE F06=VALUES(F06),F09=F09+VALUES(F09),F12=VALUES(F12),F21=F21+VALUES(F21),F24=F24+VALUES(F24)";
-			@mysqli_query($link,$insertSql1) ;  
-			@mysqli_query($link,$insertSql2) ;  
-			@mysqli_query($link,$insertSql3) ;  
-			@mysqli_query($link,$insertSql4) ;  	
-			@mysqli_query($link,$insertSql6) ;	   	    
+			$insertSql[] = "INSERT INTO c10 (F01,F02,F03,F04,F05,F06,F07,F08,F09,F10,F14,F16,F17,F19,F90) VALUES ".$valueStr1;       
+			$insertSql[] = "INSERT INTO b26 (F01,F02,F03,F04,F05,F06,F07,F08,F90) VALUES ".$valueStr2; 
+			$insertSql[] = "INSERT INTO b25 (F01,F02,F07,F15,F16,F90) VALUES ".$valueStr3." ON DUPLICATE KEY UPDATE F07=F07+VALUES(F07),F15=F15+VALUES(F15),F16=VALUES(F16)"; 
+			$insertSql[] = "INSERT INTO b11 (F01,F03,F04,F05) VALUES ".$valueStr4." ON DUPLICATE KEY UPDATE F04=F04+VALUES(F04),F05=VALUES(F05)";     	
+			$insertSql[] = "INSERT INTO c04 (F01,F02,F03,F04,F05,F06,F09,F12,F21,F24) VALUES ".$valueStr6." ON DUPLICATE KEY UPDATE F06=VALUES(F06),F09=F09+VALUES(F09),F12=VALUES(F12),F21=F21+VALUES(F21),F24=F24+VALUES(F24)";
+		    foreach ($insertSql as  $values){
+		       @mysqli_query($link,$values);
+		    }
 		}	 
 		$valueStr5 = substr($valueStr5,0,strlen($valueStr5)-1);   //去掉最右邊的逗號,新增應收帳款對帳單
 		$insertSql5 = "insert into c13 (F01,F02,F03,F04,F05,F06,F07,F09,F12,F13,F14,F15,F16,F17,F18,F19,F90) VALUES ".$valueStr5;      

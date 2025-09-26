@@ -271,26 +271,34 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    var oTd = oTr.insertCell(0);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
 	    oTd.innerHTML='客戶簡稱:';
-	    var oTd = oTr.insertCell(1);               
-	    oTd.innerHTML="<input type='text' name='c26others' id='customname' class='txt' style='width:25%;' maxlength='8'    />";  				 
-	    var srchButton2=document.createElement("input");				   
-	    srchButton2.setAttribute("type","button");	
-	    srchButton2.setAttribute("class","scopelook");				   
-	    srchButton2.style.background="url('digits/brows1.png')";   
-	    attachEventListener(srchButton2,"click",custnoshow,false);				
-	    oTd.appendChild(srchButton2);					
+	    var oTd = oTr.insertCell(1);     
+        if (txtword==1){		
+	        oTd.innerHTML="<input type='text' name='c26others' id='customname' class='txt' style='width:25%;' maxlength='8'    />";  				 
+	        var srchButton2=document.createElement("input");				   
+	        srchButton2.setAttribute("type","button");	
+	        srchButton2.setAttribute("class","scopelook");				   
+	        srchButton2.style.background="url('digits/brows1.png')";   
+	        attachEventListener(srchButton2,"click",custnoshow,false);				
+	        oTd.appendChild(srchButton2);		
+        }else{
+		    oTd.innerHTML="<input type='text' name='c26others' id='customname' class='txt' style='background-color:#B9B9FF;width:25%;' maxlength='8' readOnly=true   />";  	
+		}			
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
 	    oTd.innerHTML='客戶代號:';
-	    var oTd = oTr.insertCell(1);               	            				  
-	    oTd.innerHTML="<input type='text' name='c26update' id='customno' class='txt' style='width:20%;' maxlength='6'    />";  				
-  	    var srchButton3=document.createElement("input");				   
-	    srchButton3.setAttribute("type","button");	
-	    srchButton3.setAttribute("class","scopelook");				   
-	    srchButton3.style.background="url('digits/brows1.png')";   
-	    attachEventListener(srchButton3,"click",custnoshow,false);				
-	    oTd.appendChild(srchButton3);					
+	    var oTd = oTr.insertCell(1);           
+        if (txtword==1){		
+	        oTd.innerHTML="<input type='text' name='c26update' id='customno' class='txt' style='width:20%;' maxlength='6'    />";  				
+  	        var srchButton3=document.createElement("input");				   
+	        srchButton3.setAttribute("type","button");	
+	        srchButton3.setAttribute("class","scopelook");				   
+	        srchButton3.style.background="url('digits/brows1.png')";   
+	        attachEventListener(srchButton3,"click",custnoshow,false);				
+	        oTd.appendChild(srchButton3);			
+		}else{
+		    oTd.innerHTML="<input type='text' name='c26update' id='customno' class='txt' style='background-color:#B9B9FF;width:20%;' maxlength='6'  readOnly=true />";  				
+		}			
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);
 	    oTd.setAttribute('style','text-align:right;width:15%');	
@@ -440,14 +448,12 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 		   break;
 		case 2:                                                     //如果是修改，要先顯示目前該筆資料
 		   document.getElementById("rcrd_no").value=aWaitUpdate[0];       //把紀錄號碼也存起來	
-		   if (tbno==0){
-			 var cstNo=document.getElementById("customno");
-				   cstNo.focus();	
-				   attachEventListener(cstNo,"change",c01CustomName,false);	//找客戶名稱	  			 				  
+		   if (tbno==0){			  				  
 			  var editinit=document.getElementsByName('c26update');
 			  document.getElementById('customname').value=notWaitdata[0];
 			   document.getElementById('customfullname').value=notWaitdata[1];
 			  document.getElementById('whonameEx').innerHTML=notWaitdata[2];
+			  document.getElementById("querydate").focus();		
 		   }else{
 			   document.getElementById("queryqty").focus();				  			 				  
 			  var editinit=document.getElementsByName('c27update');
@@ -471,8 +477,59 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 }
 
 function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nongs,tbno)函數內新增紀錄後呼叫的畫面更動   
-    var rnddgt=getCookie('INT_069');  //四捨五入到幾位         
-    if (tbno==0){     //先整理表頭新增後的資料
+    var rnddgt=getCookie('INT_069');  //四捨五入到幾位      
+	var ttlcnt=Number(document.getElementById('ttlmny').innerHTML);
+		var fldidx=0;
+		var argsNo=0;
+		var nongsNo=0;	
+		while(fldsgsroup(fldidx,tbno)){
+			var oTd = oTr.insertCell(oTr.cells.length); 			
+			if(fldsgsroup(fldidx,tbno)[0]=='directdata'){
+				oTd.innerHTML=args[argsNo];
+				argsNo++;
+			}else{		
+                
+			    if(tbno==0 && fldidx==2){   //客戶簡稱
+				   oTd.innerHTML=nongs[0];				   
+				}
+				 if(tbno==0 && fldidx==3){   //客戶全稱
+				   oTd.innerHTML=nongs[1];				  
+				}
+				 if(tbno==0 && fldidx==6){   //業務名稱
+				   oTd.innerHTML=nongs[2];				  
+				}
+				if(tbno==0 && fldidx==12){   //轉單
+				   nongs[3]='N';
+				   oTd.innerHTML='N';				   
+				}
+				if(tbno==0 && fldidx==13){   //  //確認
+				   nongs[4]='N';
+				   oTd.innerHTML='N';				   
+				}
+			    if(tbno==1 && fldidx==1){   //品名
+				   oTd.innerHTML=nongs[nongsNo];
+				   nongsNo++;
+				}
+			    if(tbno==1 && fldidx==4){				   	//小計
+				   oTd.innerHTML=Math.round((args[1]*args[2]+ Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);			
+				   ttlcnt=ttlcnt+Math.round((args[1]*args[2]+ Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);	
+				   document.getElementById('ttlmny').innerHTML=ttlcnt;  //更新畫面上的總金額				   
+				}
+				
+			}
+			oTd.setAttribute("class",fldsgsroup(fldidx,tbno)[0]);
+			if(fldsgsroup(fldidx,tbno)[1]=='none'){
+					oTd.setAttribute("style","display:none;");		
+			}else{
+				   oTd.style.textAlign=fldsgsroup(fldidx,tbno)[2];				     	
+				   oTd.style.width=fldsgsroup(fldidx,tbno)[3]+"%";				  
+			}					 		
+			fldidx++;
+		}				
+	    if (tbno==0){
+		    oTr.setAttribute("style","font-weight:bold;color:#704214;");			 
+		}
+    /* if (tbno==0){     //先整理表頭新增後的資料
 	    for(var i=0;i<2;i++){
 		    var oTd = oTr.insertCell(oTr.cells.length);
 		    oTd.innerHTML=args[i];				
@@ -548,7 +605,7 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 		    oTd.setAttribute("class","directdata");	
 		    switch (i){
 			    case 3:
-				/* 	oTd.setAttribute("style","text-align:right;"); */
+				// 	oTd.setAttribute("style","text-align:right;");  
 					break;
 			    case 4:
 				   oTd.setAttribute("style","width:7%;text-align:right;");
@@ -564,7 +621,7 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 				   break;		   
 		    }
 	    }				
-    }
+    } */
 	//最後異動
     var oTd = oTr.insertCell(oTr.cells.length);	
     oTd.setAttribute("class","directdata");					   
@@ -574,7 +631,35 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 
 function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,nongs,tbno)函數修改紀錄後呼叫的畫面更動
     var rnddgt=getCookie('INT_069');  //四捨五入到幾位     
-    if (tbno==0){
+	    if (tbno==0){
+	    var maintable=document.getElementById("maintbody1");		
+	    var fldidx=4;
+		var argsNo=2;
+		var nongsNo=2;		   
+	}
+	else{
+	   var maintable=document.getElementById("maintbody2");
+	    var fldidx=2;
+		var argsNo=1;
+		var nongsNo=1;	
+		var ttlcnt=Number(document.getElementById('ttlmny').innerHTML)-Number(maintable.rows[args[arglth-1]].cells[5].innerHTML);					
+	} 
+		while(fldsgsroup(fldidx,tbno)){			
+			if(fldsgsroup(fldidx,tbno)[0]=='directdata'){
+				 maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=args[argsNo];				
+				argsNo++;
+			}else{				
+		        if(fldidx==4 && tbno==1){
+				  nongs[nongsNo]=Math.round((args[1]*args[2] + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);							  
+			      ttlcnt=ttlcnt+nongs[nongsNo];					
+		          document.getElementById('ttlmny').innerHTML=ttlcnt;  //更新畫面上的總金額
+				   maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=nongs[nongsNo];	
+				}		
+			}		 
+			fldidx++;
+		}		
+		maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=rsp.lastupdate;
+   /*  if (tbno==0){
 	    var maintable=document.getElementById("maintbody1");					   			            
 	    maintable.rows[args[arglth-1]].cells[2].innerHTML=args[1];						 			           
 	    maintable.rows[args[arglth-1]].cells[3].innerHTML=nongs[0];
@@ -603,7 +688,7 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 			maintable.rows[args[arglth-1]].cells[j].innerHTML=args[j-3];                           						
 	    }	
 	    maintable.rows[args[arglth-1]].cells[tbrlth-2].innerHTML=rsp.lastupdate;		
-	}  			
+	}  			 */
 }
 function transConfirm(oTd){
     oTd.innerHTML="<input type='text' name='c03update' id='newPono' class='txt' style='display:none;' maxlength='10'/>"; 		
@@ -623,8 +708,6 @@ function searchOptionsKey(tbno,slt5){
 		 slt5.options.add(new Option('客戶品號','c02.F0503'));				   				      		 					  
 	}
 }
-
-
 
 function  addNewRecordHint(tbno){
     if (tbno==0){  //表頭資料

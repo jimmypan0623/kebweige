@@ -106,3 +106,29 @@ function blockPsdshow(event)    //變更密碼程序
     blkshow(1);    
 
 }
+
+function accountDele(event){    //刪除帳號cookie
+    if (typeof event=="undefined"){
+		event=window.event;
+    }			
+    var target=getEventTarget(event);	 	
+	delCookie("userid");	 
+	delCookie("useraccount");	
+	delCookie("password");	
+	delCookie("funNo");	 
+	delCookie('howpge');
+	delCookie('MorP');
+	delCookie('kindofda');
+	delCookie('adddpt'); 	
+	for(var i=1;i<10;i++){   //該登入者之權限設定
+		var authorder='auth'+paddingLeft(i.toString(),2);		 
+		delCookie(authorder); 
+	}
+
+	var mainUl=document.getElementById("listUL");   
+	mainUl.remove();
+	
+	 
+    return;
+	 
+}
