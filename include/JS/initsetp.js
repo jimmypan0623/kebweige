@@ -314,7 +314,7 @@ function initDialog()
 			  btmshowtme.style.display="none";		
 			 links[0].href="RED/REDmenu.css?v=0.0.2";			 			 
 			 links[1].href="digits/CYC25.gif";
-			nowExcute='RED.知訊數位營運管理系統';
+			nowExcute='RED.知訊數位營運管理系統';			
 			document.getElementsByTagName('title').innerHTML=nowExcute;				   
 		}
 		var jsvsn=nwsd.toString()+scnd;

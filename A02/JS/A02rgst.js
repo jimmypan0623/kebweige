@@ -160,19 +160,17 @@ function athcpy(event){        //權限複製
 }
 
 function atjtb(sourceaccount,objaccount){
-	   var args=arguments; //記錄傳進了的參數
-	 
-        var rsp="";        
-		var order_head="{";
-		for (var n=0;n<args.length;n++){
-			order_head+="\""+"elem"+String(n)+"\""+":"+"\""+args[n]+"\""+",";
-		}
-		var json=order_head.slice(0,-1)+"}";   //去掉最後一個逗號再加上右大引號
-
-     var str_json=JSON.stringify(json);	 
-	 if(window.ActiveXObject){
+	var args=arguments; //記錄傳進了的參數	 
+    var rsp="";        
+	var order_head="{";
+	for (var n=0;n<args.length;n++){
+		order_head+="\""+"elem"+String(n)+"\""+":"+"\""+args[n]+"\""+",";
+	}
+	var json=order_head.slice(0,-1)+"}";   //去掉最後一個逗號再加上右大引號
+    var str_json=JSON.stringify(json);	 
+	if(window.ActiveXObject){
 		var request = new ActiveXObject("Microsoft.XMLHttp");
-	 }	
+	}	
 	 else if(window.XMLHttpRequest){
 		var request = new XMLHttpRequest();
      }		
@@ -192,8 +190,7 @@ function atjtb(sourceaccount,objaccount){
 				blkshow(rsp);   //新增不成功才顯示訊息				
             }										
         }
-    }  
-    
+    }      
 	return true; 	
 }
 
@@ -202,48 +199,33 @@ function removeAuthAll(event){     //確定移除所有權限
 		event=window.event;
     }	
 	var target=getEventTarget(event);	
-	var tabs=getElementsByAttribute('class','tab');
-	 
-		 var sendDeleRec="filename="+sourceAccount(1,0);  
-	 
-		var rsp="";  	
-        
-	
-
-        if(window.ActiveXObject){
-		   var request = new ActiveXObject("Microsoft.XMLHttp");
-	    }	
-	       else if(window.XMLHttpRequest){
-	   	   var request = new XMLHttpRequest();
-        }			 
-		request.onreadystatechange = respond;
-		 
-		var url="A02/BKND/A02rmv.php?timestamp="+new Date().getTime();	     
-		 
-	    request.open("POST",url);	 
-	    request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-	    request.send(sendDeleRec);
-		
-		function respond(){
-               	     
-		  if (request.readyState == 4 && request.status == 200) {     
-		   	  rsp=request.responseText;	
-		     
-			  if(!isNaN(Number(rsp))){  //如果是數字
-				 			
-				   
-				       var responseDiv=document.getElementById("serverResponse1");	 
-		   	           responseDiv.setAttribute("style","font-weight:bold;color:#536a60;"); 
-	                   responseDiv.innerHTML="所勾選帳號其權限已全部移除完畢....."; 		
-				  
-				  
-			     blocksclose();  //關掉原視窗
-			  }else{
-		          blkshow(rsp);	
-			  }
-               		  
-	      }
-        }
+	var tabs=getElementsByAttribute('class','tab');	 
+	var sendDeleRec="filename="+sourceAccount(1,0);  	 
+	var rsp="";  	        	
+	if(window.ActiveXObject){
+	   var request = new ActiveXObject("Microsoft.XMLHttp");
+	}	
+	   else if(window.XMLHttpRequest){
+	   var request = new XMLHttpRequest();
+	}			 
+	request.onreadystatechange = respond;		 
+	var url="A02/BKND/A02rmv.php?timestamp="+new Date().getTime();	     		 
+	request.open("POST",url);	 
+	request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	request.send(sendDeleRec);		
+	function respond(){               	     
+		if (request.readyState == 4 && request.status == 200) {     
+		    rsp=request.responseText;			 
+		    if(!isNaN(Number(rsp))){  //如果是數字									   
+				var responseDiv=document.getElementById("serverResponse1");	 
+				responseDiv.setAttribute("style","font-weight:bold;color:#536a60;"); 
+				responseDiv.innerHTML="所勾選帳號其權限已全部移除完畢....."; 					  			  
+			    blocksclose();  //關掉原視窗
+		    }else{
+			  blkshow(rsp);	
+		    }				  
+		}
+    }
 
 }
 
@@ -391,69 +373,92 @@ function topAndWidthModify(dropsheet_content,dropsheet,txtword){
 }
 
 function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
-   switch (txtword) {
-                case 1:                                   //如果是新增
-				   if (tbno==0){
-			          document.getElementById("accountNo").focus();	
-			       }else{
-				       document.getElementById("prg_no").focus();
-				   }
-				   break;
-			    case 2:           
-                                          //如果是修改，要先顯示目前該筆資料										  
-				   document.getElementById("rcrd_no").value=aWaitUpdate[0];       //把紀錄號碼也存起來	
-				   if (tbno==0){
-  				      document.getElementById("staffname").focus();				  			 				  				     					  
-					   var editinit=document.getElementsByName('a02update');
-				      
-					    document.getElementById("dptnoopt").value= aWaitUpdate[3];       //部門代號		
-						
-				   }else{							 
-				      
-				       document.getElementById('prg_name').innerHTML=notWaitdata[0];
-					  
-				       var basechk=document.getElementsByName('typeOfChange');
-				       var baselbl=document.getElementsByName('lblchk');
-				      
-				       for (var i=0;i<basechk.length;i++){     //將可勾選的恢復成可視
-				     	   basechk[i].style.visibility=(aWaitUpdate[i+2]=="E"?"hidden":"visible");					 
-					       baselbl[i].style.visibility=(aWaitUpdate[i+2]=="E"?"hidden":"visible");
-					       basechk[i].checked=(aWaitUpdate[i+2]=="Y");					  
-				       }				 
-				       var attchedchk=document.getElementsByName('auth_attch');
-				       var spanforchk=document.getElementsByName('authatt');
-					
-		               for (var j=0;j<attchedchk.length;j++){     //將可勾選的恢復成可視
-					        attchedchk[j].style.visibility=(aWaitUpdate[j+6]=="E"?"hidden":"visible");
-					        attchedchk[j].checked=(aWaitUpdate[j+6]=="Y")					 				  
-					        spanforchk[j].innerHTML=notWaitdata[j+1];
-					        ajTable.rows[j+3].style.display=(aWaitUpdate[j+6]=="E"?"none":"block");						  
-				        }
-						
-				      var editinit=document.getElementsByName('a0bupdate');
-					
-				   }
-				   	for(var k=0;k<editinit.length;k++){
-					      editinit[k].value=aWaitUpdate[k];
-				        }	
-                  		   				
-				   break;	
-				case 7:   	   	//搜尋   
-				      var txtseek=document.getElementById('searchWords');
-					  txtseek.focus();
-				      attachEventListener(txtseek,'keypress',textKeypress,false);
-				      break;    
-				case 8:
-				      var authTxt=document.getElementById('authcopy_no');
-					  authTxt.focus();
-						
-				
-			 }	
-
+    switch (txtword) {
+			case 1:                                   //如果是新增
+			    if (tbno==0){
+				   document.getElementById("accountNo").focus();	
+			    }else{
+				    document.getElementById("prg_no").focus();
+			    }
+			    break;
+			case 2:           
+				//如果是修改，要先顯示目前該筆資料										  
+			    document.getElementById("rcrd_no").value=aWaitUpdate[0];       //把紀錄號碼也存起來	
+			    if (tbno==0){
+				    document.getElementById("staffname").focus();				  			 				  				     					  
+				    var editinit=document.getElementsByName('a02update');				  
+					document.getElementById("dptnoopt").value= aWaitUpdate[3];       //部門代號							
+			    }else{							 				  
+				    document.getElementById('prg_name').innerHTML=notWaitdata[0];				  
+				    var basechk=document.getElementsByName('typeOfChange');
+				    var baselbl=document.getElementsByName('lblchk');				  
+				    for (var i=0;i<basechk.length;i++){     //將可勾選的恢復成可視
+					    basechk[i].style.visibility=(aWaitUpdate[i+2]=="E"?"hidden":"visible");					 
+					    baselbl[i].style.visibility=(aWaitUpdate[i+2]=="E"?"hidden":"visible");
+					    basechk[i].checked=(aWaitUpdate[i+2]=="Y");					  
+				    }				 
+				    var attchedchk=document.getElementsByName('auth_attch');
+				    var spanforchk=document.getElementsByName('authatt');				
+				    for (var j=0;j<attchedchk.length;j++){     //將可勾選的恢復成可視
+						attchedchk[j].style.visibility=(aWaitUpdate[j+6]=="E"?"hidden":"visible");
+						attchedchk[j].checked=(aWaitUpdate[j+6]=="Y")					 				  
+						spanforchk[j].innerHTML=notWaitdata[j+1];
+						ajTable.rows[j+3].style.display=(aWaitUpdate[j+6]=="E"?"none":"block");						  
+					}					
+				    var editinit=document.getElementsByName('a0bupdate');				
+			    }
+				for(var k=0;k<editinit.length;k++){
+					  editinit[k].value=aWaitUpdate[k];
+				}										
+			    break;	
+			case 7:   	   	//搜尋   
+				  var txtseek=document.getElementById('searchWords');
+				  txtseek.focus();
+				  attachEventListener(txtseek,'keypress',textKeypress,false);
+				  break;    
+			case 8:
+				  var authTxt=document.getElementById('authcopy_no');
+				  authTxt.focus();										
+	}	
 }
 
 function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nongs,tbno)函數內新增紀錄後呼叫的畫面更動
-    if (tbno==0){  //處理表頭新增
+    	var fldidx=0;
+		var argsNo=0;
+		var nongsNo=0;	
+		while(fldsgsroup(fldidx,tbno)){
+			var oTd = oTr.insertCell(oTr.cells.length); 			
+			if(fldsgsroup(fldidx,tbno)[0]=='directdata'){
+				oTd.innerHTML=args[argsNo];
+				if(tbno==1 && fldidx<6){
+				    if( oTd.innerHTML=='E'){
+					   oTd.setAttribute("style","width:5%;;text-align:center;color:#BAF4D8;");
+				    }else{ 
+					   oTd.setAttribute("style","width:5%;text-align:center;");
+				    }
+				}
+				argsNo++;
+			}else{																 
+				if(fldidx>10 && tbno==1){
+				    if(args[fldidx-6]!='Y'){	
+				   	   oTd.setAttribute("style","width:11%;text-decoration: line-through;color:#7f8890;");
+				    }else{
+					   oTd.setAttribute("style","width:11%;");
+				    }	
+				}
+				oTd.innerHTML=nongs[nongsNo];
+				nongsNo++;
+			}
+			oTd.setAttribute("class",fldsgsroup(fldidx,tbno)[0]);
+			if(fldsgsroup(fldidx,tbno)[1]=='none'){
+					oTd.setAttribute("style","display:none;");		
+			}else{
+				   oTd.style.textAlign=fldsgsroup(fldidx,tbno)[2];				     	
+				   oTd.style.width=fldsgsroup(fldidx,tbno)[3]+"%";				  
+			}					 		
+			fldidx++;
+		}				
+   /*  if (tbno==0){  //處理表頭新增
 		for(var i=0;i<3;i++){
 			var oTd = oTr.insertCell(oTr.cells.length);
 			oTd.innerHTML=args[i];		
@@ -518,7 +523,7 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 			} 
 		}
 				      	
-	}
+	} */
 	var oTd = oTr.insertCell(oTr.cells.length);	  //最後更新
 	oTd.setAttribute("class","directdata");	
 	oTd.setAttribute("style","display:none");	

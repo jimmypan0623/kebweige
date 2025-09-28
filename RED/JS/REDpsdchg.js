@@ -73,7 +73,7 @@ function excuteFun(event){
 	}	  
 	////authArray[9]開始為該程式之屬性碼判別
 	////[9]:數字表示該程式畫面有幾頁,
-	////[10]:M首頁為月份分頁P為固定筆數分頁,
+	////[10]:M首頁為月份分頁，P則為固定筆數(視參數INT_RCD設定)分頁,
 	////[11]:類別,R為單據,B為基本資料,A為分析資料,S為系統檔
 	////[12]:首頁分頁為月份外判斷是否多加部門別分頁D:多加部門別下拉選項		
 	setCookie('howpge',authArray[9]);
@@ -124,11 +124,8 @@ function accountDele(event){    //刪除帳號cookie
 		var authorder='auth'+paddingLeft(i.toString(),2);		 
 		delCookie(authorder); 
 	}
-
 	var mainUl=document.getElementById("listUL");   
-	mainUl.remove();
-	
-	 
+	mainUl.remove();		 
     return;
 	 
 }

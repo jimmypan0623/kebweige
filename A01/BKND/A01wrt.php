@@ -48,6 +48,19 @@ if($brr[$mArlth-2]==0){        //如果旗標指示為新增
       }
 	  
 }else{
+	    for ($i=2;$i<11;$i++){
+			$F0="F".str_pad(trim(strval($i+2)), 2, "0", STR_PAD_LEFT);
+	        if(trim($brr[$i])!='' || $brr[$i]=='Y'){			   
+			   $authmcnt="UPDATE a02 SET ".$F0."='N' WHERE ".$F0."='' OR "; 
+			   $authmcnt.=$F0."='E' AND F03='".$brr[0]."' ";			
+			   mysqli_query($link ,$authmcnt) or die(mysqli_error($link));  	  
+			}
+			if(trim($brr[$i])=='' || $brr[$i]=='N'){			   
+			   $authmcnt="UPDATE a02 SET ".$F0."='E' WHERE ".$F0."!='E' AND F03='".$brr[0]."' ";			 		
+			   mysqli_query($link ,$authmcnt) or die(mysqli_error($link));  	  
+			}
+	    }
+		 
 	   $mscnt="UPDATE a03 SET F02="."'".$brr[1]."'".",";	   
 	   $mscnt.="F04="."'".$brr[2]."'".",";
 	   $mscnt.="F05="."'".$brr[3]."'".",";
@@ -60,9 +73,8 @@ if($brr[$mArlth-2]==0){        //如果旗標指示為新增
 	   $mscnt.="F12="."'".$brr[10]."'".",";		
 	      $mscnt.="F03="."'".$brr[11]."'".",";
 	      $mscnt.="F15="."'".$lastdate.$list4['F03']."'";
-	  $mscnt.=" WHERE F00="."'".$brr[$mArlth-2]."'";
-	   $sql=$mscnt;                                                 //寫入MySQL 	 
-       mysqli_query($link ,$sql) or die(mysqli_error($link));  	  
+	  $mscnt.=" WHERE F00="."'".$brr[$mArlth-2]."'";	                                                 //寫入MySQL 	 
+       mysqli_query($link ,$mscnt) or die(mysqli_error($link));  	  
        $arr = array ('order_no'=>$brr[$mArlth-2],'lastupdate'=>$lastdate.$list4['F03']);
 	    echo json_encode($arr);
 } 

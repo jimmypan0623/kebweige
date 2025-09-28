@@ -20,23 +20,22 @@
    }else{
 	    $fieldNo=substr($_POST['filename'],0,7);
 		$filterKey=substr(strrchr($_POST['filename'],'|'),1);
-	    //$searchRecord =$_POST['filename'];
 		$sql3="SELECT a01.F00,a01.F01,a01.F03,a01.F04,a14.F02 as F0B,a01.F07,a01.F10,a01.F12,a01.F13,a01.F99 FROM `a01` LEFT JOIN `a14` ON a14.F01=a01.F04 WHERE ".$fieldNo." like '%".trim($filterKey)."%' order by ".$fieldNo ; 
    }	   
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_array($sql4)){
-		 
-		$atr = array('rc_no'=>$list3['F00'],  		            	             
-		             'acc_no'=>$list3['F01'], 					
-                     'stf_name'=>$list3['F03'],
-					 'dpt_no'=>$list3['F04'],	
-                     'dpt_name'=>$list3['F0B'],
-                     'tel_no'=>$list3['F07'],
-                     'email_add'=>$list3['F10'],	
-                     'stf_no'=>$list3['F12'],		                 		 
-					 'invalid_dt'=>$list3['F13'],
-					 'lastupdate'=>$list3['F99']);                      			
+		//['8%','8%','8%', '8%','12%','20%','8%','8%']; 
+		$atr = array('rc_no_DHL_000'=>$list3['F00'],  		            	             
+		             'acc_no_DSL_008'=>$list3['F01'], 					
+                     'stf_name_DSL_008'=>$list3['F03'],
+					 'dpt_no_DSL_008'=>$list3['F04'],	
+                     'dpt_name_ISL_008'=>$list3['F0B'],
+                     'tel_no_DSL_012'=>$list3['F07'],
+                     'email_add_DSL_020'=>$list3['F10'],	
+                     'stf_no_DSL_008'=>$list3['F12'],		                 		 
+					 'invalid_dt_DSC_008'=>$list3['F13'],
+					 'lastupdate_DHC_000'=>$list3['F99']);                      			
 		array_push($arr,$atr);
 	}
 	mysqli_close($link);

@@ -240,7 +240,11 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 	oTd.innerHTML=rsp.lastupdate;		
 }
 function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,nongs,tbno)函數修改紀錄後呼叫的畫面更動	 
-	var maintable=document.getElementById("maintbody"+(tbno+1).toString);	         		             			   	 	
+	 if (tbno==0){     //處理表頭修改   	   								
+		var maintable=document.getElementById("maintbody1");	 
+	 }else{
+	    var maintable=document.getElementById("maintbody2");	
+	 }		 	         		             			   	 	
 	var fldidx=1;
 	var argsNo=1;
 	var nongsNo=0;	

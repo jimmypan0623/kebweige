@@ -2,14 +2,10 @@
    header("Content-Type:text/html; charset=utf-8");   
 
  include("../../include/BKND/mysqli_server.php");         //引用檔   
-  
-   
  
-   
-    
 	    $searchRecord =$_POST['filename'];
 	   
-		$sql3="SELECT F01,F02 FROM `a14` WHERE 1 order by F01 "; 
+		$sql3="SELECT F01,F02 FROM `a14` WHERE F03='1' order by F01 "; 
          
     $arr=array();	
     $sql4=@mysqli_query($link,$sql3); 

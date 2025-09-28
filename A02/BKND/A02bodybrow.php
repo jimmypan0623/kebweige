@@ -11,25 +11,25 @@
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_array($sql4)){
-		 
-	$atr = array('rc_no'=>$list3['F00'],
-		             'prg_no'=>$list3['F03'], 
-					 'prg_name'=>$list3['F02'], 
-					 'new_auth'=>$list3['F04'],	                     
-                     'edit_auth'=>$list3['F05'],
-                     'del_auth'=>$list3['F06'],
-					 'prnt_auth'=>$list3['F07'],
-					 'auth1_attch'=>$list3['F08'],
-					 'auth2_attch'=>$list3['F09'],
-					 'auth3_attch'=>$list3['F10'],
-					 'auth4_attch'=>$list3['F11'],
-					 'auth5_attch'=>$list3['F12'],
-					  'auth1_remark'=>$list3['F0H'],
-					  'auth2_remark'=>$list3['F0I'],
-					  'auth3_remark'=>$list3['F1J'],
-					 'auth4_remark'=>$list3['F1K'],
-                     'attch5_remark'=>$list3['F1L'],
-					  'lastupdate'=>$list3['F13']                  
+	['8%','17%','5%', '5%','5%','5%','11%','11%','11%','11%','11%'];	 
+	$atr = array('rc_no_DHL_000'=>$list3['F00'],
+		             'prg_no_DSC_008'=>$list3['F03'], 
+					 'prg_name_ISL_017'=>$list3['F02'], 
+					 'new_auth_DSC_005'=>$list3['F04'],	                     
+                     'edit_auth_DSC_005'=>$list3['F05'],
+                     'del_auth_DSC_005'=>$list3['F06'],
+					 'prnt_auth_DSC_005'=>$list3['F07'],
+					 'auth1_attch_DHL_000'=>$list3['F08'],
+					 'auth2_attch_DHL_000'=>$list3['F09'],
+					 'auth3_attch_DHL_000'=>$list3['F10'],
+					 'auth4_attch_DHL_000'=>$list3['F11'],
+					 'auth5_attch_DHL_000'=>$list3['F12'],
+					  'auth1_remark_ISL_011'=>$list3['F0H'],
+					  'auth2_remark_ISL_011'=>$list3['F0I'],
+					  'auth3_remark_ISL_011'=>$list3['F1J'],
+					 'auth4_remark_ISL_011'=>$list3['F1K'],
+                     'auth5_remark_ISL_011'=>$list3['F1L'],
+					  'lastupdate_DHL_000'=>$list3['F13']                  
 					 );                          						 
 		array_push($arr,$atr);
 	}

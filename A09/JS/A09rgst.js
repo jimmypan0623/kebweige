@@ -13,7 +13,6 @@ function blocksclose(event)  //關閉註冊彈出視窗
 	return true;
 }	
 
-
 function sendFilePrc(updflg){     //新增資料上傳檔案及修改程序
     var tbjsn=[];
 	var nonjsn=[];
@@ -72,8 +71,6 @@ function sendFilePrc(updflg){     //新增資料上傳檔案及修改程序
 
 }
 
-
-
 function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出現之欄位
     var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	            var oTd = oTr.insertCell(0);	           
@@ -87,14 +84,11 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 				editSrs.name="a09update";
 			    editSrs.maxLength=120 ;				
 				editSrs.setAttribute('style','font-size:18px;width:80%');	
-			    editSrs.placeholder="描述此部門的功能。";
-				 
-			    oTd.appendChild(editSrs);			
-	            
-
+			    editSrs.placeholder="描述此部門的功能。";				 
+			    oTd.appendChild(editSrs);				            
 			    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	            var oTd = oTr.insertCell(0);
-	          oTd.setAttribute('style','text-align:right;width:15%');	
+	            oTd.setAttribute('style','text-align:right;width:15%');	
 	            oTd.innerHTML='部門性質';
 	            var oTd = oTr.insertCell(1);
 				var baseauthdiv=document.createElement('div');   //從外層元素開始加入				
@@ -105,11 +99,9 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 				     bsechkbx.type='checkbox';
 				     bsechkbx.id='tpchg'+String(l);
 				     bsechkbx.name='a09update';
-					  bsechkbx.className='tpchg';
-				    
+					 bsechkbx.className='tpchg';				    
 				     var basechklbl=document.createElement('label'); 
-				     basechklbl.setAttribute('name','lblchk');
-					
+				     basechklbl.setAttribute('name','lblchk');					
 					 basechklbl.setAttribute('for',bsechkbx.id);
 					 basechklbl.innerHTML=baseorder[l-1]+'&nbsp&nbsp';
 					 baseauthdiv.appendChild(bsechkbx);
@@ -222,34 +214,19 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 }
 
 function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,nongs,tbno)函數修改紀錄後呼叫的畫面更動
-	var maintable=document.getElementById("maintbody1");
-	
+	var maintable=document.getElementById("maintbody1");	
 	    var fldidx=1;
 		var argsNo=1;
-		var nongsNo=0;	
 		while(fldsgsroup(fldidx,tbno)){			
 			if(fldsgsroup(fldidx,tbno)[0]=='directdata'){
 				 maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=args[argsNo];				
 				argsNo++;
-			}else{
-				if(fldidx==2){
-				   nongs[nongsNo]=(args[argsNo-1]=='1'?'內控':'托外');
-				   maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=nongs[nongsNo];	
-				}				
-				 nongsNo++;
+			}else{		
+				maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=(args[fldidx-1]=='1'?'內控':'托外');
 			}
-
 			fldidx++;
 		}				
-	
-	/* for (var i=2;i<4;i++){	
-	    maintable.rows[args[arglth-1]].cells[i].innerHTML=args[i-1];
-	}
-	maintable.rows[args[arglth-1]].cells[4].innerHTML=(args[2]=='1'?'內部':'托外');	
-	for (var j=5;j<arglth;j++){				       //表頭表身都是一樣的格式  
-	     
-		maintable.rows[args[arglth-1]].cells[j].innerHTML=args[j-2];						 			         
-	}				 */						
+
 	//最後異動
     maintable.rows[args[arglth-1]].cells[arglth].innerHTML=rsp.lastupdate;		
 }
@@ -260,22 +237,14 @@ function searchOptionsKey(tbno,slt5){
 }
 
 
-function  addNewRecordHint(tbno){
-
-     
-        return "請輸入以下各欄位資料：";
-     
-
+function  addNewRecordHint(tbno){     
+    return "請輸入以下各欄位資料：";    
 }
 
-function editRecordHint(tbno){
-   
-	   return "修改該部門資料";
-	 
+function editRecordHint(tbno){   
+	   return "修改該部門資料";	 
 }
 
-function searchKeyHint(tbno){    //搜尋畫面出現提示
-  
-	   return "搜尋部門搜尋欄位選擇";
-   
+function searchKeyHint(tbno){    //搜尋畫面出現提示  
+	   return "搜尋部門搜尋欄位選擇";  
 }

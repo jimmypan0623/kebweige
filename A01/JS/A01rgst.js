@@ -13,8 +13,6 @@ function blocksclose(event)  //關閉註冊彈出視窗
 	return true;
 }	
 
-
-
 function sendFilePrc(updflg){     //新增資料上傳檔案及修改程序
 	var tbjsn=[];
 	var nonjsn=[];
@@ -397,66 +395,41 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 }
 
 function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nongs,tbno)函數內新增紀錄後呼叫的畫面更動
-    if (tbno==0){  //處理表頭新增
-        var oTd = oTr.insertCell(oTr.cells.length);   //程式編號
-		oTd.innerHTML=args[0];
-		oTd.setAttribute("class","directdata");	
-		oTd.setAttribute("style","text-align:center;width:7%;");				 
-		var oTd = oTr.insertCell(oTr.cells.length);   //程式名稱
-		oTd.innerHTML=args[1];
-		oTd.setAttribute("class","directdata");
-		oTd.setAttribute("style","text-align:left;width:17%;");	
-		
-		for(var i=2;i<7;i++){
-			var oTd = oTr.insertCell(oTr.cells.length);   //屬性||新增||修改||刪除||列印
-			oTd.innerHTML=args[i];
-			oTd.setAttribute("class","directdata");
-			oTd.setAttribute("style","text-align:center;width:5%;");
-		}
-		for(var i=7;i<12;i++){
-			var oTd = oTr.insertCell(oTr.cells.length);    //附加功能一到五
-			oTd.innerHTML=args[i];
-			oTd.setAttribute("class","directdata");
-			oTd.setAttribute("style","width:11%;");
-		}
-	}else{           //處理表身新增				    					   
-		var oTd = oTr.insertCell(oTr.cells.length);  //帳務號碼
-		oTd.innerHTML=args[0];				
-        oTd.setAttribute("class","directdata");	
-		oTd.setAttribute("style","width:10%;");
-		var oTd = oTr.insertCell(oTr.cells.length);  //人員姓名
-		oTd.innerHTML=nongs[0];				
-        oTd.setAttribute("class","indirectdata");	
-		oTd.setAttribute("style","width:15%;");	
-		for(var i=1;i<10;i++){
-			var oTd = oTr.insertCell(oTr.cells.length);
-			oTd.innerHTML=args[i];	
-			oTd.setAttribute("class","directdata");	
-			if(i<5){
-				if( oTd.innerHTML=='E'){
-					oTd.setAttribute("style","width:5%;;text-align:center;color:#BAF4D8;");
-				}else{ 
-					oTd.setAttribute("style","width:5%;text-align:center;");
+   	var fldidx=0;
+		var argsNo=0;
+		var nongsNo=0;	
+		while(fldsgsroup(fldidx,tbno)){
+			var oTd = oTr.insertCell(oTr.cells.length); 			
+			if(fldsgsroup(fldidx,tbno)[0]=='directdata'){
+				oTd.innerHTML=args[argsNo];
+				if(tbno==1 && fldidx<6){
+				    if( oTd.innerHTML=='E'){
+					   oTd.setAttribute("style","width:5%;;text-align:center;color:#BAF4D8;");
+				    }else{ 
+					   oTd.setAttribute("style","width:5%;text-align:center;");
+				    }
 				}
+				argsNo++;
+			}else{																 
+				if(fldidx>10 && tbno==1){
+				    if(args[fldidx-6]!='Y'){	
+				   	   oTd.setAttribute("style","width:11%;text-decoration: line-through;color:#7f8890;");
+				    }else{
+					   oTd.setAttribute("style","width:11%;");
+				    }	
+				}
+				oTd.innerHTML=nongs[nongsNo];
+				nongsNo++;
+			}
+			oTd.setAttribute("class",fldsgsroup(fldidx,tbno)[0]);
+			if(fldsgsroup(fldidx,tbno)[1]=='none'){
+					oTd.setAttribute("style","display:none;");		
 			}else{
-				oTd.setAttribute("style","display:none;");  
-			}  
-		}
-		for(var j=1;j<6;j++){
-			var oTd = oTr.insertCell(oTr.cells.length);
-			oTd.innerHTML=nongs[j];	
-			oTd.setAttribute("class","indirectdata");	
-			oTd.setAttribute("style","width:11%;");
-			if(nongs[j]){												        
-				if(oTr.cells[j+6].innerHTML!='Y'){	
-					oTd.setAttribute("style","width:11%;text-decoration: line-through;color:#7f8890;");
-				}else{
-					oTd.setAttribute("style","width:11%;");
-				}						     							 
-			} 
-		}
-				      	
-	}
+				   oTd.style.textAlign=fldsgsroup(fldidx,tbno)[2];				     	
+				   oTd.style.width=fldsgsroup(fldidx,tbno)[3]+"%";				  
+			}					 		
+			fldidx++;
+		}				
 			//最後更新
 	var oTd = oTr.insertCell(oTr.cells.length);	
 	oTd.setAttribute("class","directdata");	
@@ -464,29 +437,31 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 	oTd.innerHTML=rsp.lastupdate;			
 }
 function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,nongs,tbno)函數修改紀錄後呼叫的畫面更動
-	if (tbno==0){     //處理表頭修改   	   								
-		var maintable=document.getElementById("maintbody1");	 					
-		for (var j=2;j<arglth-1;j++){				       //表頭表身都是一樣的格式  					     
-			maintable.rows[args[arglth-1]].cells[j].innerHTML=args[j-1];						 
-		}											
-		maintable.rows[args[arglth-1]].cells[arglth-1].innerHTML=rsp.lastupdate;			
-	}else{                //處理表身修改
-	    var maintable=document.getElementById("maintbody2");				
-		for (var j=1;j<10;j++){				            
-			maintable.rows[args[arglth-1]].cells[j+2].innerHTML=args[j];								
-	    }											
-	    for (var k=12;k<17;k++){						       
-		    if(nongs[k-11]){						
-			    maintable.rows[args[arglth-1]].cells[k].innerHTML=nongs[k-11];
-			    	if(maintable.rows[args[arglth-1]].cells[k-5].innerHTML!='Y'){	
-			    		maintable.rows[args[arglth-1]].cells[k].setAttribute("style","width:11%;text-decoration: line-through;color:#7f8890;");
-			    	}else{
-			    		maintable.rows[args[arglth-1]].cells[k].setAttribute("style","width:11%;");
-			    	}						     							 
-		    } 
-	    }						   
-	    maintable.rows[args[arglth-1]].cells[arglth+5].innerHTML=rsp.lastupdate;
+	
+	 if (tbno==0){     //處理表頭修改   	   								
+		var maintable=document.getElementById("maintbody1");	 
+	 }else{
+	    var maintable=document.getElementById("maintbody2");	
+	 }		 
+	var fldidx=1;
+	var argsNo=1;	
+	while(fldsgsroup(fldidx,tbno)){			
+		if(fldsgsroup(fldidx,tbno)[0]=='directdata'){
+			 maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=args[argsNo];				
+			argsNo++;
+		}else{
+			if(fldidx > 10 && tbno==1){
+			    if(args[fldidx-6]!='Y'){	
+				   	maintable.rows[args[arglth-1]].cells[fldidx+1].setAttribute("style","width:11%;text-decoration: line-through;color:#7f8890;");
+				}else{
+					maintable.rows[args[arglth-1]].cells[fldidx+1].setAttribute("style","width:11%;");
+				}				    				     			
+			}							 
+		}
+		fldidx++;
 	}
+	maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=rsp.lastupdate;
+	
 }
 function searchOptionsKey(tbno,slt5){	
 	if (tbno==0){
@@ -499,14 +474,13 @@ function searchOptionsKey(tbno,slt5){
 	}   
 }
 function  addNewRecordHint(tbno){
-
         if (tbno==0){
             return "請輸入新功能編號與名稱：";
 	    }else{
-			return "請新增："+document.getElementById('fatherkey').value+'\u{A0}'+document.getElementById('keydscrpt').innerHTML+'\u{A0}'+'使用帳號';
+			return "請新增："+sourceAccount(1,0)+'\u{A0}'+document.getElementById('keydscrpt').innerHTML+'\u{A0}'+'使用帳號';
 		}						
-
 }
+
 function editRecordHint(tbno){
    if (tbno==0){  
 	   return "修改功能預設授權狀況";
