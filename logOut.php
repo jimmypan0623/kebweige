@@ -26,7 +26,7 @@ header('Content-type:text/html; charset=utf-8');
 	setcookie('stdmnu','',time()-999);	  	  
 	$sql3="select F01,F06 from a26 where F04<>'T' order by F01"; 	   	           
     $sql4=@mysqli_query($link,$sql3); 			  
-	while ($list3=mysqli_fetch_array($sql4)){					 
+	while ($list3=mysqli_fetch_array($sql4)){		  //清除系統參數			 
         setcookie($list3['F01'],'', time()-999);			   	   	              	            
 	}    
 	mysqli_close($link);			

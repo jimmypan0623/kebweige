@@ -49,7 +49,7 @@ function deptshow(event)
 		        dialogButton1.setAttribute("type","button");
 		        dialogButton1.setAttribute("class","btn");
 		        dialogButton1.setAttribute("value","\u{2713}");			
-				dialogButton1.setAttribute("style","position:relative;left:110px;color:green;font-size:17px;");
+				dialogButton1.setAttribute("style","position:relative;left:80px;color:green;font-size:17px;");
 				 		
 				   attachEventListener(dialogButton1,"click",deptchoose,false);	
 				 
@@ -57,7 +57,7 @@ function deptshow(event)
 		         dialogButton3.setAttribute("type","button");
 		         dialogButton3.setAttribute("class","btn");
 		         dialogButton3.setAttribute("value","\u{2715}");
-				 dialogButton3.setAttribute("style","position:relative;left:120px;color:red;font-size:17px;");
+				 dialogButton3.setAttribute("style","position:relative;left:90px;color:red;font-size:17px;");
 		         attachEventListener(dialogButton3,"click",deptblkclose,false);		  	      		  		  
 				 var tblname=document.createElement("caption");
 				 tblname.innerHTML=headtitle;	
@@ -74,7 +74,7 @@ function deptshow(event)
                 var array = ['部門編號', '部門名稱'];
                 for (var j = 0; j < array.length; j++) {
                     var th = document.createElement('th'); //column
-					th.style.width=(120-Math.pow(-2,j)*20)+'px';
+					//th.style.width=(120-Math.pow(-2,j)*20)+'px';
                     var text = document.createTextNode(array[j]); //cell
 					
                     th.appendChild(text);
@@ -184,10 +184,10 @@ function srchdeptNo(str1) {       //開窗顯示人員選項
 		  }
 		 
 		  if(jk=='dept_no'){
-			     oTd.setAttribute("style","text-align:left;width:100px;");
+			     //oTd.setAttribute("style","text-align:left;width:100px;");
 		  }else if(jk=='dept_name'){
 			 
-		        oTd.setAttribute("style","text-align:left;width:160px;");
+		        //oTd.setAttribute("style","text-align:left;width:160px;");
 		  }else{
 		         oTd.setAttribute("style","display:none;");   
 		  }		  		   

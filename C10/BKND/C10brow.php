@@ -28,9 +28,9 @@
 		 
 		$atr = array('rc_no_DHL_000'=>$list3['F00'],  
                      'stock_no_DSL_010'=>$list3['F03'], 	
-					 'bill_no_DSL_010'=>$list3['F04'], 	
-					 'ship_date_DSC_004'=>$list3['F01'],
-					 'recipt_no_DSL_010'=>$list3['F05'],  
+					 'bill_no_DSL_009'=>$list3['F04'], 	
+					 'ship_date_DSC_003'=>$list3['F01'],
+					 'recipt_no_DSL_009'=>$list3['F05'],  
 					 'custom_no_DSL_007'=>$list3['F02'],	
 					 'custom_name_ISL_007'=>$list3['F0E'],	
 					 'ship_qty_DSR_007'=>$list3['F08'],

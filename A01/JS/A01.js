@@ -66,34 +66,27 @@ function getProfile(str1,reccount,tbno) {
 			   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
 			}					 			
 		} 	
-          var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
-	       oTd.setAttribute("style","display:none");   //勾選不顯示
-	 	   var myCheck=document.createElement('input'); 
-		   myCheck.type="checkbox";  
-		  
-		   myCheck.setAttribute("name","chkbxmember"+(tbno+1).toString());   //讓使用者勾選的checkbox表頭	
-			 	
-		   attachEventListener(myCheck,'click',chooserc,false);		   
-		   oTd.appendChild(myCheck);     
-      
+        var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
+	    oTd.setAttribute("style","display:none");   //勾選不顯示
+	 	var myCheck=document.createElement('input'); 
+		myCheck.type="checkbox";  		  
+		myCheck.setAttribute("name","chkbxmember"+(tbno+1).toString());   //讓使用者勾選的checkbox表頭				 	
+		attachEventListener(myCheck,'click',chooserc,false);		   
+		oTd.appendChild(myCheck);           
+	}	  
+	var responseDiv=document.getElementById("serverResponse"+(tbno+1).toString());  	
+	if(responseDiv.innerHTML=='Searching......'){	
+		if (cnt==0){
+			responseDiv.setAttribute("style","color:red;"); 
+	   	    responseDiv.innerHTML="無此資料！Not found!検索できません。";
+	    }else{ 		 
+		    responseDiv.setAttribute("style","color:#536a60;"); 
+            responseDiv.innerHTML="搜尋到 "+String(cnt)+" 筆資料。" +String(cnt)+" record"+(cnt>1?"s":"")+" match your search. " +String(cnt)+" レコードを検索。";            		 
+        }	
 	}
-	  
-	    var responseDiv=document.getElementById("serverResponse"+(tbno+1).toString());  	
-	 
-        	
- 	
-	  if(responseDiv.innerHTML=='Searching......'){	
-		 if (cnt==0){
-			 responseDiv.setAttribute("style","color:red;"); 
-	   	     responseDiv.innerHTML="無此資料！Not found!検索できません。";
-	      }else{ 		 
-		     responseDiv.setAttribute("style","color:#536a60;"); 
-             responseDiv.innerHTML="搜尋到 "+String(cnt)+" 筆資料。" +String(cnt)+" record"+(cnt>1?"s":"")+" match your search. " +String(cnt)+" レコードを検索。";            		 
-          }	
-	  }
-	  if(cnt>0){       //初始畫面呼叫
-		  chooserc(1);
-	  }	  
+	if(cnt>0){       //初始畫面呼叫
+		chooserc(1);
+	}	  
 }
 
 function choseExtraDeal(targetTrChildren,targetTr){   //初始或搜尋換首頁紀錄移動額外處理事項
@@ -111,12 +104,11 @@ function choseExtraDeal(targetTrChildren,targetTr){   //初始或搜尋換首頁
 	}
     return true;			   
 }
-function choseSecond(targetTrChildren,targetTr){
-	 
+function choseSecond(targetTrChildren,targetTr){	 
    return true;	
 }
-function rowchoseExtraDeal(targetRow){    //首頁紀錄點選移動額外處理事項
-     
+
+function rowchoseExtraDeal(targetRow){    //首頁紀錄點選移動額外處理事項     
     var authbase=document.getElementsByName('authBase');
 	if(authbase.length>0){
 	   for(var j=0;j<authbase.length;j++){
@@ -131,6 +123,7 @@ function rowchoseExtraDeal(targetRow){    //首頁紀錄點選移動額外處理
 	}
     return true;			   
 }	
+
 function rowchoseSecond(targetRow){    //紀錄移動
    return true;	
 }

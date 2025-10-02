@@ -20,8 +20,8 @@ function crtElm(){
 	var tabnames=getElementsByAttribute('name','tablbl');	
 	tabnames[0].innerHTML="出貨月報表";
      var thr1=document.getElementById('headrow1');	 
-	 var array1 = ['料品編號','出貨單號','日期', '訂單號碼','客戶編號','客戶簡稱','數量','單價','幣別','匯率','小計','客戶PO','業務人員'];
-	 var array2 = ['10%','10%','4%', '10%','7%','7%','7%','7%','4%','7%','8%','10%','7%'];	
+	 var array1 = ['料品編號','出貨單號','日', '訂單號碼','客戶編號','客戶簡稱','數量','單價','幣別','匯率','小計','客戶PO','業務人員'];
+	 var array2 = ['10%','9%','3%', '9%','7%','7%','7%','7%','4%','7%','8%','10%','7%'];	
 	for (var j = 0; j < array1.length; j++) {
 		var th = document.createElement('th'); //column		   
 		var text = document.createTextNode(array1[j]); //cell			

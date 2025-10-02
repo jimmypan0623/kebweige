@@ -199,8 +199,7 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 		   }
 		   for(var k=0;k<editinit.length;k++){ 
 			   editinit[k].value=aWaitUpdate[k];
-		   }		
-								
+		   }										
 		   break;	
 		case 7:   	   	//搜尋   
 			  var txtseek=document.getElementById('searchWords');

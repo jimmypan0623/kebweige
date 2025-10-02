@@ -436,13 +436,12 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 	oTd.setAttribute("style","display:none");	
 	oTd.innerHTML=rsp.lastupdate;			
 }
-function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,nongs,tbno)函數修改紀錄後呼叫的畫面更動
-	
-	 if (tbno==0){     //處理表頭修改   	   								
+function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,nongs,tbno)函數修改紀錄後呼叫的畫面更動	
+	if (tbno==0){     //處理表頭修改   	   								
 		var maintable=document.getElementById("maintbody1");	 
-	 }else{
+	}else{
 	    var maintable=document.getElementById("maintbody2");	
-	 }		 
+	}		 
 	var fldidx=1;
 	var argsNo=1;	
 	while(fldsgsroup(fldidx,tbno)){			
@@ -460,9 +459,9 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 		}
 		fldidx++;
 	}
-	maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=rsp.lastupdate;
-	
+	maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=rsp.lastupdate;	
 }
+
 function searchOptionsKey(tbno,slt5){	
 	if (tbno==0){
 		slt5.options.add(new Option('功能編號','a03.F01'));
@@ -473,6 +472,7 @@ function searchOptionsKey(tbno,slt5){
 		slt5.options.add(new Option('人員姓名','a01.F03')); 										  
 	}   
 }
+
 function  addNewRecordHint(tbno){
         if (tbno==0){
             return "請輸入新功能編號與名稱：";
@@ -489,6 +489,7 @@ function editRecordHint(tbno){
 	}
 
 }
+
 function removeAllList(tbno){
   return "是否確定移除"+sourceAccount(1,tbno)+":"+sourceAccount(2,tbno)+"的所有權限?";   //只會出現在首頁
 }
@@ -515,19 +516,15 @@ function a01AccountName(event){
 	       else if(window.XMLHttpRequest){
 	   	      var request = new XMLHttpRequest();
         }			 
-		request.onreadystatechange = respond;	
-       
-		var url="A01/BKND/A01AccountName.php?timestamp="+new Date().getTime();
-			
+		request.onreadystatechange = respond;	       
+		var url="A01/BKND/A01AccountName.php?timestamp="+new Date().getTime();			
 	    request.open("POST",url);	 
 	    request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 	    request.send(sendSrcRec);		
 	function respond(){           
 		  if (request.readyState == 4 && request.status == 200) {    
-             rsp=JSON.parse(request.responseText);
-			 
-			 document.getElementById('whonameEx').innerHTML=rsp[0]['accountname'];			 
-	          
+             rsp=JSON.parse(request.responseText);			 
+			 document.getElementById('whonameEx').innerHTML=rsp[0]['accountname'];			 	          
 		  }
 	}
 	return;

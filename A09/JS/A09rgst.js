@@ -209,8 +209,7 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 		//最後異動					   
 		var oTd = oTr.insertCell(oTr.cells.length);		
 		oTd.setAttribute("style","width:13%;");
-		oTd.innerHTML=rsp.lastupdate;			                  
-	  		    				   				 			  			         
+		oTd.innerHTML=rsp.lastupdate;			                  	  		    				   				 			  			         
 }
 
 function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,nongs,tbno)函數修改紀錄後呼叫的畫面更動

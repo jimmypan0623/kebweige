@@ -10,20 +10,20 @@
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_array($sql4)){
-		 
-		$atr = array('rc_no'=>$list3['F00'],		           
-					 'stockno'=>$list3['F03'], 
-					 'stockname'=>$list3['F0B'],
-					 'custom_partno'=>$list3['F04'],  
-					 'crncy_type'=>$list3['F06'],	                     
-                     'query_price'=>$list3['F07'],     					
-                     'basic_pack'=>$list3['F13'],  		
-                     'min_order'=>$list3['F08'],  	
-					 'query_no'=>$list3['F11'], 
-					 'datestart'=>$list3['F02'],  
-					 'dateline'=>$list3['F15'],  			
-					  'remark'=>$list3['F16'],
-                     'lastupdate'=>$list3['F99']);                      						 
+		//['11.6%','11.6%','11%', '4%','8%','7%','7%','10%','8%','8%','10%']; 
+		$atr = array('rc_no_DHC_0000'=>$list3['F00'],		           
+					 'stockno_DSL_0116'=>$list3['F03'], 
+					 'stockname_ISL_0116'=>$list3['F0B'],
+					 'custom_partno_DSL_0110'=>$list3['F04'],  
+					 'crncy_type_DSC_0040'=>$list3['F06'],	                     
+                     'query_price_DSR_0080'=>$list3['F07'],     					
+                     'basic_pack_DSR_0070'=>$list3['F13'],  		
+                     'min_order_DSR_0070'=>$list3['F08'],  	
+					 'query_no_DSL_0100'=>$list3['F11'], 
+					 'datestart_DSC_0080'=>$list3['F02'],  
+					 'dateline_DSC_0080'=>$list3['F15'],  			
+					  'remark_DSL_0100'=>$list3['F16'],
+                     'lastupdate_DHC_0000'=>$list3['F99']);                      						 
 		array_push($arr,$atr);
 	}
 	mysqli_close($link);

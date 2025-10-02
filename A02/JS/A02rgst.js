@@ -119,10 +119,9 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 				break;
 			}
 		} 				 
-         tbjsn.push(recordNo.value);	
-         tbjsn.push(tablerowindex);				
-         var rspns=TableToJson(tbjsn,nonjsn,tbno);
-
+        tbjsn.push(recordNo.value);	
+        tbjsn.push(tablerowindex);				
+        var rspns=TableToJson(tbjsn,nonjsn,tbno);
    }   
    blocksclose();			//關掉原視窗   
    return true;	 	
@@ -142,21 +141,18 @@ function authEnter(event){  //權限複製小視窗TEXTBOX ENTER
 	         responseDiv.innerHTML=='權限複製中.....';
 			 athcpy(event);			
 		 }
-	}		  	
-	
-     return;    			
+	}		  		
+    return;    			
 }
 
 function athcpy(event){        //權限複製
 	if (typeof event=="undefined"){
 		event=window.event;
 	}
-	  var target=getEventTarget(event);
-	  
-	  var rsp=atjtb(sourceAccount(1,0),document.getElementById('authcopy_no').value);
-	 blocksclose();			//關掉原視窗
-   
-     return true;	 		
+	var target=getEventTarget(event);	  
+	var rsp=atjtb(sourceAccount(1,0),document.getElementById('authcopy_no').value);
+	blocksclose();			//關掉原視窗   
+    return true;	 		
 }
 
 function atjtb(sourceaccount,objaccount){
@@ -171,13 +167,13 @@ function atjtb(sourceaccount,objaccount){
 	if(window.ActiveXObject){
 		var request = new ActiveXObject("Microsoft.XMLHttp");
 	}	
-	 else if(window.XMLHttpRequest){
+	else if(window.XMLHttpRequest){
 		var request = new XMLHttpRequest();
-     }		
-	 request.onreadystatechange = respond;
-     request.open("POST", "A02/BKND/A02ath.php", true);        //新增記錄的php檔
-     request.setRequestHeader("Content-type", "application/json");
-     request.send(str_json);
+    }		
+	request.onreadystatechange = respond;
+    request.open("POST", "A02/BKND/A02ath.php", true);        //新增記錄的php檔
+    request.setRequestHeader("Content-type", "application/json");
+    request.send(str_json);
     function respond() {		
         if (request.readyState == 4 && request.status == 200) {     
 			rsp=JSON.parse(request.responseText);								     			

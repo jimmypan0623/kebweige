@@ -29,7 +29,6 @@
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_array($sql4)){
-		//['7%','17%','5%', '5%','5%','5%','10%','10%','10%','10%','10%','5%'];
 		$atr = array('rc_no_DHL_000'=>$list3['F00'],
 		             'prg_no_DSC_007'=>$list3['F01'], 
 					 'prg_name_DSL_017'=>$list3['F02'],	        					
@@ -42,24 +41,23 @@
 					 'auth3_attch_DSL_010'=>$list3['F10'],
 					 'auth4_attch_DSL_010'=>$list3['F11'],
                      'attch5_attch_DSL_010'=>$list3['F12'],
-					  'attr_auth_DSL_005'=>$list3['F03'],
+					 'attr_auth_DSL_005'=>$list3['F03'],
 					 'lastupdate_DHC_000'=>$list3['F15'] 
 					 );                      						 
 		array_push($arr,$atr);
 	}
-	mysqli_close($link);
-	  
-         $arr = array_values($arr);
-                   		  
-         echo json_encode(array ('recdrow'=>$arr,'pgttl'=>$rows));		
-function getNeedBetween($kw1,$mark1,$mark2){  //抓取兩個字元間的字串函數
-   $kw=$kw1; 
-   $st =stripos($kw,$mark1);
-   $ed =stripos($kw,$mark2);
-   if(($st==false||$ed==false)||$st>=$ed)
-      return 0;
-   $kw=substr($kw,($st+1),($ed-$st-1));
-return $kw;
+	mysqli_close($link);	  
+    $arr = array_values($arr);                   		  
+    echo json_encode(array ('recdrow'=>$arr,'pgttl'=>$rows));		
+	///////////
+    function getNeedBetween($kw1,$mark1,$mark2){  //抓取兩個字元間的字串函數
+       $kw=$kw1; 
+       $st =stripos($kw,$mark1);
+       $ed =stripos($kw,$mark2);
+       if(($st==false||$ed==false)||$st>=$ed)
+          return 0;
+       $kw=substr($kw,($st+1),($ed-$st-1));
+    return $kw;
 }
 ?>  
 

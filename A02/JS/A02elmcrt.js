@@ -31,8 +31,6 @@ function crtElm(){
 	var keynames=getElementsByAttribute('name','keyname');	
 	keynames[0].innerHTML="帳號:";
 	var fatherkeys=getElementsByAttribute('name','fatherkey');	
-	/* fatherkeys[0].style.width="12%";
-	fatherkeys[0].size="10"; */
 }
 
  

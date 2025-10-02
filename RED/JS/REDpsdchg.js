@@ -126,6 +126,5 @@ function accountDele(event){    //刪除帳號cookie
 	}
 	var mainUl=document.getElementById("listUL");   
 	mainUl.remove();		 
-    return;
-	 
+    return;	 
 }

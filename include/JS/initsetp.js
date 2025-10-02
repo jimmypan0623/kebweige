@@ -23,13 +23,13 @@ function initDialog()
 		divcontainer.parentNode.removeChild(divcontainer);
 		for(var i=0;i<tabcsses.length;i++){
 			tabcsses[i].parentNode.removeChild(tabcsses[i]);
-		}					         
-		var img1=document.getElementById('img1');
+		}					    	  
+	    var img1=document.getElementById('img1');
 		var img2=document.getElementById('img2');
 		var img3=document.getElementById('img3');
 		var img4=document.getElementById('img4');	
-        var img5=document.getElementById('img5');	
-		var nwdt=new Date();	
+        var img5=document.getElementById('img5');			
+	    var nwdt=new Date();	
 		var nwsd=Math.ceil(Math.random()*nwdt.getSeconds());  
         var d4=(nwsd*Math.floor(Math.random()*scnd+mnte)%10).toString();		
 		img1.src="digits/"+d4+".gif";		 
@@ -49,7 +49,7 @@ function initDialog()
 		var nwsd=Math.ceil(Math.random()*nwdt.getSeconds());	
 		var d0=(nwsd*Math.floor(Math.random()*scnd+mnte)%10).toString();
 		img5.src="digits/"+d0+".gif"; 		
-		setCookie("CAPTCHA",d0+d1+d2+d3+d4);
+		setCookie("CAPTCHA",d0+d1+d2+d3+d4); 
 		var errMsg=getCookie('errmsg');
 		if(errMsg){		 
 			document.getElementById('account').value=getCookie('tmpacnt');			 
@@ -62,13 +62,15 @@ function initDialog()
 		    delCookie('errmsg');	
             delCookie('tmpacnt');	
 		    delCookie('tmppswd');
-		}	       
+		}else{		   
+			var sbmtclk=document.getElementById('submit');
+			 attachEventListener(sbmtclk,"click",clrinpt,false);			
+		}			
     }else{		 	    	   
 		var nwdt=new Date();	
 		var nwsd=Math.floor(Math.random()*nwdt.getSeconds())%26;		
 		var nowExcute=getCookie("funNo");
-		if(nowExcute){				
-            //delCookie("funNo");		
+		if(nowExcute){				           
 			divcontainer.parentNode.removeChild(divcontainer);		
 			loginform.parentNode.removeChild(loginform);
 			 links[0].href="include/Operate.css?v=0.0.2" ;						 
@@ -628,11 +630,27 @@ function rollChange(event){    //按鈕翻頁
 			   break;
 	     default:
 			   crntrec=0;
-	 }
-	   //if(crntrec>0){
+	 }	   
 	      slt2.options[crntrec].selected=true;
-		  choiceClick(slt2.value);
-      // } 
-       	 
-	
+		  choiceClick(slt2.value);	
+}
+function clrinpt(){
+	if (typeof event=="undefined"){
+		   event=window.event;
+    }
+	var target=getEventTarget(event);    
+	 var i;		 	
+         (function myLoop(i) {
+             setTimeout(function() {			    
+               inptclr(); //  your code here                
+               if (--i) myLoop(i);   //  decrement i and call myLoop again if i > 0
+                }, 500)
+          })(3);                   //  pass the number of iterations as an argument
+    //detachEventListener(target,"click",false);
+	 
+}
+function inptclr(){
+    document.getElementById('account').value='';			 
+	document.getElementById('password').value=''; 
+	document.getElementById('validcode').value='';
 }

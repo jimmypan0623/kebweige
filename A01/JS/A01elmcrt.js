@@ -25,6 +25,4 @@ function crtElm(){
 	var keynames=getElementsByAttribute('name','keyname');	
 	keynames[0].innerHTML="功能編號:";
 	var fatherkeys=getElementsByAttribute('name','fatherkey');	
-	/* fatherkeys[0].style.width="6%";
-	fatherkeys[0].size="3"; */
 }

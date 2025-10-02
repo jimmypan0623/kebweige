@@ -55,18 +55,26 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 	 
 	 //----資料寫入資料庫前過濾程序區-----//
 	for(var j=1;j<d01elements.length-3;j++){
-        if(d01elements[j].value.trim()==="" && !(j==5 || j==6 || j==7 || j==9 || j==11 || j==13 || j==14 || j==22)){		
-		   if(!d01elements[j].nextSibling){
-		      var errorSpan1=document.createElement("span");		
-			  errorSpan1.style.color="red";
-			  errorSpan1.style.fontFamily="標楷體";
-		      var errorMessage1=document.createTextNode("不得空白");
-		      errorSpan1.appendChild(errorMessage1);
-		      errorSpan1.classId="errorMsg";
-		      d01elements[j].parentNode.appendChild(errorSpan1);				 
-		   }	 
-		   d01elements[j].focus();
-		   return false ;
+        if(d01elements[j].value.trim()===""){
+			if(!(j==5 || j==6 || j==7 || j==9 || j==11 || j==13 || j==14 || j==22)){
+                if ((j==1 || j==2 || j==3) && tbno==1){
+			         d01elements[j].placeholder="不得空白" ;
+			    }else{
+		            filtermsg(d01elements[j],"不得空白");
+			     }		     			
+		    d01elements[j].focus();
+		    return false ;
+			}
+		}else if(tbno==0){
+			if(j==5 && !/\d{8}/.test(d01elements[j].value)){	
+	            filtermsg(d01elements[j],"統編錯誤");
+		        d01elements[j].focus();
+		        return false ;			
+		    }else if(j==14 && !/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(d01elements[j].value)){
+			    filtermsg(d01elements[j],"電郵帳號錯誤!");
+		        d01elements[j].focus();
+		        return false ;
+		    }			
         }else{		     
 		   if(d01elements[j].nextSibling){		      
 			  d01elements[j].parentNode.removeChild(d01elements[j].nextSibling);
@@ -229,7 +237,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    var oTd = oTr.insertCell(1);	
 	    oTd.colspan=5;				
 	    oTd.setAttribute('style','width:55%;');	
-	    oTd.innerHTML="<input type='text' name='d01update' id='mailaddress' class='txt' maxlength='50' style='width:80%;'  />";                             	              		   		         
+	    oTd.innerHTML="<input type='text' name='d01update' id='mailaddress' class='txt' maxlength='50' style='width:70%;'  />";                             	              		   		         
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);
 	    oTd.setAttribute('style','text-align:right;width:12%');	

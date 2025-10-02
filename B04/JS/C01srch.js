@@ -49,7 +49,7 @@ function custnoshow(event)
 		        dialogButton1.setAttribute("type","button");
 		        dialogButton1.setAttribute("class","btn");
 		        dialogButton1.setAttribute("value","\u{2713}");			//確認				 
-				 dialogButton1.setAttribute("style","position:relative;left:110px;color:green;font-size:17px;");
+				 dialogButton1.setAttribute("style","position:relative;left:80px;color:green;font-size:17px;");
 					
 				 attachEventListener(dialogButton1,"click",chseprg,false);	
 				
@@ -57,7 +57,7 @@ function custnoshow(event)
 		         dialogButton3.setAttribute("type","button");
 		         dialogButton3.setAttribute("class","btn");
 		         dialogButton3.setAttribute("value","\u{2715}"); //關閉
-				 dialogButton3.setAttribute("style","position:relative;left:120px;color:red;font-size:17px;");
+				 dialogButton3.setAttribute("style","position:relative;left:90px;color:red;font-size:17px;");
 		         attachEventListener(dialogButton3,"click",custblkclose,false);		  	      		  		  
 				 var tblname=document.createElement("caption");
 				 tblname.innerHTML=headtitle;	
@@ -67,14 +67,14 @@ function custnoshow(event)
 				 srchTable.className="gridlist";                
 				 var srchHead=document.createElement("thead");		
 				  srchHead.setAttribute("style","display:table;width:100%;table-layout:fixed;");				  
-                  srchHead.style.width="calc( 100% - 1em )";
+                  //srchHead.style.width="calc( 100% - 1em )";
 				  srchTable.appendChild(tblname);
 				 srchTable.appendChild(srchHead);				 				
                 var oTr = document.createElement('tr');				 
                 var array = ['客戶編號', '客戶簡稱'];
                 for (var j = 0; j < array.length; j++) {
                     var th = document.createElement('th'); //column
-					th.style.width=(120-Math.pow(-2,j)*20)+'px';
+					//th.style.width=(120-Math.pow(-2,j)*20)+'px';
                     var text = document.createTextNode(array[j]); //cell
 					
                     th.appendChild(text);
@@ -261,10 +261,10 @@ function srchCustNo(str1) {       //開窗顯示人員選項
 		  }
 		 
 		  if(jk=='cust_no'){
-			     oTd.setAttribute("style","text-align:left;width:100px;");
+			     //oTd.setAttribute("style","text-align:left;width:100px;");
 		  }else if(jk=='cust_name'){
 			 
-		        oTd.setAttribute("style","text-align:left;width:160px;");
+		        //oTd.setAttribute("style","text-align:left;width:160px;");
 		  }else{
 		         oTd.setAttribute("style","display:none;");   
 		  }		  		   

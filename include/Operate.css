@@ -118,7 +118,7 @@ table-layout:fixed;
 }
 
  .tab_css table thead{
-width: calc( 100% - 1em )
+width: calc( 100% - 1em );
 } 
 .tab_css span{
    font-weight: bold;

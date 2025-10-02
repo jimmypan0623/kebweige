@@ -1,17 +1,14 @@
 ﻿<?php
-   header("Content-Type:text/html; charset=utf-8");   
-
+    header("Content-Type:text/html; charset=utf-8");   
     include("../../include/BKND/mysqli_server.php");         //引用檔       
-        $searchRecord =$_POST['filename'];
-        $str=explode('|',$_POST['filename']);  //將上面字串以逗號分割成陣列	   		
-		$sql3="select a02.*,a03.F02,a03.F08 F0H,a03.F09 F0I,a03.F10 F1J,a03.F11 F1K,a03.F12 F1L from a02";
-		$sql3.=" left outer join a03 on a03.F01=a02.F03 ";
-		$sql3.="where a02.F01='".$str[0]."' and ".$str[1]." like '%".trim($str[2])."%' order by F03 ";   
-		
+	$searchRecord =$_POST['filename'];
+	$str=explode('|',$_POST['filename']);  //將上面字串以逗號分割成陣列	   		
+	$sql3="SELECT a02.*,a03.F02,a03.F08 F0H,a03.F09 F0I,a03.F10 F1J,a03.F11 F1K,a03.F12 F1L FROM a02";
+	$sql3.=" left outer join a03 on a03.F01=a02.F03 ";
+	$sql3.="WHERE a02.F01='".$str[0]."' AND ".$str[1]." LIKE '%".trim($str[2])."%' ORDER BY F03 ";   		
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_array($sql4)){
-	['8%','17%','5%', '5%','5%','5%','11%','11%','11%','11%','11%'];	 
+	while ($list3=mysqli_fetch_array($sql4)){	 
 	$atr = array('rc_no_DHL_000'=>$list3['F00'],
 		             'prg_no_DSC_008'=>$list3['F03'], 
 					 'prg_name_ISL_017'=>$list3['F02'], 
