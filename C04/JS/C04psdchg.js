@@ -28,8 +28,8 @@ function selfTag(jsvsn){
 	orpButton9.setAttribute("type","button");
 	orpButton9.setAttribute("class","btn");
 	orpButton9.setAttribute("value","\u{1F516}");       		      
-	orpButton9.setAttribute("title","直接轉出貨單，快速鍵Alt+Y");  
-	orpButton9.setAttribute("accesskey","Y");					
+	orpButton9.setAttribute("title","直接轉出貨單，快速鍵Alt+G");  
+	orpButton9.setAttribute("accesskey","G");					
 	orpButton9.id="TRN_BOTT";						 
 	maindiv[0].insertBefore(orpButton9,orpButton5);
 	maindiv[0].insertBefore(text21,orpButton5);				 
@@ -58,11 +58,15 @@ function selfTag(jsvsn){
 	loadScript(`include/JS/confirmfunction.js?v=${jsvsn}`);
 	var tab1Click=document.getElementById("tab1");
 	if(tab1Click){
-	      attachEventListener(tab1Click,"click",tab1View,false);
+		tab1Click.setAttribute("accesskey","1");  
+	    attachEventListener(tab1Click,"click",tab1View,false);
+		
 	}	
-	var tab2Click=document.getElementById("tab2");
-	if(tab2Click){
+	var tab2Click=document.getElementById("tab2");	
+	if(tab2Click){		
+		tab2Click.setAttribute("accesskey","2");
 	    attachEventListener(tab2Click,"click",tab2View,false);
+		
 	}
 }
 
@@ -86,7 +90,16 @@ function tab1View(event){
 		 var bibau=cko[3](0);   //找出閉包變數現值
 	     cko[3](bibau*(-1));    //將表身閉包變數歸零
 		  bibau=cko[6](0);   //找出閉包變數現值
-	     cko[6](bibau*(-1));    //將表身閉包變數歸零 
+	     cko[6](bibau*(-1));    //將表身閉包變數歸零 	
+		 var btns=getElementsByAttribute('class','btn');			 
+		 for (var i=0;i<btns.length;i++){		
+		     if(btns[i].accessKey=='I' || btns[i].accessKey=='M' || btns[i].accessKey=='B'){
+		        btns[i].removeAttribute("accesskey");		
+			 } 
+			 if(right(btns[i].title,1)=='T' || right(btns[i].title,1)=='J' || right(btns[i].title,1)=='K' || right(btns[i].title,1)=='V'){
+		        btns[i].setAttribute("accesskey",right(btns[i].title,1));		
+			 } 
+	     }		           
 }
 function tab2View(event){	  
        if (typeof event=="undefined"){
@@ -100,8 +113,7 @@ function tab2View(event){
 		  blkshow("未勾選任何紀錄，請勾選一筆再編輯表身內容");	
 	  	  document.getElementById("tab1").checked="checked";		
 		  return false;	
-       }
-	  
+       }	  
        var keydescription=document.getElementById('keydscrpt');    
        var fthkey=document.getElementById("fatherkey");
 	   var aWaitUpdate=[];	//準備記錄修改時欄位的內容資料
@@ -114,8 +126,7 @@ function tab2View(event){
 			     
 			  }					
                shrno=aWaitUpdate[aWaitUpdate.length-2]	;		              			   
-               document.getElementById('crncy').innerHTML=aWaitUpdate[aWaitUpdate.length-7];   
-                
+               document.getElementById('crncy').innerHTML=aWaitUpdate[aWaitUpdate.length-7];                  
 			   break;					   
 		   }
 	   } 
@@ -136,10 +147,19 @@ function tab2View(event){
                  newrcath.style.visibility="visible";	
 			     attachEventListener(newrcath,"click",addrec,false);  //新增紀錄按鈕程序
 			  }
-         }			
-		
-        
-	   commontemp(fthkey.innerHTML,"c04.F01");
+         }	
+		if(event!='GY'){ 
+            var btns=getElementsByAttribute('class','btn');			 
+		    for (var i=0;i<btns.length;i++){		
+		        if(btns[i].accessKey=='T' || btns[i].accessKey=='J' || btns[i].accessKey=='K' || btns[i].accessKey=='V'){		    
+		           btns[i].removeAttribute("accesskey");		
+			    } 
+			    if(right(btns[i].title,1)=='I' ||right(btns[i].title,1)=='M' || right(btns[i].title,1)=='B'){
+		            btns[i].setAttribute("accesskey",right(btns[i].title,1));		
+			    } 
+	        }	
+		}	
+	    commontemp(fthkey.innerHTML,"c04.F01");
 		
 }
 

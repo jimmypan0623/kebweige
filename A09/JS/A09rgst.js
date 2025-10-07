@@ -9,7 +9,12 @@ function blocksclose(event)  //關閉註冊彈出視窗
 	if (dropsheet!=null){		
         dropsheet.parentNode.removeChild(dropsheet);  //並將這些元素移除	 
 	}   
-	
+	var btns=getElementsByAttribute('class','btn');		
+	var bttssn1=[];
+    for (var i=0;i<btns.length;i++){
+		bttssn1.push(btns[i].title);
+		btns[i].setAttribute("accesskey",right(bttssn1[i],1));				 
+	}		      	
 	return true;
 }	
 

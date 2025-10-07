@@ -44,12 +44,14 @@ function selfTag(jsvsn){
 	loadScript(`include/JS/confirmfunction.js?=${jsvsn}`);	
 	var tab1Click=document.getElementById("tab1");
 	if(tab1Click){
-	      attachEventListener(tab1Click,"click",tab1View,false);
+		tab1Click.setAttribute("accesskey","1");  
+	    attachEventListener(tab1Click,"click",tab1View,false);		
 	}	
-	var tab2Click=document.getElementById("tab2");
-	if(tab2Click){
-	    attachEventListener(tab2Click,"click",tab2View,false);
-	}		
+	var tab2Click=document.getElementById("tab2");	
+	if(tab2Click){		
+		tab2Click.setAttribute("accesskey","2");
+	    attachEventListener(tab2Click,"click",tab2View,false);		
+	}
 }
 function prntproc(event){
 	if (typeof event=="undefined")
@@ -103,6 +105,12 @@ function tab1View(event){
 	        cko[3](bibau*(-1));    //將表身閉包變數歸零
 			bibau=cko[6](0);   //找出閉包變數現值
 			cko[6](bibau*(-1));    //將表身閉包變數歸零
+		var btns=getElementsByAttribute('class','btn');			 
+		 for (var i=0;i<btns.length;i++){		
+		     if(btns[i].accessKey=='I' || btns[i].accessKey=='M'){
+		        btns[i].removeAttribute("accesskey");		
+			 } 			 
+	     }		        	
 			 
 }
 function tab2View(event){	  
@@ -132,9 +140,7 @@ function tab2View(event){
                shrno=aWaitUpdate[aWaitUpdate.length-2]	;		        
                break;					   
 		   }
-	   } 
-	   
-	 
+	   } 	   	 
 	   keydescription.innerHTML=aWaitUpdate[2]+'&nbsp'+aWaitUpdate[3];
 	   fthkey.innerHTML=aWaitUpdate[1];
 	   var responseDiv=document.getElementById("serverResponse2"); 
@@ -152,8 +158,15 @@ function tab2View(event){
                  newrcath.style.visibility="visible";	
 			     attachEventListener(newrcath,"click",addrec,false);  //新增紀錄按鈕程序
 			  }
-         }			 
-        
+         }	
+		if(event!='GY'){  
+            var btns=getElementsByAttribute('class','btn');			 
+		    for (var i=0;i<btns.length;i++){				     
+			    if(right(btns[i].title,1)=='I' ||right(btns[i].title,1)=='M'){
+		           btns[i].setAttribute("accesskey",right(btns[i].title,1));		
+			    } 
+	        } 
+		}	
 	   commontemp(fthkey.innerHTML,"b0d.F01");
 						  
 }

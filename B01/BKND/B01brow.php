@@ -35,34 +35,33 @@
     $rndnb=$_COOKIE['INT_001'];  //參數設定的小數位數
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_array($sql4)){
-		 
-		$atr = array('rc_no'=>$list3['F00'],  		            	             
-		             'stock_no'=>$list3['F01'], 					 
-                     'stock_name'=>$list3['F02'],					                     
-                     'tpemng'=>$list3['F06'],  
-                     'tpblng'=>$list3['F98'],
-                     'eachprchs'=>$list3['F03'],
-                     'eachcount'=>$list3['F04'],  	
-                     'dividing'=>$list3['F05'],
-					 'dptno'=>$list3['F07'],					
-					 'dptname'=>$list3['F0B'],	
-                     'ntqty'=>round($list3['nTqty'],$rndnb),							 
-					 'dpqty'=>round($list3['F0D'],$rndnb),                    
-					 'maxinv'=>$list3['F10'],
-					 'minuminv'=>$list3['F11'],
-					 'location'=>$list3['F41'],
-					 'buildbom'=>$list3['F97'],
-					 'tpeofaply'=>$list3['F39'],
-					 'lotnomng'=>$list3['F30'],
-					 'prchsleadtime'=>$list3['F28'],
-					 'warehousereadytime'=>$list3['F31'],					 					 
-					 'salescost'=>$list3['F38'],
-					 'averagecost'=>$list3['F37'],
-					 'remark'=>$list3['F29'],	
-					 'mtrtype'=>$list3['F42'],	
-					 'orignplace'=>$list3['F49'],	
-					 'lastupdate'=>$list3['F21']                      				 
+	while ($list3=mysqli_fetch_array($sql4)){		 
+		$atr = array('rc_no_DHC_000'=>$list3['F00'],  		            	             
+		             'stock_no_DSL_050'=>$list3['F01'], 					 
+                     'stock_nameo_DSL_040'=>$list3['F02'],					                     
+                     'tpemng_DHC_000'=>$list3['F06'],  
+                     'tpblng_DHC_000'=>$list3['F98'],
+                     'eachprchs_DHC_000'=>$list3['F03'],
+                     'eachcount_DHC_000'=>$list3['F04'],  	
+                     'dividing_DHC_000'=>$list3['F05'],
+					 'dptno_DHC_000'=>$list3['F07'],					
+					 'dptname_IHC_000'=>$list3['F0B'],	
+                     'ntqty_IHR_000'=>round($list3['nTqty'],$rndnb),							 
+					 'dpqty_IHR_000'=>round($list3['F0D'],$rndnb),                    
+					 'maxinv_DHR_000'=>$list3['F10'],
+					 'minuminv_DHR_000'=>$list3['F11'],
+					 'location_DHL_000'=>$list3['F41'],
+					 'buildbom_DHC_000'=>$list3['F97'],
+					 'tpeofaply_DHC_000'=>$list3['F39'],
+					 'lotnomng_DHC_000'=>$list3['F30'],
+					 'prchsleadtime_DHR_000'=>$list3['F28'],
+					 'warehousereadytime_DHR_000'=>$list3['F31'],					 					 
+					 'salescost_DHR_000'=>$list3['F38'],
+					 'averagecost_DHR_000'=>$list3['F37'],
+					 'remark_DHL_000'=>$list3['F29'],	
+					 'mtrtype_DHR_000'=>$list3['F42'],	
+					 'orignplace_DHL_000'=>$list3['F49'],	
+					 'lastupdate_DHC_000'=>$list3['F21']                      				 
 					 );                      			
 		array_push($arr,$atr);
 	}

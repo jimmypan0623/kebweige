@@ -28,8 +28,8 @@ function selfTag(jsvsn){
 	orpButton9.setAttribute("type","button");
 	orpButton9.setAttribute("class","btn");
 	orpButton9.setAttribute("value","\u{1F516}");       		      
-	orpButton9.setAttribute("title","直接轉客戶訂單，快速鍵Alt+Y");  
-	orpButton9.setAttribute("accesskey","Y");					
+	orpButton9.setAttribute("title","直接轉客戶訂單，快速鍵Alt+G");  
+	orpButton9.setAttribute("accesskey","G");					
 	orpButton9.id="TRN_BOTT";					 
 	maindiv[0].insertBefore(orpButton9,orpButton5);
 	maindiv[0].insertBefore(text21,orpButton5);				 
@@ -58,12 +58,14 @@ function selfTag(jsvsn){
 	loadScript(`include/JS/confirmfunction.js?v=${jsvsn}`);	
 	var tab1Click=document.getElementById("tab1");
 	if(tab1Click){
-	      attachEventListener(tab1Click,"click",tab1View,false);
+		tab1Click.setAttribute("accesskey","1");  
+	    attachEventListener(tab1Click,"click",tab1View,false);		
 	}	
-	var tab2Click=document.getElementById("tab2");
-	if(tab2Click){
-	    attachEventListener(tab2Click,"click",tab2View,false);
-	}		
+	var tab2Click=document.getElementById("tab2");	
+	if(tab2Click){		
+		tab2Click.setAttribute("accesskey","2");
+	    attachEventListener(tab2Click,"click",tab2View,false);		
+	}
 }
 
 function prntproc(event){
@@ -122,15 +124,24 @@ function tab1View(event){
 	     cko[3](bibau*(-1));    //將表身閉包變數歸零	
 		  bibau=cko[6](0);   //找出閉包變數現值
 	     cko[6](bibau*(-1));    //將表身閉包變數歸零 
+		 var btns=getElementsByAttribute('class','btn');			 
+		 for (var i=0;i<btns.length;i++){		
+		     if(btns[i].accessKey=='I' || btns[i].accessKey=='M'){
+		        btns[i].removeAttribute("accesskey");		
+			 } 
+			 if(right(btns[i].title,1)=='T' || right(btns[i].title,1)=='J' || right(btns[i].title,1)=='K' || right(btns[i].title,1)=='V'){
+		        btns[i].setAttribute("accesskey",right(btns[i].title,1));		
+			 } 
+	     }		        
 	 
 }
 function tab2View(event){	  
-       if (typeof event=="undefined"){
-		event=window.event;
+        if (typeof event=="undefined"){
+		     event=window.event;
     	}
+		
 	    var localbottoncl=document.getElementById('lclbtnbk');       //按鈕背景
-		
-		
+				
 		 localbottoncl.style.backgroundColor="#F9FAD9";
 		 localbottoncl.style.border=" 2px solid #F9FAD9";
 		 localbottoncl.style.boxShadow="olivedrab 5px 10px 10px 7px";
@@ -173,7 +184,17 @@ function tab2View(event){
 			     attachEventListener(newrcath,"click",addrec,false);  //新增紀錄按鈕程序
 			  }
          }			 
-	  
+		 if(event!='GY'){
+	        var btns=getElementsByAttribute('class','btn');			 
+		    for (var i=0;i<btns.length;i++){		
+		        if(btns[i].accessKey=='T' || btns[i].accessKey=='J' || btns[i].accessKey=='K' || btns[i].accessKey=='V'){		    
+		           btns[i].removeAttribute("accesskey");		
+			    } 
+			     if(right(btns[i].title,1)=='I' ||right(btns[i].title,1)=='M'){
+		           btns[i].setAttribute("accesskey",right(btns[i].title,1));		
+			    } 
+	        }		
+		 }		 
 	   commontemp(fthkey.innerHTML,"c27.F01");
 						  
 }

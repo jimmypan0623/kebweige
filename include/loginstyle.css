@@ -269,15 +269,28 @@ span.errorMsg{
   
 }
 
+.close:hover {
+    /* :hover 代表滑鼠移到元素上時的狀態 */ 
+    transform: scale(1.03);
+  }
+
+.close:active{
+    /* :active是滑鼠點擊元素的狀態 */
+    transform: scale(1);
+    box-shadow: inset 0 0 10px 1px rgba(0, 0, 0, .2);
+  }
+
 .close {
-  color: #aaaaaa;
+  
+  background-color:#fff;
+  border:0;
   float: right;
   font-size: 28px;
   font-weight: bold;
 }
 .close:hover,
 .close:focus {
-  color: #000;
+  
   text-decoration: none;
   cursor: pointer;
 }

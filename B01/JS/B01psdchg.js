@@ -18,14 +18,17 @@ function selfTag(jsvsn){
 	loadScript(`B01/JS/D01srch.js?v=${jsvsn}`);		
 	var tab1Click=document.getElementById("tab1");
 	if(tab1Click){
+		tab1Click.setAttribute("accesskey","1");
 	    attachEventListener(tab1Click,"click",tab1View,false);
 	}	
 	var tab2Click=document.getElementById("tab2");
 	if(tab2Click){
+		tab2Click.setAttribute("accesskey","2");
 	    attachEventListener(tab2Click,"click",tab2View,false);
 	}
 	var tab3Click=document.getElementById("tab3");
 	if(tab3Click){
+		tab3Click.setAttribute("accesskey","3");
 	    attachEventListener(tab3Click,"click",tab3View,false);
 	}
 }
@@ -81,6 +84,15 @@ function tab1View(event){
 		  bibau=cko[6](0);   //找出閉包變數現值
 	     cko[6](bibau*(-1));    //將表身閉包變數歸零 
 		////
+		 var btns=getElementsByAttribute('class','btn');			 
+		 for (var i=0;i<btns.length;i++){		
+		     if(btns[i].accessKey=='I' || btns[i].accessKey=='M'){
+		        btns[i].removeAttribute("accesskey");		
+			 } 
+			 if(right(btns[i].title,1)=='T' || right(btns[i].title,1)=='J' || right(btns[i].title,1)=='K' || right(btns[i].title,1)=='V' ||right(btns[i].title,1)=='B'){
+		        btns[i].setAttribute("accesskey",right(btns[i].title,1));		
+			 } 
+	     }		           
 }
 
 function tab2View(event){	  
@@ -115,9 +127,7 @@ function tab2View(event){
 		   if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
 			   for (j=0;j<maintable.rows[i].cells.length-1;j++){				  
 				   aWaitUpdate.push(maintable.rows[i].cells[j].textContent);  //將待修改欄位資料存入陣列				 
-			   }				   
-         
-               
+			   }				                          
                break;					   
 		   }
 	   } 
@@ -139,10 +149,8 @@ function tab2View(event){
 				attachEventListener(delbtt,"click",delrec,false);
 			}
 			srchbtt.setAttribute("style","visibility:visible;");	
-		    attachEventListener(srchbtt,'click',seekrec,false);  
-			
-	    }else{
-			
+		    attachEventListener(srchbtt,'click',seekrec,false);  			
+	    }else{			
 			srchbtt.setAttribute("style","visibility:hidden;");	
 	     	detachEventListener(srchbtt,'click',seekrec,false);    			
 		    newrcath.setAttribute("style","visibility:hidden;");
@@ -150,10 +158,7 @@ function tab2View(event){
 			editbtt.setAttribute("style","visibility:hidden;");
 			detachEventListener(editbtt,"click",edtrec,false); 
 			delbtt.setAttribute("style","visibility:hidden;");
-			detachEventListener(delbtt,"click",delrec,false); 
-			
-			
-			
+			detachEventListener(delbtt,"click",delrec,false); 									
 		}			  
 	   
 	   var responseDiv=document.getElementById("serverResponse2"); 
@@ -162,6 +167,32 @@ function tab2View(event){
 	   cko[3](bibau*(-1));    //將表身閉包變數歸零			
 	    bibau=cko[6](0);   //找出閉包變數現值
 	     cko[6](bibau*(-1));    //將表身閉包變數歸零 
+		if(event!='GY'){  	
+		    var btns=getElementsByAttribute('class','btn');		
+			var M1=0;
+			var I1=0;
+		    for (var i=0;i<btns.length;i++){		
+		        if(btns[i].accessKey=='T' || btns[i].accessKey=='J' || btns[i].accessKey=='K' || btns[i].accessKey=='V' || btns[i].accessKey=='B'){		    
+		           btns[i].removeAttribute("accesskey");		
+			    } 
+			    if(right(btns[i].title,1)=='I'){
+				    I1++;
+				    if(I1==1){
+		               btns[i].setAttribute("accesskey",right(btns[i].title,1));
+					}else{
+					   btns[i].removeAttribute("accesskey");
+					}  
+			    } 
+				 if(right(btns[i].title,1)=='M'){
+				    M1++;
+					if(M1==1){
+		               btns[i].setAttribute("accesskey",right(btns[i].title,1));	
+					}else{
+					   btns[i].removeAttribute("accesskey");
+					}  
+			    } 
+	        }
+		}			
 	   commontemp(fthkey.innerHTML,"c02.F03");
 }
 
@@ -198,9 +229,7 @@ function tab3View(event){
 		   if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
 			   for (j=0;j<maintable.rows[i].cells.length-1;j++){				  
 				   aWaitUpdate.push(maintable.rows[i].cells[j].textContent);  //將待修改欄位資料存入陣列				 
-			   }				   
-         
-               
+			   }				                 
                break;					   
 		   }
 	   } 
@@ -224,8 +253,7 @@ function tab3View(event){
 			srchbtt.setAttribute("style","visibility:visible;");	
 		    attachEventListener(srchbtt,'click',seekrec,false);  
 			
-	    }else{
-			
+	    }else{			
 			srchbtt.setAttribute("style","visibility:hidden;");	
 	     	detachEventListener(srchbtt,'click',seekrec,false);    			
 		    newrcath.setAttribute("style","visibility:hidden;");
@@ -234,16 +262,38 @@ function tab3View(event){
 			detachEventListener(editbtt,"click",edtrec,false); 
 			delbtt.setAttribute("style","visibility:hidden;");
 			detachEventListener(delbtt,"click",delrec,false); 
-			
-			
-			
-		}			  
-	   
+		}			  	   
 	   var responseDiv=document.getElementById("serverResponse3"); 
 	   responseDiv.innerHTML='&nbsp';
 	   var bibau=cko[4](0);   //找出閉包變數現值
 	   cko[4](bibau*(-1));    //將表身閉包變數歸零			
 	    bibau=cko[6](0);   //找出閉包變數現值
 	    cko[6](bibau*(-1));    //將表身閉包變數歸零 
+		if(event!='GY'){  	
+		    var btns=getElementsByAttribute('class','btn');		
+			var M1=0;
+			var I1=0;
+		    for (var i=0;i<btns.length;i++){		
+		        if(btns[i].accessKey=='T' || btns[i].accessKey=='J' || btns[i].accessKey=='K' || btns[i].accessKey=='V' || btns[i].accessKey=='B'){		    
+		           btns[i].removeAttribute("accesskey");		
+			    } 
+			    if(right(btns[i].title,1)=='I'){
+				    I1++;
+				    if(I1==2){
+		               btns[i].setAttribute("accesskey",right(btns[i].title,1));		
+				    }else{
+					   btns[i].removeAttribute("accesskey");
+					}
+			    } 
+				if(right(btns[i].title,1)=='M'){
+				    M1++;
+					if(M1==2){
+		                btns[i].setAttribute("accesskey",right(btns[i].title,1));	
+					}else{
+					   btns[i].removeAttribute("accesskey");
+					}						
+			    } 
+	        }
+		}			
 	   commontemp(fthkey.innerHTML,"d02.F03");
 }

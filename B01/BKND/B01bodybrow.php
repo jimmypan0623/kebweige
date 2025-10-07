@@ -10,21 +10,20 @@
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_array($sql4)){
-		 
-		$atr = array('rc_no'=>$list3['F00'],		           
-					 'customno'=>$list3['F01'], 
-					 'customname'=>$list3['F0E'],
-					 'custom_partno'=>$list3['F04'],  
-					 'crncy_type'=>$list3['F06'],	                     
-                     'query_price'=>$list3['F07'],     					
-                     'basic_pack'=>$list3['F13'],  		
-                     'min_order'=>$list3['F08'],  	
-					 'payment'=>$list3['F10'],
-					 'query_no'=>$list3['F11'], 
-					 'datestart'=>$list3['F02'],  
-					 'dateline'=>$list3['F15'],  	
-					 'remark'=>$list3['F16'],
-                     'lastupdate'=>$list3['F99']);                      						 
+		$atr = array('rc_no_DHC_000'=>$list3['F00'],		           
+					 'customno_DSL_007'=>$list3['F01'], 
+					 'customname_ISL_007'=>$list3['F0E'],
+					 'custom_partno_DSL_010'=>$list3['F04'],  
+					 'crncy_type_DSC_004'=>$list3['F06'],	                     
+                     'query_price_DSR_008'=>$list3['F07'],     					
+                     'basic_pack_DSR_007'=>$list3['F13'],  		
+                     'min_order_DSR_007'=>$list3['F08'],  	
+					 'payment_DSL_010'=>$list3['F10'],
+					 'query_no_DSL_010'=>$list3['F11'], 
+					 'datestart_DSC_010'=>$list3['F02'],  
+					 'dateline_DSC_010'=>$list3['F15'],  	
+					 'remark_DSL_010'=>$list3['F16'],
+                     'lastupdate_DHC_000'=>$list3['F99']);                      						 
 		array_push($arr,$atr);
 	}
 	mysqli_close($link);

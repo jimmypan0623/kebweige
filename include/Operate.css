@@ -43,23 +43,23 @@ input.txt{
 	font-size:100%;
 }
 
-.btn:hover,.scopelook:hover {
+.btn:hover,.scopelook:hover,.close:hover {
     /* :hover 代表滑鼠移到元素上時的狀態 */ 
     transform: scale(1.03);
   }
 
-.btn:active,.scopelook:active {
+.btn:active,.scopelook:active,.close:active{
     /* :active是滑鼠點擊元素的狀態 */
     transform: scale(1);
     box-shadow: inset 0 0 10px 1px rgba(0, 0, 0, .2);
   }
-  
+
 input.btn{
-     border:1px solid #744011;  /**/
-	 font: bold 15px Arial, Helvetica; 	  
-	color:#744011;
-	background-color:#ffb94b;	 /* #ffb94b;#FFFF8C;*/ 
-    margin:2px;		 
+    border:1px solid #744011; 	
+	font: bold 15px Arial, Helvetica; 	  
+    color:#744011; 
+    background-color:#ffb94b; 	 /* #ffb94b;#FFFF8C;*/     
+    margin:1px;		 
 }  
 .scopelook:hover {
     /* :hover 代表滑鼠移到元素上時的狀態 這是放大鏡*/ 
@@ -128,14 +128,16 @@ width: calc( 100% - 1em );
 width: calc( 100% + 1em )
 }  */
 .close {
-  color: #aaaaaa;
+  /*color: #aaaaaa;*/
+  background-color:#fff;
+  border:0;
   float: right;
   font-size: 28px;
   font-weight: bold;
 }
 .close:hover,
 .close:focus {
-  color: #000;
+  /*color: #000;*/
   text-decoration: none;
   cursor: pointer;
 }

@@ -107,6 +107,16 @@ function getProfile(str1,reccount,tbno) {
 	  }else{
 		   if (tbno==1){       //如果是表身
 		      document.getElementById('ttltitle').innerHTML="本單總額:";
+		   }else{
+		       var btns=getElementsByAttribute('class','btn');			 
+		       for (var i=0;i<btns.length;i++){		
+		           if(btns[i].accessKey=='I' || btns[i].accessKey=='M' || btns[i].accessKey=='B'){
+		              btns[i].removeAttribute("accesskey");		
+			        } 
+			        /* if(right(btns[i].title,1)=='T' || right(btns[i].title,1)=='J' || right(btns[i].title,1)=='K' || right(btns[i].title,1)=='V'){
+		               btns[i].setAttribute("accesskey",right(btns[i].title,1));		
+			        }  */
+	            }		        
 		   }
 	  } 
 	  if(cnt>0){       //初始畫面呼叫

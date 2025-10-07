@@ -4,6 +4,10 @@ function blocksclose(event)  //關閉註冊彈出視窗
 		event=window.event;
 	}	
 	var target=getEventTarget(event);
+	var tabs=getElementsByAttribute('class','tab');		
+    for(var i=0;i<tabs.length;i++){
+		tabs[i].setAttribute("accesskey",(i+1).toString());
+	}	
 	if (target.value=="\u{274E}"  && getCookie('INT_004')=='Y'){
 	   if(document.getElementById('venderno')!=null){
 	      var currentNo=document.getElementById('venderno').value;	   
@@ -17,7 +21,23 @@ function blocksclose(event)  //關閉註冊彈出視窗
 	
 	if (dropsheet!=null){		
         dropsheet.parentNode.removeChild(dropsheet);  //並將這些元素移除	 
-	}   	 	
+	}   
+	var btns=getElementsByAttribute('class','btn');			 
+    for (var i=0;i<btns.length;i++){		
+        if (tabs[0].checked){
+			if(right(btns[i].title,1)=='M' || right(btns[i].title,1)=='I'){		      
+			     btns[i].removeAttribute("accesskey");
+			}else{
+			    btns[i].setAttribute("accesskey",right(btns[i].title,1));
+			}				
+		}else{
+		   if(right(btns[i].title,1)=='J' || right(btns[i].title,1)=='K' || right(btns[i].title,1)=='T' || right(btns[i].title,1)=='V'){		      
+			    btns[i].removeAttribute("accesskey");
+			}else{
+			    btns[i].setAttribute("accesskey",right(btns[i].title,1));
+			}				
+		}			
+	}		      	 		
 	return true;
 }	
 
@@ -527,85 +547,35 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 }
 
 function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nongs,tbno)函數內新增紀錄後呼叫的畫面更動
-    if (tbno==0){     //先整理表頭新增後的資料
-	     var oTd = oTr.insertCell(oTr.cells.length);
-		 oTd.innerHTML=args[0];
-		 oTd.setAttribute("style","text-align:left;width:22%;");
-		  oTd.setAttribute("class","directdata");
-		 var oTd = oTr.insertCell(oTr.cells.length);				  
-		 oTd.innerHTML=args[1];				  
-		 oTd.setAttribute("style","text-align:left;width:78%;"); 
-		 oTd.setAttribute("class","directdata");
-	    for(var i=2;i<15;i++){    
-		   var oTd = oTr.insertCell(oTr.cells.length);
-		  oTd.innerHTML=args[i];
-		  oTd.setAttribute("style","display:none;");
-		  oTd.setAttribute("class","directdata");
-	    }
-		var oTd = oTr.insertCell(oTr.cells.length); //15
-	    oTd.innerHTML=nongs[0];     //幣別名稱
-	    oTd.setAttribute("style","display:none;");
-	    oTd.setAttribute("class","indirectdata");
-		
-		for(var i=15;i<20;i++){    //-2
-		  var oTd = oTr.insertCell(oTr.cells.length);
-		  oTd.innerHTML=args[i];
-		  oTd.setAttribute("style","display:none;");
-		  oTd.setAttribute("class","directdata");
-	    }
-	    var oTd = oTr.insertCell(oTr.cells.length); 
-	    oTd.innerHTML=nongs[1];     //採購員名字
-	    oTd.setAttribute("style","display:none;");
-	    oTd.setAttribute("class","indirectdata");
-	    var oTd = oTr.insertCell(oTr.cells.length);  //備註
-	    oTd.innerHTML=args[20];
-	    oTd.setAttribute("style","display:none;");
-	    oTd.setAttribute("class","directdata");	  
-	    var oTd = oTr.insertCell(oTr.cells.length);  //最後交易  
-	    oTd.setAttribute("style","display:none;");
-	    oTd.setAttribute("class","directdata");
-	    var oTd = oTr.insertCell(oTr.cells.length);	//最後異動		  	       
-	    oTd.innerHTML=rsp.lastupdate;
-	    oTd.setAttribute("style","text-align:left;display:none;");
-	    oTd.setAttribute("class","directdata");	
-	 
-    }else{
-	    var oTd = oTr.insertCell(oTr.cells.length);   //料號
-	    oTd.innerHTML=args[0];
-	    oTd.setAttribute("style","text-align:left;");
-	    oTd.setAttribute("class","directdata");		
-	    var oTd = oTr.insertCell(oTr.cells.length);   //品名
-	    oTd.innerHTML=nongs[0];
-		oTd.setAttribute("style","text-align:left;");
-	    oTd.setAttribute("class","indirectdata");
-		var oTd = oTr.insertCell(oTr.cells.length);   //客戶品號
-	    oTd.innerHTML=args[1];
-	    oTd.setAttribute("style","text-align:left;");
-	    oTd.setAttribute("class","directdata");		
-	    var oTd = oTr.insertCell(oTr.cells.length);   //幣別
-	    oTd.innerHTML=args[2];
-	    oTd.setAttribute("style","width:4%;");
-	    oTd.setAttribute("class","directdata");		
-		for(var i=3;i<7;i++){
-		   var oTd = oTr.insertCell(oTr.cells.length);   //單價&&包裝基量&最少訂購&&前置天數
-		   oTd.innerHTML=args[i];
-		   oTd.setAttribute("class","directdata");
-		   oTd.setAttribute("style","width:7%;text-align:right;");
-		}   
-	
-		for(var i=7;i<9;i++){
-		   var oTd = oTr.insertCell(oTr.cells.length);   //生效日與期限
-		   oTd.innerHTML=args[i];
-		   oTd.setAttribute("class","directdata");
-		   oTd.setAttribute("style","width:8%;");
-		}    
-		var oTd = oTr.insertCell(oTr.cells.length);   //備註
-		oTd.innerHTML=args[9];
-		oTd.setAttribute("style","text-align:left;");
-		oTd.setAttribute("class","directdata");	 
-	    var ttlcnt=Number(document.getElementById('ttlmny').innerHTML);					        			   										
-	    document.getElementById('ttlmny').innerHTML=ttlcnt+1;  //更新畫面上的總金額
-    }					  
+     var fldidx=0;
+		var argsNo=0;
+		var nongsNo=0;	
+		while(fldsgsroup(fldidx,tbno)){
+			var oTd = oTr.insertCell(oTr.cells.length); 			
+			if(fldsgsroup(fldidx,tbno)[0]=='directdata'){
+				oTd.innerHTML=args[argsNo];				
+				argsNo++;
+			}else{						
+				if(fldidx==23){
+				   nongs[nongsNo]='0000-00-00';
+				}					
+				oTd.innerHTML=nongs[nongsNo];	
+				nongsNo++;
+			}
+			oTd.setAttribute("class",fldsgsroup(fldidx,tbno)[0]);
+			if(fldsgsroup(fldidx,tbno)[1]=='none'){
+				oTd.setAttribute("style","display:none;");		
+			}else{
+				oTd.style.textAlign=fldsgsroup(fldidx,tbno)[2];				     	
+				oTd.style.width=fldsgsroup(fldidx,tbno)[3]+"%";				  
+			}					 		
+			fldidx++;
+		}
+		if(tbno==1){
+		   var ttlcnt=Number(document.getElementById('ttlmny').innerHTML);					        			   											
+		   document.getElementById('ttlmny').innerHTML=ttlcnt+1;  //更新畫面上的筆數
+		}
+ 
 	 //最後異動	
     var oTd = oTr.insertCell(oTr.cells.length);	
     oTd.setAttribute("class","directdata");					   
@@ -613,7 +583,43 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
     oTd.setAttribute("style","display:none;"); //最後異動要隱藏
 }
 function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,nongs,tbno)函數修改紀錄後呼叫的畫面更動
-    if (tbno==0){  		   					   
+    	
+	if (tbno==0){     //處理表頭修改   	   								
+		var maintable=document.getElementById("maintbody1");
+		var d01a_value_names=document.getElementsByName("d01value");
+	 }else{
+	    var maintable=document.getElementById("maintbody2");	
+	 }		 	         		             			   	 	
+	var fldidx=1;
+	var argsNo=1;
+	var nongsNo=0;	
+	while(fldsgsroup(fldidx,tbno)){			
+		if(fldsgsroup(fldidx,tbno)[0]=='directdata'){
+			 maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=args[argsNo];	
+			 if (tbno==0){     //處理表頭修改  
+			     d01a_value_names[fldidx].innerHTML=args[argsNo];
+			 }
+			argsNo++;
+		}else{
+			if (tbno==0){     //處理表頭修改  
+			    if(nongs[nongsNo]){
+			        d01a_value_names[fldidx].innerHTML=nongs[nongsNo].trim();
+				}				
+			 }
+			 if(nongs[nongsNo]){
+			    maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=nongs[nongsNo].trim();	
+			 }			
+			 nongsNo++;
+		}		
+		fldidx++;
+	}
+	if (tbno==0){     //處理表頭修改  
+	    var tpy=d01a_value_names[18].innerHTML;
+	    d01a_value_names[18].innerHTML=paycondition(tpy);
+		d01a_value_names[d01a_value_names.length-1].innerHTML=rsp.lastupdate;	
+	}		
+	maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=rsp.lastupdate;		
+    /* if (tbno==0){  		   					   
 		var d01a_value_names=document.getElementsByName("d01value");
 		
 		var maintable=document.getElementById("maintbody1");	               
@@ -648,7 +654,7 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 			 maintable.rows[args[arglth-1]].cells[j].innerHTML=args[j-2];						 
 		}
 		maintable.rows[args[arglth-1]].cells[tbrlth-2].innerHTML=rsp.lastupdate;   
-	}						
+	}		 */				
 }
 function searchOptionsKey(tbno,slt5){	
 	if (tbno==0){

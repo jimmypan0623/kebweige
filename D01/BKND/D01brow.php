@@ -36,40 +36,32 @@
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_array($sql4)){
 		 
-		$atr = array('rc_no'=>$list3['F00'],  		            	             
-		             'vender_no'=>$list3['F01'], 					 
-                     'vender_name'=>$list3['F03'],					                     
-                     'vender_abbrv'=>$list3['F04'],  
-                     'level'=>$list3['F12'],
-                     'unitedno'=>$list3['F06'],                   
-                     'product'=>$list3['F11'],					
-                     'wayofship'=>$list3['F19'],      					 	
-					
-					 'address'=>$list3['F05'],
-					 'addressoffactory'=>$list3['F21'],					 					 
-					 
-					 
-					 'contact'=>$list3['F08'],	
-					 'boss'=>$list3['F07'],		
-					 'tel'=>$list3['F09'],		
-                     'fax'=>$list3['F10'],	                  		
-                     'email'=>$list3['F22'],	
-					                  
-                     'moneycrnt'=>$list3['F25'],	
-					 'crntname'=>$list3['F0D'],	
-                     'dayofincount'=>$list3['F15'],									 
-                     'dayofcharge'=>$list3['F38'],	     					 
-                     'wayofpay'=>$list3['F13'],		                   
-                     'paymentterm'=>$list3['F36'],	                                 	                    
-                     'procureno'=>$list3['F39'],
-					 'procurename'=>$list3['F03A'],
-                     
-                    
-                  				 
-                     'remark'=>$list3['F16'],                     				 
-                     'lasttrade'=>$list3['F14'],									 
-                    
-					 'lastupdate'=>$list3['F18']                      				 
+		$atr = array('rc_no_DHC_000'=>$list3['F00'],  		            	             
+		             'vender_noo_DSL_022'=>$list3['F01'], 					 
+                     'vender_name_DSL_078'=>$list3['F03'],					                     
+                     'vender_abbrv_DHC_000'=>$list3['F04'],  
+                     'level_DHC_000'=>$list3['F12'],
+                     'unitedno_DHC_000'=>$list3['F06'],                   
+                     'product_DHC_000'=>$list3['F11'],					
+                     'wayofship_DHC_000'=>$list3['F19'],      					 						
+					 'address_DHC_000'=>$list3['F05'],
+					 'addressoffactory_DHC_0000'=>$list3['F21'],					 					 					 					 
+					 'contact_DHC_000'=>$list3['F08'],	
+					 'boss_DHC_000'=>$list3['F07'],		
+					 'tel_DHC_000'=>$list3['F09'],		
+                     'fax_DHC_000'=>$list3['F10'],	                  		
+                     'email_DHC_000'=>$list3['F22'],						                  
+                     'moneycrnt_DHC_000'=>$list3['F25'],	
+					 'crntname_IHC_000'=>$list3['F0D'],	
+                     'dayofincount_DHC_000'=>$list3['F15'],									 
+                     'dayofcharge_DHC_000'=>$list3['F38'],	     					 
+                     'wayofpay_DHC_000'=>$list3['F13'],		                   
+                     'paymentterm_DHC_000'=>$list3['F36'],	                                 	                    
+                     'procureno_DHC_000'=>$list3['F39'],
+					 'procurename_IHC_000'=>$list3['F03A'],
+                     'remark_DHC_000'=>$list3['F16'],                     				 
+                     'lasttrade_IHC_000'=>$list3['F14'],									                     
+					 'lastupdate_DHC_000'=>$list3['F18']                      				 
 					 );                      			
 		array_push($arr,$atr);
 	}

@@ -1,14 +1,16 @@
 function selfTag(jsvsn){
 	loadScript(`A20/JS/A20.js?v=${jsvsn}`,function(){DrawTable();});	
 	  loadScript(`A20/JS/A20rgst.js?v=${jsvsn}`);
-	var tab1Click=document.getElementById("tab1");
+　　var tab1Click=document.getElementById("tab1");
 	if(tab1Click){
-	      attachEventListener(tab1Click,"click",tab1View,false);
+		tab1Click.setAttribute("accesskey","1");  
+	    attachEventListener(tab1Click,"click",tab1View,false);		
 	}	
-	var tab2Click=document.getElementById("tab2");
-	if(tab2Click){
-	    attachEventListener(tab2Click,"click",tab2View,false);
-	}		  
+	var tab2Click=document.getElementById("tab2");	
+	if(tab2Click){		
+		tab2Click.setAttribute("accesskey","2");
+	    attachEventListener(tab2Click,"click",tab2View,false);		
+	}
 }
 function tab1View(event){	  
        if (typeof event=="undefined"){
@@ -21,8 +23,16 @@ function tab1View(event){
 		 var bibau=cko[3](0);   //找出閉包變數現值
 	     cko[3](bibau*(-1));    //將表身閉包變數歸零	
           bibau=cko[6](0);   //找出閉包變數現值
-	     cko[6](bibau*(-1));    //將表身閉包變數歸零		 
-	 
+	     cko[6](bibau*(-1));    //將表身閉包變數歸零	
+		 var btns=getElementsByAttribute('class','btn');		
+         for (var i=0;i<btns.length;i++){		
+		     if(btns[i].accessKey=='I' || btns[i].accessKey=='M'){
+		        btns[i].removeAttribute("accesskey");		
+			 } 
+			 if(right(btns[i].title,1)=='T' || right(btns[i].title,1)=='J' || right(btns[i].title,1)=='K' || right(btns[i].title,1)=='V'){
+		        btns[i].setAttribute("accesskey",right(btns[i].title,1));		
+			 } 
+	     }		     
 }
 function tab2View(event){	  
        if (typeof event=="undefined"){
@@ -48,9 +58,7 @@ function tab2View(event){
 				  if(maintable.rows[i].cells[j].className=='directdata'){
 					aWaitUpdate.push(maintable.rows[i].cells[j].innerHTML);  //將待修改欄位資料存入陣列
 				  }
-			   }	
-			
-			  
+			   }							  
                break;					   
 		   }
 	   } 
@@ -63,6 +71,15 @@ function tab2View(event){
 	   cko[3](bibau*(-1));    //將表身閉包變數歸零						   
 	    bibau=cko[6](0);   //找出閉包變數現值
 	     cko[6](bibau*(-1));    //將表身閉包變數歸零
+        var btns=getElementsByAttribute('class','btn');			 
+		 for (var i=0;i<btns.length;i++){		
+		     if(btns[i].accessKey=='T' || btns[i].accessKey=='J' || btns[i].accessKey=='K' || btns[i].accessKey=='V'){		    
+		        btns[i].removeAttribute("accesskey");		
+			 } 
+			  if(right(btns[i].title,1)=='I' ||right(btns[i].title,1)=='M'){
+		        btns[i].setAttribute("accesskey",right(btns[i].title,1));		
+			 } 
+	     }		  
 	   commontemp(fthkey.innerHTML,"a22.F05");
 						  
 }

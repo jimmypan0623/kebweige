@@ -64,78 +64,7 @@ function getProfile(str1,reccount,tbno) {
 				}		 
 				   
 				
-                /* if (tbno==0){				
-	    	       if(jk=='rc_no'  || jk=='sales_no' || jk=='lastupdate'){			 //表頭資料匯入
-				       oTd.setAttribute("class","directdata");
-	    	     	   oTd.setAttribute("style","display:none;");		  	  
-	    	       }else if(jk=='query_no' || jk=='query_date'){	
-                      oTd.setAttribute("class","directdata");				   
-				      oTd.setAttribute("style","width:10%;");		
-					  attachEventListener(oTd,'click',rowchoose,false);		//點選資料   
-				   }else if(jk=='custom_no'){	
-				      oTd.setAttribute("class","directdata");
-				      oTd.setAttribute("style","width:7%;");							 
-					  attachEventListener(oTd,'click',rowchoose,false);		//點選資料   
-				   }else if(jk=='custom_name'){	
-				      oTd.setAttribute("class","indirectdata");
-				      oTd.setAttribute("style","width:7%;");											  
-					  attachEventListener(oTd,'click',rowchoose,false);		//點選資料     
-                  }else if(jk=='custom_fullname'){	
-				      oTd.setAttribute("class","indirectdata");
-				      oTd.setAttribute("style","display:none;");									  
-				   }else if(jk=='crncy_type'){	
-				        oTd.setAttribute("class","directdata");
-				        oTd.setAttribute("style","width:4%;");			
-                        attachEventListener(oTd,'click',rowchoose,false);							
-				    }else if(jk=='sales_name'){					    
-                          oTd.setAttribute("style","width:7%;");		
-						   oTd.setAttribute("class","indirectdata");			
-                          attachEventListener(oTd,'click',rowchoose,false);		//點選資料   						
-				  }else if(jk=='shure' || jk=='trns'){		
-				       oTd.setAttribute("class","indirectdata");
-	    	     	   oTd.setAttribute("style","display:none;");	
-				  }else{					  	  
-                         oTd.setAttribute("class","directdata");
-						attachEventListener(oTd,'click',rowchoose,false);		//點選資料
-				   }
-				   
-                }else{      //表身資料c27匯入 				    
-			        if(jk=='rc_no' || jk=='lastupdate'){			 
-		    	      oTd.setAttribute("style","text-align:center;color:#7f8890;font-style:italic;display:none;");
-		  	          oTd.setAttribute("class","directdata"); 	
-					}else if(jk=='stockname'){
-						 oTd.setAttribute("class","indirectdata");	
-                           oTd.setAttribute("style","text-align:left;");						 
-						  attachEventListener(oTd,'click',rowchoose,false);		//點選資料							  
-    				}else if(jk=='query_qty'){
-					   oTd.setAttribute("class","directdata");	
-						 oTd.setAttribute("style","width:8%;text-align:right;");	
-                        attachEventListener(oTd,'click',rowchoose,false);		//點選資料		
-					}else if(jk=='query_price'){
-						 oTd.setAttribute("class","directdata");	
-						 oTd.setAttribute("style","width:8%;text-align:right;");	
-                        attachEventListener(oTd,'click',rowchoose,false);		//點選資料						 
-					    var oTd = oTr.insertCell(oTr.cells.length);
-						oTd.setAttribute("style","width:8%;text-align:right;");		
-                        oTd.setAttribute("class","indirectdata");								
-						oTd.innerHTML=Math.round((oTr.cells[3].innerHTML*oTr.cells[4].innerHTML + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);					    
-						queryttl+=Number(oTd.innerHTML);
-					    attachEventListener(oTd,'click',rowchoose,false);		//點選資料
-		            }else if(jk=='basic_pack' || jk=='min_order'){
-				         oTd.setAttribute("class","directdata");	
-						 oTd.setAttribute("style","width:7%;text-align:right;");	
-                        attachEventListener(oTd,'click',rowchoose,false);		//點選資料
-				    }else if(jk=='dateline' || jk=='datestart'){
-				         oTd.setAttribute("class","directdata");	
-						 oTd.setAttribute("style","width:10%;text-align:center;");	
-                        attachEventListener(oTd,'click',rowchoose,false);		//點選資料	
-				    }else {
-			            oTd.setAttribute("style","text-align:left;");
-					   oTd.setAttribute("class","directdata"); 
-					   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
-		            }			
-					
-	           }				 */
+  
 		   }		   
 		   var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
 	       oTd.setAttribute("style","display:none");   

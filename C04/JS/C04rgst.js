@@ -1,10 +1,13 @@
-function blocksclose(event)  //關閉註冊彈出視窗
+function blocksclose(clsevt)  //關閉註冊彈出視窗
 {	
 	if (typeof event=="undefined"){
 		event=window.event;
 	}	
 	var target=getEventTarget(event);
-	var tabs=getElementsByAttribute('class','tab');			
+	var tabs=getElementsByAttribute('class','tab');	
+    for(var i=0;i<tabs.length;i++){
+		tabs[i].setAttribute("accesskey",(i+1).toString());
+	}		
 	if (tabs[0].checked){
 	   if (target.value=="\u{274E}"  && getCookie('INT_013')=='Y'){
 		   var maintable=document.getElementById("maintbody1");		 		
@@ -40,7 +43,23 @@ function blocksclose(event)  //關閉註冊彈出視窗
 	dropsheet.style.display="none";       //關閉視窗 	
 	if (dropsheet!=null){		
         dropsheet.parentNode.removeChild(dropsheet);  //並將這些元素移除	 
-	}   	 	
+	}   	 
+	var btns=getElementsByAttribute('class','btn');			 
+    for (var i=0;i<btns.length;i++){		
+        if (tabs[0].checked){
+			if(right(btns[i].title,1)=='M' || right(btns[i].title,1)=='I' || right(btns[i].title,1)=='B'){		      
+			     btns[i].removeAttribute("accesskey");
+			}else{
+			    btns[i].setAttribute("accesskey",right(btns[i].title,1));
+			}				
+		}else{
+		   if(right(btns[i].title,1)=='J' || right(btns[i].title,1)=='K' || right(btns[i].title,1)=='T' || right(btns[i].title,1)=='V'){		      
+			    btns[i].removeAttribute("accesskey");
+			}else{
+			    btns[i].setAttribute("accesskey",right(btns[i].title,1));
+			}				
+		}			
+	}		      	
 	return true;
 }	
 
@@ -544,7 +563,7 @@ function transConfirm(oTd){
 	oTd.innerHTML="<input type='text' name='b04update' id='newPono' class='txt' style='display:none;' maxlength='10'/>"; 				 
     return true;
 }   
-function searchOptionsKey(tbno,slt5){	
+function searchOptionsKey(tbno,slt5){	     	 
      if (tbno==0){
 		 slt5.options.add(new Option('訂單號碼','c03.F01'));
 		 slt5.options.add(new Option('客戶編號','c03.F03'));

@@ -2,7 +2,12 @@ function blkshow(txtword)
 {
 /*'<div id="myModal" class="modal" style="display:block"><div class="modal-content"><span class="close">&times;</span><p>'.$error_msg.'(或是註冊申請表)</p></div></div>'*/
 /*用JavaScript DOM 的建立方式建立如上列顯示之html標籤，同時把該有的css屬性加入以作彈跳視窗*/
-    var dropext=document.getElementById('myModal');  //由於與帳號登入錯誤訊息視窗共用一個DOM元素所建立的訊息畫面故先檢查該組元素是否還隱藏在畫面內有的話移除再重建
+    //所有快速鍵功能取消
+	var btns=getElementsByAttribute('class','btn');			
+	for (var i=0;i<btns.length;i++){		
+		btns[i].removeAttribute("accesskey");				
+	}	  
+	var dropext=document.getElementById('myModal');  //由於與帳號登入錯誤訊息視窗共用一個DOM元素所建立的訊息畫面故先檢查該組元素是否還隱藏在畫面內有的話移除再重建
 	if (dropext){	//如果有殘留訊息畫面的DOM則移除
 	    dropext.parentNode.removeChild(dropext);
     }		
@@ -30,22 +35,20 @@ function blkshow(txtword)
 	dropsheet_content.style.border="1px solid #888";
 	dropsheet_content.style.fontSize="18px";	  	  
 	dropsheet.appendChild(dropsheet_content);  //訊息內框加入	
-    if (isNaN(Number(txtword))){         //如果傳進來的參數是字串	   
-	    var closeSpan = document.createElement('span')
- 	    closeSpan.setAttribute("class","close");
-	    closeSpan.style.color="#000";
-	    closeSpan.style.float="right";
-	    closeSpan.style.fontSize="28px";
-	    closeSpan.style.fontWeight="bold";		
-        closeSpan.innerHTML = '\u{274E}';           //'\u{274E}'//'&times';  
-        attachEventListener(closeSpan,"click",blocksclose,false);	//按叉叉關視窗
-	   	dropsheet_content.appendChild(closeSpan);        //加進內容框		
+    if (isNaN(Number(txtword))){         //如果傳進來的參數是字串	   	   	
+	    var closeButton = document.createElement('button')
+ 	    closeButton.setAttribute("class","close");
+		closeButton.setAttribute("title","按此關閉提示視窗，快速鍵Alt+X");
+		closeButton.setAttribute("accesskey","X");
+        closeButton.innerHTML = '\u{274E}';           //'\u{274E}'//'&times';  
+        attachEventListener(closeButton,"click",blocksclose,false);	//按叉叉關視窗
+	   	dropsheet_content.appendChild(closeButton);        //加進內容框		
 	    var p_tx=document.createElement('p');            //主畫面登入錯誤訊息顯示內容
 		p_tx.style.color="blue";
 	    p_tx.innerHTML=txtword;	                         //將傳來的這一段文字加入準備顯示
 		dropsheet_content.appendChild(p_tx);				
 		dropsheet_content.style.width="28%";		
-		dropsheet_content.style.boxShadow = "5px 5px 5px 5px #2F0000";  //#424200
+		dropsheet_content.style.boxShadow = "5px 5px 5px 5px #2F0000";  //#424200       		    
     }else{
 		dropsheet_content.style.boxShadow = "5px 5px 5px 5px black";  //
 		   //新增||修改||刪除||
@@ -54,8 +57,9 @@ function blkshow(txtword)
 		for(var i=0;i<tabs.length;i++){
 		    if(tabs[i].checked){
 			   var tbno=i;
-			   break;
+			   //break;
 		    }
+			tabs[i].removeAttribute("accesskey");
 		}
 		//新增修改畫面提示訊息
 		switch(txtword){
@@ -92,7 +96,7 @@ function blkshow(txtword)
 					    }else{
 						   blkshow("無資料可反確認!");
 						   return false;
-					   }
+					    }
 				    }else{
 					    var headtitle='單號:'+document.getElementById('fatherkey').innerHTML+",之所有資料反確認修正?";
 				    }	                   
@@ -210,23 +214,23 @@ function blkshow(txtword)
 			var oTd = oTr.insertCell(0);	         
 			transConfirm(oTd);							 			 
         }		
-		 if(txtword==7){   //搜尋
+		 if(txtword==7){   //搜尋		    
 			var oTr=ajTable.insertRow(ajTable,ajTable.length);				
 			var oTd = oTr.insertCell(0);						
 			var oTr=ajTable.insertRow(ajTable,ajTable.length);	 
 			var oTd = oTr.insertCell(0);	 
 			oTd.setAttribute('style','text-align:center;width:25%');					 
 			var slt5=document.createElement("select");
-			 searchOptionsKey(tbno,slt5);  //搜尋畫面鍵值選項
-			 slt5.setAttribute("id","filterField");
-			 slt5.setAttribute("name","srchfld");
-			 slt5.setAttribute("style","width:100%;");
-			 attachEventListener(slt5,'change',notIceChg,false);   
-			 oTd.appendChild(slt5);	           
-			 if(slt5.options[cko[6](0)].text.indexOf('(Y/N)')>0){   //如果是過濾選項則歸零
-			     var baui=cko[6](0);
-				 cko[6](baui*(-1));				  
-			  }
+			searchOptionsKey(tbno,slt5);  //搜尋畫面鍵值選項
+			slt5.setAttribute("id","filterField");
+			slt5.setAttribute("name","srchfld");
+			slt5.setAttribute("style","width:100%;");
+			attachEventListener(slt5,'change',notIceChg,false);   
+			oTd.appendChild(slt5);	           
+			if(slt5.options[cko[6](0)].text.indexOf('(Y/N)')>0){   //如果是過濾選項則歸零
+			    var baui=cko[6](0);
+				cko[6](baui*(-1));				  
+			}
 			  slt5.value=(slt5.options[cko[6](0)].value);
 			   var oTd = oTr.insertCell(1);
 			   oTd.setAttribute('style','text-align:right;width:6%');	
@@ -234,7 +238,7 @@ function blkshow(txtword)
 			  var oTd = oTr.insertCell(2);	         
             	  
 			 oTd.innerHTML="<input type='search' id='searchWords' class='txt' placeholder='輸入搜尋關鍵字' size='43' tabindex='1' style='width:80%;' />";                   
-		      
+		    
 		}				  
 		if(txtword==8){         //複製提示畫面新增欄位
 			bodyCopyList(ajTable);			    			 

@@ -4,12 +4,31 @@ function blocksclose(event)  //關閉註冊彈出視窗
 		event=window.event;
 	}
 	var target=getEventTarget(event);
+	var tabs=getElementsByAttribute('class','tab');		
+    for(var i=0;i<tabs.length;i++){
+		tabs[i].setAttribute("accesskey",(i+1).toString());
+	}	
 	var dropsheet=document.getElementById("myModal");
 	dropsheet.style.display="none";       //關閉視窗 
 	if (dropsheet!=null){		
         dropsheet.parentNode.removeChild(dropsheet);  //並將這些元素移除	 
 	}   
-	
+	var btns=getElementsByAttribute('class','btn');			 
+    for (var i=0;i<btns.length;i++){		
+        if (tabs[0].checked){
+			if(right(btns[i].title,1)=='M' || right(btns[i].title,1)=='I'){		      
+			     btns[i].removeAttribute("accesskey");
+			}else{
+			    btns[i].setAttribute("accesskey",right(btns[i].title,1));
+			}				
+		}else{
+		   if(right(btns[i].title,1)=='J' || right(btns[i].title,1)=='K' || right(btns[i].title,1)=='T' || right(btns[i].title,1)=='V'){		      
+			    btns[i].removeAttribute("accesskey");
+			}else{
+			    btns[i].setAttribute("accesskey",right(btns[i].title,1));
+			}				
+		}			
+	}		      	 	
 	return true;
 }	
 

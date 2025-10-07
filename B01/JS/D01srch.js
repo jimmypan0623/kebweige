@@ -6,7 +6,10 @@ function vendornoshow(event)
 	}
 	var target=getEventTarget(event);		
     var noorname=target.parentNode.childNodes[0];
-   
+    var btns=getElementsByAttribute('class','btn');	
+	for (var i=btns.length-1;i>btns.length-3;i--){	        
+	    btns[i].removeAttribute("accesskey");				 	  
+	}	
 /*'<div id="myModal" class="modal" style="display:block"><div class="modal-content"><span class="close">&times;</span><p>'.$error_msg.'(或是註冊申請表)</p></div></div>'*/
 /*用JavaScript DOM 的建立方式建立如上列顯示之html標籤，同時把該有的css屬性加入以作彈跳視窗*/
     var dropext=document.getElementById('myModal3');  //由於與帳號登入錯誤訊息視窗共用一個DOM元素所建立的訊息畫面故先檢查該組元素是否還隱藏在畫面內有的話移除再重建
@@ -50,7 +53,8 @@ function vendornoshow(event)
 		        dialogButton1.setAttribute("class","btn");
 		        dialogButton1.setAttribute("value","\u{2713}");			//確認				 
 				 dialogButton1.setAttribute("style","position:relative;left:110px;color:green;font-size:17px;");
-					
+				dialogButton1.setAttribute("title","確認此筆選項，快速鍵 Alt+Y");	
+				dialogButton1.setAttribute("accesskey","Y");	
 				 attachEventListener(dialogButton1,"click",vndchse,false);	
 				
 				 var dialogButton3=document.createElement("input");
@@ -58,6 +62,8 @@ function vendornoshow(event)
 		         dialogButton3.setAttribute("class","btn");
 		           dialogButton3.setAttribute("value","\u{2715}"); //關閉
 				 dialogButton3.setAttribute("style","position:relative;left:120px;color:red;font-size:17px;");
+				 dialogButton3.setAttribute("title","關閉此視窗，快速鍵 Alt+C");	
+				dialogButton3.setAttribute("accesskey","C");	
 		         attachEventListener(dialogButton3,"click",vendblkclose,false);		  	      		  		  
 				 var tblname=document.createElement("caption");
 				 tblname.innerHTML=headtitle;	
@@ -218,10 +224,13 @@ function vendblkclose(event)  //關閉註冊彈出視窗
 	dropsheet.style.display="none";       //關閉視窗 
 	if (dropsheet!=null){		
         dropsheet.parentNode.removeChild(dropsheet);  //並將這些元素移除	 
-	}   
-	  
-	    var bibau=cko[1](0);   //找出閉包變數現值
-	   cko[1](bibau*(-1));    //將閉包變數歸零	 
+	}   	  
+	var bibau=cko[1](0);   //找出閉包變數現值
+	cko[1](bibau*(-1));    //將閉包變數歸零	 
+	var btns=getElementsByAttribute('class','btn');		
+    for (var i=btns.length-1;i>btns.length-3;i--){		
+		btns[i].setAttribute("accesskey",btns[i].title.substr(-1));				 
+	}		   
 	return true;
 }	
 

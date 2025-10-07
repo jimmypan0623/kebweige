@@ -24,91 +24,40 @@ function getProfile(str1,reccount,tbno) {
 	    var oTable = document.getElementById("maintbody2");
 		var fld=document.getElementById('recfield2');
 	}		
-	var scndttl=document.getElementById('ttlmny');   //次頁表頭的總金額物件	
-	
+	var scndttl=document.getElementById('ttlmny');   //次頁表頭的總金額物件		
 	    for(var i=0;i<str1.length;i++){		
 	    	var oTr=oTable.insertRow(-1);	
             oTr.setAttribute("name","mainrow");	      		
-            cnt++;		
-			
+            cnt++;					
 	    	for(var jk in arr[i]){		   
 	    	    var oTd = oTr.insertCell(oTr.cells.length);		     		  
 	    		oTd.textContent=arr[i][jk];		
-				if (tbno==0){
-	    	       if(jk=='rc_no'){			 
-	    	     	   oTd.setAttribute("style","text-align:center;color:#7f8890;font-style:italic;display:none;");		  	
-					   oTd.setAttribute("class","directdata"); 
-	    	       }
-	    	         else if(jk=='vender_no'){		    	
-		                 oTd.setAttribute("style","text-align:left;width:22%;");			 
-						 oTd.setAttribute("class","directdata"); 
-                         attachEventListener(oTd,'click',rowchoose,false);		//點選資料		  
-		           }else if(jk=='vender_name'){			 				
-		                  oTd.setAttribute("style","text-align:left;width:78%;");   
-						   oTd.setAttribute("class","directdata"); 
-		    		       attachEventListener(oTd,'click',rowchoose,false);		//點選資料    
-				 
-				   }else{	
-				       if(jk=='procurename' || jk=='crntname'){
-						    oTd.setAttribute("class","indirectdata"); 
-						}else{	
-				            oTd.setAttribute("class","directdata"); 
-						}  
-					   oTd.setAttribute("style","text-align:left;display:none;");     
-					   
-				   }
-				}else{
-					
-				   if(jk=='rc_no' || jk=='lastupdate'){			 
-		    	      oTd.setAttribute("style","text-align:center;color:#7f8890;font-style:italic;display:none;");
-		  	          oTd.setAttribute("class","directdata"); 
-					}else if(jk=='stockno'){
-						 oTd.setAttribute("class","directdata");	
-                           oTd.setAttribute("style","text-align:left;");						 
-						  attachEventListener(oTd,'click',rowchoose,false);		//點選資料  
-					}else if(jk=='stockname'){
-						 oTd.setAttribute("class","indirectdata");	
-                           oTd.setAttribute("style","text-align:left;");						 
-						  attachEventListener(oTd,'click',rowchoose,false);		//點選資料	
-					}else if(jk=='vendor_partno'){
-						 oTd.setAttribute("class","directdata");	
-                           oTd.setAttribute("style","text-align:left;");						 
-						  attachEventListener(oTd,'click',rowchoose,false);		//點選資料 	  
-    				}else if(jk=='crncy_type'){
-					   oTd.setAttribute("class","directdata");	
-						 oTd.setAttribute("style","width:4%;");	
-                        attachEventListener(oTd,'click',rowchoose,false);		//點選資料		
-				    }else if(jk=='basic_pack' || jk=='min_order' || jk=='leadtime' || jk=='query_price'){
-				         oTd.setAttribute("class","directdata");	
-						 oTd.setAttribute("style","width:7%;text-align:right;");	
-                        attachEventListener(oTd,'click',rowchoose,false);		//點選資料	
-					}else if(jk=='leadtime'){
-						 oTd.setAttribute("class","directdata");	
-						 oTd.setAttribute("style","width:7%;text-align:right;");	
-                        attachEventListener(oTd,'click',rowchoose,false);		//點選資料	
-				   }else if(jk=='dateline' || jk=='datestart'){
-				         oTd.setAttribute("class","directdata");	
-						 oTd.setAttribute("style","width:8%;");	
-                        attachEventListener(oTd,'click',rowchoose,false);		//點選資料	
-				  }else {
-			            oTd.setAttribute("style","text-align:left;");
-					   oTd.setAttribute("class","directdata"); 
-					   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
-		            }	
-				}					
-		   }
-	
-		  
+				var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
+			    var ks=ara.split('');		
+			    //ks[0]:直接或間接 D/I
+			    //ks[1]:是否顯示   S/H
+			    //ks[2]:靠左中或右 L/C/R	
+			    if(ks[0]=="D"){
+			    	oTd.setAttribute("class","directdata");	
+			    }else{
+			    	oTd.setAttribute("class","indirectdata");	
+			    }				 
+			    if(ks[1]=='H'){
+			    	oTd.setAttribute("style","display:none;");		
+			    }else{
+			       oTd.style.textAlign=(ks[2]=="L"?"left":(ks[2]=="C"?"center":"right"));
+			       var wdthln=jk.substr(jk.lastIndexOf('_')+1,3);  	  	
+			       oTd.style.width=wdthln+"%";
+			       attachEventListener(oTd,'click',rowchoose,false);		//點選資料
+			    }		
+		   }			  
 	       var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
 	       oTd.setAttribute("style","width:40px;display:none");   //勾選不顯示
 	 	   var myCheck=document.createElement('input'); 
-		   myCheck.type="checkbox";		  
-		   
-		     myCheck.setAttribute("name","chkbxmember"+(tbno+1).toString());   //讓使用者勾選的checkbox表頭
-		   
+		   myCheck.type="checkbox";		  		   
+		    myCheck.setAttribute("name","chkbxmember"+(tbno+1).toString());   //讓使用者勾選的checkbox表頭		   
 		   attachEventListener(myCheck,'click',chooserc,false);		   
-		   oTd.appendChild(myCheck);     
-		  
+		   oTd.appendChild(myCheck);     		  
 	}
 	   if (tbno==0){       //如果是表頭   
 	      var valueshows=document.getElementsByName("d01value");
@@ -169,8 +118,6 @@ function rowchoseSecond(targetRow){    //紀錄移動表身
    return true;	
 }
 
-
-
 function paycondition(tpy){
       switch (tpy){	
 			        
@@ -197,3 +144,48 @@ function paycondition(tpy){
 			  }	 
 		return tpy;	  
 }		
+
+function fldsgsroup(fidx,tbno){
+	 var groups=[];
+	if(tbno==0){	
+       var groups=[['directdata','block','left','22'],     
+	               ['directdata','block','left','78'],   
+	               ['directdata','none','left','0'],   
+	               ['directdata','none','left','0'],   
+                   ['directdata','none','left','0'],   
+	               ['directdata','none','left','0'],   
+	               ['directdata','none','left','0'],   
+                   ['directdata','none','left','0'],   
+	               ['directdata','none','left','0'],   
+	               ['directdata','none','left','0'],   
+				   ['directdata','none','left','0'],   
+	               ['directdata','none','left','0'],   
+	               ['directdata','none','left','0'],   	
+				   ['directdata','none','left','0'],   
+	               ['directdata','none','left','0'],   
+	               ['indirectdata','none','left','0'],   	
+				   ['directdata','none','left','0'],   
+				   ['directdata','none','left','0'],   
+				   ['directdata','none','left','0'],   			
+				   ['directdata','none','left','0'],   
+				   ['directdata','none','left','0'],   
+				   ['indirectdata','none','left','0'],   					   			   
+				   ['directdata','none','left','0'],   
+	               ['indirectdata','none','left','0']  	 
+	            ]; 
+	}else{
+	    var groups=[['directdata','block','left','12'],    
+				   ['indirectdata','block','left','12'], 
+				   ['directdata','block','left','12'], 
+				   ['directdata','block','center','4'],  
+				   ['directdata','block','right','7'],  
+				   ['directdata','block','right','7'], 
+				   ['directdata','block','right','7'],  
+				   ['directdata','block','right','7'],  
+				   ['directdata','block','center','8'],  
+				   ['directdata','block','center','8'],  
+				   ['directdata','block','left','12']  
+				   ]; 	
+	}		
+    return groups[fidx];			  
+}

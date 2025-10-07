@@ -5,20 +5,20 @@
 	$sql3="select d02.*,b01.F02 as F0B from d02 left outer join b01 on d02.F03=b01.F01 where d02.F01='".$str[0]."' and ".$str[1]." like '%".trim($str[2])."%' order by d02.F03"; 		                                                                     
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_array($sql4)){		 
-		$atr = array('rc_no'=>$list3['F00'],		           
-					 'stockno'=>$list3['F03'], 
-					 'stockname'=>$list3['F0B'],
-					 'vendor_partno'=>$list3['F04'],  
-					 'crncy_type'=>$list3['F06'],	                     
-                     'query_price'=>$list3['F07'],     					
-                     'basic_pack'=>$list3['F13'],  		
-                     'min_order'=>$list3['F08'],  	
-					 'leadtime'=>$list3['F11'], 
-					 'datestart'=>$list3['F02'],  
-					 'dateline'=>$list3['F15'],  			
-					 'remark'=>$list3['F16'],  	
-                     'lastupdate'=>$list3['F99']);                      						 
+	while ($list3=mysqli_fetch_array($sql4)){		
+		$atr = array('rc_no_DHC_000'=>$list3['F00'],		           
+					 'stockno_DSL_012'=>$list3['F03'], 
+					 'stockname_ISL_012'=>$list3['F0B'],
+					 'vendor_partno_DSL_012'=>$list3['F04'],  
+					 'crncy_type_DSC_004'=>$list3['F06'],	                     
+                     'query_price_DSR_007'=>$list3['F07'],     					
+                     'basic_packDSR_007'=>$list3['F13'],  		
+                     'min_order_DSR_007'=>$list3['F08'],  	
+					 'leadtime_DSR_007'=>$list3['F11'], 
+					 'datestart_DSC_008'=>$list3['F02'],  
+					 'dateline_DSC_008'=>$list3['F15'],  			
+					 'remark_DSL_012'=>$list3['F16'],  	
+                     'lastupdate_DHC_0000'=>$list3['F99']);                      						 
 		array_push($arr,$atr);
 	}
 	mysqli_close($link);

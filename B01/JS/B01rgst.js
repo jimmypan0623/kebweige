@@ -4,11 +4,71 @@ function blocksclose(event)  //關閉註冊彈出視窗
 		event=window.event;
 	}
 	var target=getEventTarget(event);
+	var tabs=getElementsByAttribute('class','tab');		
+    for(var i=0;i<tabs.length;i++){
+		tabs[i].setAttribute("accesskey",(i+1).toString());
+	}	
 	var dropsheet=document.getElementById("myModal");
 	dropsheet.style.display="none";       //關閉視窗 
 	if (dropsheet!=null){		
         dropsheet.parentNode.removeChild(dropsheet);  //並將這些元素移除	 
-	}   	 	
+	}   	
+    var btns=getElementsByAttribute('class','btn');			 
+	var M1=0;
+	var I1=0;
+    for (var i=0;i<btns.length;i++){		 
+		if (tabs[0].checked){
+			if(right(btns[i].title,1)=='M' || right(btns[i].title,1)=='I'){
+				btns[i].removeAttribute("accesskey");		      
+			}else{
+				 btns[i].setAttribute("accesskey",right(btns[i].title,1));
+			}
+        }else if(tabs[1].checked){
+		    if(right(btns[i].title,1)=='I'){
+				I1++;
+				if(I1==1){
+				   btns[i].setAttribute("accesskey",right(btns[i].title,1));
+				}else{
+				   btns[i].removeAttribute("accesskey");
+				}  
+			}else if(right(btns[i].title,1)=='M'){
+				M1++;
+				if(M1==1){
+				   btns[i].setAttribute("accesskey",right(btns[i].title,1));	
+				}else{
+				   btns[i].removeAttribute("accesskey");
+				}  
+			}else{
+		        if(right(btns[i].title,1)=='J' || right(btns[i].title,1)=='K' || right(btns[i].title,1)=='T' || right(btns[i].title,1)=='v' ||right(btns[i].title,1)=='B'){
+			        btns[i].removeAttribute("accesskey");
+			    }else{
+				    btns[i].setAttribute("accesskey",right(btns[i].title,1));	
+				}
+			}	
+		}else{
+		    if(right(btns[i].title,1)=='I'){
+				I1++;
+				if(I1==2){
+				   btns[i].setAttribute("accesskey",right(btns[i].title,1));		
+				}else{
+				   btns[i].removeAttribute("accesskey");
+				}
+			}else if(right(btns[i].title,1)=='M'){
+				M1++;
+				if(M1==2){
+					btns[i].setAttribute("accesskey",right(btns[i].title,1));	
+				}else{
+				   btns[i].removeAttribute("accesskey");
+				}						
+			}else{
+			    if(right(btns[i].title,1)=='J' || right(btns[i].title,1)=='K' || right(btns[i].title,1)=='T' || right(btns[i].title,1)=='v' ||right(btns[i].title,1)=='B'){
+			        btns[i].removeAttribute("accesskey");
+			    }else{
+				    btns[i].setAttribute("accesskey",right(btns[i].title,1));	
+				}			
+			}				
+		}
+	}		      	 	
 	return true;
 }	
 
@@ -895,187 +955,86 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 }
 
 function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nongs,tbno)函數內新增紀錄後呼叫的畫面更動
-    if (tbno==0){     //先整理表頭新增後的資料				       
-	    var oTd = oTr.insertCell(oTr.cells.length);
-	    oTd.innerHTML=args[0];
-	    oTd.setAttribute("style","text-align:left;width:50%;");
-	    oTd.setAttribute("class","directdata");
-	    var oTd = oTr.insertCell(oTr.cells.length);				  
-	    oTd.innerHTML=args[1];				  
-	    oTd.setAttribute("style","text-align:left;width:40%;"); 
-	    oTd.setAttribute("class","directdata");
-	    for(var i=2;i<8;i++){
-		    var oTd = oTr.insertCell(oTr.cells.length);
-		    oTd.innerHTML=args[i];
-		    oTd.setAttribute("style","display:none;");
-		    oTd.setAttribute("class","directdata");
-	    }					 
-	    var oTd = oTr.insertCell(oTr.cells.length);					
-	    oTd.innerHTML=nongs[0];
-	    oTd.setAttribute("class","indirectdata");
-	    oTd.setAttribute("style","display:none;");
-	    //以下兩欄為總庫存數量與在庫量由於是新增料號所以庫存一定都是0
-	    var oTd = oTr.insertCell(oTr.cells.length);
-	    oTd.innerHTML=0;
-	    oTd.setAttribute("style","display:none;");
-	    oTd.setAttribute("class","indirectdata");
-	    var oTd = oTr.insertCell(oTr.cells.length);
-	    oTd.innerHTML=0;
-	    oTd.setAttribute("style","display:none;");
-	    oTd.setAttribute("class","indirectdata");
-	  //******************************************//
-	    for(var i=8;i<args.length-2;i++){
-		    var oTd = oTr.insertCell(oTr.cells.length);
-		    oTd.innerHTML=args[i];
-		    oTd.setAttribute("style","display:none;");
-		    oTd.setAttribute("class","directdata");
-	    }
-    }else if (tbno==1){   //處理表身新增資料  
-	    var oTd = oTr.insertCell(oTr.cells.length);   //客戶編號
-	    oTd.innerHTML=args[0];
-	    oTd.setAttribute("style","text-align:left;width:7%;");
-	    oTd.setAttribute("class","directdata");		
-	    var oTd = oTr.insertCell(oTr.cells.length);   //客戶簡稱
-	    oTd.innerHTML=nongs[0];
-		oTd.setAttribute("style","text-align:left;width:7%");
-	    oTd.setAttribute("class","indirectdata");
-		var oTd = oTr.insertCell(oTr.cells.length);   //客戶品號
-	    oTd.innerHTML=args[1];
-	    oTd.setAttribute("style","text-align:left;");
-	    oTd.setAttribute("class","directdata");		
-	    var oTd = oTr.insertCell(oTr.cells.length);   //幣別
-	    oTd.innerHTML=args[2];
-	    oTd.setAttribute("style","width:4%;");
-	    oTd.setAttribute("class","directdata");	
-	    var oTd = oTr.insertCell(oTr.cells.length);   //單價
-	    oTd.innerHTML=args[3];
-	    oTd.setAttribute("style","width:8%;text-align:right;");
-	    oTd.setAttribute("class","directdata");	
-		for(var i=4;i<6;i++){
-		   var oTd = oTr.insertCell(oTr.cells.length);   //包裝基量&最少訂購 
-		   oTd.innerHTML=args[i];
-		   oTd.setAttribute("class","directdata");
-		   oTd.setAttribute("style","width:7%;text-align:right;");
-		}   
-		var oTd = oTr.insertCell(oTr.cells.length);   //付款方式
-		oTd.innerHTML=args[6];					  
-		oTd.setAttribute("class","directdata");	 
-		oTd.setAttribute("style","text-align:left;");
-		var oTd = oTr.insertCell(oTr.cells.length);   //報價單號
-		oTd.innerHTML=args[7];
-		oTd.setAttribute("style","width:10%;text-align:left;");
-		oTd.setAttribute("class","directdata");	 
-		for(var i=8;i<10;i++){
-		   var oTd = oTr.insertCell(oTr.cells.length);   //生效日與期限  
-		   oTd.innerHTML=args[i];
-		   oTd.setAttribute("class","directdata");
-		   //oTd.setAttribute("style","width:8%;");
-		}    
-		var oTd = oTr.insertCell(oTr.cells.length);   //備註
-		oTd.innerHTML=args[10];
-		oTd.setAttribute("style","width:10%;text-align:left;");
-		oTd.setAttribute("class","directdata");	 
-	    var ttlcnt=Number(document.getElementById('ttlmny').innerHTML);					        			   										
-	    document.getElementById('ttlmny').innerHTML=ttlcnt+1;  //更新畫面上的總金額
-    }else if (tbno==2){   //處理表身新增資料(詢價)					  
-	    var oTd = oTr.insertCell(oTr.cells.length);   //廠商編號
-	    oTd.innerHTML=args[0];
-	    oTd.setAttribute("style","text-align:left;width:7%;");
-	    oTd.setAttribute("class","directdata");		
-	    var oTd = oTr.insertCell(oTr.cells.length);   //廠商簡稱
-	    oTd.innerHTML=nongs[0];
-		oTd.setAttribute("style","text-align:left;width:7%");
-	    oTd.setAttribute("class","indirectdata");
-		var oTd = oTr.insertCell(oTr.cells.length);   //廠商品號
-	    oTd.innerHTML=args[1];
-	    oTd.setAttribute("style","text-align:left;");
-	    oTd.setAttribute("class","directdata");		
-	    var oTd = oTr.insertCell(oTr.cells.length);   //幣別
-	    oTd.innerHTML=args[2];
-	    oTd.setAttribute("style","width:4%;");
-	    oTd.setAttribute("class","directdata");	
-	    var oTd = oTr.insertCell(oTr.cells.length);   //單價
-	    oTd.innerHTML=args[3];
-	    oTd.setAttribute("style","width:8%;text-align:right;");
-	    oTd.setAttribute("class","directdata");	
-		for(var i=4;i<6;i++){
-		   var oTd = oTr.insertCell(oTr.cells.length);   //包裝基量&最少訂購 
-		   oTd.innerHTML=args[i];
-		   oTd.setAttribute("class","directdata");
-		   oTd.setAttribute("style","width:7%;text-align:right;");
-		}   
-		var oTd = oTr.insertCell(oTr.cells.length);   //付款方式
-		oTd.innerHTML=args[6];					  
-		oTd.setAttribute("class","directdata");	 
-		 oTd.setAttribute("style","text-align:left;");
-		var oTd = oTr.insertCell(oTr.cells.length);   //前置時間
-		oTd.innerHTML=args[7];
-		oTd.setAttribute("style","width:7%;text-align:right;");
-		oTd.setAttribute("class","directdata");	 
-		for(var i=8;i<10;i++){
-		   var oTd = oTr.insertCell(oTr.cells.length);   //生效日與期限  
-		   oTd.innerHTML=args[i];
-		   oTd.setAttribute("class","directdata");
-		  // oTd.setAttribute("style","width:8%;");
-		}    
-		var oTd = oTr.insertCell(oTr.cells.length);   //備註
-		oTd.innerHTML=args[10];
-		oTd.setAttribute("style","width:10%;text-align:left;");
-		oTd.setAttribute("class","directdata");	 
-	   var ttlcnt=Number(document.getElementById('ttlmny1').innerHTML);					        			   										
-	   document.getElementById('ttlmny1').innerHTML=ttlcnt+1;  //更新畫面上的總金額
-  }				  
+	var fldidx=0;
+	var argsNo=0;
+	var nongsNo=0;	
+	while(fldsgsroup(fldidx,tbno)){
+		var oTd = oTr.insertCell(oTr.cells.length); 			
+		if(fldsgsroup(fldidx,tbno)[0]=='directdata'){
+			oTd.innerHTML=args[argsNo];						
+			argsNo++;
+		}else{						
+			if(fldidx>8){
+			   nongs[nongsNo]=0;
+			}					
+			oTd.innerHTML=nongs[nongsNo];	
+			nongsNo++;
+		}
+		oTd.setAttribute("class",fldsgsroup(fldidx,tbno)[0]);
+		if(fldsgsroup(fldidx,tbno)[1]=='none'){
+			oTd.setAttribute("style","display:none;");		
+		}else{
+			oTd.style.textAlign=fldsgsroup(fldidx,tbno)[2];				     	
+			oTd.style.width=fldsgsroup(fldidx,tbno)[3]+"%";				  
+		}					 		
+		fldidx++;
+	}
+	if(tbno>0){
+		if(tbno==1){
+		  var ttlcnt=Number(document.getElementById('ttlmny').innerHTML);		
+		  document.getElementById('ttlmny').innerHTML=ttlcnt+1;  //更新畫面上的筆數
+		}else{
+		   var ttlcnt=Number(document.getElementById('ttlmny1').innerHTML);	
+		   document.getElementById('ttlmny1').innerHTML=ttlcnt+1;  //更新畫面上的筆數
+		}  
+		 
+	}         
 	 //最後異動	
-  var oTd = oTr.insertCell(oTr.cells.length);	
-  oTd.setAttribute("class","directdata");					   
-  oTd.innerHTML=rsp.lastupdate;	
-  oTd.setAttribute("style","display:none;"); //最後異動要隱藏
+    var oTd = oTr.insertCell(oTr.cells.length);	
+    oTd.setAttribute("class","directdata");					   
+    oTd.innerHTML=rsp.lastupdate;	
+    oTd.setAttribute("style","display:none;"); //最後異動要隱藏
 }
 
 function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,nongs,tbno)函數修改紀錄後呼叫的畫面更動
-	if (tbno==0){  				   
-		var b01a_value_names=document.getElementsByName("b01value");		             
-		var maintable=document.getElementById("maintbody1");	               
-		for (var j=2;j<9;j++){				        
-			maintable.rows[args[arglth-1]].cells[j].innerHTML=args[j-1];
-			b01a_value_names[j-1].innerHTML=args[j-1];
-		}							
-		maintable.rows[args[arglth-1]].cells[9].innerHTML=nongs[0];		
-		b01a_value_names[8].innerHTML=nongs[0];		 
-		b01a_value_names[3].innerHTML=belongtoshow(b01a_value_names[3].innerHTML);  //歸屬類別		 
-		maintable.rows[args[arglth-1]].cells[11].innerHTML=b01a_value_names[10].innerHTML;   //變更部門後的在庫數量
-		for(j=8;j<arglth-1;j++){
-			maintable.rows[args[arglth-1]].cells[j+4].innerHTML=args[j];
-			b01a_value_names[j+3].innerHTML=args[j]; //中間跳過總庫存數量與在庫數量兩欄
-		}			
-		//14~18資料導入後的修正顯示					
-		b01a_value_names[14].innerHTML=(b01a_value_names[14].innerHTML=='Y'?'是':'否') ; //是否建BOM
-		b01a_value_names[15].innerHTML=(b01a_value_names[15].innerHTML=='A'?'A 個別領料':'B 整批領料') ; //領料方式					
-		b01a_value_names[17].innerHTML+="天" ; //採購/生產前置天數
-		b01a_value_names[18].innerHTML+="天" ; //倉庫收料發料前置天數			        
-		/***********************************************************/
-		maintable.rows[args[arglth-1]].cells[b01a_value_names.length].innerHTML=rsp.lastupdate;
-		b01a_value_names[b01a_value_names.length-1].innerHTML=rsp.lastupdate;  //安全資料(最後異動)
-		//以下檢查庫存上下限與總庫存量比較結果看是否應該文字變色或還原						
-		if(b01a_value_names[9].innerHTML*1>b01a_value_names[11].innerHTML*1 && b01a_value_names[11].innerHTML*1>0){
-		maintable.rows[args[arglth-1]].setAttribute("style","font-weight:bold;color:#E60000;background-color:#B9B9FF;");
-		}else if(b01a_value_names[9].innerHTML*1<b01a_value_names[12].innerHTML*1){
-		  maintable.rows[args[arglth-1]].setAttribute("style","font-weight:bold;color:#704214;background-color:#B9B9FF;");
+    if (tbno==0){     //處理表頭修改   	   								
+		var maintable=document.getElementById("maintbody1");
+		var b01a_value_names=document.getElementsByName("b01value");
+	 }else{
+	    var maintable=document.getElementById("maintbody2");	
+	 }		 	         		             			   	 	
+	var fldidx=1;
+	var argsNo=1;
+	var nongsNo=0;	
+	while(fldsgsroup(fldidx,tbno)){			
+		if(fldsgsroup(fldidx,tbno)[0]=='directdata'){
+			 maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=args[argsNo];	
+			 if (tbno==0){     //處理表頭修改  
+			     b01a_value_names[fldidx].innerHTML=args[argsNo];
+			 }
+			argsNo++;
 		}else{
-			maintable.rows[args[arglth-1]].setAttribute("style","font-weight:Normal;color:#000;background-color:#B9B9FF;");
-		}
-	}else {    //第二頁與第三頁修改	   
-	    if (tbno==1){
-		  var maintable=document.getElementById("maintbody2");	
-	    }else{
-			var maintable=document.getElementById("maintbody3");	
-	    }	  
-	    var tbrlth=maintable.rows[args[arglth-1]].cells.length;			 
-		for (var j=3;j<tbrlth-2;j++){				            
-			maintable.rows[args[arglth-1]].cells[j].innerHTML=args[j-2];						 
-	    }					    					   
-	    maintable.rows[args[arglth-1]].cells[tbrlth-2].innerHTML=rsp.lastupdate;   
-    }
+			if (tbno==0){     //處理表頭修改  
+			    if(nongs[nongsNo]){
+			        b01a_value_names[fldidx].innerHTML=nongs[nongsNo].trim();
+				}				
+			 }
+			 if(nongs[nongsNo]){
+			    maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=nongs[nongsNo].trim();	
+			 }			
+			 nongsNo++;
+		}		
+		fldidx++;
+	}
+	if (tbno==0){     //處理表頭修改  
+	    document.getElementById("kind_of_belong_to").innerHTML=belongtoshow(b01a_value_names[3].innerHTML) ; //歸屬類別				
+	    document.getElementById("bom_should_be").innerHTML=(document.getElementById("bom_should_be").innerHTML=='Y'?'是':'否') ;
+		document.getElementById("leadtm_prchs").innerHTML+="天" ;
+	    document.getElementById("leadtm_ready").innerHTML+="天" ;
+        document.getElementById("type_of_apply").innerHTML+=(document.getElementById("type_of_apply").innerHTML=='A'?'  個別領料':'  整批領料');	      
+		b01a_value_names[b01a_value_names.length-1].innerHTML=rsp.lastupdate;	
+	}		
+	maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=rsp.lastupdate;			
 }
 
 function searchOptionsKey(tbno,slt5){	

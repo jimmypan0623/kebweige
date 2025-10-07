@@ -11,7 +11,8 @@ function crtElm(){
 	orpButton10.setAttribute("class","btn");
 	orpButton10.setAttribute("value","\u{1F4DA}");          
     orpButton10.setAttribute("style","font-size:17px;");       			
-	orpButton10.setAttribute("title","查看出貨紀錄");   
+	orpButton10.setAttribute("title","查看出貨紀錄，快速鍵 Alt+B");   
+	orpButton10.setAttribute("accesskey","B");	
 	attachEventListener(orpButton10,"click",page2OtherButton1,false);
 	orpButton10.id="OUTRCD_BOTT";		
 	var text16 = document.createTextNode('\u{A0}\u{A0}');

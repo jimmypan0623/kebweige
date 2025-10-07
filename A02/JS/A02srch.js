@@ -9,6 +9,10 @@ function PrgSrch(event)
 	if (dropext){	//如果有殘留訊息畫面的DOM則移除
 	    dropext.parentNode.removeChild(dropext);
     }		
+	var btns=getElementsByAttribute('class','btn');	
+	for (var i=btns.length-1;i>btns.length-3;i--){	        
+	    btns[i].removeAttribute("accesskey");				 	  
+	}	
 	var dropsheet=document.createElement('div');   
 	dropsheet.setAttribute("id","myModal6");
 	dropsheet.setAttribute("class","modal");
@@ -47,14 +51,16 @@ function PrgSrch(event)
 		        dialogButton1.setAttribute("class","btn");
 		        dialogButton1.setAttribute("value","\u{2713}");					 
 				dialogButton1.setAttribute("style","position:relative;left:140px;color:green;font-size:17px;");
-				
+				dialogButton1.setAttribute("title","確認此筆選項，快速鍵 Alt+Y");	
+				dialogButton1.setAttribute("accesskey","Y");	 
 				attachEventListener(dialogButton1,"click",chseprg,false);	
 				 var dialogButton3=document.createElement("input");
 		         dialogButton3.setAttribute("type","button");
 		         dialogButton3.setAttribute("class","btn");
 		         dialogButton3.setAttribute("value","\u{2715}"); 
 				 dialogButton3.setAttribute("style","position:relative;left:150px;color:red;font-size:17px;");
-				 
+				 dialogButton3.setAttribute("title","關閉此視窗，快速鍵 Alt+C");	
+				 dialogButton3.setAttribute("accesskey","C");	
 		         attachEventListener(dialogButton3,"click",srchblkclose,false);		  	      		  		  
 				 var tblname=document.createElement("caption");
 				 tblname.innerHTML=headtitle;	
@@ -176,6 +182,10 @@ function srchblkclose(event)
 	}   
 	   var bibau=cko[1](0);   
 	   cko[1](bibau*(-1));    
+	var btns=getElementsByAttribute('class','btn');		
+    for (var i=btns.length-1;i>btns.length-3;i--){		
+		btns[i].setAttribute("accesskey",btns[i].title.substr(-1));				 
+	}	    
 	return true;
 }	
 

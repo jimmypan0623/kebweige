@@ -4,6 +4,10 @@ function blocksclose(event)  //關閉註冊彈出視窗
 		event=window.event;
 	}	
 	var target=getEventTarget(event);
+	var tabs=getElementsByAttribute('class','tab');		
+    for(var i=0;i<tabs.length;i++){
+		tabs[i].setAttribute("accesskey",(i+1).toString());
+	}	
 	if (target.value=="\u{274E}"  && getCookie('INT_003')=='Y'){	   //直接點結束按鈕(新增修改刪除共用)
 	   if(document.getElementById('customno')!=null){   //非於放棄刪除的狀態下
 	      var currentNo=document.getElementById('customno').value;	   
@@ -18,6 +22,22 @@ function blocksclose(event)  //關閉註冊彈出視窗
 	if (dropsheet!=null){		
         dropsheet.parentNode.removeChild(dropsheet);  //並將這些元素移除	 
 	}   	 	
+	var btns=getElementsByAttribute('class','btn');			 
+    for (var i=0;i<btns.length;i++){		
+        if (tabs[0].checked){
+			if(right(btns[i].title,1)=='M' || right(btns[i].title,1)=='I'){		      
+			     btns[i].removeAttribute("accesskey");
+			}else{
+			    btns[i].setAttribute("accesskey",right(btns[i].title,1));
+			}				
+		}else{
+		   if(right(btns[i].title,1)=='J' || right(btns[i].title,1)=='K' || right(btns[i].title,1)=='T' || right(btns[i].title,1)=='V'){		      
+			    btns[i].removeAttribute("accesskey");
+			}else{
+			    btns[i].setAttribute("accesskey",right(btns[i].title,1));
+			}				
+		}			
+	}		      	 	
 	return true;
 }	
 
@@ -232,8 +252,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		 var oTd = oTr.insertCell(1);	
 		 oTd.colspan=2;				
 		 oTd.innerHTML="<input type='text' name='c01update' id='whono' class='txt' maxlength='10' style='width:30%;'  />";                             	              		   
-		 oTd.innerHTML+="<span name='c01others' id='whonameEx'></span>&nbsp&nbsp"; 
-		  
+		 oTd.innerHTML+="<span name='c01others' id='whonameEx'></span>&nbsp&nbsp"; 		  
 		 var srchButton1=document.createElement("input");				   
 		 srchButton1.setAttribute("type","button");	
 		 srchButton1.setAttribute("class","scopelook");				   
@@ -277,13 +296,11 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		 var oTd = oTr.insertCell(0);
 		 oTd.setAttribute('style','text-align:right;width:12%');	
 		 oTd.innerHTML='交易幣別:';						
-		 var oTd = oTr.insertCell(1);	     
-		
+		 var oTd = oTr.insertCell(1);	     		
 		 var slt4=document.createElement("select");
 		 slt4.setAttribute("id","crntopt");
 		 slt4.setAttribute("name","c01update");
-		 oTd.appendChild(slt4);		
-		 
+		 oTd.appendChild(slt4);				 
 		 var oTd = oTr.insertCell(2);
 		 oTd.setAttribute('style','text-align:right;width:12%');	
 		 oTd.innerHTML='結帳日:';				
@@ -482,8 +499,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		  oTd.innerHTML='備註說明:';
 		  var oTd = oTr.insertCell(1);
 		  oTd.colspan=3;
-		  oTd.innerHTML="<input type='text' name='c02update' class='txt' id='remark'  style='width:40%;'  />"; 
-	
+		  oTd.innerHTML="<input type='text' name='c02update' class='txt' id='remark'  style='width:40%;'  />"; 	
 		  var oTr=ajTable.insertRow(ajTable,ajTable.length);
 		  var oTd = oTr.insertCell(0);
 		  oTd.setAttribute('style','text-align:right;width:15%');	

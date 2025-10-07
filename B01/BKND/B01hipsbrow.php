@@ -2,30 +2,25 @@
    header("Content-Type:text/html; charset=utf-8");   
 
  include("../../include/BKND/mysqli_server.php");                      //引用檔 
-
-        $str=explode('|',$_POST['filename']);  //將上面字串以逗號分割成陣列
-	 
-	//   $sql3="select c02.*,c01.F05 as F0E from c02 left outer join c01 on c02.F01=c01.F44 where c02.F03='".$str[0]."' and ".$str[1]." like '%".$str[2]."%' order by c02.F01"; 
+        $str=explode('|',$_POST['filename']);  //將上面字串以逗號分割成陣列	 
 		$sql3="select d02.*,d01.F04 as F0D from d02 left outer join d01 on d02.F01=d01.F01 where d02.F03='".$str[0]."' and ".$str[1]." like '%".trim($str[2])."%' order by d02.F01"; 
-		//$sql3="select d02.*,d01.F04 as F0D from d02 left outer join d01 on d02.F01=d01.F01 where d02.F03='".$str[0]."'  order by d02.F01";                                                                      
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_array($sql4)){
-		 
-		$atr = array('rc_no'=>$list3['F00'],		           
-					 'vendorno'=>$list3['F01'], 
-					 'vendorname'=>$list3['F0D'],
-					 'vendor_partno'=>$list3['F04'],  
-					 'crncy_type'=>$list3['F06'],	                     
-                     'query_price'=>$list3['F07'],     					
-                     'basic_pack'=>$list3['F13'],  		
-                     'min_order'=>$list3['F08'],  	
-					  'payment'=>$list3['F10'],
-					 'lead_time'=>$list3['F11'], 
-					 'datestart'=>$list3['F02'],  
-					 'dateline'=>$list3['F15'],  		
-					  'remark'=>$list3['F16'],
-                     'lastupdate'=>$list3['F99']);                      						 
+		$atr = array('rc_no_DHC_000'=>$list3['F00'],		           
+					 'vendorno_DSL_007'=>$list3['F01'], 
+					 'vendorname_ISL_007'=>$list3['F0D'],
+					 'vendor_partno_DSL_010'=>$list3['F04'],  
+					 'crncy_type_DSC_004'=>$list3['F06'],	                     
+                     'query_price_DSR_008'=>$list3['F07'],     					
+                     'basic_pack_DSR_007'=>$list3['F13'],  		
+                     'min_order_DSC_007'=>$list3['F08'],  	
+					  'payment_DSL_010'=>$list3['F10'],
+					 'lead_time_DSR_007'=>$list3['F11'], 
+					 'datestart_DSC_010'=>$list3['F02'],  
+					 'dateline_DSC_010'=>$list3['F15'],  		
+					  'remark_DSL_010'=>$list3['F16'],
+                     'lastupdate_DHC_000'=>$list3['F99']);                      						 
 		array_push($arr,$atr);
 	}
 	mysqli_close($link);

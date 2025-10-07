@@ -4,8 +4,9 @@ function selfTag(jsvsn){
 	  loadScript(`C10/JS/C10rgst.js?v=${jsvsn}`);		
 		var tab1Click=document.getElementById("tab1");
 		if(tab1Click){
+		  tab1Click.setAttribute("accesskey","1");	
 	      attachEventListener(tab1Click,"click",tab1View,false);
-		}		 
+		}	
 }
 function tab1View(event){	  
        if (typeof event=="undefined"){

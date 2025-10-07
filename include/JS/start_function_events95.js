@@ -84,11 +84,11 @@ function getEventTarget(event)
 }
 function stopDefaultAction(event)
 { 
-/*    event.returnValue=false; 
+   event.returnValue=false; 
    if (typeof event.preventDefault!="undefined")
    {
       event.preventDefault();
-   } */
+   }
    return false;
 }   
 
@@ -213,8 +213,17 @@ function outprocs(event){
 
 //起始畫面
 function DrawTable(){
-	var tabs=getElementsByAttribute("class","tab");
+	var tabs=getElementsByAttribute("class","tab");	
 	if (tabs[0].checked){
+		 var btns=getElementsByAttribute('class','btn');			 
+		 for (var i=0;i<btns.length;i++){		
+		     if(btns[i].accessKey=='I' || btns[i].accessKey=='M' ){
+		        btns[i].removeAttribute("accesskey");		
+			 } 
+			 if(right(btns[i].title,1)=='T' || right(btns[i].title,1)=='J' || right(btns[i].title,1)=='K' || right(btns[i].title,1)=='V'){
+		        btns[i].setAttribute("accesskey",right(btns[i].title,1));		
+			 } 
+	     }		           
 	   var slt2=document.getElementById('recmth');	
        var yesmth=getCookie("MorP");
 	    if (yesmth=='P'){  //如果非月份檔
@@ -224,14 +233,14 @@ function DrawTable(){
 	       attachEventListener(slt2,'change',choiceClick,false);
 	       slt2.options[0].selected=true;		
            choiceClick('001');	
-	   }else{
+	   }else{		   
 		   	var showTime=document.getElementById('currentTime'); //利用djtime.js顯示畫面的預設日期日期輸入欄之值為今天
-		   var thtdy=(showTime.innerHTML.substring(0,4)+'-'+showTime.innerHTML.substring(5,7)+'-'+showTime.innerHTML.substring(8,10)); //中間一定要用減號分隔年月日
-	       optionitem(left(thtdy,7),slt2.id,7,"B04/BKND/A23srch.php");
-	       attachEventListener(slt2,'change',choiceClick,false);       	
-          choiceClick(left(thtdy,7));	
+		    var thtdy=(showTime.innerHTML.substring(0,4)+'-'+showTime.innerHTML.substring(5,7)+'-'+showTime.innerHTML.substring(8,10)); //中間一定要用減號分隔年月日
+	        optionitem(left(thtdy,7),slt2.id,7,"B04/BKND/A23srch.php");
+	        attachEventListener(slt2,'change',choiceClick,false);       	
+            choiceClick(left(thtdy,7));	
 	   }
-   }  
+    }
 }
 
 function choiceClick(initpage){   //頁次選擇
@@ -404,8 +413,7 @@ function addrec(event){
 	var flg=0;
 
 	var targetTrs=targetTbody.getElementsByTagName("tr");   
-	blkshow(1);
-	
+	blkshow(1);	
 } 
  //修改紀錄
 function edtrec(event){
@@ -428,7 +436,7 @@ function edtrec(event){
 		}
 	}	
 
-	responseDiv.innerHTML='&nbsp';	
+	responseDiv.innerHTML='&nbsp';		
     blkshow(2); 		
 } 
 
@@ -448,9 +456,7 @@ function delrec(event){
 			break;
 		}
 	}
-
 	blkshow(4);
-
 }
 
 function ansproc(event){   //確認程序
@@ -459,6 +465,10 @@ function ansproc(event){   //確認程序
 		event=window.event;
 	}
 	 var target=getEventTarget(event);
+	var btns=getElementsByAttribute('class','btn');			
+	for (var i=0;i<btns.length;i++){		 
+		btns[i].removeAttribute("accesskey");				 
+	}		   
 	blkshow(3);
 }
 function vrsproc(event){  //反確認程序
@@ -476,7 +486,6 @@ function trnsproc(event){        //轉單程序
 	}
 	 var target=getEventTarget(event);
 	blkshow(6);
-
 }
 
 //搜尋紀錄
@@ -485,8 +494,8 @@ function seekrec(event){
 	{
 		event=window.event;
 	}
-     var target=getEventTarget(event);	 
-     blkshow(7);		 
+    var target=getEventTarget(event);		 			
+    blkshow(7);	   
 }
 //複製權限
 function authCopy(event){
@@ -498,9 +507,7 @@ function authCopy(event){
 		blkshow("未勾選任何紀錄，請勾選一筆再按此鈕執行複製權限");	
 		return false;	
     } 
-
 	blkshow(8);
-
 }
 //移除該帳號所有權限
 function authRemove(event){
@@ -539,9 +546,6 @@ function page2OtherButton1(event){
 	blkshow(201);
 }
 
-
-
-
 function HeadPageChange(event){       //在表身按上下一張按鈕(正三角形與倒三角形)翻表頭頁面隨即連動表身資料
 	 if (typeof event=="undefined"){
 		event=window.event;		
@@ -557,12 +561,14 @@ function HeadPageChange(event){       //在表身按上下一張按鈕(正三角
 	
 	 tabs[0].checked=true;
 	 		 
-	 var recChecked=document.getElementsByName("chkbxmember1"); 
-	 for(var i=0;i<recChecked.length;i++){				 
+	var recChecked=document.getElementsByName("chkbxmember1"); 
+	var acskyflg='IM';
+	for(var i=0;i<recChecked.length;i++){				 
 		if (recChecked[i].checked==true){					     
 			if(i+(crntrec==2?1:0)==(crntrec==2?recChecked.length:0)){		
-               var tablbl=document.getElementsByName('tablbl');			
-			   blkshow('資料已到表頭頁最'+(crntrec==2?'下':'上')+'筆，請點擊頁籤\u{300E}'+"<mark style='background-color:olive;color:white;'>"+tablbl[0].innerHTML+"</mark>\u{300F}以翻"+(crntrec==2?'下':'上')+'一頁');			   
+                var tablbl=document.getElementsByName('tablbl');				 				 			    
+				blkshow('資料已到表頭頁最'+(crntrec==2?'下':'上')+'筆，請點擊頁籤\u{300E}'+"<mark style='background-color:olive;color:white;'>"+tablbl[0].innerHTML+"</mark>\u{300F}以翻"+(crntrec==2?'下':'上')+'一頁');			   						   
+			    acskyflg='GY';
 			}else{						                 				 
                  var hghtvth=(recChecked[i].parentNode.parentNode.scrollHeight);   				 
                  document.getElementById('maintbody1').scrollBy(0,(hghtvth)*(crntrec==2?1:-1));			
@@ -575,9 +581,9 @@ function HeadPageChange(event){       //在表身按上下一張按鈕(正三角
 	var nowTabNo=(right(target.id,1)).toString();   //目前button的id的尾數與頁次對應
 	 tabs[nowTabNo].checked=true;
      if(nowTabNo==1){
-	    tab2View(event);
+	    tab2View(acskyflg);
 	 }else if(nowTabNo==2){				      
-	     tab3View(event);				
+	    tab3View(acskyflg);				
 	}
 	
 }
@@ -715,12 +721,16 @@ function textKeypress(event){  //搜尋彈出小畫面按Enter
 		    }			  
 		    var fld=document.getElementById('filterField'); 		   
 	        commontemp(target.value.trim(),fld.value);
-		    responseDiv.innerHTML='Searching......';   
+		    responseDiv.innerHTML='Searching......';  
+			stopDefaultAction(event);
+	        blocksclose();	   
 	    }else{
-		   responseDiv.setAttribute("style","color:red;"); 
-		   responseDiv.innerHTML="搜尋關鍵字少於2個字元，無法搜尋。";			   
+		   var srchelements=document.getElementById('searchWords');
+		   filtermsg(srchelements,"少於2個字");	 
+		   stopDefaultAction(event);
+		   return false;
 	    }			 	
-	    blocksclose();	       
+		
 	} 	 	  	
 }
 //新增修改時過濾回應敘述
