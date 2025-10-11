@@ -568,10 +568,10 @@ function topAndWidthModify(dropsheet_content,dropsheet,txtword,tbno){
 		dropsheet.style.paddingTop="25px";      // 高度也往上提 
 		if(txtword!=7){
 		   if (tbno==0){				
-			   var sales_no=document.getElementById('whono');		
-			   var ship_date=document.getElementById('shipdate');		
-			   attachEventListener(sales_no,"focusout",lostfocus1,false);		
-			   attachEventListener(ship_date,"focusout",rateSrch,false);		//日期變動若為外幣交易也一併修正匯率
+			  //  var sales_no=document.getElementById('whono');	 
+			   // attachEventListener(sales_no,"focusout",lostfocus1,false);
+			   var ship_date=document.getElementById('shipdate');					 		
+			   attachEventListener(ship_date,"focusout",rateSrch,false);		//日期變動若為外幣交易也一併修正匯率  
 			}else{
 				var dept_no=document.getElementById('deptno');			
 				 attachEventListener(dept_no,"focusout",lostfocus2,false)

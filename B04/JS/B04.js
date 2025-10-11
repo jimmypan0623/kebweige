@@ -63,7 +63,8 @@
 				   var wdthln=jk.substr(jk.lastIndexOf('_')+1,3);  	  	
 				   oTd.style.width=wdthln+"%";
 				   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
-				}		
+				}	
+				/////
 				if(jk.substr(0,jk.lastIndexOf('_')-4)=='invoice_type' && tbno==0){
 					var oTd = oTr.insertCell(oTr.cells.length);
 					oTd.setAttribute("class","indirectdata");					 
@@ -86,7 +87,8 @@
 					oTd.innerHTML=Math.round((oTr.cells[4].innerHTML*oTr.cells[5].innerHTML + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);					    
 					queryttl+=Number(oTd.innerHTML);
 					attachEventListener(oTd,'click',rowchoose,false);		//點選資料					  
-				}		
+				}	
+				//////
 
 	    }		   
 		var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
@@ -298,7 +300,7 @@ function fldsgsroup(fidx,tbno){
 				   ['indirectdata','none','center','0'],   //unitedno
 				   ['indirectdata','none','center','0'],   //contact
 				   ['indirectdata','none','center','0'],   //tel
-	               ['directdata','block','center','4'],    //query_date	
+	               ['directdata','block','center','3'],    //query_date	
                    ['directdata','none','center','0'], 	   //sales_no	
 				   ['indirectdata','block','left','7'],    //sales_name	
 				   ['directdata','block','center','4'],    //crncy_type

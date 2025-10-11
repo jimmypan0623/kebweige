@@ -46,19 +46,22 @@ function stocknoshow(event)
 	var dialog=document.createElement("div");		//開始從畫面產生新增紀錄欄位			 
 	dialog.className="stocknoDialog"; 		 
 	dialog.style.position="relative";            
+	var btnsdiv=document.createElement("div");	 
+	btnsdiv.style.textAlign="center";
 	var dialogButton1=document.createElement("input");		   
 	dialogButton1.setAttribute("type","button");
 	dialogButton1.setAttribute("class","btn");
 	dialogButton1.setAttribute("value","\u{2713}");			//確認				 
-	dialogButton1.setAttribute("style","position:relative;left:240px;color:green;font-size:17px;");
+	dialogButton1.setAttribute("style","color:green;font-size:17px;");
 	dialogButton1.setAttribute("title","確認此筆選項，快速鍵 Alt+Y");
 	dialogButton1.setAttribute("accesskey","Y");	 	
-	attachEventListener(dialogButton1,"click",stckchg,false);					
+	attachEventListener(dialogButton1,"click",stckchg,false);
+	var textyesno = document.createTextNode('\u{A0}');
 	var dialogButton3=document.createElement("input");
 	dialogButton3.setAttribute("type","button");
 	dialogButton3.setAttribute("class","btn");
 	dialogButton3.setAttribute("value","\u{2715}"); //關閉
-	dialogButton3.setAttribute("style","position:relative;left:250px;color:red;font-size:17px;");
+	dialogButton3.setAttribute("style","color:red;font-size:17px;");
 	dialogButton3.setAttribute("title","關閉此視窗，快速鍵 Alt+C");	
 	dialogButton3.setAttribute("accesskey","C");
 	attachEventListener(dialogButton3,"click",stockblkclose,false);		  	      		  		  
@@ -68,15 +71,14 @@ function stocknoshow(event)
 	srchTable.id="stockTable";						
 	srchTable.className="gridlist";                
 	var srchHead=document.createElement("thead");		
-	srchHead.setAttribute("style","display:table;width:100%;table-layout:fixed;");				  
-	srchHead.style.width="calc( 100% - 1em )";
+	srchHead.setAttribute("style","display:table;width:100%;table-layout:fixed;");		
+    //srchHead.style.width="calc( 100% - 1em )";
 	srchTable.appendChild(tblname);
 	srchTable.appendChild(srchHead);				 				
 	var oTr = document.createElement('tr');				 
 	var array = ['料品編號', '品名規格','訂單號碼','預定交期','出貨數量','單價','客戶品號','客戶PO'];
 	for (var j = 0; j < array.length; j++) {
 		var th = document.createElement('th'); //column
-		//th.style.width=(120-Math.pow(-2,j)*15)+'px';
 		var text = document.createTextNode(array[j]); //cell		
 		th.appendChild(text);
 		oTr.appendChild(th);
@@ -92,8 +94,10 @@ function stocknoshow(event)
 	var formJason=document.createElement('form');		   
 	formJason.id="formdata2";	          								 
 	formJason.appendChild(srchTable);
-	formJason.appendChild(dialogButton1);
-	formJason.appendChild(dialogButton3);	
+	btnsdiv.appendChild(dialogButton1);
+	btnsdiv.appendChild(textyesno);
+	btnsdiv.appendChild(dialogButton3);				
+	formJason.appendChild(btnsdiv);	
 	dialog.appendChild(formJason)  				 
 	dropsheet_content.style.width="80%";	 	 //原訊息內框畫面寬度調整  		  
 	dropsheet_content.appendChild(dialog);		
@@ -129,19 +133,19 @@ function stckchg(event)  //選擇料號
 	if (typeof event=="undefined"){
 		event=window.event;
 	}
-	 var target=getEventTarget(event);	 
-	 var stockNo=document.getElementById('stockno');
-	 stockNo.value="";
-     var stockName=document.getElementById('stockname');			
-	 stockName.value="";  	
-	 var orderNo=document.getElementById('origno');
-	 var shipQty=document.getElementById('queryqty');
-	 var shipPrice=document.getElementById('price');
-	 var custstockno=document.getElementById('custompartno');
-	 var custpo=document.getElementById('customPO');
-	 var deptno=document.getElementById('deptno');
-	 var deptname=document.getElementById('deptname');
-	 var maintable=document.getElementById("stockTbody");  
+	var target=getEventTarget(event);	 
+	var stockNo=document.getElementById('stockno');
+	stockNo.value="";
+    var stockName=document.getElementById('stockname');			
+	stockName.value="";  	
+	var orderNo=document.getElementById('origno');
+	var shipQty=document.getElementById('queryqty');
+	var shipPrice=document.getElementById('price');
+	var custstockno=document.getElementById('custompartno');
+	var custpo=document.getElementById('customPO');
+	var deptno=document.getElementById('deptno');
+	var deptname=document.getElementById('deptname');
+	var maintable=document.getElementById("stockTbody");  
 	for(var i=0;i< maintable.rows.length; i++){			 
 		if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
 			 stockNo.value=maintable.rows[i].cells[1].innerHTML;								 
@@ -184,17 +188,16 @@ function stockblkclose(event)  //關閉註冊彈出視窗
 	dropsheet.style.display="none";       //關閉視窗 
 	if (dropsheet!=null){		
         dropsheet.parentNode.removeChild(dropsheet);  //並將這些元素移除	 
-	}   
-	  
-	    var bibau=cko[1](0);   //找出閉包變數現值
-	   cko[1](bibau*(-1));    //將閉包變數歸零	 
-	 var btns=getElementsByAttribute('class','btn');		
+	}   	  
+    var bibau=cko[1](0);   //找出閉包變數現值
+	cko[1](bibau*(-1));    //將閉包變數歸零	 
+	var btns=getElementsByAttribute('class','btn');		
     for (var i=btns.length-1;i>btns.length-3;i--){		
 		btns[i].setAttribute("accesskey",btns[i].title.substr(-1));				 
-	}		     
+	}		  
+    document.getElementById('stockno').focus();	
 	return true;
 }	
-
 
 function srchStockNo(str1) {       //開窗顯示料號選項
     var cnt=0;

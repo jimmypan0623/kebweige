@@ -40,90 +40,85 @@ function deptshow(event)
 	dropsheet_content.style.border="1px solid #888";
 	dropsheet_content.style.fontSize="22px";	  	  
 	dropsheet_content.style.boxShadow = "5px 5px 5px 5px #003153";  //
-	dropsheet.appendChild(dropsheet_content);  //訊息內框加入	
-      
-				 var headtitle="請選取出貨部門";
-			     dropsheet.style.paddingTop="20px"; /* Location of the box */
-		         var dialog=document.createElement("div");		//開始從畫面產生新增紀錄欄位			 
-		         dialog.className="customDialog"; 		 
-		         dialog.style.position="relative";
-             
-		         var dialogButton1=document.createElement("input");		   
-		        dialogButton1.setAttribute("type","button");
-		        dialogButton1.setAttribute("class","btn");
-		        dialogButton1.setAttribute("value","\u{2713}");			
-				dialogButton1.setAttribute("style","position:relative;left:80px;color:green;font-size:17px;");				 
-				dialogButton1.setAttribute("title","確認此筆選項，快速鍵 Alt+Y");
-				dialogButton1.setAttribute("accesskey","Y");	 
-				attachEventListener(dialogButton1,"click",deptchoose,false);					 
-				 var dialogButton3=document.createElement("input");
-		         dialogButton3.setAttribute("type","button");
-		         dialogButton3.setAttribute("class","btn");
-		         dialogButton3.setAttribute("value","\u{2715}");
-				 dialogButton3.setAttribute("style","position:relative;left:90px;color:red;font-size:17px;");
-				  dialogButton3.setAttribute("title","關閉此視窗，快速鍵 Alt+C");	
-				 dialogButton3.setAttribute("accesskey","C");
-		         attachEventListener(dialogButton3,"click",deptblkclose,false);		  	      		  		  
-				 var tblname=document.createElement("caption");
-				 tblname.innerHTML=headtitle;	
-				 				 
-				 var srchTable=document.createElement("table");				  
-		         srchTable.id="deptTable";						
-				 srchTable.className="gridlist";                
-				 var srchHead=document.createElement("thead");		
-				  srchHead.setAttribute("style","display:table;width:100%;table-layout:fixed;");				  
-                  srchHead.style.width="calc( 100% - 1em )";
-				  srchTable.appendChild(tblname);
-				 srchTable.appendChild(srchHead);				 				
-                var oTr = document.createElement('tr');				 
-                var array = ['部門編號', '部門名稱'];
-                for (var j = 0; j < array.length; j++) {
-                    var th = document.createElement('th'); //column
-					//th.style.width=(120-Math.pow(-2,j)*20)+'px';
-                    var text = document.createTextNode(array[j]); //cell
-					
-                    th.appendChild(text);
-                    oTr.appendChild(th);
-                }				
-                srchHead.appendChild(oTr);	
-				 var srchTbody=document.createElement("tbody");			
-				 srchTbody.id='deptTbody';
-			     srchTbody.style.display="block";
-		         srchTbody.style.height="310px";
-				 srchTbody.style.width="100%"; 
-		         srchTbody.style.overflow="auto";		
-				 srchTable.appendChild(srchTbody);  						 
-				 var formJason=document.createElement('form');		   
-		         formJason.id="formdata2";	          								 
-			    formJason.appendChild(srchTable);
-				 formJason.appendChild(dialogButton1);
-				 formJason.appendChild(dialogButton3);
-				/*  formJason.appendChild(rspnsv); */
-		         dialog.appendChild(formJason)  				 
-	             dropsheet_content.style.width="28%";	 	 //原訊息內框畫面寬度調整  		  
-		         dropsheet_content.appendChild(dialog);		
-				 if(window.ActiveXObject){
-		            var request = new ActiveXObject("Microsoft.XMLHttp");
-	             }else if(window.XMLHttpRequest){
-	   	              var request = new XMLHttpRequest();
-				 }
-	             request.onreadystatechange = respond;   
-	             var url="B04/BKND/A14srch.php?timestamp="+new Date().getTime();   	               				 
-	             request.open("POST",url);	 
-	             request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");		
-                 var deptno=dept_no.value; 			
-				 var queryString ="filename="+deptno;                 		 
-				 request.send(queryString);
-	             function respond(){
-                    if (request.readyState == 4 && request.status == 200) {	       	     
-		            
-                         rsp=JSON.parse(request.responseText);						   
-                         srchdeptNo(rsp);
-				   
-                         	  
-	                }	  
-                 }
-
+	dropsheet.appendChild(dropsheet_content);  //訊息內框加入	      
+	var headtitle="請選取出貨部門";
+	dropsheet.style.paddingTop="20px"; /* Location of the box */
+	var dialog=document.createElement("div");		//開始從畫面產生新增紀錄欄位			 
+	dialog.className="customDialog"; 		 
+	dialog.style.position="relative";
+	var btnsdiv=document.createElement("div");	 
+	btnsdiv.style.textAlign="center";
+	var dialogButton1=document.createElement("input");		   
+	dialogButton1.setAttribute("type","button");
+	dialogButton1.setAttribute("class","btn");
+	dialogButton1.setAttribute("value","\u{2713}");			
+	dialogButton1.setAttribute("style","color:green;font-size:17px;");				 
+	dialogButton1.setAttribute("title","確認此筆選項，快速鍵 Alt+Y");
+	dialogButton1.setAttribute("accesskey","Y");	 
+	attachEventListener(dialogButton1,"click",deptchoose,false);
+	var textyesno = document.createTextNode('\u{A0}');
+	var dialogButton3=document.createElement("input");
+	dialogButton3.setAttribute("type","button");
+	dialogButton3.setAttribute("class","btn");
+	dialogButton3.setAttribute("value","\u{2715}");
+	dialogButton3.setAttribute("style","color:red;font-size:17px;");
+	dialogButton3.setAttribute("title","關閉此視窗，快速鍵 Alt+C");	
+	dialogButton3.setAttribute("accesskey","C");
+	attachEventListener(dialogButton3,"click",deptblkclose,false);		  	      		  		  
+	var tblname=document.createElement("caption");
+	tblname.innerHTML=headtitle;						 
+	var srchTable=document.createElement("table");				  
+	srchTable.id="deptTable";						
+	srchTable.className="gridlist";                
+	var srchHead=document.createElement("thead");		
+	srchHead.setAttribute("style","display:table;width:100%;table-layout:fixed;");				  
+	//srchHead.style.width="calc( 100% - 1em )";
+	srchTable.appendChild(tblname);
+	srchTable.appendChild(srchHead);				 				
+	var oTr = document.createElement('tr');				 
+	var array = ['部門編號', '部門名稱'];
+	for (var j = 0; j < array.length; j++) {
+		var th = document.createElement('th'); //column		
+		var text = document.createTextNode(array[j]); //cell		
+		th.appendChild(text);
+		oTr.appendChild(th);
+	}				
+	srchHead.appendChild(oTr);	
+	var srchTbody=document.createElement("tbody");			
+	srchTbody.id='deptTbody';
+	srchTbody.style.display="block";
+	srchTbody.style.height="310px";
+	srchTbody.style.width="100%"; 
+	srchTbody.style.overflow="auto";		
+	srchTable.appendChild(srchTbody);  						 
+	var formJason=document.createElement('form');		   
+	formJason.id="formdata2";	          								 
+	formJason.appendChild(srchTable);
+	btnsdiv.appendChild(dialogButton1);
+	btnsdiv.appendChild(textyesno);
+	btnsdiv.appendChild(dialogButton3);				
+	formJason.appendChild(btnsdiv);	
+	dialog.appendChild(formJason)  				 
+	dropsheet_content.style.width="28%";	 	 //原訊息內框畫面寬度調整  		  
+	dropsheet_content.appendChild(dialog);		
+	if(window.ActiveXObject){
+		var request = new ActiveXObject("Microsoft.XMLHttp");
+	}else if(window.XMLHttpRequest){
+		var request = new XMLHttpRequest();
+	}
+	request.onreadystatechange = respond;   
+	var url="B04/BKND/A14srch.php?timestamp="+new Date().getTime();   	               				 
+	request.open("POST",url);	 
+	request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");		
+	var deptno=dept_no.value; 			
+	var queryString ="filename="+deptno;                 		 
+	request.send(queryString);
+	function respond(){
+		if (request.readyState == 4 && request.status == 200) {	       	     		            
+			rsp=JSON.parse(request.responseText);						   
+			srchdeptNo(rsp);				                           	  
+		}	  
+	}
     return true;
 }
 function deptchoose(event)  //部門編號
@@ -131,21 +126,19 @@ function deptchoose(event)  //部門編號
 	if (typeof event=="undefined"){
 		event=window.event;
 	}
-	var target=getEventTarget(event);
-	 
-	 var deptNo=document.getElementById('deptno');
-	 deptNo.value="";
-     var deptName=document.getElementById('deptname');			
-	 deptName.innerHTML="";
+	var target=getEventTarget(event);	 
+	var deptNo=document.getElementById('deptno');
+	deptNo.value="";
+    var deptName=document.getElementById('deptname');			
+	deptName.innerHTML="";
 	var maintable=document.getElementById("deptTbody");  
-		for(var i=0;i< maintable.rows.length; i++){
-			 
-		      if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
-			     deptNo.value=maintable.rows[i].cells[0].innerHTML;								 
-				 deptName.innerHTML=maintable.rows[i].cells[1].innerHTML;				
-				 break;
-			  }				 
-		}             
+	for(var i=0;i< maintable.rows.length; i++){			 
+		if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
+			deptNo.value=maintable.rows[i].cells[0].innerHTML;								 
+			deptName.innerHTML=maintable.rows[i].cells[1].innerHTML;				
+			break;
+		}				 
+	}             
 	deptblkclose(event);	
 	return true;
 }	
@@ -160,63 +153,49 @@ function deptblkclose(event)  //關閉註冊彈出視窗
 	dropsheet.style.display="none";       //關閉視窗 
 	if (dropsheet!=null){		
         dropsheet.parentNode.removeChild(dropsheet);  //並將這些元素移除	 
-	}   
-	  
-	    var bibau=cko[1](0);   //找出閉包變數現值
-	   cko[1](bibau*(-1));    //將閉包變數歸零
+	}   	  
+	var bibau=cko[1](0);   //找出閉包變數現值
+	cko[1](bibau*(-1));    //將閉包變數歸零
     var btns=getElementsByAttribute('class','btn');		
     for (var i=btns.length-1;i>btns.length-3;i--){		
 		btns[i].setAttribute("accesskey",btns[i].title.substr(-1));				 
-	}		   
+	}	
+    document.getElementById('deptno').focus();	
 	return true;
 }	
-
 
 function srchdeptNo(str1) {       //開窗顯示人員選項
     var cnt=0;
 	var arr = str1; 
-   var oTable = document.getElementById("deptTbody");		
-  
-	for(var i=0;i<arr.length;i++){		
-		 
-		var oTr=oTable.insertRow(-1);	
-	     
-		cnt++;
-         
+    var oTable = document.getElementById("deptTbody");		  
+	for(var i=0;i<arr.length;i++){				 
+		var oTr=oTable.insertRow(-1);		     
+		cnt++;         
 		for(var jk in arr[i]){		   
-		 var oTd = oTr.insertCell(oTr.cells.length);
-		  attachEventListener(oTd,'click',rowchoose,false);		//點選資料   
-		  if (!isNaN(parseInt(arr[i][jk]*1))){
-			  oTd.innerHTML=parseInt(arr[i][jk]*1)>0?arr[i][jk]:"";
-		  } else{
+		    var oTd = oTr.insertCell(oTr.cells.length);
+		    attachEventListener(oTd,'click',rowchoose,false);		//點選資料   
+		    if (!isNaN(parseInt(arr[i][jk]*1))){
+			   oTd.innerHTML=parseInt(arr[i][jk]*1)>0?arr[i][jk]:"";
+		    } else{
 			  oTd.innerHTML=arr[i][jk];
-		  }
-		 
-		  if(jk=='dept_no'){
-			     //oTd.setAttribute("style","text-align:left;width:100px;");
-		  }else if(jk=='dept_name'){
-			 
-		        //oTd.setAttribute("style","text-align:left;width:160px;");
-		  }else{
-		         oTd.setAttribute("style","display:none;");   
-		  }		  		   
-		}  		
-		 
-		 var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
-	      oTd.setAttribute("style","width:40px;display:none");   //勾選不顯示
-	 	   var myCheck=document.createElement('input'); 
-		   myCheck.type="checkbox";
-		    var tables=getElementsByAttribute("class","gridlist");
+		    }		 
+		    if(jk!='dept_no' && jk!='dept_name'){
+		        oTd.setAttribute("style","display:none;");   
+		    }		  		   
+		}  				 
+		var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
+	    oTd.setAttribute("style","width:40px;display:none");   //勾選不顯示
+	 	var myCheck=document.createElement('input'); 
+		myCheck.type="checkbox";
+		var tables=getElementsByAttribute("class","gridlist");
 		   // var rcrdchsn="recordchosen"+tables.length.toString();
-		     var rcrdchsn="chkbxdeptTable"; 
-		    myCheck.setAttribute("name",rcrdchsn);   //讓使用者勾選的checkbox表	
-		    	  
-		   attachEventListener(myCheck,'click',chooserc,false);		   
-		   oTd.appendChild(myCheck);   
+		var rcrdchsn="chkbxdeptTable"; 
+		myCheck.setAttribute("name",rcrdchsn);   //讓使用者勾選的checkbox表			    	  
+		attachEventListener(myCheck,'click',chooserc,false);		   
+		oTd.appendChild(myCheck);   
 	}
-	 if (cnt>0){
+	if (cnt>0){
 		cko[1](5);
 	    chooserc(1);
-	 }
-	   
+	}	   
 }

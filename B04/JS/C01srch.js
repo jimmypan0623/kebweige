@@ -36,7 +36,7 @@ function custnoshow(event)
 	dropsheet_content.style.backgroundColor="#fefefe";		
 	dropsheet_content.style.margin="auto";
 	dropsheet_content.style.padding="20px";
-	dropsheet_content.style.width="60%";	
+	dropsheet_content.style.width="40%";	
 	dropsheet_content.style.border="1px solid #888";
 	dropsheet_content.style.fontSize="22px";	 
 	dropsheet_content.style.boxShadow = "5px 5px 5px 5px #003153";  //
@@ -46,19 +46,22 @@ function custnoshow(event)
 	var dialog=document.createElement("div");		//開始從畫面產生新增紀錄欄位			 
 	dialog.className="customDialog"; 		 
 	dialog.style.position="relative";             
+	var btnsdiv=document.createElement("div");	 
+	btnsdiv.style.textAlign="center";
 	var dialogButton1=document.createElement("input");		   
 	dialogButton1.setAttribute("type","button");
 	dialogButton1.setAttribute("class","btn");
 	dialogButton1.setAttribute("value","\u{2713}");			//確認				 
-	 dialogButton1.setAttribute("style","position:relative;left:80px;color:green;font-size:17px;");
+	 dialogButton1.setAttribute("style","color:green;font-size:17px;");
 	dialogButton1.setAttribute("title","確認此筆選項，快速鍵 Alt+Y");
 	dialogButton1.setAttribute("accesskey","Y");	 	
-	attachEventListener(dialogButton1,"click",chseprg,false);					
+	attachEventListener(dialogButton1,"click",chseprg,false);	
+    var textyesno = document.createTextNode('\u{A0}');	
 	var dialogButton3=document.createElement("input");
 	dialogButton3.setAttribute("type","button");
 	dialogButton3.setAttribute("class","btn");
 	dialogButton3.setAttribute("value","\u{2715}"); //關閉
-	dialogButton3.setAttribute("style","position:relative;left:90px;color:red;font-size:17px;");
+	dialogButton3.setAttribute("style","color:red;font-size:17px;");
 	dialogButton3.setAttribute("title","關閉此視窗，快速鍵 Alt+C");	
 	dialogButton3.setAttribute("accesskey","C");
 	attachEventListener(dialogButton3,"click",custblkclose,false);		  	      		  		  
@@ -68,17 +71,15 @@ function custnoshow(event)
 	srchTable.id="custTable";						
 	srchTable.className="gridlist";                
 	var srchHead=document.createElement("thead");		
-	srchHead.setAttribute("style","display:table;width:100%;table-layout:fixed;");				  
-	  //srchHead.style.width="calc( 100% - 1em )";
+	srchHead.setAttribute("style","display:table;width:100%;table-layout:fixed;");	
+    srchHead.style.width="calc( 100% - 1em )";	
 	srchTable.appendChild(tblname);
 	srchTable.appendChild(srchHead);				 				
 	var oTr = document.createElement('tr');				 
 	var array = ['客戶編號', '客戶簡稱'];
 	for (var j = 0; j < array.length; j++) {
 		var th = document.createElement('th'); //column
-		//th.style.width=(120-Math.pow(-2,j)*20)+'px';
-		var text = document.createTextNode(array[j]); //cell
-		
+		var text = document.createTextNode(array[j]); //cell		
 		th.appendChild(text);
 		oTr.appendChild(th);
 	}				
@@ -93,11 +94,12 @@ function custnoshow(event)
 	 var formJason=document.createElement('form');		   
 	 formJason.id="formdata2";	          								 
 	formJason.appendChild(srchTable);
-	 formJason.appendChild(dialogButton1);
-	 formJason.appendChild(dialogButton3);
-	/*  formJason.appendChild(rspnsv); */
+	 btnsdiv.appendChild(dialogButton1);
+	btnsdiv.appendChild(textyesno);
+	btnsdiv.appendChild(dialogButton3);				
+	formJason.appendChild(btnsdiv);	 
 	 dialog.appendChild(formJason)  				 
-	 dropsheet_content.style.width="28%";	 	 //原訊息內框畫面寬度調整  		  
+	 dropsheet_content.style.width="25%";	 	 //原訊息內框畫面寬度調整  		  
 	 dropsheet_content.appendChild(dialog);		
 	 if(window.ActiveXObject){
 		var request = new ActiveXObject("Microsoft.XMLHttp");
@@ -147,75 +149,72 @@ function chseprg(event)  //選擇客戶
 	 var crntrate=document.getElementById('curncy');
 	 var invoicetype=document.getElementById('invtype');
 	 var taxkind=document.getElementById('taxtype');	 
-	 var maintable=document.getElementById("custTbody");  
-	 
-		for(var i=0;i< maintable.rows.length; i++){
-			 
-		      if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
-			     custNo.value=maintable.rows[i].cells[0].innerHTML;								 
-				 custName.value=maintable.rows[i].cells[1].innerHTML;
-				 if(rprsntno){
-				    rprsntno.value=maintable.rows[i].cells[2].innerHTML;
-				 }
-				 if(rprsntname){
-				   rprsntname.innerHTML=maintable.rows[i].cells[3].innerHTML;
-				 }
-				 if(crnttpe){
-				    crnttpe.value=maintable.rows[i].cells[4].innerHTML;
-				 }
-				 if(contactman){
-				    contactman.value=maintable.rows[i].cells[5].innerHTML;
-				 }
-				 if(shipway){
-				    shipway.value=maintable.rows[i].cells[6].innerHTML;
-				 }
-				  
-				 if(paymenttp){
-				    var tpy=maintable.rows[i].cells[7].innerHTML;
-			        switch (tpy){				        
-                        case '0' :{
-						     tpy="現結";
-						     break;
-					    }
-					    case '1' :{
-						     tpy="月結";
-						     break;
-					    }
-					    case '2' :{
-						     tpy="次月結";
-						     break;
-					    }
-					    case '3' :{
-						     tpy="T/T";
-						     break;
-					    }
-                        default: {
-					       tpy='現結';
-                          break;
-                       }	
-				
-			        }	 
-				    paymenttp.value=tpy+(maintable.rows[i].cells[8].innerHTML==0?'':maintable.rows[i].cells[8].innerHTML+'天');
-				 }	
-				 if(shipplace){
-					 shipplace.value=maintable.rows[i].cells[9].innerHTML;
-				 }
-				  if(shipdirect){
-					 shipdirect.value=maintable.rows[i].cells[10].innerHTML;
-				 }
-				 if(crntrate){
-					 crntrate.value=maintable.rows[i].cells[11].innerHTML;
-				 }
-				 if(invoicetype){
-					 invoicetype.value=maintable.rows[i].cells[12].innerHTML;
-				 }
-				  if(taxkind){
-					 taxkind.value=maintable.rows[i].cells[13].innerHTML;
-				 }
-				 break;
-			   }		
-			  		   
-		}             
+	 var maintable=document.getElementById("custTbody");  	 
+	for(var i=0;i< maintable.rows.length; i++){			 
+		if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
+			 custNo.value=maintable.rows[i].cells[0].innerHTML;								 
+			 custName.value=maintable.rows[i].cells[1].innerHTML;
+			 if(rprsntno){
+				rprsntno.value=maintable.rows[i].cells[2].innerHTML;
+			 }
+			 if(rprsntname){
+			   rprsntname.innerHTML=maintable.rows[i].cells[3].innerHTML;
+			 }
+			 if(crnttpe){
+				crnttpe.value=maintable.rows[i].cells[4].innerHTML;
+			 }
+			 if(contactman){
+				contactman.value=maintable.rows[i].cells[5].innerHTML;
+			 }
+			 if(shipway){
+				shipway.value=maintable.rows[i].cells[6].innerHTML;
+			 }
+			  
+			 if(paymenttp){
+				var tpy=maintable.rows[i].cells[7].innerHTML;
+				switch (tpy){				        
+					case '0' :{
+						 tpy="現結";
+						 break;
+					}
+					case '1' :{
+						 tpy="月結";
+						 break;
+					}
+					case '2' :{
+						 tpy="次月結";
+						 break;
+					}
+					case '3' :{
+						 tpy="T/T";
+						 break;
+					}
+					default: {
+					   tpy='現結';
+					  break;
+				   }	
+			
+				}	 
+				paymenttp.value=tpy+(maintable.rows[i].cells[8].innerHTML==0?'':maintable.rows[i].cells[8].innerHTML+'天');
+			 }	
+			 if(shipplace){
+				 shipplace.value=maintable.rows[i].cells[9].innerHTML;
+			 }
+			  if(shipdirect){
+				 shipdirect.value=maintable.rows[i].cells[10].innerHTML;
+			 }
+			 if(crntrate){
+				 crntrate.value=maintable.rows[i].cells[11].innerHTML;
+			 }
+			 if(invoicetype){
+				 invoicetype.value=maintable.rows[i].cells[12].innerHTML;
+			 }
+			  if(taxkind){
+				 taxkind.value=maintable.rows[i].cells[13].innerHTML;
+			 }
+			 break;
+		}					  		   
+	}             
 	custblkclose(event);	
 	return true;
 }	
@@ -230,14 +229,14 @@ function custblkclose(event)  //關閉註冊彈出視窗
 	dropsheet.style.display="none";       //關閉視窗 
 	if (dropsheet!=null){		
         dropsheet.parentNode.removeChild(dropsheet);  //並將這些元素移除	 
-	}   
-	  
-	    var bibau=cko[1](0);   //找出閉包變數現值
-	   cko[1](bibau*(-1));    //將閉包變數歸零	 
-	 var btns=getElementsByAttribute('class','btn');		
+	}   	  
+	var bibau=cko[1](0);   //找出閉包變數現值
+	cko[1](bibau*(-1));    //將閉包變數歸零	 
+	var btns=getElementsByAttribute('class','btn');		
     for (var i=btns.length-1;i>btns.length-3;i--){		
 		btns[i].setAttribute("accesskey",btns[i].title.substr(-1));				 
-	}		        
+	}	
+    document.getElementById('customno').focus();	
 	return true;
 }	
 
