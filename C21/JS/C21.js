@@ -2,8 +2,8 @@ function getProfile(str1,reccount,tbno) {
     var cnt=0;
 	var queryttl=0;
 	var arr = str1;      
-        var pagecount=Math.ceil(reccount/parseInt(getCookie('INT_RCD')));
-        var optdigts= (pagecount.toString()).length;
+    var pagecount=Math.ceil(reccount/parseInt(getCookie('INT_RCD')));
+    var optdigts= (pagecount.toString()).length;
 	if (tbno==0){     //如果是表頭   
         var slt2=document.getElementById('recmth');
 	    if (slt2.options.length<pagecount){
@@ -11,15 +11,13 @@ function getProfile(str1,reccount,tbno) {
 			    var item_no=paddingLeft(i,optdigts);				
 		        var varItem=new Option(item_no,item_no);
 	    	    slt2.options.add(varItem);	 
-           }
-		  
+           }		  
 		   		   //第一個選項位數修正		   
-		   slt2.options[0].value=paddingLeft(1,optdigts);
-		   slt2.options[0].text=paddingLeft(1,optdigts);
+		    slt2.options[0].value=paddingLeft(1,optdigts);
+		    slt2.options[0].text=paddingLeft(1,optdigts);
 		    var bibau=cko[0](0);   //找出閉包筆數變數現值
 	        cko[0](bibau*(-1));    //將閉包變數歸零
-		    cko[0](reccount);      //將筆數記起來	
-          
+		    cko[0](reccount);      //將筆數記起來	          
 	       }
 		var oTable = document.getElementById("maintbody1");
 		var fld=document.getElementById('recfield');

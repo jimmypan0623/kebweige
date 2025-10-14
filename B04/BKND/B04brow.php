@@ -33,7 +33,7 @@
 					 'unitedno_IHL_000'=>$list3['F1Z'],
 					 'contact_IHL_000'=>$list3['F1B'],	
 					 'tel_IHL_000'=>$list3['F13'],		
-                     'query_date_DSC_004'=>$list3['F02'],
+                     'query_date_DSC_003'=>$list3['F02'],
                      'sales_no_DHL_000'=>$list3['F09'],		
 					 'sales_name_ISL_007'=>$list3['F0C'],	
 					 'crncy_type_DSC_004'=>$list3['F14'],	

@@ -51,10 +51,8 @@ function selfTag(jsvsn){
 	}	
 	loadScript(`C21/JS/C21.js?v=${jsvsn}`,function(){DrawTable();});	
     loadScript(`C21/JS/C21rgst.js?v=${jsvsn}`);	 
-	loadScript(`C21/JS/C01srch.js?v=${jsvsn}`);	 
-	loadScript(`C01/JS/A01srch.js?v=${jsvsn}`);	
 	loadScript(`C01/JS/A09getno.js?v=${jsvsn}`);	
-	loadScript(`C21/JS/B01srch.js?v=${jsvsn}`);	
+	loadScript(`include/JS/commonsrch.js?v=${jsvsn}`);	
 	loadScript(`include/JS/confirmfunction.js?v=${jsvsn}`);	
 	var tab1Click=document.getElementById("tab1");
 	if(tab1Click){
@@ -99,102 +97,93 @@ function prntproc(event){
 	 window.open(urlphp,"_blank");
 	return;
 }
-
-
-   
+  
 function tab1View(event){	  
-       if (typeof event=="undefined"){
-		   event=window.event;
-    	}
-		 var newrcath=document.getElementById('NEW_BOTT');       //新增按鈕
-		 if (getCookie('auth01')=='Y'){
-             newrcath.style.visibility="visible";	
-			 attachEventListener(newrcath,"click",addrec,false);  //新增紀錄按鈕程序
-         }else{
-			 newrcath.style.visibility="hidden";
-			 //detachEventListener(newrcath,"click",addrec,false);  //取消新增按鈕程序
-         }			 
-		  var localbottoncl=document.getElementById('lclbtnbk');       //按鈕背景
-		  
-		 localbottoncl.style.backgroundColor="#FCFCFC";
-		 localbottoncl.style.border=" 2px solid #FCFCFC";
-		 localbottoncl.style.boxShadow ="sandybrown 5px 10px 10px 7px";
-		 
-		 var bibau=cko[3](0);   //找出閉包變數現值
-	     cko[3](bibau*(-1));    //將表身閉包變數歸零	
-		  bibau=cko[6](0);   //找出閉包變數現值
-	     cko[6](bibau*(-1));    //將表身閉包變數歸零 
-		 var btns=getElementsByAttribute('class','btn');			 
-		 for (var i=0;i<btns.length;i++){		
-		     if(btns[i].accessKey=='I' || btns[i].accessKey=='M'){
-		        btns[i].removeAttribute("accesskey");		
-			 } 
-			 if(right(btns[i].title,1)=='T' || right(btns[i].title,1)=='J' || right(btns[i].title,1)=='K' || right(btns[i].title,1)=='V'){
-		        btns[i].setAttribute("accesskey",right(btns[i].title,1));		
-			 } 
-	     }		        
-	 
+	if (typeof event=="undefined"){
+	   event=window.event;
+	}
+	 var newrcath=document.getElementById('NEW_BOTT');       //新增按鈕
+	 if (getCookie('auth01')=='Y'){
+		 newrcath.style.visibility="visible";	
+		 attachEventListener(newrcath,"click",addrec,false);  //新增紀錄按鈕程序
+	 }else{
+		 newrcath.style.visibility="hidden";
+		 //detachEventListener(newrcath,"click",addrec,false);  //取消新增按鈕程序
+	 }			 
+	 var localbottoncl=document.getElementById('lclbtnbk');       //按鈕背景		  
+	 localbottoncl.style.backgroundColor="#FCFCFC";
+	 localbottoncl.style.border=" 2px solid #FCFCFC";
+	 localbottoncl.style.boxShadow ="sandybrown 5px 10px 10px 7px";		 
+	 var bibau=cko[3](0);   //找出閉包變數現值
+	 cko[3](bibau*(-1));    //將表身閉包變數歸零	
+	 bibau=cko[6](0);   //找出閉包變數現值
+	 cko[6](bibau*(-1));    //將表身閉包變數歸零 
+	 var btns=getElementsByAttribute('class','btn');			 
+	 for (var i=0;i<btns.length;i++){		
+		 if(btns[i].accessKey=='I' || btns[i].accessKey=='M'){
+			btns[i].removeAttribute("accesskey");		
+		 } 
+		 if(right(btns[i].title,1)=='T' || right(btns[i].title,1)=='J' || right(btns[i].title,1)=='K' || right(btns[i].title,1)=='V'){
+			btns[i].setAttribute("accesskey",right(btns[i].title,1));		
+		 } 
+	}		        	 
 }
 function tab2View(event){	  
-        if (typeof event=="undefined"){
-		     event=window.event;
-    	}
-		
-	    var localbottoncl=document.getElementById('lclbtnbk');       //按鈕背景
-				
-		 localbottoncl.style.backgroundColor="#F9FAD9";
-		 localbottoncl.style.border=" 2px solid #F9FAD9";
-		 localbottoncl.style.boxShadow="olivedrab 5px 10px 10px 7px";
-		
-	   if (cko[2](0)==0){
-		  blkshow("未勾選任何紀錄，請勾選一筆再編輯表身內容");	
-	  	  document.getElementById("tab1").checked="checked";		
-		  return false;	
-       }
-       var keydescription=document.getElementById('keydscrpt');    
-       var fthkey=document.getElementById("fatherkey");
-	   var aWaitUpdate=[];	//準備記錄修改時欄位的內容資料
-	   var shrno="";
-       var maintable=document.getElementById("maintbody1");		//所指向的單頭紀錄		 				 	 
-	   for(var i=0;i< maintable.rows.length; i++){			 		            
-		   if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
-			   for (j=0;j<maintable.rows[i].cells.length-1;j++){				  
-				   aWaitUpdate.push(maintable.rows[i].cells[j].innerHTML);  //將待修改欄位資料存入陣列				 
-			   }				   
-               shrno=aWaitUpdate[aWaitUpdate.length-2]	;
-               document.getElementById('crncy').innerHTML=aWaitUpdate[aWaitUpdate.length-8];	   
-               break;					   
-		   }
-	   } 
-	   keydescription.innerHTML=aWaitUpdate[2]+'&nbsp'+aWaitUpdate[3];
-	   fthkey.innerHTML=aWaitUpdate[1];
-	   var responseDiv=document.getElementById("serverResponse2"); 
-	   responseDiv.innerHTML='&nbsp';
-	   var bibau=cko[3](0);   //找出閉包變數現值
-	   cko[3](bibau*(-1));    //將表身閉包變數歸零		
-	    bibau=cko[6](0);   //找出閉包變數現值
-	     cko[6](bibau*(-1));    //將表身閉包變數歸零 
-	   var newrcath=document.getElementById('NEW_BOTT');       //新增按鈕
-		 if(shrno=='Y'){
-			 newrcath.style.visibility="hidden";
-			 detachEventListener(newrcath,"click",addrec,false);  //取消新增按鈕程序
-         }else{
-			  if (getCookie('auth01')=='Y'){
-                 newrcath.style.visibility="visible";	
-			     attachEventListener(newrcath,"click",addrec,false);  //新增紀錄按鈕程序
-			  }
-         }			 
-		 if(event!='GY'){
-	        var btns=getElementsByAttribute('class','btn');			 
-		    for (var i=0;i<btns.length;i++){		
-		        if(btns[i].accessKey=='T' || btns[i].accessKey=='J' || btns[i].accessKey=='K' || btns[i].accessKey=='V'){		    
-		           btns[i].removeAttribute("accesskey");		
-			    } 
-			     if(right(btns[i].title,1)=='I' ||right(btns[i].title,1)=='M'){
-		           btns[i].setAttribute("accesskey",right(btns[i].title,1));		
-			    } 
-	        }		
-		 }		 
-	   commontemp(fthkey.innerHTML,"c27.F01");
-						  
+	if (typeof event=="undefined"){
+		 event=window.event;
+	}		
+	var localbottoncl=document.getElementById('lclbtnbk');       //按鈕背景				
+	localbottoncl.style.backgroundColor="#F9FAD9";
+	localbottoncl.style.border=" 2px solid #F9FAD9";
+	localbottoncl.style.boxShadow="olivedrab 5px 10px 10px 7px";		
+	if (cko[2](0)==0){
+	  blkshow("未勾選任何紀錄，請勾選一筆再編輯表身內容");	
+	  document.getElementById("tab1").checked="checked";		
+	  return false;	
+	}
+	var keydescription=document.getElementById('keydscrpt');    
+	var fthkey=document.getElementById("fatherkey");
+	var aWaitUpdate=[];	//準備記錄修改時欄位的內容資料
+	var shrno="";
+	var maintable=document.getElementById("maintbody1");		//所指向的單頭紀錄		 				 	 
+	for(var i=0;i< maintable.rows.length; i++){			 		            
+	   if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
+		   for (j=0;j<maintable.rows[i].cells.length-1;j++){				  
+			   aWaitUpdate.push(maintable.rows[i].cells[j].innerHTML);  //將待修改欄位資料存入陣列				 
+		   }				   
+		   shrno=aWaitUpdate[aWaitUpdate.length-2]	;
+		   document.getElementById('crncy').innerHTML=aWaitUpdate[aWaitUpdate.length-8];	   
+		   break;					   
+		}
+	} 
+	keydescription.innerHTML=aWaitUpdate[2]+'&nbsp'+aWaitUpdate[3];
+	fthkey.innerHTML=aWaitUpdate[1];
+	var responseDiv=document.getElementById("serverResponse2"); 
+	responseDiv.innerHTML='&nbsp';
+	var bibau=cko[3](0);   //找出閉包變數現值
+	cko[3](bibau*(-1));    //將表身閉包變數歸零		
+	bibau=cko[6](0);   //找出閉包變數現值
+	cko[6](bibau*(-1));    //將表身閉包變數歸零 
+	var newrcath=document.getElementById('NEW_BOTT');       //新增按鈕
+	if(shrno=='Y'){
+		newrcath.style.visibility="hidden";
+		detachEventListener(newrcath,"click",addrec,false);  //取消新增按鈕程序
+	}else{
+		if (getCookie('auth01')=='Y'){
+			newrcath.style.visibility="visible";	
+			attachEventListener(newrcath,"click",addrec,false);  //新增紀錄按鈕程序
+		}
+	}			 
+	if(event!='GY'){
+		var btns=getElementsByAttribute('class','btn');			 
+		for (var i=0;i<btns.length;i++){		
+			if(btns[i].accessKey=='T' || btns[i].accessKey=='J' || btns[i].accessKey=='K' || btns[i].accessKey=='V'){		    
+			   btns[i].removeAttribute("accesskey");		
+			} 
+			if(right(btns[i].title,1)=='I' ||right(btns[i].title,1)=='M'){
+			   btns[i].setAttribute("accesskey",right(btns[i].title,1));		
+			} 
+		}		
+	}		 
+	commontemp(fthkey.innerHTML,"c27.F01");						  
 }

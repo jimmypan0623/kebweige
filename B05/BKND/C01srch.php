@@ -17,15 +17,15 @@
     $arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_array($sql4)){		 
-		$atr = array('cust_no'=>$list3['F01'],  		            	             
-		             'cust_name'=>$list3['F05'],
-					 'sales_no'=>$list3['F33'],
-					 'sales_name'=>$list3['F0C'],
-					 'crncy_type'=>$list3['F39'],
-					 'touch_person'=>$list3['F12'],				
-					 'curncy_rate'=>$list3['F0B'],    //6
-					 'invoice_type'=>$list3['F29'],    //7
-					 'tax_type'=>$list3['F30']   ///8					
+		$atr = array('cust_no_ISL_050'=>$list3['F01'],  		            	             
+		             'cust_name_ISL_050'=>$list3['F05'],
+					 'sales_no_IHL_000'=>$list3['F33'],
+					 'sales_name_IHL_000'=>$list3['F0C'],
+					 'crncy_type_IHL_000'=>$list3['F39'],
+					 'touch_person_IHL_000'=>$list3['F12'],				
+					 'curncy_rate_IHL_000'=>$list3['F0B'],    //6
+					 'invoice_type_IHL_000'=>$list3['F29'],    //7
+					 'tax_type_IHL_000'=>$list3['F30']   ///8					
 					 );    
 					                          
 		array_push($arr,$atr);

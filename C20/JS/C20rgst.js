@@ -180,7 +180,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		   srchButton8.setAttribute("type","button");	
 		   srchButton8.setAttribute("class","scopelook");				   
 		   srchButton8.style.background="url('digits/brows1.png')";   
-		  attachEventListener(srchButton8,"click",stocknoshow,false);				
+		  attachEventListener(srchButton8,"click",srchshow,false);				
 		  oTd.appendChild(srchButton8);			
 	   }
 
@@ -198,7 +198,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		srchButton4.setAttribute("type","button");	
 		srchButton4.setAttribute("class","scopelook");				   
 		srchButton4.style.background="url('digits/brows1.png')";   
-		attachEventListener(srchButton4,"click",stocknoshow,false);				
+		attachEventListener(srchButton4,"click",srchshow,false);				
 		oTd.appendChild(srchButton4);	
 		
 	  }   
@@ -303,3 +303,53 @@ function editRecordHint(tbno){
 function searchKeyHint(tbno){    //搜尋畫面出現提示
     return "搜尋產品包裝欄位選擇";		
 }
+
+function srcArgobj(srcId){
+   
+		var stockNo=document.getElementById(srcId).value;
+		 
+		var tttlt='';
+	    if(srcId=='stockno'){			     
+		    var qrystring ="b01.F01"+"|"+stockNo;    
+			tttlt="請選取料號";          			
+	    }else if(srcId=='stockname'){			 
+		    var qrystring ="b01.F02"+"|"+stockNo; 	 
+			tttlt="請選取品名";
+		
+		}
+		return {"headtitle":tttlt,"drpshtWidth":"60%","thCntnt":['料品編號', '品名規格'],"thWidth":['50%','50%'],"urlPth":"C20/BKND/B01srch.php","clickfunc":stckchg,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
+	
+}
+
+
+function stckchg(event)  //選擇料號
+{
+	if (typeof event=="undefined"){
+		event=window.event;
+	}
+	var target=getEventTarget(event);
+	 
+	 var stockNo=document.getElementById('stockno');
+	 stockNo.value="";
+       var stockName=document.getElementById('stockname');			
+	 stockName.value="";  
+	
+	 var unitName=document.getElementById('unitname');
+	 
+	 var maintable=document.getElementById("stuffTbody");  
+		for(var i=0;i< maintable.rows.length; i++){
+			 
+		      if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
+			     stockNo.value=maintable.rows[i].cells[0].innerHTML;								 
+				 stockName.value=maintable.rows[i].cells[1].innerHTML;	
+				 if(unitName){
+				    unitName.innerHTML=maintable.rows[i].cells[2].innerHTML;
+			     }
+				
+				
+				 break;
+			   }				 
+		}              
+	srchblkclose(event);	
+	return true;
+}	

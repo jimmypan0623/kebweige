@@ -15,11 +15,11 @@
     $arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_array($sql4)){		 
-		$atr = array('stock_no'=>$list3['F01'],  		            	             
-		             'stock_name'=>$list3['F02'],
-					 'unit_name'=>$list3['F04'],
-					 'basic_qty'=>$list3['F03'],
-					 'minum_qty'=>$list3['F15']					
+		$atr = array('stock_no_ISL_050'=>$list3['F01'],  		            	             
+		             'stock_name_ISL_050'=>$list3['F02'],
+					 'unit_name_IHL_000'=>$list3['F04'],
+					 'basic_qty_IHL_000'=>$list3['F03'],
+					 'minum_qty_IHL_000'=>$list3['F15']					
 					 );     					                          
 		array_push($arr,$atr);
 	}

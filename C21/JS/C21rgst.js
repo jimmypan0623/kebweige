@@ -297,7 +297,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	        srchButton2.setAttribute("type","button");	
 	        srchButton2.setAttribute("class","scopelook");				   
 	        srchButton2.style.background="url('digits/brows1.png')";   
-	        attachEventListener(srchButton2,"click",custnoshow,false);				
+	        attachEventListener(srchButton2,"click",srchshow,false);				
 	        oTd.appendChild(srchButton2);		
         }else{
 		    oTd.innerHTML="<input type='text' name='c26others' id='customname' class='txt' style='background-color:#B9B9FF;width:25%;' maxlength='8' readOnly=true   />";  	
@@ -313,7 +313,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	        srchButton3.setAttribute("type","button");	
 	        srchButton3.setAttribute("class","scopelook");				   
 	        srchButton3.style.background="url('digits/brows1.png')";   
-	        attachEventListener(srchButton3,"click",custnoshow,false);				
+	        attachEventListener(srchButton3,"click",srchshow,false);				
 	        oTd.appendChild(srchButton3);			
 		}else{
 		    oTd.innerHTML="<input type='text' name='c26update' id='customno' class='txt' style='background-color:#B9B9FF;width:20%;' maxlength='6'  readOnly=true />";  				
@@ -372,7 +372,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		    srchButton12.setAttribute("type","button");	
 		    srchButton12.setAttribute("class","scopelook");				   
 		    srchButton12.style.background="url('digits/brows1.png')";   
-		    attachEventListener(srchButton12,"click",stocknoshow,false);				
+		    attachEventListener(srchButton12,"click",srchshow,false);				
 		    oTd.appendChild(srchButton12);			
 		}
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
@@ -400,7 +400,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		   srchButton8.setAttribute("type","button");	
 		   srchButton8.setAttribute("class","scopelook");				   
 		   srchButton8.style.background="url('digits/brows1.png')";   
-		   attachEventListener(srchButton8,"click",stocknoshow,false);				
+		   attachEventListener(srchButton8,"click",srchshow,false);				
 		   oTd.appendChild(srchButton8);			
 	    }				  				  			 
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
@@ -416,7 +416,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		   srchButton4.setAttribute("type","button");	
 		   srchButton4.setAttribute("class","scopelook");				   
 		   srchButton4.style.background="url('digits/brows1.png')";   
-		   attachEventListener(srchButton4,"click",stocknoshow,false);				
+		   attachEventListener(srchButton4,"click",srchshow,false);				
 		   oTd.appendChild(srchButton4);						
 	    }  
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);  //以下第一列都隱藏起來當變數
@@ -433,7 +433,7 @@ function topAndWidthModify(dropsheet_content,dropsheet,txtword,tbno){
 	dropsheet.style.paddingTop="25px";      // 高度也往上提 
 	if (tbno==0 && txtword!=7){				
 		var sales_no=document.getElementById('whono');			
-		attachEventListener(sales_no,"focusout",lostfocus1,false);		
+		/* attachEventListener(sales_no,"focusout",lostfocus1,false);		 */
 	}	 
 	 
     return true;
@@ -498,149 +498,57 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nongs,tbno)函數內新增紀錄後呼叫的畫面更動   
     var rnddgt=getCookie('INT_069');  //四捨五入到幾位      
 	var ttlcnt=Number(document.getElementById('ttlmny').innerHTML);
-		var fldidx=0;
-		var argsNo=0;
-		var nongsNo=0;	
-		while(fldsgsroup(fldidx,tbno)){
-			var oTd = oTr.insertCell(oTr.cells.length); 			
-			if(fldsgsroup(fldidx,tbno)[0]=='directdata'){
-				oTd.innerHTML=args[argsNo];
-				argsNo++;
-			}else{		
-                
-			    if(tbno==0 && fldidx==2){   //客戶簡稱
-				   oTd.innerHTML=nongs[0];				   
-				}
-				 if(tbno==0 && fldidx==3){   //客戶全稱
-				   oTd.innerHTML=nongs[1];				  
-				}
-				 if(tbno==0 && fldidx==6){   //業務名稱
-				   oTd.innerHTML=nongs[2];				  
-				}
-				if(tbno==0 && fldidx==12){   //轉單
-				   nongs[3]='N';
-				   oTd.innerHTML='N';				   
-				}
-				if(tbno==0 && fldidx==13){   //  //確認
-				   nongs[4]='N';
-				   oTd.innerHTML='N';				   
-				}
-			    if(tbno==1 && fldidx==1){   //品名
-				   oTd.innerHTML=nongs[nongsNo];
-				   nongsNo++;
-				}
-			    if(tbno==1 && fldidx==4){				   	//小計
-				   oTd.innerHTML=Math.round((args[1]*args[2]+ Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);			
-				   ttlcnt=ttlcnt+Math.round((args[1]*args[2]+ Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);	
-				   document.getElementById('ttlmny').innerHTML=ttlcnt;  //更新畫面上的總金額				   
-				}
-				
+	var fldidx=0;
+	var argsNo=0;
+	var nongsNo=0;	
+	while(fldsgsroup(fldidx,tbno)){
+		var oTd = oTr.insertCell(oTr.cells.length); 			
+		if(fldsgsroup(fldidx,tbno)[0]=='directdata'){
+			oTd.innerHTML=args[argsNo];
+			argsNo++;
+		}else{		
+			
+			if(tbno==0 && fldidx==2){   //客戶簡稱
+			   oTd.innerHTML=nongs[0];				   
 			}
-			oTd.setAttribute("class",fldsgsroup(fldidx,tbno)[0]);
-			if(fldsgsroup(fldidx,tbno)[1]=='none'){
-					oTd.setAttribute("style","display:none;");		
-			}else{
-				   oTd.style.textAlign=fldsgsroup(fldidx,tbno)[2];				     	
-				   oTd.style.width=fldsgsroup(fldidx,tbno)[3]+"%";				  
-			}					 		
-			fldidx++;
-		}				
-	    if (tbno==0){
-		    oTr.setAttribute("style","font-weight:bold;color:#704214;");			 
+			 if(tbno==0 && fldidx==3){   //客戶全稱
+			   oTd.innerHTML=nongs[1];				  
+			}
+			 if(tbno==0 && fldidx==6){   //業務名稱
+			   oTd.innerHTML=nongs[2];				  
+			}
+			if(tbno==0 && fldidx==12){   //轉單
+			   nongs[3]='N';
+			   oTd.innerHTML='N';				   
+			}
+			if(tbno==0 && fldidx==13){   //  //確認
+			   nongs[4]='N';
+			   oTd.innerHTML='N';				   
+			}
+			if(tbno==1 && fldidx==1){   //品名
+			   oTd.innerHTML=nongs[nongsNo];
+			   nongsNo++;
+			}
+			if(tbno==1 && fldidx==4){				   	//小計
+			   oTd.innerHTML=Math.round((args[1]*args[2]+ Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);			
+			   ttlcnt=ttlcnt+Math.round((args[1]*args[2]+ Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);	
+			   document.getElementById('ttlmny').innerHTML=ttlcnt;  //更新畫面上的總金額				   
+			}
+			
 		}
-    /* if (tbno==0){     //先整理表頭新增後的資料
-	    for(var i=0;i<2;i++){
-		    var oTd = oTr.insertCell(oTr.cells.length);
-		    oTd.innerHTML=args[i];				
-		    oTd.setAttribute("class","directdata");	
-		    if(i==0){						  
-			   oTd.setAttribute("style","width:10%;");		
-		    }else{
-			   oTd.setAttribute("style","width:7%;");		
-		    }
-	    }				
-	    var oTd = oTr.insertCell(oTr.cells.length);   //客戶簡稱
-	    oTd.innerHTML=nongs[0];
-	    oTd.setAttribute("class","indirectdata");		
-		oTd.setAttribute("style","width:7%;");			   
-		 var oTd = oTr.insertCell(oTr.cells.length);   //客戶全稱
-	    oTd.innerHTML=nongs[1];
-	    oTd.setAttribute("class","indirectdata");		
-		oTd.setAttribute("style","display:none;");			   
-	    var oTd = oTr.insertCell(oTr.cells.length);   //報價日期 
-		oTd.innerHTML=args[2];				
-		oTd.setAttribute("class","directdata");		
-		oTd.setAttribute("style","width:10%;");				
-	    var oTd = oTr.insertCell(oTr.cells.length);    //業務編號
-		oTd.innerHTML=args[3];				
-		oTd.setAttribute("class","directdata");
-		oTd.setAttribute("style","display:none;"); //真正的業務編號要隱藏
-	    var oTd = oTr.insertCell(oTr.cells.length);    //業務編號
-		oTd.innerHTML=nongs[2];				
-		oTd.setAttribute("class","indirectdata");  //業務名稱
-		oTd.setAttribute("style","width:7%;");				
-		for(var i=4;i<args.length-2;i++){ 
-			var oTd = oTr.insertCell(oTr.cells.length);
-			oTd.innerHTML=args[i];				
-			oTd.setAttribute("class","directdata");	
-			if(i==4){
-			  oTd.setAttribute("style","width:4%;");		
-			}							
-		}						 
-		oTr.setAttribute("style","font-weight:bold;color:#704214;");		
-		 //是否轉單與確認
-		for (var i=2;i<4;i++){ 
-		   var oTd = oTr.insertCell(oTr.cells.length);	
-		   oTd.setAttribute("class","indirectdata");					   
-		   oTd.innerHTML=nongs[i];	
-		   oTd.setAttribute("style","display:none;"); 
-		}
-    }else{  //整理表身新增資料				      
-	    
-	    var oTd = oTr.insertCell(oTr.cells.length);   //料號
-	    oTd.innerHTML=args[0];
-	    oTd.setAttribute("style","text-align:left;");
-	    oTd.setAttribute("class","directdata");		
-	    var oTd = oTr.insertCell(oTr.cells.length);   //品名
-	    oTd.innerHTML=nongs[0];
-		oTd.setAttribute("style","text-align:left;");
-	    oTd.setAttribute("class","indirectdata");
-		for(var i=1;i<3;i++){
-		    var oTd = oTr.insertCell(oTr.cells.length);   //數量&單價
-		    oTd.innerHTML=args[i];
-		    oTd.setAttribute("class","directdata");
-		    oTd.setAttribute("style","width:8%;text-align:right;");
-		}   
-		var oTd = oTr.insertCell(oTr.cells.length);   //小計
-		    var ttlcnt=Number(document.getElementById('ttlmny').innerHTML);
-		    oTd.innerHTML=Math.round((args[1]*args[2]+ Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);					    
-		    oTd.setAttribute("class","indirectdata");
-		    oTd.setAttribute("style","width:8%;text-align:right;");
-		    ttlcnt=ttlcnt+Math.round((args[1]*args[2]+ Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);					    
-		    document.getElementById('ttlmny').innerHTML=ttlcnt;  //更新畫面上的總金額
-	    for(var i=3;i<args.length-2;i++){
-		    var oTd = oTr.insertCell(oTr.cells.length);
-		    oTd.innerHTML=args[i];				
-		    oTd.setAttribute("class","directdata");	
-		    switch (i){
-			    case 3:
-				// 	oTd.setAttribute("style","text-align:right;");  
-					break;
-			    case 4:
-				   oTd.setAttribute("style","width:7%;text-align:right;");
-					break;
-			    case 5:	 
-				   oTd.setAttribute("style","width:7%;text-align:right;");
-				   break;
-			    case 6:	 
-					oTd.setAttribute("style","width:10%;text-align:center;");
-				   break;	
-				case 7:	 
-					oTd.setAttribute("style","width:10%;text-align:center;");
-				   break;		   
-		    }
-	    }				
-    } */
+		oTd.setAttribute("class",fldsgsroup(fldidx,tbno)[0]);
+		if(fldsgsroup(fldidx,tbno)[1]=='none'){
+				oTd.setAttribute("style","display:none;");		
+		}else{
+			   oTd.style.textAlign=fldsgsroup(fldidx,tbno)[2];				     	
+			   oTd.style.width=fldsgsroup(fldidx,tbno)[3]+"%";				  
+		}					 		
+		fldidx++;
+	}				
+	if (tbno==0){
+		oTr.setAttribute("style","font-weight:bold;color:#704214;");			 
+	}
+ 
 	//最後異動
     var oTd = oTr.insertCell(oTr.cells.length);	
     oTd.setAttribute("class","directdata");					   
@@ -660,7 +568,7 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 	   var maintable=document.getElementById("maintbody2");
 	    var fldidx=2;
 		var argsNo=1;
-		var nongsNo=1;	
+		var nongsNo=0;	
 		var ttlcnt=Number(document.getElementById('ttlmny').innerHTML)-Number(maintable.rows[args[arglth-1]].cells[5].innerHTML);					
 	} 
 		while(fldsgsroup(fldidx,tbno)){			
@@ -668,6 +576,11 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 				 maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=args[argsNo];				
 				argsNo++;
 			}else{				
+			    if(tbno==0){				  
+				  maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=nongs[nongsNo];
+				  nongsNo++;
+
+				}
 		        if(fldidx==4 && tbno==1){
 				  nongs[nongsNo]=Math.round((args[1]*args[2] + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);							  
 			      ttlcnt=ttlcnt+nongs[nongsNo];					
@@ -678,36 +591,7 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 			fldidx++;
 		}		
 		maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=rsp.lastupdate;
-   /*  if (tbno==0){
-	    var maintable=document.getElementById("maintbody1");					   			            
-	    maintable.rows[args[arglth-1]].cells[2].innerHTML=args[1];						 			           
-	    maintable.rows[args[arglth-1]].cells[3].innerHTML=nongs[0];
-		maintable.rows[args[arglth-1]].cells[4].innerHTML=nongs[1];
-	    maintable.rows[args[arglth-1]].cells[5].innerHTML=args[2]; 	  
-	    maintable.rows[args[arglth-1]].cells[6].innerHTML=args[3];					   
-	    maintable.rows[args[arglth-1]].cells[7].innerHTML=nongs[2];					   
-	    var tbrlth=maintable.rows[args[arglth-1]].cells.length;	
-	    for (var j=8;j<tbrlth-4;j++){
-		   maintable.rows[args[arglth-1]].cells[j].innerHTML=args[j-4];						  
-	    }						   
-	    maintable.rows[args[arglth-1]].cells[tbrlth-2].innerHTML=rsp.lastupdate; //最後異動						   	                  
-	}else{	               
-	    var rnddgt=getCookie('INT_069');  //四捨五入到幾位
-	    var maintable=document.getElementById("maintbody2");					   
-		var tbrlth=maintable.rows[args[arglth-1]].cells.length;	
-		for (var j=3;j<5;j++){				            
-			maintable.rows[args[arglth-1]].cells[j].innerHTML=args[j-2];						 
-	    }
-		 
-		var ttlcnt=Number(document.getElementById('ttlmny').innerHTML)-Number(maintable.rows[args[arglth-1]].cells[5].innerHTML)					
-		maintable.rows[args[arglth-1]].cells[5].innerHTML=Math.round((args[1]*args[2] + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);			
-		ttlcnt=ttlcnt+Math.round((args[1]*args[2] + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);					
-		document.getElementById('ttlmny').innerHTML=ttlcnt;  //更新畫面上的總金額
-		for (var j=6;j<tbrlth-2;j++){				            
-			maintable.rows[args[arglth-1]].cells[j].innerHTML=args[j-3];                           						
-	    }	
-	    maintable.rows[args[arglth-1]].cells[tbrlth-2].innerHTML=rsp.lastupdate;		
-	}  			 */
+
 }
 function transConfirm(oTd){
     oTd.innerHTML="<input type='text' name='c03update' id='newPono' class='txt' style='display:none;' maxlength='10'/>"; 		
@@ -759,3 +643,187 @@ function searchKeyHint(tbno){    //搜尋畫面出現提示
 		return "搜尋單身欄位選擇";
 	}  
 }
+
+function srcArgobj(srcId){
+	if(srcId=='customno' || srcId=='customname'){
+		var custno=document.getElementById(srcId).value; 
+		var tttlt='';
+		if (srcId=='customno'){		 		    
+		    var qrystring = "c01.F01"+"|"+custno; 
+			 tttlt='請選擇客戶編號';
+	   }else{		    
+		    var qrystring = "c01.F05"+"|"+custno;
+			tttlt='請選擇客戶簡稱';
+	    }					 
+		
+        return {"headtitle":tttlt,"drpshtWidth":"28%","thCntnt":['客戶編號', '客戶簡稱'],"thWidth":['50%','50%'],"urlPth":"C21/BKND/C01srch.php","clickfunc":chsecust,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
+	}else if(srcId=='whono'){
+	   var qrystring=document.getElementById(srcId).value;
+       return {"headtitle":"請選取業務人員帳號姓名","drpshtWidth":"28%","thCntnt":['人員編號', '人員姓名'],"thWidth":['50%','50%'],"urlPth":"C01/BKND/A01srch.php","clickfunc":chseprg1,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
+	}else{
+		var cstno=document.getElementById('keydscrpt').innerHTML;
+		var stockNo=document.getElementById(srcId).value;		 
+		var tttlt='';
+	    if(srcId=='stockno'){			     
+		    var qrystring ="b01.F01"+"|"+stockNo+"_"+left(cstno,6);
+			tttlt="請選取料號";          			
+	    }else if(srcId=='stockname'){			 
+		    var qrystring ="b01.F02"+"|"+stockNo+"_"+left(cstno,6); 			 
+			tttlt="請選取品名";
+		}else{
+		    var qrystring ="c34.F03"+"|"+stockNo+"_"+left(cstno,6);  
+		    tttlt="請選取客戶料號";
+		}
+		return {"headtitle":tttlt,"drpshtWidth":"60%","thCntnt":['料品編號', '品名規格','客戶品號'],"thWidth":['30%','40%','30%'],"urlPth":"C21/BKND/B01srch.php","clickfunc":stckchg,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
+	}
+}
+
+function chseprg1(event)  //選擇業務
+{
+	if (typeof event=="undefined"){
+		event=window.event;
+	}
+	var target=getEventTarget(event);	 
+	var stuffNo=document.getElementById('whono');
+	stuffNo.value="";
+    var stuffName=document.getElementById('whonameEx');		
+    if(stuffName)	 
+	    stuffName.innerHTML="";
+	var maintable=document.getElementById("stuffTbody");  
+	for(var i=0;i< maintable.rows.length; i++){			 
+		if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
+			 stuffNo.value=maintable.rows[i].cells[0].innerHTML;								 
+			 stuffName.innerHTML=maintable.rows[i].cells[1].innerHTML;				
+			 break;
+		  }				 
+	}             
+	srchblkclose(event);	
+ 
+	return true;
+}	
+
+function stckchg(event)  //選擇料號
+{
+	if (typeof event=="undefined"){
+		event=window.event;
+	}
+	var target=getEventTarget(event);	 
+	 var stockNo=document.getElementById('stockno');
+	 stockNo.value="";
+     var stockName=document.getElementById('stockname');				 	
+	 var unitName=document.getElementById('unitname');
+	 var basicqty=document.getElementById('basepack');
+	 var minumorder=document.getElementById('minumqty');
+	 var custstockno=document.getElementById('custompartno');
+	 var queryquintity=document.getElementById('queryqty');	 
+	 var maintable=document.getElementById("stuffTbody");  
+	for(var i=0;i< maintable.rows.length; i++){			 
+		if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
+			 stockNo.value=maintable.rows[i].cells[0].innerHTML;	
+			 if(stockName){
+				stockName.value=maintable.rows[i].cells[1].innerHTML;	
+			 }	
+			 if(unitName){
+				unitName.innerHTML=maintable.rows[i].cells[2].innerHTML;
+			 }		
+			 if(basicqty){
+				basicqty.value=maintable.rows[i].cells[3].innerHTML ;
+			 }			 
+			 if(minumorder){
+				minumorder.value=maintable.rows[i].cells[4].innerHTML;
+			   }
+			 if(custstockno){
+				custstockno.value=maintable.rows[i].cells[5].innerHTML;
+			 }  
+			 if(queryquintity){
+				queryquintity.value=minumorder.value;
+			 }  
+			 break;
+		}				 
+	}             
+	
+	srchblkclose(event);	
+	 
+	return true;
+}	
+
+function chsecust(event)  //選擇客戶
+{
+	if (typeof event=="undefined"){
+		event=window.event;
+	}
+	var target=getEventTarget(event);	 
+	var custNo=document.getElementById('customno');
+	custNo.value="";
+    var custName=document.getElementById('customname');			
+	custName.value="";
+	var custFullName=document.getElementById('customfullname');
+	var rprsntno=document.getElementById('whono');
+	var rprsntname=document.getElementById('whonameEx');
+	var crnttpe=document.getElementById('crntopt');
+	var contactman=document.getElementById('winman');
+    var shipway=document.getElementById('howship');
+	var paymenttp=document.getElementById('howpay');
+	var shipplace=document.getElementById('dlvrplace');
+	var shipdirect=document.getElementById('shipdirect');
+	var maintable=document.getElementById("stuffTbody");  
+	for(var i=0;i< maintable.rows.length; i++){			 
+		if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
+			custNo.value=maintable.rows[i].cells[0].innerHTML;								 
+			custName.value=maintable.rows[i].cells[1].innerHTML;
+			if(rprsntno){
+				rprsntno.value=maintable.rows[i].cells[2].innerHTML;
+			}
+			if(rprsntname){
+			   rprsntname.innerHTML=maintable.rows[i].cells[3].innerHTML;
+			}
+			if(crnttpe){
+				crnttpe.value=maintable.rows[i].cells[4].innerHTML;
+			}
+			if(contactman){
+				contactman.value=maintable.rows[i].cells[5].innerHTML;
+			}
+			if(shipway){
+				shipway.value=maintable.rows[i].cells[6].innerHTML;
+			}
+			if(custFullName){
+			    custFullName.value=maintable.rows[i].cells[11].innerHTML;
+			}  
+			if(paymenttp){
+				var tpy=maintable.rows[i].cells[7].innerHTML;
+				switch (tpy){				        
+					case '0' :{
+						 tpy="現結";
+						 break;
+					}
+					case '1' :{
+						 tpy="月結";
+						 break;
+					}
+					case '2' :{
+						 tpy="次月結";
+						 break;
+					}
+					case '3' :{
+						 tpy="T/T";
+						 break;
+					}
+					default: {
+					   tpy='現結';
+					  break;
+				   }					
+				}	 
+				paymenttp.value=tpy+(maintable.rows[i].cells[8].innerHTML==0?'':maintable.rows[i].cells[8].innerHTML+'天');
+			}	
+			if(shipplace){
+				 shipplace.value=maintable.rows[i].cells[9].innerHTML;
+			}
+				if(shipdirect){
+				 shipdirect.value=maintable.rows[i].cells[10].innerHTML;
+				}  
+			break;
+		}						   
+	}             
+	custblkclose(event);	
+	return true;
+}	

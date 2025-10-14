@@ -119,30 +119,30 @@ function rowchoseSecond(targetRow){    //紀錄移動表身
 }
 
 function paycondition(tpy){
-      switch (tpy){	
+    switch (tpy){	
 			        
-                     case '0' :{
-						  tpy="現結";
-						  break;
-					 }
-					  case '1' :{
-						  tpy="月結";
-						  break;
-					 }
-					  case '2' :{
-						   tpy="次月結";
-						  break;
-					 }
-					  case '3' :{
-						   tpy="T/T";
-						  break;
-					 }
-                 default: {
-					 tpy='';
-                    break;
-                    }					
-			  }	 
-		return tpy;	  
+		 case '0' :{
+			  tpy="現結";
+			  break;
+		 }
+		  case '1' :{
+			  tpy="月結";
+			  break;
+		 }
+		  case '2' :{
+			   tpy="次月結";
+			  break;
+		 }
+		  case '3' :{
+			   tpy="T/T";
+			  break;
+		 }
+	     default: {
+		 tpy='';
+		break;
+		}					
+    }	 
+    return tpy;	  
 }		
 
 function fldsgsroup(fidx,tbno){

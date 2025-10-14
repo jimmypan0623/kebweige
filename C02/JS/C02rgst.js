@@ -197,7 +197,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	   srchButton3.setAttribute("type","button");	
 	   srchButton3.setAttribute("class","scopelook");				   
 	   srchButton3.style.background="url('digits/brows1.png')";   
-	  attachEventListener(srchButton3,"click",custnoshow,false);				
+	  attachEventListener(srchButton3,"click",srchshow,false);				
 	  oTd.appendChild(srchButton3);			
 	  
 	   var oTd = oTr.insertCell(2);
@@ -209,7 +209,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	   srchButton2.setAttribute("type","button");	
 	   srchButton2.setAttribute("class","scopelook");				   
 	   srchButton2.style.background="url('digits/brows1.png')";   
-	  attachEventListener(srchButton2,"click",custnoshow,false);				
+	  attachEventListener(srchButton2,"click",srchshow,false);				
 	  oTd.appendChild(srchButton2);					
 	  
 	  var oTr=ajTable.insertRow(ajTable,ajTable.length);
@@ -228,7 +228,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		srchButton4.setAttribute("type","button");	
 		srchButton4.setAttribute("class","scopelook");				   
 		srchButton4.style.background="url('digits/brows1.png')";   
-		attachEventListener(srchButton4,"click",stocknoshow,false);				
+		attachEventListener(srchButton4,"click",srchshow,false);				
 		oTd.appendChild(srchButton4);	
 		
 	  }  
@@ -326,14 +326,6 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 			}
 			fldidx++;
 		}				
-	/* var tbrlth=maintable.rows[args[arglth-1]].cells.length;								
-	maintable.rows[args[arglth-1]].cells[2].innerHTML=args[1];						 
-	maintable.rows[args[arglth-1]].cells[3].innerHTML=nongs[0];			
-	for (var j=4;j<tbrlth-2;j++){
-		maintable.rows[args[arglth-1]].cells[j].innerHTML=args[j-2];			
-	}
-	            
-	maintable.rows[args[arglth-1]].cells[tbrlth-2].innerHTML=rsp.lastupdate; //最後異動		 */		
     //最後異動	 
 	maintable.rows[args[arglth-1]].cells[arglth].innerHTML=rsp.lastupdate;		
 }
@@ -353,3 +345,143 @@ function editRecordHint(tbno){
 function searchKeyHint(tbno){    //搜尋畫面出現提示
    return "搜尋報價紀錄欄位選擇";		
 }
+/////以下處理開窗回傳資料
+function srcArgobj(srcId){
+	if(srcId=='customno' || srcId=='customname'){
+		var custno=document.getElementById(srcId).value; 
+		var tttlt='';
+		if (srcId=='customno'){		 		    
+		    var qrystring = "c01.F01"+"|"+custno; 
+			 tttlt='請選擇客戶編號';
+	    }else{		    
+		    var qrystring = "c01.F05"+"|"+custno;
+			tttlt='請選擇客戶簡稱';
+	    }					 		
+        return {"headtitle":tttlt,"drpshtWidth":"28%","thCntnt":['客戶編號', '客戶簡稱'],"thWidth":['50%','50%'],"urlPth":"C21/BKND/C01srch.php","clickfunc":chsecust,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};	
+	}else if(srcId=='stockno'){		 
+		var stockNo=document.getElementById(srcId).value;		 
+		var qrystring  = "b01.F01"+"|"+stockNo;    	
+		return {"headtitle":"請選取料號","drpshtWidth":"60%","thCntnt":['料品編號', '品名規格'],"thWidth":['50%','50%'],"urlPth":"C02/BKND/B01srch.php","clickfunc":stckchg,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
+	}
+}
+
+
+function stckchg(event)  //選擇料號
+{
+	if (typeof event=="undefined"){
+		event=window.event;
+	}
+	var target=getEventTarget(event);
+	 
+	 var stockNo=document.getElementById('stockno');
+	 stockNo.value="";
+
+	 var basicqty=document.getElementById('basepack');
+	 var minumorder=document.getElementById('minumqty');
+	 var custstockno=document.getElementById('custompartno');
+	 var maintable=document.getElementById("stuffTbody");  
+		for(var i=0;i< maintable.rows.length; i++){
+			 
+		      if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
+			     stockNo.value=maintable.rows[i].cells[0].innerHTML;								 
+	
+				
+				 if(basicqty){
+				    basicqty.value=maintable.rows[i].cells[3].innerHTML ;
+			     }
+				 
+				 if(minumorder){
+				    minumorder.value=maintable.rows[i].cells[4].innerHTML;
+			       }
+			     if(custstockno){
+				    custstockno.value=maintable.rows[i].cells[5].innerHTML;
+			     }  
+				 break;
+			   }				 
+		}             
+	srchblkclose(event);	
+	return true;
+}	
+
+function chsecust(event)  //選擇客戶
+{
+	if (typeof event=="undefined"){
+		event=window.event;
+	}
+	 var target=getEventTarget(event);	 
+	 var custNo=document.getElementById('customno');
+	 custNo.value="";
+     var custName=document.getElementById('customname');			
+	 custName.value="";
+	 var custFullName=document.getElementById('customfullname');	
+	 var rprsntno=document.getElementById('whono');
+	 var rprsntname=document.getElementById('whonameEx');
+	 var crnttpe=document.getElementById('crntopt');
+	 var contactman=document.getElementById('winman');
+     var shipway=document.getElementById('howship');
+	 var paymenttp=document.getElementById('howpay');
+	 var shipplace=document.getElementById('dlvrplace');
+	 var shipdirect=document.getElementById('shipdirect');
+	 var maintable=document.getElementById("stuffTbody");  
+	for(var i=0;i< maintable.rows.length; i++){			 
+		if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
+			 custNo.value=maintable.rows[i].cells[0].innerHTML;								 
+			 custName.value=maintable.rows[i].cells[1].innerHTML;
+			 if(rprsntno){
+				rprsntno.value=maintable.rows[i].cells[2].innerHTML;
+			 }
+			 if(rprsntname){
+			   rprsntname.innerHTML=maintable.rows[i].cells[3].innerHTML;
+			 }
+			 if(crnttpe){
+				crnttpe.value=maintable.rows[i].cells[4].innerHTML;
+			 }
+			 if(contactman){
+				contactman.value=maintable.rows[i].cells[5].innerHTML;
+			 }
+			 if(shipway){
+				shipway.value=maintable.rows[i].cells[6].innerHTML;
+			 }
+			 if(custFullName){
+				custFullName.value=maintable.rows[i].cells[11].innerHTML;
+			 }
+			 if(paymenttp){
+				var tpy=maintable.rows[i].cells[7].innerHTML;
+				switch (tpy){				        
+					case '0' :{
+						 tpy="現結";
+						 break;
+					}
+					case '1' :{
+						 tpy="月結";
+						 break;
+					}
+					case '2' :{
+						 tpy="次月結";
+						 break;
+					}
+					case '3' :{
+						 tpy="T/T";
+						 break;
+					}
+					default: {
+					   tpy='現結';
+					  break;
+				   }	
+			
+				}	 
+				paymenttp.value=tpy+(maintable.rows[i].cells[8].innerHTML==0?'':maintable.rows[i].cells[8].innerHTML+'天');
+			 }	
+			 if(shipplace){
+				 shipplace.value=maintable.rows[i].cells[9].innerHTML;
+			 }
+			 if(shipdirect){
+				 shipdirect.value=maintable.rows[i].cells[10].innerHTML;
+			 }
+			 break;
+		}		
+				   
+	}             
+	srchblkclose(event);	
+	return true;
+}	

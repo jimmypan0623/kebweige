@@ -14,7 +14,7 @@
 					 'crncy_type_DSC_004'=>$list3['F06'],	                     
                      'query_price_DSR_008'=>$list3['F07'],     					
                      'basic_pack_DSR_007'=>$list3['F13'],  		
-                     'min_order_DSC_007'=>$list3['F08'],  	
+                     'min_order_DSR_007'=>$list3['F08'],  	
 					  'payment_DSL_010'=>$list3['F10'],
 					 'lead_time_DSR_007'=>$list3['F11'], 
 					 'datestart_DSC_010'=>$list3['F02'],  

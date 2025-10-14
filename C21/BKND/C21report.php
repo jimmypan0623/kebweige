@@ -1,5 +1,6 @@
 <?php 
 require_once('../../tcpdf/tcpdf.php');
+ 
 $msgsend=$_GET['queryNo'];
 // Extend the TCPDF class to create custom Header and Footer
 // 自訂頁首與頁尾
@@ -169,13 +170,16 @@ $pdf->AddPage('P', 'LETTER');
 // <p>Please check the source code documentation and other examples for further information.</p>
 // <p style="color:#CC0000;">TO IMPROVE AND EXPAND TCPDF I NEED YOUR SUPPORT, PLEASE <a href="http://sourceforge.net/donate/index.php?group_id=128076">MAKE A DONATION!</a></p>
 // EOD;
-   $hostname='localhost';    //$_COOKIE["INT_PTH"]
- $dbc = @mysqli_connect($hostname,$_COOKIE["INT_ADM"],$_COOKIE["INT_PSS"],$_COOKIE["INT_DAT"]);
- mysqli_query($dbc,'set names utf8'); 
-
+   
+ /*   $hostname='localhost';    //$_COOKIE["INT_PTH"]
+ $dbc = @mysqli_connect($hostname,$_COOKIE["INT_ADM"],$_COOKIE["INT_PSS"],$_COOKIE["INT_DAT"]); 
+ mysqli_query($dbc,'set names utf8'); */
+ $link = @mysqli_connect('localhost','root','To6035376615004513834','tkdata');
+ mysqli_query($link,'set names utf8');  
+         
  $sql3="select c27.*,b01.F02 as F0B,b01.F04 as F0D,b01.F28+b01.F31 as F2A from c27 left outer join b01 on c27.F02=b01.F01 where c27.F01='".$_GET['queryNo']."' order by c27.F02"; 
   
-   $sql4=@mysqli_query($dbc,$sql3); 
+   $sql4=@mysqli_query($link,$sql3); 
     $html ='';
 	while ($list3=mysqli_fetch_array($sql4)){
 		 
@@ -204,7 +208,7 @@ $pdf->AddPage('P', 'LETTER');
 			<td style="line-height: 1.5; width: 65px;text-align:right;">'.$list3['F15'].$list3['F17'].'</td>
         </tr>';
 }
- mysqli_close($dbc);	
+ mysqli_close($link);	
 $html ='
 <table cellpadding="1" border="1px">' . $html .'</table>';
 

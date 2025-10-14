@@ -21,16 +21,16 @@
 	$itemno=0;
 	while ($list3=mysqli_fetch_array($sql4)){
 		$itemno++; 
-		$atr = array('item_no'=>$itemno,
-		             'stock_no'=>$list3['F01'],  		            	             
-		             'stock_name'=>$list3['F02'],
-					 'unit_name'=>$list3['F04'],
-					 'basic_qty'=>$list3['F13'],
-					 'minum_qty'=>$list3['F08'],
-					 'custom_part'=>$list3['F0D'],	
-					 'invalid_date'=>$list3['F15'],
-					 'order_price'=>($list3['F07']>0?$list3['F07']:$list3['F38']),
-					 'leadtime'=>($list3['F28']+$list3['F31'])
+		$atr = array('item_no_IHC_000'=>$itemno,
+		             'stock_no_ISL_030'=>$list3['F01'],  		            	             
+		             'stock_name_ISL_025'=>$list3['F02'],
+					 'unit_name_IHL_000'=>$list3['F04'],
+					 'basic_qty_IHL_000'=>$list3['F13'],
+					 'minum_qty_IHL_000'=>$list3['F08'],
+					 'custom_part_ISL_025'=>$list3['F0D'],	
+					 'invalid_date_ISC_010'=>$list3['F15'],
+					 'order_price_ISR_010'=>($list3['F07']>0?$list3['F07']:$list3['F38']),
+					 'leadtime_IHL_000'=>($list3['F28']+$list3['F31'])
 					 );    					                          
 		array_push($arr,$atr);
 	}

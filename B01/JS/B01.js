@@ -56,16 +56,17 @@ function getProfile(str1,reccount,tbno) {
 				attachEventListener(oTd,'click',rowchoose,false);		//點選資料
 			}		
 		}
+		
 		var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
 		oTd.setAttribute("style","display:none");   //勾選不顯示
 		var myCheck=document.createElement('input'); 
 		myCheck.type="checkbox";		  
 		if(tbno==0){
 			myCheck.setAttribute("name","chkbxmember1");   //讓使用者勾選的checkbox表頭
-			if(arr[i]['ntqty']*1>arr[i]['maxinv']*1 && arr[i]['maxinv']*1>0){  //庫存大於上限
+			if(arr[i]['ntqty_IHR_000']*1>arr[i]['maxinv_DHR_000']*1 && arr[i]['maxinv']*1>0){  //庫存大於上限
 			   oTr.setAttribute("style","font-weight:bold;color:#E60000;");  //#704214
 			} 
-			if(arr[i]['ntqty']*1<arr[i]['minuminv']*1){  //庫存小於安全存量
+			if(arr[i]['ntqty_IHR_000']*1<arr[i]['minuminv_DHR_000']*1){  //庫存小於安全存量
 			   oTr.setAttribute("style","font-weight:bold;color:#704214;");//#949100
 			} 
 		}else if(tbno==1){

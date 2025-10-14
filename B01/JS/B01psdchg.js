@@ -6,7 +6,7 @@ function selfTag(jsvsn){
 	invDetailButton.setAttribute("type","button");
 	invDetailButton.setAttribute("class","btn");
 	invDetailButton.setAttribute("value","\u{1F3E1}");     //u{1F3E1}
-	invDetailButton.setAttribute("style","font-size:130%;margin:0px");
+	invDetailButton.setAttribute("style","font-size:130%;margin:0px;");
 	invDetailButton.setAttribute("title","各庫別明細，快速鍵 Alt+B");	
 	invDetailButton.setAttribute('accesskey','B')
 	invDetailButton.id="INVDTL_BOTT";		
@@ -14,8 +14,7 @@ function selfTag(jsvsn){
 	contentdiv[0].insertBefore(invDetailButton,svrSpns1);	 
 	loadScript(`B01/JS/B01.js?v=${jsvsn}`,function(){DrawTable();});	
 	loadScript(`B01/JS/B01rgst.js?v=${jsvsn}`);
-	loadScript(`C21/JS/C01srch.js?v=${jsvsn}`);
-	loadScript(`B01/JS/D01srch.js?v=${jsvsn}`);		
+	loadScript(`include/JS/commonsrch.js?v=${jsvsn}`);
 	var tab1Click=document.getElementById("tab1");
 	if(tab1Click){
 		tab1Click.setAttribute("accesskey","1");

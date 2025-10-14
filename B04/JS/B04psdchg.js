@@ -35,12 +35,9 @@ function selfTag(jsvsn){
 	maindiv[0].insertBefore(orpButton6,orpButton5);
 	maindiv[0].insertBefore(text15,orpButton5);				 
 	loadScript(`B04/JS/B04.js?v=${jsvsn}`,function(){DrawTable();});		
-    loadScript(`B04/JS/B04rgst.js?v=${jsvsn}`);	 
-	loadScript(`B04/JS/C01srch.js?v=${jsvsn}`);	 
-	loadScript(`C01/JS/A01srch.js?v=${jsvsn}`);	
-	loadScript(`C01/JS/A09getno.js?v=${jsvsn}`);	
-	loadScript(`B04/JS/B01srch.js?v=${jsvsn}`);	
-	loadScript(`B04/JS/A14srch.js?v=${jsvsn}`);	
+    loadScript(`B04/JS/B04rgst.js?v=${jsvsn}`);	 	
+	loadScript(`include/JS/commonsrch.js?v=${jsvsn}`);
+	loadScript(`C01/JS/A09getno.js?v=${jsvsn}`);		
 	loadScript(`include/JS/confirmfunction.js?=${jsvsn}`);	
 	var tab1Click=document.getElementById("tab1");
 	if(tab1Click){

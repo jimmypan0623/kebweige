@@ -16,7 +16,8 @@ function selfTag(jsvsn)
 		 loadScript(`RED/JS/REDrgst.js?v=${jsvsn}`);	
 	     var plsElmnts=document.getElementById('company_name').parentNode;
 		 var iflm=document.createElement('iframe');
-		 var htmfile='ROL/'+getCookie('INT_HTM');
+		 var htmfile='ROL/'+getCookie('INT_HTM');		
+		 iflm.id="frl";
 		 iflm.id="frl";
 		 iflm.src=htmfile;
 		 plsElmnts.appendChild(iflm);

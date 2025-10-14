@@ -203,10 +203,10 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	  srchButton3.setAttribute("type","button");	
 	  srchButton3.setAttribute("class","scopelook");				   
 	  srchButton3.style.background="url('digits/brows1.png')";   
-	  attachEventListener(srchButton3,"click",vendornoshow,false);				
+	  attachEventListener(srchButton3,"click",srchshow,false);				
 	  oTd.appendChild(srchButton3);							  
 	  var oTd = oTr.insertCell(2);
-	  oTd.setAttribute('style','text-align:right;width:15%');	
+	  oTd.setAttribute('style','text-align:right;width:15%');	 
 	  oTd.innerHTML='廠商簡稱:';
 	  var oTd = oTr.insertCell(3);               
 	  oTd.innerHTML="<input type='text' name='d02others' id='vendorname' class='txt' style='width:35%;' maxlength='8'    />";  				 
@@ -214,7 +214,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	  srchButton2.setAttribute("type","button");	
 	  srchButton2.setAttribute("class","scopelook");				   
 	  srchButton2.style.background="url('digits/brows1.png')";   
-	  attachEventListener(srchButton2,"click",vendornoshow,false);				
+	  attachEventListener(srchButton2,"click",srchshow,false);				
 	  oTd.appendChild(srchButton2);									  
 	  var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	  var oTd = oTr.insertCell(0);	   
@@ -232,7 +232,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		srchButton4.setAttribute("type","button");	
 		srchButton4.setAttribute("class","scopelook");				   
 		srchButton4.style.background="url('digits/brows1.png')";   
-		attachEventListener(srchButton4,"click",stocknoshow,false);				
+		attachEventListener(srchButton4,"click",srchshow,false);				
 		oTd.appendChild(srchButton4);	
 		
 	  }  
@@ -359,3 +359,144 @@ function editRecordHint(tbno){
 function searchKeyHint(tbno){    //搜尋畫面出現提示
    return "搜尋詢價紀錄欄位選擇";		
 }
+
+/////以下處理開窗回傳資料
+function srcArgobj(srcId){
+	if(srcId=='vendorno' || srcId=='vendorname'){
+		var vendno=document.getElementById(srcId).value; 
+		var tttlt='';
+		if (srcId=='vendorno'){		 		    
+		    var qrystring = "d01.F01"+"|"+vendno;    	
+			 tttlt='請選擇廠商編號';
+	   }else{		    
+		    var qrystring = "d01.F04"+"|"+vendno;   
+			tttlt='請選擇廠商簡稱';
+	    }					 
+        return {"headtitle":tttlt,"drpshtWidth":"28%","thCntnt":['廠商編號', '廠商簡稱'],"thWidth":['50%','50%'],"urlPth":"B01/BKND/D01srch.php","clickfunc":vndchse,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
+      
+	}else if(srcId=='stockno'){		 	  
+		var stockNo=document.getElementById(srcId).value;		 
+		var qrystring  = "b01.F01"+"|"+stockNo;    	
+		return {"headtitle":"請選取料號","drpshtWidth":"60%","thCntnt":['料品編號', '品名規格'],"thWidth":['50%','50%'],"urlPth":"D02/BKND/B01srch.php","clickfunc":stckchg,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
+	}
+}
+
+
+function stckchg(event)  //選擇料號
+{
+	if (typeof event=="undefined"){
+		event=window.event;
+	}
+	var target=getEventTarget(event);
+	 
+	 var stockNo=document.getElementById('stockno');
+	 stockNo.value="";
+/*        var stockName=document.getElementById('stockname');			
+	 stockName.value="";   */
+	
+	
+	 var basicqty=document.getElementById('basepack');
+	 var minumorder=document.getElementById('minumqty');
+	 var custstockno=document.getElementById('vendorpartno');
+	 var maintable=document.getElementById("stuffTbody");  
+		for(var i=0;i< maintable.rows.length; i++){
+			 
+		      if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
+			     stockNo.value=maintable.rows[i].cells[0].innerHTML;								 
+				/*  stockName.value=maintable.rows[i].cells[1].innerHTML;  
+				   if(unitName){
+				    unitName.innerHTML=maintable.rows[i].cells[2].innerHTML;
+			     } */
+				
+				 if(basicqty){
+				    basicqty.value=maintable.rows[i].cells[3].innerHTML ;
+			     }
+				 
+				 if(minumorder){
+				    minumorder.value=maintable.rows[i].cells[4].innerHTML;
+			       }
+			     if(custstockno){
+				    custstockno.value=maintable.rows[i].cells[5].innerHTML;
+			     }  
+				 break;
+			   }				 
+		}             
+	srchblkclose(event);	
+	return true;
+}	
+
+function vndchse(event)  //選擇廠商
+{
+	if (typeof event=="undefined"){
+		event=window.event;
+	}
+	var target=getEventTarget(event);	 
+	var vendNo=document.getElementById('vendorno');
+	vendNo.value="";
+    var vendName=document.getElementById('vendorname');			
+	vendName.value="";
+	var rprsntno=document.getElementById('whono');
+	var rprsntname=document.getElementById('whonameEx');
+	var crnttpe=document.getElementById('crcyopt');
+	var contactman=document.getElementById('winman');
+    var shipway=document.getElementById('howship');
+	var paymenttp=document.getElementById('payment');
+	var shipplace=document.getElementById('dlvrplace');
+	var shipdirect=document.getElementById('shipdirect');
+	var maintable=document.getElementById("stuffTbody");  
+	for(var i=0;i< maintable.rows.length; i++){			 
+		if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
+			vendNo.value=maintable.rows[i].cells[0].innerHTML;								 
+			vendName.value=maintable.rows[i].cells[1].innerHTML;
+			if(rprsntno){
+				rprsntno.value=maintable.rows[i].cells[2].innerHTML;
+			}
+			if(rprsntname){
+			   rprsntname.innerHTML=maintable.rows[i].cells[3].innerHTML;
+			}
+			if(crnttpe){
+			   crnttpe.value=maintable.rows[i].cells[4].innerHTML;
+			}
+			if(contactman){
+				contactman.value=maintable.rows[i].cells[5].innerHTML;
+			}
+			if(shipway){
+				shipway.value=maintable.rows[i].cells[6].innerHTML;
+			}				  
+			if(paymenttp){
+				var tpy=maintable.rows[i].cells[7].innerHTML;
+				switch (tpy){				        
+					case '0' :{
+						 tpy="現結";
+						 break;
+					}
+					case '1' :{
+						 tpy="月結";
+						 break;
+					}
+					case '2' :{
+						 tpy="次月結";
+						 break;
+					}
+					case '3' :{
+						 tpy="T/T";
+						 break;
+					}
+					default: {
+					   tpy='現結';
+					  break;
+				   }				
+				}	 
+				paymenttp.value=tpy+(maintable.rows[i].cells[8].innerHTML==0?'':maintable.rows[i].cells[8].innerHTML+'天');
+			}			
+			if(shipdirect){
+				shipdirect.value=maintable.rows[i].cells[10].innerHTML;
+			}
+			break;
+		}					  		   
+	}             
+	
+	srchblkclose(event);	
+	
+	return true;
+}	

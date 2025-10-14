@@ -71,7 +71,6 @@ function blocksclose(event)  //關閉註冊彈出視窗
 	}		      	 	
 	return true;
 }	
-
  
 function sendFilePrc(updflg){     //新增資料及修改程序       
 	var tbjsn=[];
@@ -85,12 +84,10 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 			}
 	  }			
 	var recordNo=document.getElementById("rcrd_no");  
-    //----資料寫入資料庫前過濾程序區-----//
-	 
+    //----資料寫入資料庫前過濾程序區-----//	 
 	if (tbno==0){
 	    var b01elements=document.getElementsByName('b01update');
-        var b01athments=document.getElementsByName('b01others');	
-		
+        var b01athments=document.getElementsByName('b01others');			
 	}else if (tbno==1){
 		 var b01elements=document.getElementsByName('c02update');	
 		 var b01athments=document.getElementsByName('c02others');			 
@@ -104,7 +101,6 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 	for(var q=1;q<b01elements.length;q++){  	    //開始堆疊待異動資料陣列
 		 tbjsn.push(b01elements[q].value);	   
 	}
-
 	if (tbno==0){
 	    for(var j=1;j<b01elements.length-3;j++){
             if(b01elements[j].value.trim()==="" && !(j==8 || j==11 || j==12 || j==13)){		
@@ -128,20 +124,20 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 	    for(var k=9;k<11;k++){
 	        if(b01elements[k].value*1<b01elements[10].value*1 || b01elements[k].value*1<0){
 	            if(!b01elements[k].nextSibling){
-		          var errorSpan1=document.createElement("span");		
-			      errorSpan1.style.color="red";
-			      errorSpan1.style.fontFamily="標楷體";
-			      if (b01elements[k].value*1<0){
-				      var errorMessage1=document.createTextNode("不得小於 0");
-		           }else{
-				    var errorMessage1=document.createTextNode("小於安全存量");
-			      }
-		          errorSpan1.appendChild(errorMessage1);
-		          errorSpan1.classId="errorMsg";
-		          b01elements[k].parentNode.appendChild(errorSpan1);				 
+		            var errorSpan1=document.createElement("span");		
+			        errorSpan1.style.color="red";
+			        errorSpan1.style.fontFamily="標楷體";
+			        if (b01elements[k].value*1<0){
+				        var errorMessage1=document.createTextNode("不得小於 0");
+		            }else{
+				       var errorMessage1=document.createTextNode("小於安全存量");
+			        }
+		            errorSpan1.appendChild(errorMessage1);
+		            errorSpan1.classId="errorMsg";
+		            b01elements[k].parentNode.appendChild(errorSpan1);				 
 		        }	 
 		        b01elements[k].focus();
-		       return false ;	
+		        return false ;	
 	        }else{
 	    	   if(b01elements[k].nextSibling){		      
 			     b01elements[k].parentNode.removeChild(b01elements[k].nextSibling);
@@ -151,19 +147,19 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 	    for(var p=13;p<15;p++){
 	        if(p==14 && b01elements[p].value*1<=0 && b01elements[p-1].value.substr(0,1)=='B'){
 	            if(!b01elements[p].nextSibling){
-		           var errorSpan1=document.createElement("span");		
-			       errorSpan1.style.color="red";
-			       errorSpan1.style.fontFamily="標楷體";
-		           var errorMessage1=document.createTextNode("整批領料須大於0");
-		           errorSpan1.appendChild(errorMessage1);
-		           errorSpan1.classId="errorMsg";
-		           b01elements[p].parentNode.appendChild(errorSpan1);				 
+		            var errorSpan1=document.createElement("span");		
+			        errorSpan1.style.color="red";
+			        errorSpan1.style.fontFamily="標楷體";
+		            var errorMessage1=document.createTextNode("整批領料須大於0");
+		            errorSpan1.appendChild(errorMessage1);
+		            errorSpan1.classId="errorMsg";
+		            b01elements[p].parentNode.appendChild(errorSpan1);				 
 		        }	 
 		        b01elements[p].focus();
 		       return false ;	
 	        }else{
 	    	    if(b01elements[p].nextSibling){		      
-			       b01elements[p].parentNode.removeChild(b01elements[p].nextSibling);
+			        b01elements[p].parentNode.removeChild(b01elements[p].nextSibling);
 		        }		
 	        }
 	    }   
@@ -187,7 +183,7 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 	        }
 	    }
 	}else if (tbno==1){
-	     for(var j=1;j<b01elements.length-3;j++){
+	    for(var j=1;j<b01elements.length-3;j++){
             if(b01elements[j].value.trim()==="" && !(j==2 || j==3 || j==8 )){		
 		        if(!b01elements[j].nextSibling){		      
 			       if (j==1 ){
@@ -255,19 +251,18 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 			}
 	    }   
 	}
-    //--------過濾區結束----------//				
-   
+    //--------過濾區結束----------//				   
     if (updflg==1){     //如果是新增	 
         if(b01elements[1].value!="" ){
           
-		   tbjsn.push(0);
-		   tbjsn.push(0);
+		    tbjsn.push(0);
+		     tbjsn.push(0);
 		   if (tbno==0){
 		       var selectElement=document.getElementById("dptnoopt");
 			   var slicelth=selectElement.value.length;
 		       nonjsn[0]=( selectElement.options[selectElement.selectedIndex].text.slice(slicelth));  //取得部門名稱內容
-		   }
-		   var rspns=TableToJson(tbjsn,nonjsn,tbno);        
+		    }
+		    var rspns=TableToJson(tbjsn,nonjsn,tbno);        
 	    } 
 	    else{
 		    blkshow("欄位資料不齊全無法新增權限");
@@ -276,8 +271,7 @@ function sendFilePrc(updflg){     //新增資料及修改程序
  
 		  if (typeof updflg=="undefined"){
 		    updflg=window.event;
-        }			
-		
+        }					
 	    var target=getEventTarget(updflg);	         
 		var tablerowindex=sourceAccount(null,tbno);   //記住是目前table的哪一列	
          tbjsn.push(recordNo.value);	
@@ -311,24 +305,21 @@ function calculateTtl(tbno,maintable,i){  //刪除後計算總數量
 }
 function c20PackQty(fatherkey){	
 	var sendSrcRec="filename="+fatherkey;	
-		var rsp="";  	
-        if(window.ActiveXObject){
-		   var request = new ActiveXObject("Microsoft.XMLHttp");
-	    }	
-	       else if(window.XMLHttpRequest){
-	   	      var request = new XMLHttpRequest();
-        }			 
-		request.onreadystatechange = respond;	
-       
-		var url="B01/BKND/C20srch.php?timestamp="+new Date().getTime();
-			
-	    request.open("POST",url);	 
-	    request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-	    request.send(sendSrcRec);		
+	var rsp="";  	
+	if(window.ActiveXObject){
+	    var request = new ActiveXObject("Microsoft.XMLHttp");
+	}	
+	    else if(window.XMLHttpRequest){
+		  var request = new XMLHttpRequest();
+	}			 
+	request.onreadystatechange = respond;	      
+	var url="B01/BKND/C20srch.php?timestamp="+new Date().getTime();			
+	request.open("POST",url);	 
+	request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	request.send(sendSrcRec);		
 	function respond(){           
 		  if (request.readyState == 4 && request.status == 200) {    
-             rsp=JSON.parse(request.responseText);
-			 
+             rsp=JSON.parse(request.responseText);			 
 		     document.getElementById('basepack').value= rsp[0]['basic_qty'];
 	         document.getElementById('minumqty').value= rsp[0]['mini_qty'];   
 		  }
@@ -341,30 +332,25 @@ function c34CustomPartNo(event){
 	{
 		event=window.event;
 	}	
-	var targetPartNo=getEventTarget(event);	
-	
+	var targetPartNo=getEventTarget(event);		
 	var sendSrcRec="filename="+document.getElementById('customno').value+"|"+document.getElementById('fatherkey').innerHTML;		
-		var rsp="";  	
-        if(window.ActiveXObject){
-		   var request = new ActiveXObject("Microsoft.XMLHttp");
-	    }	
-	       else if(window.XMLHttpRequest){
-	   	      var request = new XMLHttpRequest();
-        }			 
-		request.onreadystatechange = respond;	
-       
-		var url="B01/BKND/C34srch.php?timestamp="+new Date().getTime();
-			
-	    request.open("POST",url);	 
-	    request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-	    request.send(sendSrcRec);		
+	var rsp="";  	
+	if(window.ActiveXObject){
+	   var request = new ActiveXObject("Microsoft.XMLHttp");
+	}	
+	   else if(window.XMLHttpRequest){
+		  var request = new XMLHttpRequest();
+	}			 
+	request.onreadystatechange = respond;	       
+	var url="B01/BKND/C34srch.php?timestamp="+new Date().getTime();			
+	request.open("POST",url);	 
+	request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	request.send(sendSrcRec);		
 	function respond(){           
-		  if (request.readyState == 4 && request.status == 200) {    
-             rsp=JSON.parse(request.responseText);
-			 
-			 targetPartNo.value=rsp[0]['custompartno']?rsp[0]['custompartno']:targetPartNo.value;
-	          
-		  }
+		if (request.readyState == 4 && request.status == 200) {    
+            rsp=JSON.parse(request.responseText);			 
+			targetPartNo.value=rsp[0]['custompartno']?rsp[0]['custompartno']:targetPartNo.value;	          
+		}
 	}
 	return;
 }
@@ -375,27 +361,23 @@ function c01CustomName(event){
 	}	
 	var targetCustomNo=getEventTarget(event);		
 	var sendSrcRec="filename="+targetCustomNo.value;		
-		var rsp="";  	
-        if(window.ActiveXObject){
-		   var request = new ActiveXObject("Microsoft.XMLHttp");
-	    }	
-	       else if(window.XMLHttpRequest){
-	   	      var request = new XMLHttpRequest();
-        }			 
-		request.onreadystatechange = respond;	
-       
-		var url="B01/BKND/C01CustomName.php?timestamp="+new Date().getTime();
-			
-	    request.open("POST",url);	 
-	    request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-	    request.send(sendSrcRec);		
+	var rsp="";  	
+	if(window.ActiveXObject){
+	   var request = new ActiveXObject("Microsoft.XMLHttp");
+	}	
+	   else if(window.XMLHttpRequest){
+		  var request = new XMLHttpRequest();
+	}			 
+	request.onreadystatechange = respond;	      
+	var url="B01/BKND/C01CustomName.php?timestamp="+new Date().getTime();			
+	request.open("POST",url);	 
+	request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	request.send(sendSrcRec);		
 	function respond(){           
-		  if (request.readyState == 4 && request.status == 200) {    
-             rsp=JSON.parse(request.responseText);
-			 
-			 document.getElementById('customname').value=rsp[0]['customname'];			 
-	          
-		  }
+		if (request.readyState == 4 && request.status == 200) {    
+            rsp=JSON.parse(request.responseText);			 
+			document.getElementById('customname').value=rsp[0]['customname'];			 	          
+		}
 	}
 	return;
 }
@@ -740,7 +722,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		   srchButton4.setAttribute("type","button");	
 		   srchButton4.setAttribute("class","scopelook");				   
 		   srchButton4.style.background="url('digits/brows1.png')";   
-		   attachEventListener(srchButton4,"click",custnoshow,false);				
+		   attachEventListener(srchButton4,"click",srchshow,false);				
 		   oTd.appendChild(srchButton4);						
 		}  
 		var oTd = oTr.insertCell(2);	   
@@ -757,7 +739,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		   srchButton8.setAttribute("type","button");	
 		   srchButton8.setAttribute("class","scopelook");				   
 		   srchButton8.style.background="url('digits/brows1.png')";   
-		   attachEventListener(srchButton8,"click",custnoshow,false);				
+		   attachEventListener(srchButton8,"click",srchshow,false);				
 		   oTd.appendChild(srchButton8);								 
 		}				  				  			 	
 		var oTr=ajTable.insertRow(ajTable,ajTable.length);  //以下第一列都隱藏起來當變數
@@ -845,7 +827,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		   srchButton4.setAttribute("type","button");	
 		   srchButton4.setAttribute("class","scopelook");				   
 		   srchButton4.style.background="url('digits/brows1.png')";   
-		   attachEventListener(srchButton4,"click",vendornoshow,false);				
+		   attachEventListener(srchButton4,"click",srchshow,false);				
 		   oTd.appendChild(srchButton4);						
 		}  
 		var oTd = oTr.insertCell(2);	   
@@ -862,7 +844,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		    srchButton8.setAttribute("type","button");	
 		    srchButton8.setAttribute("class","scopelook");				   
 		    srchButton8.style.background="url('digits/brows1.png')";   
-		    attachEventListener(srchButton8,"click",vendornoshow,false);				
+		    attachEventListener(srchButton8,"click",srchshow,false);				
 		    oTd.appendChild(srchButton8);								 
 		}				  				  			 	
 		var oTr=ajTable.insertRow(ajTable,ajTable.length);  //以下第一列都隱藏起來當變數
@@ -983,7 +965,7 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 		if(tbno==1){
 		  var ttlcnt=Number(document.getElementById('ttlmny').innerHTML);		
 		  document.getElementById('ttlmny').innerHTML=ttlcnt+1;  //更新畫面上的筆數
-		}else{
+		}else if(tbno==2){
 		   var ttlcnt=Number(document.getElementById('ttlmny1').innerHTML);	
 		   document.getElementById('ttlmny1').innerHTML=ttlcnt+1;  //更新畫面上的筆數
 		}  
@@ -1000,9 +982,11 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
     if (tbno==0){     //處理表頭修改   	   								
 		var maintable=document.getElementById("maintbody1");
 		var b01a_value_names=document.getElementsByName("b01value");
-	 }else{
+	 }else if(tbno==1){
 	    var maintable=document.getElementById("maintbody2");	
-	 }		 	         		             			   	 	
+	 }else{
+	    var maintable=document.getElementById("maintbody3");
+	 }		 
 	var fldidx=1;
 	var argsNo=1;
 	var nongsNo=0;	
@@ -1033,6 +1017,14 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 	    document.getElementById("leadtm_ready").innerHTML+="天" ;
         document.getElementById("type_of_apply").innerHTML+=(document.getElementById("type_of_apply").innerHTML=='A'?'  個別領料':'  整批領料');	      
 		b01a_value_names[b01a_value_names.length-1].innerHTML=rsp.lastupdate;	
+		//以下檢查庫存上下限與總庫存量比較結果看是否應該文字變色或還原		
+		if(b01a_value_names[9].innerHTML*1>b01a_value_names[11].innerHTML*1 && b01a_value_names[11].innerHTML*1>0){
+		    maintable.rows[args[arglth-1]].setAttribute("style","font-weight:bold;color:#E60000;background-color:#B9B9FF;");
+		}else if(b01a_value_names[9].innerHTML*1<b01a_value_names[12].innerHTML*1){
+		    maintable.rows[args[arglth-1]].setAttribute("style","font-weight:bold;color:#704214;background-color:#B9B9FF;");
+		}else{
+			 maintable.rows[args[arglth-1]].setAttribute("style","font-weight:Normal;color:#000;background-color:#B9B9FF;");
+		}
 	}		
 	maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=rsp.lastupdate;			
 }
@@ -1155,7 +1147,189 @@ function searchKeyHint(tbno){    //搜尋畫面出現提示
 function page1OtherWindow1(){
    return "品號:\u{300E}"+document.getElementById("stock_no").innerHTML+"\u{300F}庫存明細";
 }
+////以下處理回呼資料傳送給開窗選擇頁面
+function srcArgobj(srcId){
+	if(srcId=='customno' || srcId=='customname'){
+		var custno=document.getElementById(srcId).value; 
+		var tttlt='';
+		if (srcId=='customno'){		 		    
+		    var qrystring = "c01.F01"+"|"+custno; 
+			 tttlt='請選擇客戶編號';
+	   }else{		    
+		    var qrystring = "c01.F05"+"|"+custno;
+			tttlt='請選擇客戶簡稱';
+	    }					 
+        return {"headtitle":tttlt,"drpshtWidth":"28%","thCntnt":['客戶編號', '客戶簡稱'],"thWidth":['50%','50%'],"urlPth":"C21/BKND/C01srch.php","clickfunc":chsecust,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
+	}else{
+	   var vendno=document.getElementById(srcId).value; 
+		var tttlt='';
+		if (srcId=='vendorno'){		 		    
+		    var qrystring = "d01.F01"+"|"+vendno;    	
+			 tttlt='請選擇廠商編號';
+	   }else{		    
+		    var qrystring = "d01.F04"+"|"+vendno;   
+			tttlt='請選擇廠商簡稱';
+	    }					 
+        return {"headtitle":tttlt,"drpshtWidth":"28%","thCntnt":['廠商編號', '廠商簡稱'],"thWidth":['50%','50%'],"urlPth":"B01/BKND/D01srch.php","clickfunc":vndchse,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
+	}
+}
 
+function chsecust(event)  //選擇客戶
+{
+	if (typeof event=="undefined"){
+		event=window.event;
+	}
+	 var target=getEventTarget(event);	 
+	 var custNo=document.getElementById('customno');
+	 custNo.value="";
+     var custName=document.getElementById('customname');			
+	 custName.value="";
+	 var custFullName=document.getElementById('customfullname');	
+	 var rprsntno=document.getElementById('whono');
+	 var rprsntname=document.getElementById('whonameEx');
+	 var crnttpe=document.getElementById('crntopt');
+	 var contactman=document.getElementById('winman');
+     var shipway=document.getElementById('howship');
+	 var paymenttp=document.getElementById('howpay');
+	 var shipplace=document.getElementById('dlvrplace');
+	 var shipdirect=document.getElementById('shipdirect');
+	 var maintable=document.getElementById("stuffTbody");  
+	for(var i=0;i< maintable.rows.length; i++){			 
+		if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
+			 custNo.value=maintable.rows[i].cells[0].innerHTML;								 
+			 custName.value=maintable.rows[i].cells[1].innerHTML;
+			 if(rprsntno){
+				rprsntno.value=maintable.rows[i].cells[2].innerHTML;
+			 }
+			 if(rprsntname){
+			   rprsntname.innerHTML=maintable.rows[i].cells[3].innerHTML;
+			 }
+			 if(crnttpe){
+				crnttpe.value=maintable.rows[i].cells[4].innerHTML;
+			 }
+			 if(contactman){
+				contactman.value=maintable.rows[i].cells[5].innerHTML;
+			 }
+			 if(shipway){
+				shipway.value=maintable.rows[i].cells[6].innerHTML;
+			 }
+			 if(custFullName){
+				custFullName.value=maintable.rows[i].cells[11].innerHTML;
+			 }
+			 if(paymenttp){
+				var tpy=maintable.rows[i].cells[7].innerHTML;
+				switch (tpy){				        
+					case '0' :{
+						 tpy="現結";
+						 break;
+					}
+					case '1' :{
+						 tpy="月結";
+						 break;
+					}
+					case '2' :{
+						 tpy="次月結";
+						 break;
+					}
+					case '3' :{
+						 tpy="T/T";
+						 break;
+					}
+					default: {
+					   tpy='現結';
+					  break;
+				   }	
+			
+				}	 
+				paymenttp.value=tpy+(maintable.rows[i].cells[8].innerHTML==0?'':maintable.rows[i].cells[8].innerHTML+'天');
+			 }	
+			 if(shipplace){
+				 shipplace.value=maintable.rows[i].cells[9].innerHTML;
+			 }
+			 if(shipdirect){
+				 shipdirect.value=maintable.rows[i].cells[10].innerHTML;
+			 }
+			 break;
+		}		
+				   
+	}             
+	srchblkclose(event);	
+	return true;
+}	
 
-
-
+function vndchse(event)  //選擇廠商
+{
+	if (typeof event=="undefined"){
+		event=window.event;
+	}
+	var target=getEventTarget(event);	 
+	var vendNo=document.getElementById('vendorno');
+	vendNo.value="";
+    var vendName=document.getElementById('vendorname');			
+	vendName.value="";
+	var rprsntno=document.getElementById('whono');
+	var rprsntname=document.getElementById('whonameEx');
+	var crnttpe=document.getElementById('crcyopt');
+	var contactman=document.getElementById('winman');
+    var shipway=document.getElementById('howship');
+	var paymenttp=document.getElementById('payment');
+	var shipplace=document.getElementById('dlvrplace');
+	var shipdirect=document.getElementById('shipdirect');
+	var maintable=document.getElementById("stuffTbody");  
+	for(var i=0;i< maintable.rows.length; i++){			 
+		if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
+			vendNo.value=maintable.rows[i].cells[0].innerHTML;								 
+			vendName.value=maintable.rows[i].cells[1].innerHTML;
+			if(rprsntno){
+				rprsntno.value=maintable.rows[i].cells[2].innerHTML;
+			}
+			if(rprsntname){
+			   rprsntname.innerHTML=maintable.rows[i].cells[3].innerHTML;
+			}
+			if(crnttpe){
+			   crnttpe.value=maintable.rows[i].cells[4].innerHTML;
+			}
+			if(contactman){
+				contactman.value=maintable.rows[i].cells[5].innerHTML;
+			}
+			if(shipway){
+				shipway.value=maintable.rows[i].cells[6].innerHTML;
+			}				  
+			if(paymenttp){
+				var tpy=maintable.rows[i].cells[7].innerHTML;
+				switch (tpy){				        
+					case '0' :{
+						 tpy="現結";
+						 break;
+					}
+					case '1' :{
+						 tpy="月結";
+						 break;
+					}
+					case '2' :{
+						 tpy="次月結";
+						 break;
+					}
+					case '3' :{
+						 tpy="T/T";
+						 break;
+					}
+					default: {
+					   tpy='現結';
+					  break;
+				   }				
+				}	 
+				paymenttp.value=tpy+(maintable.rows[i].cells[8].innerHTML==0?'':maintable.rows[i].cells[8].innerHTML+'天');
+			}			
+			if(shipdirect){
+				shipdirect.value=maintable.rows[i].cells[10].innerHTML;
+			}
+			break;
+		}					  		   
+	}             
+	
+	srchblkclose(event);	
+	
+	return true;
+}	
+////////////////////////////

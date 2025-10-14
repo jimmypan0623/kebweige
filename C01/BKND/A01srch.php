@@ -14,15 +14,15 @@
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_array($sql4)){
 		 
-		$atr = array('stuff_no'=>$list3['F01'],  		            	             
-		             'stuff_name'=>$list3['F03']);                              
+		$atr = array('stuff_no_ISL_050'=>$list3['F01'],  		            	             
+		             'stuff_name_ISL_050'=>$list3['F03']);                              
 		array_push($arr,$atr);
 	}
 	mysqli_close($link);
 	     $arr = array_values($arr);
          $json_string1 = json_encode($arr); 
          echo $json_string1;	 
-        // echo "srchStockNo($json_string1)";    
+       
        
 		 
  		 

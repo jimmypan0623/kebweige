@@ -196,14 +196,17 @@ function choseExtraDeal(targetTrChildren,targetTr){   //紀錄移動
     return true;			   
 }
 function choseSecond(targetTrChildren,targetTr){  //紀錄移動表身
-	 var outhis=document.getElementById("OUTRCD_BOTT");
-	 if(targetTrChildren[8].innerHTML*1+targetTrChildren[9].innerHTML*1>0){
-		 outhis.setAttribute("style","visibility:visibility;"); 
-		 attachEventListener(outhis,"click",page2OtherButton1,false);
-	 }else{
-		 outhis.setAttribute("style","visibility:hidden;"); 
-	   detachEventListener(outhis,"click",page2OtherButton1,false);
-	 }
+    var tabs=getElementsByAttribute('class','tab');		
+	if(tabs[1].checked){
+	    var outhis=document.getElementById("OUTRCD_BOTT");	 
+	    if(targetTrChildren[8].innerHTML*1+targetTrChildren[9].innerHTML*1>0){
+		    outhis.setAttribute("style","visibility:visibility;"); 
+		    attachEventListener(outhis,"click",page2OtherButton1,false);
+	    }else{
+		    outhis.setAttribute("style","visibility:hidden;"); 
+	      detachEventListener(outhis,"click",page2OtherButton1,false);
+	    }
+	}
    return true;	
 }
 function rowchoseExtraDeal(targetRow){    //紀錄移動  

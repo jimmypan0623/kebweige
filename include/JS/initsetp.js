@@ -257,24 +257,22 @@ function initDialog()
 					var pageUpButton=document.createElement("input");		   
 					pageUpButton.setAttribute("type","button");
 					pageUpButton.setAttribute("class","btn");
-					pageUpButton.setAttribute("value","\u{25B2}");    
-					pageUpButton.setAttribute("style","font-size:16px;");
+					pageUpButton.setAttribute("value","\u{25B2}");     
 					pageUpButton.setAttribute("title","表頭上一筆，表身上一頁，快速鍵 Alt+I");
 					pageUpButton.setAttribute("accesskey","I");					
 					pageUpButton.id="previousPage1";		
 					attachEventListener(pageUpButton,"click",HeadPageChange,false);
-					var text6 = document.createTextNode('\u{A0}');
+					var text6 = document.createTextNode('\u{A0}');					
 					var pageDownButton=document.createElement("input");		   
 					pageDownButton.setAttribute("type","button");
 					pageDownButton.setAttribute("class","btn");
-					pageDownButton.setAttribute("value","\u{25BC}");    
-					pageDownButton.setAttribute("style","font-size:16px;");
+					pageDownButton.setAttribute("value","\u{25BC}");     					
 					pageDownButton.setAttribute("title","表頭下一筆，表身下一頁，快速鍵 Alt+M");
 					pageDownButton.setAttribute("accesskey","M");					
 					pageDownButton.id="nextPage1";		
 					attachEventListener(pageDownButton,"click",HeadPageChange,false);
 					contentdiv[1].insertBefore(pageUpButton, initTab2FirstNode);
-					contentdiv[1].insertBefore(text6, initTab2FirstNode);
+					contentdiv[1].insertBefore(text6, initTab2FirstNode);					
 					contentdiv[1].insertBefore(pageDownButton, initTab2FirstNode);
 			} 
 			var tab3Click=document.getElementById("tab3");
@@ -284,7 +282,6 @@ function initDialog()
 					pageUpButton2.setAttribute("type","button");
 					pageUpButton2.setAttribute("class","btn");
 					pageUpButton2.setAttribute("value","\u{25B2}");    
-					pageUpButton2.setAttribute("style","font-size:16px;");
 					pageUpButton2.setAttribute("title","表頭上一筆，表身上一頁，快速鍵 Alt+I");
 					pageUpButton2.setAttribute("accesskey","I");					
 					pageUpButton2.id="previousPage2";		
@@ -294,7 +291,6 @@ function initDialog()
 					pageDownButton2.setAttribute("type","button");
 					pageDownButton2.setAttribute("class","btn");
 					pageDownButton2.setAttribute("value","\u{25BC}");    
-					pageDownButton2.setAttribute("style","font-size:16px;");
 					pageDownButton2.setAttribute("title","表頭下一筆，表身下一頁，快速鍵 Alt+M");
 					pageDownButton2.setAttribute("accesskey","M");					
 					pageDownButton2.id="nextPage2";		
@@ -326,7 +322,7 @@ function initDialog()
 }
 
 function chooserc(event){   //初始或直接跳該筆	   從 1 開始計數!!!
-    if(!isNaN(event)){  //初始畫面呼叫      	  
+    if(!isNaN(event)){  //初始畫面呼叫            
 	    var recNo=event;	  
 	    if(cko[1](0)>0){   //如果為開窗畫面選擇紀錄
 		    switch (cko[1](0)){
@@ -398,11 +394,12 @@ function chooserc(event){   //初始或直接跳該筆	   從 1 開始計數!!!
 			 }
 		}	 	 
 		 targetTr.style.backgroundColor="#B9B9FF";	 
-		 cko[chsntail+2](1);
+		 cko[chsntail+2](1);		 
 		if(chsntail==0){			   
-		  choseExtraDeal(targetTrChildren,targetTr);  //跳回所屬子程式處理特有程序(表頭)			   
-		}else{
+		    choseExtraDeal(targetTrChildren,targetTr);  //跳回所屬子程式處理特有程序(表頭)			   
+		}else{			 
 			choseSecond(targetTrChildren,targetTr);
+			 
 		}
 		var responseDiv=document.getElementById("serverResponse"+String(chsntail+1));			 
 		if (isNaN(event)){

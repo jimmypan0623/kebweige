@@ -424,7 +424,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 			srchButton12.setAttribute("type","button");	
 			srchButton12.setAttribute("class","scopelook");				   
 			srchButton12.style.background="url('digits/brows1.png')";   
-			attachEventListener(srchButton12,"click",stocknoshow,false);				
+			attachEventListener(srchButton12,"click",srchshow,false);				
 			oTd.appendChild(srchButton12);			
 		}
 
@@ -446,7 +446,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		   srchButton8.setAttribute("type","button");	
 		   srchButton8.setAttribute("class","scopelook");				   
 		   srchButton8.style.background="url('digits/brows1.png')";   
-		   attachEventListener(srchButton8,"click",stocknoshow,false);				
+		   attachEventListener(srchButton8,"click",srchshow,false);				
 		   oTd.appendChild(srchButton8);			
 		}				  				  			 
 		var oTr=ajTable.insertRow(ajTable,ajTable.length);
@@ -463,7 +463,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		   srchButton4.setAttribute("type","button");	
 		   srchButton4.setAttribute("class","scopelook");				   
 		   srchButton4.style.background="url('digits/brows1.png')";   
-		   attachEventListener(srchButton4,"click",stocknoshow,false);				
+		   attachEventListener(srchButton4,"click",srchshow,false);				
 		   oTd.appendChild(srchButton4);						
 		}  
 		var oTr=ajTable.insertRow(ajTable,ajTable.length);  //以下第一列都隱藏起來當變數
@@ -491,7 +491,7 @@ function topAndWidthModify(dropsheet_content,dropsheet,txtword,tbno){
 	     // 高度也往上提 	
 	if (tbno==0 && (txtword!=7)){	
 	   var procurement_no=document.getElementById('whono');			
-	   attachEventListener(procurement_no,"focusout",lostfocus1,false);	
+	 //  attachEventListener(procurement_no,"focusout",lostfocus1,false);	
 	   var cstmname=document.getElementById('vendername');
 	   attachEventListener(cstmname,"focusout",lostfocus3,false);	
 	   var cstadrs=document.getElementById('coaddrss');
@@ -691,3 +691,93 @@ function searchKeyHint(tbno){    //搜尋畫面出現提示
 	}
 }
 
+function srcArgobj(srcId){
+    if(srcId=='whono'){
+	      var qrystring=document.getElementById(srcId).value;
+          return {"headtitle":"請選取採購人員帳號姓名","drpshtWidth":"28%","thCntnt":['人員編號', '人員姓名'],"thWidth":['50%','50%'],"urlPth":"C01/BKND/A01srch.php","clickfunc":chseprg1,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
+	}else{
+		var cstno=document.getElementById('keydscrpt').innerHTML;
+		var stockNo=document.getElementById(srcId).value;
+		 
+		var tttlt='';
+	    if(srcId=='stockno'){			     
+		    var qrystring ="b01.F01"+"|"+stockNo+"_"+left(cstno,6);
+			tttlt="請選取料號";          			
+	    }else if(srcId=='stockname'){			 
+		    var qrystring ="b01.F02"+"|"+stockNo+"_"+left(cstno,6); 			 
+			tttlt="請選取品名";
+		}else{
+		    var qrystring ="d34.F03"+"|"+stockNo+"_"+left(cstno,6);  
+		    tttlt="請選取廠商料號";
+		}
+		return {"headtitle":tttlt,"drpshtWidth":"60%","thCntnt":['料品編號', '品名規格','廠商品號'],"thWidth":['30%','40%','30%'],"urlPth":"D01/BKND/B01srch.php?","clickfunc":stckchg,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
+	}
+}
+
+function chseprg1(event)  //選擇採購人員
+{
+	if (typeof event=="undefined"){
+		event=window.event;
+	}
+	var target=getEventTarget(event);	 
+	var stuffNo=document.getElementById('whono');
+	stuffNo.value="";
+    var stuffName=document.getElementById('whonameEx');		
+    if(stuffName)	 
+	    stuffName.innerHTML="";
+	var maintable=document.getElementById("stuffTbody");  
+	for(var i=0;i< maintable.rows.length; i++){			 
+		if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
+			 stuffNo.value=maintable.rows[i].cells[0].innerHTML;								 
+			 stuffName.innerHTML=maintable.rows[i].cells[1].innerHTML;				
+			 break;
+		  }				 
+	}             
+	srchblkclose(event);	
+ 
+	return true;
+}	
+
+function stckchg(event)  //選擇料號
+{
+	if (typeof event=="undefined"){
+		event=window.event;
+	}
+	var target=getEventTarget(event);	 
+	var stockNo=document.getElementById('stockno');
+	stockNo.value="";
+    var stockName=document.getElementById('stockname');				 	
+	var unitName=document.getElementById('unitname');
+	var basicqty=document.getElementById('basepack');
+	var minumorder=document.getElementById('minumqty');
+	var custstockno=document.getElementById('custompartno');
+	var queryquintity=document.getElementById('queryqty');	 
+	var maintable=document.getElementById("stuffTbody");  
+	for(var i=0;i< maintable.rows.length; i++){			 
+		if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
+			 stockNo.value=maintable.rows[i].cells[0].innerHTML;	
+			 if(stockName){
+				stockName.value=maintable.rows[i].cells[1].innerHTML;	
+			 }	
+			 if(unitName){
+				unitName.innerHTML=maintable.rows[i].cells[2].innerHTML;
+			 }		
+			 if(basicqty){
+				basicqty.value=maintable.rows[i].cells[3].innerHTML ;
+			 }
+			 
+			 if(minumorder){
+				minumorder.value=maintable.rows[i].cells[4].innerHTML;
+			   }
+			 if(custstockno){
+				custstockno.value=maintable.rows[i].cells[5].innerHTML;
+			 }  
+			 if(queryquintity){
+				queryquintity.value=minumorder.value;
+			 }  
+			 break;
+		}				 
+	}             
+	srchblkclose(event);	
+	return true;
+}	

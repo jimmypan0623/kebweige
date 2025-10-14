@@ -362,7 +362,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
             srchButton4.setAttribute("type","button");	
             srchButton4.setAttribute("class","scopelook");				   
 			srchButton4.style.background="url('digits/brows1.png')";   
-			attachEventListener(srchButton4,"click",PrgSrch,false);				
+			attachEventListener(srchButton4,"click",srchshow,false);				
 			oTd.appendChild(srchButton4);										  
 		}			 
 	    var oTd = oTr.insertCell(2);	   
@@ -644,3 +644,45 @@ function searchKeyHint(tbno){    //搜尋畫面出現提示
    }	   
 }
  
+function srcArgobj(srcId){
+    if(srcId=='prg_no'){
+	   var acctno=document.getElementById('fatherkey').innerHTML;
+       var prgNo=document.getElementById(srcId).value;	   	   
+	   var qrystring ="a03.F01"+"|"+prgNo+"_"+acctno;
+      return {"headtitle":"請選取欲授權程式","drpshtWidth":"28%","thCntnt":['程式編號', '程式名稱'],"thWidth":['50%','50%'],"urlPth":"A02/BKND/A02srch.php","clickfunc":chseprg,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
+    }
+}
+
+function chseprg(event)  
+{
+	if (typeof event=="undefined"){
+		event=window.event;
+	}
+	var target=getEventTarget(event);
+   var maintable2=document.getElementById("aplyform2");
+	var maintable=document.getElementById("stuffTbody");	  	  
+	for(var i=0;i< maintable.rows.length; i++){			 
+		if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
+			 document.getElementById('prg_no').value=maintable.rows[i].cells[0].innerHTML;
+			 document.getElementById('prg_name').innerHTML=maintable.rows[i].cells[1].innerHTML;			 		 
+			 var checkboxes = document.getElementsByName("typeOfChange");
+			 var labelforchks = document.getElementsByName("lblchk");
+			 for (var j=2;j<6;j++){
+				 checkboxes[j-2].style.visibility=((maintable.rows[i].cells[j].textContent=="")?"hidden":"visible");
+				 labelforchks[j-2].style.visibility=((maintable.rows[i].cells[j].textContent=="")?"hidden":"visible");
+			 }
+			 var auttt = document.getElementsByName("auth_attch");
+			 var spanforchk = document.getElementsByName("authatt");
+			
+			 for (var k=6;k<11;k++){
+				auttt[k-6].style.visibility=((maintable.rows[i].cells[k].textContent=="")?"hidden":"visible");
+				
+				spanforchk[k-6].innerHTML=maintable.rows[i].cells[k].textContent;
+				maintable2.rows[k-3].style.display=((maintable.rows[i].cells[k].textContent=="")?"none":"block");
+			 }
+			 break;
+		}				 
+	}    
+	srchblkclose(event);	
+	return true;
+}	

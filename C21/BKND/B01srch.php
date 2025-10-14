@@ -3,9 +3,10 @@
    header("Content-Type:text/html; charset=utf-8");   
 
  include("../../include/BKND/mysqli_server.php");                              //引用檔   
+    
         $fieldNo=substr($_POST['filename'],0,7);                //料號欄位key
 		
-		$filterKey=trim(getNeedBetween($_POST['filename'],'|','_')); // 搜尋料號 
+		$filterKey=trim(getNeedBetween($_POST['filename'],'|','_')); // 搜尋品名 
 
 		$customno=trim(substr(strrchr($_POST['filename'],'_'),1));   //客戶編號
 		 
@@ -14,22 +15,21 @@
 	 $sql3.="left outer join c20 on c20.F01=b01.F01 ";
 	 $sql3.="left outer join c34 on c34.F02=b01.F01 and c34.F01='".$customno."' ";	
 	 if(strlen($searchRecord)==0) {	  
-         $sql3=$sql3."WHERE RIGHT(F98,1)='Y' OR F98='NNN' ";		
+         $sql3=$sql3."WHERE right(F98,1)='Y' OR F98='NNN' ";		
 	 }else{
-
-		$sql3=$sql3."WHERE ".$fieldNo." like '%".$searchRecord."%' AND (RIGHT(F98,1)='Y' OR F98='NNN') "   ; 
+		$sql3=$sql3."WHERE ".$fieldNo." like '%".$searchRecord."%' AND (right(F98,1)='Y' OR F98='NNN') "   ; 
 	 }
 	 $sql3=$sql3."order by ".$fieldNo;
     $arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_array($sql4)){
 		 
-		$atr = array('stock_no'=>$list3['F01'],  		            	             
-		             'stock_name'=>$list3['F02'],
-					 'unit_name'=>$list3['F04'],
-					 'basic_qty'=>$list3['F03'],
-					 'minum_qty'=>$list3['F15'],
-					 'custom_part'=>$list3['F0C']
+		$atr = array('stock_no_ISL_030'=>$list3['F01'],  		            	             
+		             'stock_name_ISL_040'=>$list3['F02'],
+					 'unit_name_IHL_000'=>$list3['F04'],
+					 'basic_qty_IHR_000'=>$list3['F03'],
+					 'minum_qty_IHR_000'=>$list3['F15'],
+					 'custom_part_ISL_030'=>$list3['F0C']
 					 );    
 					                          
 		array_push($arr,$atr);

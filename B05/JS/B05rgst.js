@@ -84,22 +84,22 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 	}
 	for(var j=1;j<b05elements.length-1;j++){
 		if(tbno==0 && j==3){
-			  let oDate=new Date(document.getElementById('recmth').value+'-'+b05elements[j].value);
-		      let cYear = oDate.getFullYear();
-              let cMonth = oDate.getMonth() + 1;
-              let cDate = oDate.getDate();
-			  let iYear=left(document.getElementById('recmth').value,4);
-			  let iMonth=right(document.getElementById('recmth').value,2);
-			  let iDate=paddingLeft(b05elements[j].value.trim(),2);
-			  let result = (iYear == cYear) && (iMonth == cMonth) && (iDate == cDate);
-			  if(!result){
-				  filtermsg(b05elements[j],"日期格式不對");
-				  return false ;
-			  }else{
+			let oDate=new Date(document.getElementById('recmth').value+'-'+b05elements[j].value);
+		    let cYear = oDate.getFullYear();
+            let cMonth = oDate.getMonth() + 1;
+            let cDate = oDate.getDate();
+			let iYear=left(document.getElementById('recmth').value,4);
+			let iMonth=right(document.getElementById('recmth').value,2);
+			let iDate=paddingLeft(b05elements[j].value.trim(),2);
+			let result = (iYear == cYear) && (iMonth == cMonth) && (iDate == cDate);
+			if(!result){
+				filtermsg(b05elements[j],"日期格式不對");
+				return false ;
+			}else{
 	    	    if(b05elements[j].nextSibling){		      
 			       b05elements[j].parentNode.removeChild(b05elements[j].nextSibling);
 		        }		
-	          }
+	        }
 	    }		
         if(b05elements[j].value.trim()=="" && !(j==4 && tbno==1) && !(j==7 && tbno==0)){		
 		     if (j==1 ){
@@ -109,19 +109,19 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 			 }
 		     return false ;
         }else{		     
-		   if(b05elements[j].nextSibling ){		
-               if((j!=4 && tbno!=0 ) && (j!=1 && tbno!=1)){		   //非人名與料號移除
+		    if(b05elements[j].nextSibling ){		
+                if((j!=4 && tbno!=0 ) && (j!=1 && tbno!=1)){		   //非人名與料號移除
 			      b05elements[j].parentNode.removeChild(b05elements[j].nextSibling);
-			   }			   
-		   }
-		   if(tbno==1 && (j==2 || j==3) && b05elements[j].value == 0){			  
-			  filtermsg(b05elements[j],"不得為 0");
-		      return false ;
-		   }else{
+			    }			   
+		    }
+		    if(tbno==1 && (j==2 || j==3) && b05elements[j].value == 0){			  
+			   filtermsg(b05elements[j],"不得為 0");
+		       return false ;
+		    }else{
 	    	    if(b05elements[j].nextSibling){		      
 			       b05elements[j].parentNode.removeChild(b05elements[j].nextSibling);
 		        }		
-	       }	   
+	        }	   
 	    }	    
 	}
     //--------過濾區結束----------//	
@@ -210,7 +210,7 @@ function lostfocus2(event){
 	var dptno=sourceAccount(7,1);  //找到目前指向的列數與欄位資料		
 	if (target.value!=dptno){	       //部門欄位資料變動	
         target.parentNode.childNodes[1].innerHTML="";   //名字清空	
-	    deptshow(event);
+	    srchshow(event);
 	}
     return;	
 }
@@ -248,8 +248,7 @@ function rateSrch(event){   //出貨日期異動順便更動匯率
 	var ckc=document.getElementById("recmth");
 	var rte=document.getElementById('curncy');
     if(getCookie('INT_011')!=crtNow){	
-	   var sendSrcRec="filename="+crtNow+"|"+ckc.value+"|"+target.value;	
-        
+	    var sendSrcRec="filename="+crtNow+"|"+ckc.value+"|"+target.value;	       
 		var rsp="";  	
         if(window.ActiveXObject){
 		   var request = new ActiveXObject("Microsoft.XMLHttp");
@@ -371,7 +370,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		    srchButton5.setAttribute("type","button");	
 		    srchButton5.setAttribute("class","scopelook");				   
 		    srchButton5.style.background="url('digits/brows1.png')";   
-		    attachEventListener(srchButton5,"click",shipnoshow,false);				
+		    attachEventListener(srchButton5,"click",srchshow,false);				
 		    oTd.appendChild(srchButton5);			
 		}			
 	   var oTd = oTr.insertCell(2);		 
@@ -408,7 +407,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		    srchButton4.setAttribute("type","button");	
 		    srchButton4.setAttribute("class","scopelook");				   
 		    srchButton4.style.background="url('digits/brows1.png')";   
-		    attachEventListener(srchButton4,"click",shipnoshow,false);				
+		    attachEventListener(srchButton4,"click",srchshow,false);				
 		    oTd.appendChild(srchButton4);			
 	    }	   	    
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
@@ -435,19 +434,19 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    oTd.innerHTML='聯絡人:';
 	    var oTd = oTr.insertCell(1);               
 	    oTd.innerHTML="<input type='text' name='b05others' id='winname' class='txt' style='width:50%;' maxlength='40'    />";  				
-	      var oTd = oTr.insertCell(2);	   
+	    var oTd = oTr.insertCell(2);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
 	    oTd.innerHTML='電話:';
 	    var oTd = oTr.insertCell(3);      
 	    oTd.innerHTML="<input type='number' name='b05others' id='telNo'  class='txt' style='width:35%;' maxlength='8'  />";  				
-	   oTr.setAttribute("style","display:none;");   //整列隱藏		
+	    oTr.setAttribute("style","display:none;");   //整列隱藏		
 		var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
 	    oTd.innerHTML='客戶全名:';
 	    var oTd = oTr.insertCell(1);               
 	    oTd.innerHTML="<input type='text' name='b05others' id='customfullname' class='txt' style='width:50%;' maxlength='40'    />";  				
-	      var oTd = oTr.insertCell(2);	   
+	    var oTd = oTr.insertCell(2);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
 	    oTd.innerHTML='統一編號:';
 	    var oTd = oTr.insertCell(3);      
@@ -466,7 +465,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		    srchButton3.setAttribute("type","button");	
 		    srchButton3.setAttribute("class","scopelook");				   
 		    srchButton3.style.background="url('digits/brows1.png')";   
-		    attachEventListener(srchButton3,"click",custnoshow,false);				
+		    attachEventListener(srchButton3,"click",srchshow,false);				
 		    oTd.appendChild(srchButton3);			
 	    }	   
 	    var oTd = oTr.insertCell(2);	   
@@ -481,7 +480,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		   srchButton2.setAttribute("type","button");	
 	 	   srchButton2.setAttribute("class","scopelook");				   
 		   srchButton2.style.background="url('digits/brows1.png')";   
-		   attachEventListener(srchButton2,"click",custnoshow,false);				
+		   attachEventListener(srchButton2,"click",srchshow,false);				
 		   oTd.appendChild(srchButton2);			
 	    }				  	 			
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
@@ -539,7 +538,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    srchButton5.setAttribute("type","button");	
 	    srchButton5.setAttribute("class","scopelook");				   
 	    srchButton5.style.background="url('digits/brows1.png')";   
-	    attachEventListener(srchButton5,"click",deptshow,false);				
+	    attachEventListener(srchButton5,"click",srchshow,false);				
 	    oTd.appendChild(srchButton5);								  		
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);	   
@@ -576,7 +575,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		   srchButton8.setAttribute("type","button");	
 		   srchButton8.setAttribute("class","scopelook");				   
 		   srchButton8.style.background="url('digits/brows1.png')";   
-		   attachEventListener(srchButton8,"click",stocknoshow,false);				
+		   attachEventListener(srchButton8,"click",srchshow,false);				
 		   oTd.appendChild(srchButton8);			
 	    }				  				  			 
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
@@ -592,7 +591,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		    srchButton4.setAttribute("type","button");	
 		    srchButton4.setAttribute("class","scopelook");				   
 		    srchButton4.style.background="url('digits/brows1.png')";   
-		    attachEventListener(srchButton4,"click",stocknoshow,false);				
+		    attachEventListener(srchButton4,"click",srchshow,false);				
 		    oTd.appendChild(srchButton4);						
 	    }  
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);  //以下第一列都隱藏起來當變數
@@ -615,7 +614,7 @@ function topAndWidthModify(dropsheet_content,dropsheet,txtword,tbno){
 			   //attachEventListener(ship_date,"focusout",rateSrch,false);		//日期變動若為外幣交易也一併修正匯率
 			}else{
 				var dept_no=document.getElementById('deptno');			
-				 attachEventListener(dept_no,"focusout",lostfocus2,false)
+				// attachEventListener(dept_no,"focusout",lostfocus2,false)
 			}	
 		}else{				
 		    dropsheet_content.style.width="60%"; 			
@@ -851,3 +850,234 @@ function searchKeyHint(tbno){    //搜尋畫面出現提示
 		return "搜尋出貨退回單單身欄位選擇";
 	}
 }
+
+////以下處理回呼資料傳送給開窗選擇頁面
+function srcArgobj(srcId){
+	if (srcId=='customno' || srcId=='customname'){
+		var custno=document.getElementById(srcId).value;		 
+		var tttlt='';
+	    if(srcId=='customno'){			     
+		    var qrystring ="c01.F01"+"|"+custno;
+			tttlt="請選取客戶代號";          			
+	    }else if(srcId=='customname'){			 
+		    var qrystring ="c01.F05"+"|"+custno;			 
+			tttlt="請選取客戶簡稱";		
+		}
+		return {"headtitle":tttlt,"drpshtWidth":"28%","thCntnt":['客戶編號', '客戶簡稱'],
+		"thWidth":['50%','50%'],"urlPth":"B05/BKND/C01srch.php","clickfunc":chsecust,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
+    }else if(srcId=='whono'){
+	   var qrystring=document.getElementById(srcId).value;
+       return {"headtitle":"請選取業務人員帳號姓名","drpshtWidth":"28%","thCntnt":['人員編號', '人員姓名'],"thWidth":['50%','50%'],"urlPth":"C01/BKND/A01srch.php","clickfunc":chseprg1,"qryString":qrystring,"mendwidth":"calc( 100%  )"};    
+	}else if(srcId=='deptno'){
+		var qrystring=document.getElementById(srcId).value;
+       return {"headtitle":"請選取出貨部門","drpshtWidth":"28%","thCntnt":['部門編號', '部門名稱'],"thWidth":['50%','50%'],"urlPth":"B05/BKND/A14srch.php","clickfunc":deptchoose,"qryString":qrystring,"mendwidth":"calc( 100% )"};    
+	}else if(srcId=='billno' || srcId=='invoiceno'){
+		var billNo=document.getElementById(srcId).value;		
+		var tttlt='';
+	    if(srcId=='billno'){			     	     
+			var qrystring ="b04.F01"+"|"+billNo+"|"+document.getElementById('orgmth').value+"|"+document.getElementById('customno').value;   
+			tttlt="請選取出貨單號";          			
+	    }else if(srcId=='invoiceno'){			 		    	
+			var qrystring ="b04.F20"+"|"+billNo+"|"+document.getElementById('orgmth').value+"|"+document.getElementById('customno').value;   
+			tttlt="請選取發票號碼";		
+		}
+		return {"headtitle":tttlt,"drpshtWidth":"28%","thCntnt":['出貨單號', '發票號碼'],
+		"thWidth":['50%','50%'],"urlPth":"B05/BKND/B04srch.php","clickfunc":bill_no,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
+	}else{
+		var shp_no=sourceAccount(12,0);	
+		var stockNo=document.getElementById(srcId).value;		 
+		var tttlt='';
+	    if(srcId=='stockno'){			     
+		    var qrystring ="b0d.F03"+"|"+stockNo+"_"+shp_no;    
+			tttlt="請選取料號";          			
+	    }else if(srcId=='stockname'){			 
+		    var qrystring ="b01.F02"+"|"+stockNo+"_"+shp_no;    		 
+			tttlt="請選取品名";		
+		}
+		return {"headtitle":tttlt,"drpshtWidth":"80%","thCntnt":['料品編號', '品名規格','訂單號碼','出貨數量','單價','客戶品號','客戶PO'],
+		"thWidth":['16%','15%','12%','10%','10%','15%','12%'],"urlPth":"B05/BKND/B01srch.php","clickfunc":stckchg,"qryString":qrystring,"mendwidth":"calc( 100%  )"};
+	}
+}
+
+function chseprg1(event)  //選擇業務
+{
+	if (typeof event=="undefined"){
+		event=window.event;
+	}
+	var target=getEventTarget(event);	 
+	var stuffNo=document.getElementById('whono');
+	stuffNo.value="";
+    var stuffName=document.getElementById('whonameEx');		
+    if(stuffName)	 
+	    stuffName.innerHTML="";
+	var maintable=document.getElementById("stuffTbody");  
+	for(var i=0;i< maintable.rows.length; i++){			 
+		if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
+			 stuffNo.value=maintable.rows[i].cells[0].innerHTML;								 
+			 stuffName.innerHTML=maintable.rows[i].cells[1].innerHTML;				
+			 break;
+		  }				 
+	}             
+	srchblkclose(event);	
+	return true;
+}	
+
+function stckchg(event)  //選擇料號
+{
+if (typeof event=="undefined"){
+		event=window.event;
+	}
+	var target=getEventTarget(event);	 
+	 var stockNo=document.getElementById('stockno');
+	 stockNo.value="";
+     var stockName=document.getElementById('stockname');			
+	 stockName.value="";  	
+	 var orderNo=document.getElementById('origno');
+	 var shipQty=document.getElementById('queryqty');
+	 var shipPrice=document.getElementById('price');
+	 var custstockno=document.getElementById('custompartno');
+	 var custpo=document.getElementById('customPO');
+	 var deptno=document.getElementById('deptno');
+	 var deptname=document.getElementById('deptname');
+	 var maintable=document.getElementById("stuffTbody");  
+	for(var i=0;i< maintable.rows.length; i++){			 
+		  if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
+			 stockNo.value=maintable.rows[i].cells[1].innerHTML;								 
+			 stockName.value=maintable.rows[i].cells[2].innerHTML;	
+			 if(orderNo){
+				orderNo.value=maintable.rows[i].cells[3].innerHTML;
+			 }
+			 if(shipQty){
+				shipQty.value=maintable.rows[i].cells[4].innerHTML;
+			 }
+			 if(shipPrice){
+				shipPrice.value=maintable.rows[i].cells[5].innerHTML;
+			 }
+			 if(custstockno){
+				custstockno.value=maintable.rows[i].cells[6].innerHTML;
+			 }  
+			 if(custpo){
+				custpo.value=maintable.rows[i].cells[7].innerHTML;
+			 }   
+			 if(deptno){
+				deptno.value=maintable.rows[i].cells[8].innerHTML;
+			 }  
+			 if(deptname){
+				deptname.innerHTML=maintable.rows[i].cells[9].innerHTML;
+			 }  
+			 break;
+		   }				 
+	}             
+	srchblkclose(event);	
+	return true;
+}	
+
+function chsecust(event)  //選擇客戶
+{
+		if (typeof event=="undefined"){
+		event=window.event;
+	}
+	var target=getEventTarget(event);	 
+	 var custNo=document.getElementById('customno');
+	 custNo.value="";
+     var custName=document.getElementById('customname');			
+	 custName.value="";
+	 var rprsntno=document.getElementById('whono');
+	 var rprsntname=document.getElementById('whonameEx');
+	 var crnttpe=document.getElementById('crntopt');
+	 var contactman=document.getElementById('winman'); 
+	 var crntrate=document.getElementById('curncy');
+	 var invoicetype=document.getElementById('invtype');
+	 var taxkind=document.getElementById('taxtype');	 
+	 var maintable=document.getElementById("stuffTbody");  	 
+	for(var i=0;i< maintable.rows.length; i++){			 
+		if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
+			custNo.value=maintable.rows[i].cells[0].innerHTML;								 
+			custName.value=maintable.rows[i].cells[1].innerHTML;
+			if(rprsntno){
+				rprsntno.value=maintable.rows[i].cells[2].innerHTML;
+			}
+			if(rprsntname){
+			   rprsntname.innerHTML=maintable.rows[i].cells[3].innerHTML;
+			}
+			if(crnttpe){
+				crnttpe.value=maintable.rows[i].cells[4].innerHTML;
+			}
+			if(contactman){
+				contactman.value=maintable.rows[i].cells[5].innerHTML;
+			}
+			if(crntrate){
+				crntrate.value=maintable.rows[i].cells[6].innerHTML;
+			}
+			if(invoicetype){
+				invoicetype.value=maintable.rows[i].cells[7].innerHTML*1+2;
+			}
+			if(taxkind){
+				taxkind.value=maintable.rows[i].cells[8].innerHTML;
+			}
+			break;
+		}					  		   
+	}             
+	srchblkclose(event);
+	return true;
+}	
+
+function deptchoose(event)  //部門編號選擇
+{
+	if (typeof event=="undefined"){
+		event=window.event;
+	}
+	var target=getEventTarget(event);	 
+	var deptNo=document.getElementById('deptno');
+	deptNo.value="";
+    var deptName=document.getElementById('deptname');			
+	deptName.innerHTML="";
+	var maintable=document.getElementById("stuffTbody");  
+	for(var i=0;i< maintable.rows.length; i++){			 
+		if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
+			deptNo.value=maintable.rows[i].cells[0].innerHTML;								 
+			deptName.innerHTML=maintable.rows[i].cells[1].innerHTML;				
+			break;
+		}				 
+	}             
+	srchblkclose(event);	
+	return true;
+}	
+
+function bill_no(event)  //出貨單號選取
+{
+	if (typeof event=="undefined"){
+		event=window.event;
+	}
+	var target=getEventTarget(event);	 
+	 var billNo=document.getElementById('billno');
+	 billNo.value="";
+     var invoiceNo=document.getElementById('invoiceno');			
+	 invoiceNo.value="";	 
+	 var crnttpe=document.getElementById('crntopt');
+	 var crntrate=document.getElementById('curncy');
+	 var invoicetype=document.getElementById('invtype');
+	 var taxkind=document.getElementById('taxtype');	 
+	 var maintable=document.getElementById("stuffTbody");  	 
+		for(var i=0;i< maintable.rows.length; i++){			 
+		    if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
+			     billNo.value=maintable.rows[i].cells[0].innerHTML;								 
+				 invoiceNo.value=maintable.rows[i].cells[1].innerHTML;			
+				 if(crnttpe){
+				    crnttpe.value=maintable.rows[i].cells[2].innerHTML;
+				 }				
+				 if(crntrate){
+					 crntrate.value=maintable.rows[i].cells[3].innerHTML;
+				 }
+				 if(invoicetype){
+					 invoicetype.value=maintable.rows[i].cells[4].innerHTML*1+2;
+				 }
+				 if(taxkind){
+					 taxkind.value=maintable.rows[i].cells[5].innerHTML;
+				 }
+				 break;
+			}					  		   
+		}             
+	srchblkclose(event);	
+	return true;
+}	

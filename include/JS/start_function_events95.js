@@ -208,7 +208,7 @@ function outprocs(event){
 	       scriptall[j].parentNode.removeChild(scriptall[j]);
 		}
 	}	 
-	history.back();		 
+	history.back();	
 }
 
 //起始畫面

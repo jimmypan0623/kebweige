@@ -520,7 +520,7 @@ function searchKeyHint(tbno){    //搜尋畫面出現提示
        return "搜尋"+document.getElementById('fatherkey').innerHTML+"功能帳號欄位選擇";
    }	   
 }
-
+////以下處理回呼資料傳送給開窗選擇頁面
 function a01AccountName(event){	
    if (typeof event=="undefined")
 	{
@@ -548,3 +548,33 @@ function a01AccountName(event){
 	}
 	return;
 }
+
+function srcArgobj(srcId){
+    if(srcId=='whono'){
+	   var qrystring=document.getElementById(srcId).value;
+      return {"headtitle":"請選取人員帳號姓名","drpshtWidth":"28%","thCntnt":['人員編號', '人員姓名'],"thWidth":['50%','50%'],"urlPth":"C01/BKND/A01srch.php","clickfunc":chseprg1,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
+    }
+}
+
+function chseprg1(event)  //選擇資料後填入目前form之textbox
+{
+	if (typeof event=="undefined"){
+		event=window.event;
+	}
+	var target=getEventTarget(event);
+	 
+	 var stuffNo=document.getElementById('whono');
+	 stuffNo.value="";
+     var stuffName=document.getElementById('whonameEx');			
+	 stuffName.innerHTML="";
+	var maintable=document.getElementById("stuffTbody");  
+		for(var i=0;i< maintable.rows.length; i++){			 
+		    if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
+			    stuffNo.value=maintable.rows[i].cells[0].innerHTML;								 
+				stuffName.innerHTML=maintable.rows[i].cells[1].innerHTML;				
+				break;
+			}				 
+		}             
+	srchblkclose(event);	
+	return true;
+}	

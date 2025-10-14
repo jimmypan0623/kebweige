@@ -19,19 +19,17 @@
 	//$sql3=$sql3."order by ".$fieldNo;
     $arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_array($sql4)){
-		 
-		$atr = array('vend_no'=>$list3['F01'],  		            	             
-		             'vend_name'=>$list3['F04'],
-					 'purchs_no'=>$list3['F39'],
-					 'purchs_name'=>$list3['F0C'],
-					 'crncy_type'=>$list3['F25'],
-					 'touch_person'=>$list3['F08'],
-					 'ship_way'=>$list3['F19'],
-					 'pay_way'=>$list3['F13'],
-					 'pay_ment'=>$list3['F36']									
-					 );    
-					                          
+	while ($list3=mysqli_fetch_array($sql4)){		 
+		$atr = array('vend_no_ISL_050'=>$list3['F01'],  		            	             
+		             'vend_name_ISL_050'=>$list3['F04'],
+					 'purchs_no_IHL_000'=>$list3['F39'],
+					 'purchs_name_IHL_000'=>$list3['F0C'],
+					 'crncy_type_IHL_000'=>$list3['F25'],
+					 'touch_person_IHL_000'=>$list3['F08'],
+					 'ship_way_IHL_000'=>$list3['F19'],
+					 'pay_way_IHL_000'=>$list3['F13'],
+					 'pay_ment_IHL_000'=>$list3['F36']									
+					 );    					                          
 		array_push($arr,$atr);
 	}
 	mysqli_close($link);

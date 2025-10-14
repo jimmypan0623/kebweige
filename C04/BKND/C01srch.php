@@ -17,18 +17,18 @@
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_array($sql4)){
 		 
-		$atr = array('cust_no'=>$list3['F01'],  		            	             
-		             'cust_name'=>$list3['F05'],
-					 'sales_no'=>$list3['F33'],
-					 'sales_name'=>$list3['F0C'],
-					 'crncy_type'=>$list3['F39'],
-					  'touch_person'=>$list3['F12'],
-					 'ship_way'=>$list3['F31'],
-					 'pay_way'=>$list3['F15'],
-					 'pay_ment'=>$list3['F36'],
-					 'dlvr_place'=>$list3['F07'],
-					 'direct'=>$list3['F32'],
-					 'custom_fullname'=>$list3['F04']
+		$atr = array('cust_no_ISL_050'=>$list3['F01'],  		            	             
+		             'cust_name_ISL_050'=>$list3['F05'],
+					 'sales_no_IHL_000'=>$list3['F33'],
+					 'sales_name_IHL_000'=>$list3['F0C'],
+					 'crncy_type_IHL_000'=>$list3['F39'],
+					  'touch_person_IHL_000'=>$list3['F12'],
+					 'ship_way_IHL_000'=>$list3['F31'],
+					 'pay_way_IHL_000'=>$list3['F15'],
+					 'pay_men_IHL_000t'=>$list3['F36'],
+					 'dlvr_place_IHL_000'=>$list3['F07'],
+					 'direct_IHL_000'=>$list3['F32'],
+					 'custom_fullname_IHL_000'=>$list3['F04']
 					 );    
 					                          
 		array_push($arr,$atr);

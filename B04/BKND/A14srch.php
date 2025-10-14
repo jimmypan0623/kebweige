@@ -6,17 +6,17 @@
 	 $sql3="SELECT `F01`,`F02` FROM `a14` ";
 	 if(strlen($searchRecord)==0) {
 	  
-         $sql3=$sql3."WHERE F04='Y' ";		
+         $sql3=$sql3."WHERE F04='Y' AND F12='Y' ";		
 	 }else{
-		   $sql3=$sql3."WHERE `F01` like '%".$searchRecord."%' AND F04='Y'";	 
+		   $sql3=$sql3."WHERE `F01` like '%".$searchRecord."%' AND F04='Y' AND F12='Y' ";	 
 	 }
 	 $sql3=$sql3."ORDER BY `F01`";
     $arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_array($sql4)){
 		 
-		$atr = array('dept_no'=>$list3['F01'],  		            	             
-		             'dept_name'=>$list3['F02']);                              
+		$atr = array('dept_no_ISL_050'=>$list3['F01'],  		            	             
+		             'dept_name_ISL_050'=>$list3['F02']);                              
 		array_push($arr,$atr);
 	}
 	mysqli_close($link);

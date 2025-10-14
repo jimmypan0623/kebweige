@@ -1,8 +1,7 @@
 function selfTag(jsvsn){ 
 	loadScript(`C02/JS/C02.js?v=${jsvsn}`,function(){DrawTable();});	
 	loadScript(`C02/JS/C02rgst.js?v=${jsvsn}`);
-	loadScript(`C21/JS/C01srch.js?v=${jsvsn}`);
-	loadScript(`C02/JS/B01srch.js?v=${jsvsn}`);
+	loadScript(`include/JS/commonsrch.js?v=${jsvsn}`);
 	var tab1Click=document.getElementById("tab1");
 	if(tab1Click){
 	     attachEventListener(tab1Click,"click",tab1View,false);

@@ -61,7 +61,8 @@ function crtElm(){
 	tabnames[1].innerHTML="客戶訂單內容";
 	var keynames=getElementsByAttribute('name','keyname');	
 	keynames[0].innerHTML="單號:";
-	var fatherkeys=getElementsByAttribute('name','fatherkey');	
+	var fatherkeys=getElementsByAttribute('name','fatherkey');
+	
 }
 
 

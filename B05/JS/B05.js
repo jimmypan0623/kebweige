@@ -307,7 +307,7 @@ function fldsgsroup(fidx,tbno){
 	               ['directdata','block','center','3'],    //query_date	
                    ['directdata','none','center','0'], 	   //sales_no	
 				   ['indirectdata','block','left','7'],    //sales_name	
-				   ['directdata','block','left','7'],       //originmonth
+				   ['directdata','block','center','7'],       //originmonth
 				   ['directdata','block','left','9'],      //ship_bill
 				   ['directdata','block','left','9'],      //invoice_no
 				   ['directdata','none','center','0'],      //invoice_type

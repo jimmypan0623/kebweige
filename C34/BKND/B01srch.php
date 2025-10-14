@@ -17,11 +17,10 @@
 	 $sql3=$sql3."order by ".$fieldNo;
     $arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_array($sql4)){
-		 
-		$atr = array('stock_no'=>$list3['F01'],  		            	             
-		             'stock_name'=>$list3['F02'],
-					 'unit_name'=>$list3['F04']);    
+	while ($list3=mysqli_fetch_array($sql4)){		 
+		$atr = array('stock_no_ISL_050'=>$list3['F01'],  		            	             
+		             'stock_name_ISL_050'=>$list3['F02'],
+					 'unit_name_IHL_000'=>$list3['F04']);    
 					                          
 		array_push($arr,$atr);
 	}
@@ -29,11 +28,7 @@
 	     $arr = array_values($arr);
          $json_string1 = json_encode($arr); 
          echo $json_string1;	 
-        // echo "srchStockNo($json_string1)";    
-       
-		 
- 		 
-          
+        // echo "srchStockNo($json_string1)";          
 ?>  
 
  

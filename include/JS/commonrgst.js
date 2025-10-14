@@ -193,15 +193,20 @@ function blkshow(txtword)
 		dialogButton3.setAttribute("value","\u{274E}");
 		dialogButton3.setAttribute("title","放棄或結束並離開，快速鍵Alt+X");
 		dialogButton3.setAttribute("accesskey","X");					
-		attachEventListener(dialogButton3,"click",blocksclose,false);		 	  	      		  
+		attachEventListener(dialogButton3,"click",blocksclose,false);	
+		
 		var oTd = oTr.insertCell(0);	   		      
 		if (txtword==2 || txtword==4 || txtword==3 || txtword==5 || txtword==6 || txtword==7 || txtword==8 || txtword==9){			
 		   oTd.appendChild(dialogButton1);	         //修改刪除	確認  反確認
+		   var textyesno = document.createTextNode('\u{A0}');	
+		   oTd.appendChild(textyesno);
 		}			
 		if(txtword==1){    //如果是新增			    
 			var oTr=ajTable.insertRow(ajTable,ajTable.length);
 			var oTd = oTr.insertCell(0);	                 
 			oTd.innerHTML="<input type='button' class='btn' id='btn_uploadfile' value='\u{2B55}' title='確認此筆新增，快速鍵Alt+S' accesskey='S' onclick='sendFilePrc(1);' >";   			   		
+		    var textyesno = document.createTextNode('\u{A0}');	
+			oTd.appendChild(textyesno);
 		}
 		oTd.appendChild(dialogButton3);		   		  //新增只有一個按鈕加入畫面  
 		oTd.setAttribute('colspan',2); 
@@ -345,7 +350,21 @@ function TableToJson(args,nongs,tbno){
 					colomnContextChange(tbno,args,nongs,arglth,rsp);   //修改確認後表格欄位處理
 			   }			   
 			}else{
-				blkshow(rsp);   //新增不成功才顯示訊息					
+				
+				blkshow(rsp);   //新增不成功才顯示訊息
+				 
+			 
+	            if(rsp=="請勿蓄意修改成他人帳號後，再來異動資料！"){
+					var i;	
+                       (function myLoop(i) {
+                       setTimeout(function() {
+                       blkshow(rsp+"即將登出系統...."); //  your code here                
+                       if (--i) myLoop(i);   //  decrement i and call myLoop again if i > 0
+                    }, 9000)
+                     })(9000);                   //  pass the number of iterations as an argument
+       
+		             document.location.href="logOut.php";
+				}
             }										
         }
     }      

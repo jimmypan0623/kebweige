@@ -22,17 +22,17 @@
 	$itemno=0;
 	while ($list3=mysqli_fetch_array($sql4)){
 		$itemno++; 
-		$atr = array('item_no'=>$itemno, 
-		             'stock_no'=>$list3['F02'],  		            	             
-		             'stock_name'=>$list3['F0B'],
-					 'order_no'=>$list3['F01'],
-					 'delivery'=>$list3['F06'],
-					 'order_qty'=>$list3['avlq'],
-					 'unit_price'=>$list3['F04'],
-					 'custom_part'=>$list3['F05'],
-					 'custom_po'=>$list3['F14'],
-					 'depart_no'=>$list3['F07'],
-					 'depart_name'=>$list3['FZ2']
+		$atr = array('item_no_IHC_000'=>$itemno, 
+		             'stock_no_ISL_016'=>$list3['F02'],  		            	             
+		             'stock_name_ISL_015'=>$list3['F0B'],
+					 'order_no_ISL_012'=>$list3['F01'],
+					 'delivery_ISC_010'=>$list3['F06'],
+					 'order_qty_ISR_010'=>$list3['avlq'],
+					 'unit_price_ISR_010'=>$list3['F04'],
+					 'custom_part_ISL_015'=>$list3['F05'],
+					 'custom_po_ISL_012'=>$list3['F14'],
+					 'depart_no_IHC_000'=>$list3['F07'],
+					 'depart_name_IHC_000'=>$list3['FZ2']
 					 );    
 					                          
 		array_push($arr,$atr);

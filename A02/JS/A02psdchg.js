@@ -30,7 +30,7 @@ function selfTag(jsvsn){
 	}
 	loadScript(`A02/JS/A02.js?v=${jsvsn}`,function(){DrawTable();});	
 	  loadScript(`A02/JS/A02rgst.js?v=${jsvsn}`);
-	  loadScript(`A02/JS/A02srch.js?v=${jsvsn}`);
+	  loadScript(`include/JS/commonsrch.js?v=${jsvsn}`);
 	var tab1Click=document.getElementById("tab1");
 	if(tab1Click){
 		tab1Click.setAttribute("accesskey","1");  

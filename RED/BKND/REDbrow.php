@@ -5,6 +5,16 @@
  
  
 	    $searchRecord =$_POST['filename'];
+$sql0="select * from a01 where F01="."'".$_COOKIE['useraccount']."'"; 
+$sql1=@mysqli_query($link,$sql0);
+$rows1=@mysqli_num_rows($sql1);                       
+$list4=mysqli_fetch_array($sql1);  //紀錄當前操作者姓名 
+if ($rows1>0){		
+	if(md5($list4['F00'])!=$_COOKIE['userid']){
+		echo json_encode("請勿蓄意修改成他人帳號後，再來異動資料！");
+		return false;
+	}else{	 	
+		
 		$companyname='INT_000';
 		$sql0="select F06 from a26 where F01='".$companyname."'"; 
         $sql1=@mysqli_query($link,$sql0);
@@ -13,11 +23,11 @@
 		//$searchRecord=$_COOKIE['useraccount'];
 	    $sql3="select a02.F03,a03.F02,a02.F04,a02.F05,a02.F06,a02.F07,a02.F08,a02.F09,a02.F10,a02.F11,a02.F12,a03.F03 AS Ftb from a02,a03 where a03.F01=a02.F03 and a02.F01=".$searchRecord." order by a02.F03"; 
 	   
-	$arr=array();	
-    $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_array($sql4)){
+	    $arr=array();	
+        $sql4=@mysqli_query($link,$sql3); 
+	    while ($list3=mysqli_fetch_array($sql4)){
 		 
-		$atr = array('prg_no'=>$list3['F03'],
+		    $atr = array('prg_no'=>$list3['F03'],
 		             'dscrpt'=>$list3['F02'],
 					 'newauth'=>$list3['F04'],
 					 'editauth'=>$list3['F05'],
@@ -30,8 +40,13 @@
 					 'rmk5'=>$list3['F12'],
 					 'attbcode'=>$list3['Ftb']);       
                		
-		array_push($arr,$atr);
+		    array_push($arr,$atr);
+	    }
 	}
+}else{
+     echo json_encode("請勿蓄意修改成他人帳號後，再來異動資料！");
+	 return false;
+}
 	mysqli_close($link);
 	 //最後使用usort來做排序
         // usort(要排序的陣列,使用的函數) 

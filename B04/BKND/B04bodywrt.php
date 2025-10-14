@@ -7,7 +7,7 @@ foreach($cart as $key=>$val){
     $brr[]=addslashes($val);		//要加入此函數避免中間有單引號錯亂
 }
  include("../../include/BKND/mysqli_server.php");                              //引用檔    
-        $sql5="SELECT * FROM a14 WHERE F12='Y' AND F01="."'".$brr[5]."'"; 
+        $sql5="SELECT * FROM a14 WHERE F04='Y' AND F12='Y' AND F01="."'".$brr[5]."'"; 
 		 $sql6=mysqli_query($link,$sql5) or die(mysqli_error($link));
 		 $rows2=@mysqli_num_rows($sql6);
 	    $sql3="SELECT c04.*,c03.F01 AS F0A FROM c04,c03 WHERE c04.F02='".$brr[1]."' AND c04.F01='".$brr[2]."' AND c04.F03-c04.F09-c04.F21-c04.F23>=0 AND c03.F01=c04.F01 AND c03.F04='Y' AND c03.F03='".$brr[9]."'"; 		
