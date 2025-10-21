@@ -123,7 +123,7 @@ function choseExtraDeal(targetTrChildren,targetTr){
                if(b01a_value_names[9].innerHTML.trim()==0 && b01a_value_names[10].innerHTML.trim()==0){
 				  invdtl.setAttribute("style","visibility:hidden;");				  
 				   detachEventListener(invdtl,"click",page1OtherButton1,false);
-				    if(getCookie('auth03')=='Y'){
+				    if(getAuth[0]()[3]=='Y'){
 					   delbtt.setAttribute("style","visibility:visible;font-size:17px;");
 				       attachEventListener(delbtt,"click",delrec,false);
 					}else{
@@ -157,7 +157,7 @@ function rowchoseExtraDeal(targetRow){
 		    if(b01a_value_names[9].innerHTML.trim()==0 && b01a_value_names[10].innerHTML.trim()==0){
 				invdtl.setAttribute("style","visibility:hidden;");			
 				detachEventListener(invdtl,"click",page1OtherButton1,false);
-				if(getCookie('auth03')=='Y'){
+				if(getAuth[0]()[3]=='Y'){
 				    delbtt.setAttribute("style","visibility:visible;font-size:17px;");
 				    attachEventListener(delbtt,"click",delrec,false);
 				 }else{

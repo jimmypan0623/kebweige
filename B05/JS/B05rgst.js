@@ -9,7 +9,7 @@ function blocksclose(event)  //關閉註冊彈出視窗
 		tabs[i].setAttribute("accesskey",(i+1).toString());
 	}			
 	if (tabs[0].checked){
-	    if (target.value=="\u{274E}"  && getCookie('INT_127')=='Y'){
+	    if (target.value=="\u{274E}"  && getCookie('INT_127')=='Y'){    //
 		    var maintable=document.getElementById("maintbody1");		 		
 		    var tablerowindex=0;
 		    for(var i=0;i< maintable.rows.length; i++){			 
@@ -162,7 +162,7 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 		}		
 		if(tbno==1){   //如果是表身		   
            tbjsn[2]=b05elements[3].value-sourceAccount(4,1);  //傳到後端為新數量減原出貨數之差
-		   //tbjsn.push(document.getElementById('keydscrpt').innerHTML);    //記住表頭客戶編號
+		   //tbjsn.push(document.getElementById('keydscrpt1').innerHTML);    //記住表頭客戶編號
 		}  
 		var tablerowindex=sourceAccount(null,tbno);   //記住是目前table的哪一列	
          tbjsn.push(recordNo.value);	
@@ -182,7 +182,7 @@ function calculateTtl(tbno,maintable,i){      //刪除確認(delConfirm)中挑�
 	return;
 }
  function billNoReCreate(currentNo){         //刪除確認(delConfirm)中挑出之個別程序
-    if (getCookie('INT_099')=='Y' && getCookie('INT_127')=='Y'){ //如果是系統參數設為自動編號且刪掉號碼重用						      
+    if (getCookie('INT_099')=='Y' && getCookie('INT_127')=='Y'){ //如果是系統參數設為自動編號且刪掉號碼重用			
 		var thtdy=document.getElementById('recmth').value;
 		discardNoRec('BD'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase(),currentNo.trim());
 	} 
@@ -247,7 +247,7 @@ function rateSrch(event){   //出貨日期異動順便更動匯率
 	var crtNow=document.getElementById('crntopt').value;
 	var ckc=document.getElementById("recmth");
 	var rte=document.getElementById('curncy');
-    if(getCookie('INT_011')!=crtNow){	
+    if(getCookie('INT_011')!=crtNow){	 
 	    var sendSrcRec="filename="+crtNow+"|"+ckc.value+"|"+target.value;	       
 		var rsp="";  	
         if(window.ActiveXObject){
@@ -497,7 +497,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		   slt11.disabled=true;
 		}else{
 		   oTd.innerHTML="<input type='text' name='b05update' id='queryno' class='txt' style='width:25%;' maxlength='10'/>"; 
-		   optionitem(getCookie('INT_011'),slt4.id,4,"C01/BKND/C00srch.php");			 
+		   optionitem(getCookie('INT_011'),slt4.id,4,"C01/BKND/C00srch.php");	 		 
 	    }			 	              
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);  //以下第一列都隱藏起來當變數
 	    var oTd = oTr.insertCell(0);	             
@@ -840,7 +840,7 @@ function editRecordHint(tbno){
 	if (tbno==0){  //表頭資料	
 		return '出貨單號:'+sourceAccount(1,tbno)+",轉正式訂單?";
 	}else{
-		return '報價單號:'+document.getElementById('fatherkey').value+",轉正式訂單?";
+		return '報價單號:'+document.getElementById('fatherkey1').value+",轉正式訂單?";
 	}  
 } */
 function searchKeyHint(tbno){    //搜尋畫面出現提示

@@ -2,6 +2,7 @@ function getProfile(str1,reccount,tbno) {
     var cnt=0;
 	var arr = str1;     
 	var pagecount=Math.ceil(reccount/parseInt(getCookie('INT_RCD')));
+		
 	var optdigts= (pagecount.toString()).length;
 	
 	var slt2=document.getElementById('recmth');

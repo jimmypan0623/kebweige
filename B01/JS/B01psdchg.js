@@ -38,7 +38,7 @@ function tab1View(event){
 		   event=window.event;
     	}
 		 var newrcath=document.getElementById('NEW_BOTT');       //新增按鈕
-		 if (getCookie('auth01')=='Y'){
+		 if (getAuth[0]()[1]=='Y'){
              newrcath.style.visibility="visible";	
 			 attachEventListener(newrcath,"click",addrec,false);  //新增紀錄按鈕程序
          }else{
@@ -50,7 +50,7 @@ function tab1View(event){
 		srchbtt.style.visibility="visible";	
 		attachEventListener(srchbtt,'click',seekrec,false);  
 		var editbtt=document.getElementById('EDIT_BOTT');       //新增按鈕
-		 if (getCookie('auth02')=='Y'){
+		 if (getAuth[0]()[2]=='Y'){
              editbtt.style.visibility="visible";	
 			 attachEventListener(editbtt,"click",edtrec,false);  //新增紀錄按鈕程序
          }else{
@@ -59,7 +59,7 @@ function tab1View(event){
          }			 
 		 var delbtt=document.getElementById('DEL_BOTT');       //刪除按鈕
 		 
-		    if (getCookie('auth03')=='Y'){
+		    if (getAuth[0]()[3]=='Y'){
 				if(document.getElementById('totalqty').textContent*1==0 && document.getElementById('qyt_on_hand').textContent*1==0){
                     delbtt.setAttribute("style","visibility:visible;");
 				    attachEventListener(delbtt,"click",delrec,false);
@@ -102,7 +102,7 @@ function tab2View(event){
 		 localbottoncl.style.backgroundColor="#F9FAD9";
 		 localbottoncl.style.border=" 2px solid #F9FAD9";
 		 localbottoncl.style.boxShadow="olivedrab 5px 10px 10px 7px";
-      if(getCookie('auth05')!='Y'){		     
+      if(getAuth[0]()[5]!='Y'){		     
 		 blkshow("你無查看報價紀錄權限");		 
 	     document.getElementById("tab1").checked=true;	
 		 return false;	 
@@ -117,8 +117,8 @@ function tab2View(event){
 	   var newrcath=document.getElementById('NEW_BOTT');       //新增按鈕		
 	   var editbtt=document.getElementById("EDIT_BOTT");
 	   var delbtt=document.getElementById("DEL_BOTT");
-	   var keydescription=document.getElementById('keydscrpt');    
-       var fthkey=document.getElementById("fatherkey");
+	   var keydescription=document.getElementById('keydscrpt1');    
+       var fthkey=document.getElementById("fatherkey1");
 	   var aWaitUpdate=[];	//準備記錄修改時欄位的內容資料
 
        var maintable=document.getElementById("maintbody1");		//所指向的單頭紀錄		 				 	 
@@ -135,15 +135,15 @@ function tab2View(event){
 	   fthkey.innerHTML=aWaitUpdate[1];
 	   
 	   if(right(aWaitUpdate[4],1).trim()=='Y'){	
-           if (getCookie('auth01')=='Y'){
+           if (getAuth[0]()[1]=='Y'){
                newrcath.style.visibility="visible";	
 			   attachEventListener(newrcath,"click",addrec,false);  //新增紀錄按鈕程序
 			}
-			if(getCookie('auth02')=='Y'){
+			if(getAuth[0]()[2]=='Y'){
 				    editbtt.setAttribute("style","visibility:visible;");
 				    attachEventListener(editbtt,"click",edtrec,false);
 			}
-			if(getCookie('auth03')=='Y'){
+			if(getAuth[0]()[3]=='Y'){
 				delbtt.setAttribute("style","visibility:visible;");
 				attachEventListener(delbtt,"click",delrec,false);
 			}
@@ -204,7 +204,7 @@ function tab3View(event){
 		 localbottoncl.style.backgroundColor="#F3F3FA";
 		 localbottoncl.style.border=" 2px solid #F3F3FA";
 		 localbottoncl.style.boxShadow="skyblue 5px 10px 10px 7px";
-      if(getCookie('auth06')!='Y'){		     
+      if(getAuth[0]()[6]!='Y'){		     
 		 blkshow("你無查看詢價紀錄權限");		 
 	     document.getElementById("tab1").checked=true;	
 		 return false;	 
@@ -219,8 +219,8 @@ function tab3View(event){
 	   var newrcath=document.getElementById('NEW_BOTT');       //新增按鈕		
 	   var editbtt=document.getElementById("EDIT_BOTT");
 	   var delbtt=document.getElementById("DEL_BOTT");
-	   var keydescription=document.getElementById('keydscrpt1');    
-       var fthkey=document.getElementById("fatherkey1");
+	   var keydescription=document.getElementById('keydscrpt2');    
+       var fthkey=document.getElementById("fatherkey2");
 	   var aWaitUpdate=[];	//準備記錄修改時欄位的內容資料
 
        var maintable=document.getElementById("maintbody1");		//所指向的單頭紀錄		 				 	 
@@ -237,15 +237,15 @@ function tab3View(event){
 	   fthkey.innerHTML=aWaitUpdate[1];
 	   
 	   if(left(aWaitUpdate[4],1).trim()=='Y'){	
-           if (getCookie('auth01')=='Y'){
+           if (getAuth[0]()[1]=='Y'){
                newrcath.style.visibility="visible";	
 			   attachEventListener(newrcath,"click",addrec,false);  //新增紀錄按鈕程序
 			}
-			if(getCookie('auth02')=='Y'){
+			if(getAuth[0]()[2]=='Y'){
 				    editbtt.setAttribute("style","visibility:visible;");
 				    attachEventListener(editbtt,"click",edtrec,false);
 			}
-			if(getCookie('auth03')=='Y'){
+			if(getAuth[0]()[3]=='Y'){
 				    delbtt.setAttribute("style","visibility:visible;");
 				    attachEventListener(delbtt,"click",delrec,false);
 			}

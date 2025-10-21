@@ -71,7 +71,7 @@ function blkshow(txtword)
 				    }
 				    break;					  
 			case 4:				                //刪除
-			        if(tbno==0 && getCookie("kindofda")=="R"){
+			        if(tbno==0 && getAuth[0]()[12]=="R"){   //getCookie("kindofda")=="R"
 					    var headtitle="所選為單頭紀錄，連帶會刪除其單身所有內容，請確定？";
 					}else{
 				        var headtitle="確定刪除所點選紀錄?";
@@ -86,7 +86,7 @@ function blkshow(txtword)
 						   return false;
 					    }
 				    }else{				 
-					    var headtitle='單號:'+document.getElementById('fatherkey').innerHTML+",之所有資料核准確認?";					 
+					    var headtitle='單號:'+document.getElementById('fatherkey1').innerHTML+",之所有資料核准確認?";					 
 				    }
 				    break;
 			case 5:                             //反確認或反過帳
@@ -98,7 +98,7 @@ function blkshow(txtword)
 						   return false;
 					    }
 				    }else{
-					    var headtitle='單號:'+document.getElementById('fatherkey').innerHTML+",之所有資料反確認修正?";
+					    var headtitle='單號:'+document.getElementById('fatherkey1').innerHTML+",之所有資料反確認修正?";
 				    }	                   
 				    break;
 			case 6:                                    //轉單				 
@@ -272,15 +272,15 @@ function blkshow(txtword)
 /////  將table內容資料轉為jason
 	//以下為新增內容
 function TableToJson(args,nongs,tbno){		    
-	var yesbill=getCookie("kindofda");  //	判斷是否為單據
+	var yesbill=getAuth[0]()[12];  //getCookie("kindofda");  //	判斷是否為單據
 	var rsp="";      
 	if (tbno==0){		
 		var order_head="{";
 	}else if(tbno==1){
-		var fthkey=document.getElementById('fatherkey');  
+		var fthkey=document.getElementById('fatherkey1');  
 		var order_head="{"+"\""+"elema"+"\""+":"+"\""+fthkey.innerHTML.trim()+"\""+",";
 	}else if(tbno==2){
-		  var fthkey=document.getElementById('fatherkey1');  
+		  var fthkey=document.getElementById('fatherkey2');  
 		var order_head="{"+"\""+"elema"+"\""+":"+"\""+fthkey.innerHTML.trim()+"\""+",";
 	}
 	for (var n=0;n<args.length;n++){
@@ -289,6 +289,7 @@ function TableToJson(args,nongs,tbno){
 	var json=order_head.slice(0,-1)+"}";   //去掉最後一個逗號再加上右大引號	 	 	
     var str_json=JSON.stringify(json);	
     //alert(str_json);
+    setCookie('useraccount',getAuth[1]()[0]);	
 	var mainright=document.getElementsByTagName('title'); 
 	if(window.ActiveXObject){
 	    var request = new ActiveXObject("Microsoft.XMLHttp");
@@ -298,6 +299,7 @@ function TableToJson(args,nongs,tbno){
     }		
 	request.onreadystatechange = respondUpdate;
 	var mainrightValue=(left(mainright[0].innerHTML,3)).toUpperCase();
+	
 	if (tbno==0){	
 	    var url=mainrightValue+"/BKND/"+mainrightValue+"wrt.php?timestamp="+new Date().getTime();	          
 	}else if(tbno==1){

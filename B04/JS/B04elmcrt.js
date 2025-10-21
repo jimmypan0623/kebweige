@@ -10,16 +10,16 @@ function crtElm(){
 	 cntdiv[1].insertBefore(text01,rspn2);
 	var spn1=document.createElement('span');
 	spn1.id="ttltitle";
-	spn1.setAttribute("style","font-size:120%;font-weight:bold;");
+	//spn1.setAttribute("style","font-size:120%;font-weight:bold;");
      spn1.innerHTML='總金額:';
 	cntdiv[1].insertBefore(spn1,rspn2);
 	var spn2=document.createElement('span');
 	spn2.id="crncy" ;
-	spn2.setAttribute("style","font-size:120%;font-weight:bold;");
+	//spn2.setAttribute("style","font-size:120%;font-weight:bold;");
     cntdiv[1].insertBefore(spn2,rspn2);
 	var spn3=document.createElement('span');
 	spn3.id="ttlmny";
-    spn3.setAttribute("style","font-size:120%;font-weight:bold;");
+    //spn3.setAttribute("style","font-size:120%;font-weight:bold;");
 	spn3.innerHTML='0';
 	 cntdiv[1].insertBefore(spn3,rspn2);
 

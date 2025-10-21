@@ -37,7 +37,8 @@ function shurePrc(event){        //單據確認程序
 	var urlfolder=document.getElementsByTagName('title');
 	var urlpath=(left(urlfolder[0].innerHTML,3));   
 	var json=shr_head.slice(0,-1)+"}";   //去掉最後一個逗號再加上右大引號	 	      
-    str_json=JSON.stringify(json);	   
+    str_json=JSON.stringify(json);	  
+    setCookie('useraccount',getAuth[1]()[0]);	
 	if(target.value=="\u{2705}"){   //確認		   	
 	    urlphp=urlpath+"/BKND/"+urlpath+"shrh.php";	
 	}else{			
@@ -87,11 +88,11 @@ function shurePrc(event){        //單據確認程序
 				delbtt.setAttribute("style","visibility:hidden;");
 				detachEventListener(delbtt,"click",delrec,false);
 				if(target.value=="\u{2705}"){
-				   if (getCookie('auth09')=='Y'){
+				   if (getAuth[0]()[9]=='Y'){   //(getCookie('auth09')=='Y'){
 					   vrsbtt.setAttribute("style","display:block;");
 					   attachEventListener(vrsbtt,"click",vrsproc,false);  //反確認按鈕程序  
 				   }		
-				   if (getCookie('auth07')=='Y' && getCookie('INT_013')=='Y' &&target.value=="\u{2705}"){
+				   if (getAuth[0]()[7]=='Y' && getCookie('INT_013')=='Y' && target.value=="\u{2705}"){  
 					   if(trnsbtt){
 						  trnsbtt.setAttribute("style","visibility:visible;");
 						  attachEventListener(trnsbtt,"click",trnsproc,false);  //轉訂單程序   
@@ -134,12 +135,13 @@ function vrshrPrc(event){
 	var fieldlast=(document.getElementById("TRN_BOTT"))?4:3;	
 	rcdindex=sourceAccount(null,0);
 	query_no=headtable.rows[rcdindex].cells[1].innerHTML;
+	setCookie('useraccount',getAuth[1]()[0]);
 	var sendDeleRec="filename="+query_no;		
 	var rsp="";  	
 	if (tabs[0].checked){          //如果頁面為表頭
 		var responseDiv=document.getElementById("serverResponse1"); 
 	}else{
-		if (getCookie('auth01')=='Y'){
+		if (getAuth[0]()[1]=='Y' ){      //getCookie('auth01')=='Y'
 			var newrcath=document.getElementById('NEW_BOTT');       //新增按鈕
 			newrcath.style.visibility="visible";	
 		   attachEventListener(newrcath,"click",addrec,false);  //新增紀錄按鈕程序
@@ -182,16 +184,16 @@ function vrshrPrc(event){
 					 trnsbtt.setAttribute("style","visibility:hidden;");
 					detachEventListener(trnsbtt,"click",trnsproc,false);	
 				} 
-				if (getCookie('auth08')=='Y'){
+				if (getAuth[0]()[8]=='Y'){   //getCookie('auth08')=='Y'
 					ansbtt.setAttribute("style","display:block;");
 					attachEventListener(ansbtt,"click",ansproc,false);  //確認按鈕程序  
 				}		
-				if (getCookie('auth02')=='Y'){			 
+				if (getAuth[0]()[2]=='Y'){			 //getCookie('auth02')=='Y'
 					editbtt.style.visibility="visible";
 					attachEventListener(editbtt,"click",edtrec,false);  //修改紀錄按鈕程序
 				}
   
-				if (getCookie('auth03')=='Y'){
+				if (getAuth[0]()[3]=='Y'){  //getCookie('auth03')=='Y'
 				   delbtt.style.visibility="visible";
 				   attachEventListener(delbtt,"click",delrec,false);  //刪除紀錄按鈕程序
 				}

@@ -89,7 +89,7 @@ function tab1View(event){
 		   event=window.event;
     	}
 		 var newrcath=document.getElementById('NEW_BOTT');       //新增按鈕
-		 if (getCookie('auth01')=='Y' && cko[0](0)==0 ){
+		 if (getAuth[0]()[1]=='Y' && cko[0](0)==0 ){
              newrcath.style.visibility="visible";	
 			 attachEventListener(newrcath,"click",addrec,false);  //新增紀錄按鈕程序
          }else{
@@ -151,9 +151,9 @@ function tab2View(event){
 		   }
 	   }
 	   
-       var keydescription=document.getElementById('keydscrpt'); 
+       var keydescription=document.getElementById('keydscrpt1'); 
       	   
-       var fthkey=document.getElementById("fatherkey");
+       var fthkey=document.getElementById("fatherkey1");
 	   var aWaitUpdate=[];	//準備記錄修改時欄位的內容資料
 	   var shrno="";	   
        var maintable=document.getElementById("maintbody1");		//所指向的表頭紀錄		 				 	 
@@ -181,7 +181,7 @@ function tab2View(event){
 			 newrcath.style.visibility="hidden";
 			 detachEventListener(newrcath,"click",addrec,false);  //取消新增按鈕程序
          }else{
-			  if (getCookie('auth01')=='Y' && cko[0](0)==0){
+			  if (getAuth[0]()[1]=='Y' && cko[0](0)==0){
                  newrcath.style.visibility="visible";	
 			     attachEventListener(newrcath,"click",addrec,false);  //新增紀錄按鈕程序
 			  }

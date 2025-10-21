@@ -60,7 +60,7 @@ function crtElm(){
 	tabnames[0].innerHTML="廠商基本資料";
     var keynames=getElementsByAttribute('name','keyname');	
 	 
-    if(getCookie('auth05')=='Y'){	 //有查看報價紀錄權限時
+    if(getAuth[0]()[5]=='Y'){	 //有查看報價紀錄權限時
 	    var thr2=document.getElementById('headrow2');
         var array3 = ['料品編號','品名規格','廠商品號', '幣別','單價','包裝基量','最少訂購','前置天數','生效日期','有效期限','備註說明'];
 	    var array4 = ['12%','12%','12%', '4%','7%','7%','7%','7%','8%','8%','12%'];
@@ -70,26 +70,21 @@ function crtElm(){
 		    th2.style.width=array4[k];
 		    th2.appendChild(text);
 		    thr2.appendChild(th2);		
-	    }		    	     
-	  
+	    }		    	     	  
 	    tabnames[1].innerHTML="詢價紀錄";  
 		keynames[0].innerHTML="廠商編號:";	
-	    var fatherkeys=getElementsByAttribute('name','fatherkey');	
-	    /* fatherkeys[0].style.width="12%";
-	    fatherkeys[0].size="6"; */
+	    var fatherkeys=getElementsByAttribute('name','fatherkey');	 
 		var rspn2=document.getElementById('serverResponse2'); 
 	    var text01 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
 	    cntdiv[1].insertBefore(text01,rspn2);
-	   var spn1=document.createElement('span');
-	   spn1.id="ttltitle";
-	   spn1.setAttribute("style","font-size:120%;font-weight:bold;");
-       spn1.innerHTML="詢價筆數:";
-	   cntdiv[1].insertBefore(spn1,rspn2);
-	   var spn3=document.createElement('span');
-	   spn3.id="ttlmny";
-       spn3.setAttribute("style","font-size:120%;font-weight:bold;");
-	   spn3.innerHTML='0';
-	   cntdiv[1].insertBefore(spn3,rspn2);	 
+	    var spn1=document.createElement('span');
+	    spn1.id="ttltitle";	 
+        spn1.innerHTML="詢價筆數:";
+	    cntdiv[1].insertBefore(spn1,rspn2);
+	    var spn3=document.createElement('span');
+	    spn3.id="ttlmny";   
+	    spn3.innerHTML='0';
+	    cntdiv[1].insertBefore(spn3,rspn2);	 
 	}else{
 	    cntdiv[1].style.display='none';
 	    tabnames[1].style.display='none';        

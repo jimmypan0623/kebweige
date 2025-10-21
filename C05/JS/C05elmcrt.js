@@ -12,17 +12,3 @@ function crtElm(){
 		thr1.appendChild(th);		
 	}	
 }
-
-
-/* <th >料品編號</th> 	   
-	<th >品名規格</th> 	   
-	<th style="width:10%;">訂單編號</th> 
-    <th style="width:10%;">預定交期</th> 	 
-	<th style="width:7%;">出貨數量</th> 
-    
-	<th style="width:7%;">客戶編號</th>  
-    <th style="width:7%;">客戶簡稱</th> 
-     <th >客戶品號</th>  	 
-	  <th >客戶PO</th>  	
-   
-   	  <th style="width:7%;">業務擔當</th> 	     */

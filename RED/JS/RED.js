@@ -1,13 +1,24 @@
 function getProfile(str1,cmpnme) {       
-    document.getElementById('company_name').innerHTML=cmpnme; 
+  // document.getElementById('company_name').innerHTML=cmpnme[0]['cngpra'];
+   
+	if(getAuth[2]().length<1){
+		var paraObj={};
+	    for(j=0;j<cmpnme.length;j++){
+	       // getAuth[2](cmpnme[j]['cngpra']);
+			paraObj[cmpnme[j]['paraNo']]=cmpnme[j]['cngpra'];
+	    }
+	    getAuth[2](paraObj);
+    }
+	 
+	document.getElementById('company_name').innerHTML=getAuth[2]()[0].INT_000;
     var authField='';    
     var tmpItemName='';
 	var mainPrgNo=' ';
 	var arr = str1; 	
 	var mainUl=document.getElementById("listUL");    	 
-	var oLiTop=document.createElement('li');   //最上面先新增一個li 
-	 
+	var oLiTop=document.createElement('li');   //最上面先新增一個li 	 
 	attachEventListener(oLiTop,"click",accountDele,false);  
+	var LastFunc=getAuth[1]()[1]; //getCookie('lastFuncInt');
 	var newA=document.createElement("a");
 	newA.setAttribute("accesskey","Q");
 	newA.setAttribute("href","logOut.php");
@@ -20,25 +31,36 @@ function getProfile(str1,cmpnme) {
 				if(mainPrgNo!=arr[i][jk].slice(0,1)){				  
 					 var oLiFather=document.createElement('li');
 					 oLiFather.setAttribute("class","hasmenu");
-					 attachEventListener(oLiFather,"click",redmenuchange,false);
+					 attachEventListener(oLiFather,"click",redmenuchange,false);					 
 					 var newA=document.createElement("a");
-					 newA.setAttribute("href","#");
-					 newA.appendChild(document.createTextNode(arr[i][jk].slice(0,1)+'.'+summaryName(arr[i][jk].slice(0,1))));
-					 oLiFather.appendChild(newA);
+					 newA.setAttribute("href","#");					 
+					 newA.appendChild(document.createTextNode(arr[i][jk].slice(0,1)+'.'+summaryName(arr[i][jk].slice(0,1))));					 
+					 oLiFather.appendChild(newA);							 
 					  mainUl.appendChild(oLiFather)
-					 var oUl=document.createElement('ul');
-					 oUl.setAttribute("class","myHide");						
+					 var oUl=document.createElement('ul');	
+					 if(LastFunc && left(arr[i][jk],1)==left(LastFunc,1)){  //如果從子功能返回主選單恢復原狀					                        				
+						oUl.setAttribute("class","myShow");								 
+					 }else{
+					    oUl.setAttribute("class","myHide");								 	
+					 }						
 					 oLiFather.appendChild(oUl);
 					 mainPrgNo=arr[i][jk].slice(0,1);						
-				}
+				}				 
+				if(LastFunc && arr[i][jk]==LastFunc){					    
+			 		oUl.parentNode.childNodes[0].style.backgroundImage="url('digits/up.gif')";
+					var ndeLth=(oUl.childNodes.length);
+					oUl.scrollIntoView({
+						 behavior: 'smooth' 
+						}); 	                   				    
+				}				 		
 				tmpItemName=arr[i][jk]+'.';				   
 			}else if(jk=='dscrpt'){
 				tmpItemName+=arr[i][jk];
 				var oLison=document.createElement('li');               
-				var newB=document.createElement("a");				 
-				newB.setAttribute("href","#"); 
-				newB.appendChild(document.createTextNode(tmpItemName));					 
-				oLison.appendChild(newB);			 
+				 var newB=document.createElement("a");				 
+			 	newB.setAttribute("href","#"); 
+			 	newB.appendChild(document.createTextNode(tmpItemName));					 
+			 	oLison.appendChild(newB);				     	
 				attachEventListener(oLison,"click",excuteFun,false);
 				oUl.appendChild(oLison);
 				tmpItemName='';
@@ -59,6 +81,9 @@ function getProfile(str1,cmpnme) {
 	newC.appendChild(document.createTextNode("變更登入系統密碼"));
 	oLiUncle.appendChild(newC);
 	mainUl.appendChild(oLiUncle);	      
+	if(getAuth[1]().length>0){
+	  delCookie('useraccount');	
+	}
 }
 
 function summaryName(dtshow){

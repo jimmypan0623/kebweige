@@ -77,6 +77,10 @@ select{
 select:focus{
 	background-color:#FFFF8C;
 }	 
+#footbottom span{
+     
+	font-weight:bold;
+}
 #currentTime{
      
 	font-weight:bold;
@@ -105,21 +109,31 @@ input.text{
 	.tab_content{order:1;display: none; width:100%; border-bottom: 3px solid #ddd; line-height: 1.6; font-size: .9em; padding:8px; border: 1px solid #ddd; border-radius: 5px;}
 	.tab_css input.tab:checked + label, .tab_css label:hover{opacity: 1; font-weight:bold;}
 	.tab_css input.tab:checked + label + .tab_content{display: initial;}
-.tab_css .gridlist  tbody {
-    display:block;
-    height: 397px;	
-    overflow-y:scroll;	
-   }
+
+   .tab_css .gridlist  tbody {
+       display:block;
+       height: 397px;	
+       overflow-y:scroll;	
+    }
+
+
 
 .tab_css table thead,tbody tr {
 display:table;
 width:100%;
 table-layout:fixed;
 }
+@media screen and (min-width:1200px){
 
- .tab_css table thead{
-/* width: calc( 100% - 1em ); */
-} 
+	.tab_css table thead{
+    width: calc( 100% - 1em );
+   } 
+}
+@media screen and (max-width:1119px) {
+	.tab_css table thead{
+    width: calc( 100% );
+   } 
+}
 .tab_css span{
    font-weight: bold;
    font-family:Arial, Helvetica; 
@@ -191,3 +205,16 @@ body{
  #rightMember1 tr,#rightMember1 td {
     border: 1px solid #000000;border-collapse: collapse;
 }
+@media screen and (min-width:1081px){
+ .tabCntntSpan,#ttltitle,#crncy,#ttlmny,#ttltitle1,#ttlmny1{
+   font-size:120%;
+   font-weight:bold;
+  }
+}
+ 
+@media screen and (max-width:1080px){
+ .tabCntntSpan,#ttltitle,#crncy,#ttlmny,#ttltitle1,#ttlmny1{
+   font-size:100%;
+   font-weight:bold;
+  }
+ }

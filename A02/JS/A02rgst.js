@@ -289,8 +289,8 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		    optionitem(aWaitUpdate[3],slt3.id,6,"A02/BKND/A14srch.php");	
 		}else{
 			oTd.innerHTML="<input type='text' name='a02update' id='accountNo' class='txt' style='width:50%;' maxlength='10'/>"; 
-			optionitem(getCookie("INT_193"),slt3.id,6,"A02/BKND/A14srch.php");	
-		}			 
+			optionitem(getCookie('INT_193'),slt3.id,6,"A02/BKND/A14srch.php");	//getCookie("INT_193")
+		}		 
 	    var oTd = oTr.insertCell(2);	   
         oTd.setAttribute('style','text-align:right;width:15%');					
 	    oTd.innerHTML='人員姓名:';
@@ -616,7 +616,7 @@ function  addNewRecordHint(tbno){
     if (tbno==0){  //表頭資料
         return "請新增登入帳號：";
     }else{
-		return "請新增："+document.getElementById('fatherkey').innerHTML+'\u{A0}'+document.getElementById('keydscrpt').innerHTML+"的功能授權資料："; 
+		return "請新增："+document.getElementById('fatherkey1').innerHTML+'\u{A0}'+document.getElementById('keydscrpt1').innerHTML+"的功能授權資料："; 
 	}		
 
 }
@@ -625,7 +625,7 @@ function editRecordHint(tbno){
     if (tbno==0){  
 	   return "修改帳號資料："; 
 	}else{
-		return "請修改："+document.getElementById('fatherkey').innerHTML+'\u{A0}'+document.getElementById('keydscrpt').innerHTML+"，本功能授權"; 					   
+		return "請修改："+document.getElementById('fatherkey1').innerHTML+'\u{A0}'+document.getElementById('keydscrpt1').innerHTML+"，本功能授權"; 					   
 	}
 }
 
@@ -640,13 +640,13 @@ function searchKeyHint(tbno){    //搜尋畫面出現提示
    if(tbno==0){
 	   return "搜尋人員帳號欄位選擇";
    }else{
-       return "搜尋"+document.getElementById('fatherkey').innerHTML+"帳號授權欄位選擇";
+       return "搜尋"+document.getElementById('fatherkey1').innerHTML+"帳號授權欄位選擇";
    }	   
 }
  
 function srcArgobj(srcId){
     if(srcId=='prg_no'){
-	   var acctno=document.getElementById('fatherkey').innerHTML;
+	   var acctno=document.getElementById('fatherkey1').innerHTML;
        var prgNo=document.getElementById(srcId).value;	   	   
 	   var qrystring ="a03.F01"+"|"+prgNo+"_"+acctno;
       return {"headtitle":"請選取欲授權程式","drpshtWidth":"28%","thCntnt":['程式編號', '程式名稱'],"thWidth":['50%','50%'],"urlPth":"A02/BKND/A02srch.php","clickfunc":chseprg,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};

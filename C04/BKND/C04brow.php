@@ -9,7 +9,7 @@
 	  if($total_pages<=1){
 		  $sqlK="SELECT F01 FROM `c03` WHERE 1 "; 
 	      $sql2=mysqli_query($link,$sqlK);
-   	      $rows=@mysqli_num_rows($sql2);	   	      //主要是在此先算有幾筆資料而不再join處算
+   	      $rows=@mysqli_num_rows($sql2);	   	      //主要是在此先算有幾筆資料而不再join處算		  
 	      $total_pages=ceil($rows/$pagerows);
        }    
 	   $sql="SELECT c03.F00,c03.F01,c03.F02,c03.F03,c03.F04,c03.F06,c03.F07,c03.F08,c03.F10,c03.F12,c03.F14,c03.F13,

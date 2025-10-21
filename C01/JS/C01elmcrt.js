@@ -71,7 +71,7 @@ function crtElm(){
     tabnames[0].innerHTML="客戶基本資料";  
     var keynames=getElementsByAttribute('name','keyname');	
 	var fatherkeys=getElementsByAttribute('name','fatherkey');	
-    if(getCookie('auth05')=='Y'){	 //有查看報價紀錄權限時
+    if(getAuth[0]()[5]=='Y'){	 //有查看報價紀錄權限時
 	    var thr2=document.getElementById('headrow2');
         var array3 = ['料品編號','品名規格','客戶品號', '幣別','單價','包裝基量','最少訂購','報價單號','生效日期','有效期限','備註說明'];
 	    var array4 = ['11.6%','11.6%','11%', '4%','8%','7%','7%','10%','8%','8%','10%'];
@@ -92,12 +92,12 @@ function crtElm(){
 	    cntdiv[1].insertBefore(text01,rspn2);
 	   var spn1=document.createElement('span');
 	   spn1.id="ttltitle";
-	   spn1.setAttribute("style","font-size:120%;font-weight:bold;");
+	   //spn1.setAttribute("style","font-size:120%;font-weight:bold;");
        spn1.innerHTML="報價筆數:";
 	   cntdiv[1].insertBefore(spn1,rspn2);
 	   var spn3=document.createElement('span');
 	   spn3.id="ttlmny";
-       spn3.setAttribute("style","font-size:120%;font-weight:bold;");
+       //spn3.setAttribute("style","font-size:120%;font-weight:bold;");
 	   spn3.innerHTML='0';
 	   cntdiv[1].insertBefore(spn3,rspn2);	 
 	}else{

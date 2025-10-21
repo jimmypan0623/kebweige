@@ -251,14 +251,14 @@ function  addNewRecordHint(tbno){
     if (tbno==0){  //表頭資料
         return "請輸入幣別資料：";
 	}else{
-		return "請輸入"+document.getElementById('fatherkey').innerHTML+"本旬匯率：";
+		return "請輸入"+document.getElementById('fatherkey1').innerHTML+"本旬匯率：";
 	}							
 }
 function editRecordHint(tbno){
     if (tbno==0){  
 		return "修改本幣別資料："; 
 	}else{
-		return "修改"+document.getElementById('fatherkey').innerHTML+"三旬匯率："; 
+		return "修改"+document.getElementById('fatherkey1').innerHTML+"三旬匯率："; 
 	}
 }
 function searchKeyHint(tbno){    //搜尋畫面出現提示

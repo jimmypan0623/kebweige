@@ -333,7 +333,7 @@ function c34CustomPartNo(event){
 		event=window.event;
 	}	
 	var targetPartNo=getEventTarget(event);		
-	var sendSrcRec="filename="+document.getElementById('customno').value+"|"+document.getElementById('fatherkey').innerHTML;		
+	var sendSrcRec="filename="+document.getElementById('customno').value+"|"+document.getElementById('fatherkey1').innerHTML;		
 	var rsp="";  	
 	if(window.ActiveXObject){
 	   var request = new ActiveXObject("Microsoft.XMLHttp");
@@ -448,7 +448,7 @@ function d34VendorPartNo(event){
 	}	
 	var targetPartNo=getEventTarget(event);	
 	
-	var sendSrcRec="filename="+document.getElementById('vendorno').value+"|"+document.getElementById('fatherkey1').innerHTML;		
+	var sendSrcRec="filename="+document.getElementById('vendorno').value+"|"+document.getElementById('fatherkey2').innerHTML;		
 		var rsp="";  	
         if(window.ActiveXObject){
 		   var request = new ActiveXObject("Microsoft.XMLHttp");
@@ -505,7 +505,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    oTd.innerHTML='平均成本:';
 	    var oTd = oTr.insertCell(3);
 	    oTd.innerHTML="<input type='number' name='b01update' id='averagecost' class='txt' maxlength='11' value=0.000 style='width:30%;text-align:right;'  />"; 
-		if(getCookie('auth07')!='Y'){    //如果無權限處理成本欄位則不顯示
+		if(getAuth[0]()[7]!='Y'){    //如果無權限處理成本欄位則不顯示
 			oTr.style.display='none';
 		}		                
 		var oTr=ajTable.insertRow(ajTable,ajTable.length);
@@ -627,7 +627,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
  
 	   }else{
 		oTd.innerHTML="<input type='text' name='b01update' id='stockno' class='txt' style='width:90%;' maxlength='43' />"; 
-		optionitem(getCookie("INT_193"),slt3.id,6,"B01/BKND/A14srch.php");	
+		optionitem(getCookie('INT_193'),slt3.id,6,"B01/BKND/A14srch.php");	
 		 
 	   }			 
 	   var oTd = oTr.insertCell(2);
@@ -686,7 +686,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	   var oTd = oTr.insertCell(3);               
 	   oTd.innerHTML="<input type='number' name='c02update' id='minumqty' value=1 class='txt' style='width:30%;text-align:right;'     />";  				 				  
 	   if(txtword==1){
-		  c20PackQty(document.getElementById('fatherkey').innerHTML);
+		  c20PackQty(document.getElementById('fatherkey1').innerHTML);
 	   }
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 		var oTd = oTr.insertCell(0);	   
@@ -791,7 +791,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    var oTd = oTr.insertCell(3);               
 	    oTd.innerHTML="<input type='number' name='d02update' id='minumqty' value=1 class='txt' style='width:30%;text-align:right;'     />";  				 				  
 	    if(txtword==1){
-	 	  c20PackQty(document.getElementById('fatherkey').innerHTML);
+	 	  c20PackQty(document.getElementById('fatherkey2').innerHTML);
 	    }
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 		var oTd = oTr.insertCell(0);	   
@@ -1118,9 +1118,9 @@ function  addNewRecordHint(tbno){
     if (tbno==0){  //表頭資料	
         return "請輸入新料號基本資料：";	
     }else if(tbno==1){
-		return "請輸入"+document.getElementById('fatherkey').innerHTML+"新的報價資料：";	
+		return "請輸入"+document.getElementById('fatherkey1').innerHTML+"新的報價資料：";	
 	}else if(tbno==2){
-		return "請輸入"+document.getElementById('fatherkey1').innerHTML+"新的詢價資料：";	
+		return "請輸入"+document.getElementById('fatherkey2').innerHTML+"新的詢價資料：";	
 	} 
 }
 
@@ -1128,9 +1128,9 @@ function editRecordHint(tbno){
     if (tbno==0){ 
 		return "修改料號基本資料："; 
 	}else if (tbno==1){
-		return "修改:"+document.getElementById('fatherkey').innerHTML+":報價紀錄："; 
+		return "修改:"+document.getElementById('fatherkey1').innerHTML+":報價紀錄："; 
 	}else if (tbno==2){
-		return "修改:"+document.getElementById('fatherkey1').innerHTML+":詢價紀錄："; 
+		return "修改:"+document.getElementById('fatherkey2').innerHTML+":詢價紀錄："; 
 	} 
 }
 

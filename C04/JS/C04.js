@@ -149,14 +149,14 @@ function choseExtraDeal(targetTrChildren,targetTr){   //紀錄移動
 		    trnsbtt.setAttribute("style","display:none;");
 		    detachEventListener(trnsbtt,"click",trnsproc,false);
 	    }else{
-		    if(getCookie('auth07')=='Y'){
+		    if(getAuth[0]()[7]=='Y'){
 			   trnsbtt.setAttribute("style","display:block;");
 			   attachEventListener(trnsbtt,"click",trnsproc,false);
 		    }else{
 			   trnsbtt.setAttribute("style","display:none;");
 			   detachEventListener(trnsbtt,"click",trnsproc,false);			
 			}
-		    if(getCookie('auth09')=='Y'){
+		    if(getAuth[0]()[9]=='Y'){
 			    vrsbtt.setAttribute("style","display:block;");
 			    attachEventListener(vrsbtt,"click",vrsproc,false);
 		    }else{
@@ -171,21 +171,21 @@ function choseExtraDeal(targetTrChildren,targetTr){   //紀錄移動
 		 detachEventListener(trnsbtt,"click",trnsproc,false);	
 		  apprv.setAttribute("style","color:green;font-size:20px;font-weight:bold;;");
 		apprv.innerHTML='\u{3246}\u{A0}\u{A0}\u{A0}\u{A0}'; 
-	    if(getCookie('auth08')=='Y'){		
+	    if(getAuth[0]()[8]=='Y'){		
 		    ansbtt.setAttribute("style","display:block;");
 		    attachEventListener(ansbtt,"click",ansproc,false);			 
 	    }else{
 		    ansbtt.setAttribute("style","display:none;");
 		    detachEventListener(ansbtt,"click",ansproc,false);	
 		}
-	    if(getCookie('auth02')=='Y'){
+	    if(getAuth[0]()[2]=='Y'){
 		    editbtt.setAttribute("style","visibility:visible;");
 		    attachEventListener(editbtt,"click",edtrec,false);
 	    }else{
 		    editbtt.setAttribute("style","visibility:hidden;");
 		    detachEventListener(editbtt,"click",edtrec,false);
 		}
-	    if(getCookie('auth03')=='Y'){
+	    if(getAuth[0]()[3]=='Y'){
 		   delbtt.setAttribute("style","visibility:visible;");
 		   attachEventListener(delbtt,"click",delrec,false);
 	    }else{
@@ -233,14 +233,14 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 			detachEventListener(vrsbtt,"click",vrsproc,false);
 			
 		}else{
-		    if(getCookie('auth09')=='Y'){
+		    if(getAuth[0]()[9]=='Y'){
 			   vrsbtt.setAttribute("style","display:block;");
 			   attachEventListener(vrsbtt,"click",vrsproc,false);	
 		    }else{
 			    vrsbtt.setAttribute("style","display:none;");
 			    detachEventListener(vrsbtt,"click",vrsproc,false);
 			}
-		    if(getCookie('auth07')=='Y'){
+		    if(getAuth[0]()[7]=='Y'){
 			    trnsbtt.setAttribute("style","display:block;");
 				attachEventListener(trnsbtt,"click",trnsproc,false);	
 		    }else{
@@ -256,21 +256,21 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 		detachEventListener(vrsbtt,"click",vrsproc,false);		
 		apprv.setAttribute("style","color:green;font-size:20px;font-weight:bold;");
 		apprv.innerHTML='\u{3246}\u{A0}\u{A0}\u{A0}\u{A0}'; 
-		if(getCookie('auth08')=='Y'){		  
+		if(getAuth[0]()[8]=='Y'){		  
 		    ansbtt.setAttribute("style","display:block;");
 		    attachEventListener(ansbtt,"click",ansproc,false);			  
 		}else{
 		    ansbtt.setAttribute("style","display:none;");
 		    detachEventListener(ansbtt,"click",ansproc,false);
 		}
-		if(getCookie('auth02')=='Y'){
+		if(getAuth[0]()[2]=='Y'){
 			editbtt.setAttribute("style","visibility:visible;");
 			attachEventListener(editbtt,"click",edtrec,false);
 		}else{
 		    editbtt.setAttribute("style","visibility:hidden;");
 			detachEventListener(editbtt,"click",edtrec,false);
 		}
-		if(getCookie('auth03')=='Y'){
+		if(getAuth[0]()[3]=='Y'){
 		   delbtt.setAttribute("style","visibility:visible;");
 		   attachEventListener(delbtt,"click",delrec,false);
 		}else{

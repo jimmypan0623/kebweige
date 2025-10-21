@@ -5,7 +5,5 @@
      echo "連結錯誤訊息: ".mysqli_connect_error()."<br>";
      exit();
 	}   
-    mysqli_query($link,'set names utf8');   
-
-
+    mysqli_query($link,'set names utf8'); 		
  ?> 

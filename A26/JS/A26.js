@@ -1,9 +1,9 @@
 function getProfile(str1,reccount,tbno) {      
     var cnt=0;
 	var arr = str1; 
-    var ath1=getCookie('auth01');  //cookie新增
-	var ath2=getCookie('auth02');  //cookie修改
-	var ath3=getCookie('auth03');  //cookie刪除
+    var ath1=getAuth[0]()[1];  //cookie新增
+	var ath2=getAuth[0]()[2];  //cookie修改
+	var ath3=getAuth[0]()[3];  //cookie刪除
 	var notOnlyEdit=(ath1=='Y' && ath2=='Y' && ath3=='Y');
     var pagecount=Math.ceil(reccount/parseInt(getCookie('INT_RCD')));
     var optdigts= (pagecount.toString()).length;	    

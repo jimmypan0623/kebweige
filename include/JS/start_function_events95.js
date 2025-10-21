@@ -192,23 +192,29 @@ Date.prototype.addDays = function(days) {
 function outprocs(event){	  
     if (typeof event=="undefined"){
 		event=window.event;
-	}    	
-	delCookie("funNo");	 
-	delCookie('howpge');
-	delCookie('MorP');
-	delCookie('kindofda');
-	delCookie('adddpt'); 	
-	for(var i=1;i<10;i++){   //該登入者之權限設定
-		var authorder='auth'+paddingLeft(i.toString(),2);		 
-		delCookie(authorder); 
+	}    		
+   
+    if(getAuth[0]()[11]!='M'){
+	   var bibau=cko[0](0);   //找出所有閉包首頁紀錄變數  
+	   cko[0](bibau*(-1));    //將閉包變數歸零
 	}
+	 getAuth[0]('Clear_All');
 	var scriptall=document.getElementsByTagName("script");
 	for(var j=0;j<scriptall.length;j++){
 	    if(scriptall[j].id){
 	       scriptall[j].parentNode.removeChild(scriptall[j]);
 		}
-	}	 
-	history.back();	
+	}		 		
+     var urlfolder=document.getElementsByTagName('title');		 
+	 //getAuth[1]()[1]=left( urlfolder[0].innerHTML,3);
+	  
+	 //setCookie('lastFuncInt',left( urlfolder[0].innerHTML,3));  //回主畫面用	
+     nowExcute='RED.知訊數位營運管理系統';		 
+	 urlfolder[0].innerHTML=nowExcute; 		
+    
+    initDialog();
+    //history.back();	
+	
 }
 
 //起始畫面
@@ -225,7 +231,7 @@ function DrawTable(){
 			 } 
 	     }		           
 	   var slt2=document.getElementById('recmth');	
-       var yesmth=getCookie("MorP");
+       var yesmth=getAuth[0]()[11];//getCookie("MorP");
 	    if (yesmth=='P'){  //如果非月份檔
 		   var item_no=paddingLeft(1,3);
 		   var varItem=new Option(item_no,item_no);
@@ -262,8 +268,6 @@ function choiceClick(initpage){   //頁次選擇
 }
 //抓取初始資料紀錄
 
-
-
 function commontemp(idn,stk){
 	var tabs=getElementsByAttribute("class","tab");
 	var tbno=0;
@@ -277,8 +281,7 @@ function commontemp(idn,stk){
 				tbno=i;
 				break;
 			}
-		}
-	   
+		}	   
 	    if (aTable.rows.length>0){
 		    var i=0;
 	        while (i<aTable.rows.length){
@@ -299,12 +302,10 @@ function commontemp(idn,stk){
 	    var urlpath=(left(urlfolder[0].innerHTML,3));          //所以其他程式沿用 
 	    
 		if(!urlpath){    //此段甚為重要!!有時會抓不到title,一開始就使用getCookie("funNo")則菜單無法執行,更容易造成null值
-		    var nowExcute=left(getCookie("funNo"),3);
+		    var nowExcute=left(getAuth[0]()[0],3);   //left(getCookie("funNo"),3);
 		    urlpath=nowExcute;
 		}
 
-	 
-	//if(tabs.length>0 && urlpath!='RED'){
     if(urlpath!='RED'){		
 	    if (tbno==0){
 	        var url=urlpath+"/BKND/"+urlpath+"brow.php?timestamp="+new Date().getTime();	
@@ -326,13 +327,11 @@ function commontemp(idn,stk){
            getProfile(rsp.recdrow,rsp.pgttl,tbno);	   		 	           	  
 	    }
     }
-	function createQueryString(){	
-	     
+	function createQueryString(){		     
 		if(tabs.length>0 && urlpath!='RED'){	
-			var yesmth=getCookie("MorP");
-			var yesdpt=getCookie("adddpt");
+			var yesmth=getAuth[0]()[11];   //getCookie("MorP");
+			var yesdpt=getAuth[0]()[13]; //getCookie("adddpt");
 		    if (stk=="PGE"){	
-
 				if (yesmth=='P'){  //如果非月份檔
 	    		    var queryString ="filename="+stk+idn+'|'+cko[0](0);				
 			    }else{
@@ -340,7 +339,7 @@ function commontemp(idn,stk){
 					if(yesdpt=='D'){   //如果為部門別檔
 					   var dptoption= document.getElementById('departNoOption').value;
 					 
-				       var queryString ="filename="+stk+idn+'|'+((dptoption)?dptoption:getCookie("INT_193"));
+				       var queryString ="filename="+stk+idn+'|'+((dptoption)?dptoption:getCookie('INT_193'));   
 					   
 					}else{
 					   var queryString ="filename="+stk+idn+'|';
@@ -354,25 +353,25 @@ function commontemp(idn,stk){
 
 						if(yesdpt=='D'){   //如果為部門別檔
 						     var dptoption= document.getElementById('departNoOption').value;
-					         var queryString ="filename="+stk.substring(0,7)+"|"+idn+"_"+document.getElementById('recmth').value+"~"+((dptoption)?dptoption:getCookie("INT_193"));
+					         var queryString ="filename="+stk.substring(0,7)+"|"+idn+"_"+document.getElementById('recmth').value+"~"+((dptoption)?dptoption:getCookie("INT_193"));  
 					    }else{  
 					 
 					        var queryString ="filename="+stk.substring(0,7)+"|"+idn+"_"+document.getElementById('recmth').value;
 				        }
 					}
 			    }else if (tbno==1){				 
-				    var fthkey=document.getElementById('fatherkey');   
+				    var fthkey=document.getElementById('fatherkey1');   
 				    var queryString ="filename="+fthkey.innerHTML+"|"+stk.substring(0,7)+"|"+idn;				
 			    }else if (tbno==2){				 
-				    var fthkey=document.getElementById('fatherkey1');  
+				    var fthkey=document.getElementById('fatherkey2');  
 				
 				    var queryString ="filename="+fthkey.innerHTML+"|"+stk.substring(0,7)+"|"+idn;				
 			    }				 				 
 		    }		
         }else{
-			if(urlpath=='RED'){  //如果是主目錄
-              var myAccount=getCookie('useraccount'); 
-	          var queryString ="filename="+"'"+myAccount+"'";
+			if(urlpath=='RED'){  //如果是主目錄			  
+              var myAccount=(getCookie('useraccount')?getCookie('useraccount'):getAuth[1]()[0]); 			 
+	          var queryString ="filename="+myAccount+"|"+getAuth[2]().length;
 			}  
 		}
 	    return queryString;
@@ -386,7 +385,6 @@ function commontemp(idn,stk){
 	
 	return true; 
 }
-
 
 
 //新增紀錄按鈕程序
@@ -409,7 +407,7 @@ function addrec(event){
 	responseDiv.innerHTML='&nbsp';	
 	var Today=new Date();
    var nowday=Today.getFullYear()+ "-" + paddingLeft((Today.getMonth()+1).toString(),2) + "-" + paddingLeft((Today.getDate()).toString(),2) ;
-	var myAccount=getCookie('useraccount');
+	var myAccount=getAuth[1]()[0]; //getCookie('useraccount');
 	var flg=0;
 
 	var targetTrs=targetTbody.getElementsByTagName("tr");   
@@ -799,14 +797,7 @@ function getUrlParams2(url){  //解析url成物件
    return result;
 
 }
-//閉包函數紀錄CHECKBOX點了幾個
-function chkCount() {
-      var x = 0;
-       function f(y) {
-           return x += y;
-       };
-       return f;
-}	
+
 
 function loadScript(url, callback) {        //動態加入js
   var script = document.createElement("script");
@@ -825,3 +816,37 @@ function loadScript(url, callback) {        //動態加入js
   script.src = url;
   document.head.appendChild(script); // 或 document.body.appendChild(script);
 }
+
+//閉包函數紀錄CHECKBOX點了幾個
+function chkCount() {
+      var x = 0;
+       function f(y) {
+           return x += y;
+       };
+       return f;
+}	
+function createArrayClosure() {
+  // 外部函式的陣列
+     var myArray = []; 
+      
+      // 內部函式，它會形成閉包並存取 myArray
+           function f(A) {
+			     
+			    if(A=='Clear_All'){
+					 myArray=[];
+					 while (myArray.length) {
+                          myArray.pop();
+                     }
+				}else{
+				    myArray.push(A);
+				    var filteredArr = myArray.filter(Boolean);					
+				    while (myArray.length) {
+                          myArray.pop();
+                     }
+				   myArray=filteredArr;
+                   return myArray;
+				}
+		
+        };
+		return f;
+    }

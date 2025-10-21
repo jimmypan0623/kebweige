@@ -696,7 +696,7 @@ function srcArgobj(srcId){
 	      var qrystring=document.getElementById(srcId).value;
           return {"headtitle":"請選取採購人員帳號姓名","drpshtWidth":"28%","thCntnt":['人員編號', '人員姓名'],"thWidth":['50%','50%'],"urlPth":"C01/BKND/A01srch.php","clickfunc":chseprg1,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
 	}else{
-		var cstno=document.getElementById('keydscrpt').innerHTML;
+		var cstno=document.getElementById('keydscrpt1').innerHTML;
 		var stockNo=document.getElementById(srcId).value;
 		 
 		var tttlt='';

@@ -595,7 +595,7 @@ function page2Detail01(ajTable){
 		 var url="C04/BKND/C10srch.php?timestamp="+new Date().getTime();   	               				 
 		 request.open("POST",url);	 
 		 request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");		 			    
-		 var queryString ="filename="+document.getElementById("fatherkey").innerHTML+'|'+sourceAccount(1,1);
+		 var queryString ="filename="+document.getElementById("fatherkey1").innerHTML+'|'+sourceAccount(1,1);
 		  
 		 request.send(queryString);
 		 function respond(){
@@ -650,7 +650,7 @@ function transRecordHint(tbno){
 	if (tbno==0){  //表頭資料	
 		return '客戶訂單:'+sourceAccount(1,tbno)+",轉出貨單?";
 	}else{
-		return '客戶訂單:'+document.getElementById('fatherkey').innerHTML+",轉出貨單?";
+		return '客戶訂單:'+document.getElementById('fatherkey1').innerHTML+",轉出貨單?";
 	}  
 }
 
@@ -662,7 +662,7 @@ function searchKeyHint(tbno){    //搜尋畫面出現提示
 	}  
 }
 function page2OtherWindow1(){
-   return "\u{1F4E4}"+document.getElementById("fatherkey").innerHTML+"\u{A0}\u{1F4E6}:\u{300C}"+sourceAccount(1,1)+"\u{300D}的出貨紀錄";
+   return "\u{1F4E4}"+document.getElementById("fatherkey1").innerHTML+"\u{A0}\u{1F4E6}:\u{300C}"+sourceAccount(1,1)+"\u{300D}的出貨紀錄";
 
 }
 
@@ -684,7 +684,7 @@ function srcArgobj(srcId){
       return {"headtitle":"請選取業務人員帳號姓名","drpshtWidth":"28%","thCntnt":['人員編號', '人員姓名'],"thWidth":['50%','50%'],"urlPth":"C01/BKND/A01srch.php","clickfunc":chseprg1,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
   	
 	}else{	
-		var cstno=document.getElementById('keydscrpt').innerHTML;
+		var cstno=document.getElementById('keydscrpt1').innerHTML;
 		var stockNo=document.getElementById(srcId).value;		 
 		var tttlt='';
 	    if(srcId=='stockno'){			     

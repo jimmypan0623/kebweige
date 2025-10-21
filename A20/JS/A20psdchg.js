@@ -47,8 +47,8 @@ function tab2View(event){
 	  	  document.getElementById("tab1").checked="checked";		
 		  return false;	
        }
-       var keydescription=document.getElementById('keydscrpt');    
-       var fthkey=document.getElementById("fatherkey");
+       var keydescription=document.getElementById('keydscrpt1');    
+       var fthkey=document.getElementById("fatherkey1");
 	   var aWaitUpdate=[];	//準備記錄修改時欄位的內容資料
        var maintable=document.getElementById("maintbody1");		//所指向的表頭紀錄	
 	   var topvth=0;

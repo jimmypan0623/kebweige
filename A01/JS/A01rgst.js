@@ -496,7 +496,7 @@ function  addNewRecordHint(tbno){
         if (tbno==0){
             return "請輸入新功能編號與名稱：";
 	    }else{
-			return "請新增："+sourceAccount(1,0)+'\u{A0}'+document.getElementById('keydscrpt').innerHTML+'\u{A0}'+'使用帳號';
+			return "請新增："+sourceAccount(1,0)+'\u{A0}'+document.getElementById('keydscrpt1').innerHTML+'\u{A0}'+'使用帳號';
 		}						
 }
 
@@ -504,7 +504,7 @@ function editRecordHint(tbno){
    if (tbno==0){  
 	   return "修改功能預設授權狀況";
 	}else{
-	   return "修改此帳號授權："+document.getElementById('fatherkey').innerHTML+'\u{A0}'+document.getElementById('keydscrpt').innerHTML;
+	   return "修改此帳號授權："+document.getElementById('fatherkey1').innerHTML+'\u{A0}'+document.getElementById('keydscrpt1').innerHTML;
 	}
 
 }
@@ -517,7 +517,7 @@ function searchKeyHint(tbno){    //搜尋畫面出現提示
    if(tbno==0){
 	   return "功能搜尋欄位選擇";
    }else{
-       return "搜尋"+document.getElementById('fatherkey').innerHTML+"功能帳號欄位選擇";
+       return "搜尋"+document.getElementById('fatherkey1').innerHTML+"功能帳號欄位選擇";
    }	   
 }
 ////以下處理回呼資料傳送給開窗選擇頁面
