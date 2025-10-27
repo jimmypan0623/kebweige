@@ -4,7 +4,7 @@ function selfTag(jsvsn){
       var dptspan=document.createElement("span");	  
 	  var text4 = document.createTextNode('\u{A0}\u{A0}存放部門:\u{A0}');
 	  dptspan.appendChild(text4);
-	  dptspan.setAttribute("style","font-size:120%;");
+	   dptspan.setAttribute("style","font-size:120%;");
 	  var slt3=document.createElement("select");
 	    slt3.setAttribute("id","departNoOption");
   	    optionitem(getCookie('INT_193'),slt3.id,6,"B01/BKND/A14srch.php");	

@@ -2,8 +2,11 @@ function crtElm(){
     var cntdiv=getElementsByAttribute('class','tab_content');	  
 	var tabnames=getElementsByAttribute('name','tablbl');		
 	tabnames[0].innerHTML="物料基本資料"; 
-    var tbl1=document.getElementById("member1");
-     tbl1.style.width="37%";
+
+   /*  var tbl1=document.getElementById("member1");
+     tbl1.style.width="37%"; */
+     var firstCover=getElementsByAttribute('class','table_cover');	
+	 firstCover[0].style.width="37%";
      var thr1=document.getElementById('headrow1');	 
 	 var array1 = ['料品編號','品名規格'];
 	 var array2 = ['50%','40%'];
@@ -15,9 +18,12 @@ function crtElm(){
 		thr1.appendChild(th1);		
 	}	
 ////////	
+    var secondCover=document.createElement('div');
+	secondCover.className="table_cover";
+	secondCover.style.width="63%";
     var righttbl1=document.createElement("table");
 	righttbl1.id="rightMember1";	 
-	righttbl1.style.marginBottom='-434px'; 	
+	//righttbl1.style.marginBottom='-434px'; 	
     var arrayRgt1=["料品編號","品名規格","管理類別","歸屬類別","採購單位:","計料單位:",
 	"採/計單位比:","保管部門:","總庫存量:","在庫數量:","庫存上限:","安全存量:",
 	"料架位置:","建立料表:","領料類別:","領用批量:","採購前置:","收發料前置:",
@@ -50,7 +56,10 @@ function crtElm(){
 		 var oTd = oTr.insertCell(oTr.cells.length);	 
          oTd.innerHTML=arrayRgt2[i];
 	}		
-    cntdiv[0].appendChild(righttbl1);   //畫面右邊欄位
+	secondCover.appendChild(righttbl1); 
+   // cntdiv[0].appendChild(righttbl1);   //畫面右邊欄位
+   cntdiv[0].appendChild(secondCover); 
+   
 ///////////	
     var keynames=getElementsByAttribute('name','keyname');	
 	 var fatherkeys=getElementsByAttribute('name','fatherkey');	
@@ -70,18 +79,15 @@ function crtElm(){
 	    cntdiv[1].insertBefore(text01,rspn2);
 	    var spn1=document.createElement('span');
 	    spn1.id="ttltitle";
-	    //spn1.setAttribute("style","font-size:120%;font-weight:bold;");
         spn1.innerHTML="報價筆數:";
 	    cntdiv[1].insertBefore(spn1,rspn2);
 	    var spn3=document.createElement('span');
-	    spn3.id="ttlmny";
-        //spn3.setAttribute("style","font-size:120%;font-weight:bold;");
+	    spn3.id="ttlmny";       
 	    spn3.innerHTML='0';
 	    cntdiv[1].insertBefore(spn3,rspn2);	 
 		tabnames[1].innerHTML="客戶報價紀錄";
 	    keynames[0].innerHTML="料號:";	
-/* 	    fatherkeys[0].style.width="20%";
-	    fatherkeys[0].size="43";	 */			
+ 	
     }else{
         cntdiv[1].style.display='none';
 	    tabnames[1].style.display='none';        
@@ -102,18 +108,14 @@ function crtElm(){
 	    cntdiv[2].insertBefore(text02,rspn3);
 	    var spn4=document.createElement('span');
 	    spn4.id="ttltitle1";
-	//    spn4.setAttribute("style","font-size:120%;font-weight:bold;");
         spn4.innerHTML="詢價筆數:";
 	    cntdiv[2].insertBefore(spn4,rspn3);
 	    var spn5=document.createElement('span');
 	    spn5.id="ttlmny1";
-    //    spn5.setAttribute("style","font-size:120%;font-weight:bold;");
 	    spn5.innerHTML='0';
 	    cntdiv[2].insertBefore(spn5,rspn3);  	
 	    tabnames[2].innerHTML="廠商詢價紀錄";
 		keynames[1].innerHTML="料號:";
-/* 		fatherkeys[1].style.width="20%";
-	    fatherkeys[1].size="43"; */
     }else{
 		 cntdiv[2].style.display='none';
 	    tabnames[2].style.display='none';

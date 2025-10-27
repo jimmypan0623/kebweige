@@ -8,12 +8,12 @@ include("../../include/BKND/mysqli_server.php");          //引用檔
     $sql0="select * from a01 where F01="."'".$_COOKIE['useraccount']."'"; 
     $sql1=@mysqli_query($link,$sql0);
     $rows1=@mysqli_num_rows($sql1);                       
-    $list4=mysqli_fetch_array($sql1);  //紀錄當前操作者姓名   
+    $list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名   
     $lastdate=date('Y'.'-'.'m'.'-'.'d');
    $brr=array();
    $valueStr = '';
     foreach($cart as $key=>$val){	    
-	    if (!is_array($val)){	 
+	    if (!is_assoc($val)){	 
              $brr[]=addslashes($val);		//要加入此函數避免中間有單引號錯亂  				   
 	    }else{		   
 		   $lngth=count($cart->queryorder);
@@ -35,7 +35,7 @@ include("../../include/BKND/mysqli_server.php");          //引用檔
 $sql7="select `F04` from `c26` where `F01`='".trim($brr[0])."'"; 
  $sql8=mysqli_query($link,$sql7);                      
  
- $list2=mysqli_fetch_array($sql8);  //檢查是否已確認過
+ $list2=mysqli_fetch_assoc($sql8);  //檢查是否已確認過
  
   
 if($list2['F04']!='Y'){

@@ -110,12 +110,12 @@ input.text{
 	.tab_css input.tab:checked + label, .tab_css label:hover{opacity: 1; font-weight:bold;}
 	.tab_css input.tab:checked + label + .tab_content{display: initial;}
 
-   .tab_css .gridlist  tbody {
-       display:block;
-       height: 397px;	
-       overflow-y:scroll;	
-    }
 
+  .tab_css .gridlist  tbody {
+   display:block;
+   height: 397px;	
+   overflow-y:scroll;	  
+}
 
 
 .tab_css table thead,tbody tr {
@@ -184,12 +184,8 @@ body{
 #rightMember1 {
     background-color:#F0F0F0;
     position:relative;
-	width:63%;
-	height:430px;
-	top:-88%;
-	left:37%;
+	height:432px;
  	font-size:18px;  
-	margin-bottom:-430px; 
 	display:block;
     overflow-y:scroll; 
  }
@@ -217,4 +213,10 @@ body{
    font-size:100%;
    font-weight:bold;
   }
+ }
+ 
+ .table_cover{
+    width:100%;
+	float:left;
+    box-sizing:border-box; 
  }

@@ -4,19 +4,19 @@
    $delmsg=$_POST['filename'];
 $sql7="SELECT `F10`,`F24` FROM `b05` where `F01`='".$delmsg."'"; 
  $sql8=@mysqli_query($link,$sql7);                       
-  $list2=mysqli_fetch_array($sql8);  //檢查是否已反確認過
+  $list2=mysqli_fetch_assoc($sql8);  //檢查是否已反確認過
 if(trim($list2['F10'])=="Y"){      
     $sql0="SELECT * FROM `a01` WHERE F01="."'".$_COOKIE['useraccount']."'"; 
      $sql1=@mysqli_query($link,$sql0);
      $rows1=@mysqli_num_rows($sql1);                       
-     $list4=mysqli_fetch_array($sql1);  //紀錄當前操作者姓名   
+     $list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名   
      $lastdate=date('Y'.'-'.'m'.'-'.'d');   
 	  $mscnt="DELETE FROM `c13` WHERE `F02`='".$delmsg."'";	                        
       mysqli_query($link ,$mscnt) or die(mysqli_error($link)); 
 	 $sql3="SELECT b0e.*,b05.F02 As F0B,b05.F24,b05.F90 FROM b0e,b05 WHERE b0e.F01='".$delmsg."' AND b05.F01='".$delmsg."'  ORDER BY b0e.F03"; 	 
 	 $sql4=@mysqli_query($link,$sql3); 
      $arr=array(); 
-	 while ($list3=mysqli_fetch_array($sql4)){
+	 while ($list3=mysqli_fetch_assoc($sql4)){
 		 $my_array  = array('query_no'=>$list3['F01'],			              
 					    'stockno'=>$list3['F03'],
 					    'deliveryday'=>$list3['F0B'],

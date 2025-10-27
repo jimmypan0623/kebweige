@@ -3,9 +3,11 @@
    include("../../include/BKND/mysqli_server.php");         //引用檔   
    $rows=0;
    if (substr($_POST['filename'],0,3)=="PGE"){	  
-	   $pgeno=getNeedBetween($_POST['filename'],'E','|'); // 頁次 
-       $rows=(int)substr(strrchr($_POST['filename'],'|'),1);	
-       $pagerows=$_COOKIE['INT_RCD'] ; //每頁筆數	   
+	   $pgeno=getNeedBetween($_POST['filename'],'E','|'); // 頁次 	   
+      // $rows=(int)substr(strrchr($_POST['filename'],'|'),1);	
+	   $rows=(int)getNeedBetween($_POST['filename'],'|','_') ;	 
+       //$pagerows=$_COOKIE['INT_RCD'] ; //每頁筆數	   
+	   $pagerows=(int)substr(strrchr($_POST['filename'],'_'),1);
 	   $total_pages=ceil($rows/$pagerows);   //如果非初始畫面則應有大於等於1的數字	   
 	  if($total_pages<=1){                   //如果沒有那就是初次進來所以要計算$total_pages數字
 		  $sqlK="SELECT F01 FROM `a01` WHERE 1 "; 
@@ -24,7 +26,7 @@
    }	   
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_array($sql4)){
+	while ($list3=mysqli_fetch_assoc($sql4)){
 		//['8%','8%','8%', '8%','12%','20%','8%','8%']; 
 		$atr = array('rc_no_DHL_000'=>$list3['F00'],  		            	             
 		             'acc_no_DSL_008'=>$list3['F01'], 					

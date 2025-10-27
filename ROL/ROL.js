@@ -16,7 +16,7 @@ function draw_m(){
 	var urlfolder=document.getElementsByTagName('title');
 	var urlpath=urlfolder[0].innerHTML;
 	var dataIp=getCookie('svripmd5');	
-	if(htmfile==urlpath && dataIp==metas[1].content){
+	//if(dataIp==metas[1].content && htmfile==urlpath ){     
 	   //////
 	    var rat=0.6;      //倍率
 	    var S=100*rat;   //圓心x座標
@@ -26,10 +26,10 @@ function draw_m(){
 	   // var W=V;   //30*rat;   //魚頭半徑
 	   var X=U/6;   //10*rat;   //魚眼半徑	
        setInterval(drawtai,150,S,T,U,V,X);   //每轉一步停留150毫秒(不含畫圖時間) 	  
-    }else{	  		
+    /* }else{	  		
 	    alert('資料與程式不齊!');
 		window.parent.document.location.href="../logOut.php";     
-	}		
+	}		 */
 }  
 function drawtai(x1,y1,rd,d1,r2){
     var canvas=document.getElementById('m_draw');   

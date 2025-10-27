@@ -12,7 +12,7 @@
 	 $sql3=$sql3."ORDER BY `F01`";
     $arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_array($sql4)){
+	while ($list3=mysqli_fetch_assoc($sql4)){
 		 
 		$atr = array('stuff_no_ISL_050'=>$list3['F01'],  		            	             
 		             'stuff_name_ISL_050'=>$list3['F03']);                              

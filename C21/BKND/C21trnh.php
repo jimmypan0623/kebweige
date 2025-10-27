@@ -9,19 +9,19 @@ foreach($cart as $key=>$val){
 include("../../include/BKND/mysqli_server.php");          //引用檔   
  $sql7="select `F15` from `c26` where `F01`='".$brr[0]."'"; 
  $sql8=@mysqli_query($link,$sql7);                       
-  $list2=mysqli_fetch_array($sql8);  //檢查是否已轉單
+  $list2=mysqli_fetch_assoc($sql8);  //檢查是否已轉單
 if($list2['F15']!='Y'){
 
 
      $sql0="select * from a01 where F01="."'".$_COOKIE['useraccount']."'"; 
      $sql1=@mysqli_query($link,$sql0);
      $rows1=@mysqli_num_rows($sql1);                       
-     $list4=mysqli_fetch_array($sql1);  //紀錄當前操作者姓名   
+     $list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名   
      $lastdate=date('Y'.'-'.'m'.'-'.'d');
    ////先轉表頭c03
       $sql5="select F07,F32 from `c01` where `F01`='".trim($brr[1])."'"; 
       $sql6=@mysqli_query($link,$sql5);                       
-      $list1=mysqli_fetch_array($sql6);  //先抓c01客戶主檔需用的欄位
+      $list1=mysqli_fetch_assoc($sql6);  //先抓c01客戶主檔需用的欄位
        $sql2="insert into c03 (F01,F02,F03,F06,F07,F10,F12,F13,F14) values ('".$brr[10]."', 
 	   '".$brr[2]."','".$brr[1]."','".$list1['F07']."','".$brr[3]."','".$lastdate.$list4['F03']."','".$brr[4]."', 
 	   '".$list1['F32']."','".$brr[0]."')";         
@@ -32,7 +32,7 @@ if($list2['F15']!='Y'){
 	 
       $sql4=@mysqli_query($link,$sql3); 
    $arr=array(); 
-	 while ($list3=mysqli_fetch_array($sql4)){
+	 while ($list3=mysqli_fetch_assoc($sql4)){
 		 $my_array  = array('order_no'=>$brr[10], 		             
 					  'stockno'=>$list3['F02'], 
 					  'order_qty'=>$list3['F03'], 

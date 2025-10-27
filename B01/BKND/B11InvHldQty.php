@@ -11,7 +11,7 @@
     $sql4=@mysqli_query($link,$sql3); 
 	$rows=@mysqli_num_rows($sql4);
 	if($rows>0){
-	    while ($list3=mysqli_fetch_array($sql4)){
+	    while ($list3=mysqli_fetch_assoc($sql4)){
 		 
 		    $atr = array('QtyOnHand'=>$list3['F04']);                              
 		    array_push($arr,$atr);

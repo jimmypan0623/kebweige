@@ -1,7 +1,9 @@
 function crtElm(){	         
     var cntdiv=getElementsByAttribute('class','tab_content');		
-    var tbl1=document.getElementById("member1");
-     tbl1.style.width="32%";
+    /* var tbl1=document.getElementById("member1");
+     tbl1.style.width="32%"; */
+	  var firstCover=getElementsByAttribute('class','table_cover');	
+	 firstCover[0].style.width="32%";
      var thr1=document.getElementById('headrow1');	 
 	 var array1 = ['編號','廠商名稱'];
 	 var array2 = ['22%','78%'];
@@ -13,13 +15,16 @@ function crtElm(){
 		thr1.appendChild(th1);		
 	}	
 ////////	
+    var secondCover=document.createElement('div');
+	secondCover.className="table_cover";
+	secondCover.style.width="68%";
     righttbl1=document.createElement("table");
 	righttbl1.id="rightMember1";	
-	righttbl1.style.width='68%';
+	/* righttbl1.style.width='68%';
 	righttbl1.style.left='32.3%';	
 	righttbl1.style.height='432px';
     righttbl1.style.top='-88.5%';
-	righttbl1.style.marginBottom='-432px'; 		
+	righttbl1.style.marginBottom='-432px'; 		 */
 	
 	var arrayRgt1=["廠商編號:","廠商名稱:","廠商簡稱:","品質等級:","統一編號:","營業項目:",
 	"交貨方式:","公司地址:","工廠地址:","聯絡人:","負責人:","電話:",
@@ -54,7 +59,9 @@ function crtElm(){
 		
          oTd.innerHTML=arrayRgt2[i];
 	}		
-    cntdiv[0].appendChild(righttbl1);   //畫面右邊欄位	
+	secondCover.appendChild(righttbl1); 
+    //cntdiv[0].appendChild(righttbl1);   //畫面右邊欄位	
+	cntdiv[0].appendChild(secondCover); 
 ///////////	
     var tabnames=getElementsByAttribute('name','tablbl');	
 	tabnames[0].innerHTML="廠商基本資料";

@@ -16,7 +16,7 @@
 	 $sql3=$sql3."ORDER BY ".$fieldNo;
     $arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_array($sql4)){		 
+	while ($list3=mysqli_fetch_assoc($sql4)){		 
 		$atr = array('cust_no_ISL_050'=>$list3['F01'],  		            	             
 		             'cust_name_ISL_050'=>$list3['F05'],
 					 'sales_no_IHL_000'=>$list3['F33'],

@@ -16,14 +16,15 @@ function selfTag(jsvsn)
 		   getAuth[1](myAccount); 
           	   
 		}
+		
 		 loadScript(`RED/JS/RED.js?v=${jsvsn}`,function(){commontemp();});	
 		 loadScript(`RED/JS/REDrgst.js?v=${jsvsn}`);
      		 
 	    var plsElmnts=document.getElementById('company_name').parentNode;
-	 
+	    
 		
 		    var iflm=document.createElement('iframe');
-		    var htmfile='ROL/'+getCookie('INT_HTM');		
+		    var htmfile='ROL/'+(getCookie('INT_HTM')?getCookie('INT_HTM'):getAuth[2]()[0].INT_HTM);		
 		    iflm.id="frl";		 
 		    iflm.src=htmfile;
 			

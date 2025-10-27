@@ -5,7 +5,7 @@
 	$sql3="select d0Z.* from d0Z where F01='".$str[0]."' and ".$str[1]." like '%".trim($str[2])."%' order by F02 desc";                                                                   
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_array($sql4)){		 
+	while ($list3=mysqli_fetch_assoc($sql4)){		 
 		$atr = array('rc_no_DHL_000'=>$list3['F00'],		           
 					 'dte3h_DSC_025'=>$list3['F02'], 
 					 'rate_DSC_025'=>$list3['F03'],							

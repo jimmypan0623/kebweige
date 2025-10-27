@@ -6,7 +6,7 @@
 	  $searchRecord =trim($str[1]);		
 	  $sql0="select F44 from c01 where F01='".$customno."'"; 
      $sql1=@mysqli_query($link,$sql0);                      
-     $list4=mysqli_fetch_array($sql1);  //紀錄當前客戶之群組編號
+     $list4=mysqli_fetch_assoc($sql1);  //紀錄當前客戶之群組編號
 	 $sql3="SELECT b01.F01,b01.F02,b01.F04,b01.F28,b01.F31,b01.F38,c02A.F13,c02A.F08,c02A.F04 as F0D,c02A.F07,c02A.F15 FROM b01 ";	 	
 	 $sql3.="left outer join (select F01,F02,F03,F04,F06,F07,F08,F13,F15 from c02 where F06='".$str[3]."' AND F01='".$list4['F44']."' AND (CURDATE() BETWEEN F02 AND F15) order by F15 ) as c02A on c02A.F03=b01.F01  ";	
 	 if(strlen($searchRecord)==0) {	  
@@ -19,7 +19,7 @@
     $arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	$itemno=0;
-	while ($list3=mysqli_fetch_array($sql4)){
+	while ($list3=mysqli_fetch_assoc($sql4)){
 		$itemno++; 
 		$atr = array('item_no_IHC_000'=>$itemno,
 		             'stock_no_ISL_030'=>$list3['F01'],  		            	             

@@ -10,7 +10,7 @@
     
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_array($sql4)){	
+	while ($list3=mysqli_fetch_assoc($sql4)){	
 	   $str[3]=$str[3]+$list3['F04'];
 		$atr = array('ship_date'=>$list3['F90'].'-'.$list3['F03'] ,
 		             'order_type'=>$list3['F06'] ,

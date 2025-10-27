@@ -3,8 +3,8 @@
    include("../../include/BKND/mysqli_server.php");                               //引用檔   
    if (substr($_POST['filename'],0,3)=="PGE"){	  
 	   $pgeno=getNeedBetween($_POST['filename'],'E','|'); // 頁次 
-       $rows=(int)substr(strrchr($_POST['filename'],'|'),1);	
-       $pagerows=$_COOKIE['INT_RCD'] ;  //每頁筆數	   
+	   $rows=(int)getNeedBetween($_POST['filename'],'|','_') ;
+	   $pagerows=(int)substr(strrchr($_POST['filename'],'_'),1);	//每頁筆數	
 	   $total_pages=ceil($rows/$pagerows);   //如果非初始畫面則應有大於等於1的數字	   
 	  if($total_pages<=1){
 		  $sqlK="SELECT F01 FROM `c26` WHERE 1 "; 
@@ -33,8 +33,7 @@
    }	   
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_array($sql4)){
-		//['10%','7%','7%', '10%','7%','4%','13%','13%','13%','13%']; 
+	while ($list3=mysqli_fetch_assoc($sql4)){
 		$atr = array('rc_no_DHL_000'=>$list3['F00'],  		            	             
 		             'query_no_DSL_010'=>$list3['F01'], 					 
                      'custom_no_DSL_007'=>$list3['F03'],	

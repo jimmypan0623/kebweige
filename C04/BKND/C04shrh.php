@@ -9,12 +9,12 @@ foreach($cart as $key=>$val){
 include("../../include/BKND/mysqli_server.php");      //引用檔   
  $sql7="select `F04` from `c03` where `F01`='".$brr[0]."'"; 
  $sql8=@mysqli_query($link,$sql7);                       
-  $list2=mysqli_fetch_array($sql8);  //檢查是否已確認過
+  $list2=mysqli_fetch_assoc($sql8);  //檢查是否已確認過
 if($list2['F04']!='Y'){
      $sql0="select * from a01 where F01="."'".$_COOKIE['useraccount']."'"; 
      $sql1=@mysqli_query($link,$sql0);
      $rows1=@mysqli_num_rows($sql1);                       
-     $list4=mysqli_fetch_array($sql1);  //紀錄當前操作者姓名   
+     $list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名   
      $lastdate=date('Y'.'-'.'m'.'-'.'d');
      $mArlth=count($brr);  
 

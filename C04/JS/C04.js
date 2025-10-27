@@ -2,7 +2,7 @@ function getProfile(str1,reccount,tbno) {
     var cnt=0;
 	var queryttl=0;
 	var arr = str1;      
-    var pagecount=Math.ceil(reccount/parseInt(getCookie('INT_RCD')));
+    var pagecount=Math.ceil(reccount/parseInt(getAuth[2]()[0].INT_RCD));
     var optdigts= (pagecount.toString()).length;
 	if (tbno==0){     //如果是表頭   
         var slt2=document.getElementById('recmth');
@@ -283,6 +283,7 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
     return true;			   
 }	
 function rowchoseSecond(targetRow){    //紀錄移動表身
+    
     var outhis=document.getElementById("OUTRCD_BOTT");
 	 if(targetRow.childNodes[8].innerHTML*1+targetRow.childNodes[8].innerHTML*1>0){
 		 outhis.setAttribute("style","visibility:visibility;"); 

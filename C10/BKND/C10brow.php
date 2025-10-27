@@ -2,13 +2,13 @@
    header("Content-Type:text/html; charset=utf-8");   
    include("../../include/BKND/mysqli_server.php");                              //引用檔   
    $rnddgt=intval($_COOKIE["INT_069"]);
-   if (substr($_POST['filename'],0,3)=="PGE"){	  
+    if (substr($_POST['filename'],0,3)=="PGE"){	  
 	   $pgeno=getNeedBetween($_POST['filename'],'E','|'); // 月次 
 		$sql3="SELECT c10.*,c01.F05 AS F0E,a01.F03 AS F0C FROM c10 		 
 		LEFT OUTER JOIN c01 ON c01.F01=c10.F02
 		LEFT OUTER JOIN a01 ON a01.F01=c10.F10 	
 		WHERE c10.F90='".$pgeno."' ORDER BY c10.F01,c10.F03 ";  
-   }else{
+    }else{
 	    $fieldNo=substr($_POST['filename'],0,7);
 		$filterKey=getNeedBetween($_POST['filename'],'|','_');  
 		$pgeno=substr(strrchr($_POST['filename'],'_'),1); // 月次
@@ -16,15 +16,15 @@
 		LEFT OUTER JOIN c01 ON c01.F01=c10.F02
 		LEFT OUTER JOIN a01 ON a01.F01=c10.F10 	
 		WHERE c10.F90='".$pgeno."' AND ".$fieldNo." LIKE '%".trim($filterKey)."%' ORDER BY ".$fieldNo." ASC, c10.F01 DESC"  ;   
-   }	   
+    }	   
     $sql0="select F07 from a23 where F01="."'".$pgeno."'"; 
      $sql1=@mysqli_query($link,$sql0);                           
-     $list4=mysqli_fetch_array($sql1);  //紀錄當前月份是否已結轉月庫存報表   
+     $list4=mysqli_fetch_assoc($sql1);  //紀錄當前月份是否已結轉月庫存報表   
    
    
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_array($sql4)){
+	while ($list3=mysqli_fetch_assoc($sql4)){
 		 
 		$atr = array('rc_no_DHL_000'=>$list3['F00'],  
                      'stock_no_DSL_010'=>$list3['F03'], 	

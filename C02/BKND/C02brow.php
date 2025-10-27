@@ -4,8 +4,10 @@
    $rows=0;
    if (substr($_POST['filename'],0,3)=="PGE"){	  
 	   $pgeno=getNeedBetween($_POST['filename'],'E','|'); // 頁次 
-       $rows=(int)substr(strrchr($_POST['filename'],'|'),1);	
-	   $pagerows=$_COOKIE['INT_RCD'] ;  //每頁筆數         
+      // $rows=(int)substr(strrchr($_POST['filename'],'|'),1);	
+	    $rows=(int)getNeedBetween($_POST['filename'],'|','_') ;		
+	 //  $pagerows=$_COOKIE['INT_RCD'] ;  //每頁筆數      
+	   $pagerows=(int)substr(strrchr($_POST['filename'],'_'),1);	
 	   $total_pages=ceil($rows/$pagerows);   //如果非初始畫面則應有大於等於1的數字	   
 	  if($total_pages<=1){
 		  $sqlK="SELECT F01 FROM `c02` WHERE 1 "; 
@@ -29,7 +31,7 @@
    }	   
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_array($sql4)){		 
+	while ($list3=mysqli_fetch_assoc($sql4)){		 
 		$atr = array('rc_no_DHL_000'=>$list3['F00'],  		            	             
 		             'stock_no_DSL_009'=>$list3['F03'],                                     				                     				                                       
 					 'custom_no_DSL_007'=>$list3['F01'],

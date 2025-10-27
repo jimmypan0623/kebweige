@@ -9,7 +9,7 @@
 		                                                                     
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_array($sql4)){
+	while ($list3=mysqli_fetch_assoc($sql4)){
 		//['11.6%','11.6%','11%', '4%','8%','7%','7%','10%','8%','8%','10%']; 
 		$atr = array('rc_no_DHC_0000'=>$list3['F00'],		           
 					 'stockno_DSL_0116'=>$list3['F03'], 

@@ -178,7 +178,7 @@ $pdf->AddPage('P', 'LETTER');
  $sql3="select c27.*,b01.F02 as F0B from c27 left outer join b01 on c27.F02=b01.F01 where c27.F01='".$_GET['queryNo']."' order by c27.F02"; 
   
    $sql4=@mysqli_query($dbc,$sql3); 
-	while ($list3=mysqli_fetch_array($sql4)){
+	while ($list3=mysqli_fetch_assoc($sql4)){
 		 
 
        

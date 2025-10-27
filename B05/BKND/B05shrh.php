@@ -9,7 +9,7 @@ foreach($cart as $key=>$val){
 include("../../include/BKND/mysqli_server.php");                              //引用檔   
  $sql7="SELECT F10 FROM b05 WHERE F01='".$brr[0]."'"; 
  $sql8=@mysqli_query($link,$sql7);                       
-  $list2=mysqli_fetch_array($sql8);  //檢查是否已確認過
+  $list2=mysqli_fetch_assoc($sql8);  //檢查是否已確認過
  if($list2['F10']!='Y'){
 	  $sqlA="SELECT c04.F09,b0e.F04 FROM c04,b0e WHERE c04.F01=b0e.F07 AND c04.F02=b0e.F03 AND b0e.F01='".$brr[0]."' AND c04.F09-b0e.F04<0";
     $sqlB=@mysqli_query($link,$sqlA);
@@ -21,13 +21,13 @@ include("../../include/BKND/mysqli_server.php");                              //
 		 $sql0="SELECT * FROM a01 WHERE F01="."'".$_COOKIE['useraccount']."'"; 
 		 $sql1=@mysqli_query($link,$sql0);
 		 $rows1=@mysqli_num_rows($sql1);                       
-		 $list4=mysqli_fetch_array($sql1);  //紀錄當前操作者姓名   
+		 $list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名   
 		 $lastdate=date('Y'.'-'.'m'.'-'.'d');
 		 $mArlth=count($brr);  
 		 $sql3="SELECT b0e.*,c01.F23,c01.F05 AS F0E,c01.F15 AS F1E,c01.F17 FROM b0e,c01 WHERE b0e.F01='".$brr[0]."' AND c01.F01='".$brr[1]."' ORDER BY b0e.F03"; 	 
 		 $sql4=@mysqli_query($link,$sql3); 
 		 $arr=array(); 
-		 while ($list3=mysqli_fetch_array($sql4)){
+		 while ($list3=mysqli_fetch_assoc($sql4)){
 			 $my_array  = array('query_no'=>$list3['F01'],			              
 							'stockno'=>$list3['F03'],
 							'deliveryday'=>$brr[2],

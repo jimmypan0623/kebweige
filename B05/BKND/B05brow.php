@@ -21,10 +21,10 @@
     }	   
     $sql0="select * from a23 where F01='".$pgeno."'"; 
     $sql1=@mysqli_query($link,$sql0);                           
-    $list4=mysqli_fetch_array($sql1);  //紀錄當前月份是否已結轉月庫存報表         
+    $list4=mysqli_fetch_assoc($sql1);  //紀錄當前月份是否已結轉月庫存報表         
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_array($sql4)){		 
+	while ($list3=mysqli_fetch_assoc($sql4)){		 
 		$atr = array('rc_no_DHL_000'=>$list3['F00'],  		            	             
 		             'query_no_DSL_009'=>$list3['F01'], 					 
                      'custom_no_DSL_007'=>$list3['F06'],	

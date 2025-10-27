@@ -14,7 +14,7 @@
     $sql4=@mysqli_query($link,$sql3); 
 	$rows=@mysqli_num_rows($sql4);
 	if($rows>0){
-	    while ($list3=mysqli_fetch_array($sql4)){
+	    while ($list3=mysqli_fetch_assoc($sql4)){
 		 
 		    $atr = array('customname'=>$list3['F05'],
 		  	             'customfullname'=>$list3['F04'],

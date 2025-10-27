@@ -13,7 +13,7 @@ include("../../include/BKND/mysqli_server.php");                      //引用�
   $sql0="select * from a01 where F01="."'".$_COOKIE['useraccount']."'" ; 
    $sql1=@mysqli_query($link,$sql0);
    $rows1=@mysqli_num_rows($sql1);                       
-  $list4=mysqli_fetch_array($sql1);  //先把所有欄位記起來準備回傳可用的欄位 
+  $list4=mysqli_fetch_assoc($sql1);  //先把所有欄位記起來準備回傳可用的欄位 
 if ($rows1>0){  
 	if(md5($list4['F00'])!=$_COOKIE['userid']){
 		echo json_encode("請勿蓄意修改成他人帳號後，再來異動資料！"); 	 

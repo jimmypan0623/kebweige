@@ -290,6 +290,16 @@ function TableToJson(args,nongs,tbno){
     var str_json=JSON.stringify(json);	
     //alert(str_json);
     setCookie('useraccount',getAuth[1]()[0]);	
+	if(!getCookie('INT_HTM')){
+		 const myObject = getAuth[2]()[0];       //再呼叫第一次複製在閉包變數裡的再設一次cookie
+		 for (const key in myObject) {
+			 if (Object.hasOwnProperty.call(myObject, key)) {
+				if (getAuth[3]()[0][key]!='T'){
+					setCookie(key,getAuth[2]()[0][key]); 
+				}
+			}
+         } 	       
+	}  
 	var mainright=document.getElementsByTagName('title'); 
 	if(window.ActiveXObject){
 	    var request = new ActiveXObject("Microsoft.XMLHttp");

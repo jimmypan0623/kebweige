@@ -8,7 +8,7 @@
 	$sql3.="WHERE a02.F01='".$str[0]."' AND ".$str[1]." LIKE '%".trim($str[2])."%' ORDER BY F03 ";   		
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_array($sql4)){	 
+	while ($list3=mysqli_fetch_assoc($sql4)){	 
 	$atr = array('rc_no_DHL_000'=>$list3['F00'],
 		             'prg_no_DSC_008'=>$list3['F03'], 
 					 'prg_name_ISL_017'=>$list3['F02'], 

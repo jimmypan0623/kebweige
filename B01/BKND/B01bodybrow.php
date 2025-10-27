@@ -9,7 +9,7 @@
 		                                                                     
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_array($sql4)){
+	while ($list3=mysqli_fetch_assoc($sql4)){
 		$atr = array('rc_no_DHC_000'=>$list3['F00'],		           
 					 'customno_DSL_007'=>$list3['F01'], 
 					 'customname_ISL_007'=>$list3['F0E'],

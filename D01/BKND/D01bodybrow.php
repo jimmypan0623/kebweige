@@ -5,7 +5,7 @@
 	$sql3="select d02.*,b01.F02 as F0B from d02 left outer join b01 on d02.F03=b01.F01 where d02.F01='".$str[0]."' and ".$str[1]." like '%".trim($str[2])."%' order by d02.F03"; 		                                                                     
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_array($sql4)){		
+	while ($list3=mysqli_fetch_assoc($sql4)){		
 		$atr = array('rc_no_DHC_000'=>$list3['F00'],		           
 					 'stockno_DSL_012'=>$list3['F03'], 
 					 'stockname_ISL_012'=>$list3['F0B'],

@@ -5,7 +5,7 @@
 	$sql3="SELECT c10.F90,c10.F01,c10.F04,c10.F08 FROM c10 WHERE c10.F05='".$str[0]."' AND c10.F03='".$str[1]."'  ORDER BY CONCAT(c10.F90,c10.F01) DESC";                                                                    
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_array($sql4)){		 
+	while ($list3=mysqli_fetch_assoc($sql4)){		 
 		$atr = array('ship_date'=>($list3['F90'].'-'.$list3['F01']),		           
 					 'bill_no'=>$list3['F04'], 
 					 'ship_qty'=>$list3['F08']);					 						 

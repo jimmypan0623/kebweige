@@ -449,7 +449,7 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 }
 
 function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nongs,tbno)函數內新增紀錄後呼叫的畫面更動 
-    var rnddgt=getCookie('INT_069');  //四捨五入到幾位     
+    var rnddgt=getAuth[2]()[0].INT_069;  //四捨五入到幾位     
 	var ttlcnt=Number(document.getElementById('ttlmny').innerHTML);
 		var fldidx=0;
 		var argsNo=0;
@@ -694,7 +694,7 @@ function srcArgobj(srcId){
 		    var qrystring = "b01.F02"+","+stockNo+","+left(cstno,6)+","+document.getElementById('crncy').innerHTML; 			 
 			tttlt="請選取品名";		
 		}		
-		return {"headtitle":tttlt,"drpshtWidth":"80%","thCntnt":['料品編號', '品名規格','客戶品號','有效日期','報價'],"thWidth":['30%','25%','25%','10%','10%'],"urlPth":"C04/BKND/B01srch.php","clickfunc":stckchg,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
+		return {"headtitle":tttlt,"drpshtWidth":"80%","thCntnt":['料品編號', '品名規格','客戶品號','有效日期','報價'],"thWidth":['30%','25%','25%','10%','10%'],"urlPth":"C04/BKND/B01srch.php","clickfunc":stckchg,"qryString":qrystring,"mendwidth":"calc( 100%  )"};
 	}
 }
 

@@ -13,7 +13,7 @@
 		                                                              
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_array($sql4)){
+	while ($list3=mysqli_fetch_assoc($sql4)){
 		//['13%','13%','10%', '7%','7%','7%','7%','13%','13%','10%'];
 		$atr = array('rc_no_DHL_000'=>$list3['F00'],		           
 					 'stockno_DSL_013'=>$list3['F03'], 

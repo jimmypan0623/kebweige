@@ -5,7 +5,7 @@
 	$sql3="SELECT F01,F04 FROM `d00` WHERE 1 order by F01 ";          
     $arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_array($sql4)){		 
+	while ($list3=mysqli_fetch_assoc($sql4)){		 
 		$atr = array('crnt_no'=>$list3['F01'],  		            	             
 		             'crnt_name'=>$list3['F04']);                      						 
 		array_push($arr,$atr);

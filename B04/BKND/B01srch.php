@@ -20,7 +20,7 @@
     $arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	$itemno=0;
-	while ($list3=mysqli_fetch_array($sql4)){
+	while ($list3=mysqli_fetch_assoc($sql4)){
 		$itemno++; 
 		$atr = array('item_no_IHC_000'=>$itemno, 
 		             'stock_no_ISL_016'=>$list3['F02'],  		            	             

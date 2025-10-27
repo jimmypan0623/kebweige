@@ -1,16 +1,31 @@
-function getProfile(str1,cmpnme) {       
-  // document.getElementById('company_name').innerHTML=cmpnme[0]['cngpra'];
-   
+function getProfile(str1,cmpnme) {  
+    //以下為儲存所有參數含現存於cookie的，到閉包變數裡 
 	if(getAuth[2]().length<1){
 		var paraObj={};
-	    for(j=0;j<cmpnme.length;j++){
-	       // getAuth[2](cmpnme[j]['cngpra']);
+		var paraTpe={};
+	    for(j=0;j<cmpnme.length;j++){	       
 			paraObj[cmpnme[j]['paraNo']]=cmpnme[j]['cngpra'];
+			paraTpe[cmpnme[j]['paraNo']]=cmpnme[j]['gTYPE'];
 	    }
+		paraObj['svripmd5']=getCookie('svripmd5');
+		paraTpe['svripmd5']='C';
+		paraObj['userid']=getCookie('userid');
+		paraTpe['userid']='C';
 	    getAuth[2](paraObj);
-    }
-	 
-	document.getElementById('company_name').innerHTML=getAuth[2]()[0].INT_000;
+		getAuth[3](paraTpe);
+    }else{                       //若重複登入系統者登出時洗掉cookie裡的變數
+	    if(!getCookie('INT_HTM')){
+	         const myObject = getAuth[2]()[0];       //再呼叫第一次複製在閉包變數裡的再設一次cookie
+             for (const key in myObject) {
+                 if (Object.hasOwnProperty.call(myObject, key)) {
+					if (getAuth[3]()[0][key]!='T'){
+                        setCookie(key,getAuth[2]()[0][key]); 
+				    }
+                }
+            } 	       
+	    }  
+	}		
+	document.getElementById('company_name').innerHTML=getAuth[2]()[0].INT_000;   //顯示公司名稱
     var authField='';    
     var tmpItemName='';
 	var mainPrgNo=' ';

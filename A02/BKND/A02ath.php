@@ -20,7 +20,7 @@ $brr=array();
       echo json_encode("資料庫中無此帳號:".$brr[1]);  	 
    }else{
           
-	    $list4=mysqli_fetch_array($sql2);  //先把所有欄位記起來準備回傳可用的欄位
+	    $list4=mysqli_fetch_assoc($sql2);  //先把所有欄位記起來準備回傳可用的欄位
 	    $sql="select * from a02 where F01="."'".$brr[1]."'"; 
         $sql2=mysqli_query($link,$sql);
         $rows=@mysqli_num_rows($sql2);
@@ -40,7 +40,7 @@ $brr=array();
 			     $cnt=0;
 			     $mscnt="";
 				 //以下處理MySQL記錄新增  
-	             while ($list3=mysqli_fetch_array($sql4)){
+	             while ($list3=mysqli_fetch_assoc($sql4)){
 		             $mscnt="INSERT INTO a02(F01,F03,F04,F05,F06,F07,F08,F09,F10,F11,F12) VALUES (";  //先把準備插入記錄的SQL 語法前半段先寫在字串中	    
 	                 $mscnt.="'".$brr[1]."'".",";
 	                 $mscnt.="'".$list3['F03']."'".",";

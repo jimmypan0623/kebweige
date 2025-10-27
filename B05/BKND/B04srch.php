@@ -14,7 +14,7 @@
 	 $sql3=$sql3."ORDER BY ".$str[0];
     $arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_array($sql4)){		 
+	while ($list3=mysqli_fetch_assoc($sql4)){		 
 		$atr = array('bill_no_ISL_050'=>$list3['F01'],  		            	             
 		             'invoice_no_ISL_050'=>$list3['F20'],					 
 					 'crncy_type_IHL_000'=>$list3['F14'],					 	

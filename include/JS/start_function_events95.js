@@ -204,11 +204,14 @@ function outprocs(event){
 	    if(scriptall[j].id){
 	       scriptall[j].parentNode.removeChild(scriptall[j]);
 		}
-	}		 		
+	}		 	
+      
+    
+	 
      var urlfolder=document.getElementsByTagName('title');		 
-	 //getAuth[1]()[1]=left( urlfolder[0].innerHTML,3);
+ 
 	  
-	 //setCookie('lastFuncInt',left( urlfolder[0].innerHTML,3));  //回主畫面用	
+	  
      nowExcute='RED.知訊數位營運管理系統';		 
 	 urlfolder[0].innerHTML=nowExcute; 		
     
@@ -333,7 +336,7 @@ function commontemp(idn,stk){
 			var yesdpt=getAuth[0]()[13]; //getCookie("adddpt");
 		    if (stk=="PGE"){	
 				if (yesmth=='P'){  //如果非月份檔
-	    		    var queryString ="filename="+stk+idn+'|'+cko[0](0);				
+	    		    var queryString ="filename="+stk+idn+'|'+cko[0](0)+'_'+(getAuth[2]()[0].INT_RCD);				
 			    }else{
 
 					if(yesdpt=='D'){   //如果為部門別檔
@@ -377,7 +380,7 @@ function commontemp(idn,stk){
 	    return queryString;
 	}  
 	 
-   // if(tabs.length> && urlpath!='RED'){
+ 
 	if(urlpath!='RED'){ 
 			    var maintable=document.getElementById("member"+(tbno+1).toString());	
 				var responseDiv=document.getElementById("serverResponse"+(tbno+1).toString());		
@@ -419,7 +422,7 @@ function edtrec(event){
 	{
 		event=window.event;
 	}
-	var tabs=getElementsByAttribute('class','tab');
+	var tabs=getElementsByAttribute('class','tab');	
 	for(var i=0;i<tabs.length;i++){
 		if (tabs[i].checked){
 		    var responseDiv=document.getElementById("serverResponse"+(i+1).toString());

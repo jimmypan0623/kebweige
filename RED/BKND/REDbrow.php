@@ -6,17 +6,17 @@ $str=explode('|',$_POST['filename']);  //將上面字串以逗號分割成陣列
 $searchRecord = $str[0];
 $arg=array();	
 if((int)$str[1]==0){   //剛開始登入必須要抓取參數一次，此後就不需要．
-	$sql0="SELECT F01,F06 FROM a26 WHERE F04 ='T' ORDER BY F01" ; 		
+	$sql0="SELECT F01,F06,F04 FROM a26 ORDER BY F01" ; 		
 	$sql1=@mysqli_query($link,$sql0);		
-	while ($list4=@mysqli_fetch_array($sql1)){
-	   $para=array('paraNo'=>$list4['F01'],'cngpra'=>$list4['F06']);    //紀錄中文參數  
+	while ($list4=@mysqli_fetch_assoc($sql1)){
+	   $para=array('paraNo'=>$list4['F01'],'cngpra'=>$list4['F06'],'gTYPE'=>$list4['F04']);    //紀錄中文參數  
 	   array_push($arg,$para);
 	}				
 }	
 	$sql3="select a02.F03,a03.F02,a02.F04,a02.F05,a02.F06,a02.F07,a02.F08,a02.F09,a02.F10,a02.F11,a02.F12,a03.F03 AS Ftb from a02,a03 where a03.F01=a02.F03 and a02.F01='".$searchRecord."' order by a02.F03"; 	   
 	$arr=array();	
 	$sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_array($sql4)){		 
+	while ($list3=mysqli_fetch_assoc($sql4)){		 
 		$atr = array('prg_no'=>$list3['F03'],
 				 'dscrpt'=>$list3['F02'],
 				 'newauth'=>$list3['F04'],

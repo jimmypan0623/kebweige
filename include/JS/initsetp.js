@@ -26,10 +26,11 @@ getAuth[0] = createArrayClosure();
 ////[10]~[13]平時儲存在a03.F03
 //getAuth[0]()[10] :   功能頁面數
 //getAuth[0]()[11] :   M首頁為月份分頁，P則為固定筆數(視參數INT_RCD設定)分頁,
-//getAuth[0]()[12] :   類別，R為單據，B為基本資料，A為分析資料，S為系統檔
+//getAuth[0]()[12] :   類別，M為主檔或首頁有左右TABLE，R為單據，B為基本資料，A為分析資料，S為系統檔
 //getAuth[0]()[13] :  首頁分頁為月份外判斷是否多加部門別分頁->D:多加部門別下拉選項	
 getAuth[1] = createArrayClosure();	 //帳號與上次執行功能
-getAuth[2] = createArrayClosure();	 //中文系統參數
+getAuth[2] = createArrayClosure();	 //不列入COOKIE之系統參數
+getAuth[3] = createArrayClosure();	 //各系統參數之屬性
 function initDialog(event)
 {       
    if (typeof event=="undefined"){
@@ -52,10 +53,8 @@ function initDialog(event)
 		   divcontainer.parentNode.removeChild(divcontainer);
 		}
 		for(var i=0;i<tabcsses.length;i++){
-			tabcsses[i].parentNode.removeChild(tabcsses[i]);
-			
-		}					    	  
-		 
+			tabcsses[i].parentNode.removeChild(tabcsses[i]);			
+		}					    	  		 
 	    var img1=document.getElementById('img1');
 		var img2=document.getElementById('img2');
 		var img3=document.getElementById('img3');
@@ -91,15 +90,20 @@ function initDialog(event)
 		    }else if(errMsg=='A2'){			  		        
 			   blkshow("驗證碼錯誤");			  
 		    
-			}else{
-			
+			}else{			
+			     blkshow("同一瀏覽器重複登入系統");
 				 img1.remove();
 				 img2.remove();
 				 img3.remove();
 				 img4.remove();
 				 img5.remove();
-				 
-		         blkshow("同一瀏覽器重複登入系統");
+				 (function myLoop(i) {
+                     setTimeout(function() {
+                     blkshow("同一瀏覽器重複登入系統"); //  your code here                
+                     if (--i) myLoop(i);   //  decrement i and call myLoop again if i > 0
+                     }, 9000)
+                  })(9000);                   //  pass the number of iterations as an argument
+		         
                  document.location.href="logOut.php";
 		       // 
 			}
@@ -122,7 +126,7 @@ function initDialog(event)
 			if(loginform){
 			   loginform.parentNode.removeChild(loginform);
 			}			 					
-			 links[0].href="include/Operate.css?v=0.0.8" ;						 
+			 links[0].href="include/Operate.css?v=0.0.9" ;						 
 			 var gifarray=['ROL','puto','0','cell','1','birthdaycake','2','spec','3','stckgood','S02',
 			 '4','cddisk','5','smlbulb','6','myrndm','7','S03','openfile','8','penandrule','9','S04','calculator','foreignermoney']; 			
 			 links[1].href="digits/"+gifarray[nwsd]+".gif";			
@@ -159,7 +163,11 @@ function initDialog(event)
 				var srvrSpnse=document.createElement("div");
 				srvrSpnse.id="serverResponse"+(i+1).toString();
 				srvrSpnse.setAttribute("style","color:red;text-align:center;");
-				srvrSpnse.innerHTML='&nbsp';
+				srvrSpnse.innerHTML='&nbsp';			
+				if(getAuth[0]()[12]=='M'){   //如果是主檔且為首頁
+				  var lastLevelDiv=document.createElement("div");
+				  lastLevelDiv.className="table_cover";
+			    }
 				var tbleCntnt=document.createElement("table");
 				tbleCntnt.id="member"+(i+1).toString();
 				tbleCntnt.className="gridlist";
@@ -192,8 +200,14 @@ function initDialog(event)
 				   tabContent.appendChild(text25);
 				   tabContent.appendChild(keydscrpt);
 				}
+				
 				tabContent.appendChild(srvrSpnse);
-				tabContent.appendChild(tbleCntnt);
+				if(getAuth[0]()[12]=='M'){
+				   lastLevelDiv.appendChild(tbleCntnt);
+				   tabContent.appendChild(lastLevelDiv);
+				}else{
+				   tabContent.appendChild(tbleCntnt);
+				}
 				tabCss.appendChild(bsechkbx);
 				tabCss.appendChild(basechklbl);
 				tabCss.appendChild(tabContent);
@@ -213,7 +227,8 @@ function initDialog(event)
 			
 			loadScript(urljsname,function(){crtElm();});  
 			var mthjudge=getAuth[0]()[11];//getCookie("MorP");
-			var contentdiv=getElementsByAttribute('class','tab_content');
+			//var contentdiv=getElementsByAttribute('class','tab_content');
+			var contentdiv=document.getElementsByClassName("tab_content");
 			var initFirstNode=(contentdiv[0].firstChild);
 			if (mthjudge!='M'){    //如果非月份檔	 
 				if(contentdiv){
@@ -423,13 +438,14 @@ function initDialog(event)
 				contentdiv[2].insertBefore(pageUpButton2, initTab3FirstNode);
 				contentdiv[2].insertBefore(text7, initTab3FirstNode);
 				contentdiv[2].insertBefore(pageDownButton2, initTab3FirstNode);
+				var text10 = document.createTextNode('\u{A0}');	
+				contentdiv[2].insertBefore(text10, initTab3FirstNode);
 			} 			
 			 var seekrcd=document.getElementById("SEEK_BOTT");
 			 if(seekrcd){
 				attachEventListener(seekrcd,"click",seekrec,false);  //搜尋按鈕
 			 }		 
-		}else{               	
-            
+		}else{               	           
 			 if(loginform){
 			    loginform.parentNode.removeChild(loginform);
 		     }
@@ -567,8 +583,7 @@ function rowchoose(event){   //點選列ROW就可以選擇該筆資料
 		    }
 	    }		
 		targetRow.style.backgroundColor="#B9B9FF";
-		targetRow.lastChild.lastChild.checked=true;
-		
+		targetRow.lastChild.lastChild.checked=true;		
 		if(chsntail==0){		   
 		   rowchoseExtraDeal(targetRow);    //跳回所屬子程式處理例外程序(表頭)		
 		}else{
@@ -580,8 +595,7 @@ function rowchoose(event){   //點選列ROW就可以選擇該筆資料
 		   responseDiv.innerHTML='&nbsp'; 	 
 		}		 
 		cko[chsntail+2](1);         
-	} 	   
-	
+	} 	   	
 	return true;
 }
 
@@ -737,8 +751,7 @@ function rollChange(event){    //按鈕翻頁
 		 case 'LastPage':
 		       crntrec=slt2.value-2;
 				if(crntrec<0){
-					blkshow('已到第一頁');	
-				    
+					blkshow('已到第一頁');					    
 				   crntrec=0;
 				   return ;
 				}

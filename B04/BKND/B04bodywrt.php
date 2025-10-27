@@ -13,7 +13,7 @@ foreach($cart as $key=>$val){
 	    $sql3="SELECT c04.*,c03.F01 AS F0A FROM c04,c03 WHERE c04.F02='".$brr[1]."' AND c04.F01='".$brr[2]."' AND c04.F03-c04.F09-c04.F21-c04.F23>=0 AND c03.F01=c04.F01 AND c03.F04='Y' AND c03.F03='".$brr[9]."'"; 		
 		$sql4=mysqli_query($link,$sql3) or die(mysqli_error($link)); 
 		 $rows1=@mysqli_num_rows($sql4);		
-		 $list1=mysqli_fetch_array($sql4);  //抓取目前資料之出貨計劃內容 
+		 $list1=mysqli_fetch_assoc($sql4);  //抓取目前資料之出貨計劃內容 
 if($rows2==0){
     echo json_encode("無此出貨部門"); 		 
 }else if($rows1==0){
@@ -24,7 +24,7 @@ if($rows2==0){
      $sql0="SELECT * FROM a01 WHERE F01="."'".$_COOKIE['useraccount']."'"; 
      $sql1=@mysqli_query($link,$sql0);
      $rows1=@mysqli_num_rows($sql1);                       
-     $list4=mysqli_fetch_array($sql1);  //紀錄當前操作者姓名   
+     $list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名   
 	 $lastdate=date('Y'.'-'.'m'.'-'.'d');
      $mArlth=count($brr);  
      if($brr[$mArlth-2]==0){        //如果旗標指示為新增		 

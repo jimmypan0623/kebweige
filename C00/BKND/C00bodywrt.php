@@ -10,7 +10,7 @@ include("../../include/BKND/mysqli_server.php");                      //引用�
      $sql0="select * from a01 where F01="."'".$_COOKIE['useraccount']."'"; 
      $sql1=@mysqli_query($link,$sql0);
      $rows1=@mysqli_num_rows($sql1);                       
-     $list4=mysqli_fetch_array($sql1);  //紀錄當前操作者姓名   
+     $list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名   
 	 $lastdate=date('Y'.'-'.'m'.'-'.'d');
      $mArlth=count($brr);  
 	 $sql3="SELECT F03 FROM c00 WHERE F01='".$brr[0]."' AND LEFT(F03,7)<='".$brr[1]."'";  //查看c00有無未更新的匯率
