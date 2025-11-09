@@ -1,0 +1,333 @@
+function getProfile(str1,reccount,tbno) {    
+    var cnt=0;
+	var queryttl=0;
+	var arr = str1;      
+    var pagecount=Math.ceil(reccount/parseInt(getAuth[2]()[0].INT_RCD));
+    var optdigts= (pagecount.toString()).length;
+	if (tbno==0){     //如果是表頭   
+        var slt2=document.getElementById('recmth');
+	    if (slt2.options.length<pagecount){
+    		for (var i=slt2.options.length+1;i<=pagecount;i++){
+			    var item_no=paddingLeft(i,optdigts);				
+		        var varItem=new Option(item_no,item_no);
+	    	    slt2.options.add(varItem);	 
+           }		  
+		   		   //第一個選項位數修正		   
+		   slt2.options[0].value=paddingLeft(1,optdigts);
+		   slt2.options[0].text=paddingLeft(1,optdigts);
+		    var bibau=cko[0](0);   //找出閉包筆數變數現值
+	        cko[0](bibau*(-1));    //將閉包變數歸零
+		    cko[0](reccount);      //將筆數記起來	
+          
+	       }
+		var oTable = document.getElementById("maintbody1");
+		var fld=document.getElementById('recfield');
+	}else{
+	    var oTable = document.getElementById("maintbody2");
+		var fld=document.getElementById('recfield2');
+	}		
+	    var rnddgt=getCookie('INT_069');  //四捨五入到幾位
+        var scndttl=document.getElementById('ttlmny');   //次頁表頭的總金額物件	
+	    for(var i=0;i<arr.length;i++){		
+	    	var oTr=oTable.insertRow(-1);	
+            oTr.setAttribute("name","mainrow");	      		
+            cnt++;		
+	    	for(var jk in arr[i]){		   
+	    	    var oTd = oTr.insertCell(oTr.cells.length);		     		  
+	    		oTd.innerHTML=arr[i][jk];	
+				var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
+				var ks=ara.split('');		
+				//ks[0]:直接或間接 D/I
+				//ks[1]:是否顯示   S/H
+				//ks[2]:靠左中或右 L/C/R	
+				if(ks[0]=="D"){
+					oTd.setAttribute("class","directdata");	
+				}else{
+					oTd.setAttribute("class","indirectdata");	
+				}				 
+				if(ks[1]=='H'){
+					oTd.setAttribute("style","display:none;");		
+				}else{
+				   oTd.style.textAlign=(ks[2]=="L"?"left":(ks[2]=="C"?"center":"right"));
+				   var wdthln=jk.substr(jk.lastIndexOf('_')+1,3);  	  	
+				   oTd.style.width=wdthln+"%";
+				   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
+				}		
+				if(jk.substr(0,jk.lastIndexOf('_')-4)=='query_price' && tbno==1){
+					var oTd = oTr.insertCell(oTr.cells.length);
+					oTd.setAttribute("class","indirectdata");					 
+					oTd.setAttribute("style","width:8%;text-align:right;");	
+					oTd.innerHTML=Math.round((oTr.cells[3].innerHTML*oTr.cells[4].innerHTML + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);	
+					queryttl+=Number(oTd.innerHTML);
+					attachEventListener(oTd,'click',rowchoose,false);		//點選資料
+				}		 
+				   
+				if(jk.substr(0,jk.lastIndexOf('_')-4)=='beencancel' && tbno==1){
+					var oTd = oTr.insertCell(oTr.cells.length);
+					oTd.setAttribute("class","indirectdata");					 
+					oTd.setAttribute("style","width:8%;text-align:right;");	
+					oTd.innerHTML=Number(oTr.cells[3].innerHTML)-(Number(oTr.cells[8].innerHTML)+Number(oTr.cells[9].innerHTML));					 
+					attachEventListener(oTd,'click',rowchoose,false);		//點選資料
+					  
+				}								
+		    }		   
+		   var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
+	       oTd.setAttribute("style","width:40px;display:none");   
+	 	   var myCheck=document.createElement('input'); 
+		   myCheck.type="checkbox";
+		   if(tbno==0){
+			  myCheck.setAttribute("name","chkbxmember1");   //讓使用者勾選的checkbox單頭
+			  if(arr[i]['shure_DHC_000']!='Y'){  //未確認
+			     oTr.setAttribute("style","font-weight:bold;color:#704214;"); 
+		      } 
+		   }else{
+			  myCheck.setAttribute("name","chkbxmember2");   //讓使用者勾選的checkbox表身
+			  scndttl.innerHTML= (Math.round((queryttl + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt));             
+		   }
+		   attachEventListener(myCheck,'click',chooserc,false);		   
+		   oTd.appendChild(myCheck);  		   		  
+	    }
+	    if (tbno==0){       //如果是單頭
+		   var responseDiv=document.getElementById("serverResponse1");  
+	    }else{
+
+		  var responseDiv=document.getElementById("serverResponse2");  
+	    } 		
+	  
+	   if(responseDiv.innerHTML=='Searching......'){    
+		  if (cnt==0){
+			 responseDiv.setAttribute("style","color:red;"); 
+	   	     responseDiv.innerHTML="無此資料！Not found!検索できません。";
+			 scndttl.innerHTML="0";
+	      }else{ 		 
+		     responseDiv.setAttribute("style","color:#536a60;"); 
+             responseDiv.innerHTML="搜尋到 "+String(cnt)+" 筆資料。" +String(cnt)+" record"+(cnt>1?"s":"")+" match your search. " +String(cnt)+" レコードを検索。";            		              
+		  }	
+		  document.getElementById('ttltitle').innerHTML="本頁金額:";
+	  }else{
+		   if (tbno==1){       //如果是表身
+		      document.getElementById('ttltitle').innerHTML="本單總額:";
+		   }else{
+		       var btns=getElementsByAttribute('class','btn');			 
+		       for (var i=0;i<btns.length;i++){		
+		           if(btns[i].accessKey=='I' || btns[i].accessKey=='M' || btns[i].accessKey=='B'){
+		              btns[i].removeAttribute("accesskey");		
+			        } 
+			        /* if(right(btns[i].title,1)=='T' || right(btns[i].title,1)=='J' || right(btns[i].title,1)=='K' || right(btns[i].title,1)=='V'){
+		               btns[i].setAttribute("accesskey",right(btns[i].title,1));		
+			        }  */
+	            }		        
+		   }
+	  } 
+	  if(cnt>0){       //初始畫面呼叫
+		  chooserc(1); //跳到第一列		  
+	  }else{
+		  scndttl.innerHTML="0";
+	  }		  
+}
+
+function choseExtraDeal(targetTrChildren,targetTr){   //紀錄移動  
+    var ansbtt=document.getElementById("ANS_BOTT");	
+	var vrsbtt=document.getElementById("VRS_BOTT");	
+	var trnsbtt=document.getElementById("TRN_BOTT");	
+	var editbtt=document.getElementById("EDIT_BOTT");
+	var delbtt=document.getElementById("DEL_BOTT");
+	var apprv=document.getElementById('APPRVE');
+
+	var shrno=targetTr.cells[targetTr.cells.length-3].innerHTML;
+	var trnno=targetTr.cells[targetTr.cells.length-4].innerHTML;
+	if(shrno=='Y'){				
+	    ansbtt.setAttribute("style","display:none;");
+	    detachEventListener(ansbtt,"click",ansproc,false);
+	    delbtt.setAttribute("style","visibility:hidden;");
+	    detachEventListener(delbtt,"click",delrec,false);
+	    apprv.setAttribute("style","color:red;font-size:20px;font-weight:bold;");
+	    apprv.innerHTML='\u{329E}\u{A0}\u{A0}\u{A0}\u{A0}';
+	    if(trnno=='Y'){    //如果已轉出貨單反確認與轉單鈕不作用
+		    vrsbtt.setAttribute("style","display:none;");
+		    detachEventListener(vrsbtt,"click",vrsproc,false);
+		    trnsbtt.setAttribute("style","display:none;");
+		    detachEventListener(trnsbtt,"click",trnsproc,false);
+	    }else{
+		    if(getAuth[0]()[7]=='Y'){
+			   trnsbtt.setAttribute("style","display:block;");
+			   attachEventListener(trnsbtt,"click",trnsproc,false);
+		    }else{
+			   trnsbtt.setAttribute("style","display:none;");
+			   detachEventListener(trnsbtt,"click",trnsproc,false);			
+			}
+		    if(getAuth[0]()[9]=='Y'){
+			    vrsbtt.setAttribute("style","display:block;");
+			    attachEventListener(vrsbtt,"click",vrsproc,false);
+		    }else{
+			    vrsbtt.setAttribute("style","display:none;");
+			    detachEventListener(vrsbtt,"click",vrsproc,false);
+			}		  		  
+	    }
+	}else{	   
+		 vrsbtt.setAttribute("style","display:none;");
+		 detachEventListener(vrsbtt,"click",vrsproc,false);
+		 trnsbtt.setAttribute("style","display:none;");
+		 detachEventListener(trnsbtt,"click",trnsproc,false);	
+		  apprv.setAttribute("style","color:green;font-size:20px;font-weight:bold;;");
+		apprv.innerHTML='\u{3246}\u{A0}\u{A0}\u{A0}\u{A0}'; 
+	    if(getAuth[0]()[8]=='Y'){		
+		    ansbtt.setAttribute("style","display:block;");
+		    attachEventListener(ansbtt,"click",ansproc,false);			 
+	    }else{
+		    ansbtt.setAttribute("style","display:none;");
+		    detachEventListener(ansbtt,"click",ansproc,false);	
+		}
+	    if(getAuth[0]()[2]=='Y'){
+		    editbtt.setAttribute("style","visibility:visible;");
+		    attachEventListener(editbtt,"click",edtrec,false);
+	    }else{
+		    editbtt.setAttribute("style","visibility:hidden;");
+		    detachEventListener(editbtt,"click",edtrec,false);
+		}
+	    if(getAuth[0]()[3]=='Y'){
+		   delbtt.setAttribute("style","visibility:visible;");
+		   attachEventListener(delbtt,"click",delrec,false);
+	    }else{
+		   delbtt.setAttribute("style","visibility:hidden;");
+		   detachEventListener(delbtt,"click",delrec,false);
+		}
+    }
+    return true;			   
+}
+function choseSecond(targetTrChildren,targetTr){  //紀錄移動表身
+    var tabs=getElementsByAttribute('class','tab');		
+	if(tabs[1].checked){
+	    var outhis=document.getElementById("OUTRCD_BOTT");	 
+	    if(targetTrChildren[8].innerHTML*1+targetTrChildren[9].innerHTML*1>0){
+		    outhis.setAttribute("style","visibility:visibility;"); 
+		    attachEventListener(outhis,"click",page2OtherButton1,false);
+	    }else{
+		    outhis.setAttribute("style","visibility:hidden;"); 
+	      detachEventListener(outhis,"click",page2OtherButton1,false);
+	    }
+	}
+   return true;	
+}
+function rowchoseExtraDeal(targetRow){    //紀錄移動  
+    var shrno=targetRow.cells[targetRow.cells.length-3].innerHTML;
+	var trnno=targetRow.cells[targetRow.cells.length-4].innerHTML;	       
+	var ansbtt=document.getElementById("ANS_BOTT");	
+	var vrsbtt=document.getElementById("VRS_BOTT");	
+	var trnsbtt=document.getElementById("TRN_BOTT");	
+	var editbtt=document.getElementById("EDIT_BOTT");
+	var delbtt=document.getElementById("DEL_BOTT");  
+	var apprv=document.getElementById('APPRVE');	
+	if(shrno=='Y'){		
+		ansbtt.setAttribute("style","display:none;");
+		detachEventListener(ansbtt,"click",ansproc,false);				
+		delbtt.setAttribute("style","visibility:hidden;");
+		detachEventListener(delbtt,"click",delrec,false);
+		apprv.setAttribute("style","color:red;font-size:20px;font-weight:bold;");
+		apprv.innerHTML='\u{329E}\u{A0}\u{A0}\u{A0}\u{A0}';
+		if(trnno=='Y'){          //如果已轉出貨單反確認與轉單鈕不作用
+			trnsbtt.setAttribute("style","display:none;");
+			detachEventListener(trnsbtt,"click",trnsproc,false); 
+			vrsbtt.setAttribute("style","display:none;");
+			detachEventListener(vrsbtt,"click",vrsproc,false);			
+		}else{
+		    if(getAuth[0]()[9]=='Y'){
+			   vrsbtt.setAttribute("style","display:block;");
+			   attachEventListener(vrsbtt,"click",vrsproc,false);	
+		    }else{
+			    vrsbtt.setAttribute("style","display:none;");
+			    detachEventListener(vrsbtt,"click",vrsproc,false);
+			}
+		    if(getAuth[0]()[7]=='Y'){
+			    trnsbtt.setAttribute("style","display:block;");
+				attachEventListener(trnsbtt,"click",trnsproc,false);	
+		    }else{
+			    trnsbtt.setAttribute("style","display:none;");
+				detachEventListener(trnsbtt,"click",trnsproc,false);	
+			}		  
+		}
+	}else{		
+		trnsbtt.setAttribute("style","display:none;");
+		detachEventListener(trnsbtt,"click",trnsproc,false); 
+		vrsbtt.setAttribute("style","display:none;");
+		detachEventListener(vrsbtt,"click",vrsproc,false);		
+		apprv.setAttribute("style","color:green;font-size:20px;font-weight:bold;");
+		apprv.innerHTML='\u{3246}\u{A0}\u{A0}\u{A0}\u{A0}'; 
+		if(getAuth[0]()[8]=='Y'){		  
+		    ansbtt.setAttribute("style","display:block;");
+		    attachEventListener(ansbtt,"click",ansproc,false);			  
+		}else{
+		    ansbtt.setAttribute("style","display:none;");
+		    detachEventListener(ansbtt,"click",ansproc,false);
+		}
+		if(getAuth[0]()[2]=='Y'){
+			editbtt.setAttribute("style","visibility:visible;");
+			attachEventListener(editbtt,"click",edtrec,false);
+		}else{
+		    editbtt.setAttribute("style","visibility:hidden;");
+			detachEventListener(editbtt,"click",edtrec,false);
+		}
+		if(getAuth[0]()[3]=='Y'){
+		   delbtt.setAttribute("style","visibility:visible;");
+		   attachEventListener(delbtt,"click",delrec,false);
+		}else{
+		   delbtt.setAttribute("style","visibility:hidden;");
+		   detachEventListener(delbtt,"click",delrec,false);
+		}
+
+	}  	
+    return true;			   
+}	
+function rowchoseSecond(targetRow){    //紀錄移動表身   
+    var outhis=document.getElementById("OUTRCD_BOTT");
+	 if(targetRow.childNodes[8].innerHTML*1+targetRow.childNodes[8].innerHTML*1>0){
+		 outhis.setAttribute("style","visibility:visibility;"); 
+		 attachEventListener(outhis,"click",page2OtherButton1,false);
+	 }else{
+		outhis.setAttribute("style","visibility:hidden;"); 
+		detachEventListener(outhis,"click",page2OtherButton1,false); 
+	 }
+   return true;	
+}
+
+function getUrlParams2(url){  //解析url成物件
+   let urlStr=url.split('?')[1];
+   const urlSearchParams=new URLSearchParams(urlStr);
+   const result=Object.fromEntries(urlSearchParams.entries());
+   return result;
+
+}
+
+function fldsgsroup(fidx,tbno){
+	 var groups=[];
+	if(tbno==0){	
+       var groups=[['directdata','block','left','10'],     
+	               ['directdata','block','left','7'],   
+	               ['indirectdata','block','left','7'],   
+	               ['indirectdata','none','center','0'],   	 
+	               ['directdata','block','center','10'],  	
+                   ['directdata','none','center','0'], 	 	
+				   ['indirectdata','block','left','7'], 	
+				   ['directdata','block','center','4'], 
+				   ['directdata','block','left','18'], 
+				   ['directdata','block','left','26'], 
+				   ['directdata','block','left','10'], 				  
+				   ['directdata','none','center','0'], 
+				   ['directdata','none','center','0']
+	            ]; 
+	}else{
+	    var groups=[['directdata','block','left','13'],    
+				   ['indirectdata','block','left','13'], 
+				   ['directdata','block','right','8'], 
+				   ['directdata','block','right','8'],  
+				   ['indirectdata','block','right','8'],
+				   ['directdata','block','left','13'],  
+				   ['directdata','block','center','10'],  
+				   ['indirectdata','block','right','8'],  
+				   ['indirectdata','block','right','8'],  
+				   ['indirectdata','boock','right','8'],   
+				   ['indirectdata','none','center','0']   
+				   ]; 	
+	}		
+    return groups[fidx];			  
+}
