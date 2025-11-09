@@ -1,5 +1,5 @@
  addLoadListener(draw_m);
-//從這邊開始 
+//從這邊開始  
 var wgp=[];  //設定閉包變數與函數
  wgp[0] = wgpCount();
  wgp[1] = wgpCount();
@@ -11,6 +11,7 @@ function wgpCount() {
        return f;
 }		 
 function draw_m(){ 
+   
     var metas=document.getElementsByTagName('meta');		 
     var htmfile=getCookie('INT_HTM');
 	var urlfolder=document.getElementsByTagName('title');
@@ -19,7 +20,7 @@ function draw_m(){
 	//if(dataIp==metas[1].content && htmfile==urlpath ){     
 	   //////
 	    var rat=0.6;      //倍率
-	    var S=100*rat;   //圓心x座標
+	    var S=100+100*rat;   //圓心x座標
 	    var T=100*rat;   //圓心y座標
 	    var U=60*rat;        //整個圓的半徑
 	    var V=U/2;   //30*rat;   //圓心與魚眼中心距離及等於魚頭半徑

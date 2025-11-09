@@ -11,7 +11,15 @@ function selfTag(jsvsn){
 	invDetailButton.setAttribute('accesskey','B')
 	invDetailButton.id="INVDTL_BOTT";		
 	contentdiv[0].insertBefore(text5,svrSpns1);
-	contentdiv[0].insertBefore(invDetailButton,svrSpns1);	 
+	contentdiv[0].insertBefore(invDetailButton,svrSpns1);
+    ///
+    var scriptall=document.getElementsByTagName("script");
+	    for(var j=0;j<scriptall.length;j++){
+	        if(scriptall[j].id){
+	            scriptall[j].parentNode.removeChild(scriptall[j]);		 
+		    }
+	    }			
+	///		
 	loadScript(`B01/JS/B01.js?v=${jsvsn}`,function(){DrawTable();});	
 	loadScript(`B01/JS/B01rgst.js?v=${jsvsn}`);
 	loadScript(`include/JS/commonsrch.js?v=${jsvsn}`);

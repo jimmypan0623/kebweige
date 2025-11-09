@@ -12,6 +12,14 @@ function selfTag(jsvsn){
 	invDetailButton.id="REDYSHIP_BOTT";		
 	contentdiv[0].insertBefore(text5,svrSpns1);
 	contentdiv[0].insertBefore(invDetailButton,svrSpns1);	
+	///
+    var scriptall=document.getElementsByTagName("script");
+	    for(var j=0;j<scriptall.length;j++){
+	        if(scriptall[j].id){
+	            scriptall[j].parentNode.removeChild(scriptall[j]);		 
+		    }
+	    }			
+	///	
 	loadScript(`C05/JS/C05.js?v=${jsvsn}`,function(){DrawTable();});	
 	loadScript(`C05/JS/C05rgst.js?v=${jsvsn}`);	
 	var tab1Click=document.getElementById("tab1");

@@ -49,11 +49,19 @@ function selfTag(jsvsn){
 		maindiv[0].insertBefore(text15,orpButton5);				 
 		orpButton6.setAttribute("style","visiblity:visible;font-size:130%;margin:0;color:black;");		
 	}	    	
+	///
+    var scriptall=document.getElementsByTagName("script");
+	    for(var j=0;j<scriptall.length;j++){
+	        if(scriptall[j].id){
+	            scriptall[j].parentNode.removeChild(scriptall[j]);		 
+		    }
+	    }			
+	///	
 	loadScript(`C04/JS/C04.js?v=${jsvsn}`,function(){DrawTable();});	
     loadScript(`C04/JS/C04rgst.js?v=${jsvsn}`);	 
 	loadScript(`include/JS/commonsrch.js?v=${jsvsn}`);	 
 	loadScript(`C01/JS/A09getno.js?v=${jsvsn}`);	
-	loadScript(`include/JS/confirmfunction.js?v=${jsvsn}`);
+	loadScript(`include/JS/confirmfun.js?v=${jsvsn}`);
 	var tab1Click=document.getElementById("tab1");
 	if(tab1Click){
 		tab1Click.setAttribute("accesskey","1");  

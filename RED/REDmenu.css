@@ -155,10 +155,10 @@ li.hasmenu>a:rollover:visited
 #frl {
    background-color:#0; 
     position:relative;
-	width:30%;
-	height:300px;
+	width:75%;  /*30%*/
+	height:500px;  /*300px*/
     top:60.5%;
-	left:42.3%;  
+	left:25.3%;    /*42.3%*/
  	font-size:18px;  
   /*  margin-bottom:-130px; */
 	display:block;      	

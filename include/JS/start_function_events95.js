@@ -193,21 +193,21 @@ function outprocs(event){
     if (typeof event=="undefined"){
 		event=window.event;
 	}    		
-   
+    var baui=cko[6](0);
+	cko[6](baui*(-1));	  //搜尋鍵選項指標要歸零
     if(getAuth[0]()[11]!='M'){
 	   var bibau=cko[0](0);   //找出所有閉包首頁紀錄變數  
 	   cko[0](bibau*(-1));    //將閉包變數歸零
 	}
 	 getAuth[0]('Clear_All');
+	///// 
 	var scriptall=document.getElementsByTagName("script");
 	for(var j=0;j<scriptall.length;j++){
 	    if(scriptall[j].id){
-	       scriptall[j].parentNode.removeChild(scriptall[j]);
+	       scriptall[j].parentNode.removeChild(scriptall[j]);		 
 		}
 	}		 	
-      
-    
-	 
+	/////	 
      var urlfolder=document.getElementsByTagName('title');		 
  
 	  

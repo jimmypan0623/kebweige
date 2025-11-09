@@ -1,4 +1,12 @@
 function selfTag(jsvsn){
+	///
+    var scriptall=document.getElementsByTagName("script");
+	    for(var j=0;j<scriptall.length;j++){
+	        if(scriptall[j].id){
+	            scriptall[j].parentNode.removeChild(scriptall[j]);		 
+		    }
+	    }			
+	///	
 	loadScript(`A20/JS/A20.js?v=${jsvsn}`,function(){DrawTable();});	
 	  loadScript(`A20/JS/A20rgst.js?v=${jsvsn}`);
 　　var tab1Click=document.getElementById("tab1");

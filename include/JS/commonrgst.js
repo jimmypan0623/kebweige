@@ -138,8 +138,8 @@ function blkshow(txtword)
 				    var headtitle=editRecordHint(tbno);
 				    break;					  
 		} 		    
-		var dialog=document.createElement("div");		//開始從畫面產生新增紀錄欄位			 
-		dialog.className="crncyDialog"; 		 
+		var dialog=document.createElement("div");		//開始從畫面產生新增紀錄欄位
+		dialog.setAttribute("class","crncyDialog");	 
 		dialog.style.position="relative";		  		    
 		var dialogTitle=document.createElement("div");		
 		dialogTitle.setAttribute("style","font-size:medium;font-family:Arial;font-weight:bold; color:#336666;");
@@ -231,7 +231,8 @@ function blkshow(txtword)
 			slt5.setAttribute("name","srchfld");
 			slt5.setAttribute("style","width:100%;");
 			attachEventListener(slt5,'change',notIceChg,false);   
-			oTd.appendChild(slt5);	           
+			oTd.appendChild(slt5);	
+			
 			if(slt5.options[cko[6](0)].text.indexOf('(Y/N)')>0){   //如果是過濾選項則歸零
 			    var baui=cko[6](0);
 				cko[6](baui*(-1));				  

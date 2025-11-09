@@ -33,12 +33,20 @@ function selfTag(jsvsn){
 	orpButton6.id="PRNT_BOTT";					
 	maindiv[0].insertBefore(text14,orpButton5);		
 	maindiv[0].insertBefore(orpButton6,orpButton5);
-	maindiv[0].insertBefore(text15,orpButton5);				 
+	maindiv[0].insertBefore(text15,orpButton5);			
+	///
+    var scriptall=document.getElementsByTagName("script");
+	    for(var j=0;j<scriptall.length;j++){
+	        if(scriptall[j].id){
+	            scriptall[j].parentNode.removeChild(scriptall[j]);		 
+		    }
+	    }			
+	///	
 	loadScript(`B04/JS/B04.js?v=${jsvsn}`,function(){DrawTable();});		
     loadScript(`B04/JS/B04rgst.js?v=${jsvsn}`);	 	
 	loadScript(`include/JS/commonsrch.js?v=${jsvsn}`);
 	loadScript(`C01/JS/A09getno.js?v=${jsvsn}`);		
-	loadScript(`include/JS/confirmfunction.js?=${jsvsn}`);	
+	loadScript(`include/JS/confirmfun.js?v=${jsvsn}`);	
 	var tab1Click=document.getElementById("tab1");
 	if(tab1Click){
 		tab1Click.setAttribute("accesskey","1");  

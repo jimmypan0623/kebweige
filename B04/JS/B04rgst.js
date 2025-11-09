@@ -322,7 +322,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    oTd.innerHTML='交貨地點:';
 	    var oTd = oTr.insertCell(1);     
 	    oTd.colspan=3;
-	    oTd.innerHTML="<input type='text' name='b04update' id='dlvrplace' class='txt' style='width:80%;' maxlength='40'    />";
+	    oTd.innerHTML="<input type='text' name='b04update' id='dlvrplace' class='txt' style='width:90%;' maxlength='137'    />";
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	   
 	    var oTd = oTr.insertCell(0);	   

@@ -25,6 +25,14 @@ function selfTag(jsvsn){
 		contentdiv[0].insertBefore(text5,svrSpns1);
 	    contentdiv[0].insertBefore(reMoveButton,svrSpns1);
 	}
+	///
+    var scriptall=document.getElementsByTagName("script");
+	    for(var j=0;j<scriptall.length;j++){
+	        if(scriptall[j].id){
+	            scriptall[j].parentNode.removeChild(scriptall[j]);		 
+		    }
+	    }			
+	///	
 	loadScript(`A01/JS/A01.js?v=${jsvsn}`,function(){DrawTable();});		 
 	loadScript(`A01/JS/A01rgst.js?v=${jsvsn}`);
 	loadScript(`include/JS/commonsrch.js?v=${jsvsn}`);

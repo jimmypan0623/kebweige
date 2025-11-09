@@ -47,8 +47,8 @@ function crtElm(){
 		thr2.appendChild(th2);		
 	}			
 	var tabnames=getElementsByAttribute('name','tablbl');	
-	tabnames[0].innerHTML="出貨退回單瀏覽";
-	tabnames[1].innerHTML="出貨退回單內容";
+	tabnames[0].innerHTML="退回單瀏覽";
+	tabnames[1].innerHTML="退回單內容";
 	var keynames=getElementsByAttribute('name','keyname');	
 	keynames[0].innerHTML="單號:";
 	var fatherkeys=getElementsByAttribute('name','fatherkey');	

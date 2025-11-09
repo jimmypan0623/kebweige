@@ -497,7 +497,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		var oTr=ajTable.insertRow(ajTable,ajTable.length);				
 	    var oTd = oTr.insertCell(0);
 	    oTd.setAttribute('style','text-align:right;width:15%');	
-	    oTd.innerHTML='標準售價:';				
+	    oTd.innerHTML='標準進價:';				
 	    var oTd = oTr.insertCell(1);
 	    oTd.innerHTML="<input type='number' name='b01update' id='salescost' class='txt' maxlength='11' value=0.000 style='width:30%;text-align:right;'  />";                             
 	    var oTd = oTr.insertCell(2);
@@ -565,9 +565,9 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);
 	    oTd.setAttribute('style','text-align:right;width:15%');	
-	    oTd.innerHTML='採/計單位比:';
+	    oTd.innerHTML='標準售價:';
 	    var oTd = oTr.insertCell(1);
-	    oTd.innerHTML="<input type='number' name='b01update' id='rateofps' class='txt' maxlength='5' value=1.000 style='width:30%;text-align:right;'/>";                             
+	    oTd.innerHTML="<input type='number' name='b01update' id='rateofps' class='txt'  value=0 style='width:30%;text-align:right;'/>";                             
 	    var oTd = oTr.insertCell(2);
 	    oTd.setAttribute('style','text-align:right;width:15%');	
 	    oTd.innerHTML='保管部門:';
@@ -580,9 +580,9 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);
 	    oTd.setAttribute('style','text-align:right;width:15%');	
-	    oTd.innerHTML='採購單位:';
+	    oTd.innerHTML='保存期限(天):';
 	    var oTd = oTr.insertCell(1);
-	    oTd.innerHTML="<input type='text' name='b01update' id='purchseach' class='txt' maxlength='4' value='PCS' style='width:30%;text-align:left;'  />";                             
+	    oTd.innerHTML="<input type='number' name='b01update' id='expiredays' class='txt' maxlength='5' value=1 style='width:30%;text-align:left;'  />";                             
 	    var oTd = oTr.insertCell(2);
 	    oTd.setAttribute('style','text-align:right;width:15%');	
 	    oTd.innerHTML='計料單位:';
@@ -877,7 +877,7 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 			 var thtdy=(showTime.innerHTML.substring(0,4)+'-'+showTime.innerHTML.substring(5,7)+'-'+showTime.innerHTML.substring(8,10)); //中間一定要用減號分隔年月日
 			 if (tbno==0){
 				document.getElementById("stockno").focus();	
-				
+				document.getElementById("expiredays").value=getCookie('INT_009')*1;
 			 }else if (tbno==1){						 
 				document.getElementById("c02validstart").value=thtdy;  //日期都設為今天
 				//以下這一串是在算往後推的日期
@@ -1013,6 +1013,7 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 	if (tbno==0){     //處理表頭修改  
 	    document.getElementById("kind_of_belong_to").innerHTML=belongtoshow(b01a_value_names[3].innerHTML) ; //歸屬類別				
 	    document.getElementById("bom_should_be").innerHTML=(document.getElementById("bom_should_be").innerHTML=='Y'?'是':'否') ;
+		document.getElementById("keepdays").innerHTML+="天" ;
 		document.getElementById("leadtm_prchs").innerHTML+="天" ;
 	    document.getElementById("leadtm_ready").innerHTML+="天" ;
         document.getElementById("type_of_apply").innerHTML+=(document.getElementById("type_of_apply").innerHTML=='A'?'  個別領料':'  整批領料');	      

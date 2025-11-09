@@ -62,7 +62,7 @@ function getProfile(str1,reccount,tbno) {
 		oTd.appendChild(myCheck);     		  
 	}
 	if (tbno==0){       //如果是表頭   
-	    var valueshows=document.getElementsByName("c01value");
+	    var valueshows=getElementsByAttribute("name","c01value"); //document.getElementsByName("c01value");
 	    for(var p=0;p<valueshows.length;p++){
 		    valueshows[p].textContent="";
 	    }	      

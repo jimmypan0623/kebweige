@@ -2,9 +2,6 @@ function crtElm(){
     var cntdiv=getElementsByAttribute('class','tab_content');	  
 	var tabnames=getElementsByAttribute('name','tablbl');		
 	tabnames[0].innerHTML="物料基本資料"; 
-
-   /*  var tbl1=document.getElementById("member1");
-     tbl1.style.width="37%"; */
      var firstCover=getElementsByAttribute('class','table_cover');	
 	 firstCover[0].style.width="37%";
      var thr1=document.getElementById('headrow1');	 
@@ -17,20 +14,18 @@ function crtElm(){
 		th1.appendChild(text);
 		thr1.appendChild(th1);		
 	}	
-////////	
-    var secondCover=document.createElement('div');
-	secondCover.className="table_cover";
+    var secondCover=document.createElement('div');	 
+	secondCover.setAttribute("class","table_cover");
 	secondCover.style.width="63%";
     var righttbl1=document.createElement("table");
 	righttbl1.id="rightMember1";	 
-	//righttbl1.style.marginBottom='-434px'; 	
-    var arrayRgt1=["料品編號","品名規格","管理類別","歸屬類別","採購單位:","計料單位:",
-	"採/計單位比:","保管部門:","總庫存量:","在庫數量:","庫存上限:","安全存量:",
+    var arrayRgt1=["料品編號","品名規格","管理類別","歸屬類別","保存期限:","計料單位:",
+	"標準售價:","保管部門:","總庫存量:","在庫數量:","庫存上限:","安全存量:",
 	"料架位置:","建立料表:","領料類別:","領用批量:","採購前置:","收發料前置:",
-	"標準售價:","平均成本:","備註說明:","物料類別:","產    地:","最後更新:"];
+	"標準進價:","平均成本:","備註說明:","物料類別:","產    地:","最後更新:"];
      var arrayRgt2=["<span name='b01value' id='stock_no' ></span>","<span name='b01value' id='stock_name'></span>",
 	 "<span name='b01value' id='type_of_mnge' ></span>","<span name='b01value' id='kind_of_belong_to'></span>",
-	 "<span name='b01value' id='each_prchs' ></span>","<span name='b01value' id='each_count'></span>",
+	 "<span name='b01value' id='keepdays' ></span>","<span name='b01value' id='each_count'></span>",
 	 "<span name='b01value' id='dividing' ></span>","<span name='b01value' id='who_hold'></span>&nbsp&nbsp&nbsp<span name='b01value' id='depart_name'></span>",
 	 "<mark><span name='b01value' id='totalqty' ></span></mark>","<mark><span name='b01value' id='qyt_on_hand'></span></mark>",
 	 "<span name='b01value' id='maxlimit_of_inv' ></span>","<span name='b01value' id='qty_of_safe'></span>",
@@ -57,10 +52,7 @@ function crtElm(){
          oTd.innerHTML=arrayRgt2[i];
 	}		
 	secondCover.appendChild(righttbl1); 
-   // cntdiv[0].appendChild(righttbl1);   //畫面右邊欄位
-   cntdiv[0].appendChild(secondCover); 
-   
-///////////	
+    cntdiv[0].appendChild(secondCover);   //畫面右邊欄位
     var keynames=getElementsByAttribute('name','keyname');	
 	 var fatherkeys=getElementsByAttribute('name','fatherkey');	
     if(getAuth[0]()[5]=='Y'){	 //有查看報價紀錄權限時
@@ -117,7 +109,7 @@ function crtElm(){
 	    tabnames[2].innerHTML="廠商詢價紀錄";
 		keynames[1].innerHTML="料號:";
     }else{
-		 cntdiv[2].style.display='none';
+		cntdiv[2].style.display='none';
 	    tabnames[2].style.display='none';
 	}
 	

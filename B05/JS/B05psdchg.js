@@ -37,11 +37,19 @@ function selfTag(jsvsn){
 	maindiv[0].insertBefore(text14,orpButton5);		
 	maindiv[0].insertBefore(orpButton6,orpButton5);
 	maindiv[0].insertBefore(text15,orpButton5);				 
+	///
+    var scriptall=document.getElementsByTagName("script");
+	    for(var j=0;j<scriptall.length;j++){
+	        if(scriptall[j].id){
+	            scriptall[j].parentNode.removeChild(scriptall[j]);		 
+		    }
+	    }			
+	///	
 	loadScript(`B05/JS/B05.js?v=${jsvsn}`,function(){DrawTable();});
     loadScript(`B05/JS/B05rgst.js?v=${jsvsn}`);	 
 	loadScript(`include/JS/commonsrch.js?v=${jsvsn}`);
 	loadScript(`C01/JS/A09getno.js?v=${jsvsn}`);		
-	loadScript(`include/JS/confirmfunction.js?=${jsvsn}`);	
+	loadScript(`include/JS/confirmfun.js?v=${jsvsn}`);	
 	var tab1Click=document.getElementById("tab1");
 	if(tab1Click){
 		tab1Click.setAttribute("accesskey","1");  

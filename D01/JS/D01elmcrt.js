@@ -1,33 +1,24 @@
 function crtElm(){	         
     var cntdiv=getElementsByAttribute('class','tab_content');		
-    /* var tbl1=document.getElementById("member1");
-     tbl1.style.width="32%"; */
-	  var firstCover=getElementsByAttribute('class','table_cover');	
-	 firstCover[0].style.width="32%";
-     var thr1=document.getElementById('headrow1');	 
-	 var array1 = ['編號','廠商名稱'];
-	 var array2 = ['22%','78%'];
+	var firstCover=getElementsByAttribute('class','table_cover');	
+	firstCover[0].style.width="32%";
+    var thr1=document.getElementById('headrow1');	 
+	var array1 = ['編號','廠商名稱'];
+	var array2 = ['22%','78%'];
 	for (var j = 0; j < array1.length; j++) {
 		var th1 = document.createElement('th'); //column		   
 		var text = document.createTextNode(array1[j]); //cell		
 		th1.style.width=array2[j];
 		th1.appendChild(text);
 		thr1.appendChild(th1);		
-	}	
-////////	
+	}		
     var secondCover=document.createElement('div');
-	secondCover.className="table_cover";
+	secondCover.setAttribute("class","table_cover");
 	secondCover.style.width="68%";
     righttbl1=document.createElement("table");
 	righttbl1.id="rightMember1";	
-	/* righttbl1.style.width='68%';
-	righttbl1.style.left='32.3%';	
-	righttbl1.style.height='432px';
-    righttbl1.style.top='-88.5%';
-	righttbl1.style.marginBottom='-432px'; 		 */
-	
 	var arrayRgt1=["廠商編號:","廠商名稱:","廠商簡稱:","品質等級:","統一編號:","營業項目:",
-	"交貨方式:","公司地址:","工廠地址:","聯絡人:","負責人:","電話:",
+	"運送方式:","公司地址:","工廠地址:","聯絡人:","負責人:","電話:",
 	"傳真:","E-mail:","交易幣別:","結帳日期:","請款日:","付款方式:",
 	"票期(T/T)天數:","採購人員:","其他備註:","最後交易:","最後更新:"];
      var arrayRgt2=["<td><span name='d01value' id='vender_no'></span>","<span name='d01value' id='vender_name'></span>",
@@ -44,8 +35,7 @@ function crtElm(){
 	 "<span name='d01value' id='lastchange'></span>"];  
 	 var rowPop=[21,20,19,17,14,13,11,9,8,7,5,2,0]; //算好哪一欄要重新一列丟到陣列(逆排序)
 	for(var i=0;i<arrayRgt1.length;i++){  //一陣列指示產生一列,完畢後pop掉
-		if(i==rowPop[rowPop.length-1]){
-		  	
+		if(i==rowPop[rowPop.length-1]){		  	
 		    var oTr=righttbl1.insertRow(-1);		
 			rowPop.pop();
 		}
@@ -55,18 +45,14 @@ function crtElm(){
 		 var oTd = oTr.insertCell(oTr.cells.length);
 		 if (i==0 ){
 		     oTd.style.width='12%';		 
-		 }
-		
+		 }		
          oTd.innerHTML=arrayRgt2[i];
 	}		
 	secondCover.appendChild(righttbl1); 
-    //cntdiv[0].appendChild(righttbl1);   //畫面右邊欄位	
 	cntdiv[0].appendChild(secondCover); 
-///////////	
     var tabnames=getElementsByAttribute('name','tablbl');	
 	tabnames[0].innerHTML="廠商基本資料";
-    var keynames=getElementsByAttribute('name','keyname');	
-	 
+    var keynames=getElementsByAttribute('name','keyname');		 
     if(getAuth[0]()[5]=='Y'){	 //有查看報價紀錄權限時
 	    var thr2=document.getElementById('headrow2');
         var array3 = ['料品編號','品名規格','廠商品號', '幣別','單價','包裝基量','最少訂購','前置天數','生效日期','有效期限','備註說明'];
@@ -96,7 +82,6 @@ function crtElm(){
 	    cntdiv[1].style.display='none';
 	    tabnames[1].style.display='none';        
 	}
- 
 }
 
 

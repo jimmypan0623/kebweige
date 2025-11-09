@@ -8,6 +8,14 @@ function selfTag(jsvsn){
 	if(!notOnlyEdit){
         ths[ths.length-2].parentNode.removeChild(ths[ths.length-2]);
 	}
+	///
+    var scriptall=document.getElementsByTagName("script");
+	    for(var j=0;j<scriptall.length;j++){
+	        if(scriptall[j].id){
+	            scriptall[j].parentNode.removeChild(scriptall[j]);		 
+		    }
+	    }			
+	///	
 	loadScript(`A26/JS/A26.js?v=${jsvsn}`,function(){DrawTable();});		 
 	loadScript(`A26/JS/A26rgst.js?v=${jsvsn}`);
 	var tab1Click=document.getElementById("tab1");

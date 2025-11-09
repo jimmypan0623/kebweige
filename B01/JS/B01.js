@@ -55,8 +55,7 @@ function getProfile(str1,reccount,tbno) {
 				oTd.style.width=wdthln+"%";
 				attachEventListener(oTd,'click',rowchoose,false);		//點選資料
 			}		
-		}
-		
+		}		
 		var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
 		oTd.setAttribute("style","display:none");   //勾選不顯示
 		var myCheck=document.createElement('input'); 
@@ -78,7 +77,7 @@ function getProfile(str1,reccount,tbno) {
 		oTd.appendChild(myCheck);     	   
 	}
 	if (tbno==0){       //如果是表頭   
-		var valueshows=document.getElementsByName("b01value");
+		var valueshows=getElementsByAttribute("name","b01value");  //document.getElementsByName("b01value");
 		for(var p=0;p<valueshows.length;p++){
 		  valueshows[p].textContent="";
 		}	      
@@ -105,39 +104,39 @@ function getProfile(str1,reccount,tbno) {
 }
 
 function choseExtraDeal(targetTrChildren,targetTr){
-              var invdtl=document.getElementById("INVDTL_BOTT");
-			  var delbtt=document.getElementById("DEL_BOTT");
-		      var b01a_value_names=document.getElementsByName("b01value");			   
-		      for(var i=0;i<b01a_value_names.length;i++){
-			      b01a_value_names[i].innerHTML=targetTrChildren[i+1].innerHTML;
-		      }			 
-			  if(!b01a_value_names[3]){
-				  choseExtraDeal(targetTrChildren,targetTr); 
-			  }				  
-			  var tmp1=b01a_value_names[3].innerHTML;
-			   document.getElementById("kind_of_belong_to").innerHTML=belongtoshow(tmp1);
-			   document.getElementById("bom_should_be").innerHTML=(document.getElementById("bom_should_be").innerHTML=='Y'?'是':'否') ;
-		       document.getElementById("leadtm_prchs").innerHTML+="天" ;
-			   document.getElementById("leadtm_ready").innerHTML+="天" ;
-			   document.getElementById("type_of_apply").innerHTML+=(document.getElementById("type_of_apply").innerHTML=='A'?'  個別領料':'  整批領料');			     	
-               if(b01a_value_names[9].innerHTML.trim()==0 && b01a_value_names[10].innerHTML.trim()==0){
-				  invdtl.setAttribute("style","visibility:hidden;");				  
-				   detachEventListener(invdtl,"click",page1OtherButton1,false);
-				    if(getAuth[0]()[3]=='Y'){
-					   delbtt.setAttribute("style","visibility:visible;font-size:17px;");
-				       attachEventListener(delbtt,"click",delrec,false);
-					}else{
-					   delbtt.setAttribute("style","visibility:hidden;");
-				       detachEventListener(delbtt,"click",delrec,false);	
-					}						
-			   }else{
-				    invdtl.setAttribute("style","visibility:visible;font-size:17px;");				  			   
-					attachEventListener(invdtl,"click",page1OtherButton1,false);
-				     delbtt.setAttribute("style","visibility:hidden;");
-				     detachEventListener(delbtt,"click",delrec,false);	   				     
-			   }
-			   
-         return true;
+	var invdtl=document.getElementById("INVDTL_BOTT");
+	var delbtt=document.getElementById("DEL_BOTT");
+	var b01a_value_names=document.getElementsByName("b01value");			   
+	for(var i=0;i<b01a_value_names.length;i++){
+		b01a_value_names[i].innerHTML=targetTrChildren[i+1].innerHTML;
+	}			 
+	if(!b01a_value_names[3]){
+		choseExtraDeal(targetTrChildren,targetTr); 
+	}				  
+	var tmp1=b01a_value_names[3].innerHTML;
+	document.getElementById("kind_of_belong_to").innerHTML=belongtoshow(tmp1);
+	document.getElementById("bom_should_be").innerHTML=(document.getElementById("bom_should_be").innerHTML=='Y'?'是':'否') ;
+	document.getElementById("keepdays").innerHTML+="天" ;
+	document.getElementById("leadtm_prchs").innerHTML+="天" ;
+	document.getElementById("leadtm_ready").innerHTML+="天" ;
+	document.getElementById("type_of_apply").innerHTML+=(document.getElementById("type_of_apply").innerHTML=='A'?'  個別領料':'  整批領料');			     	
+	if(b01a_value_names[9].innerHTML.trim()==0 && b01a_value_names[10].innerHTML.trim()==0){
+		invdtl.setAttribute("style","visibility:hidden;");				  
+		detachEventListener(invdtl,"click",page1OtherButton1,false);
+		if(getAuth[0]()[3]=='Y'){
+			delbtt.setAttribute("style","visibility:visible;font-size:17px;");
+			attachEventListener(delbtt,"click",delrec,false);
+		}else{
+			delbtt.setAttribute("style","visibility:hidden;");
+			detachEventListener(delbtt,"click",delrec,false);	
+		}						
+	}else{
+		invdtl.setAttribute("style","visibility:visible;font-size:17px;");				  			   
+		attachEventListener(invdtl,"click",page1OtherButton1,false);
+		delbtt.setAttribute("style","visibility:hidden;");
+		detachEventListener(delbtt,"click",delrec,false);	   				     
+	}			   
+    return true;
 }
 function choseSecond(targetTrChildren,targetTr){	 
    return true;	
@@ -151,7 +150,8 @@ function rowchoseExtraDeal(targetRow){
 		   }		   
 		   document.getElementById("kind_of_belong_to").innerHTML=belongtoshow(b01a_value_names[3].innerHTML);
 		   document.getElementById("bom_should_be").innerHTML=(document.getElementById("bom_should_be").innerHTML=='Y'?'是':'否') ;
-		   document.getElementById("leadtm_prchs").innerHTML+="天" ;
+		   document.getElementById("keepdays").innerHTML+="天" ; 
+ 		   document.getElementById("leadtm_prchs").innerHTML+="天" ;
 	       document.getElementById("leadtm_ready").innerHTML+="天" ;
            document.getElementById("type_of_apply").innerHTML+=(document.getElementById("type_of_apply").innerHTML=='A'?'  個別領料':'  整批領料');	      
 		    if(b01a_value_names[9].innerHTML.trim()==0 && b01a_value_names[10].innerHTML.trim()==0){

@@ -21,16 +21,19 @@ function selfTag(jsvsn)
 		 loadScript(`RED/JS/REDrgst.js?v=${jsvsn}`);
      		 
 	    var plsElmnts=document.getElementById('company_name').parentNode;
-	    
+	    attachEventListener(plsElmnts,"click",toggleMenu,false);  
 		
-		    var iflm=document.createElement('iframe');
-		    var htmfile='ROL/'+(getCookie('INT_HTM')?getCookie('INT_HTM'):getAuth[2]()[0].INT_HTM);		
-		    iflm.id="frl";		 
-		    iflm.src=htmfile;
+		var iflm=document.createElement('iframe');
+		if(getAuth[1]()[1] && (left(getAuth[1]()[1],1)=='C' || left(getAuth[1]()[1],1)=='D' || left(getAuth[1]()[1],1)=='B')){
+		  
+			var htmfile='ROL/'+'flowProcess'+left(getAuth[1]()[1],1)+'.html';
 			
-			
-	   
-		 plsElmnts.appendChild(iflm);
+		}else{
+		   var htmfile='ROL/'+(getCookie('INT_HTM')?getCookie('INT_HTM'):getAuth[2]()[0].INT_HTM);
+		}
+		iflm.id="frl";		 
+		iflm.src=htmfile;
+		plsElmnts.appendChild(iflm);
 	 }		 
 }
 function redmenuchange(event){    //畫面展開縮起來
@@ -40,22 +43,42 @@ function redmenuchange(event){    //畫面展開縮起來
 	}
 	var target=getEventTarget(event);	 
 	var oSecondDiv = target.parentNode.getElementsByTagName("ul")[0];
-	
+	var iflm=document.getElementById("frl");		 
 	//CSS交替更換來實現顯、隱		
 	if(oSecondDiv!=undefined){			    
   	    if(oSecondDiv.className == "myHide"){	 	
 		    var closeother=getElementsByAttribute('class','myShow');			   		 
 		    for(var i=0;i<closeother.length;i++){
 		        if(closeother[i].className="myShow"){					
-		           closeother[i].className= "myHide";
+		           closeother[i].setAttribute("class","myHide");
 			       closeother[i].parentNode.getElementsByTagName("a")[0].style.backgroundImage="url('digits/add.gif')";
 			      break;
 		        }
 		    }						
-	        oSecondDiv.className = "myShow";	 
-			target.style.backgroundImage="url('digits/up.gif')";					
+			oSecondDiv.setAttribute("class","myShow");
+			target.style.backgroundImage="url('digits/up.gif')";
+			
+		    
+			switch (left(target.innerHTML,1)){
+			     case 'B':
+			       var htmfile='ROL/flowProcess'+left(target.innerHTML,1)+'.html';
+			      break;	   
+			   case 'C':
+			       var htmfile='ROL/flowProcess'+left(target.innerHTML,1)+'.html';
+			      break;
+				case 'D':
+			       var htmfile='ROL/flowProcess'+left(target.innerHTML,1)+'.html';
+			      break;  
+			   default :
+			      var htmfile='ROL/'+(getCookie('INT_HTM')?getCookie('INT_HTM'):getAuth[2]()[0].INT_HTM);
+				  break;
+			      
+			} 
+            iflm.src=htmfile; 		
 	    }else{			 
-	   	    oSecondDiv.className = "myHide";					
+		    var htmfile='ROL/'+(getCookie('INT_HTM')?getCookie('INT_HTM'):getAuth[2]()[0].INT_HTM);
+            iflm.src=htmfile; 	
+			oSecondDiv.setAttribute("class","myHide");
             target.style.backgroundImage="url('digits/add.gif')";				
 	    }
 		window.scrollTo(0,0);  //先置頂	
@@ -92,7 +115,7 @@ function excuteFun(event){
     /* var urlcmp=(decodeURI(window.location.search));
 	 var username=urlcmp.substr(urlcmp.indexOf('=')+1);	
 	 document.location.href='ZRO.html'+"?username="+username+"&ourcompany="+encodeURI(document.getElementById('company_name').innerHTML);	     */
-    getAuth[1]()[1]=left( exucPrgNo,3);
+    getAuth[1]()[1]=getAuth[0]()[0];     //left( exucPrgNo,3);
  	initDialog();
 	window.scrollTo(0,0);  //先置頂	 
 	target.scrollIntoView({
@@ -109,13 +132,15 @@ function blockPsdshow(event)    //變更密碼程序
     var closeother=getElementsByAttribute('class','myShow');			   		 
 	for(var i=0;i<closeother.length;i++){
 		if(closeother[i].className="myShow"){					
-		    closeother[i].className= "myHide";
+		    closeother[i].setAttribute("class","myHide");
 			closeother[i].parentNode.getElementsByTagName("a")[0].style.backgroundImage="url('digits/add.gif')";
 			break;
 		}
-	}						
+	}					
+    var iflm=document.getElementById("frl");		 		    	
+	var htmfile='ROL/'+(getCookie('INT_HTM')?getCookie('INT_HTM'):getAuth[2]()[0].INT_HTM);
+    iflm.src=htmfile; 		
     blkshow(1);    
-
 }
 
 function accountDele(event){    //刪除帳號cookie
@@ -124,9 +149,18 @@ function accountDele(event){    //刪除帳號cookie
     }			
     var target=getEventTarget(event);
 	getAuth[1]('Clear_All');
-	getAuth[2]('Clear_All');
-	//delCookie("lastFuncInt");	 	
+	getAuth[2]('Clear_All');	
 	var mainUl=document.getElementById("listUL");   
 	mainUl.remove();		 
     return;	 
+}
+
+
+function toggleMenu() {   //主選單隱藏或顯示
+	var menu = document.getElementById("navigation"); 
+	if (menu.style.display === "none") {
+		menu.style.display = "block";		 
+	} else {
+		menu.style.display = "none";	 
+	}
 }

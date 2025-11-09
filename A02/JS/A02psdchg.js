@@ -27,6 +27,14 @@ function selfTag(jsvsn){
 		attachEventListener(reMoveButton,"click",authRemove,false);  //移除權限按鈕程序
 	    contentdiv[0].insertBefore(reMoveButton,svrSpns1);
 	}
+	///
+    var scriptall=document.getElementsByTagName("script");
+	    for(var j=0;j<scriptall.length;j++){
+	        if(scriptall[j].id){
+	            scriptall[j].parentNode.removeChild(scriptall[j]);		 
+		    }
+	    }			
+	///	
 	loadScript(`A02/JS/A02.js?v=${jsvsn}`,function(){DrawTable();});	
 	  loadScript(`A02/JS/A02rgst.js?v=${jsvsn}`);
 	  loadScript(`include/JS/commonsrch.js?v=${jsvsn}`);

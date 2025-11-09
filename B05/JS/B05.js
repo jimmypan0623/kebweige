@@ -31,12 +31,15 @@ function getProfile(str1,trncde,tbno) {
 		  	    detachEventListener(prnbtt,"click",prntproc,false);	
 			}			
 		 }
+		 var oMember = document.getElementById("member1");	 
 		var oTable = document.getElementById("maintbody1");
 		var fld=document.getElementById('recfield');		
 	}else{
+		var oMember = document.getElementById("member2");	 
 	    var oTable = document.getElementById("maintbody2");
 		var fld=document.getElementById('recfield2');
 	}		
+	oMember.setAttribute("style","width:120%;");
 	var rnddgt=getCookie('INT_069');  //四捨五入到幾位
 	var scndttl=document.getElementById('ttlmny');   //次頁表頭的總金額物件	
 	for(var i=0;i<arr.length;i++){		

@@ -1,7 +1,5 @@
 function crtElm(){	           
     var cntdiv=getElementsByAttribute('class','tab_content');  	
-   /*  var tbl1=document.getElementById("member1");
-     tbl1.style.width="32%"; */
 	  var firstCover=getElementsByAttribute('class','table_cover');	
 	 firstCover[0].style.width="32%";
      var thr1=document.getElementById('headrow1');	 
@@ -14,18 +12,11 @@ function crtElm(){
 		th1.appendChild(text);
 		thr1.appendChild(th1);		
 	}	
-////////	
-     var secondCover=document.createElement('div');
-	secondCover.className="table_cover";
+    var secondCover=document.createElement('div');
+	secondCover.setAttribute("class","table_cover");
 	secondCover.style.width="68%";
     righttbl1=document.createElement("table");
-	righttbl1.id="rightMember1";	
-
-	/* righttbl1.style.width='68%';
-	righttbl1.style.left='32.3%';	
-	righttbl1.style.height='432px';
-    righttbl1.style.top='-88.5%'; */
-	//righttbl1.style.marginBottom='-438px'; 			
+	righttbl1.id="rightMember1";			
 	var arrayRgt1=["客戶編號:","客戶名稱:","客戶簡稱:","重要等級:","統一編號:","客戶類型:",
 	"主要產品:","地區別:","發票抬頭:","發票品號:","發票種類:","課稅別:",
 	"英文名稱:","公司地址:","送貨地址:","英文地址:","出貨指示:","聯絡人:",
@@ -72,9 +63,7 @@ function crtElm(){
          oTd.innerHTML=arrayRgt2[i];
 	}		
 	secondCover.appendChild(righttbl1); 
-  //  cntdiv[0].appendChild(righttbl1);   //畫面右邊欄位	
-	cntdiv[0].appendChild(secondCover); 
-///////////	
+	cntdiv[0].appendChild(secondCover); 	
     var tabnames=getElementsByAttribute('name','tablbl');	
     tabnames[0].innerHTML="客戶基本資料";  
     var keynames=getElementsByAttribute('name','keyname');	
@@ -93,19 +82,15 @@ function crtElm(){
 	    tabnames[1].innerHTML="報價紀錄";  
 		keynames[0].innerHTML="客戶編號:";	
 	    var fatherkeys=getElementsByAttribute('name','fatherkey');	
-	/*     fatherkeys[0].style.width="12%";
-	    fatherkeys[0].size="6"; */
 		var rspn2=document.getElementById('serverResponse2'); 
 	    var text01 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
 	    cntdiv[1].insertBefore(text01,rspn2);
 	   var spn1=document.createElement('span');
 	   spn1.id="ttltitle";
-	   //spn1.setAttribute("style","font-size:120%;font-weight:bold;");
        spn1.innerHTML="報價筆數:";
 	   cntdiv[1].insertBefore(spn1,rspn2);
 	   var spn3=document.createElement('span');
 	   spn3.id="ttlmny";
-       //spn3.setAttribute("style","font-size:120%;font-weight:bold;");
 	   spn3.innerHTML='0';
 	   cntdiv[1].insertBefore(spn3,rspn2);	 
 	}else{

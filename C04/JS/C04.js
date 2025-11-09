@@ -217,8 +217,7 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 	var trnsbtt=document.getElementById("TRN_BOTT");	
 	var editbtt=document.getElementById("EDIT_BOTT");
 	var delbtt=document.getElementById("DEL_BOTT");  
-	var apprv=document.getElementById('APPRVE');
-	
+	var apprv=document.getElementById('APPRVE');	
 	if(shrno=='Y'){		
 		ansbtt.setAttribute("style","display:none;");
 		detachEventListener(ansbtt,"click",ansproc,false);				
@@ -230,8 +229,7 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 			trnsbtt.setAttribute("style","display:none;");
 			detachEventListener(trnsbtt,"click",trnsproc,false); 
 			vrsbtt.setAttribute("style","display:none;");
-			detachEventListener(vrsbtt,"click",vrsproc,false);
-			
+			detachEventListener(vrsbtt,"click",vrsproc,false);			
 		}else{
 		    if(getAuth[0]()[9]=='Y'){
 			   vrsbtt.setAttribute("style","display:block;");
@@ -246,8 +244,7 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 		    }else{
 			    trnsbtt.setAttribute("style","display:none;");
 				detachEventListener(trnsbtt,"click",trnsproc,false);	
-			}
-		  
+			}		  
 		}
 	}else{		
 		trnsbtt.setAttribute("style","display:none;");
@@ -278,12 +275,10 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 		   detachEventListener(delbtt,"click",delrec,false);
 		}
 
-	}  
-	
+	}  	
     return true;			   
 }	
-function rowchoseSecond(targetRow){    //紀錄移動表身
-    
+function rowchoseSecond(targetRow){    //紀錄移動表身   
     var outhis=document.getElementById("OUTRCD_BOTT");
 	 if(targetRow.childNodes[8].innerHTML*1+targetRow.childNodes[8].innerHTML*1>0){
 		 outhis.setAttribute("style","visibility:visibility;"); 

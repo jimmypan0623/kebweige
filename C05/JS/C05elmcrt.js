@@ -1,5 +1,5 @@
 function crtElm(){
-	var tabnames=getElementsByAttribute('name','tablbl');	
+	var tabnames=document.getElementsByName('tablbl'); 
 	tabnames[0].innerHTML='出貨計劃';
     var thr1=document.getElementById('headrow1');	 
 	var array1 = ['料品編號','品名規格','訂單編號', '預定交期','出貨數量','客戶編號','客戶簡稱','客戶品號','客戶PO','業務擔當'];

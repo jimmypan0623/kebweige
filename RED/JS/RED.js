@@ -25,7 +25,7 @@ function getProfile(str1,cmpnme) {
             } 	       
 	    }  
 	}		
-	document.getElementById('company_name').innerHTML=getAuth[2]()[0].INT_000;   //顯示公司名稱
+	document.getElementById('company_name').innerHTML="\u{1F4FF}"+getAuth[2]()[0].INT_000;   //顯示公司名稱
     var authField='';    
     var tmpItemName='';
 	var mainPrgNo=' ';

@@ -126,7 +126,7 @@ function initDialog(event)
 			if(loginform){
 			   loginform.parentNode.removeChild(loginform);
 			}			 					
-			 links[0].href="include/Operate.css?v=0.0.9" ;						 
+			 links[0].href="include/Operate.css?v=0.1.0" ;						 
 			 var gifarray=['ROL','puto','0','cell','1','birthdaycake','2','spec','3','stckgood','S02',
 			 '4','cddisk','5','smlbulb','6','myrndm','7','S03','openfile','8','penandrule','9','S04','calculator','foreignermoney']; 			
 			 links[1].href="digits/"+gifarray[nwsd]+".gif";			
@@ -139,8 +139,8 @@ function initDialog(event)
 			var tabs=getElementsByAttribute('name','tab');
 			var tablblnames=getElementsByAttribute('name','tablbl');	
 			var pages=getAuth[0]()[10];  //getCookie("howpge");
-			 var tabCss=document.createElement("div");
-			tabCss.className="tab_css";
+			var tabCss=document.createElement("div");			
+			tabCss.setAttribute("class","tab_css");
 			var sureChoice=['表頭資料','表身資料一','表身資料二']; 
   			var bckgdColor=["background-color:#FCFCFC;","background-color:#F9FAD9;","background-color:#F3F3FA;"];
 		    for (var i=0;i<pages;i++){
@@ -157,20 +157,21 @@ function initDialog(event)
 				if (i==0){   //預設值
 					bsechkbx.checked='checked';
 			    }				
-				var tabContent=document.createElement("div");
-			    tabContent.className="tab_content";
+				var tabContent=document.createElement("div");			 
+				tabContent.setAttribute("class","tab_content");
 				tabContent.setAttribute("style",bckgdColor[i]);
 				var srvrSpnse=document.createElement("div");
 				srvrSpnse.id="serverResponse"+(i+1).toString();
 				srvrSpnse.setAttribute("style","color:red;text-align:center;");
 				srvrSpnse.innerHTML='&nbsp';			
-				if(getAuth[0]()[12]=='M'){   //如果是主檔且為首頁
-				  var lastLevelDiv=document.createElement("div");
-				  lastLevelDiv.className="table_cover";
-			    }
+				//if(getAuth[0]()[12]=='M'){   //如果是主檔且為首頁
+				  var lastLevelDiv=document.createElement("div");				 
+				  lastLevelDiv.setAttribute("class","table_cover");
+				  
+			    //}
 				var tbleCntnt=document.createElement("table");
 				tbleCntnt.id="member"+(i+1).toString();
-				tbleCntnt.className="gridlist";
+				tbleCntnt.setAttribute("class","gridlist");				 
 				var ctHead=document.createElement("thead");
 				ctHead.id="mainthead"+(i+1).toString();
 				var headRow=document.createElement("tr");
@@ -202,19 +203,19 @@ function initDialog(event)
 				}
 				
 				tabContent.appendChild(srvrSpnse);
-				if(getAuth[0]()[12]=='M'){
+				//if(getAuth[0]()[12]=='M'){      //如果是主檔且為首頁
 				   lastLevelDiv.appendChild(tbleCntnt);
 				   tabContent.appendChild(lastLevelDiv);
-				}else{
-				   tabContent.appendChild(tbleCntnt);
-				}
+				//}else{
+				//   tabContent.appendChild(tbleCntnt);
+				//}
 				tabCss.appendChild(bsechkbx);
 				tabCss.appendChild(basechklbl);
 				tabCss.appendChild(tabContent);
 	        } 
             var lclBtnBk=document.createElement("span");		
 			lclBtnBk.id="lclbtnbk";
-			lclBtnBk.className="lclbtnbk";
+			lclBtnBk.setAttribute("class","lclbtnbk");			 
 			tabCss.appendChild(lclBtnBk);
 			var text26=document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');	
 			tabCss.appendChild(text26);
@@ -222,13 +223,26 @@ function initDialog(event)
 			document.body.insertBefore(tabCss,ftbtm);
 			 tabCss.insertBefore(text27,lclBtnBk);
 			////
-			var cmmjsvs=gifarray[nwsd]+scnd;			
-			var urljsname=left(nowExcute,3)+'/JS/'+left(nowExcute,3)+'elmcrt.js?v='+cmmjsvs; 
 			
+			var scriptall=document.getElementsByTagName("script");
+	        for(var j=0;j<scriptall.length;j++){
+	            if(scriptall[j].id){
+	              scriptall[j].parentNode.removeChild(scriptall[j]);		 
+		        }
+	        }		 	
+			////
+			var cmmjsvs=gifarray[nwsd]+scnd;			
+			var urljsname=left(nowExcute,3)+'/JS/'+left(nowExcute,3)+'elmcrt.js?v='+cmmjsvs; 			
 			loadScript(urljsname,function(){crtElm();});  
 			var mthjudge=getAuth[0]()[11];//getCookie("MorP");
-			//var contentdiv=getElementsByAttribute('class','tab_content');
-			var contentdiv=document.getElementsByClassName("tab_content");
+			var contentdiv=getElementsByAttribute('class','tab_content');
+			//var contentdiv=document.getElementsByClassName("tab_content");
+			if(!(contentdiv[0])){
+				/* alert(getAuth[0]()[0]);
+			    return false; */
+				window.location.reload();
+				//initDialog();
+			}
 			var initFirstNode=(contentdiv[0].firstChild);
 			if (mthjudge!='M'){    //如果非月份檔	 
 				if(contentdiv){
@@ -462,24 +476,32 @@ function initDialog(event)
 			 conTainer.id="container";
 			 var heaDer=document.createElement("header");
 			 var compAnyName=document.createElement("span");
-			 compAnyName.id="company_name";
+			 compAnyName.id="company_name";			
 			 heaDer.appendChild(compAnyName);
 			 var navIgatIon=document.createElement("nav");
 			 navIgatIon.id="navigation";
-			 navIgatIon.className="vertical";
+			 navIgatIon.setAttribute("class","vertical");			 
 			 var ulList=document.createElement("ul");
 			 ulList.id= "listUL";
 			 navIgatIon.appendChild(ulList);
 		     conTainer.appendChild(heaDer);
 			 conTainer.appendChild(navIgatIon);			 
 			 document.body.appendChild(conTainer);
-			 links[0].href="RED/REDmenu.css?v=0.0.2";			 			 
+			 links[0].href="RED/REDmenu.css?v=0.0.6";			 			 
 			 links[1].href="digits/CYC25.gif";
 			 nowExcute='RED.知訊數位營運管理系統';			
 			 var urlfolder=document.getElementsByTagName('title');
 			 urlfolder[0].innerHTML=nowExcute; 				 			   
 		}
-		
+		////
+			
+			var scriptall=document.getElementsByTagName("script");
+	        for(var j=0;j<scriptall.length;j++){
+	            if(scriptall[j].id){
+	              scriptall[j].parentNode.removeChild(scriptall[j]);		 
+		        }
+	        }		 	
+			////
 		var jsvsn=nwsd.toString()+scnd;		
 		var urljsname=nowExcute.substr(0,3)+'/JS/'+nowExcute.substr(0,3)+'psdchg.js?v='+jsvsn;		 
 		loadScript(urljsname,function(){selfTag(jsvsn);});  			     

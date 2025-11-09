@@ -1,4 +1,12 @@
 function selfTag(jsvsn){ 
+    ///
+    var scriptall=document.getElementsByTagName("script");
+	    for(var j=0;j<scriptall.length;j++){
+	        if(scriptall[j].id){
+	            scriptall[j].parentNode.removeChild(scriptall[j]);		 
+		    }
+	    }			
+	///	
 	loadScript(`C02/JS/C02.js?v=${jsvsn}`,function(){DrawTable();});	
 	loadScript(`C02/JS/C02rgst.js?v=${jsvsn}`);
 	loadScript(`include/JS/commonsrch.js?v=${jsvsn}`);
