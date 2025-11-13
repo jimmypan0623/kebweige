@@ -37,8 +37,8 @@ function crtElm(){
 	spn3.innerHTML='0';
 	cntdiv[1].insertBefore(spn3,rspn2);
     var thr1=document.getElementById('headrow1');	 
-	var array1 = ['採購單號','廠商編號','廠商簡稱', '下單日期','採購人員','幣別','備註說明','交貨地點','運送方式'];
-	var array2 = ['10%','7%','7%', '10%','7%','4%','18%','26%','10%'];
+	var array1 = ['採購單號','廠商編號','廠商簡稱', '下單日期','採購人員','幣別','需求用途','交貨地點','運送方式'];
+	var array2 = ['10%','7%','7%', '10%','7%','4%','12%','32%','10%'];
 	for (var j = 0; j < array1.length; j++) {
 		var th1 = document.createElement('th'); //column		   
 		var text = document.createTextNode(array1[j]); //cell		

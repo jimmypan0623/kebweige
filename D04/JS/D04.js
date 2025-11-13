@@ -141,8 +141,7 @@ function choseExtraDeal(targetTrChildren,targetTr){   //紀錄移動
 	    detachEventListener(ansbtt,"click",ansproc,false);
 	    delbtt.setAttribute("style","visibility:hidden;");
 	    detachEventListener(delbtt,"click",delrec,false);
-	    apprv.setAttribute("style","color:red;font-size:20px;font-weight:bold;");
-	    apprv.innerHTML='\u{329E}\u{A0}\u{A0}\u{A0}\u{A0}';
+	   	apprv.innerHTML="<img src='digits/marker.png' alt='svg' style='position: absolute;top: 39px;left: 54%;width: 50px;opacity: 0.45;'>"
 	    if(trnno=='Y'){    //如果已轉出貨單反確認與轉單鈕不作用
 		    vrsbtt.setAttribute("style","display:none;");
 		    detachEventListener(vrsbtt,"click",vrsproc,false);
@@ -169,8 +168,7 @@ function choseExtraDeal(targetTrChildren,targetTr){   //紀錄移動
 		 detachEventListener(vrsbtt,"click",vrsproc,false);
 		 trnsbtt.setAttribute("style","display:none;");
 		 detachEventListener(trnsbtt,"click",trnsproc,false);	
-		  apprv.setAttribute("style","color:green;font-size:20px;font-weight:bold;;");
-		apprv.innerHTML='\u{3246}\u{A0}\u{A0}\u{A0}\u{A0}'; 
+		 apprv.innerHTML='\u{A0}'; 
 	    if(getAuth[0]()[8]=='Y'){		
 		    ansbtt.setAttribute("style","display:block;");
 		    attachEventListener(ansbtt,"click",ansproc,false);			 
@@ -223,8 +221,7 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 		detachEventListener(ansbtt,"click",ansproc,false);				
 		delbtt.setAttribute("style","visibility:hidden;");
 		detachEventListener(delbtt,"click",delrec,false);
-		apprv.setAttribute("style","color:red;font-size:20px;font-weight:bold;");
-		apprv.innerHTML='\u{329E}\u{A0}\u{A0}\u{A0}\u{A0}';
+	   apprv.innerHTML="<img src='digits/marker.png' alt='svg' style='position: absolute;top: 39px;left: 54%;width: 50px;opacity: 0.45;'>"
 		if(trnno=='Y'){          //如果已轉出貨單反確認與轉單鈕不作用
 			trnsbtt.setAttribute("style","display:none;");
 			detachEventListener(trnsbtt,"click",trnsproc,false); 
@@ -250,9 +247,8 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 		trnsbtt.setAttribute("style","display:none;");
 		detachEventListener(trnsbtt,"click",trnsproc,false); 
 		vrsbtt.setAttribute("style","display:none;");
-		detachEventListener(vrsbtt,"click",vrsproc,false);		
-		apprv.setAttribute("style","color:green;font-size:20px;font-weight:bold;");
-		apprv.innerHTML='\u{3246}\u{A0}\u{A0}\u{A0}\u{A0}'; 
+		detachEventListener(vrsbtt,"click",vrsproc,false);				 
+		apprv.innerHTML='\u{A0}'; 
 		if(getAuth[0]()[8]=='Y'){		  
 		    ansbtt.setAttribute("style","display:block;");
 		    attachEventListener(ansbtt,"click",ansproc,false);			  
@@ -309,8 +305,8 @@ function fldsgsroup(fidx,tbno){
                    ['directdata','none','center','0'], 	 	
 				   ['indirectdata','block','left','7'], 	
 				   ['directdata','block','center','4'], 
-				   ['directdata','block','left','18'], 
-				   ['directdata','block','left','26'], 
+				   ['directdata','block','left','12'], 
+				   ['directdata','block','left','32'], 
 				   ['directdata','block','left','10'], 				  
 				   ['directdata','none','center','0'], 
 				   ['directdata','none','center','0']

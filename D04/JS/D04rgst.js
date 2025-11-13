@@ -37,7 +37,7 @@ function blocksclose(clsevt)  //關閉註冊彈出視窗
 		var currentNo=document.getElementById('newPono').value;
 		var showTime=document.getElementById('currentTime'); //利用djtime.js顯示畫面的預設日期日期輸入欄之值為今天
 		var thtdy=(showTime.innerHTML.substring(0,4)+'-'+showTime.innerHTML.substring(5,7)+'-'+showTime.innerHTML.substring(8,10)); //中間一定要用減號分隔年月日				  
-		discardNoRec('BC'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase(),currentNo.trim());
+		discardNoRec('BA'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase(),currentNo.trim());
 	}
 	var dropsheet=document.getElementById("myModal");
 	dropsheet.style.display="none";       //關閉視窗 	
@@ -189,8 +189,7 @@ function d01VendorName(event){
 	{
 		event=window.event;
 	}	
-	var targetVendorNo=getEventTarget(event);	
-	
+	var targetVendorNo=getEventTarget(event);		
 	var sendSrcRec="filename="+targetVendorNo.value;		
 		var rsp="";  	
         if(window.ActiveXObject){
@@ -231,7 +230,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		var oTr=ajTable.insertRow(ajTable,ajTable.length);
 		var oTd = oTr.insertCell(0);	   
 		oTd.setAttribute('style','text-align:right;width:15%');					
-		oTd.innerHTML='備註說明:';
+		oTd.innerHTML='需求用途:';
 		var oTd = oTr.insertCell(1);               
 		oTd.innerHTML="<input type='text' name='d03update' id='whypurchase' class='txt' style='width:60%;' maxlength='50'    />";  				  
 		var oTr=ajTable.insertRow(ajTable,ajTable.length);
@@ -436,10 +435,10 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 							   
 		    }									
 		    break;	
-		case 6:   	   	//轉出貨單
+		case 6:   	   	//轉進貨單
 		   var showTime=document.getElementById('currentTime'); //利用djtime.js顯示畫面的預設日期日期輸入欄之值為今天
 		   var thtdy=(showTime.innerHTML.substring(0,4)+'-'+showTime.innerHTML.substring(5,7)+'-'+showTime.innerHTML.substring(8,10)); //中間一定要用減號分隔年月日			        				   				  
-		   objGetNo('newPono','BC'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase());				   				
+		   objGetNo('newPono','BA'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase());				   				
 		   break;			
 		case 7:   	   	//搜尋   
 			  var txtseek=document.getElementById('searchWords');
@@ -593,7 +592,7 @@ function page2Detail01(ajTable){
 			  var request = new XMLHttpRequest();
 		 }
 		 request.onreadystatechange = respond;   
-		 var url="D04/BKND/D!!srch.php?timestamp="+new Date().getTime();   	               				 
+		 var url="D04/BKND/D11srch.php?timestamp="+new Date().getTime();   	               				 
 		 request.open("POST",url);	 
 		 request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");		 			    
 		 var queryString ="filename="+document.getElementById("fatherkey1").innerHTML+'|'+sourceAccount(1,1);
@@ -649,9 +648,9 @@ function editRecordHint(tbno){
 
 function transRecordHint(tbno){
 	if (tbno==0){  //表頭資料	
-		return '採購單:'+sourceAccount(1,tbno)+",轉出貨單?";
+		return '採購單:'+sourceAccount(1,tbno)+",轉進貨單?";
 	}else{
-		return '採購單:'+document.getElementById('fatherkey1').innerHTML+",轉出貨單?";
+		return '採購單:'+document.getElementById('fatherkey1').innerHTML+",轉進貨單?";
 	}  
 }
 
@@ -663,7 +662,7 @@ function searchKeyHint(tbno){    //搜尋畫面出現提示
 	}  
 }
 function page2OtherWindow1(){
-   return "\u{1F4E4}"+document.getElementById("fatherkey1").innerHTML+"\u{A0}\u{1F4E6}:\u{300C}"+sourceAccount(1,1)+"\u{300D}的出貨紀錄";
+   return "\u{1F4E4}"+document.getElementById("fatherkey1").innerHTML+"\u{A0}\u{1F4E6}:\u{300C}"+sourceAccount(1,1)+"\u{300D}的進貨紀錄";
 
 }
 

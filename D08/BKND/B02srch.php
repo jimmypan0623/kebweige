@@ -4,9 +4,9 @@
  include("../../include/BKND/mysqli_server.php");                              //引用檔
         $str=explode('|',$_POST['filename']);  //將上面字串以逗號分割成陣列
  
-		$sql3="SELECT b0d.F01,b04.F90,b04.F02,B0d.F05,a14.F02 AS F0B,b0d.F04 FROM b0d,b04,a14 ";			  
+		$sql3="SELECT b0b.F01,b02.F90,b02.F02,b0b.F05,a14.F02 AS F0B,b0b.F04 FROM b0b,b02,a14 ";			  
 
-	   	$sql3.=" WHERE b0d.F07='".$str[1]."' AND b0d.F03='".$str[0]."' AND b04.F01= b0d.F01 AND b04.F10!='Y' AND a14.F01=b0d.F05 order by b04.F90,b04.F02 DESC"; 
+	   	$sql3.=" WHERE b0b.F07='".$str[1]."' AND b0b.F03='".$str[0]."' AND b02.F01= b0b.F01 AND b02.F10!='Y' AND a14.F01=b0b.F05 order by b02.F90,b02.F02 DESC"; 
    
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 

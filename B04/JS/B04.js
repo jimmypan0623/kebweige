@@ -201,8 +201,7 @@ function choseExtraDeal(targetTrChildren,targetTr){   //紀錄移動
 	    detachEventListener(editbtt,"click",edtrec,false);
 	    delbtt.setAttribute("style","visibility:hidden;");
 	    detachEventListener(delbtt,"click",delrec,false);	 
-	    apprv.setAttribute("style","color:red;font-size:20px;font-weight:bold;");
-	    apprv.innerHTML='\u{329E}\u{A0}\u{A0}\u{A0}\u{A0}';	 
+		apprv.innerHTML="<img src='digits/marker.png' alt='svg' style='position: absolute;top: 39px;left: 54%;width: 50px;opacity: 0.45;'>"
 	    if(getAuth[0]()[9]=='Y' && cko[0](0)==0){				 
 			vrsbtt.setAttribute("style","display:block;");
 			attachEventListener(vrsbtt,"click",vrsproc,false);			 
@@ -211,8 +210,9 @@ function choseExtraDeal(targetTrChildren,targetTr){   //紀錄移動
 		   detachEventListener(vrsbtt,"click",vrsproc,false);			
 	    }
     }else{	   
-		apprv.setAttribute("style","color:green;font-size:20px;font-weight:bold;");
-		apprv.innerHTML='\u{3246}\u{A0}\u{A0}\u{A0}\u{A0}'; 
+		
+		apprv.innerHTML='\u{A0}';  
+		
 		vrsbtt.setAttribute("style","display:none;");
 		detachEventListener(vrsbtt,"click",vrsproc,false);
 	    if(getAuth[0]()[8]=='Y' && cko[0](0)==0){			
@@ -254,8 +254,7 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 		detachEventListener(editbtt,"click",edtrec,false);
 		delbtt.setAttribute("style","visibility:hidden;");
 		detachEventListener(delbtt,"click",delrec,false);	           
-		apprv.setAttribute("style","color:red;font-size:20px;font-weight:bold;;");
-		apprv.innerHTML='\u{329E}\u{A0}\u{A0}\u{A0}\u{A0}';			
+		apprv.innerHTML="<img src='digits/marker.png' alt='svg' style='position: absolute;top: 39px;left: 54%;width: 50px;opacity: 0.45;'>"
 		if(getAuth[0]()[9]=='Y' && cko[0](0)==0){			 
 			vrsbtt.setAttribute("style","display:block;");
 			attachEventListener(vrsbtt,"click",vrsproc,false);				 
@@ -264,8 +263,7 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 			detachEventListener(vrsbtt,"click",vrsproc,false);			
 		}
 	}else{		 
-		apprv.setAttribute("style","color:green;font-size:20px;font-weight:bold;;");
-		apprv.innerHTML='\u{3246}\u{A0}\u{A0}\u{A0}\u{A0}'; 
+		apprv.innerHTML='\u{A0}'; 
 		vrsbtt.setAttribute("style","display:none;");
 		detachEventListener(vrsbtt,"click",vrsproc,false);
 		if(getAuth[0]()[8]=='Y' && cko[0](0)==0 ){			 

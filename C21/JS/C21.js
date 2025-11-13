@@ -119,8 +119,7 @@ function choseExtraDeal(targetTrChildren,targetTr){   //紀錄移動
 	   detachEventListener(editbtt,"click",edtrec,false);
 	   delbtt.setAttribute("style","visibility:hidden;");
 	   detachEventListener(delbtt,"click",delrec,false);	 
-	   apprv.setAttribute("style","color:red;font-size:20px;font-weight:bold;");
-	   apprv.innerHTML='\u{329E}\u{A0}\u{A0}\u{A0}\u{A0}';
+	   apprv.innerHTML="<img src='digits/marker.png' alt='svg' style='position: absolute;top: 39px;left: 54%;width: 50px;opacity: 0.45;'>"
 	    if(trnno=='Y'){    //如果已轉訂單反確認與轉單鈕不作用
 		    vrsbtt.setAttribute("style","display:none;");
 		    detachEventListener(vrsbtt,"click",vrsproc,false);
@@ -146,9 +145,8 @@ function choseExtraDeal(targetTrChildren,targetTr){   //紀錄移動
 		 vrsbtt.setAttribute("style","display:none;");
 		 detachEventListener(vrsbtt,"click",vrsproc,false);
 		 trnsbtt.setAttribute("style","visibility:hidden;");
-		 detachEventListener(trnsbtt,"click",trnsproc,false);
-		 apprv.setAttribute("style","color:green;font-size:20px;font-weight:bold;;");
-		apprv.innerHTML='\u{3246}\u{A0}\u{A0}\u{A0}\u{A0}'; 
+		 detachEventListener(trnsbtt,"click",trnsproc,false);	
+		 apprv.innerHTML='\u{A0}'; 		
 	    if(getAuth[0]()[8]=='Y'){      //確認權限		
 		    ansbtt.setAttribute("style","display:block;");
 		    attachEventListener(ansbtt,"click",ansproc,false);			 
@@ -194,8 +192,7 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 		detachEventListener(editbtt,"click",edtrec,false);
 		delbtt.setAttribute("style","visibility:hidden;");
 		detachEventListener(delbtt,"click",delrec,false);				
-		apprv.setAttribute("style","color:red;font-size:20px;font-weight:bold;");
-		apprv.innerHTML='\u{329E}\u{A0}\u{A0}\u{A0}\u{A0}';
+		apprv.innerHTML="<img src='digits/marker.png' alt='svg' style='position: absolute;top: 39px;left: 54%;width: 50px;opacity: 0.45;'>"
 		if(trnno=='Y'){          //如果已轉訂單反確認與轉單鈕不作用
 			trnsbtt.setAttribute("style","visibility:hidden;");
 			detachEventListener(trnsbtt,"click",trnsproc,false); 
@@ -222,8 +219,7 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 		 detachEventListener(trnsbtt,"click",trnsproc,false); 
 		 vrsbtt.setAttribute("style","display:none;");
 		 detachEventListener(vrsbtt,"click",vrsproc,false);
-		 apprv.setAttribute("style","color:green;font-size:20px;font-weight:bold;");
-		 apprv.innerHTML='\u{3246}\u{A0}\u{A0}\u{A0}\u{A0}'; 
+		 apprv.innerHTML='\u{A0}'; 
 		if(getAuth[0]()[8]=='Y'){				  
 		   ansbtt.setAttribute("style","display:block;");
 		   attachEventListener(ansbtt,"click",ansproc,false);					  				   
@@ -256,20 +252,6 @@ function rowchoseSecond(targetRow){    //紀錄移動表身
 function fldsgsroup(fidx,tbno){
 	 var groups=[];
 	if(tbno==0){	
-	/*               'query_no_DSL_010'=>$list3['F01'], 					 
-                     'custom_no_DSL_007'=>$list3['F03'],	
-                     'custom_name_ISL_007'=>$list3['F0E'],				
-					 'custom_fullname_IHL_000'=>$list3['F0D'],		
-                     'query_date_DSC_009'=>$list3['F02'],
-                     'sales_no_DHC_000'=>$list3['F06'],		
-					 'sales_name_ISL_007'=>$list3['F0C'],	
-					 'crncy_type_DSC_004'=>$list3['F14'],	
-                     'sourceman_DSL_013'=>$list3['F07'],	
-                     'shipway_DSL_013'=>$list3['F09'],     	
-                     'payment_DSL_013'=>$list3['F10'],     						 
-                     'remark_DSL_013'=>$list3['F11'],  
-                     'trns_IHC_000'=>$list3['F15'],     					 
-                     'shure_IHC_000'=>$list3['F04'],     					 */
         var groups=[['directdata','block','left','10'],     
 	               ['directdata','block','left','7'],   
 	               ['indirectdata','block','left','7'],   
@@ -286,15 +268,6 @@ function fldsgsroup(fidx,tbno){
 				   ['directdata','none','center','0']
 	            ]; 
 	}else{
-		/*           'stockno_DSL_013'=>$list3['F02'], 
-					 'stockname_ISL_013'=>$list3['F0B'],
-					 'query_qty_DSR_008'=>$list3['F03'],	                     
-                     'query_price_DSR_008'=>$list3['F04'],     
-					 'custom_partno_DSL_013'=>$list3['F05'],  
-                     'basic_pack_DSR_007'=>$list3['F06'],  		
-                     'min_order_DSR_007'=>$list3['F07'],  				
-					 'datestart_DSC_010'=>$list3['F15'],  
-					 'dateline_DSC_010'=>$list3['F17'],  				*/
 	    var groups=[['directdata','block','left','13'],    
 				   ['indirectdata','block','left','13'], 
 				   ['directdata','block','right','8'], 
@@ -309,3 +282,6 @@ function fldsgsroup(fidx,tbno){
 	}		
     return groups[fidx];			  
 }
+
+
+////<img src="./志翔水電_files/check-mark.png" alt="svg" style="position: absolute;top: 21px;left: 65%;width: 50px;opacity: 0.45;"></div></div>

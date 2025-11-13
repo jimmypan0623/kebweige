@@ -7,7 +7,7 @@ foreach($cart as $key=>$val){
     $brr[]=addslashes($val);		//要加入此函數避免中間有單引號錯亂
 }
 include("../../include/BKND/mysqli_server.php");    //引用檔   
- $sql7="select `F08` from `c03` where `F01`='".$brr[0]."'"; 
+ $sql7="select `F08` from `d03` where `F01`='".$brr[0]."'"; 
  $sql8=@mysqli_query($link,$sql7);                       
   $list9=mysqli_fetch_assoc($sql8);  //檢查是否已轉單
 if($list9['F08']!='Y'){    //已有出貨行為
@@ -16,19 +16,22 @@ if($list9['F08']!='Y'){    //已有出貨行為
      $rows1=@mysqli_num_rows($sql1);                       
      $list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名   
       $lastdate=date('Y'.'-'.'m'.'-'.'d');
-   ////先轉表頭b04
-      $sql5="select F29,F30,F15,F36 from `c01` where `F01`='".trim($brr[1])."'"; 
+   ////先轉表頭b02
+      $A='21';
+	  $B='1';
+      $sql5="select F13,F36 from `d01` where `F01`='".trim($brr[1])."'"; 
       $sql6=@mysqli_query($link,$sql5);                       
-      $list1=mysqli_fetch_assoc($sql6);  //先抓c01客戶主檔需用的欄位
-	  $sql17="select F02 from `c00` where `F01`='".trim($brr[4])."'"; 
+      $list1=mysqli_fetch_assoc($sql6);  //先抓d01客戶主檔需用的欄位
+	  $sql17="select F02 from `d00` where `F01`='".trim($brr[4])."'"; 
       $sql18=@mysqli_query($link,$sql17);                       
-      $list2=mysqli_fetch_assoc($sql18);  //先抓c00匯率
-       $sql2="insert into b04 (F01,F02,F06,F09,F11,F14,F16,F22,F23,F21,F12,F24,F90) values ('".$brr[9]."','".date('d')."', 
-	   '".$brr[1]."','".$brr[3]."','".$lastdate.$list4['F03']."','".$brr[4]."','".$list2['F02']."','".$list1['F29']."', 
-	   '".$list1['F30']."','".howpay($list1['F15']).($list1['F36']>0?$list1['F36']."天":"")."','".$brr[6]."','".$brr[7]."','".date('Y')."-".date('m')."')";         
+      $list2=mysqli_fetch_assoc($sql18);  //先抓d00匯率
+	  
+       $sql2="insert into b02 (F01,F02,F06,F09,F11,F14,F16,F21,F12,F24,F90) values ('".$brr[9]."','".date('d')."', 
+	   '".$brr[1]."','".$brr[3]."','".$lastdate.$list4['F03']."','".$brr[4]."','".$list2['F02']."',
+	   '".howpay($list1['F13']).($list1['F36']>0?$list1['F36']."天":"")."','".$brr[6]."','".$brr[7]."','".date('Y')."-".date('m')."')";         
 	  @mysqli_query($link,$sql2) ;  	  	  
-   ////轉表身b0d
-	  $sql3="select c04.*,b01.F07 as F0G from c04 left outer join b01 on b01.F01=c04.F02 where c04.F01='".$brr[0]."' order by c04.F02"; 
+   ////轉表身b0b
+	  $sql3="select d04.*,b01.F07 as F0G from d04 left outer join b01 on b01.F01=d04.F02 where d04.F01='".$brr[0]."' order by d04.F02"; 
       $sql4=@mysqli_query($link,$sql3); 
      $arr=array(); 
 	 while ($list3=mysqli_fetch_assoc($sql4)){
@@ -51,12 +54,12 @@ if($list9['F08']!='Y'){    //已有出貨行為
 		 '".$v['custom_po']."','".$v['whoupdate']."',".$v['query_price'].",'".$v['remark']."'),";
      }  	 
      $valueStr = substr($valueStr,0,strlen($valueStr)-1);   //去掉最右邊的逗號
-     $insertSql = "insert into b0d (F01,F03,F04,F05,F07,F08,F09,F11,F15,F25) values ".$valueStr; 
+     $insertSql = "insert into b0b (F01,F03,F04,F05,F07,F08,F09,F11,F15,F25) values ".$valueStr; 
       @mysqli_query($link,$insertSql) ;  
 	
-	  $c04update="UPDATE c04 SET F23=F03 WHERE F01='".$brr[0]."'";	
-        mysqli_query($link , $c04update) or die(mysqli_error($link));		
-	   $mscnt="UPDATE c03 SET F08='".$brr[8]."',";	    	  
+	  $d04update="UPDATE d04 SET F23=F03 WHERE F01='".$brr[0]."'";	
+        mysqli_query($link , $d04update) or die(mysqli_error($link));		
+	   $mscnt="UPDATE d03 SET F08='".$brr[8]."',";	    	  
 	   $mscnt.=" F10='".$lastdate.$list4['F03']."'";
 	   $mscnt.=" WHERE F01="."'".$brr[0]."'";
 	   $sql=$mscnt;                                                 //寫入MySQL 	 

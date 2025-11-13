@@ -61,7 +61,8 @@ function page1Detail01(ajTable){
 	 request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");	
 	  
 	 var queryString ="filename="+sourceAccount(1,0)+'|'+document.getElementById('departNoOption').value+'|'+document.getElementById('recmth').value+'|'+sourceAccount(2,0)*1;	 
-	 request.send(queryString);
+  
+	request.send(queryString);
 	 function respond(){
 		if (request.readyState == 4 && request.status == 200) {	       	     		
 			 rsp=JSON.parse(request.responseText);						   
@@ -72,7 +73,7 @@ function page1Detail01(ajTable){
 function searchHaveshiped(str1,ajTable) {       //搜尋相關料號
     var cnt=0;
 	var arr = str1;     	 
-	var initqty=sourceAccount(3,0);    //在此要用3,0
+	var initqty=sourceAccount(2,0);    //
 	for(var i=arr.length-1;i>-1;i--){				 
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 		cnt++;         

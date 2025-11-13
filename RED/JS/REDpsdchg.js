@@ -16,12 +16,20 @@ function selfTag(jsvsn)
 		   getAuth[1](myAccount); 
           	   
 		}
-		
+			///
+        var scriptall=document.getElementsByTagName("script");
+	    for(var j=0;j<scriptall.length;j++){
+	        if(scriptall[j].id){
+	            scriptall[j].parentNode.removeChild(scriptall[j]);		 
+		    }
+	    }			
+	    ///	
 		 loadScript(`RED/JS/RED.js?v=${jsvsn}`,function(){commontemp();});	
 		 loadScript(`RED/JS/REDrgst.js?v=${jsvsn}`);
      		 
 	    var plsElmnts=document.getElementById('company_name').parentNode;
-	    attachEventListener(plsElmnts,"click",toggleMenu,false);  
+		var menubarcover=document.getElementById('menudivbtn');
+	    attachEventListener(menubarcover,"click",toggleMenu,false);  
 		
 		var iflm=document.createElement('iframe');
 		if(getAuth[1]()[1] && (left(getAuth[1]()[1],1)=='C' || left(getAuth[1]()[1],1)=='D' || left(getAuth[1]()[1],1)=='B')){
@@ -56,9 +64,7 @@ function redmenuchange(event){    //畫面展開縮起來
 		        }
 		    }						
 			oSecondDiv.setAttribute("class","myShow");
-			target.style.backgroundImage="url('digits/up.gif')";
-			
-		    
+			target.style.backgroundImage="url('digits/up.gif')";	    
 			switch (left(target.innerHTML,1)){
 			     case 'B':
 			       var htmfile='ROL/flowProcess'+left(target.innerHTML,1)+'.html';
@@ -155,12 +161,15 @@ function accountDele(event){    //刪除帳號cookie
     return;	 
 }
 
-
 function toggleMenu() {   //主選單隱藏或顯示
+     btnimg=document.getElementById('menubtnimg');
 	var menu = document.getElementById("navigation"); 
 	if (menu.style.display === "none") {
-		menu.style.display = "block";		 
+		menu.style.display = "block";		
+		btnimg.src = 'digits/widget_closed.gif';
 	} else {
 		menu.style.display = "none";	 
+		btnimg.src = 'digits/widget_open.gif';
 	}
+	
 }

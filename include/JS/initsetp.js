@@ -104,8 +104,7 @@ function initDialog(event)
                      }, 9000)
                   })(9000);                   //  pass the number of iterations as an argument
 		         
-                 document.location.href="logOut.php";
-		       // 
+                 document.location.href="logOut.php";		      
 			}
 		    delCookie('errmsg');	
             delCookie('tmpacnt');	
@@ -222,8 +221,7 @@ function initDialog(event)
 			var text27=document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}'); 
 			document.body.insertBefore(tabCss,ftbtm);
 			 tabCss.insertBefore(text27,lclBtnBk);
-			////
-			
+			////			
 			var scriptall=document.getElementsByTagName("script");
 	        for(var j=0;j<scriptall.length;j++){
 	            if(scriptall[j].id){
@@ -240,7 +238,7 @@ function initDialog(event)
 			if(!(contentdiv[0])){
 				/* alert(getAuth[0]()[0]);
 			    return false; */
-				window.location.reload();
+				document.location.href="logOut.php";
 				//initDialog();
 			}
 			var initFirstNode=(contentdiv[0].firstChild);
@@ -308,15 +306,13 @@ function initDialog(event)
 				contentdiv[0].insertBefore(mthspan, initFirstNode);
 				contentdiv[0].insertBefore(sltPage, initFirstNode);
 				contentdiv[0].insertBefore(text5, initFirstNode);
-			}
-			 
+			}			 
 			if(ftbtm.childNodes.length<4){
 			   var urlcmp=(decodeURI(window.location.search));			
 	           var rslt=getUrlParams2(urlcmp);
 		       var text9 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}登入者:');
 		       var username=document.createElement("span");	
-		       username.innerHTML=rslt.username;
-		   
+		       username.innerHTML=rslt.username;		   
 		       ftbtm.appendChild(text9);
 	           ftbtm.appendChild(username); 
 			}
@@ -406,28 +402,28 @@ function initDialog(event)
 			var tab2Click=document.getElementById("tab2");
 			if(tab2Click){			 
 				var initTab2FirstNode=(contentdiv[1].firstChild);
-					var pageUpButton=document.createElement("input");		   
-					pageUpButton.setAttribute("type","button");
-					pageUpButton.setAttribute("class","btn");
-					pageUpButton.setAttribute("value","\u{25B2}");     
-					pageUpButton.setAttribute("title","表頭上一筆，表身上一頁，快速鍵 Alt+I");
-					pageUpButton.setAttribute("accesskey","I");					
-					pageUpButton.id="previousPage1";		
-					attachEventListener(pageUpButton,"click",HeadPageChange,false);
-					var text6 = document.createTextNode('\u{A0}');					
-					var pageDownButton=document.createElement("input");		   
-					pageDownButton.setAttribute("type","button");
-					pageDownButton.setAttribute("class","btn");
-					pageDownButton.setAttribute("value","\u{25BC}");     					
-					pageDownButton.setAttribute("title","表頭下一筆，表身下一頁，快速鍵 Alt+M");
-					pageDownButton.setAttribute("accesskey","M");					
-					pageDownButton.id="nextPage1";		
-					attachEventListener(pageDownButton,"click",HeadPageChange,false);
-					contentdiv[1].insertBefore(pageUpButton, initTab2FirstNode);
-					contentdiv[1].insertBefore(text6, initTab2FirstNode);					
-					contentdiv[1].insertBefore(pageDownButton, initTab2FirstNode);
-					var text8 = document.createTextNode('\u{A0}');	
-					 contentdiv[1].insertBefore(text8, initTab2FirstNode);
+				var pageUpButton=document.createElement("input");		   
+				pageUpButton.setAttribute("type","button");
+				pageUpButton.setAttribute("class","btn");
+				pageUpButton.setAttribute("value","\u{25B2}");     
+				pageUpButton.setAttribute("title","表頭上一筆，表身上一頁，快速鍵 Alt+I");
+				pageUpButton.setAttribute("accesskey","I");					
+				pageUpButton.id="previousPage1";		
+				attachEventListener(pageUpButton,"click",HeadPageChange,false);
+				var text6 = document.createTextNode('\u{A0}');					
+				var pageDownButton=document.createElement("input");		   
+				pageDownButton.setAttribute("type","button");
+				pageDownButton.setAttribute("class","btn");
+				pageDownButton.setAttribute("value","\u{25BC}");     					
+				pageDownButton.setAttribute("title","表頭下一筆，表身下一頁，快速鍵 Alt+M");
+				pageDownButton.setAttribute("accesskey","M");					
+				pageDownButton.id="nextPage1";		
+				attachEventListener(pageDownButton,"click",HeadPageChange,false);
+				contentdiv[1].insertBefore(pageUpButton, initTab2FirstNode);
+				contentdiv[1].insertBefore(text6, initTab2FirstNode);					
+				contentdiv[1].insertBefore(pageDownButton, initTab2FirstNode);
+				var text8 = document.createTextNode('\u{A0}');	
+				contentdiv[1].insertBefore(text8, initTab2FirstNode);
 			} 
 			var tab3Click=document.getElementById("tab3");
 			if(tab3Click){	     
@@ -475,6 +471,21 @@ function initDialog(event)
              var conTainer=document.createElement("div");
 			 conTainer.id="container";
 			 var heaDer=document.createElement("header");
+			 var menucoverdiv=document.createElement("div");
+			 menucoverdiv.style.float='left';
+			 var extenbtn=document.createElement("button");
+			 extenbtn.id='menudivbtn';
+			 extenbtn.setAttribute("style","border-style:none;background-color:transparent;");
+			 var btnimg = document.createElement('img');
+			 btnimg.id='menubtnimg';
+			 btnimg.style.width='12px';
+			 btnimg.src = 'digits/widget_closed.gif';
+            
+             extenbtn.appendChild(btnimg);
+			// extenbtn.className='btn';
+			 
+			 menucoverdiv.appendChild(extenbtn);
+			  heaDer.appendChild(menucoverdiv);
 			 var compAnyName=document.createElement("span");
 			 compAnyName.id="company_name";			
 			 heaDer.appendChild(compAnyName);

@@ -470,6 +470,7 @@ function ansproc(event){   //確認程序
 	for (var i=0;i<btns.length;i++){		 
 		btns[i].removeAttribute("accesskey");				 
 	}		   
+	
 	blkshow(3);
 }
 function vrsproc(event){  //反確認程序
@@ -478,6 +479,7 @@ function vrsproc(event){  //反確認程序
 		event=window.event;
 	}
 	 var target=getEventTarget(event);
+	
 	blkshow(5);
 }
 function trnsproc(event){        //轉單程序
@@ -486,6 +488,7 @@ function trnsproc(event){        //轉單程序
 		event=window.event;
 	}
 	 var target=getEventTarget(event);
+	 
 	blkshow(6);
 }
 
