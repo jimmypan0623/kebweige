@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>採購管理流程</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!--    <script src="JS/mermaid.min.js?v=0.0.1"></script> -->
+	<script src="JS/flowProcess.js?v=0.0.3"></script>
+</head>
+<body>
+
+<div style="font-weight:bold;font-family:arial;" class="mermaid">
+graph LR;
+    B[(A02)] -->|採購人員|C(D01) 
+    A(D00) -->|&#x1F4B2幣別|C   
+    C -->|廠商資料|D[/D04/] 
+	C -->|廠商資料|H[(D02)]
+	H -->|詢價紀錄|D
+	A -->|&#x1F4B2幣別|D
+ 	A -->|三旬匯率|F[/B02/]	
+	D -->|&#x2705|E[(D08)]
+	E -->|進貨計劃|F
+   
+	O[(A09)] -->|收貨部門|F
+	F -->|&#x2705| I[(D11)]
+	F -->|&#x2705| J[(D19)] 
+	G[/B03/]-->|&#x2705| I
+	G -->|&#x2705| J 
+	style O fill:#FFBB77,stroke:#003E3E;
+	style D fill:#ADADFF,stroke:#FFFF30;
+	style C fill:#FFC9C9,stroke:#8C8C8C;
+	style F fill:#B5FFB5,stroke:#B2B200;
+	style J fill:#E4BFFF,stroke:#8F5D00;
+	click A call FunDetailArg("D00") "D00 採購幣別設定"
+    click B call FunDetailArg("A02") "A02 人員設定"
+	click C call FunDetailArg("D01") "D01 廠商基本資料檔"
+	click D call FunDetailArg("D04") "D04 採購單"
+	click E call FunDetailArg("D08") "D08 進貨計劃"
+	click O call FunDetailArg("A09") "A09 部門設定"
+	click F call FunDetailArg("B02") "B02 進貨單"
+	click G call FunDetailArg("B03") "B03 進貨退出單"
+	click H call FunDetailArg("D02") "D02 詢價紀錄"
+	click I call FunDetailArg("D11") "D11 進貨月報表"
+	click J call FunDetailArg("D19") "D19 應付帳款對帳單"
+</div>
+
+ <!-- D  |&#x2705待進D08| F-->
+</body>
+</html>

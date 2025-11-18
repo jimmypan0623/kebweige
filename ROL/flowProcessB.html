@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>庫存管理流程</title>
+
+   <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>   
+    
+<!--     <script src="JS/mermaid.min.js?v=0.0.2"></script> -->
+	<script src="JS/flowProcess.js?v=0.0.3"></script>
+
+</head>
+<body>
+
+<div style="font-weight:bold;font-family:arial;" class="mermaid">
+graph LR;
+    
+    O[(A09)] -->|保管部門|A[B01]   
+	 
+	A -->B[/B02/]
+	A -->C[/B03/]
+
+	A -->D[/B04/]
+	A -->E[/B05/]
+	D -->S[(C10)]
+	D -->T[(C12)]
+	E -->S 
+	E -->T 
+	A -->F[/B06/]	
+    A -->I[/B09/] 
+	A -->J[/B10/] 
+	A -->|報價|K[(C02)]
+	P[(C01)] -->|客戶資料|A
+	A -->|詢價|L[(D02)]
+	Q[(D01)] -->|廠商資料|A
+	B -->|&#x2705進貨|M[(B25)]
+	C -->|&#x2705退出|M
+	D -->|&#x2705出貨|M
+	E -->|&#x2705退回|M
+	F -->|&#x2705移轉|M
+	I -->|&#x2705盤差|M
+	J -->|&#x2705報廢|M	 
+	B -->N[(D11)]
+	B -->R[(D19)]
+	C -->N 
+	C -->R 
+	style A fill:#FFFF6E,stroke:#642100;
+	style B fill:#3BFF3B,stroke:#4A0080;
+	style D fill:#FFCC6E,stroke:#00008F;
+	style E fill:#D9FFFF,stroke:#2F0000;
+	style I fill:#FFBFBF,stroke:#1212FF;
+	style F fill:#ADADFF,stroke:#FFB630;
+	style K fill:#FF7C2A,stroke:#00008A;
+	style T fill:#C6A300,stroke:#272727;
+	style R fill:#FF5151,stroke:#005757;
+	style P fill:#84C1FF,stroke:#AE8F00;
+	style M fill:#FFFF37,stroke:#750000;
+	click O call FunDetailArg("A09") "A09 物部門設定"
+	click A call FunDetailArg("B01") "B01 物料基本檔"
+    click B call FunDetailArg("B02") "B02 進貨單"
+	click C call FunDetailArg("B03") "B03 進貨退出單"
+	click D call FunDetailArg("B04") "B04 出貨單"
+	click E call FunDetailArg("B05") "B05 出貨退回單"
+	click F call FunDetailArg("B06") "B06 移轉單"
+	click I call FunDetailArg("B09") "B09 盤差調整單"
+	click J call FunDetailArg("B10") "B10 報廢單"
+	click K call FunDetailArg("C02") "C02 報價紀錄"
+	click L call FunDetailArg("D02") "D02 報價紀錄"
+	click P call FunDetailArg("C01") "C01 客戶資料基本檔"
+	click Q call FunDetailArg("D01") "D01 廠商資料基本檔"
+    click M call FunDetailArg("B25") "B25 部門別庫存量月報表"
+	click N call FunDetailArg("D11") "D11 進貨月報表"
+	click R call FunDetailArg("D19") "D19 應付帳款對帳單"
+	click S call FunDetailArg("C10") "C10 出貨月報表"
+	click T call FunDetailArg("C12") "C12 應收帳款對帳單"
+</div>
+ 
+</body>
+</html>
