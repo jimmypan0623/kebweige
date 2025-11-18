@@ -24,7 +24,7 @@ if(trim($list2['F10'])=="Y"){
 		foreach ($mscnt as $delvalue){
 		    mysqli_query($link ,$delvalue) or die(mysqli_error($link)); 
 		}
-		 $sql3="SELECT b0d.*,b04.F02 AS F0B,b04.F90 FROM b0d,b04 WHERE b0d.F01='".$delmsg."' AND b04.F01='".$delmsg."' ORDER BY b0d.F03"; 		 
+		 $sql3="SELECT b0d.*,b04.F02 AS F0B,b04.F90,b01.F98 FROM b0d,b04,b01 WHERE b0d.F01='".$delmsg."' AND b04.F01='".$delmsg."' AND b01.F01=b0d.F03 ORDER BY b0d.F03"; 		 
 		 $sql4=@mysqli_query($link,$sql3); 
 		 $arr=array(); 
 		 while ($list3=mysqli_fetch_assoc($sql4)){
@@ -36,7 +36,8 @@ if(trim($list2['F10'])=="Y"){
 							'unit_price'=>$list3['F15'],  //單價					    
 							'lastupdate'=>$lastdate.$list4['F03'],
 							'departno'=>$list3['F05'],					
-							'custom_partno'=>$list3['F08'],					   					 
+							'custom_partno'=>$list3['F08'],	
+							'mrt_type'=>$list3['F98'],	
 							'month_no'=>$list3['F90'] 
 						 );   		     
 				array_push($arr,$my_array);		          		
@@ -44,37 +45,43 @@ if(trim($list2['F10'])=="Y"){
 		 $valueStr3 ='';
 		 $valueStr4 ='';	
 		 $valueStr6 ='';
-			foreach($arr as $v){
+		foreach($arr as $v){
+			if($v['mrt_type']=='NNN'){  //虛擬料號
+			   $vbn=0;
+			}else{
+			   $vbn=1;
+			}				
 				   //b25庫存月報
 				 $valueStr3 .= "('".$v['departno']."',     
 				 '".$v['stockno']."',
-				 ".$v['orderqty']*(-1).",
-				 ".$v['orderqty'].",
+				 ".$v['orderqty']*(-1)*$vbn.",
+				 ".$v['orderqty']*$vbn.",
 				 '".$v['lastupdate']."',
 				 '".$v['month_no']."'),";
 				 //b11庫存明細
 				 $valueStr4 .= "('".$v['departno']."',  
 				 '".$v['stockno']."',
-				 ".$v['orderqty'].",
+				 ".$v['orderqty']*$vbn.",
 				 '".$v['month_no']."-".$v['deliveryday']."'),";
-				 //c04訂單表身
-				 $valueStr6 .= "('".$v['oring_no']."',
-				 '".$v['stockno']."',		    
-				 ".$v['orderqty'].",
-				 ".$v['unit_price'].",
-				 '".$v['custom_partno']."',
-				 '".$v['month_no']."-".$v['deliveryday']."',
-				 ".$v['orderqty']*(-1).",
-				 '".$v['lastupdate']."',
-				 ".$v['orderqty']."),"; 			      
-			}       
-		 $valueStr3 = substr($valueStr3,0,strlen($valueStr3)-1);   //去掉最右邊的逗號,異動庫存月報表
-		 $valueStr4 = substr($valueStr4,0,strlen($valueStr4)-1);   //去掉最右邊的逗號,異動即時庫存明細	 
-		 $valueStr6 = substr($valueStr6,0,strlen($valueStr6)-1);   //去掉最右邊的逗號,異動客戶訂單表身  
-		 $insertSql[] = "insert into b25 (F01,F02,F06,F15,F16,F90) values ".$valueStr3." ON DUPLICATE KEY UPDATE F06=F06+VALUES(F06),F15=F15+VALUES(F15),F16=VALUES(F16)"; 
-		 $insertSql[] = "insert into b11 (F01,F03,F04,F05) values ".$valueStr4." ON DUPLICATE KEY UPDATE F04=F04+VALUES(F04),F05=VALUES(F05)";     	
-		 $insertSql[] = "insert into c04 (F01,F02,F03,F04,F05,F06,F09,F12,F23) values ".$valueStr6." ON DUPLICATE KEY UPDATE F09=F09+VALUES(F09),F12=VALUES(F12),F23=F23+VALUES(F23)";   
-		 foreach ($insertSql as  $values){
+			
+			//c04訂單表身
+			$valueStr6 .= "('".$v['oring_no']."',
+			'".$v['stockno']."',		    
+			".$v['orderqty'].",
+			".$v['unit_price'].",
+			'".$v['custom_partno']."',
+			'".$v['month_no']."-".$v['deliveryday']."',
+			".$v['orderqty']*(-1).",
+			'".$v['lastupdate']."',
+			".$v['orderqty']."),"; 			      
+		}       		 
+		$valueStr3 = substr($valueStr3,0,strlen($valueStr3)-1);   //去掉最右邊的逗號,異動庫存月報表
+		$valueStr4 = substr($valueStr4,0,strlen($valueStr4)-1);   //去掉最右邊的逗號,異動即時庫存明細	 
+		$insertSql[] = "insert into b25 (F01,F02,F06,F15,F16,F90) values ".$valueStr3." ON DUPLICATE KEY UPDATE F06=F06+VALUES(F06),F15=F15+VALUES(F15),F16=VALUES(F16)"; 
+		$insertSql[] = "insert into b11 (F01,F03,F04,F05) values ".$valueStr4." ON DUPLICATE KEY UPDATE F04=F04+VALUES(F04),F05=VALUES(F05)";     			 
+		$valueStr6 = substr($valueStr6,0,strlen($valueStr6)-1);   //去掉最右邊的逗號,異動客戶訂單表身  		 
+		$insertSql[] = "insert into c04 (F01,F02,F03,F04,F05,F06,F09,F12,F23) values ".$valueStr6." ON DUPLICATE KEY UPDATE F09=F09+VALUES(F09),F12=VALUES(F12),F23=F23+VALUES(F23)";   
+		foreach ($insertSql as  $values){
 		    @mysqli_query($link,$values);
 	    }
 		$mscnt="UPDATE `b04` SET `F10`='N',`F11`='".$lastdate.$list4['F03']."' WHERE `F01`='".$delmsg."'";								   

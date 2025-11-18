@@ -28,7 +28,7 @@ if($list9['F08']!='Y'){    //已有出貨行為
 	  
        $sql2="insert into b02 (F01,F02,F06,F09,F11,F14,F16,F21,F12,F24,F90) values ('".$brr[9]."','".date('d')."', 
 	   '".$brr[1]."','".$brr[3]."','".$lastdate.$list4['F03']."','".$brr[4]."','".$list2['F02']."',
-	   '".howpay($list1['F13']).($list1['F36']>0?$list1['F36']."天":"")."','".$brr[6]."','".$brr[7]."','".date('Y')."-".date('m')."')";         
+	   '".howpay($list1['F13']).($list1['F36']>0?$list1['F36']."天":"")."','".$brr[0]."','".$brr[7]."','".date('Y')."-".date('m')."')";         
 	  @mysqli_query($link,$sql2) ;  	  	  
    ////轉表身b0b
 	  $sql3="select d04.*,b01.F07 as F0G from d04 left outer join b01 on b01.F01=d04.F02 where d04.F01='".$brr[0]."' order by d04.F02"; 

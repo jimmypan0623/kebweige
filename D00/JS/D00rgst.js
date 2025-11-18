@@ -14,7 +14,7 @@ function blocksclose(event)  //關閉註冊彈出視窗
 	if (dropsheet!=null){		
         dropsheet.parentNode.removeChild(dropsheet);  //並將這些元素移除	 
 	}   	
-   var btns=getElementsByAttribute('class','btn');			 
+    var btns=getElementsByAttribute('class','btn');			 
     for (var i=0;i<btns.length;i++){		
         if (tabs[0].checked){
 			if(right(btns[i].title,1)=='M' || right(btns[i].title,1)=='I'){		      
@@ -29,7 +29,7 @@ function blocksclose(event)  //關閉註冊彈出視窗
 			    btns[i].setAttribute("accesskey",right(btns[i].title,1));
 			}				
 		}			
-	}		      	 	   	 	
+	}		      	 	      	 	
 	return true;
 }	
 
@@ -38,9 +38,7 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 	var nonjsn=[];
 	var recordNo=document.getElementById("rcrd_no");
     //----資料寫入資料庫前過濾程序區-----//
-	
-	var tabs=getElementsByAttribute('class','tab');	
-	var tbno=0;
+	var tabs=getElementsByAttribute('class','tab');		
 	for(var i=0;i<tabs.length;i++){
 		if(tabs[i].checked){
 			tbno=i;
@@ -90,7 +88,7 @@ function sendFilePrc(updflg){     //新增資料及修改程序
         if (typeof updflg=="undefined"){
 		    updflg=window.event;
         }	
-	    var target=getEventTarget(updflg);	         		 							      	
+	   var target=getEventTarget(updflg);	         		 							      	
 		var tablerowindex=sourceAccount(null,tbno);   //記住是目前table的哪一列	    	
          tbjsn.push(recordNo.value);	
          tbjsn.push(tablerowindex);				

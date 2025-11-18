@@ -24,7 +24,7 @@ include("../../include/BKND/mysqli_server.php");                              //
 		 $list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名   
 		 $lastdate=date('Y'.'-'.'m'.'-'.'d');
 		 $mArlth=count($brr);  
-		 $sql3="SELECT b0e.*,c01.F23,c01.F05 AS F0E,c01.F15 AS F1E,c01.F17 FROM b0e,c01 WHERE b0e.F01='".$brr[0]."' AND c01.F01='".$brr[1]."' ORDER BY b0e.F03"; 	 
+		 $sql3="SELECT b0e.*,c01.F23,c01.F05 AS F0E,c01.F15 AS F1E,c01.F17,b01.F98 FROM b0e,c01,b01 WHERE b0e.F01='".$brr[0]."' AND c01.F01='".$brr[1]."' AND b01.F01=b0e.F03 ORDER BY b0e.F03"; 	 
 		 $sql4=@mysqli_query($link,$sql3); 
 		 $arr=array(); 
 		 while ($list3=mysqli_fetch_assoc($sql4)){
@@ -53,6 +53,7 @@ include("../../include/BKND/mysqli_server.php");                              //
 							'invoice_type'=>$brr[7],
 							'tax_type'=>$brr[8],
 							'settle_day'=>$list3['F17'],
+							'mrt_type'=>$list3['F98'],
 							'month_no'=>$brr[14] 
 						 );   		     
 				array_push($arr,$my_array);		          		
@@ -66,6 +67,11 @@ include("../../include/BKND/mysqli_server.php");                              //
 			foreach($arr as $v){
 				
 				if($brr[11]!='3'){  //退貨
+				    if($v['mrt_type']=='NNN'){  //如果是虛擬料號	
+		               $vbn=0;
+		            }else{
+		               $vbn=1;
+		            }
 				    $valueStr1 .= "('".$v['deliveryday']."',  
 					'".$v['custom_no']."',
 					'".$v['stockno']."',
@@ -85,7 +91,7 @@ include("../../include/BKND/mysqli_server.php");                              //
 					 $valueStr2 .= "('".$v['stockno']."',
 					 '".$v['departno']."',
 					 '".$v['deliveryday']."',
-					 ".$v['orderqty'].",
+					 ".$v['orderqty']*$vbn.",
 					 '".$v['lastupdate']."',
 					 '".'出貨退回單'."',
 					 '".$v['query_no']."',		 
@@ -94,14 +100,14 @@ include("../../include/BKND/mysqli_server.php");                              //
 				 ////////
 					 $valueStr3 .= "('".$v['departno']."',
 					 '".$v['stockno']."',
-					 ".$v['orderqty'].",
-					 ".$v['orderqty'].",
+					 ".$v['orderqty']*$vbn.",
+					 ".$v['orderqty']*$vbn.",
 					 '".$v['lastupdate']."',
 					 '".$v['month_no']."'),";
 				 /////////
 					 $valueStr4 .= "('".$v['departno']."',
 					 '".$v['stockno']."',
-					 ".$v['orderqty'].",
+					 ".$v['orderqty']*$vbn.",
 					 '".$v['month_no']."-".$v['deliveryday']."'),";
 				 /////
 					 $valueStr6 .= "('".$v['oring_no']."',

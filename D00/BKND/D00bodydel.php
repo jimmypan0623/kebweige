@@ -1,8 +1,7 @@
 <?php
   header("Content-Type:text/html; charset=utf-8");   
-   include("../../include/BKND/mysqli_server.php");     
+  include("../../include/BKND/mysqli_server.php");                                 //引用檔 
    $delmsg=$_POST['filename'];
-
 	  $mscnt="DELETE FROM `d0Z` where `F00`='".$delmsg."'";
 	 $sql=$mscnt;
                            

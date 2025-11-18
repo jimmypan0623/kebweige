@@ -42,6 +42,7 @@ foreach($cart as $key=>$val){
 					    'invoice_type'=>$brr[7],
 					    'tax_type'=>$brr[8],
 						'settle_day'=>$list3['F1E'],
+						'mrt_type'=>$list3['F98'],
 					    'month_no'=>$brr[13] 
                      );   		     
 			array_push($arr,$my_array);		          		
@@ -53,6 +54,11 @@ foreach($cart as $key=>$val){
 	 $valueStr5 ='';
 	 $valueStr6 ='';
         foreach($arr as $v){
+			if($v['mrt_type']=='NNN'){  //如果是虛擬料號	
+		       $vbn=0;
+		    }else{
+		       $vbn=1;
+		    }
              $valueStr1 .= "('".$v['deliveryday']."',
 		    '".$v['vendor_no']."',
 		    '".$v['stockno']."',
@@ -71,7 +77,7 @@ foreach($cart as $key=>$val){
 		     $valueStr2 .= "('".$v['stockno']."',
 		     '".$v['departno']."',
 		     '".$v['deliveryday']."',
-		     ".$v['orderqty'].",
+		     ".$v['orderqty']*$vbn.",
 		     '".$v['lastupdate']."',
 		     '".'進貨單'."',
 		     '".$v['query_no']."',		 
@@ -80,14 +86,14 @@ foreach($cart as $key=>$val){
 		 ////////
 		     $valueStr3 .= "('".$v['departno']."',
 		     '".$v['stockno']."',
-		     ".$v['orderqty'].",
-		     ".$v['orderqty'].",
+		     ".$v['orderqty']*$vbn.",
+		     ".$v['orderqty']*$vbn.",
 		     '".$v['lastupdate']."',
 	         '".$v['month_no']."'),";
 		 /////////
 		     $valueStr4 .= "('".$v['departno']."',
 		     '".$v['stockno']."',
-		     ".$v['orderqty'].",
+		     ".$v['orderqty']*$vbn.",
 		     '".$v['month_no']."-".$v['deliveryday']."'),";
 		 //////
 		     $valueStr5 .= "('".$v['month_no']."-".$v['deliveryday']."',

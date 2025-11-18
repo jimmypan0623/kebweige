@@ -308,7 +308,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    oTd.setAttribute('style','text-align:right;width:12%');	
 	    oTd.innerHTML='運送方式:';
 	    var oTd = oTr.insertCell(3);
-	    oTd.innerHTML="<input type='text' name='d01update' id='whereis' class='txt' maxlength='20' style='width:80%;' />";    		       
+	    oTd.innerHTML="<input type='text' name='d01update' id='whereis' class='txt' maxlength='40' style='width:60%;' />";    		       
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);
 	    oTd.setAttribute('style','text-align:right;width:12%');	

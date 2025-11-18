@@ -74,7 +74,11 @@ function getProfile(str1,reccount) {
 	  }
 	  if(cnt>0){       //初始畫面呼叫
 		  chooserc(1);
-	  }	  
+	  }else{
+	     var rdyship=document.getElementById("REDYSHIP_BOTT");
+		 rdyship.setAttribute("style","visibility:hidden;");				   
+		  detachEventListener(rdyship,"click",page1OtherButton1,false);
+	  }		  
 }
 function choseExtraDeal(targetTrChildren){   //紀錄移動
      var rdyship=document.getElementById("REDYSHIP_BOTT");

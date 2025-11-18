@@ -1,8 +1,8 @@
-function getProfile(str1,reccount,tbno) {    
+ function getProfile(str1,reccount,tbno) {      
     var cnt=0;
-	var arr = str1;     
-    var pagecount=Math.ceil(reccount/parseInt(getAuth[2]()[0].INT_RCD));
-    var optdigts= (pagecount.toString()).length;
+	var arr = str1; 
+        var pagecount=Math.ceil(reccount/parseInt(getAuth[2]()[0].INT_RCD));
+        var optdigts= (pagecount.toString()).length;
 	if (tbno==0){     //如果是表頭      
         var slt2=document.getElementById('recmth');
 	    if (slt2.options.length<pagecount){
@@ -10,9 +10,8 @@ function getProfile(str1,reccount,tbno) {
 			    var item_no=paddingLeft(i,optdigts);				
 		        var varItem=new Option(item_no,item_no);
 	    	    slt2.options.add(varItem);	 
-           }
-		  
-		   		   //第一個選項位數修正		   
+           }		  
+	//第一個選項位數修正		   
 		   slt2.options[0].value=paddingLeft(1,optdigts);
 		   slt2.options[0].text=paddingLeft(1,optdigts);
 		    var bibau=cko[0](0);   //找出閉包筆數變數現值
@@ -32,8 +31,8 @@ function getProfile(str1,reccount,tbno) {
         cnt++;		
 	    for(var jk in arr[i]){		   			
 	    	var oTd = oTr.insertCell(oTr.cells.length);		     		  
-	    	oTd.innerHTML=arr[i][jk];		 
-		    var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
+	    	oTd.innerHTML=arr[i][jk];		
+			var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
 			var ks=ara.split('');		
 			//ks[0]:直接或間接 D/I
 			//ks[1]:是否顯示   S/H
@@ -51,25 +50,19 @@ function getProfile(str1,reccount,tbno) {
 			   oTd.style.width=wdthln+"%";
 			   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
 			}
-			
-		}
-			
-	       var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
-	       oTd.setAttribute("style","width:40px;display:none");   //勾選不顯示
-	 	   var myCheck=document.createElement('input'); 
-		   myCheck.type="checkbox";		  
-		 
-		    myCheck.setAttribute("name","chkbxmember"+(tbno+1).toString());   //讓使用者勾選的checkbox表頭
-		   
-		  		
-		   attachEventListener(myCheck,'click',chooserc,false);		   
-		   oTd.appendChild(myCheck);     
+
+		}			
+		var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
+		oTd.setAttribute("style","display:none");   //勾選不顯示
+		var myCheck=document.createElement('input'); 
+		myCheck.type="checkbox";		  		  
+		myCheck.setAttribute("name","chkbxmember"+(tbno+1).toString());   //讓使用者勾選的checkbox表頭		   		  		
+		attachEventListener(myCheck,'click',chooserc,false);		   
+		oTd.appendChild(myCheck);     
 		  
 	}
-	
-		 var responseDiv=document.getElementById("serverResponse"+(tbno+1).toString());  		
-	  	  		  	   
-
+		var responseDiv=document.getElementById("serverResponse"+(tbno+1).toString());  		
+	 
 	   if(responseDiv.textContent=='Searching......'){	
 		 if (cnt==0){
 			 responseDiv.setAttribute("style","color:red;"); 
@@ -84,19 +77,18 @@ function getProfile(str1,reccount,tbno) {
 	  }	  
 }
 
-
 function choseExtraDeal(targetTrChildren,targetTr){   //紀錄移動
-     var delbtt=document.getElementById("DEL_BOTT");
+    var delbtt=document.getElementById("DEL_BOTT");
     if(getCookie('INT_011')==targetTrChildren[1].innerHTML || getAuth[0]()[3]!='Y'){
 	    delbtt.setAttribute("style","visibility:hidden;");
 	    detachEventListener(delbtt,"click",delrec,false);	    
     }else{
 	   delbtt.setAttribute("style","visibility:visible;");
 	   attachEventListener(delbtt,"click",delrec,false);
-	} 
+	}
     return true;			   
 }
-function choseSecond(targetTrChildren,targetTr){  //紀錄移動表身
+function choseSecond(targetTrChildren,targetTr){   //紀錄移動表身
 	 
    return true;	
 }
@@ -111,9 +103,10 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 	}
     return true;			   
 }	
-function rowchoseSecond(targetRow){    //紀錄移動表身
+function rowchoseSecond(targetRow){    //紀錄移動 表身
    return true;	
 }
+
 function fldsgsroup(fidx,tbno){
 	 var groups=[];
 	if(tbno==0){
@@ -126,5 +119,5 @@ function fldsgsroup(fidx,tbno){
 	   ['directdata','block','center','25']  
  	   ]; 	
 	}		
-     return groups[fidx];	
-}	
+    return groups[fidx];			  
+}

@@ -30,11 +30,12 @@ function selfTag(jsvsn)
 	    var plsElmnts=document.getElementById('company_name').parentNode;
 		var menubarcover=document.getElementById('menudivbtn');
 	    attachEventListener(menubarcover,"click",toggleMenu,false);  
-		
+		var logoutDivBtn=document.getElementById('getOutBtn');
+		attachEventListener(logoutDivBtn,"click",accountDele,false);  
 		var iflm=document.createElement('iframe');
 		if(getAuth[1]()[1] && (left(getAuth[1]()[1],1)=='C' || left(getAuth[1]()[1],1)=='D' || left(getAuth[1]()[1],1)=='B')){
 		  
-			var htmfile='ROL/'+'flowProcess'+left(getAuth[1]()[1],1)+'.html';
+			var htmfile='ROL/flowProcess'+left(getAuth[1]()[1],1)+'.html';
 			
 		}else{
 		   var htmfile='ROL/'+(getCookie('INT_HTM')?getCookie('INT_HTM'):getAuth[2]()[0].INT_HTM);
@@ -101,22 +102,12 @@ function excuteFun(event){
     }			 	 
 	var target=getEventTarget(event);
 	var exucPrgNo=target.childNodes[0].textContent;	
-	var authArray=target.parentNode.childNodes[1].textContent.split("");  //切割成陣列		
-	if( getAuth[0]().length<1){ 
-	   getAuth[0](exucPrgNo);
-	    for(var i=1;i<10;i++){   //該登入者之權限設定
-			var authorder='auth'+paddingLeft(i.toString(),2);		 
-			if(authArray[i-1]=='E'){  //auth01:新增  auth02:修改 auth03:刪除  auth04:列印....			  
-			  getAuth[0]('E');
-			}else if(authArray[i-1]=='Y'){			    
-			    getAuth[0]('Y');
-			}else{			   
-			    getAuth[0]('N');
-			}					
-	    }	  	 
-	    for (var i=9;i<13;i++){ 
-	        getAuth[0](authArray[i]);
-        }
+	var authArray=target.parentNode.childNodes[1].textContent.trim().split("");  //切割成陣列		
+	if( getAuth[0]().length<1){ 	          
+	    getAuth[0](exucPrgNo);
+		for(var i=0;i<authArray.length;i++){   //該登入者之權限設定
+		   getAuth[0](authArray[i]);
+		}	    
     }
     /* var urlcmp=(decodeURI(window.location.search));
 	 var username=urlcmp.substr(urlcmp.indexOf('=')+1);	
@@ -157,19 +148,25 @@ function accountDele(event){    //刪除帳號cookie
 	getAuth[1]('Clear_All');
 	getAuth[2]('Clear_All');	
 	var mainUl=document.getElementById("listUL");   
-	mainUl.remove();		 
+	mainUl.remove();	
+   document.location.href="logOut.php";	
     return;	 
 }
 
 function toggleMenu() {   //主選單隱藏或顯示
      btnimg=document.getElementById('menubtnimg');
 	var menu = document.getElementById("navigation"); 
+	var frlm=document.getElementById('frl');
 	if (menu.style.display === "none") {
 		menu.style.display = "block";		
-		btnimg.src = 'digits/widget_closed.gif';
+		btnimg.src = 'digits/widget_closed.gif';		
+		frlm.style.width='75%';
+		frlm.style.left='25.3%';
 	} else {
 		menu.style.display = "none";	 
-		btnimg.src = 'digits/widget_open.gif';
+		btnimg.src = 'digits/widget_open.gif';		 
+		frlm.style.width='100%';
+		frlm.style.left='0%';
 	}
 	
 }

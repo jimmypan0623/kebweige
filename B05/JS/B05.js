@@ -139,6 +139,8 @@ function getProfile(str1,trncde,tbno) {
 		chooserc(1); //跳到第一列
 	}else{
 		scndttl.innerHTML="0";
+		var apprv=document.getElementById('APPRVE');
+		apprv.innerHTML="&nbsp";
 	}		  
 }
 function choseSecond(targetTrChildren,targetTr){
@@ -159,7 +161,7 @@ function choseExtraDeal(targetTrChildren,targetTr){   //紀錄移動
 	    detachEventListener(editbtt,"click",edtrec,false);
 	    delbtt.setAttribute("style","visibility:hidden;");
 	    detachEventListener(delbtt,"click",delrec,false);	 
-	    apprv.innerHTML="<img src='digits/marker.png' alt='svg' style='position: absolute;top: 39px;left: 54%;width: 50px;opacity: 0.45;'>"
+	    apprv.innerHTML="<img src='digits/approve.gif' alt='svg' style='position: absolute;top: 39px;left: 54%;width: 50px;opacity: 0.45;'>"
 	    if(getAuth[0]()[9]=='Y' && cko[0](0)==0){				 
 			vrsbtt.setAttribute("style","display:block;");
 			attachEventListener(vrsbtt,"click",vrsproc,false);			 
@@ -210,7 +212,7 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 		detachEventListener(editbtt,"click",edtrec,false);
 		delbtt.setAttribute("style","visibility:hidden;");
 		detachEventListener(delbtt,"click",delrec,false);	           
-		apprv.innerHTML="<img src='digits/marker.png' alt='svg' style='position: absolute;top: 39px;left: 54%;width: 50px;opacity: 0.45;'>"
+		apprv.innerHTML="<img src='digits/approve.gif' alt='svg' style='position: absolute;top: 39px;left: 54%;width: 50px;opacity: 0.45;'>"
 		if(getAuth[0]()[9]=='Y' && cko[0](0)==0){			 
 			vrsbtt.setAttribute("style","display:block;");
 			attachEventListener(vrsbtt,"click",vrsproc,false);				 

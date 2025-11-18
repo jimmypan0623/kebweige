@@ -58,10 +58,10 @@ function tab1View(event){
 		 localbottoncl.style.boxShadow ="sandybrown 5px 10px 10px 7px";
 		 var bibau=cko[3](0);   //找出閉包變數現值
 	     cko[3](bibau*(-1));    //將表身閉包變數歸零		 
-		  bibau=cko[6](0);   //找出閉包變數現值
-	     cko[6](bibau*(-1));    //將表身閉包變數歸零 
-		 var btns=getElementsByAttribute('class','btn');			 
-		 for (var i=0;i<btns.length;i++){		
+		 bibau=cko[6](0);   //找出閉包變數現值
+	     cko[6](bibau*(-1));    //將表身閉包變數歸零  
+	      var btns=getElementsByAttribute('class','btn');		
+         for (var i=0;i<btns.length;i++){		
 		     if(btns[i].accessKey=='I' || btns[i].accessKey=='M'){
 		        btns[i].removeAttribute("accesskey");		
 			 } 
@@ -69,13 +69,11 @@ function tab1View(event){
 		        btns[i].setAttribute("accesskey",right(btns[i].title,1));		
 			 } 
 	     }		     
-
 }
 function tab2View(event){	  
        if (typeof event=="undefined"){
 		   event=window.event;
     	}
-
 		var localbottoncl=document.getElementById('lclbtnbk');       //按鈕背景
 		 localbottoncl.style.backgroundColor="#F9FAD9";
 		 localbottoncl.style.border=" 2px solid #F9FAD9";
@@ -106,7 +104,7 @@ function tab2View(event){
 	  	  
 	   keydescription.textContent=aWaitUpdate[2]; 
 	   fthkey.innerHTML=aWaitUpdate[1];
-	     if(getCookie('INT_011')==fthkey.innerHTML){	
+	    if(getCookie('INT_011')==fthkey.innerHTML){	
             srchbtt.setAttribute("style","visibility:hidden;");	
 	     	detachEventListener(srchbtt,'click',seekrec,false);    			
 		    newrcath.setAttribute("style","visibility:hidden;");
@@ -144,6 +142,8 @@ function tab2View(event){
 	   responseDiv.innerHTML='&nbsp';
 	   var bibau=cko[3](0);   //找出閉包變數現值
 	   cko[3](bibau*(-1));    //將表身閉包變數歸零			
+	   bibau=cko[6](0);   //找出閉包變數現值
+	   cko[6](bibau*(-1));    //將表身閉包變數歸零 
 	   var btns=getElementsByAttribute('class','btn');			 
 		 for (var i=0;i<btns.length;i++){		
 		     if(btns[i].accessKey=='T' || btns[i].accessKey=='J' || btns[i].accessKey=='K' || btns[i].accessKey=='V'){		    
@@ -152,6 +152,6 @@ function tab2View(event){
 			  if(right(btns[i].title,1)=='I' ||right(btns[i].title,1)=='M'){
 		        btns[i].setAttribute("accesskey",right(btns[i].title,1));		
 			 } 
-	     }		    
+	     }		  
 	   commontemp(fthkey.innerHTML,"d0Z.F01");
 }

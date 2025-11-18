@@ -141,7 +141,7 @@ function choseExtraDeal(targetTrChildren,targetTr){   //紀錄移動
 	    detachEventListener(ansbtt,"click",ansproc,false);
 	    delbtt.setAttribute("style","visibility:hidden;");
 	    detachEventListener(delbtt,"click",delrec,false);
-	   	apprv.innerHTML="<img src='digits/marker.png' alt='svg' style='position: absolute;top: 39px;left: 54%;width: 50px;opacity: 0.45;'>"
+	   	apprv.innerHTML="<img src='digits/approve.gif' alt='svg' style='position: absolute;top: 39px;left: 54%;width: 50px;opacity: 0.45;'>"
 	    if(trnno=='Y'){    //如果已轉出貨單反確認與轉單鈕不作用
 		    vrsbtt.setAttribute("style","display:none;");
 		    detachEventListener(vrsbtt,"click",vrsproc,false);
@@ -221,7 +221,7 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 		detachEventListener(ansbtt,"click",ansproc,false);				
 		delbtt.setAttribute("style","visibility:hidden;");
 		detachEventListener(delbtt,"click",delrec,false);
-	   apprv.innerHTML="<img src='digits/marker.png' alt='svg' style='position: absolute;top: 39px;left: 54%;width: 50px;opacity: 0.45;'>"
+	   apprv.innerHTML="<img src='digits/approve.gif' alt='svg' style='position: absolute;top: 39px;left: 54%;width: 50px;opacity: 0.45;'>"
 		if(trnno=='Y'){          //如果已轉出貨單反確認與轉單鈕不作用
 			trnsbtt.setAttribute("style","display:none;");
 			detachEventListener(trnsbtt,"click",trnsproc,false); 

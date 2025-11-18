@@ -31,15 +31,16 @@ function getProfile(str1,cmpnme) {
 	var mainPrgNo=' ';
 	var arr = str1; 	
 	var mainUl=document.getElementById("listUL");    	 
-	var oLiTop=document.createElement('li');   //最上面先新增一個li 	 
-	attachEventListener(oLiTop,"click",accountDele,false);  
 	var LastFunc=getAuth[1]()[1]; //getCookie('lastFuncInt');
+/* 	var oLiTop=document.createElement('li');   //最上面先新增一個li 	 
+	attachEventListener(oLiTop,"click",accountDele,false);  
+	
 	var newA=document.createElement("a");
 	newA.setAttribute("accesskey","Q");
 	newA.setAttribute("href","logOut.php");
 	newA.appendChild(document.createTextNode("返回登入畫面"));
 	oLiTop.appendChild(newA);
-	mainUl.appendChild(oLiTop);	    	
+	mainUl.appendChild(oLiTop);	    	 */
 	for(var i=0;i<arr.length;i++){		          
 		for(var jk in arr[i]){		   		  
 			if(jk=='prg_no'){

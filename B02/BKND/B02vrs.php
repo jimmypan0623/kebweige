@@ -24,7 +24,7 @@ if(trim($list2['F10'])=="Y"){
 		foreach ($mscnt as $delvalue){
 		    mysqli_query($link ,$delvalue) or die(mysqli_error($link)); 
 		}
-		 $sql3="SELECT b0b.*,b02.F02 AS F0B,b02.F90 FROM b0b,b02 WHERE b0b.F01='".$delmsg."' AND b02.F01='".$delmsg."' ORDER BY b0b.F03"; 		 
+		 $sql3="SELECT b0b.*,b02.F02 AS F0B,b02.F90,b01.F98 FROM b0b,b02,b01 WHERE b0b.F01='".$delmsg."' AND b02.F01='".$delmsg."' AND b01.F01=b0b.F03 ORDER BY b0b.F03"; 		 
 		 $sql4=@mysqli_query($link,$sql3); 
 		 $arr=array(); 
 		 while ($list3=mysqli_fetch_assoc($sql4)){
@@ -36,7 +36,8 @@ if(trim($list2['F10'])=="Y"){
 							'unit_price'=>$list3['F15'],  //單價					    
 							'lastupdate'=>$lastdate.$list4['F03'],
 							'departno'=>$list3['F05'],					
-							'vendor_partno'=>$list3['F08'],					   					 
+							'vendor_partno'=>$list3['F08'],		
+							'mrt_type'=>$list3['F98'],		
 							'month_no'=>$list3['F90'] 
 						 );   		     
 				array_push($arr,$my_array);		          		
@@ -44,30 +45,36 @@ if(trim($list2['F10'])=="Y"){
 		 $valueStr3 ='';
 		 $valueStr4 ='';	
 		 $valueStr6 ='';
-			foreach($arr as $v){
+		foreach($arr as $v){
+			if($v['mrt_type']=='NNN'){   //虛擬料號
+			    $vbn=0;
+			}else{
+				$vbn=1;
+			}
 				   //b25庫存月報
 				 $valueStr3 .= "('".$v['departno']."',     
 				 '".$v['stockno']."',
-				 ".$v['orderqty']*(-1).",
-				 ".$v['orderqty']*(-1).",
+				 ".$v['orderqty']*(-1)*$vbn.",
+				 ".$v['orderqty']*(-1)*$vbn.",
 				 '".$v['lastupdate']."',
 				 '".$v['month_no']."'),";
 				 //b11庫存明細
 				 $valueStr4 .= "('".$v['departno']."',  
 				 '".$v['stockno']."',
-				 ".$v['orderqty']*(-1).",
+				 ".$v['orderqty']*(-1)*$vbn.",
 				 '".$v['month_no']."-".$v['deliveryday']."'),";
-				 //d04訂單表身
-				 $valueStr6 .= "('".$v['oring_no']."',
-				 '".$v['stockno']."',		    
-				 ".$v['orderqty'].",
-				 ".$v['unit_price'].",
-				 '".$v['vendor_partno']."',
-				 '".$v['month_no']."-".$v['deliveryday']."',
-				 ".$v['orderqty']*(-1).",
-				 '".$v['lastupdate']."',
-				 ".$v['orderqty']."),"; 			      
-			}       
+			
+			 //d04訂單表身
+			 $valueStr6 .= "('".$v['oring_no']."',
+			 '".$v['stockno']."',		    
+			 ".$v['orderqty'].",
+			 ".$v['unit_price'].",
+			 '".$v['vendor_partno']."',
+			 '".$v['month_no']."-".$v['deliveryday']."',
+			 ".$v['orderqty']*(-1).",
+			 '".$v['lastupdate']."',
+			 ".$v['orderqty']."),"; 			      
+		}       
 		 $valueStr3 = substr($valueStr3,0,strlen($valueStr3)-1);   //去掉最右邊的逗號,異動庫存月報表
 		 $valueStr4 = substr($valueStr4,0,strlen($valueStr4)-1);   //去掉最右邊的逗號,異動即時庫存明細	 
 		 $valueStr6 = substr($valueStr6,0,strlen($valueStr6)-1);   //去掉最右邊的逗號,異動客戶訂單表身  

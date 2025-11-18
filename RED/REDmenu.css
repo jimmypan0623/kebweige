@@ -2,7 +2,7 @@
  body{
 	 
 	 background-color:#0;    /*#ffdee0;  */
-    background-image:url(../digits/computer.jpg);
+    background-image:url(../digits/gear.gif);
 	/* background-image:url(../IMAGE/IMG_0023dk.png);*/
 	 background-repeat:no-repeat;
 	background-position:right center;
@@ -100,7 +100,7 @@ input.btn{
 	color:#744011;
 	background-color:#ffb94b;	 
     margin:2px;	
-}
+} 
 .bttn:hover,.bttn:focus,.btn:hover,.btn:focus
 {		
     background-color: #fddb6f;
@@ -112,20 +112,6 @@ input.btn{
     background-image: linear-gradient(top, #ffb94b, #fddb6f);
 }	 
 
-/*子菜單指示箭頭*/
- li.hasmenu>a:link,
- li.hasmenu>a:visited
-{		
-	background:url(../digits/add.gif) #ffefcf no-repeat 95% 50%;	
-}
-li.hasmenu>a:hover,
-li.hasmenu>a:focus,
-li.hasmenu>a:active,
-li.hasmenu>a:rollover:link,
-li.hasmenu>a:rollover:visited
-{
-	background:url(../digits/up.gif ) #ffefcf no-repeat 95% 50%;	
-}
 /* The Close Button */
 .close:hover {
     /* :hover 代表滑鼠移到元素上時的狀態 */ 
@@ -152,6 +138,24 @@ li.hasmenu>a:rollover:visited
   text-decoration: none;
   cursor: pointer;
 }
+
+
+
+/*子菜單指示箭頭*/
+ li.hasmenu>a:link,
+ li.hasmenu>a:visited
+{		
+	background:url(../digits/add.gif) #ffefcf no-repeat 95% 50%;	
+}
+li.hasmenu>a:hover,
+li.hasmenu>a:focus,
+li.hasmenu>a:active,
+li.hasmenu>a:rollover:link,
+li.hasmenu>a:rollover:visited
+{
+	background:url(../digits/up.gif ) #ffefcf no-repeat 95% 50%;	
+}
+
 #frl {
    background-color:#0; 
     position:relative;
@@ -171,3 +175,7 @@ li.hasmenu>a:rollover:visited
    font-family:標楷體;
     
 }
+
+
+
+
