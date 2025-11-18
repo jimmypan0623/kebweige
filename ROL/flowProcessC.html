@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>採購管理流程</title>
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-<!--     <script src="JS/mermaid.min.js?v=0.0.2"></script> -->
+<!--     <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script> -->
+    <script src="JS/mermaid.min.js?v=0.0.2"></script>
 	<script src="JS/flowProcess.js?v=0.0.4"></script>
 </head>
 <body>
@@ -13,7 +13,10 @@
 graph LR;
     B[(A02)] -->|業務人員|C(C01) 
     A(C00) -->|&#x1F4B2幣別|C(C01)    
+	
     C -->|客戶資料|D[/C04/] 
+	
+	
 	C -->|客戶資料|H[(C02)]
 	H -->|報價紀錄|D
 	A -->|&#x1F4B2幣別|D
@@ -26,10 +29,12 @@ graph LR;
 	F -->|&#x2705| J[(C12)] 
 	G[/B05/]-->|&#x2705| I
 	K[/C21/]-->|&#x2705|H
-	A-->|&#x1F4B2幣別|K
 	C-->|客戶資料|K
+	A-->|&#x1F4B2幣別|K
+	
 	G -->|&#x2705| J 
 	L(C20)-->|包裝資料|K
+	
 	style A fill:#FFFF6E,stroke:#642100;
 	style C fill:#3BFF3B,stroke:#4A0080;
 	style D fill:#FFCC6E,stroke:#00008F;
