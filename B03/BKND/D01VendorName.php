@@ -3,12 +3,12 @@
 
  include("../../include/BKND/mysqli_server.php");                              //引用檔     
 	 
-	 $sql3="SELECT `c01`.`F04`,`c01`.`F05`,`c01`.`F10`,`c01`.`F12`,`c01`.`F13`,`c01`.`F33`,`a01`.`F03`,";
-	 $sql3.="`c01`.`F39`,`c00`.`F02`,`c01`.`F29`,`c01`.`F30`,`c01`.`F15`,`c01`.`F36`,`c01`.`F07`,`c01`.`F32` ";
-	 $sql3.="FROM `c01` ";
-	 $sql3.="LEFT OUTER JOIN `c00` ON `c00`.`F01`=`c01`.`F39` ";
-     $sql3.="LEFT OUTER JOIN `a01` ON `a01`.`F01`=`c01`.`F33` ";	
-	 $sql3.="WHERE binary `c01`.`F01` ='".$_POST['filename']."' AND `c01`.`F03`!='X' ";	 	 
+	 $sql3="SELECT `d01`.`F03`,`d01`.`F04`,`d01`.`F06`,`d01`.`F08`,`d01`.`F09`,`d01`.`F39`,`a01`.`F03`,";
+	 $sql3.="`d01`.`F25`,`d00`.`F02`,`d01`.`F13`,`d01`.`F36`,`d01`.`F16`,`d01`.`F19` ";
+	 $sql3.="FROM `d01` ";
+	 $sql3.="LEFT OUTER JOIN `d00` ON `d00`.`F01`=`d01`.`F25` ";
+     $sql3.="LEFT OUTER JOIN `a01` ON `a01`.`F01`=`d01`.`F39` ";	
+	 $sql3.="WHERE binary `d01`.`F01` ='".$_POST['filename']."' AND `d01`.`F12`!='X' ";	 	 
 
     $arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
@@ -16,26 +16,24 @@
 	if($rows>0){
 	    while ($list3=mysqli_fetch_assoc($sql4)){
 		 
-		    $atr = array('customname'=>$list3['F05'],
-		  	             'customfullname'=>$list3['F04'],
-						 'unitno'=>$list3['F10'],
-						 'winname'=>$list3['F12'],
-						 'telNo'=>$list3['F13'],
-						 'whono'=>$list3['F33'],
+		    $atr = array('vendorname'=>$list3['F04'],
+		  	             'vendorfullname'=>$list3['F03'],
+						 'unitno'=>$list3['F06'],
+						 'winname'=>$list3['F08'],
+						 'telNo'=>$list3['F09'],
+						 'whono'=>$list3['F39'],
 						 'whonameEx'=>$list3['F03'],
-						 'crntopt'=>$list3['F39'],
-						 'curncy'=>$list3['F02'],
-						 'invtype'=>$list3['F29'],
-						 'taxtype'=>$list3['F30'],
-						 'howpay'=>howpay($list3['F15']).($list3['F36']>0?$list3['F36']."天":""),						
-						 'dlvrplace'=>$list3['F07'],
-						 'shipdirect'=>$list3['F32']
+						 'crntopt'=>$list3['F25'],
+						 'curncy'=>$list3['F02'],						
+						 'howpay'=>howpay($list3['F13']).($list3['F36']>0?$list3['F36']."天":""),						
+						 'dlvrplace'=>$list3['F16'],
+						 'shipdirect'=>$list3['F19']
 						 );                              
 		    array_push($arr,$atr);
 	    }
 	}else{
-	    $atr = array('customname'=>"",
-		             'customfullname'=>"",
+	    $atr = array('vendorname'=>"",
+		             'vendorfullname'=>"",
 					 'unitno'=>"",
 					 'winname'=>"",
 					 'telNo'=>"",
@@ -43,7 +41,7 @@
 					 'whonameEx'=>"",
 					 'crntopt'=>"NTD",
 					 'curncy'=>1,
-					 'invtype'=>"33",
+					 'invtype'=>"23",
 					 'taxtype'=>"1",
 					 'howpay'=>"現結",					 
 					 'dlvrplace'=>"",

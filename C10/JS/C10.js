@@ -62,7 +62,7 @@ function getProfile(str1,reccount) {
 	   myCheck.setAttribute("name","chkbxmember1");   //讓使用者勾選的checkbox表頭			
 	   attachEventListener(myCheck,'click',chooserc,false);		   
 	   oTd.appendChild(myCheck);     
-	   scndttl.innerHTML=thousands(Math.round((queryttl + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt));		  
+	   		  
 	}
 	
 	  var responseDiv=document.getElementById("serverResponse1");  		
@@ -76,7 +76,8 @@ function getProfile(str1,reccount) {
           }	
 	  }
 	  if(cnt>0){       //初始畫面呼叫
-		  chooserc(1);
+		  chooserc(1);		
+		  scndttl.innerHTML=thousands(Math.round((queryttl + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt));
 	  }	  
 }
 

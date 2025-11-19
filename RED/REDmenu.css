@@ -19,9 +19,10 @@
 	   font-weight:bold;	 
        background:linear-gradient(to right,#F5DEB3,#EEE8AA,#FFFACD);
 	   box-shadow:gray 7px 7px 7px;
-	  position:fixed;
+	    position:fixed;
 	   
 } 
+
 #navigation {
 	top:35px;
 	width:300px;

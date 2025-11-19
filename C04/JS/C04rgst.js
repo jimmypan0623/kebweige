@@ -694,7 +694,7 @@ function srcArgobj(srcId){
 		    var qrystring = "b01.F02"+","+stockNo+","+left(cstno,6)+","+document.getElementById('crncy').innerHTML; 			 
 			tttlt="請選取品名";		
 		}		
-		return {"headtitle":tttlt,"drpshtWidth":"80%","thCntnt":['料品編號', '品名規格','客戶品號','有效日期','報價'],"thWidth":['30%','25%','25%','10%','10%'],"urlPth":"C04/BKND/B01srch.php","clickfunc":stckchg,"qryString":qrystring,"mendwidth":"calc( 100%  )"};
+		return {"headtitle":tttlt,"drpshtWidth":"80%","thCntnt":['料品編號', '品名規格','最少下單','客戶品號','有效日期','報價'],"thWidth":['26%','20%','10%','18%','11%','10%'],"urlPth":"C04/BKND/B01srch.php","clickfunc":stckchg,"qryString":qrystring,"mendwidth":"calc( 100% - 1em  )"};
 	}
 }
 

@@ -256,11 +256,11 @@ function rowchoseSecond(targetRow){    //紀錄移動
 function whichinvoice(tpe){
 	 var tpemsg="";
      switch(tpe){
-      case '33': {    
+      case '23': {    
           tpemsg = '三聯式';    
           break;  
       }
-      case '34': {    
+      case '24': {    
           tpemsg = '二聯式';   
           break;
 	  }	 

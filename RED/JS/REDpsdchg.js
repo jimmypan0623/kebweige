@@ -149,6 +149,12 @@ function accountDele(event){    //刪除帳號cookie
 	getAuth[2]('Clear_All');	
 	var mainUl=document.getElementById("listUL");   
 	mainUl.remove();	
+	iflm=document.getElementById("frl");
+	iflm.remove();
+	var scriptall=document.getElementsByTagName("script");
+	for(var j=0;j<scriptall.length;j++){	         
+	    scriptall[j].parentNode.removeChild(scriptall[j]);		 		     
+	}			
    document.location.href="logOut.php";	
     return;	 
 }

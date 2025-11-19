@@ -5,15 +5,15 @@
 	$filterKey=trim(getNeedBetween($_POST['filename'],'|','_')); // 搜尋料號 
 	$shipno=trim(substr(strrchr($_POST['filename'],'_'),1));   //出貨單號		 
 	$searchRecord =trim($filterKey);			
-	$sql3="SELECT b0c.F03,b01.F02 AS F0B,b0c.F07,LEAST((d04.F09-d04.F24),b0c.F04) AS avlq,";   
-	$sql3.="b0c.F15,b0c.F08,b0c.F09,b01.F07 AS F0G,a14.F02 AS FZ2 FROM b0c ";
-	$sql3.="LEFT OUTER JOIN b01 ON b01.F01=b0c.F03 "; 
+	$sql3="SELECT b0b.F03,b01.F02 AS F0B,b0b.F07,LEAST((d04.F09-d04.F24),b0b.F04) AS avlq,";   
+	$sql3.="b0b.F15,b0b.F08,b0b.F09,b01.F07 AS F0G,a14.F02 AS FZ2 FROM b0b ";
+	$sql3.="LEFT OUTER JOIN b01 ON b01.F01=b0b.F03 "; 
 	$sql3.="LEFT OUTER JOIN a14 ON a14.F01=b01.F07 ";	  
-	$sql3.="LEFT OUTER JOIN d04 ON d04.F01=b0c.F07 AND d04.F02=b0c.F03 ";	
+	$sql3.="LEFT OUTER JOIN d04 ON d04.F01=b0b.F07 AND d04.F02=b0b.F03 ";	
 	if(strlen($searchRecord)==0) {	  
-        $sql3=$sql3."WHERE b0c.F01='".trim($shipno)."' AND d04.F09-d04.F24>0 ";		
+        $sql3=$sql3."WHERE b0b.F01='".trim($shipno)."' AND d04.F09-d04.F24>0 ";		
 	}else{
-		$sql3=$sql3."WHERE ".$fieldNo." LIKE '%".trim($searchRecord)."%' AND b0c.F01='".trim($shipno)."' AND d04.F09-d04.F24>0 "; 
+		$sql3=$sql3."WHERE ".$fieldNo." LIKE '%".trim($searchRecord)."%' AND b0b.F01='".trim($shipno)."' AND d04.F09-d04.F24>0 "; 
 	}
 	$sql3=$sql3."ORDER BY ".$fieldNo;
     $arr=array();	

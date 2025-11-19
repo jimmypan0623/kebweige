@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <title>庫存管理流程</title>
 
-   <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>   
+   <!-- <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>    -->
     
-<!--     <script src="JS/mermaid.min.js?v=0.0.2"></script> -->
+    <script src="JS/mermaid.min.js?v=0.0.2"></script>
 	<script src="JS/flowProcess.js?v=0.0.3"></script>
 
 </head>
@@ -55,17 +55,17 @@ graph LR;
 	style R fill:#FF5151,stroke:#005757;
 	style P fill:#84C1FF,stroke:#AE8F00;
 	style M fill:#FFFF37,stroke:#750000;
-	click O call FunDetailArg("A09") "A09 物部門設定"
+	click O call FunDetailArg("A09") "A09 倉別與部門別設定作業"
 	click A call FunDetailArg("B01") "B01 物料基本檔"
     click B call FunDetailArg("B02") "B02 進貨單"
-	click C call FunDetailArg("B03") "B03 進貨退出單"
+	click C call FunDetailArg("B03") "B03 進貨退出/折讓單"
 	click D call FunDetailArg("B04") "B04 出貨單"
-	click E call FunDetailArg("B05") "B05 出貨退回單"
+	click E call FunDetailArg("B05") "B05 出貨退回/折讓單"
 	click F call FunDetailArg("B06") "B06 移轉單"
 	click I call FunDetailArg("B09") "B09 盤差調整單"
 	click J call FunDetailArg("B10") "B10 報廢單"
-	click K call FunDetailArg("C02") "C02 報價紀錄"
-	click L call FunDetailArg("D02") "D02 報價紀錄"
+	click K call FunDetailArg("C02") "C02 客戶報價紀錄"
+	click L call FunDetailArg("D02") "D02 廠商詢價紀錄"
 	click P call FunDetailArg("C01") "C01 客戶資料基本檔"
 	click Q call FunDetailArg("D01") "D01 廠商資料基本檔"
     click M call FunDetailArg("B25") "B25 部門別庫存量月報表"

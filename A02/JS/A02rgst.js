@@ -152,12 +152,14 @@ function authEnter(event){  //權限複製小視窗TEXTBOX ENTER
 		event=window.event;
     }			 
 	var target=getEventTarget(event);
+	 var responseDiv=document.getElementById("serverResponse1");	
+	 responseDiv.style.textAlign='center';	
+	 responseDiv.innerHTML='<img src="digits/Loading.gif" width="1.5%" height="1.5%" border="0">';
 	 if (event.keyCode == 13){
 		 if (target.value.trim().length<2){
 			blkshow('無效帳號');
+			responseDiv.innerHTML=='&nbsp';
 		 }else{			 
-		    var responseDiv=document.getElementById("serverResponse1");	
-	         responseDiv.innerHTML=='權限複製中.....';
 			 athcpy(event);			
 		 }
 	}		  		
@@ -195,14 +197,14 @@ function atjtb(sourceaccount,objaccount){
     request.send(str_json);
     function respond() {		
         if (request.readyState == 4 && request.status == 200) {     
-			rsp=JSON.parse(request.responseText);								     			
-			if(!isNaN(Number(rsp))){     			   
-			   var responseDiv=document.getElementById("serverResponse1");	 
-		   	   responseDiv.setAttribute("style","font-weight:bold;color:#536a60;"); 
-	           responseDiv.innerHTML="已授權"+objaccount+" "+rsp+"筆程式功能..."; 		
-			   
+			rsp=JSON.parse(request.responseText);			
+            var responseDiv=document.getElementById("serverResponse1");	 
+		   	responseDiv.setAttribute("style","font-weight:bold;color:#536a60;"); 			
+			if(!isNaN(Number(rsp))){     			   			   
+	           responseDiv.innerHTML="已授權"+objaccount+" "+rsp+"筆程式功能..."; 					   
 			}else{
-				blkshow(rsp);   //新增不成功才顯示訊息				
+				blkshow(rsp);   //新增不成功才顯示訊息	
+				responseDiv.innerHTML="&nbsp";
             }										
         }
     }      
@@ -213,7 +215,7 @@ function removeAuthAll(event){     //確定移除所有權限
 	if (typeof event=="undefined"){
 		event=window.event;
     }	
-	var target=getEventTarget(event);	
+	var target=getEventTarget(event);		
 	var tabs=getElementsByAttribute('class','tab');	 
 	var sendDeleRec="filename="+sourceAccount(1,0);  	 
 	var rsp="";  	        	

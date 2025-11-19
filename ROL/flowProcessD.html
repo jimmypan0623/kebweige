@@ -12,6 +12,7 @@
 <div style="font-weight:bold;font-family:arial;" class="mermaid">
 graph LR;
     B[(A02)] -->|採購人員|C(D01) 
+	K[(B01)] -->|品號|C(D01) 
     A(D00) -->|&#x1F4B2幣別|C   
     C -->|廠商資料|D[/D04/] 
 	C -->|廠商資料|H[(D02)]
@@ -31,17 +32,19 @@ graph LR;
 	style C fill:#FFC9C9,stroke:#8C8C8C;
 	style F fill:#B5FFB5,stroke:#B2B200;
 	style J fill:#E4BFFF,stroke:#8F5D00;
-	click A call FunDetailArg("D00") "D00 採購幣別設定"
-    click B call FunDetailArg("A02") "A02 人員設定"
-	click C call FunDetailArg("D01") "D01 廠商基本資料檔"
+	style K fill:#FFFF6E,stroke:#642100;
+	click A call FunDetailArg("D00") "D00 設定採購匯率"
+    click B call FunDetailArg("A02") "A02 人員帳號與權限設定"
+	click C call FunDetailArg("D01") "D01 廠商資料基本檔"
 	click D call FunDetailArg("D04") "D04 採購單"
 	click E call FunDetailArg("D08") "D08 進貨計劃"
-	click O call FunDetailArg("A09") "A09 部門設定"
+	click O call FunDetailArg("A09") "A09 倉別與部門別設定作業"
 	click F call FunDetailArg("B02") "B02 進貨單"
-	click G call FunDetailArg("B03") "B03 進貨退出單"
-	click H call FunDetailArg("D02") "D02 詢價紀錄"
+	click G call FunDetailArg("B03") "B03 進貨退出/折讓單"
+	click H call FunDetailArg("D02") "D02 廠商詢價紀錄"
 	click I call FunDetailArg("D11") "D11 進貨月報表"
 	click J call FunDetailArg("D19") "D19 應付帳款對帳單"
+	click K call FunDetailArg("B01") "B01 物料基本主檔"
 </div>
 
  <!-- D  |&#x2705待進D08| F-->

@@ -202,6 +202,6 @@ function tab2View(event){
 			    } 
 	        }	
 		}	
-	   commontemp(fthkey.innerHTML,"b0e.F01");
+	   commontemp(fthkey.innerHTML,"b0c.F01");
 						  
 }

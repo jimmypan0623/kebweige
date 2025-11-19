@@ -1,6 +1,4 @@
-﻿<?php
-   header("Content-Type:text/html; charset=utf-8");   
-
+﻿<?php 
  include("../../include/BKND/mysqli_server.php");                              //引用檔   
          
 		 

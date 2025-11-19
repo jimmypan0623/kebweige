@@ -228,7 +228,7 @@ function ratechange(event){     //匯率更改異動
 	   var request = new XMLHttpRequest();
 	}			 
 	request.onreadystatechange = respond;	        	
-	var url="B04/BKND/C00srch.php?timestamp="+new Date().getTime();        		
+	var url="B02/BKND/D00srch.php?timestamp="+new Date().getTime();        		
 	request.open("POST",url);	 
 	request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 	request.send(sendDeleRec);		
@@ -257,7 +257,7 @@ function rateSrch(event){   //出貨日期異動順便更動匯率
 	   	      var request = new XMLHttpRequest();
         }			 
 		request.onreadystatechange = respond;	       
-		var url="B04/BKND/C0ZRateChange.php?timestamp="+new Date().getTime();			
+		var url="B03/BKND/D0ZRateChange.php?timestamp="+new Date().getTime();			
 	    request.open("POST",url);	 
 	    request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 	    request.send(sendSrcRec);		
@@ -378,8 +378,8 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    oTd.innerHTML='發票種類:';
 	    var oTd = oTr.insertCell(3);				
 	    var slt8=document.createElement("select");
-	    slt8.options.add(new Option('三聯式','33'));
-	    slt8.options.add(new Option('二聯式','34'));
+	    slt8.options.add(new Option('三聯式','23'));
+	    slt8.options.add(new Option('二聯式','24'));
   	    slt8.setAttribute("id","invtype");
 	    slt8.setAttribute("name","b03update");
 	    oTd.appendChild(slt8);	  	  
@@ -418,7 +418,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    oTd.innerHTML="<input type='text' name='b03update' id='shipdate' class='txt' style='width:18%;' maxlength='2'   />";  				  	   
 	    var oTd = oTr.insertCell(2);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
-	    oTd.innerHTML='業務擔當:';
+	    oTd.innerHTML='採購人員:';
 	    var oTd = oTr.insertCell(3);               	              
 	    oTd.innerHTML="<input type='text' name='b03update' id='whono' class='txt' style='width:40%;' maxlength='8'    />";  				  
 	    oTd.innerHTML+="<span name='b03others' id='whonameEx'></span>&nbsp&nbsp";  
@@ -486,7 +486,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);
 	    oTd.setAttribute('style','text-align:right;width:15%');	
-	    oTd.innerHTML='出貨退回單號:';
+	    oTd.innerHTML='進貨退出單號:';
 	    var oTd = oTr.insertCell(1);		
 	    oTd.colspan=3;				  
 	    if(txtword==2){   //如果是修改		                
@@ -530,7 +530,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
-	    oTd.innerHTML='收貨部門:';
+	    oTd.innerHTML='退貨部門:';
 	    var oTd = oTr.insertCell(1);               	              
 	    oTd.innerHTML="<input type='text' name='b0cupdate' id='deptno' class='txt' style='width:15%;' maxlength='5'    />";  				  
 	    oTd.innerHTML+="<span name='b0cothers' id='deptname'></span>&nbsp&nbsp";  
@@ -555,7 +555,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
-	    oTd.innerHTML='訂單號碼:';
+	    oTd.innerHTML='採購單號:';
 	    var oTd = oTr.insertCell(1);         
 	    if(txtword==2){   //如果是修改
 	  	   oTd.innerHTML="<input type='text' name='b0cupdate' id='origno' class='txt' style='background-color:#B9B9FF;width:30%;' maxlength='10' readOnly=true />";  				  
@@ -758,8 +758,7 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 		var nongsNo=0;	
 		var ttlcnt=Number(document.getElementById('ttlmny').innerHTML)-Number(maintable.rows[args[arglth-1]].cells[6].innerHTML);					
 	} 
-		while(fldsgsroup(fldidx,tbno)){			
-		    	
+		while(fldsgsroup(fldidx,tbno)){					    	
 			if(fldsgsroup(fldidx,tbno)[0]=='directdata'){
 				if(fldidx==3 && tbno==1){
 				    var orderQty=Number(maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML)*1+args[2]*1;						
@@ -793,8 +792,7 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 			}		 		
 			fldidx++;
 		}		
-		maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=rsp.lastupdate;
- 
+		maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=rsp.lastupdate; 
 }
 function transConfirm(oTd){
     //oTd.innerHTML="<input type='text' name='c03update' id='newPono' class='txt' style='display:none;' maxlength='10'/>"; 		
@@ -831,9 +829,9 @@ function  addNewRecordHint(tbno){
 
 function editRecordHint(tbno){
     if (tbno==0){  
-		return "修改出貨退回單表頭資料："; 
+		return "修改進貨退出單表頭資料："; 
 	}else{
-		return "修改出貨退回單內容資料："; 
+		return "修改進貨退出單內容資料："; 
 	}	 
 }
 /* function transRecordHint(tbno){
@@ -845,9 +843,9 @@ function editRecordHint(tbno){
 } */
 function searchKeyHint(tbno){    //搜尋畫面出現提示
     if (tbno==0){  //表頭資料	
-		return "搜尋出貨退回單單頭欄位選擇";
+		return "搜尋進貨退出單單頭欄位選擇";
 	}else{
-		return "搜尋出貨退回單單身欄位選擇";
+		return "搜尋進貨退出單單身欄位選擇";
 	}
 }
 
@@ -867,39 +865,39 @@ function srcArgobj(srcId){
 		"thWidth":['50%','50%'],"urlPth":"B03/BKND/D01srch.php","clickfunc":chsecust,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
     }else if(srcId=='whono'){
 	   var qrystring=document.getElementById(srcId).value;
-       return {"headtitle":"請選取業務人員帳號姓名","drpshtWidth":"28%","thCntnt":['人員編號', '人員姓名'],"thWidth":['50%','50%'],"urlPth":"D01/BKND/A01srch.php","clickfunc":chseprg1,"qryString":qrystring,"mendwidth":"calc( 100%  )"};    
+       return {"headtitle":"請選取採購人員帳號姓名","drpshtWidth":"28%","thCntnt":['人員編號', '人員姓名'],"thWidth":['50%','50%'],"urlPth":"D01/BKND/A01srch.php","clickfunc":chseprg1,"qryString":qrystring,"mendwidth":"calc( 100%  )"};    
 	}else if(srcId=='deptno'){
 		var qrystring=document.getElementById(srcId).value;
-       return {"headtitle":"請選取出貨部門","drpshtWidth":"28%","thCntnt":['部門編號', '部門名稱'],"thWidth":['50%','50%'],"urlPth":"B03/BKND/A14srch.php","clickfunc":deptchoose,"qryString":qrystring,"mendwidth":"calc( 100% )"};    
+       return {"headtitle":"請選取退貨部門","drpshtWidth":"28%","thCntnt":['部門編號', '部門名稱'],"thWidth":['50%','50%'],"urlPth":"B03/BKND/A14srch.php","clickfunc":deptchoose,"qryString":qrystring,"mendwidth":"calc( 100% )"};    
 	}else if(srcId=='billno' || srcId=='invoiceno'){
 		var billNo=document.getElementById(srcId).value;		
 		var tttlt='';
 	    if(srcId=='billno'){			     	     
-			var qrystring ="b04.F01"+"|"+billNo+"|"+document.getElementById('orgmth').value+"|"+document.getElementById('vendorno').value;   
-			tttlt="請選取出貨單號";          			
+			var qrystring ="b02.F01"+"|"+billNo+"|"+document.getElementById('orgmth').value+"|"+document.getElementById('vendorno').value;   
+			tttlt="請選取進貨單號";          			
 	    }else if(srcId=='invoiceno'){			 		    	
-			var qrystring ="b04.F20"+"|"+billNo+"|"+document.getElementById('orgmth').value+"|"+document.getElementById('vendorno').value;   
+			var qrystring ="b02.F20"+"|"+billNo+"|"+document.getElementById('orgmth').value+"|"+document.getElementById('vendorno').value;   
 			tttlt="請選取發票號碼";		
 		}
-		return {"headtitle":tttlt,"drpshtWidth":"28%","thCntnt":['出貨單號', '發票號碼'],
-		"thWidth":['50%','50%'],"urlPth":"B03/BKND/B04srch.php","clickfunc":bill_no,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
+		return {"headtitle":tttlt,"drpshtWidth":"28%","thCntnt":['進貨單號', '發票號碼'],
+		"thWidth":['50%','50%'],"urlPth":"B03/BKND/B02srch.php","clickfunc":bill_no,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
 	}else{
 		var shp_no=sourceAccount(12,0);	
 		var stockNo=document.getElementById(srcId).value;		 
 		var tttlt='';
 	    if(srcId=='stockno'){			     
-		    var qrystring ="b0d.F03"+"|"+stockNo+"_"+shp_no;    
+		    var qrystring ="b0b.F03"+"|"+stockNo+"_"+shp_no;    
 			tttlt="請選取料號";          			
 	    }else if(srcId=='stockname'){			 
 		    var qrystring ="b01.F02"+"|"+stockNo+"_"+shp_no;    		 
 			tttlt="請選取品名";		
 		}
-		return {"headtitle":tttlt,"drpshtWidth":"80%","thCntnt":['料品編號', '品名規格','訂單號碼','出貨數量','單價','廠商品號','廠商PO'],
+		return {"headtitle":tttlt,"drpshtWidth":"80%","thCntnt":['料品編號', '品名規格','訂單號碼','進貨數量','單價','廠商品號','需求用途'],
 		"thWidth":['16%','15%','12%','10%','10%','15%','12%'],"urlPth":"B03/BKND/B01srch.php","clickfunc":stckchg,"qryString":qrystring,"mendwidth":"calc( 100%  )"};
 	}
 }
 
-function chseprg1(event)  //選擇業務
+function chseprg1(event)  //選擇採購
 {
 	if (typeof event=="undefined"){
 		event=window.event;
@@ -987,8 +985,8 @@ function chsecust(event)  //選擇廠商
 	 var crnttpe=document.getElementById('crntopt');
 	 var contactman=document.getElementById('winman'); 
 	 var crntrate=document.getElementById('curncy');
-	 var invoicetype=document.getElementById('invtype');
-	 var taxkind=document.getElementById('taxtype');	 
+	 /* var invoicetype=document.getElementById('invtype');
+	 var taxkind=document.getElementById('taxtype');	  */
 	 var maintable=document.getElementById("stuffTbody");  	 
 	for(var i=0;i< maintable.rows.length; i++){			 
 		if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
@@ -1009,12 +1007,12 @@ function chsecust(event)  //選擇廠商
 			if(crntrate){
 				crntrate.value=maintable.rows[i].cells[6].innerHTML;
 			}
-			if(invoicetype){
+			/* if(invoicetype){
 				invoicetype.value=maintable.rows[i].cells[7].innerHTML*1+2;
-			}
-			if(taxkind){
+			} */
+			/* if(taxkind){
 				taxkind.value=maintable.rows[i].cells[8].innerHTML;
-			}
+			} */
 			break;
 		}					  		   
 	}             
@@ -1044,7 +1042,7 @@ function deptchoose(event)  //部門編號選擇
 	return true;
 }	
 
-function bill_no(event)  //出貨單號選取
+function bill_no(event)  //進貨單號選取
 {
 	if (typeof event=="undefined"){
 		event=window.event;

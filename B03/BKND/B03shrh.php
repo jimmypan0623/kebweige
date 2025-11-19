@@ -24,7 +24,7 @@ include("../../include/BKND/mysqli_server.php");                              //
 		 $list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名   
 		 $lastdate=date('Y'.'-'.'m'.'-'.'d');
 		 $mArlth=count($brr);  
-		 $sql3="SELECT b0c.*,d01.F04 AS F0E,d01.F13 AS F1E,d01.F15 AS F1E,b01.F98 FROM b0c,c01,b01 WHERE b0c.F01='".$brr[0]."' AND c01.F01='".$brr[1]."' AND b01.F01=b0c.F03 ORDER BY b0c.F03"; 	 
+		 $sql3="SELECT b0c.*,d01.F04 AS F0D,d01.F13 AS F1C,d01.F15 AS F1E,b01.F98 FROM b0c,d01,b01 WHERE b0c.F01='".$brr[0]."' AND d01.F01='".$brr[1]."' AND b01.F01=b0c.F03 ORDER BY b0c.F03"; 	 
 		 $sql4=@mysqli_query($link,$sql3); 
 		 $arr=array(); 
 		 while ($list3=mysqli_fetch_assoc($sql4)){
@@ -33,15 +33,15 @@ include("../../include/BKND/mysqli_server.php");                              //
 							'deliveryday'=>$brr[2],
 							'orderqty'=>$list3['F04'],
 							'vendor_no'=>$brr[1], 
-							'vendor_name'=>$list3['F0E'],
-							'check_way'=>$list3['F1E'],
+							'vendor_name'=>$list3['F0D'],
+							'check_way'=>$list3['F1C'],
 							'oring_no'=>$list3['F07'],
 							'crncy_no'=>$brr[9],
 							'unit_price'=>$list3['F15'],
 							'crncy_rate'=>$brr[10],
 							'lastupdate'=>$lastdate.$list4['F03'],
 							'departno'=>$list3['F05'],
-							'salesno'=>$brr[3],												 
+							'salesno'=>$brr[3],											
 							'vendorer_po'=>$list3['F09'],
 							'vendor_partno'=>$list3['F08'],					   
 							'reshipdate'=>$list3['F12'], 
@@ -63,53 +63,53 @@ include("../../include/BKND/mysqli_server.php");                              //
 		 $valueStr4 ='';
 		 $valueStr5 ='';
 		 $valueStr6 ='';
-		foreach($arr as $v){				
+			foreach($arr as $v){
+				
 				if($brr[11]!='3'){  //退貨
-				    if($v['mrt_type']=='NNN'){  // 虛擬料號
-					   $vbn=0;
-					}else{
-					   $vbn=1;
-					}						
-						$valueStr1 .= "('".$v['deliveryday']."',  //c10
-						'".$v['vendor_no']."',
-						'".$v['stockno']."',
-						'".$v['query_no']."',
-						'".$v['oring_no']."',
-						'".$v['crncy_no']."',
-						'".$v['unit_price']."',
-						'".$v['orderqty']*(-1)."',
-						'".$v['crncy_rate']."',			
-						'".$v['salesno']."',
-						'".$v['assistno']."',
-						'".$v['vendorer_po']."',
-						'".$v['vendor_partno']."',
-						'".$v['lastupdate']."', 	
-						'".$v['month_no']."'),";
-						///				
-						 $valueStr2 .= "('".$v['stockno']."',        //b26
-						 '".$v['departno']."',
-						 '".$v['deliveryday']."',
-						 ".$v['orderqty']*$vbn.",
-						 '".$v['lastupdate']."',
-						 '".'出貨退回單'."',
-						 '".$v['query_no']."',		 
-						 '".'退'.$brr[1].$v['vendor_name']."',			
-						 '".$v['month_no']."'),";
-					 ////////
-						 $valueStr3 .= "('".$v['departno']."',     //b25
-						 '".$v['stockno']."',
-						 ".$v['orderqty']*$vbn.",
-						 ".$v['orderqty']*$vbn.",
-						 '".$v['lastupdate']."',
-						 '".$v['month_no']."'),";
-					 /////////
-						 $valueStr4 .= "('".$v['departno']."',     //b11
-						 '".$v['stockno']."',
-						 ".$v['orderqty']*$vbn.",
-						 '".$v['month_no']."-".$v['deliveryday']."'),";
+				    if($v['mrt_type']=='NNN'){  //如果是虛擬料號	
+		               $vbn=0;
+		            }else{
+		               $vbn=1;
+		            }
+				    $valueStr1 .= "('".$v['deliveryday']."',  
+					'".$v['vendor_no']."',
+					'".$v['stockno']."',
+					'".$v['query_no']."',
+					'".$v['oring_no']."',
+					'".$v['crncy_no']."',
+					'".$v['unit_price']."',
+					'".$v['orderqty']*(-1)."',
+					'".$v['crncy_rate']."',			
+					'".$v['salesno']."',
 					
+					'".$v['vendorer_po']."',
+					'".$v['vendor_partno']."',
+					'".$v['lastupdate']."', 	
+					'".$v['month_no']."'),";
+				    ///				
+					 $valueStr2 .= "('".$v['stockno']."',
+					 '".$v['departno']."',
+					 '".$v['deliveryday']."',
+					 ".$v['orderqty']*(-1)*$vbn.",
+					 '".$v['lastupdate']."',
+					 '".'進貨退出單'."',
+					 '".$v['query_no']."',		 
+					 '".'退'.$brr[1].$v['vendor_name']."',			
+					 '".$v['month_no']."'),";
+				 ////////
+					 $valueStr3 .= "('".$v['departno']."',
+					 '".$v['stockno']."',
+					 ".$v['orderqty']*$vbn.",
+					 ".$v['orderqty']*(-1)*$vbn.",
+					 '".$v['lastupdate']."',
+					 '".$v['month_no']."'),";
+				 /////////
+					 $valueStr4 .= "('".$v['departno']."',
+					 '".$v['stockno']."',
+					 ".$v['orderqty']*(-1)*$vbn.",
+					 '".$v['month_no']."-".$v['deliveryday']."'),";
 				 /////
-					 $valueStr6 .= "('".$v['oring_no']."',     //d04
+					 $valueStr6 .= "('".$v['oring_no']."',
 					 '".$v['stockno']."',		    
 					 ".$v['orderqty'].",
 					 ".$v['unit_price'].",
@@ -121,45 +121,45 @@ include("../../include/BKND/mysqli_server.php");                              //
 					 ".$v['orderqty']*(-1)."),"; 		
 				}	      	 
 			 //////
-			 $valueStr5 .= "('".$v['month_no']."-".$v['deliveryday']."',
-			 '".$v['query_no']."',
-			 '".$v['vendor_no']."',
-			 '".$v['oring_no']."',
-			 '".$v['stockno']."',
-			 ".$v['orderqty'].",
-			 ".$v['unit_price'].",
-			 '".$v['check_way']."',
-			 '".$v['lastupdate']."',			
-			 '".$v['crncy_no']."',
-			 ".$v['crncy_rate'].",
-			 '".$v['remark']."',		          
-			 '".(($v['invoice_type']=='34' && $v['tax_type']=='1')?"02":"00")."', 			 
-			 '".$v['invoice_no']."',	
-			 '".$v['rjtordscnt']."',
-			 '".$v['salesno']."',		
-			 '".($v['deliveryday']<=$v['settle_day']?$v['month_no']:mnthPlus($v['month_no']))."'),";        
+				 $valueStr5 .= "('".$v['month_no']."-".$v['deliveryday']."',
+				 '".$v['query_no']."',
+				 '".$v['vendor_no']."',
+				 '".$v['oring_no']."',
+				 '".$v['stockno']."',
+				 ".$v['orderqty'].",
+				 ".$v['unit_price'].",
+				 '".$v['check_way']."',
+				 '".$v['lastupdate']."',			
+				 '".$v['crncy_no']."',
+				 ".$v['crncy_rate'].",
+				 '".$v['remark']."',		          
+				 '".(($v['invoice_type']=='34' && $v['tax_type']=='1')?"02":"00")."', 			 
+				 '".$v['invoice_no']."',	
+				 '".$v['rjtordscnt']."',
+				 '".$v['salesno']."',		
+				 '".($v['deliveryday']<=$v['settle_day']?$v['month_no']:mnthPlus($v['month_no']))."'),";        
 			}  
 	 
-		if($brr[11]!='3'){  //退貨		    
-			$valueStr1 = substr($valueStr1,0,strlen($valueStr1)-1);   //去掉最右邊的逗號,新增出貨月報表
+		if($brr[11]!='3'){  //退貨
+		    $valueStr1 = substr($valueStr1,0,strlen($valueStr1)-1);   //去掉最右邊的逗號,新增出貨月報表
 			$valueStr2 = substr($valueStr2,0,strlen($valueStr2)-1);   //去掉最右邊的逗號,異動庫存異動表
 			$valueStr3 = substr($valueStr3,0,strlen($valueStr3)-1);   //去掉最右邊的逗號,異動庫存月報表
-			$valueStr4 = substr($valueStr4,0,strlen($valueStr4)-1);   //去掉最右邊的逗號,異動即時庫存明細
-			$valueStr6 = substr($valueStr6,0,strlen($valueStr6)-1);   //去掉最右邊的逗號,異動客戶訂單表身      			
-			$insertSql[] = "INSERT INTO c10 (F01,F02,F03,F04,F05,F06,F07,F08,F09,F10,F14,F16,F17,F19,F90) VALUES ".$valueStr1;       
+			$valueStr4 = substr($valueStr4,0,strlen($valueStr4)-1);   //去掉最右邊的逗號,異動即時庫存明細	
+			$valueStr6 = substr($valueStr6,0,strlen($valueStr6)-1);   //去掉最右邊的逗號,異動客戶訂單表身      
+			$insertSql[] = "INSERT INTO d11 (F01,F02,F03,F04,F05,F06,F07,F08,F09,F10,F16,F17,F19,F90) VALUES ".$valueStr1;       
 			$insertSql[] = "INSERT INTO b26 (F01,F02,F03,F04,F05,F06,F07,F08,F90) VALUES ".$valueStr2; 
-			$insertSql[] = "INSERT INTO b25 (F01,F02,F07,F15,F16,F90) VALUES ".$valueStr3." ON DUPLICATE KEY UPDATE F07=F07+VALUES(F07),F15=F15+VALUES(F15),F16=VALUES(F16)"; 
-			$insertSql[] = "INSERT INTO b11 (F01,F03,F04,F05) VALUES ".$valueStr4." ON DUPLICATE KEY UPDATE F04=F04+VALUES(F04),F05=VALUES(F05)";     				 			
+			$insertSql[] = "INSERT INTO b25 (F01,F02,F05,F15,F16,F90) VALUES ".$valueStr3." ON DUPLICATE KEY UPDATE F05=F05+VALUES(F05),F15=F15+VALUES(F15),F16=VALUES(F16)"; 
+			$insertSql[] = "INSERT INTO b11 (F01,F03,F04,F05) VALUES ".$valueStr4." ON DUPLICATE KEY UPDATE F04=F04+VALUES(F04),F05=VALUES(F05)";     	
 			$insertSql[] = "INSERT INTO d04 (F01,F02,F03,F04,F05,F06,F09,F12,F21,F24) VALUES ".$valueStr6." ON DUPLICATE KEY UPDATE F06=VALUES(F06),F09=F09+VALUES(F09),F12=VALUES(F12),F21=F21+VALUES(F21),F24=F24+VALUES(F24)";
 		    foreach ($insertSql as  $values){
 		       @mysqli_query($link,$values);
 		    }
 		}	 
 		$valueStr5 = substr($valueStr5,0,strlen($valueStr5)-1);   //去掉最右邊的逗號,新增應收帳款對帳單
-		$insertSql5 = "insert into c13 (F01,F02,F03,F04,F05,F06,F07,F09,F12,F13,F14,F15,F16,F17,F18,F19,F90) VALUES ".$valueStr5;      
+		$insertSql5 = "insert into d19 (F01,F02,F03,F04,F05,F06,F07,F09,F12,F13,F14,F15,F16,F17,F18,F19,F90) VALUES ".$valueStr5;      
 		@mysqli_query($link,$insertSql5) ;  	 
-		$mscnt="UPDATE c01 SET F16='".$brr[14]."-".$brr[2]."' " ;
-		$mscnt.="WHERE F01='".$brr[1]."' AND (F16<'".$brr[14]."-".$brr[2]."' OR F16 IS NULL)" ;	                                                      
+		$mscnt="UPDATE d01 SET F14='".$brr[14]."-".$brr[2]."' " ;
+		$mscnt.="WHERE F01='".$brr[1]."' AND (F14<'".$brr[14]."-".$brr[2]."' OR F14 IS NULL)" ;	                                                      
 		mysqli_query($link ,$mscnt) or die(mysqli_error($link));    //寫入MySQL 		   
 		$mscnt="UPDATE b03 SET F10='".$brr[13]."',";	    	  
 		$mscnt.=" F13='".$lastdate.$list4['F03']."'";

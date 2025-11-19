@@ -120,7 +120,7 @@ function initDialog()
 			if(loginform){
 			   loginform.parentNode.removeChild(loginform);
 			}			 					
-			 links[0].href="include/Operate.css?v=0.1.0" ;						 
+			 links[0].href="include/Operate.css?v=0.1.1" ;						 
 			 var gifarray=['ROL','puto','0','cell','1','birthdaycake','2','spec','3','stckgood','S02',
 			 '4','cddisk','5','smlbulb','6','myrndm','7','S03','openfile','8','penandrule','9','S04','calculator','foreignermoney']; 			
 			 links[1].href="digits/"+gifarray[nwsd]+".gif";			
@@ -228,7 +228,7 @@ function initDialog()
 			loadScript(urljsname,function(){crtElm();});  
 			var mthjudge=getAuth[0]()[11];//getCookie("MorP");
 			var contentdiv=getElementsByAttribute('class','tab_content');			
-			if(!(contentdiv[0])){   //如果記憶體又錯亂,強制中斷重來一次			    
+			if(!(contentdiv[0])){   //如果同時觸發兩隻程式引發記憶體錯亂,強制中斷以第一隻程式為準,重來一次			    
 				//alert(getAuth[0]());				
 			    tabCss.parentNode.removeChild(tabCss);				        
 				RecoverArg(left(nowExcute,3));	

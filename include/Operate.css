@@ -77,8 +77,7 @@ select{
 select:focus{
 	background-color:#FFFF8C;
 }	 
-#footbottom span{
-     
+#footbottom span{    
 	font-weight:bold;
 }
 #currentTime{

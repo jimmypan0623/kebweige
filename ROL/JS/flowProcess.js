@@ -20,7 +20,7 @@ function setArg(arr){
 		
 	function FunDetailArg(arg){	
  
-	    var sendSrcRec="filename="+arg+"|"+window.parent.getAuth[1]()[0];		
+	    var sendSrcRec="filename="+arg.substr(0,3)+"|"+window.parent.getAuth[1]()[0];		
 		 
 	    var rsp="";  	
         if(window.ActiveXObject){

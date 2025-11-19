@@ -15,7 +15,7 @@
 	}else{	
 	    while ($list3=mysqli_fetch_assoc($sql4)){	
              $FTB=str_split($list3['Ftb']);		
-		    $atr = array('prg_no'=>$list3['F03'],				 
+		    $atr = array('prg_no'=>$list3['F03'].'.'.$list3['F02'],				 
 				 'newauth'=>$list3['F04'],
 				 'editauth'=>$list3['F05'],
 				 'delauth'=>$list3['F06'],

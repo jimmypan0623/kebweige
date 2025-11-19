@@ -26,7 +26,7 @@ if(trim($list2['F10'])=="Y"){
 					    'unit_price'=>$list3['F15'],  //單價					    
 					    'lastupdate'=>$lastdate.$list4['F03'],
 					    'departno'=>$list3['F05'],					
-					    'custom_partno'=>$list3['F08'],			
+					    'vendor_partno'=>$list3['F08'],			
 						'mrt_type'=>$list3['F98'],
 					    'month_no'=>$list3['F90'] 
                      );   		     
@@ -50,13 +50,13 @@ if(trim($list2['F10'])=="Y"){
 				 $valueStr3 .= "('".$v['departno']."',     
 				 '".$v['stockno']."',
 				 ".$v['orderqty']*(-1)*$vbn.",
-				 ".$v['orderqty']*(-1)*$vbn.",
+				 ".$v['orderqty']*$vbn.",
 				 '".$v['lastupdate']."',
 				 '".$v['month_no']."'),";
 				 //b11庫存明細
 				 $valueStr4 .= "('".$v['departno']."',  
 				 '".$v['stockno']."',
-				 ".$v['orderqty']*(-1)*$vbn.",
+				 ".$v['orderqty']*$vbn.",
 				 '".$v['month_no']."-".$v['deliveryday']."'),";
 			
 			 //d04訂單表身
@@ -74,7 +74,7 @@ if(trim($list2['F10'])=="Y"){
 		$valueStr3 = substr($valueStr3,0,strlen($valueStr3)-1);   //去掉最右邊的逗號,異動庫存月報表
 		$valueStr4 = substr($valueStr4,0,strlen($valueStr4)-1);   //去掉最右邊的逗號,異動即時庫存明細	 
 		$valueStr6 = substr($valueStr6,0,strlen($valueStr6)-1);   //去掉最右邊的逗號,異動客戶訂單表身  		
-		$insertSql[] = "INSERT INTO b25 (F01,F02,F07,F15,F16,F90) values ".$valueStr3." ON DUPLICATE KEY UPDATE F07=F07+VALUES(F07),F15=F15+VALUES(F15),F16=VALUES(F16)"; 
+		$insertSql[] = "INSERT INTO b25 (F01,F02,F05,F15,F16,F90) values ".$valueStr3." ON DUPLICATE KEY UPDATE F05=F05+VALUES(F05),F15=F15+VALUES(F15),F16=VALUES(F16)"; 
 		$insertSql[] = "INSERT INTO b11 (F01,F03,F04,F05) values ".$valueStr4." ON DUPLICATE KEY UPDATE F04=F04+VALUES(F04),F05=VALUES(F05)";     	
         $insertSql[] = "INSERT INTO d04 (F01,F02,F03,F04,F05,F06,F09,F21,F12,F24) values ".$valueStr6." ON DUPLICATE KEY UPDATE F09=F09+VALUES(F09),F21=F21+VALUES(F21),F12=VALUES(F12),F24=F24+VALUES(F24)";   
         foreach ($insertSql as  $values){
