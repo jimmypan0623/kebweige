@@ -9,7 +9,6 @@ function selfTag(jsvsn){
 	////	
      loadScript(`D11/JS/D11.js?v=${jsvsn}`,function(){DrawTable();});		
 	  loadScript(`D11/JS/D11rgst.js?v=${jsvsn}`);
-	  loadScript(`D11/JS/D11rgst.js?v=${jsvsn}`);		
 		var tab1Click=document.getElementById("tab1");
 		if(tab1Click){
 		  tab1Click.setAttribute("accesskey","1");	

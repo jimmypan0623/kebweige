@@ -71,6 +71,7 @@ foreach($cart as $key=>$val){
 		    '".$v['crncy_rate']."',			
 		    '".$v['salesno']."',
 		    '".$v['assistno']."',
+			'".$v['departno']."',
 		    '".$v['customer_po']."',
 		    '".$v['custom_partno']."',
 		    '".$v['lastupdate']."', 	
@@ -132,7 +133,7 @@ foreach($cart as $key=>$val){
 	$valueStr4 = substr($valueStr4,0,strlen($valueStr4)-1);   //去掉最右邊的逗號,異動即時庫存明細
 	$valueStr5 = substr($valueStr5,0,strlen($valueStr5)-1);   //去掉最右邊的逗號,新增應收帳款對帳單
 	$valueStr6 = substr($valueStr6,0,strlen($valueStr6)-1);   //去掉最右邊的逗號,異動客戶訂單表身	
-	$insertSql[] = "insert into c10 (F01,F02,F03,F04,F05,F06,F07,F08,F09,F10,F14,F16,F17,F19,F90) values ".$valueStr1;       
+	$insertSql[] = "insert into c10 (F01,F02,F03,F04,F05,F06,F07,F08,F09,F10,F14,F15,F16,F17,F19,F90) values ".$valueStr1;       
 	$insertSql[] = "insert into b26 (F01,F02,F03,F04,F05,F06,F07,F08,F90) values ".$valueStr2; 
 	$insertSql[] = "insert into b25 (F01,F02,F06,F15,F16,F90) values ".$valueStr3." ON DUPLICATE KEY UPDATE F06=F06+VALUES(F06),F15=F15+VALUES(F15),F16=VALUES(F16)"; 
 	$insertSql[] = "insert into b11 (F01,F03,F04,F05) values ".$valueStr4." ON DUPLICATE KEY UPDATE F04=F04+VALUES(F04),F05=VALUES(F05)";     

@@ -21,13 +21,13 @@
 	while ($list3=mysqli_fetch_assoc($sql4)){
 		$itemno++; 
 		$atr = array('item_no_IHC_000'=>$itemno,
-		             'stock_no_ISL_030'=>$list3['F01'],  		            	             
-		             'stock_name_ISL_025'=>$list3['F02'],
+		             'stock_no_ISL_026'=>$list3['F01'],  		            	             
+		             'stock_name_ISL_020'=>$list3['F02'],
 					 'unit_name_IHL_000'=>$list3['F04'],
 					 'basic_qty_IHL_000'=>($list3['F13']>0?$list3['F13']:$list3['F0C']),
-					 'minum_qty_IHL_000'=>($list3['F08']>0?$list3['F08']:$list3['F1E']),	
-					 'custom_part_ISL_025'=>$list3['F0D'],	
-					 'invalid_date_ISC_010'=>$list3['F15'],
+					 'minum_qty_ISR_010'=>($list3['F08']>0?$list3['F08']:$list3['F1E']),	
+					 'custom_part_ISL_018'=>$list3['F0D'],	
+					 'invalid_date_ISC_011'=>$list3['F15'],
 					 'order_price_ISR_010'=>($list3['F07']>0?$list3['F07']:$list3['F38']),
 					 'leadtime_IHL_000'=>($list3['F28']+$list3['F31'])
 					 );    					                          

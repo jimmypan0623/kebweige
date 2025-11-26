@@ -33,7 +33,6 @@ getAuth[2] = createArrayClosure();	 //不列入COOKIE之系統參數
 getAuth[3] = createArrayClosure();	 //各系統參數之屬性
 function initDialog()
 {       
-
     var btmshowtme=document.getElementById('currentTime'); 
 	var ftbtm=document.getElementById("footbottom");
 	var scnd=btmshowtme.innerHTML.substr(-2);
@@ -120,7 +119,7 @@ function initDialog()
 			if(loginform){
 			   loginform.parentNode.removeChild(loginform);
 			}			 					
-			 links[0].href="include/Operate.css?v=0.1.1" ;						 
+			 links[0].href="include/Operate.css?v=0.1.2" ;						 
 			 var gifarray=['ROL','puto','0','cell','1','birthdaycake','2','spec','3','stckgood','S02',
 			 '4','cddisk','5','smlbulb','6','myrndm','7','S03','openfile','8','penandrule','9','S04','calculator','foreignermoney']; 			
 			 links[1].href="digits/"+gifarray[nwsd]+".gif";			

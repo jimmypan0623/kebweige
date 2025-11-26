@@ -4,49 +4,26 @@
    $rnddgt=intval($_COOKIE["INT_069"]);
     if (substr($_POST['filename'],0,3)=="PGE"){	  
 	   $pgeno=getNeedBetween($_POST['filename'],'E','|'); // 月次 
-		$sql3="SELECT c10.*,c01.F05 AS F0E,a01.F03 AS F0C,a14.F02 AS F0D FROM c10 		 
-		LEFT OUTER JOIN c01 ON c01.F01=c10.F02
-		LEFT OUTER JOIN a01 ON a01.F01=c10.F10 	
-		LEFT OUTER JOIN a14 ON a14.F01=c10.F15
-		WHERE c10.F90='".$pgeno."' ORDER BY c10.F01,c10.F03 ";  
+		$sql3="SELECT d01.F01,d01.F03,d01.F04 FROM d01 WHERE F01 IN (SELECT F03 FROM d19 WHERE F90='".$pgeno."')		 		
+		 ORDER BY d01.F01 ";  
     }else{
 	    $fieldNo=substr($_POST['filename'],0,7);
 		$filterKey=getNeedBetween($_POST['filename'],'|','_');  
 		$pgeno=substr(strrchr($_POST['filename'],'_'),1); // 月次
-        $sql3="SELECT c10.*,c01.F05 AS F0E,a01.F03 AS F0C,a14.F02 AS F0D FROM c10 		 
-		LEFT OUTER JOIN c01 ON c01.F01=c10.F02
-		LEFT OUTER JOIN a01 ON a01.F01=c10.F10 	
-		LEFT OUTER JOIN a14 ON a14.F01=c10.F15
-		WHERE c10.F90='".$pgeno."' AND ".$fieldNo." LIKE '%".trim($filterKey)."%' ORDER BY ".$fieldNo." ASC, c10.F01 DESC"  ;   
+        $sql3="SELECT d01.F01,d01.F03,d01.F04 FROM d01 WHERE F01 IN (SELECT F03 FROM d19 WHERE F90='".$pgeno."') AND ".$fieldNo." LIKE '%".trim($filterKey)."%' ORDER BY ".$fieldNo  ;   
     }	   
     $sql0="select F07 from a23 where F01="."'".$pgeno."'"; 
      $sql1=@mysqli_query($link,$sql0);                           
-     $list4=mysqli_fetch_assoc($sql1);  //紀錄當前月份是否已結轉月庫存報表   
-   
-   
+     $list4=mysqli_fetch_assoc($sql1);  //紀錄當前月份是否已結轉月庫存報表         
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_assoc($sql4)){
 		 
-		$atr = array('rc_no_DHL_000'=>$list3['F00'],  
-                     'stock_no_DSL_010'=>$list3['F03'], 	
-					 'bill_no_DSL_009'=>$list3['F04'], 	
-					 'ship_date_DSC_003'=>$list3['F01'],
-					 'recipt_no_DSL_009'=>$list3['F05'],  
-					 'custom_no_DSL_007'=>$list3['F02'],	
-					 'custom_name_ISL_007'=>$list3['F0E'],	
-					 'ship_qty_DSR_007'=>$list3['F08'],
-		             'unit_price_DSR_007'=>$list3['F07'], 					 
-                     'crncy_type_DSC_004'=>$list3['F06'],	 
-                     'crncy_rate_DSR_007'=>$list3['F09'],	 					 
-                     'rcd_total_DSR_008'=>round($list3['F08']*$list3['F07']*$list3['F09'],$rnddgt),
-					  'depart_no_DHL_000'=>$list3['F15'],				
-					  'depart_name_ISL_007'=>$list3['F0D'],	
-					  'sales_no_DHL_000'=>$list3['F10'],				
-					  'sales_name_ISL_007'=>$list3['F0C'],	
-					 'custom_po_DSL_010'=>$list3['F16'],  
-					 'custom_partno_DSL_010'=>$list3['F17'],  
-					 'lastupdate_DHL_000'=>$list3['F19']                      				 
+		$atr = array( 
+                     
+					 'vendor_no_DSL_006'=>$list3['F01'],	
+					 'vendor_fuulname_IHL_000'=>$list3['F03'],	
+					 'vendor_name_ISL_010'=>$list3['F04'] 	 
 					 );                     			 
 		array_push($arr,$atr);
 		

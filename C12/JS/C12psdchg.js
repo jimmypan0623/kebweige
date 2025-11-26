@@ -7,8 +7,8 @@ function selfTag(jsvsn){
 		}
 	}	
 	////	
-     loadScript(`C10/JS/C10.js?v=${jsvsn}`,function(){DrawTable();});		
-	  loadScript(`C10/JS/C10rgst.js?v=${jsvsn}`);	 
+     loadScript(`C12/JS/C12.js?v=${jsvsn}`,function(){DrawTable();});		 
+	  loadScript(`C12/JS/C12rgst.js?v=${jsvsn}`);		
 		var tab1Click=document.getElementById("tab1");
 		if(tab1Click){
 		  tab1Click.setAttribute("accesskey","1");	

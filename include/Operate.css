@@ -31,7 +31,10 @@
 	 /*background-color:#dca06b;	動態變色 */
 
 }
-
+#rightContent1 tr{
+	background-color:#FFFFAA;	/* 表格背景色 */
+	cursor:pointer;
+}
 input {padding:5px 15px; background:#ccc; border:0 none;
 cursor:pointer;
 -webkit-border-radius: 5px;
@@ -110,7 +113,7 @@ input.text{
 	.tab_css input.tab:checked + label + .tab_content{display: initial;}
 
 
-  .tab_css .gridlist tbody {
+  .tab_css .gridlist tbody{
    display:block;
    height: 397px;	    
    overflow-y:scroll;	    
@@ -118,7 +121,7 @@ input.text{
 }
 
 
-.tab_css table thead  ,tbody tr {
+.tab_css table thead  ,tbody tr{
 display:table;
 width:100%;
 table-layout:fixed;
@@ -177,7 +180,7 @@ body{
 	font-weight:bold;
  }
  
-#srchTable tr:hover, #srchTable tr.altrow{
+#srchTable tr:hover, #srchTable tr.altrow,#rightContent1 tr:hover,#rightContent1 tr.altrow{
 	background-color:#dca06b;	  
 } 
 
@@ -188,6 +191,7 @@ body{
  	font-size:18px;  
 	display:block;
     overflow-y:scroll; 
+	
  }
  .Rgtkey{
    text-align:right;
@@ -201,6 +205,7 @@ body{
  #rightMember1 tr,#rightMember1 td {
     border: 1px solid #000000;border-collapse: collapse;
 }
+
 @media screen and (min-width:1081px){
  .tabCntntSpan,#ttltitle,#crncy,#ttlmny,#ttltitle1,#ttlmny1{
    font-size:120%;
