@@ -12,12 +12,12 @@
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_assoc($sql4)){	
 	   $str[3]=$str[3]+$list3['F04'];
-		$atr = array('ship_date'=>$list3['F90'].'-'.$list3['F03'] ,
-		             'order_type'=>$list3['F06'] ,
-		             'ship_order'=>$list3['F07'],
-		              'ship_qty'=>$list3['F04'], 
-					  'calc_qty'=>$str[3], 
-		             'remark'=>$list3['F08']);          
+		$atr = array('ship_date_DSC_010'=>$list3['F90'].'-'.$list3['F03'] ,
+		             'order_type_DSC_012'=>$list3['F06'] ,
+		             'ship_order_DSL_012'=>$list3['F07'],
+		              'ship_qty_DSR_014'=>$list3['F04'], 
+					  'calc_qty_DSR_014'=>$str[3], 
+		             'remark_DSL_038'=>$list3['F08']);          
 		array_push($arr,$atr);
 	}
 	mysqli_close($link);

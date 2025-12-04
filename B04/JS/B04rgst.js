@@ -104,27 +104,29 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 	          }
 	    }
 		
-        if(b04elements[j].value.trim()=="" && !(j==4 && tbno==1) && !(j==7 && tbno==0)){		
+        if(b04elements[j].value.trim()=="" && !((j==8 || j==6 )&& tbno==1) && !((j==7 || j==8 || j==9 ) && tbno==0)){		//|| j==8 || j==9
 		     if (j==1 ){
 			    b04elements[j].placeholder="不得空白" ;
+				
 			 }else{
 		        filtermsg(b04elements[j],"不得空白");
 			 }
 		     return false ;
         }else{		     
 		   if(b04elements[j].nextSibling ){		
-               if((j!=4 && tbno!=0 ) && (j!=1 && tbno!=1)){		   //非人名與料號移除
+		       if(!((j==4 && tbno==0) || (j==1 && tbno==1))){		   //非人名與料號移除
+             
 			      b04elements[j].parentNode.removeChild(b04elements[j].nextSibling);
+				  
 			   }			   
 		   }
-		   if(tbno==1 && (j==2 || j==3) && b04elements[j].value == 0){			  
-			  filtermsg(b04elements[j],"不得為 0");
-		      return false ;
-		   }else{
-	    	    if(b04elements[j].nextSibling){		      
-			       b04elements[j].parentNode.removeChild(b04elements[j].nextSibling);
-		        }		
-	       }	   
+		   if((tbno==1 && (j==3 || j==4)) || (tbno==0 && j==6)){	
+		      if(b04elements[j].value == 0){
+			     filtermsg(b04elements[j],"不得為 0");
+				  return false ;
+			  }
+		     
+		   } 
 	    }	    
 	}
     //--------過濾區結束----------//	

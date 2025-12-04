@@ -21,8 +21,8 @@ graph LR;
  	A -->|三旬匯率|F[/B02/]	
 	D -->|&#x2705|E[(D08)]
 	E -->|進貨計劃|F
-   
-	O[(A09)] -->|收貨部門|F
+    D .->|&#x1F516拋轉| F
+	O[(A09)] -->|收料部門|F
 	F -->|&#x2705| I[(D11)]
 	F -->|&#x2705| J[(D19)] 
 	G[/B03/]-->|&#x2705| I
@@ -36,9 +36,10 @@ graph LR;
 	linkStyle 11 stroke-width:1px,fill:none,stroke:green;
 	linkStyle 12 stroke-width:1px,fill:none,stroke:red;
 	linkStyle 13 stroke-width:1px,fill:none,stroke:orange;
+	linkStyle 14 stroke-width:1px,fill:none,stroke:blue;
 	click A call FunDetailArg("D00") "D00 設定採購匯率"
     click B call FunDetailArg("A02") "A02 人員帳號與權限設定"
-	click C call FunDetailArg("D01") "D01 廠商資料基本檔"
+	click C call FunDetailArg("D01") "D01 廠商基本資料檔"
 	click D call FunDetailArg("D04") "D04 採購單"
 	click E call FunDetailArg("D08") "D08 進貨計劃"
 	click O call FunDetailArg("A09") "A09 倉別與部門別設定作業"

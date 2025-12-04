@@ -101,7 +101,7 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 		        }		
 	        }
 	    }		
-        if(b05elements[j].value.trim()=="" && !(j==4 && tbno==1) && !(j==7 && tbno==0)){		
+        if(b05elements[j].value.trim()=="" && !((j==4 || j==6 ) && tbno==1) && !((j==7 || j==8 || j==9 ) && tbno==0)){		
 		     if (j==1 ){
 			    b05elements[j].placeholder="不得空白" ;
 			 }else{
@@ -110,18 +110,16 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 		     return false ;
         }else{		     
 		    if(b05elements[j].nextSibling ){		
-                if((j!=4 && tbno!=0 ) && (j!=1 && tbno!=1)){		   //非人名與料號移除
+                if(!((j==4 && tbno==0) || (j==1 && tbno==1))){		   //非人名與料號移除
 			      b05elements[j].parentNode.removeChild(b05elements[j].nextSibling);
 			    }			   
 		    }
-		    if(tbno==1 && (j==2 || j==3) && b05elements[j].value == 0){			  
-			   filtermsg(b05elements[j],"不得為 0");
-		       return false ;
-		    }else{
-	    	    if(b05elements[j].nextSibling){		      
-			       b05elements[j].parentNode.removeChild(b05elements[j].nextSibling);
-		        }		
-	        }	   
+		    if((tbno==1 && (j==3 || j==4)) || (tbno==0 && j==11) ){			
+			   if(b05elements[j].value == 0){
+			      filtermsg(b05elements[j],"不得為 0");
+		          return false ;
+			   }
+		    }
 	    }	    
 	}
     //--------過濾區結束----------//	
@@ -610,7 +608,7 @@ function topAndWidthModify(dropsheet_content,dropsheet,txtword,tbno){
 		   if (tbno==0){				
 			   var sales_no=document.getElementById('whono');		
 			   var ship_date=document.getElementById('shipdate');		
-			   attachEventListener(sales_no,"focusout",lostfocus1,false);		
+			  // attachEventListener(sales_no,"focusout",lostfocus1,false);		
 			   //attachEventListener(ship_date,"focusout",rateSrch,false);		//日期變動若為外幣交易也一併修正匯率
 			}else{
 				var dept_no=document.getElementById('deptno');			

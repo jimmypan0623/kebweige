@@ -11,17 +11,18 @@
 		 
 		$atr = array( 
 		             'ship_date_DSL_008'=>$list3['F01'],
-					 'invoice_no_DSL_008'=>$list3['F17'],
+					 'invoice_no_DSL_009'=>$list3['F17'],
                      'stock_no_DSL_012'=>$list3['F05'], 	
-					 'bill_no_DSL_008'=>$list3['F02'], 	
+					 'bill_no_DSL_009'=>$list3['F02'], 	
 					 
 					 				 
 					 'ship_qty_DSR_007'=>$list3['F06'],
 		             'unit_price_DSR_007'=>$list3['F07'], 					 
                      'crncy_type_DSC_004'=>$list3['F13'],	 
                      'crncy_rate_DSR_007'=>$list3['F14'],	 					 
-                     'rcd_total_DSR_008'=>round($list3['F06']*$list3['F07']*$list3['F14'],$rnddgt)
-                  	 	 
+                     'rcd_total_DSR_008'=>round($list3['F06']*$list3['F07']*$list3['F14'],$rnddgt),
+                  	 'customer_po_DSL_009'=>$list3['F04'],	 
+					  'customer_partno_DSL_011'=>$list3['F08']
 					 );                     			 
 		array_push($arr,$atr);
 		

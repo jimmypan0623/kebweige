@@ -156,7 +156,7 @@ function whichinvoice(tpe){
           tpemsg = '二聯式';   
           break;
 	  }	 
-       default: {
+       default: {		 
          break;
        }
     }

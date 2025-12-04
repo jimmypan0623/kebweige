@@ -651,7 +651,7 @@ function srcArgobj(srcId){
 	   var acctno=document.getElementById('fatherkey1').innerHTML;
        var prgNo=document.getElementById(srcId).value;	   	   
 	   var qrystring ="a03.F01"+"|"+prgNo+"_"+acctno;
-      return {"headtitle":"請選取欲授權程式","drpshtWidth":"28%","thCntnt":['程式編號', '程式名稱'],"thWidth":['50%','50%'],"urlPth":"A02/BKND/A02srch.php","clickfunc":chseprg,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
+      return {"headtitle":"請選取欲授權程式","drpshtWidth":"28%","thCntnt":['編號', '程式名稱'],"thWidth":['20%','80%'],"urlPth":"A02/BKND/A02srch.php","clickfunc":chseprg,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
     }
 }
 

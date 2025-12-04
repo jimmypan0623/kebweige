@@ -17,8 +17,8 @@
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_assoc($sql4)){
 		 
-		$atr = array('prg_no_ISC_050'=>$list3['F01'],  		            	             
-		             'prg_name_ISC_050'=>$list3['F02'],					               
+		$atr = array('prg_no_ISC_020'=>$list3['F01'],  		            	             
+		             'prg_name_ISL_080'=>$list3['F02'],					               
                      'new_auth_IHC_000'=>$list3['F04'],
                      'edit_auth_IHC_000'=>$list3['F05'],
 					 'del_auth_IHC_000'=>$list3['F06'],

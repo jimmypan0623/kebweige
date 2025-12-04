@@ -101,7 +101,7 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 		        }		
 	        }
 	    }		
-        if(b03elements[j].value.trim()=="" && !(j==4 && tbno==1) && !(j==7 && tbno==0)){		
+        if(b03elements[j].value.trim()=="" && !((j==4 || j==6 || j==7)&& tbno==1) && !(j==7 && tbno==0)){		
 		     if (j==1 ){
 			    b03elements[j].placeholder="不得空白" ;
 			 }else{
@@ -110,18 +110,16 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 		     return false ;
         }else{		     
 		    if(b03elements[j].nextSibling ){		
-                if((j!=4 && tbno!=0 ) && (j!=1 && tbno!=1)){		   //非人名與料號移除
+                if(!((j==4 && tbno==0) || (j==1 && tbno==1))){		   //非人名與料號移除
 			      b03elements[j].parentNode.removeChild(b03elements[j].nextSibling);
 			    }			   
 		    }
-		    if(tbno==1 && (j==2 || j==3) && b03elements[j].value == 0){			  
-			   filtermsg(b03elements[j],"不得為 0");
-		       return false ;
-		    }else{
-	    	    if(b03elements[j].nextSibling){		      
-			       b03elements[j].parentNode.removeChild(b03elements[j].nextSibling);
-		        }		
-	        }	   
+		    if((tbno==1 && (j==3 || j==4)) || (tbno==0 && j==11)){		
+               if(b03elements[j].value == 0){			
+			      filtermsg(b03elements[j],"不得為 0");
+		          return false ;
+			   }
+		    }
 	    }	    
 	}
     //--------過濾區結束----------//	
@@ -518,7 +516,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);
 	    oTd.setAttribute('style','text-align:right;width:15%');	
-	    oTd.innerHTML='廠商PO:';
+	    oTd.innerHTML='需求用途:';
 	    var oTd = oTr.insertCell(1);		                						  		          				  
 	    oTd.innerHTML="<input type='text' name='b0cupdate' id='vendorPO' class='txt' style='width:50%;' maxlength='30'/>"; 				 		 
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
@@ -610,7 +608,7 @@ function topAndWidthModify(dropsheet_content,dropsheet,txtword,tbno){
 		   if (tbno==0){				
 			   var sales_no=document.getElementById('whono');		
 			   var ship_date=document.getElementById('shipdate');		
-			   attachEventListener(sales_no,"focusout",lostfocus1,false);		
+			   //attachEventListener(sales_no,"focusout",lostfocus1,false);		
 			   //attachEventListener(ship_date,"focusout",rateSrch,false);		//日期變動若為外幣交易也一併修正匯率
 			}else{
 				var dept_no=document.getElementById('deptno');			
@@ -671,7 +669,7 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 }
 
 function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nongs,tbno)函數內新增紀錄後呼叫的畫面更動   
-    var rnddgt=getCookie('INT_069');  //四捨五入到幾位         
+    var rnddgt=getCookie('INT_068');  //四捨五入到幾位         
 	var ttlcnt=Number(document.getElementById('ttlmny').innerHTML);
 	var fldidx=0;
 	var argsNo=0;
@@ -744,7 +742,7 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 }
 
 function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,nongs,tbno)函數修改紀錄後呼叫的畫面更動
-    var rnddgt=getCookie('INT_069');  //四捨五入到幾位    
+    var rnddgt=getCookie('INT_068');  //四捨五入到幾位    
 	if (tbno==0){
 	    var maintable=document.getElementById("maintbody1");		
 	    var fldidx=4;

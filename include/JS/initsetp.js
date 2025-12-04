@@ -126,7 +126,6 @@ function initDialog()
 			var urlfolder=document.getElementsByTagName('title');
 			urlfolder[0].innerHTML=nowExcute; 				     
 			 btmshowtme.style.display="inline-block";
-			//////////////
 			var divcontents=getElementsByAttribute('class','tab_content');
 			var tabs=getElementsByAttribute('name','tab');
 			var tablblnames=getElementsByAttribute('name','tablbl');	
@@ -155,12 +154,9 @@ function initDialog()
 				var srvrSpnse=document.createElement("div");
 				srvrSpnse.id="serverResponse"+(i+1).toString();
 				srvrSpnse.setAttribute("style","color:red;text-align:center;");
-				srvrSpnse.innerHTML='&nbsp';			
-				//if(getAuth[0]()[12]=='M'){   //如果是主檔且為首頁
-				  var lastLevelDiv=document.createElement("div");				 
-				  lastLevelDiv.setAttribute("class","table_cover");
-				  
-			    //}
+				srvrSpnse.innerHTML='&nbsp';							 
+				var lastLevelDiv=document.createElement("div");				 
+				lastLevelDiv.setAttribute("class","table_cover");				  			    
 				var tbleCntnt=document.createElement("table");
 				tbleCntnt.id="member"+(i+1).toString();
 				tbleCntnt.setAttribute("class","gridlist");				 
@@ -192,15 +188,10 @@ function initDialog()
 				   tabContent.appendChild(marklight);
 				   tabContent.appendChild(text25);
 				   tabContent.appendChild(keydscrpt);
-				}
-				
-				tabContent.appendChild(srvrSpnse);
-				//if(getAuth[0]()[12]=='M'){      //如果是主檔且為首頁
-				   lastLevelDiv.appendChild(tbleCntnt);
-				   tabContent.appendChild(lastLevelDiv);
-				//}else{
-				//   tabContent.appendChild(tbleCntnt);
-				//}
+				}				
+				tabContent.appendChild(srvrSpnse); 
+				lastLevelDiv.appendChild(tbleCntnt);
+				tabContent.appendChild(lastLevelDiv);
 				tabCss.appendChild(bsechkbx);
 				tabCss.appendChild(basechklbl);
 				tabCss.appendChild(tabContent);
@@ -213,15 +204,13 @@ function initDialog()
 			tabCss.appendChild(text26);
 			var text27=document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}'); 
 			document.body.insertBefore(tabCss,ftbtm);
-			 tabCss.insertBefore(text27,lclBtnBk);
-			////			
+			 tabCss.insertBefore(text27,lclBtnBk);		
 			var scriptall=document.getElementsByTagName("script");
 	        for(var j=0;j<scriptall.length;j++){
 	            if(scriptall[j].id){
 	              scriptall[j].parentNode.removeChild(scriptall[j]);		 
 		        }
-	        }		 	
-			 
+	        }		 				 
 			var cmmjsvs=gifarray[nwsd]+scnd;			
 			var urljsname=left(nowExcute,3)+'/JS/'+left(nowExcute,3)+'elmcrt.js?v='+cmmjsvs; 			
 			loadScript(urljsname,function(){crtElm();});  
@@ -474,11 +463,8 @@ function initDialog()
 			var btnimg = document.createElement('img');
 			 btnimg.id='menubtnimg';
 			 btnimg.style.width='12px';
-			 btnimg.src = 'digits/widget_closed.gif';
-            
-             extenbtn.appendChild(btnimg);
-			
-			 
+			 btnimg.src = 'digits/widget_closed.gif';           
+             extenbtn.appendChild(btnimg);						 
 			 menucoverdiv.appendChild(extenbtn);
 			  heaDer.appendChild(menucoverdiv);
 			 var compAnyName=document.createElement("span");
@@ -514,15 +500,12 @@ function initDialog()
 			 var urlfolder=document.getElementsByTagName('title');
 			 urlfolder[0].innerHTML=nowExcute; 				 			   
 		}
-		////
-			
-			var scriptall=document.getElementsByTagName("script");
-	        for(var j=0;j<scriptall.length;j++){
-	            if(scriptall[j].id){
-	              scriptall[j].parentNode.removeChild(scriptall[j]);		 
-		        }
-	        }		 	
-			////
+		var scriptall=document.getElementsByTagName("script");
+		for(var j=0;j<scriptall.length;j++){
+			if(scriptall[j].id){
+			  scriptall[j].parentNode.removeChild(scriptall[j]);		 
+			}
+		}		 	
 		var jsvsn=nwsd.toString()+scnd;		
 		var urljsname=nowExcute.substr(0,3)+'/JS/'+nowExcute.substr(0,3)+'psdchg.js?v='+jsvsn;		 
 		loadScript(urljsname,function(){selfTag(jsvsn);});  			     

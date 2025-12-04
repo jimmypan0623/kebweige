@@ -63,21 +63,27 @@ function getProfile(str1,reccount) {
 	}
 	   
 	 var responseDiv=document.getElementById("serverResponse1");  		
-	  if(responseDiv.innerHTML=='Searching......'){	
-		 if (cnt==0){
-			 responseDiv.setAttribute("style","color:red;"); 
-	   	     responseDiv.innerHTML="無此資料！Not found!検索できません。";
-	      }else{ 		 
-		     responseDiv.setAttribute("style","color:#536a60;"); 
-             responseDiv.innerHTML="搜尋到 "+String(cnt)+" 筆資料。" +String(cnt)+" record"+(cnt>1?"s":"")+" match your search. " +String(cnt)+" レコードを検索。";            		 
-          }	
-	  }
-	  if(cnt>0){       //初始畫面呼叫
+
+	  if(cnt>0){       //初始畫面呼叫		  
+		  if(responseDiv.innerHTML=='Searching......'){
+			  responseDiv.setAttribute("style","color:#536a60;"); 
+             responseDiv.innerHTML="搜尋到 "+String(cnt)+" 筆資料。" +String(cnt)+" record"+(cnt>1?"s":"")+" match your search. " +String(cnt)+" レコードを検索。";            		
+	      }
 		  chooserc(1);
 	 }else{
+		 if(responseDiv.innerHTML=='Searching......'){
+			responseDiv.setAttribute("style","color:red;"); 
+	   	     responseDiv.innerHTML="無此資料！Not found!検索できません。"; 
+	      }else{
+		      responseDiv.innerHTML="客戶訂單均已出清....";
+			  var seekrcd=document.getElementById("SEEK_BOTT");
+		      seekrcd.setAttribute("style","visibility:hidden;");
+		      detachEventListener(seekrcd,"click",seekrec,false);
+		  }
 	     var rdyship=document.getElementById("REDYSHIP_BOTT");
 		 rdyship.setAttribute("style","visibility:hidden;");				   
-		  detachEventListener(rdyship,"click",page1OtherButton1,false);
+		 detachEventListener(rdyship,"click",page1OtherButton1,false);		  
+		 
 	  }		    
 }
 function choseExtraDeal(targetTrChildren){   //紀錄移動

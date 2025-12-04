@@ -29,10 +29,10 @@
 	while ($list3=mysqli_fetch_assoc($sql4)){
 		 
 		$atr = array('rc_no_DHL_000'=>$list3['F00'],  
-                     'stock_no_DSL_010'=>$list3['F03'], 	
-					 'bill_no_DSL_009'=>$list3['F04'], 	
+                     'stock_no_DSL_012'=>$list3['F03'], 	
+					 'bill_no_DSL_010'=>$list3['F04'], 	
 					 'ship_date_DSC_003'=>$list3['F01'],
-					 'recipt_no_DSL_009'=>$list3['F05'],  
+					 'recipt_no_DSL_010'=>$list3['F05'],  
 					 'custom_no_DSL_007'=>$list3['F02'],	
 					 'custom_name_ISL_007'=>$list3['F0E'],	
 					 'ship_qty_DSR_007'=>$list3['F08'],
@@ -44,7 +44,8 @@
 					  'depart_name_ISL_007'=>$list3['F0D'],						
                      'sales_no_DHL_000'=>$list3['F10'],				
 					  'sales_name_ISL_007'=>$list3['F0C'],	
-					   'custom_po_DSL_007'=>$list3['F16'],  	
+					   'sending_bill_DSL_010'=>$list3['F16'],  	
+					  'vendor_partno_DSL_012'=>$list3['F17'],  	
 					 'lastupdate_DHL_000'=>$list3['F19']                      				 
 					 );                     			 
 		array_push($arr,$atr);

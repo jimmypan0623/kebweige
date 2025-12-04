@@ -32,15 +32,6 @@ function getProfile(str1,cmpnme) {
 	var arr = str1; 	
 	var mainUl=document.getElementById("listUL");    	 
 	var LastFunc=getAuth[1]()[1]; //getCookie('lastFuncInt');
-/* 	var oLiTop=document.createElement('li');   //最上面先新增一個li 	 
-	attachEventListener(oLiTop,"click",accountDele,false);  
-	
-	var newA=document.createElement("a");
-	newA.setAttribute("accesskey","Q");
-	newA.setAttribute("href","logOut.php");
-	newA.appendChild(document.createTextNode("返回登入畫面"));
-	oLiTop.appendChild(newA);
-	mainUl.appendChild(oLiTop);	    	 */
 	for(var i=0;i<arr.length;i++){		          
 		for(var jk in arr[i]){		   		  
 			if(jk=='prg_no'){
@@ -55,19 +46,19 @@ function getProfile(str1,cmpnme) {
 					  mainUl.appendChild(oLiFather)
 					 var oUl=document.createElement('ul');	
 					 if(LastFunc && left(arr[i][jk],1)==left(LastFunc,1)){  //如果從子功能返回主選單恢復原狀					                        				
-						oUl.setAttribute("class","myShow");								 
+						oUl.setAttribute("class","myShow");		   						 
 					 }else{
-					    oUl.setAttribute("class","myHide");								 	
-					 }						
+					    oUl.setAttribute("class","myHide");								 	 
+					 }											 
 					 oLiFather.appendChild(oUl);
 					 mainPrgNo=arr[i][jk].slice(0,1);						
-				}				 
-				if(LastFunc && arr[i][jk]==LastFunc){					    
-			 		oUl.parentNode.childNodes[0].style.backgroundImage="url('digits/up.gif')";
-					var ndeLth=(oUl.childNodes.length);
-					oUl.scrollIntoView({
-						 behavior: 'smooth' 
-						}); 	                   				    
+				}							
+				if(LastFunc && arr[i][jk]==left(LastFunc,3)){					 				    
+			 		oUl.parentNode.childNodes[0].style.backgroundImage="url('digits/up.gif')";												 
+					window.scrollTo(0,0);  //先置頂	
+					oUl.scrollIntoView({	 
+                     behavior: 'smooth'
+                    }); 							 
 				}				 		
 				tmpItemName=arr[i][jk]+'.';				   
 			}else if(jk=='dscrpt'){
@@ -99,7 +90,8 @@ function getProfile(str1,cmpnme) {
 	mainUl.appendChild(oLiUncle);	      
 	if(getAuth[1]().length>0){
 	  delCookie('useraccount');	
-	}
+	}	
+	
 }
 
 function summaryName(dtshow){
@@ -132,9 +124,7 @@ function summaryName(dtshow){
              return '出勤管理';
              break;	
          default: 
-	       return '其他';
-        //當 expression 的值都不符合上述條件
-        //要執行的陳述句
+	       return '其他';        
           break;
     }
 }

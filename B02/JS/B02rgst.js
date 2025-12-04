@@ -9,29 +9,30 @@ function blocksclose(event)  //關閉註冊彈出視窗
 		tabs[i].setAttribute("accesskey",(i+1).toString());
 	}			
 	if (tabs[0].checked){
-	   if (target.value=="\u{274E}"  && getCookie('INT_127')=='Y'){    
-		   var maintable=document.getElementById("maintbody1");		 		
-		   var tablerowindex=0;
-		   for(var i=0;i< maintable.rows.length; i++){			 
-		       if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){		 			 				 							
-			   	  tablerowindex=i;       //記住是目前table的哪一列			 
+	    if (target.value=="\u{274E}"  && getCookie('INT_127')=='Y'){    
+		    var maintable=document.getElementById("maintbody1");		 		
+		    var tablerowindex=0;
+		    for(var i=0;i< maintable.rows.length; i++){			 
+		        if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){		 			 				 							
+			   	   tablerowindex=i;       //記住是目前table的哪一列			 
 				   break;
-			   }
-		   } 		
+			    }
+		    } 		
 		   
 		    if(maintable.rows.length>0){     //如果不為空檔
 		      var query_no=maintable.rows[tablerowindex].cells[1].innerHTML;
 		    }else{
 			  var query_no="BAxxxxxxxx";
 			}
-	      if(document.getElementById('queryno')!=null){			  
-	         var currentNo=document.getElementById('queryno').value;	            	 
-	         if (currentNo.trim()!="" && currentNo.trim()!=query_no){ //如果非修改且自動編號		         
-		   	     var thtdy=document.getElementById('recmth').value;
-				 discardNoRec('BA'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase(),currentNo.trim());
-	         } 
-	      }
-	   }
+			
+	        if(document.getElementById('queryno')!=null){			  
+	            var currentNo=document.getElementById('queryno').value;	            	 
+	            if (currentNo.trim()!="" && currentNo.trim()!=query_no){ //如果非修改且自動編號		         
+		   	        var thtdy=document.getElementById('recmth').value;
+				    discardNoRec('BA'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase(),currentNo.trim());
+	            } 
+	        }
+	    }
     }
 	var dropsheet=document.getElementById("myModal");
 	dropsheet.style.display="none";       //關閉視窗 
@@ -104,7 +105,7 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 	          }
 	    }
 		
-        if(b02elements[j].value.trim()=="" && !(j==4 && tbno==1) && !(j==7 && tbno==0)){		
+        if(b02elements[j].value.trim()=="" && !((j==4 || j==6 || j==7)&& tbno==1) && !((j==7 || j==8 || j==9 ) && tbno==0)){		
 		     if (j==1 ){
 			    b02elements[j].placeholder="不得空白" ;
 			 }else{
@@ -113,18 +114,16 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 		     return false ;
         }else{		     
 		   if(b02elements[j].nextSibling ){		
-               if((j!=4 && tbno!=0 ) && (j!=1 && tbno!=1)){		   //非人名與料號移除
-			      b02elements[j].parentNode.removeChild(b02elements[j].nextSibling);
+               if(!((j==4 && tbno==0) || (j==1 && tbno==1))){		   //非人名與料號移除             
+			      b02elements[j].parentNode.removeChild(b02elements[j].nextSibling);				  
 			   }			   
 		   }
-		   if(tbno==1 && (j==2 || j==3) && b02elements[j].value == 0){			  
-			  filtermsg(b02elements[j],"不得為 0");
-		      return false ;
-		   }else{
-	    	    if(b02elements[j].nextSibling){		      
-			       b02elements[j].parentNode.removeChild(b02elements[j].nextSibling);
-		        }		
-	       }	   
+		  if((tbno==1 && (j==3 || j==4)) || (tbno==0 && j==6)){
+			  if(b02elements[j].value == 0){
+			     filtermsg(b02elements[j],"不得為 0");
+		         return false ;
+			  }
+		   } 
 	    }	    
 	}
     //--------過濾區結束----------//	
@@ -161,7 +160,6 @@ function sendFilePrc(updflg){     //新增資料及修改程序
    blocksclose();			//關掉原視窗   
    return true;	 	
 }
-//
 
 function calculateTtl(tbno,maintable,i){      //刪除確認(delConfirm)中挑出之個別程序 
     if (tbno==1){	//計算本單總金額
@@ -178,7 +176,7 @@ function calculateTtl(tbno,maintable,i){      //刪除確認(delConfirm)中挑�
 	} 
  return;
  }
-////
+
 function lostfocus1(event){     
    if (typeof event=="undefined"){
 		event=window.event;
@@ -247,19 +245,17 @@ function rateSrch(event){   //進貨日期異動順便更動匯率
 	       else if(window.XMLHttpRequest){
 	   	      var request = new XMLHttpRequest();
         }			 
-		request.onreadystatechange = respond;	
-       
-		var url="B02/BKND/D0ZRateChange.php?timestamp="+new Date().getTime();
-			
+		request.onreadystatechange = respond;	       
+		var url="B02/BKND/D0ZRateChange.php?timestamp="+new Date().getTime();			
 	    request.open("POST",url);	 
 	    request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 	    request.send(sendSrcRec);		
 	    function respond(){           
 		    if (request.readyState == 4 && request.status == 200) {   
-			     rsp=JSON.parse(request.responseText);
-				 if(rsp[0]['curncy']>0){ 				     
-			        rte.value=rsp[0]['curncy']; 
-				 } 
+			    rsp=JSON.parse(request.responseText);
+				if(rsp[0]['curncy']>0){ 				     
+			       rte.value=rsp[0]['curncy']; 
+				} 
 		    }
 	    }		  
     }
@@ -319,7 +315,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
-	    oTd.innerHTML='送貨單號:';
+	    oTd.innerHTML='廠商送貨單號:';
 	    var oTd = oTr.insertCell(1);     
 	    oTd.colspan=3;
 	    oTd.innerHTML="<input type='text' name='b02update' id='dlvrplace' class='txt' style='width:35%;' maxlength='40'    />";
@@ -477,7 +473,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);
 	    oTd.setAttribute('style','text-align:right;width:15%');	
-	    oTd.innerHTML='廠商PO:';
+	    oTd.innerHTML='需求用途:';
 	    var oTd = oTr.insertCell(1);		                						  		          				  
 	    oTd.innerHTML="<input type='text' name='b0bupdate' id='customPO' class='txt' style='width:50%;' maxlength='30'/>"; 				 		 
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
@@ -628,7 +624,7 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 }
 
 function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nongs,tbno)函數內新增紀錄後呼叫的畫面更動   
-    var rnddgt=getCookie('INT_069');  //四捨五入到幾位         
+    var rnddgt=getCookie('INT_068');  //四捨五入到幾位         
 	var ttlcnt=Number(document.getElementById('ttlmny').innerHTML);
 		var fldidx=0;
 		var argsNo=0;
@@ -698,7 +694,7 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 }
 
 function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,nongs,tbno)函數修改紀錄後呼叫的畫面更動
-    var rnddgt=getCookie('INT_069');  //四捨五入到幾位     
+    var rnddgt=getCookie('INT_068');  //四捨五入到幾位     
 	if (tbno==0){
 	    var maintable=document.getElementById("maintbody1");		
 	    var fldidx=4;

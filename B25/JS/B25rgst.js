@@ -79,18 +79,24 @@ function searchHaveshiped(str1,ajTable) {       //搜尋相關料號
 		cnt++;         
 		for(var jk in arr[i]){		   
 		    var oTd = oTr.insertCell(oTr.cells.length); 
-			if(jk=='calc_qty'){
-			    oTd.innerHTML=arr[i][jk]*1+initqty*1;
+			oTd.innerHTML=arr[i][jk];	
+			var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
+			var ks=ara.split('');		
+			//ks[0]:直接或間接 D/I
+			//ks[1]:是否顯示   S/H
+			//ks[2]:靠左中或右 L/C/R	
+			if(ks[0]=="D"){
+				oTd.setAttribute("class","directdata");	
 			}else{
-			    oTd.innerHTML=arr[i][jk];
-			}				
-		    if(jk=='order_type' || jk=='ship_date' || jk=='ship_order'){
-			     oTd.setAttribute("style","text-align:center;");		   
-		    }else if(jk=='ship_qty' || jk=='calc_qty'){		
-		        oTd.setAttribute("style","text-align:right;");		   				    
-			}else if(jk=='remark'){
-				oTd.setAttribute("style","width:20%;"); 			 
-			}				
+				oTd.setAttribute("class","indirectdata");	
+			}				 
+			if(ks[1]=='H'){
+				oTd.setAttribute("style","display:none;");		
+			}else{
+			   oTd.style.textAlign=(ks[2]=="L"?"left":(ks[2]=="C"?"center":"right"));
+			   var wdthln=jk.substr(jk.lastIndexOf('_')+1,3);  	  	
+			   oTd.style.width=wdthln+"%";		
+			}					
 	    }	    
 	}	
 	  
@@ -98,16 +104,13 @@ function searchHaveshiped(str1,ajTable) {       //搜尋相關料號
 	  blkshow("無資料!");
 	  return false;
 	}else{
-		  
 	    var array = ['異動日期','單據類別','單據編號', '異動數量','累計數量','備註說明'];
+		var array4 = ['10%','12%','12%', '14%','14%','38%'];
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    for (var j = 0; j < array.length; j++) {
 		    var th = document.createElement('th'); //column		   
 		    var text = document.createTextNode(array[j]); //cell	
-		    if (j==5){		
-		       th.setAttribute("style","width:20%;");
-		   
-		    }
+			th.style.width=array4[j];
 		    th.appendChild(text);
 		    oTr.appendChild(th);		
 	    }						

@@ -43,7 +43,7 @@
 		var fld=document.getElementById('recfield2');
 	}		
 	  
-	var rnddgt=getAuth[2]()[0].INT_069;  //四捨五入到幾位
+	var rnddgt=getAuth[2]()[0].INT_068;  //四捨五入到幾位
 	var scndttl=document.getElementById('ttlmny');   //次頁表頭的總金額物件	
 	for(var i=0;i<arr.length;i++){		
 		var oTr=oTable.insertRow(-1);	

@@ -25,7 +25,7 @@ function crtElm(){
 
 
      var thr1=document.getElementById('headrow1');	 
-	 var array1 = ['進貨單號','廠商編號','廠商簡稱', '日','採購人員','幣別','匯率','發票號碼','類別','稅別','付款方式','送貨單號','到貨方式'];
+	 var array1 = ['進貨單號','廠商編號','廠商簡稱', '日','採購人員','幣別','匯率','發票號碼','類別','稅別','付款方式','廠商送貨單號','到貨方式'];
 	 var array2 = ['10%','7%','7%', '3%','7%','4%','7%','10%','5%','4%','8%','12%','12%'];
 	for (var j = 0; j < array1.length; j++) {
 		var th1 = document.createElement('th'); //column		   

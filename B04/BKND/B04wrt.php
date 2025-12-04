@@ -6,6 +6,7 @@ $brr=array();
 foreach($cart as $key=>$val){	   
     $brr[]=addslashes($val);		//要加入此函數避免中間有單引號錯亂
 }
+  $regex = "/^[A-Z]{2}[0-9]{8}$/";       //判斷是否有正確的發票號碼的正規式
  $mArlth=count($brr);  
  include("../../include/BKND/mysqli_server.php");                              //引用檔   
      $sql5="select * from a01 where F01="."'".$brr[3]."'"; 
@@ -53,8 +54,8 @@ if($rows1==0 || $rows2==0){
                $mscnt.="'".$brr[4]."',";
    	           $mscnt.="'".$brr[5]."',";	 
                $mscnt.="'".$brr[6]."',";	
-			   $mscnt.="'".$brr[7]."',";
-   	           $mscnt.="'".$brr[8]."',";
+			   $mscnt.="'".(preg_match($regex, $brr[6])?$brr[7]:'00')."',"; 
+   	           $mscnt.="'".(preg_match($regex, $brr[6])?$brr[8]:'0')."',"; 
 			   $mscnt.="'".$brr[9]."',";
                $mscnt.="'".$brr[10]."',";	
                $mscnt.="'".$brr[11]."',";	 
@@ -73,8 +74,8 @@ if($rows1==0 || $rows2==0){
 	   $mscnt.="F14="."'".$brr[4]."',";	 
 	   $mscnt.="F16="."'".$brr[5]."',";	 
 	   $mscnt.="F20="."'".$brr[6]."',";	 
-	   $mscnt.="F22="."'".$brr[7]."',";	 
-	   $mscnt.="F23="."'".$brr[8]."',";	 
+	   $mscnt.="F22="."'".(preg_match($regex, $brr[6])?$brr[7]:'00')."',";	 
+	   $mscnt.="F23="."'".(preg_match($regex, $brr[6])?$brr[8]:'0')."',";	 
 	   $mscnt.="F21="."'".$brr[9]."',";	 
 	   $mscnt.="F12="."'".$brr[10]."',";	 
 	   $mscnt.="F24="."'".$brr[11]."',";	         	  	   

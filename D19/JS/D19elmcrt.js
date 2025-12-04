@@ -36,10 +36,10 @@ function crtElm(){
     righttbl1=document.createElement("table");
 	righttbl1.id="rightContent1";	
 	righttbl1.className="gridlist";
-    //righttbl1.setAttribute("style","width:120%;");
+    righttbl1.setAttribute("style","width:120%;");
 	 var thr2=document.createElement("thead"); 
-	 var array3 = ['進貨日期','發票號碼','料號','進貨單號','數量','單價','幣別','匯率','小計'];
-	 var array4 = ['8%','8%','12%','8%','7%','7%','4%','7%','8%'];
+	 var array3 = ['進貨日期','發票號碼','料號','進貨單號','數量','單價','幣別','匯率','小計','採購單號','廠商品號'];
+	 var array4 = ['8%','8%','12%','8%','7%','7%','4%','7%','8%','9%','11%'];
 	for (var i = 0; i < array3.length; i++) {
 		var th2 = document.createElement('th'); //column	
 		
@@ -55,11 +55,10 @@ function crtElm(){
 	var tbdy2=document.createElement("tbody"); 
 	tbdy2.id="contentTbody";
 	righttbl1.appendChild(thr2);
-	righttbl1.appendChild(tbdy2);
-    
+	righttbl1.appendChild(tbdy2);   
 	secondCover.appendChild(righttbl1); 	 
-	cntdiv[0].appendChild(secondCover); 	
-	
-	 var tabnames=getElementsByAttribute('name','tablbl');	
+	cntdiv[0].appendChild(secondCover); 		
+	var tabnames=getElementsByAttribute('name','tablbl');	
     tabnames[0].innerHTML="應付帳款對帳單";  
+	return;
 }

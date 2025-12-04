@@ -90,7 +90,7 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 		 tbjsn.push(d04elements[q].value);	   
 	}
 	for(var j=1;j<d04elements.length-1;j++){
-        if(d04elements[j].value.trim()=="" && !(j==4 && tbno==1)){		
+        if(d04elements[j].value.trim()=="" && !(j==4 && tbno==1) && !((j==6 || j==8) && tbno==0)){		  
 		     if (j==1 ){
 			    d04elements[j].placeholder="不得空白" ;
 			 }else{
@@ -449,7 +449,7 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 }
 
 function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nongs,tbno)函數內新增紀錄後呼叫的畫面更動 
-    var rnddgt=getAuth[2]()[0].INT_069;  //四捨五入到幾位     
+    var rnddgt=getAuth[2]()[0].INT_068;  //四捨五入到幾位     
 	var ttlcnt=Number(document.getElementById('ttlmny').innerHTML);
 		var fldidx=0;
 		var argsNo=0;
@@ -515,7 +515,7 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 }
 
 function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,nongs,tbno)函數修改紀錄後呼叫的畫面更動
-    var rnddgt=getCookie('INT_069');  //四捨五入到幾位     
+    var rnddgt=getCookie('INT_068');  //四捨五入到幾位     
     if (tbno==0){
 	    var maintable=document.getElementById("maintbody1");		
 	    var fldidx=4;
