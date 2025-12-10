@@ -20,7 +20,8 @@ if(trim($list2['F10'])=="Y"){
 		$lastdate=date('Y'.'-'.'m'.'-'.'d');
 		$mscnt[]="DELETE FROM `c10` where `F04`='".$delmsg."'";	     
 		$mscnt[]="DELETE FROM `b26` WHERE `F07`='".$delmsg."'";	                        		
-		$mscnt[]="DELETE FROM `c13` WHERE `F02`='".$delmsg."'";	                        		 
+		$mscnt[]="DELETE FROM `c13` WHERE `F02`='".$delmsg."'";	       
+        $mscnt[]="DELETE FROM `k25` WHERE `F15`='".$delmsg."' AND LEFT(F01,1)='3' ";	           		
 		foreach ($mscnt as $delvalue){
 		    mysqli_query($link ,$delvalue) or die(mysqli_error($link)); 
 		}
@@ -89,6 +90,8 @@ if(trim($list2['F10'])=="Y"){
 		$arr = array ('order_no'=>1,'lastupdate'=>$lastdate.$list4['F03']);
 		echo json_encode($arr);
 	}
-}		
+}else{
+	 echo json_encode("此出貨單已被反確認過"); 
+}	
 	mysqli_close($link);
 ?>

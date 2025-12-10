@@ -101,7 +101,7 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 		        }		
 	        }
 	    }		
-        if(b03elements[j].value.trim()=="" && !((j==4 || j==6 || j==7)&& tbno==1) && !(j==7 && tbno==0)){		
+        if(b03elements[j].value.trim()=="" && !((j==4 || j==6 || j==7)&& tbno==1) && !((j==7 || j==8 || j==9) && tbno==0)){		
 		     if (j==1 ){
 			    b03elements[j].placeholder="不得空白" ;
 			 }else{

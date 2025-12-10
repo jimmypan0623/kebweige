@@ -19,10 +19,11 @@ foreach($cart as $key=>$val){
      $list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名   
      $lastdate=date('Y'.'-'.'m'.'-'.'d');
      $mArlth=count($brr);  
-	 $sql3="SELECT b0d.*,c01.F23,c01.F05 AS F0E,c01.F15 AS F1E,c01.F17,c01.F36,b01.F98 FROM b0d,c01,b01 WHERE b0d.F01='".$brr[0]."' AND c01.F01='".$brr[1]."' AND b01.F01=b0d.F03 ORDER BY b0d.F03"; 
+	 $sql3="SELECT b0d.*,c01.F23,c01.F05 AS F0E,c01.F10 AS F1Z,c01.F15 AS F1E,c01.F17,c01.F36,b01.F98 FROM b0d,c01,b01 WHERE b0d.F01='".$brr[0]."' AND c01.F01='".$brr[1]."' AND b01.F01=b0d.F03 ORDER BY b0d.F03"; 
 	 $sql4=@mysqli_query($link,$sql3); 
      $arr=array(); 
 	 $summoney=0;
+	 $originmoney=0;
 	 $regex = "/^[A-Z]{2}[0-9]{8}$/";       //判斷是否有正確的發票號碼的正規式
 	 while ($list3=mysqli_fetch_assoc($sql4)){
 		 $my_array  = array('query_no'=>$list3['F01'],			              
@@ -32,6 +33,7 @@ foreach($cart as $key=>$val){
 					    'custom_no'=>$brr[1], 
 					    'custom_name'=>$list3['F0E'],
 					    'check_way'=>$list3['F1E'],
+						'united_no'=>$list3['F1Z'],
 					    'oring_no'=>$list3['F07'],
 					    'crncy_no'=>$brr[4],
 					    'unit_price'=>$list3['F15'],
@@ -44,7 +46,7 @@ foreach($cart as $key=>$val){
 					    'custom_partno'=>$list3['F08'],					   
 					    'remark'=>$brr[11],
 					    'invoice_no'=>$brr[6],
-					    'invoice_type'=> (preg_match($regex, $brr[6])?$brr[7]:'00'),
+					    'invoice_type'=> (preg_match($regex, $brr[6])?$brr[7]:'30'),
 					    'tax_type'=> (preg_match($regex, $brr[6])?$brr[8]:'0'),
 						'settle_day'=>$list3['F17'],
 						'paymentdays'=>$list3['F36'],
@@ -52,27 +54,31 @@ foreach($cart as $key=>$val){
 					    'month_no'=>$brr[13] 
                      );   		     
 			array_push($arr,$my_array);		
-            $summoney+=round($list3['F04']*$list3['F15']*$brr[5],$rnddgt);			
+            $summoney+=round($list3['F04']*$list3['F15']*$brr[5],$rnddgt);	
+            $originmoney+=$list3['F04']*$list3['F15'];			
 	}
      $valueStr1 ='';
 	 $valueStr2 ='';
 	 $valueStr3 ='';
 	 $valueStr4 ='';
 	 $valueStr5 ='';
-	 $valueStr6 ='';
+	 $valueStr6 ='';	
+	 $tax_isinside="00";
     foreach($arr as $v){
 		if($v['mrt_type']=='NNN'){  //如果是虛擬料號	
 		   $vbn=0;
 		}else{
 		   $vbn=1;
 		}
+	 
+		$tax_isinside=(($v['invoice_type']=='32' && $v['tax_type']=='1')?"02":"00");  //稅是否內含
              $valueStr1 .= "('".$v['deliveryday']."',
 		    '".$v['custom_no']."',
 		    '".$v['stockno']."',
 		    '".$v['query_no']."',
 		    '".$v['oring_no']."',
 		    '".$v['crncy_no']."',
-		    '".$v['unit_price']."',
+		    ".($tax_isinside=='02'?round($v['unit_price']/(1+$taxrate/100),3):$v['unit_price']).",
 		    ".$v['orderqty'].",
 		    '".$v['crncy_rate']."',			
 		    '".$v['salesno']."',
@@ -119,7 +125,7 @@ foreach($cart as $key=>$val){
 		 '".$v['crncy_no']."',
 		 ".$v['crncy_rate'].",
 		 '".$v['remark']."',		          
-		 '".(($v['invoice_type']=='32' && $v['tax_type']=='1')?"02":"00")."', 			 
+		 '".$tax_isinside."', 			 
 		 '".$v['invoice_no']."',		
 		 '".$v['salesno']."',		
 		 '".($v['deliveryday']<=$v['settle_day']?$v['month_no']:mnthPlus($v['month_no']))."'),";
@@ -160,13 +166,25 @@ foreach($cart as $key=>$val){
 	$valueStr4 = substr($valueStr4,0,strlen($valueStr4)-1);   //去掉最右邊的逗號,異動即時庫存明細
 	$valueStr5 = substr($valueStr5,0,strlen($valueStr5)-1);   //去掉最右邊的逗號,新增應收帳款對帳單
 	$valueStr6 = substr($valueStr6,0,strlen($valueStr6)-1);   //去掉最右邊的逗號,異動客戶訂單表身	
-	$insertSql[] = "insert into c10 (F01,F02,F03,F04,F05,F06,F07,F08,F09,F10,F14,F15,F16,F17,F19,F90) values ".$valueStr1;       
-	$insertSql[] = "insert into b26 (F01,F02,F03,F04,F05,F06,F07,F08,F90) values ".$valueStr2; 
-	$insertSql[] = "insert into b25 (F01,F02,F06,F15,F16,F90) values ".$valueStr3." ON DUPLICATE KEY UPDATE F06=F06+VALUES(F06),F15=F15+VALUES(F15),F16=VALUES(F16)"; 
-	$insertSql[] = "insert into b11 (F01,F03,F04,F05) values ".$valueStr4." ON DUPLICATE KEY UPDATE F04=F04+VALUES(F04),F05=VALUES(F05)";     
-	$insertSql[] = "insert into c13 (F01,F02,F03,F04,F05,F06,F07,F08,F09,F12,F13,F14,F15,F16,F17,F19,F90) values ".$valueStr5;      
-    $insertSql[] = "insert into c04 (F01,F02,F03,F04,F05,F06,F09,F12,F23) values ".$valueStr6." ON DUPLICATE KEY UPDATE F09=F09+VALUES(F09),F12=VALUES(F12),F23=F23+VALUES(F23)";
-    foreach ($insertSql as  $values){
+	$insertSql[0] = "insert into c10 (F01,F02,F03,F04,F05,F06,F07,F08,F09,F10,F14,F15,F16,F17,F19,F90) values ".$valueStr1;       
+	$insertSql[1] = "insert into b26 (F01,F02,F03,F04,F05,F06,F07,F08,F90) values ".$valueStr2; 
+	$insertSql[2] = "insert into b25 (F01,F02,F06,F15,F16,F90) values ".$valueStr3." ON DUPLICATE KEY UPDATE F06=F06+VALUES(F06),F15=F15+VALUES(F15),F16=VALUES(F16)"; 
+	$insertSql[3] = "insert into b11 (F01,F03,F04,F05) values ".$valueStr4." ON DUPLICATE KEY UPDATE F04=F04+VALUES(F04),F05=VALUES(F05)";     
+	$insertSql[4] = "insert into c13 (F01,F02,F03,F04,F05,F06,F07,F08,F09,F12,F13,F14,F15,F16,F17,F19,F90) values ".$valueStr5;      
+    $insertSql[5] = "insert into c04 (F01,F02,F03,F04,F05,F06,F09,F12,F23) values ".$valueStr6." ON DUPLICATE KEY UPDATE F09=F09+VALUES(F09),F12=VALUES(F12),F23=F23+VALUES(F23)";
+    
+    $taxmoney=round($tax_isinside=='02'?($summoney-$summoney/(1+$taxrate/100)):(($v['tax_type']=='1' && $v['invoice_type']=='31')?$summoney*$taxrate/100:0),$rnddgt);
+	 
+	$beforetax=($tax_isinside=='02'?($summoney-$taxmoney):$summoney);
+	 
+	$aftertax=$beforetax+$taxmoney;	
+	$shouldpayday=lastpayday($v['month_no'],$v['deliveryday'],$v['settle_day'],$v['check_way'],$v['paymentdays']);
+    $insertSql[6] = "insert into k25 (F01,F02,F03,F04,F08,F09,F10,F12,F14,F15,F19,F21,F22,F23,F24,F25,F26,F90) values ";
+	$insertSql[6].= "('".$v['invoice_type']."','".$brr[2]."','".$brr[1]."','".$v['united_no']."',".$beforetax.",'".$v['tax_type']."',";
+	$insertSql[6].= $taxmoney.",".$aftertax.",'".$v['departno']."','".$v['query_no']."','".$brr[3]."','".$brr[4]."',".$brr[5].",";
+    $insertSql[6].= $originmoney.",'".$v['lastupdate']."','".$shouldpayday."','".$v['check_way']."','".$v['month_no']."')";
+	
+	foreach ($insertSql as  $values){
 		    @mysqli_query($link,$values);
 	}
 		
@@ -206,5 +224,32 @@ function mnthPlus($yearmonth ){    //計算超過結帳日期的結帳月份
 	return $Year.'-'.$Month;
 }	
 	
+function lastpayday($crntmth,$crtday,$settleday,$howpay,$howlong){
+	$ship_day=($crtday<=$settleday?$crntmth:mnthPlus($crntmth))."-".$crtday;
+    $payday=date('Y'.'-'.'m'.'-'.'d');
+  	switch ($howpay) {
+    case '0':
+
+		$payday = date('Y-m-d', strtotime($ship_day. " + ".  $howlong ."  days "));
+        break; 
+   case '1':
+	    $last_day_of_month = date('Y-m-t', strtotime($ship_day));
+        $payday = date('Y-m-d', strtotime($last_day_of_month ."  + ". $howlong ."  days"));
+        break; 
+    case '2':
+        $next_month_last_day = date('Y-m-t', strtotime($ship_day . '+1 month'));
+		$payday = date('Y-m-d', strtotime($next_month_last_day.' + '.$howlong .'days'));
+        
+    case '3':
+	    $last_day_of_month = date('Y-m-t', strtotime($ship_day));
+        $payday = date('Y-m-d', strtotime($last_day_of_month ."  + ". $howlong ."  days"));
+        break;   
+    default:
+       $payday=date('Y'.'-'.'m'.'-'.'d');
+	   
+    }  
+	return $payday;
+
+}
 ?>
  

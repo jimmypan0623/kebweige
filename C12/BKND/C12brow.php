@@ -21,9 +21,9 @@
 		 
 		$atr = array( 
                      
-					 'custom_no_DSL_006'=>$list3['F01'],	
+					 'custom_no_DSC_007'=>$list3['F01'],	
 					 'custom_fuulname_IHL_000'=>$list3['F04'],	
-					 'custom_name_ISL_010'=>$list3['F05'] 	 
+					 'custom_name_ISC_009'=>$list3['F05'] 	 
 					 );                     			 
 		array_push($arr,$atr);
 		

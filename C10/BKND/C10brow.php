@@ -4,19 +4,21 @@
    $rnddgt=intval($_COOKIE["INT_069"]);
     if (substr($_POST['filename'],0,3)=="PGE"){	  
 	   $pgeno=getNeedBetween($_POST['filename'],'E','|'); // 月次 
-		$sql3="SELECT c10.*,c01.F05 AS F0E,a01.F03 AS F0C,a14.F02 AS F0D FROM c10 		 
+		$sql3="SELECT c10.*,c01.F05 AS F0E,a0A.F03 AS F0C,a0B.F03 AS F0B,a14.F02 AS F0D FROM c10 		 
 		LEFT OUTER JOIN c01 ON c01.F01=c10.F02
-		LEFT OUTER JOIN a01 ON a01.F01=c10.F10 	
-		LEFT OUTER JOIN a14 ON a14.F01=c10.F15
+		LEFT OUTER JOIN `a01` AS a0A ON c10.F10 = a0A.F01 	
+		LEFT OUTER JOIN `a01` AS a0B ON c10.F14 = a0B.F01
+		LEFT OUTER JOIN `a14` ON a14.F01=c10.F15
 		WHERE c10.F90='".$pgeno."' ORDER BY c10.F01,c10.F03 ";  
     }else{
 	    $fieldNo=substr($_POST['filename'],0,7);
 		$filterKey=getNeedBetween($_POST['filename'],'|','_');  
 		$pgeno=substr(strrchr($_POST['filename'],'_'),1); // 月次
-        $sql3="SELECT c10.*,c01.F05 AS F0E,a01.F03 AS F0C,a14.F02 AS F0D FROM c10 		 
+        $sql3="SELECT c10.*,c01.F05 AS F0E,a0A.F03 AS F0C,a0B.F03 AS F0B,a14.F02 AS F0D FROM c10 		 
 		LEFT OUTER JOIN c01 ON c01.F01=c10.F02
-		LEFT OUTER JOIN a01 ON a01.F01=c10.F10 	
-		LEFT OUTER JOIN a14 ON a14.F01=c10.F15
+		LEFT OUTER JOIN `a01` AS a0A ON c10.F10 = a0A.F01 
+		LEFT OUTER JOIN `a01` AS a0B ON c10.F14 = a0B.F01 	
+		LEFT OUTER JOIN `a14` ON a14.F01=c10.F15
 		WHERE c10.F90='".$pgeno."' AND ".$fieldNo." LIKE '%".trim($filterKey)."%' ORDER BY ".$fieldNo." ASC, c10.F01 DESC"  ;   
     }	   
     $sql0="select F07 from a23 where F01="."'".$pgeno."'"; 
@@ -44,6 +46,8 @@
 					  'depart_name_ISL_007'=>$list3['F0D'],	
 					  'sales_no_DHL_000'=>$list3['F10'],				
 					  'sales_name_ISL_007'=>$list3['F0C'],	
+					  'assist_no_DHL_000'=>$list3['F14'],	
+					   'assist_name_ISL_007'=>$list3['F0B'],	
 					 'custom_po_DSL_010'=>$list3['F16'],  
 					 'custom_partno_DSL_010'=>$list3['F17'],  
 					 'lastupdate_DHL_000'=>$list3['F19']                      				 

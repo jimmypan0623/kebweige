@@ -21,10 +21,10 @@ function getProfile(str1,reccount,tbno) {
 	  
 	}
 	////
-	var oMember = document.getElementById("member1");	 
+	/* var oMember = document.getElementById("member1");	 
 	 
 	 
-	oMember.setAttribute("style","width:120%;");
+	oMember.setAttribute("style","width:120%;"); */
 	////
 	var oTable = document.getElementById("maintbody1");	 
 	 

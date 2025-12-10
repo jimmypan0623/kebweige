@@ -117,6 +117,9 @@ function summaryName(dtshow){
 	    case 'G':          
             return '成本管理';
             break;   		
+		case 'K':          
+            return '發票帳款';
+            break;   			
         case 'Q':
             return '品保文管';
             break;

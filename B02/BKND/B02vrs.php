@@ -20,7 +20,8 @@ if(trim($list2['F10'])=="Y"){
 		$lastdate=date('Y'.'-'.'m'.'-'.'d');
 		$mscnt[]="DELETE FROM `d11` WHERE `F04`='".$delmsg."'";	     
 		$mscnt[]="DELETE FROM `b26` WHERE `F07`='".$delmsg."'";	                        		
-		$mscnt[]="DELETE FROM `d19` WHERE `F02`='".$delmsg."'";	                        		 
+		$mscnt[]="DELETE FROM `d19` WHERE `F02`='".$delmsg."'";	         
+        $mscnt[]="DELETE FROM `k25` WHERE `F15`='".$delmsg."'";	         		
 		foreach ($mscnt as $delvalue){
 		    mysqli_query($link ,$delvalue) or die(mysqli_error($link)); 
 		}

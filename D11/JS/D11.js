@@ -23,12 +23,7 @@ function getProfile(str1,reccount) {
 		cko[0](reccount);      //將筆數記起來	
 	  
 	}
-	var oMember = document.getElementById("member1");	 
-	 
-	 
-	oMember.setAttribute("style","width:120%;");
-	var oTable = document.getElementById("maintbody1");
-	 
+	var oTable = document.getElementById("maintbody1");	 
 	for(var i=0;i<arr.length;i++){		
 		var oTr=oTable.insertRow(-1);	
 		oTr.setAttribute("name","mainrow");	      		

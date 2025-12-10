@@ -54,7 +54,7 @@ if($rows1==0 || $rows2==0){
                $mscnt.="'".$brr[4]."',";
    	           $mscnt.="'".$brr[5]."',";	 
                $mscnt.="'".$brr[6]."',";	
-			   $mscnt.="'".(preg_match($regex, $brr[6])?$brr[7]:'00')."',"; 
+			   $mscnt.="'".(preg_match($regex, $brr[6])?$brr[7]:'30')."',"; 
    	           $mscnt.="'".(preg_match($regex, $brr[6])?$brr[8]:'0')."',"; 
 			   $mscnt.="'".$brr[9]."',";
                $mscnt.="'".$brr[10]."',";	
@@ -74,7 +74,7 @@ if($rows1==0 || $rows2==0){
 	   $mscnt.="F14="."'".$brr[4]."',";	 
 	   $mscnt.="F16="."'".$brr[5]."',";	 
 	   $mscnt.="F20="."'".$brr[6]."',";	 
-	   $mscnt.="F22="."'".(preg_match($regex, $brr[6])?$brr[7]:'00')."',";	 
+	   $mscnt.="F22="."'".(preg_match($regex, $brr[6])?$brr[7]:'30')."',";	 
 	   $mscnt.="F23="."'".(preg_match($regex, $brr[6])?$brr[8]:'0')."',";	 
 	   $mscnt.="F21="."'".$brr[9]."',";	 
 	   $mscnt.="F12="."'".$brr[10]."',";	 

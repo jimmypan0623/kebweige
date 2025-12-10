@@ -9,21 +9,20 @@ function crtElm(){
 	 var text01 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
 	 cntdiv[1].insertBefore(text01,rspn2);
 	var spn1=document.createElement('span');
-	spn1.id="ttltitle";
-	//spn1.setAttribute("style","font-size:120%;font-weight:bold;");
+	spn1.id="ttltitle";	
      spn1.innerHTML='總金額:';
 	cntdiv[1].insertBefore(spn1,rspn2);
 	var spn2=document.createElement('span');
-	spn2.id="crncy" ;
-	//spn2.setAttribute("style","font-size:120%;font-weight:bold;");
+	spn2.id="crncy" ;	
     cntdiv[1].insertBefore(spn2,rspn2);
 	var spn3=document.createElement('span');
-	spn3.id="ttlmny";
-    //spn3.setAttribute("style","font-size:120%;font-weight:bold;");
+	spn3.id="ttlmny";   
 	spn3.innerHTML='0';
 	 cntdiv[1].insertBefore(spn3,rspn2);
-
-
+    var oMember1 = document.getElementById("member1");	 
+    var oMember2 = document.getElementById("member2");	
+	 oMember1.setAttribute("style","width:120%;");
+	  oMember2.setAttribute("style","width:120%;");
      var thr1=document.getElementById('headrow1');	 
 	 var array1 = ['出貨單號','客戶編號','客戶簡稱', '日','業務擔當','幣別','匯率','發票號碼','類別','稅別','付款方式','送貨地址','出貨指示'];
 	 var array2 = ['10%','7%','7%', '3%','7%','4%','7%','10%','5%','4%','8%','16%','8%'];
@@ -32,8 +31,7 @@ function crtElm(){
 		var text = document.createTextNode(array1[j]); //cell		
 		th1.style.width=array2[j];
 		th1.appendChild(text);
-		thr1.appendChild(th1);
-		
+		thr1.appendChild(th1);		
 	}			
 	  var thr2=document.getElementById('headrow2');
      var array3 = ['料品編號','品名規格','訂單號碼', '出貨數量','單價','小計','出貨部門','客戶品號','客戶PO','備註'];

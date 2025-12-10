@@ -24,8 +24,8 @@
 					 'dept_no_DHC_000'=>$list3['F05'],
 					 'dept_name_ISL_007'=>$list3['F0C'],
 					 'vendor_partno_DSL_013'=>$list3['F08'],  
-                     'vendor_po_DSL_013'=>$list3['F09'],  
-					 'remark_DSL_010'=>$list3['F25'],
+                     'vendor_po_DSL_011'=>$list3['F09'],  
+					 'remark_DSL_012'=>$list3['F25'],
                      'lastupdate_DHC_000'=>$list3['F11']);                      						 
 		array_push($arr,$atr);
 	}

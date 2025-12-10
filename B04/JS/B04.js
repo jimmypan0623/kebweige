@@ -31,19 +31,12 @@
 		  	    detachEventListener(prnbtt,"click",prntproc,false);	
 			}			
 		}
-		//
-		var oMember = document.getElementById("member1");	 	 	 
-	     
-		//
 		var oTable = document.getElementById("maintbody1");
 		var fld=document.getElementById('recfield');		
-	}else{
-		var oMember = document.getElementById("member2");	 	 	 
-	   
+	}else{	   
 	    var oTable = document.getElementById("maintbody2");
 		var fld=document.getElementById('recfield2');
-	}		
-	 oMember.setAttribute("style","width:120%;");
+	}			 
 	var rnddgt=getAuth[2]()[0].INT_069;  //四捨五入到幾位
 	var scndttl=document.getElementById('ttlmny');   //次頁表頭的總金額物件	
 	for(var i=0;i<arr.length;i++){		
@@ -119,25 +112,37 @@
 	}else{		 
 		var responseDiv=document.getElementById("serverResponse2");  
 	} 		
-	if(responseDiv.innerHTML=='Searching......'){    
-	    if (cnt==0){
-			responseDiv.setAttribute("style","color:red;"); 
-	   	    responseDiv.innerHTML="無此資料！Not found!検索できません。";
-			scndttl.innerHTML="0";
-	    }else{ 		 
+
+	if(cnt>0){       //初始畫面呼叫	   
+	    if(responseDiv.innerHTML=='Searching......'){   
 		    responseDiv.setAttribute("style","color:#536a60;"); 
             responseDiv.innerHTML="搜尋到 "+String(cnt)+" 筆資料。" +String(cnt)+" record"+(cnt>1?"s":"")+" match your search. " +String(cnt)+" レコードを検索。";            		              
-		}	
-		document.getElementById('ttltitle').innerHTML="本頁金額:"+sourceAccount(11,0)+":";
-	}else{
-		if (tbno==1){       //如果是表身
-		    document.getElementById('ttltitle').innerHTML="本單總額:"+sourceAccount(11,0)+":";
+		    if (tbno==1){       //如果是表身
+			   document.getElementById('ttltitle').innerHTML="本頁金額:"+sourceAccount(11,0)+":";
+			}
+		}else{
+		    var seekrcd=document.getElementById("SEEK_BOTT");
+		    seekrcd.setAttribute("style","visibility:visible;");
+		    attachEventListener(seekrcd,"click",seekrec,false);
+			if (tbno==1){       //如果是表身
+			     document.getElementById('ttltitle').innerHTML="本單總額:"+sourceAccount(11,0)+":";
+			}
 		}
-	} 
 	
-	if(cnt>0){       //初始畫面呼叫	   
 		chooserc(1); //跳到第一列
 	}else{ 
+	     if(responseDiv.innerHTML=='Searching......'){   
+		    responseDiv.setAttribute("style","color:red;"); 
+	   	    responseDiv.innerHTML="無此資料！Not found!検索できません。";
+			scndttl.innerHTML="0";
+		 }else{
+			if (tbno==0){       //如果是表頭
+		       responseDiv.innerHTML="本月無出貨單。";
+			}
+			var seekrcd=document.getElementById("SEEK_BOTT");
+		    seekrcd.setAttribute("style","visibility:hidden;");
+		    detachEventListener(seekrcd,"click",seekrec,false);
+		 }
 		scndttl.innerHTML="0";
 		var apprv=document.getElementById('APPRVE');
 		apprv.innerHTML="&nbsp";

@@ -9,9 +9,9 @@
 	 $sql3=$sql3."LEFT OUTER join a01 ON d01.F39=a01.F01 ";
 	  $sql3=$sql3."LEFT OUTER join d00 ON d01.F25=d00.F01 ";
 	 if(strlen($searchRecord)==0) {	          
-		  $sql3=$sql3."WHERE d01.F14 < CURDATE()";
+		  $sql3=$sql3."WHERE d01.F14 <= CURDATE()";
 	 }else{
-	    $sql3=$sql3."WHERE ".$fieldNo." LIKE '%".trim($searchRecord)."%' and d01.F14 < CURDATE()"; 
+	    $sql3=$sql3."WHERE ".$fieldNo." LIKE '%".trim($searchRecord)."%' and d01.F14  <= CURDATE()"; 
 	 }
 	 $sql3=$sql3."ORDER BY ".$fieldNo;
     $arr=array();	

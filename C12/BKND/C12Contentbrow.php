@@ -4,7 +4,7 @@
    $rnddgt=intval($_COOKIE["INT_069"]);
    $str=explode('|',$_POST['keyfield']);  //將上面字串以|號分割成陣列
  
-	$sql3="SELECT * FROM `c13` WHERE `F03`='".$str[0]."' AND `F90`='".$str[1]."' ORDER BY `F01`,`F02`,`F05` ";	 
+	$sql3="SELECT * FROM `c13` WHERE `F03`='".trim($str[0])."' AND `F90`='".$str[1]."' ORDER BY `F01`,`F02`,`F05` ";	 
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_assoc($sql4)){

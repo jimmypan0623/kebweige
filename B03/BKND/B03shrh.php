@@ -68,6 +68,7 @@ include("../../include/BKND/mysqli_server.php");                              //
 		 $valueStr4 ='';
 		 $valueStr5 ='';
 		 $valueStr6 ='';
+		 $tax_isinside="00";
 		foreach($arr as $v){
 			
 			if($brr[11]!='3'){  //退貨
@@ -76,13 +77,14 @@ include("../../include/BKND/mysqli_server.php");                              //
 				}else{
 				   $vbn=1;
 				}
+				$tax_isinside=($v['invoice_type']=='24' && $v['tax_type']=='1')?"02":"00";  //稅是否內含
 				$valueStr1 .= "('".$v['deliveryday']."',  
 				'".$v['vendor_no']."',
 				'".$v['stockno']."',
 				'".$v['query_no']."',
 				'".$v['oring_no']."',
 				'".$v['crncy_no']."',
-				'".$v['unit_price']."',
+				'".($tax_isinside=='02'?round($v['unit_price']/(1+$taxrate/100),3):$v['unit_price'])."',
 				'".$v['orderqty']*(-1)."',
 				'".$v['crncy_rate']."',			
 				'".$v['salesno']."',
@@ -138,7 +140,7 @@ include("../../include/BKND/mysqli_server.php");                              //
 			 '".$v['crncy_no']."',
 			 ".$v['crncy_rate'].",
 			 '".$v['remark']."',		          
-			 '".(($v['invoice_type']=='23' && $v['tax_type']=='1')?"02":"00")."', 			 
+			 '".$tax_isinside."', 			 
 			 '".$v['invoice_no']."',	
 			 '".$v['rjtordscnt']."',
 			 '".$v['salesno']."',		

@@ -54,7 +54,7 @@ include("../../include/BKND/mysqli_server.php");                              //
 							'cancelqty'=>($brr[11]=='2'?$list3['F04']:0),  //退回不補取消量
 							'remark'=>$brr[12],						
 							'invoice_no'=>$brr[6],
-							'invoice_type'=> (preg_match($regex, $brr[6])?$brr[7]:'00'),
+							'invoice_type'=> (preg_match($regex,$brr[6])?$brr[7]:'00'),
 					        'tax_type'=> (preg_match($regex, $brr[6])?$brr[8]:'0'),
 							'settle_day'=>$list3['F17'],
 							'mrt_type'=>$list3['F98'],
@@ -69,6 +69,7 @@ include("../../include/BKND/mysqli_server.php");                              //
 		 $valueStr4 ='';
 		 $valueStr5 ='';
 		 $valueStr6 ='';
+		 $tax_isinside="00";
 		foreach($arr as $v){
 			
 			if($brr[11]!='3'){  //退貨
@@ -77,6 +78,7 @@ include("../../include/BKND/mysqli_server.php");                              //
 				}else{
 				   $vbn=1;
 				}
+				$tax_isinside=(($v['invoice_type']=='34' && $v['tax_type']=='1')?"02":"00");  //稅是否內含
 				////出貨月報表
 				 $valueStr1 .= "('".$v['deliveryday']."',
 				'".$v['custom_no']."',
@@ -84,7 +86,7 @@ include("../../include/BKND/mysqli_server.php");                              //
 				'".$v['query_no']."',
 				'".$v['oring_no']."',
 				'".$v['crncy_no']."',
-				'".$v['unit_price']."',
+				".$v['unit_price'].",
 				".$v['orderqty']*(-1).",
 				'".$v['crncy_rate']."',			
 				'".$v['salesno']."',
@@ -102,7 +104,7 @@ include("../../include/BKND/mysqli_server.php");                              //
 				 '".$v['lastupdate']."',
 				 '".'出貨退回單'."',
 				 '".$v['query_no']."',		 
-				 '".'退'.$brr[1].$v['custom_name']."',			
+				 '".'回'.$brr[1].$v['custom_name'].$v['oring_no']"',			
 				 '".$v['month_no']."'),";
 			 ////////
 				 $valueStr3 .= "('".$v['departno']."',
@@ -141,7 +143,7 @@ include("../../include/BKND/mysqli_server.php");                              //
 			 '".$v['crncy_no']."',
 			 ".$v['crncy_rate'].",
 			 '".$v['remark']."',		          
-			 '".(($v['invoice_type']=='34' && $v['tax_type']=='1')?"02":"00")."', 			 
+			 '".$tax_isinside."', 			 
 			 '".$v['invoice_no']."',	
 			 '".$v['rjtordscnt']."',
 			 '".$v['salesno']."',		

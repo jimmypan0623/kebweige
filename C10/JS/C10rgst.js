@@ -46,7 +46,9 @@ function searchOptionsKey(tbno,slt5){
 	  slt5.options.add(new Option('部門編號','c10.F15')); 
      slt5.options.add(new Option('部門名稱','a14.F02')); 
 	  slt5.options.add(new Option('業務編號','c10.F10')); 
-     slt5.options.add(new Option('業務姓名','a01.F03')); 
+     slt5.options.add(new Option('業務姓名','a0A.F03')); 
+	   slt5.options.add(new Option('業助編號','c10.F14')); 
+     slt5.options.add(new Option('業助姓名','a0B.F03')); 
 	 slt5.options.add(new Option('客戶PO','c10.F16'));	
 	 slt5.options.add(new Option('客戶品號','c10.F17'));	
 	 

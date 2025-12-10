@@ -775,7 +775,9 @@ function searchOptionsKey(tbno,slt5){
 		slt5.options.add(new Option('統一編號','c01.F10'));
 		slt5.options.add(new Option('地區別','c01.F20'));
 		slt5.options.add(new Option('業務編號','c01.F33'));
-		slt5.options.add(new Option('業助編號','c01.F23'));				
+		slt5.options.add(new Option('業務姓名','a0A.F03'));
+		slt5.options.add(new Option('業助編號','c01.F23'));		
+		slt5.options.add(new Option('業助姓名','a0B.F03'));
 		slt5.options.add(new Option('母公司編號','c01.F44'));		
 	} else{
 		slt5.options.add(new Option('料品編號','c02.F03'));

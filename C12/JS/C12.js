@@ -20,16 +20,9 @@ function getProfile(str1,reccount) {
 	   slt2.options[0].text=paddingLeft(1,optdigts);
 		var bibau=cko[0](0);   //找出閉包筆數變數現值
 		cko[0](bibau*(-1));    //將閉包變數歸零
-		cko[0](reccount);      //將筆數記起來	
-	  
+		cko[0](reccount);      //將筆數記起來		  
 	}
-	var oMember = document.getElementById("member1");	 
-	 
-	 
-	oMember.setAttribute("style","width:120%;");
-	
-	var oTable = document.getElementById("maintbody1");
-	 
+	var oTable = document.getElementById("maintbody1");	 
 	for(var i=0;i<arr.length;i++){		
 		var oTr=oTable.insertRow(-1);	
 		oTr.setAttribute("name","mainrow");	      		

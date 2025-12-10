@@ -22,7 +22,7 @@ function crtElm(){
 
      var thr1=document.getElementById('headrow1');	 
 	 var array1 = ['編號','廠商簡稱'];
-	 var array2 = ['6%','10%'];
+	 var array2 = ['7%','9%'];
 	for (var j = 0; j < array1.length; j++) {
 		var th1 = document.createElement('th'); //column		   
 		var text = document.createTextNode(array1[j]); //cell		
@@ -39,7 +39,7 @@ function crtElm(){
     righttbl1.setAttribute("style","width:120%;");
 	 var thr2=document.createElement("thead"); 
 	 var array3 = ['進貨日期','發票號碼','料號','進貨單號','數量','單價','幣別','匯率','小計','採購單號','廠商品號'];
-	 var array4 = ['8%','8%','12%','8%','7%','7%','4%','7%','8%','9%','11%'];
+	 var array4 = ['8%','9%','12%','9%','7%','7%','4%','7%','8%','9%','10%'];
 	for (var i = 0; i < array3.length; i++) {
 		var th2 = document.createElement('th'); //column	
 		
