@@ -38,7 +38,6 @@ function shurePrc(event){        //單據確認程序
 	var urlpath=(left(urlfolder[0].innerHTML,3));   
 	var json=shr_head.slice(0,-1)+"}";   //去掉最後一個逗號再加上右大引號	 	      
     str_json=JSON.stringify(json);	 
-   
     setCookie('useraccount',getAuth[1]()[0]);	
 	if(target.value=="\u{2705}"){   //確認		   	
 	    urlphp=urlpath+"/BKND/"+urlpath+"shrh.php";	

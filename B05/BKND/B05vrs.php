@@ -13,6 +13,8 @@ if(trim($list2['F10'])=="Y"){
      $lastdate=date('Y'.'-'.'m'.'-'.'d');   
 	  $mscnt="DELETE FROM `c13` WHERE `F02`='".$delmsg."'";	                        
       mysqli_query($link ,$mscnt) or die(mysqli_error($link)); 
+	  $mscnt="DELETE FROM `k25` WHERE `F15`='".$delmsg."'";	                        
+      mysqli_query($link ,$mscnt) or die(mysqli_error($link)); 
 	 $sql3="SELECT b0e.*,b05.F02 As F0B,b05.F24,b05.F90,b01.F98 FROM b0e,b05,b01 WHERE b0e.F01='".$delmsg."' AND b05.F01='".$delmsg."' AND b01.F01=b0e.F03 ORDER BY b0e.F03"; 	 
 	 $sql4=@mysqli_query($link,$sql3); 
      $arr=array(); 

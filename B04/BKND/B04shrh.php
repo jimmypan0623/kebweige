@@ -9,6 +9,7 @@ foreach($cart as $key=>$val){
     $brr[]=addslashes($val);		//要加入此函數避免中間有單引號錯亂
 }
  include("../../include/BKND/mysqli_server.php");                              //引用檔    
+ require_once "../../include/BKND/paymentclc.php"; // 引入 
  $sql7="select F10 from b04 where F01='".$brr[0]."'"; 
  $sql8=@mysqli_query($link,$sql7);                       
   $list2=mysqli_fetch_assoc($sql8);  //檢查是否已確認過
@@ -179,8 +180,8 @@ foreach($cart as $key=>$val){
 	 
 	$aftertax=$beforetax+$taxmoney;	
 	$shouldpayday=lastpayday($v['month_no'],$v['deliveryday'],$v['settle_day'],$v['check_way'],$v['paymentdays']);
-    $insertSql[6] = "insert into k25 (F01,F02,F03,F04,F08,F09,F10,F12,F14,F15,F19,F21,F22,F23,F24,F25,F26,F90) values ";
-	$insertSql[6].= "('".$v['invoice_type']."','".$brr[2]."','".$brr[1]."','".$v['united_no']."',".$beforetax.",'".$v['tax_type']."',";
+    $insertSql[6] = "insert into k25 (F01,F02,F03,F04,F07,F08,F09,F10,F12,F14,F15,F19,F21,F22,F23,F24,F25,F26,F90) values ";
+	$insertSql[6].= "('".$v['invoice_type']."','".$brr[2]."','".$brr[1]."','".$v['united_no']."','".$brr[6]."',".$beforetax.",'".$v['tax_type']."',";
 	$insertSql[6].= $taxmoney.",".$aftertax.",'".$v['departno']."','".$v['query_no']."','".$brr[3]."','".$brr[4]."',".$brr[5].",";
     $insertSql[6].= $originmoney.",'".$v['lastupdate']."','".$shouldpayday."','".$v['check_way']."','".$v['month_no']."')";
 	
@@ -207,49 +208,5 @@ foreach($cart as $key=>$val){
 } 
 mysqli_close($link);	
  	
-	
-function mnthPlus($yearmonth ){    //計算超過結帳日期的結帳月份
-
-    $nextMonth = (int)substr($yearmonth, -2) + 1;
-
-    if ($nextMonth > 12) {
-       $Month = '01';
-       $nextYear=(int)substr($yearmonth, 0, 4) + 1;
-	   $Year=(string)$nextYear;
-    }else{
-	   $Month=str_pad((string)$nextMonth,2,'0',STR_PAD_LEFT);
-	   $Year=substr($yearmonth, 0, 4);
-	}
-	
-	return $Year.'-'.$Month;
-}	
-	
-function lastpayday($crntmth,$crtday,$settleday,$howpay,$howlong){
-	$ship_day=($crtday<=$settleday?$crntmth:mnthPlus($crntmth))."-".$crtday;
-    $payday=date('Y'.'-'.'m'.'-'.'d');
-  	switch ($howpay) {
-    case '0':
-
-		$payday = date('Y-m-d', strtotime($ship_day. " + ".  $howlong ."  days "));
-        break; 
-   case '1':
-	    $last_day_of_month = date('Y-m-t', strtotime($ship_day));
-        $payday = date('Y-m-d', strtotime($last_day_of_month ."  + ". $howlong ."  days"));
-        break; 
-    case '2':
-        $next_month_last_day = date('Y-m-t', strtotime($ship_day . '+1 month'));
-		$payday = date('Y-m-d', strtotime($next_month_last_day.' + '.$howlong .'days'));
-        
-    case '3':
-	    $last_day_of_month = date('Y-m-t', strtotime($ship_day));
-        $payday = date('Y-m-d', strtotime($last_day_of_month ."  + ". $howlong ."  days"));
-        break;   
-    default:
-       $payday=date('Y'.'-'.'m'.'-'.'d');
-	   
-    }  
-	return $payday;
-
-}
 ?>
  

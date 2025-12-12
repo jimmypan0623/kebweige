@@ -11,11 +11,14 @@ if(trim($list2['F10'])=="Y"){
      $rows1=@mysqli_num_rows($sql1);                       
      $list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名   
      $lastdate=date('Y'.'-'.'m'.'-'.'d');   
-	  $mscnt="DELETE FROM `d19` WHERE `F02`='".$delmsg."'";	                        
+	  $mscnt="DELETE FROM `d19` WHERE `F02`='".$delmsg."'";	   	    	  	  
+      mysqli_query($link ,$mscnt) or die(mysqli_error($link)); 
+	    $mscnt="DELETE FROM `k25` WHERE `F15`='".$delmsg."'";	   	    	  	  
       mysqli_query($link ,$mscnt) or die(mysqli_error($link)); 
 	 $sql3="SELECT b0c.*,b03.F02 As F0B,b03.F24,b03.F90,b01.F98 FROM b0c,b03,b01 WHERE b0c.F01='".$delmsg."' AND b03.F01='".$delmsg."' AND b01.F01=b0c.F03 ORDER BY b0c.F03"; 	 
 	 $sql4=@mysqli_query($link,$sql3); 
      $arr=array(); 
+	  
 	 while ($list3=mysqli_fetch_assoc($sql4)){
 		 $my_array  = array('query_no'=>$list3['F01'],			              
 					    'stockno'=>$list3['F03'],
@@ -31,6 +34,7 @@ if(trim($list2['F10'])=="Y"){
 					    'month_no'=>$list3['F90'] 
                      );   		     
 			array_push($arr,$my_array);		          		
+		
 	}
 	 if($list2['F24']!=3){    //如果是退貨
 	    $mscnt="DELETE FROM `d11` where `F04`='".$delmsg."'";	     
