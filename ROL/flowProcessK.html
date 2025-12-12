@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>庫存管理流程</title>
+
+   <!-- <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>    -->
+    
+    <script src="JS/mermaid.min.js?v=0.0.2"></script>
+	<script src="JS/flowProcess.js?v=0.0.3"></script>
+
+</head>
+<body>
+
+<div style="font-weight:bold;font-family:arial;" class="mermaid">
+graph LR;
+    
+   
+	 
+	 B[/B02/]-->A{有無發票}
+	 C[/B03/]-->A
+
+	 D[/B04/]-->A
+	 E[/B05/]-->A
+	 A -->|有|F[K17];
+ 
+	style F fill:#FFFF6E,stroke:#642100; 		
+	style B fill:#6A6AFF,stroke:#BB5E00;
+	style C fill:#3BFF3B,stroke:#4A0080;
+	style D fill:#FFCC6E,stroke:#00008F;
+	style E fill:#D9FFFF,stroke:#2F0000;
+	 
+    click B call FunDetailArg("B02") "B02 進貨單"
+	click C call FunDetailArg("B03") "B03 進貨退出/折讓單"
+	click D call FunDetailArg("B04") "B04 出貨單"
+	click E call FunDetailArg("B05") "B05 出貨退回/折讓單"
+	click F call FunDetailArg("K17") "K17 發票管理"
+	 
+</div>
+ 
+</body>
+</html>

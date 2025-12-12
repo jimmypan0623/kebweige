@@ -33,7 +33,7 @@ function selfTag(jsvsn)
 		var logoutDivBtn=document.getElementById('getOutBtn');
 		attachEventListener(logoutDivBtn,"click",accountDele,false);  
 		var iflm=document.createElement('iframe');
-		if(getAuth[1]()[1] && (left(getAuth[1]()[1],1)=='C' || left(getAuth[1]()[1],1)=='D' || left(getAuth[1]()[1],1)=='B')){
+		if(getAuth[1]()[1] && (left(getAuth[1]()[1],1)=='C' || left(getAuth[1]()[1],1)=='D' || left(getAuth[1]()[1],1)=='B' || left(getAuth[1]()[1],1)=='K')){
 		  
 			var htmfile='ROL/flowProcess'+left(getAuth[1]()[1],1)+'.html';
 			
@@ -76,6 +76,9 @@ function redmenuchange(event){    //畫面展開縮起來
 				case 'D':
 			       var htmfile='ROL/flowProcess'+left(target.innerHTML,1)+'.html';
 			      break;  
+				case 'K':
+			       var htmfile='ROL/flowProcess'+left(target.innerHTML,1)+'.html';
+			      break;    
 			   default :
 			      var htmfile='ROL/'+(getCookie('INT_HTM')?getCookie('INT_HTM'):getAuth[2]()[0].INT_HTM);
 				  break;
