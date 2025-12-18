@@ -660,6 +660,8 @@ function searchOptionsKey(tbno,slt5){
 	if (tbno==0){
 		slt5.options.add(new Option('廠商編號','d01.F01'));
 		slt5.options.add(new Option('廠商名稱','d01.F04'));
+		slt5.options.add(new Option('採購編號','d01.F39'));
+		slt5.options.add(new Option('採購姓名','a01.F03'));
 		slt5.options.add(new Option('統一編號','d01.F06'));
 		slt5.options.add(new Option('廠商地址','d01.F05'));		 		 
 	} else{

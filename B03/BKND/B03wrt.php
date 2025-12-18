@@ -70,15 +70,15 @@ if($rows1==0 || $rows2==0){
     }else{	   //修改
 	    if(intval($brr[11])>3){
 	        if(intval($brr[11])==9){   //退變折
-			    $c04update="UPDATE c04 SET c04.F24=c04.F24+(-1)
-                *(SELECT b0e.F04 FROM b0e WHERE c04.F01=b0e.F07 AND c04.F02=b0e.F03 AND b0e.F01='".$brr[0]."') 
-                WHERE CONCAT(c04.F01,c04.F02) IN (SELECT CONCAT(F07,F03) FROM b0e WHERE F01='".$brr[0]."')";
+			    $d04update="UPDATE d04 SET d04.F24=d04.F24+(-1)
+                *(SELECT b0c.F04 FROM b0c WHERE d04.F01=b0c.F07 AND d04.F02=b0c.F03 AND b0c.F01='".$brr[0]."') 
+                WHERE CONCAT(d04.F01,d04.F02) IN (SELECT CONCAT(F07,F03) FROM b0c WHERE F01='".$brr[0]."')";
 		    }else{              //折變退
-		        $c04update="UPDATE c04 SET c04.F24=c04.F24+
-                (SELECT b0e.F04 FROM b0e WHERE c04.F01=b0e.F07 AND c04.F02=b0e.F03 AND b0e.F01='".$brr[0]."') 
-                WHERE CONCAT(c04.F01,c04.F02) IN (SELECT CONCAT(F07,F03) FROM b0e WHERE F01='".$brr[0]."')";
+		        $d04update="UPDATE d04 SET d04.F24=d04.F24+
+                (SELECT b0c.F04 FROM b0c WHERE d04.F01=b0c.F07 AND d04.F02=b0c.F03 AND b0c.F01='".$brr[0]."') 
+                WHERE CONCAT(d04.F01,d04.F02) IN (SELECT CONCAT(F07,F03) FROM b0c WHERE F01='".$brr[0]."')";
 		    }
-			mysqli_query($link ,$c04update) or die(mysqli_error($link));  
+			mysqli_query($link ,$d04update) or die(mysqli_error($link));  
 		    
 	        $brr[11]=strval(intval($brr[11])-6);
 	    }
@@ -99,6 +99,5 @@ if($rows1==0 || $rows2==0){
       
     } 
 }  
-mysqli_close($link);	
- 	
+mysqli_close($link);	 	
 ?>

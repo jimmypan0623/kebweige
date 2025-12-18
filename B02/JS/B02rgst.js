@@ -261,13 +261,13 @@ function rateSrch(event){   //進貨日期異動順便更動匯率
     }
    return;
 }
-function c01CustomName(event){	
+function d01VendorName(event){	
    if (typeof event=="undefined")
 	{
 		event=window.event;
 	}	
-	var targetCustomNo=getEventTarget(event);		
-	var sendSrcRec="filename="+targetCustomNo.value;	    
+	var targetVendorNo=getEventTarget(event);		
+	var sendSrcRec="filename="+targetVendorNo.value;	    
 	var rsp="";  	
 	if(window.ActiveXObject){
 	   var request = new ActiveXObject("Microsoft.XMLHttp");
@@ -283,8 +283,8 @@ function c01CustomName(event){
 	function respond(){           
 		if (request.readyState == 4 && request.status == 200){    
             rsp=JSON.parse(request.responseText);			 
-			document.getElementById('customname').value=rsp[0]['customname'];
-	        document.getElementById('customfullname').value=rsp[0]['customfullname'];
+			document.getElementById('vendorname').value=rsp[0]['vendorname'];
+	        document.getElementById('vendorfullname').value=rsp[0]['vendorfullname'];
 			document.getElementById('unitno').value=rsp[0]['unitno'];
 			document.getElementById('winname').value=rsp[0]['winname'];
 			document.getElementById('telNo').value=rsp[0]['telNo']; 
@@ -292,10 +292,9 @@ function c01CustomName(event){
 			document.getElementById('whonameEx').innerHTML=rsp[0]['whonameEx']; 
 			document.getElementById('crntopt').value=rsp[0]['crntopt'];
 			document.getElementById('curncy').value=rsp[0]['curncy'];
-			document.getElementById('invtype').value=rsp[0]['invtype'];
-			document.getElementById('taxtype').value=rsp[0]['taxtype'];
+			 
 			document.getElementById('howpay').value=rsp[0]['howpay'];
-			document.getElementById('dlvrplace').value=rsp[0]['dlvrplace'];
+		 
 			document.getElementById('shipdirect').value=rsp[0]['shipdirect'];
 		}
 	}
@@ -318,7 +317,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    oTd.innerHTML='廠商送貨單號:';
 	    var oTd = oTr.insertCell(1);     
 	    oTd.colspan=3;
-	    oTd.innerHTML="<input type='text' name='b02update' id='dlvrplace' class='txt' style='width:35%;' maxlength='40'    />";
+	    oTd.innerHTML="<input type='text' name='b02update' id='dlvbillno' class='txt' style='width:35%;' maxlength='40'    />";
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	   
 	    var oTd = oTr.insertCell(0);	   
@@ -406,7 +405,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    oTd.setAttribute('style','text-align:right;width:15%');					
 	    oTd.innerHTML='廠商全名:';
 	    var oTd = oTr.insertCell(1);               
-	    oTd.innerHTML="<input type='text' name='b02others' id='customfullname' class='txt' style='width:50%;' maxlength='40'    />";  				
+	    oTd.innerHTML="<input type='text' name='b02others' id='vendorfullname' class='txt' style='width:50%;' maxlength='40'    />";  				
 	      var oTd = oTr.insertCell(2);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
 	    oTd.innerHTML='統一編號:';
@@ -419,9 +418,9 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    oTd.innerHTML='廠商代號:';
    	    var oTd = oTr.insertCell(1);       
 	    if(txtword==2){   //如果是修改	
-		    oTd.innerHTML="<input type='text' name='b02update' id='customno' class='txt' style='background-color:#B9B9FF;width:35%;' maxlength='6' readOnly=true  />";  				              
+		    oTd.innerHTML="<input type='text' name='b02update' id='vendorno' class='txt' style='background-color:#B9B9FF;width:35%;' maxlength='6' readOnly=true  />";  				              
 	    }else{
-		    oTd.innerHTML="<input type='text' name='b02update' id='customno' class='txt' style='width:35%;' maxlength='6'    />";  				
+		    oTd.innerHTML="<input type='text' name='b02update' id='vendorno' class='txt' style='width:35%;' maxlength='6'    />";  				
 		    var srchButton3=document.createElement("input");				   
 		    srchButton3.setAttribute("type","button");	
 		    srchButton3.setAttribute("class","scopelook");				   
@@ -434,9 +433,9 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    oTd.innerHTML='廠商簡稱:';
 	    var oTd = oTr.insertCell(3);   
 	    if(txtword==2){   //如果是修改	
-		    oTd.innerHTML="<input type='text' name='b02others' id='customname' class='txt' style='background-color:#B9B9FF;width:40%;' maxlength='8' readOnly=true  />";  					  
+		    oTd.innerHTML="<input type='text' name='b02others' id='vendorname' class='txt' style='background-color:#B9B9FF;width:40%;' maxlength='8' readOnly=true  />";  					  
 	    }else{
-	   	   oTd.innerHTML="<input type='text' name='b02others' id='customname' class='txt' style='width:40%;' maxlength='8'    />";  				 
+	   	   oTd.innerHTML="<input type='text' name='b02others' id='vendorname' class='txt' style='width:40%;' maxlength='8'    />";  				 
 		   var srchButton2=document.createElement("input");				   
 		   srchButton2.setAttribute("type","button");	
 	 	   srchButton2.setAttribute("class","scopelook");				   
@@ -475,13 +474,13 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    oTd.setAttribute('style','text-align:right;width:15%');	
 	    oTd.innerHTML='需求用途:';
 	    var oTd = oTr.insertCell(1);		                						  		          				  
-	    oTd.innerHTML="<input type='text' name='b0bupdate' id='customPO' class='txt' style='width:50%;' maxlength='30'/>"; 				 		 
+	    oTd.innerHTML="<input type='text' name='b0bupdate' id='vendorPO' class='txt' style='width:50%;' maxlength='30'/>"; 				 		 
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);
 	    oTd.setAttribute('style','text-align:right;width:15%');	
 	    oTd.innerHTML='廠商品號:';
 	    var oTd = oTr.insertCell(1);		                						  		          				  
-	    oTd.innerHTML="<input type='text' name='b0bupdate' id='custompartno' class='txt' style='width:50%;' maxlength='30'/>"; 				 		 
+	    oTd.innerHTML="<input type='text' name='b0bupdate' id='vendorpartno' class='txt' style='width:50%;' maxlength='30'/>"; 				 		 
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
@@ -586,10 +585,10 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 			   document.getElementById("shipdate").value=paddingLeft(nowDate.getDate(),2);  //
 					   //單號為系統自動編號
 				objGetNo('queryno','BA'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase());				        	 
-			   //document.getElementById("customno").focus();	
-			     var cstNo=document.getElementById("customno");
+			   //document.getElementById("vendorno").focus();	
+			     var cstNo=document.getElementById("vendorno");
 				   cstNo.focus();	
-				   attachEventListener(cstNo,"change",c01CustomName,false);	//找廠商名稱
+				   attachEventListener(cstNo,"change",d01VendorName,false);	//找廠商名稱
 		   }else{
 																
 				document.getElementById("stockno").focus();
@@ -600,7 +599,7 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 		   if (tbno==0){
 			  document.getElementById("shipdate").focus();				  			 				  
 			  var editinit=document.getElementsByName('b02update');
-			  document.getElementById('customname').value=notWaitdata[0];
+			  document.getElementById('vendorname').value=notWaitdata[0];
 			  document.getElementById('whonameEx').innerHTML=notWaitdata[5];
 			    
 		   }else{
@@ -798,13 +797,13 @@ function searchKeyHint(tbno){    //搜尋畫面出現提示
 }
 ////以下處理回呼資料傳送給開窗選擇頁面
 function srcArgobj(srcId){
-	if (srcId=='customno' || srcId=='customname'){
+	if (srcId=='vendorno' || srcId=='vendorname'){
 		var custno=document.getElementById(srcId).value;		 
 		var tttlt='';
-	    if(srcId=='customno'){			     
+	    if(srcId=='vendorno'){			     
 		    var qrystring ="d01.F01"+"|"+custno;
 			tttlt="請選取廠商代號";          			
-	    }else if(srcId=='customname'){			 
+	    }else if(srcId=='vendorname'){			 
 		    var qrystring ="d01.F04"+"|"+custno;			 
 			tttlt="請選取廠商簡稱";		
 		}
@@ -869,8 +868,8 @@ function stckchg(event)  //選擇料號
 	var orderNo=document.getElementById('origno');
 	var shipQty=document.getElementById('queryqty');
 	var shipPrice=document.getElementById('price');
-	var custstockno=document.getElementById('custompartno');
-	var custpo=document.getElementById('customPO');
+	var custstockno=document.getElementById('vendorpartno');
+	var custpo=document.getElementById('vendorPO');
 	var deptno=document.getElementById('deptno');
 	var deptname=document.getElementById('deptname');
 	var maintable=document.getElementById("stuffTbody");  
@@ -913,9 +912,9 @@ function chsecust(event)  //選擇廠商
 	}
 	var target=getEventTarget(event);
 	 
-	 var custNo=document.getElementById('customno');
+	 var custNo=document.getElementById('vendorno');
 	 custNo.value="";
-     var custName=document.getElementById('customname');			
+     var custName=document.getElementById('vendorname');			
 	 custName.value="";
 	 var rprsntno=document.getElementById('whono');
 	 var rprsntname=document.getElementById('whonameEx');
@@ -923,7 +922,7 @@ function chsecust(event)  //選擇廠商
 	 var contactman=document.getElementById('winman');
 //     var shipway=document.getElementById('howship');
 	 var paymenttp=document.getElementById('howpay');
-//	 var shipplace=document.getElementById('dlvrplace');
+//	 var shipplace=document.getElementById('dlvbillno');
 	 var shipdirect=document.getElementById('shipdirect');
 	 var crntrate=document.getElementById('curncy');
 // 	 var invoicetype=document.getElementById('invtype');

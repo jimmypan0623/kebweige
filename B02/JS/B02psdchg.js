@@ -81,7 +81,7 @@ function prntproc(event){
 	}
 	 var urlcmp=(decodeURI(window.location.search));
 	 var ourcmp=urlcmp.substr(urlcmp.indexOf('=')+1);
-	var urlphp="B02/BKND/B02report.php?ourCompany="+ourcmp+"&queryNo="+headdata[0]+"&customNo="+headdata[1]+' '+headdata[2];		 
+	var urlphp="B02/BKND/B02report.php?ourCompany="+ourcmp+"&queryNo="+headdata[0]+"&vendorNo="+headdata[1]+' '+headdata[2];		 
 	urlphp+="&salesMan="+headdata[5]+"&curNcy="+headdata[6]+"&shipWay="+headdata[8];
 	urlphp+="&payMent="+headdata[9]+"&reMark="+headdata[10]+"&windowMan="+headdata[7];
 	window.open(urlphp,"_blank");

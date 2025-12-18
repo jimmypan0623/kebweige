@@ -19,12 +19,18 @@ function blocksclose(event)  //關閉註冊彈出視窗
     for (var i=0;i<btns.length;i++){
 		bttssn1.push(btns[i].title);
 		btns[i].setAttribute("accesskey",right(bttssn1[i],1));				 
-	}		      	 
+	}		      	
 	return true;
 }	
 function topAndWidthModify(dropsheet_content,dropsheet,txtword){
-	dropsheet_content.style.width="50%";   //原訊息內框畫面寬度調整  
-    dropsheet.style.paddingTop="25px";      // 高度也往上提 	
+	if(txtword==7){
+		dropsheet_content.style.width="50%";   //原訊息內框畫面寬度調整  
+    }else if(txtword==101){
+		dropsheet_content.style.width="80%";   //原訊息內框畫面寬度調整
+	}else{
+	    dropsheet_content.style.width="75%";   //原訊息內框畫面寬度調整  
+	}
+	 dropsheet.style.paddingTop="20px";      // 高度也往上提 	
     return true;
 }
 function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){  //在此無作用但也要有此函數被呼叫
@@ -33,36 +39,21 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){  //在此
 		txtseek.focus();
 		attachEventListener(txtseek,'keypress',textKeypress,false);
 			  
-	}			
-    return true;	
+	}			  
+  return true;	
 }
 function searchOptionsKey(tbno,slt5){	
-	 
-	 slt5.options.add(new Option('廠商編號','d01.F01'));
-	 slt5.options.add(new Option('廠商簡稱','d01.F04'));
-	 
-	 
+     slt5.options.add(new Option('憑證單號','k25.F15'));	
+	 slt5.options.add(new Option('發票號碼','k25.F07'));	
+	 slt5.options.add(new Option('對象編號','k25.F03'));	
+	 slt5.options.add(new Option('統一編號','k25.F04'));	
+	 slt5.options.add(new Option('擔當人員','a01.F03'));	
 }
+
+
+
+
 function searchKeyHint(tbno){    //搜尋畫面出現提示
-    return "搜尋應付帳款對帳單廠商選擇";
-}
-
-
-function tab1View(event){	  
-       if (typeof event=="undefined"){
-		   event=window.event;
-    	}
-	
-		 var bibau=cko[2](0);   //找出閉包變數現值
-	     cko[2](bibau*(-1));    //將表身閉包變數歸零	  
-		  bibau=cko[6](0);   //找出閉包變數現值
-	     cko[6](bibau*(-1));    //將表身閉包變數歸零 
-		var crntpge=document.getElementById('recmth').value ;
-		
-		//if (crntpge*1>=1) {
-		  choiceClick(left(crntpge,7));
-		//}
-	
-
+    return "搜尋應收立沖結餘帳對照欄位選擇";
 }
 

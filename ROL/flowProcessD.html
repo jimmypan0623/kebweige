@@ -23,16 +23,21 @@ graph LR;
 	E -->|進貨計劃|F
     D .->|&#x1F516拋轉| F
 	O[(A09)] -->|收料部門|F
+	
 	F -->|&#x2705| I[(D11)]
 	F -->|&#x2705| J[(D19)] 
+		F-->|&#x2705|L(K17)
 	G[/B03/]-->|&#x2705| I
 	G -->|&#x2705| J 
+
+	G-->|&#x2705|L
 	style O fill:#FFBB77,stroke:#003E3E;
 	style D fill:#ADADFF,stroke:#FFFF30;
 	style C fill:#FFC9C9,stroke:#8C8C8C;
 	style F fill:#B5FFB5,stroke:#B2B200;
 	style J fill:#E4BFFF,stroke:#8F5D00;
 	style K fill:#FFFF6E,stroke:#642100;
+	style G fill:#FFFF6F,stroke:#000093;
 	linkStyle 11 stroke-width:1px,fill:none,stroke:green;
 	linkStyle 12 stroke-width:1px,fill:none,stroke:red;
 	linkStyle 13 stroke-width:1px,fill:none,stroke:orange;
@@ -49,6 +54,7 @@ graph LR;
 	click I call FunDetailArg("D11") "D11 進貨月報表"
 	click J call FunDetailArg("D19") "D19 應付帳款對帳單"
 	click K call FunDetailArg("B01") "B01 物料基本主檔"
+	click L call FunDetailArg("K17") "K17 發票管理"
 </div>
 
  <!-- D  |&#x2705待進D08| F-->

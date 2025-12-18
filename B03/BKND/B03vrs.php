@@ -36,11 +36,14 @@ if(trim($list2['F10'])=="Y"){
 			array_push($arr,$my_array);		          		
 		
 	}
+	 $mscnt="DELETE FROM `d11` where `F04`='".$delmsg."'";	    
+	 mysqli_query($link ,$mscnt) or die(mysqli_error($link)); 
+	 $mscnt="DELETE FROM `b26` WHERE `F07`='".$delmsg."'";	                        
+     mysqli_query($link ,$mscnt) or die(mysqli_error($link)); 
 	 if($list2['F24']!=3){    //如果是退貨
-	    $mscnt="DELETE FROM `d11` where `F04`='".$delmsg."'";	     
-        mysqli_query($link ,$mscnt) or die(mysqli_error($link)); 
-	    $mscnt="DELETE FROM `b26` WHERE `F07`='".$delmsg."'";	                        
-        mysqli_query($link ,$mscnt) or die(mysqli_error($link)); 
+	   
+        
+	    
 	    $valueStr3 ='';
 	    $valueStr4 ='';	
 	    $valueStr6 ='';

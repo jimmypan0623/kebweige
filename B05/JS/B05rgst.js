@@ -84,14 +84,14 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 	}
 	for(var j=1;j<b05elements.length-1;j++){
 		if(tbno==0 && j==3){
-			let oDate=new Date(document.getElementById('recmth').value+'-'+b05elements[j].value);
-		    let cYear = oDate.getFullYear();
-            let cMonth = oDate.getMonth() + 1;
-            let cDate = oDate.getDate();
-			let iYear=left(document.getElementById('recmth').value,4);
-			let iMonth=right(document.getElementById('recmth').value,2);
-			let iDate=paddingLeft(b05elements[j].value.trim(),2);
-			let result = (iYear == cYear) && (iMonth == cMonth) && (iDate == cDate);
+			var oDate=new Date(document.getElementById('recmth').value+'-'+b05elements[j].value);
+		    var cYear = oDate.getFullYear();
+            var cMonth = oDate.getMonth() + 1;
+            var cDate = oDate.getDate();
+			var iYear=left(document.getElementById('recmth').value,4);
+			var iMonth=right(document.getElementById('recmth').value,2);
+			var iDate=paddingLeft(b05elements[j].value.trim(),2);
+			var result = (iYear == cYear) && (iMonth == cMonth) && (iDate == cDate);
 			if(!result){
 				filtermsg(b05elements[j],"日期格式不對");
 				return false ;
@@ -150,11 +150,11 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 		   var y1=sourceAccount(20,0)*1+b05elements[12].value*1;
 		   if(x1!=0 && y1>3){  //表示退改折或折改退		     
 		      if(x1<0){
-				tbjsn[11]=9;      
+				tbjsn[11]=9;     //x1=(1=>3 || 2=>3) 
 			  }else if(x1==2){
-				tbjsn[11]=7;     //x1=2=>1
+				tbjsn[11]=7;     //x1=(3=>1)
 			  }else{
-				tbjsn[11]=8;     //x1=1=>2
+				tbjsn[11]=8;     //x1=(3=>2)
 			  }				  
 		   }
 		}		
@@ -327,13 +327,13 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    oTd.setAttribute('style','text-align:right;width:15%');					
 	    oTd.innerHTML='退貨或折讓:';
 	    var oTd = oTr.insertCell(3);   	     	    
-	    var slt9=document.createElement("select");
-	    slt9.options.add(new Option('退回後補','1'));
-	    slt9.options.add(new Option('退貨不補','2'));	 
-		slt9.options.add(new Option('金額折讓','3'));	
-	    slt9.setAttribute("id","rjtOrds");
-	    slt9.setAttribute("name","b05update");
-	    oTd.appendChild(slt9);	                        	
+	    var slt19=document.createElement("select");
+	    slt19.options.add(new Option('退回後補','1'));
+	    slt19.options.add(new Option('退貨不補','2'));	 
+		slt19.options.add(new Option('金額折讓','3'));	
+	    slt19.setAttribute("id","rjtOrds");
+	    slt19.setAttribute("name","b05update");
+	    oTd.appendChild(slt19);	                        	
 		var oTr=ajTable.insertRow(ajTable,ajTable.length);	   
 	    var oTd = oTr.insertCell(0);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
@@ -673,7 +673,7 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 	var ttlcnt=Number(document.getElementById('ttlmny').innerHTML);
 	var fldidx=0;
 	var argsNo=0;
-	while(fldsgsroup(fldidx,tbno)){
+	while(fldsgsroup(fldidx,tbno)){		
 		var oTd = oTr.insertCell(oTr.cells.length); 			
 		if(fldsgsroup(fldidx,tbno)[0]=='directdata'){
 			oTd.innerHTML=args[argsNo];
@@ -703,6 +703,7 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 			if(tbno==0 && fldidx==16){   //稅別
 				oTd.innerHTML=whichtax(args[8]);
 			}				
+			
 			if(tbno==0 && fldidx==20){   //退或折
 				oTd.innerHTML=(args[11]=='1'?'退回後補':(args[11]=='2'?'退貨不補':'金額折讓'));		
 			}				
@@ -756,6 +757,9 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 		var nongsNo=0;	
 		var ttlcnt=Number(document.getElementById('ttlmny').innerHTML)-Number(maintable.rows[args[arglth-1]].cells[6].innerHTML);					
 	} 
+	if(parseInt(args[11])>3){
+	   args[11]=(parseInt(args[11])-6).toString();
+	}
 		while(fldsgsroup(fldidx,tbno)){			
 		    	
 			if(fldsgsroup(fldidx,tbno)[0]=='directdata'){
@@ -776,7 +780,8 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 				if(fldidx==16 && tbno==0){
 				    maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=whichtax(args[8]);	     //稅別
 				}
-				if(fldidx==20 && tbno==0){                                         //退或折
+				if(fldidx==20 && tbno==0){       				//退或折		
+				   alert(args);
 				   maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=(args[11]=='1'?'退回後補':(args[11]=='2'?'退貨不補':'金額折讓'));		
 				}
 		        if(fldidx==5 && tbno==1){   //小計

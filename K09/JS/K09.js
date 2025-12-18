@@ -1,4 +1,4 @@
-function getProfile(str1,reccount) {       
+function getProfile(str1,reccount,tbno) {  
     var cnt=0;
 	 var rnddgt=getCookie('INT_069');  //四捨五入到幾位
 	var arr = str1; 
@@ -9,26 +9,23 @@ function getProfile(str1,reccount) {
 	var scndtt2=document.getElementById('ttlmny2');   //次頁表頭的總金額物件
 	var scndtt3=document.getElementById('ttlmny3');   //次頁表頭的總金額物件
 	
-    var tabs=getElementsByAttribute("class","tab");
-        var pagecount=Math.ceil(reccount/parseInt(getCookie('INT_RCD')));
-        var optdigts= (pagecount.toString()).length;
-	    
-        var slt2=document.getElementById('recmth');
-	    if (slt2.options.length<pagecount){
-    		for (var i=slt2.options.length+1;i<=pagecount;i++){
-			    var item_no=paddingLeft(i,optdigts);				
-		        var varItem=new Option(item_no,item_no);
-	    	    slt2.options.add(varItem);	 
-           }
-		  
-		   		   //第一個選項位數修正		   
-		   slt2.options[0].value=paddingLeft(1,optdigts);
-		   slt2.options[0].text=paddingLeft(1,optdigts);
-		    var bibau=cko[0](0);   //找出閉包筆數變數現值
-	        cko[0](bibau*(-1));    //將閉包變數歸零
-		    cko[0](reccount);      //將筆數記起來	
-          
-	    }
+    //var tabs=getElementsByAttribute("class","tab");
+    var pagecount=Math.ceil(reccount/parseInt(getAuth[2]()[0].INT_RCD));
+	var optdigts= (pagecount.toString()).length;	    
+	var slt2=document.getElementById('recmth');
+	if (slt2.options.length<pagecount){
+		for (var i=slt2.options.length+1;i<=pagecount;i++){
+			var item_no=paddingLeft(i,optdigts);				
+			var varItem=new Option(item_no,item_no);
+			slt2.options.add(varItem);	 
+	   }		  
+			   //第一個選項位數修正		   
+	   slt2.options[0].value=paddingLeft(1,optdigts);
+	   slt2.options[0].text=paddingLeft(1,optdigts);
+		var bibau=cko[0](0);   //找出閉包筆數變數現值
+		cko[0](bibau*(-1));    //將閉包變數歸零
+		cko[0](reccount);      //將筆數記起來	         
+	}
 		var oTable = document.getElementById("maintbody1");
 		//var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
         //let ks=ara.split('');		
@@ -41,18 +38,13 @@ function getProfile(str1,reccount) {
             oTr.setAttribute("name","mainrow");	      		
             cnt++;		
 	    	for(var jk in arr[i]){		   
-	    	    var oTd = oTr.insertCell(oTr.cells.length);		 
-				/* if (!isNaN(parseInt(arr[i][jk]*1))){
-			       oTd.innerHTML=parseInt(arr[i][jk]*1)!=0?Math.round(arr[i][jk]):"";
-		        } else{ */
-			       oTd.innerHTML=arr[i][jk];
-		       /*  } */		  
+	    	    var oTd = oTr.insertCell(oTr.cells.length);		 			
+			    oTd.innerHTML=arr[i][jk];		      	  
 	    		 var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
                  var ks=ara.split('');		
 		        //ks[0]:直接或間接 D/I
 		        //ks[1]:是否顯示   S/H
-		        //ks[2]:靠左中或右 L/C/R	
-			
+		        //ks[2]:靠左中或右 L/C/R				
 				oTd.setAttribute("Class",ks[0]=="D"?"directdata;":"indirectdata;");
 				if(ks[1]=='H'){
 					oTd.setAttribute("style","display:none;");		
@@ -62,18 +54,18 @@ function getProfile(str1,reccount) {
 				   oTd.style.width=wdthln+"%";
 				   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
 				}	
-				if(jk.substr(0,jk.lastIndexOf('_')-4)=='tax_type'){
-				    var oTd = oTr.insertCell(oTr.cells.length);
-			  	    oTd.setAttribute("class","indirectdata");					 
-				    oTd.setAttribute("style","width:4%;text-align:center;");	
-				    oTd.innerHTML=whichtax(arr[i][jk]);					 
-				    attachEventListener(oTd,'click',rowchoose,false);		//點選資料	
-				
+			
+				if(jk.substr(0,jk.lastIndexOf('_')-4)=='over_days'){
+				    if(Number(oTd.innerHTML)>0){
+			          queryttl+=Number(arr[i]['restmoney_DSR_009']);
+					  if(Number(oTd.innerHTML)>90){
+					     oTr.setAttribute("style","font-weight:bold;color:#E60000;");  //#704214
+					  }else{
+					     oTr.setAttribute("style","font-weight:bold;color:#704214;");//#949100
+					  }
+				    }
 			    }
-				if(jk.substr(0,jk.lastIndexOf('_')-4)=='beforetax'){
-			       queryttl+=Number(oTd.innerHTML);
-			    }
-				if(jk.substr(0,jk.lastIndexOf('_')-4)=='taxamt'){
+				if(jk.substr(0,jk.lastIndexOf('_')-4)=='restmoney'){
 			       querytt2+=Number(oTd.innerHTML);
 			    }
 				if(jk.substr(0,jk.lastIndexOf('_')-4)=='amount'){
@@ -121,16 +113,7 @@ function choseExtraDeal(targetTrChildren){   //紀錄移動
 	for (var i=3;i<13;i++){
 	    jdgnm+=targetTrChildren[i].innerHTML*1
 	}
-    if(jdgnm==0){
-        rdyship.setAttribute("style","visibility:hidden;");				   
-		detachEventListener(rdyship,"click",page1OtherButton1,false);
-	   	   	   
-    }else{
-	   rdyship.setAttribute("style","visibility:visible;font-size:17px;");				   				   
-		 attachEventListener(rdyship,"click",page1OtherButton1,false);
-	} 
-	
-	 
+  
     return true;			   
 }
 function rowchoseExtraDeal(targetRow){    //紀錄移動
@@ -139,37 +122,7 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 	 for (var i=3;i<13;i++){
 	    jdgnm+=targetRow.childNodes[i].innerHTML*1
 	}
-    if(jdgnm==0){
-       rdyship.setAttribute("style","visibility:hidden;");				   
-		detachEventListener(rdyship,"click",page1OtherButton1,false);
-    }else{
-		rdyship.setAttribute("style","visibility:visible;font-size:17px;");				   				   
-		 attachEventListener(rdyship,"click",page1OtherButton1,false);
-	}		
+   
 	 
     return true;			   
 }	 
-
-  
-//稅別
-function whichtax(tpe){
-	 var tpemsg="";
-     switch(tpe){
-      case '1': {    
-          tpemsg = '應稅';    
-          break;  
-      }
-      case '2': {    
-          tpemsg = '零稅';   
-          break;
-	  }
-	   case '3': {    
-          tpemsg = '免稅';   
-          break;
-	  }
-       default: {
-         break;
-       }
-    }
-    return tpemsg;
-}

@@ -173,11 +173,11 @@ foreach($cart as $key=>$val){
      $taxmoney=round($tax_isinside=='02'?($summoney-$summoney/(1+$taxrate/100)):(($v['tax_type']=='1' && $v['invoice_type']=='21')?$summoney*$taxrate/100:0),$rnddgt);	 
 	 $beforetax=($tax_isinside=='02'?($summoney-$taxmoney):$summoney);	 
 	 $aftertax=$beforetax+$taxmoney;	     
-     $shouldpayday=lastpayday($v['month_no'],$v['deliveryday'],$v['settle_day'],$v['check_way'],$v['paymentdays']);
+     $shouldpayday=lastpayday($v['month_no'],$v['deliveryday'],$v['settle_day'],$v['check_way'],$v['paymentdays'],$brr[9]);
     $insertSql[6] = "insert into k25 (F01,F02,F03,F04,F07,F08,F09,F10,F12,F14,F15,F19,F21,F22,F23,F24,F25,F26,F90) values ";
 	$insertSql[6].= "('".$v['invoice_type']."','".$brr[2]."','".$brr[1]."','".$v['united_no']."','".$brr[6]."',".$beforetax.",'".$v['tax_type']."',";
 	$insertSql[6].= $taxmoney.",".$aftertax.",'".$v['departno']."','".$v['query_no']."','".$brr[3]."','".$brr[4]."',".$brr[5].",";
-    $insertSql[6].= $originmoney.",'".$v['lastupdate']."','".$shouldpayday."','".$v['check_way']."','".$v['month_no']."')";
+    $insertSql[6].= $originmoney.",'".$v['lastupdate']."','".$shouldpayday."','".($brr[9]?$brr[9]:$v['check_way'])."','".$v['month_no']."')";
 
 
 	foreach ($insertSql as  $values){

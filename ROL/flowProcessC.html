@@ -47,10 +47,13 @@ graph LR;
 	A-->|&#x1F4B2幣別|K
 	G -->|&#x2705| J 
 	L(C20)-->|包裝資料|K
+	F-->|&#x2705|N(K17) 
+	G-->|&#x2705|N
 	linkStyle 0 stroke-width:1px,fill:none,stroke:green;
 	linkStyle 1 stroke-width:1px,fill:none,stroke:blue;
 	linkStyle 12 stroke-width:1px,fill:none,stroke:brown;
 	linkStyle 13 stroke-width:1px,fill:none,stroke:gray;
+	linkStyle 19 stroke-width:1px,fill:none,stroke:orange;
 	style A fill:#FFFF6E,stroke:#642100; 		
 	style B fill:#6A6AFF,stroke:#BB5E00;
 	style C fill:#3BFF3B,stroke:#4A0080;
@@ -61,6 +64,7 @@ graph LR;
 	style G fill:#FFFF6F,stroke:#000093;
 	style K fill:#FF7C2A,stroke:#00008A;
 	style L fill:#FF5151,stroke:#003E3E;	
+	style N fill:#BE54C1,stroke:#30FE70;	
 	click A call FunDetailArg("C00") "C00 設定業務匯率"
     click B call FunDetailArg("A02") "A02 人員帳號與權限設定"
 	click C call FunDetailArg("C01") "C01 客戶基本資料檔"
@@ -75,8 +79,7 @@ graph LR;
 	click K call FunDetailArg("C21") "C21 報價單管理"
 	click L call FunDetailArg("C20") "C20 貨品包裝資料"
 	click M call FunDetailArg("B01") "B01 物料基本主檔"
-	classDef current fill:#f96;
-    class A,B current;
+	click N call FunDetailArg("K17") "K17 發票管理"
 </div>
 
 </body>

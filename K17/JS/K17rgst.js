@@ -131,7 +131,7 @@ function searchHaveshiped(str1,ajTable) {       //搜尋相關料號
 
 
 function searchKeyHint(tbno){    //搜尋畫面出現提示
-    return "搜尋出貨月報表對照欄位選擇";
+    return "搜尋發票管理對照欄位選擇";
 }
 
 function page1OtherWindow1(){

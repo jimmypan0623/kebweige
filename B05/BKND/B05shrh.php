@@ -188,7 +188,7 @@ require_once "../../include/BKND/paymentclc.php"; // 引入
 	        $beforetax=($tax_isinside=='02'?($summoney-$taxmoney):$summoney);
 			$aftertax=$beforetax+$taxmoney;	
 			
-			$shouldpayday=lastpayday($v['month_no'],$v['deliveryday'],$v['settle_day'],$v['check_way'],$v['paymentdays']);
+			$shouldpayday=lastpayday($v['month_no'],$v['deliveryday'],$v['settle_day'],$v['check_way'],$v['paymentdays'],'');
 			$insertSql[5] = "insert into k25 (F01,F02,F03,F04,F07,F08,F09,F10,F12,F14,F15,F19,F21,F22,F23,F24,F25,F26,F90) values ";
 	        $insertSql[5].= "('".$v['invoice_type']."','".$brr[2]."','".$brr[1]."','".$v['united_no']."','".$brr[6]."',".$beforetax.",'".$v['tax_type']."',";
 	        $insertSql[5].= $taxmoney.",".$aftertax.",'".$v['departno']."','".$v['query_no']."','".$brr[3]."','".$brr[9]."',".$brr[10].",";

@@ -312,9 +312,9 @@ function fldsgsroup(fidx,tbno){
 	 var groups=[];
 	if(tbno==0){	
        var groups=[['directdata','block','left','10'],     //query_no
-	               ['directdata','block','left','7'],      //custom_no
-	               ['indirectdata','block','left','7'],    //custom_name
-	               ['indirectdata','none','center','0'],   //custom_fullname	 
+	               ['directdata','block','left','7'],      //vendor_no
+	               ['indirectdata','block','left','7'],    //vendor_name
+	               ['indirectdata','none','center','0'],   //vendor_fullname	 
 				   ['indirectdata','none','center','0'],   //unitedno
 				   ['indirectdata','none','center','0'],   //contact
 				   ['indirectdata','none','center','0'],   //tel

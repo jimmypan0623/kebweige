@@ -53,7 +53,7 @@ require_once "../../include/BKND/paymentclc.php"; // 引入
 							'vendor_partno'=>$list3['F08'],					   
 							'reshipdate'=>$list3['F12'], 
 							'rjtordscnt'=>$brr[11],
-							'cancelqty'=>($brr[11]=='2'?$list3['F04']:0),  //退回不補取消量
+							'cancelqty'=>($brr[11]=='2'?$list3['F04']:0),  //退回不補取消量	
 							'remark'=>$brr[12],						
 							'invoice_no'=>$brr[6],
 							'invoice_type'=> (preg_match($regex, $brr[6])?$brr[7]:'00'),
@@ -185,7 +185,7 @@ require_once "../../include/BKND/paymentclc.php"; // 引入
 		    $taxmoney=round($tax_isinside=='02'?($summoney-$summoney/(1+$taxrate/100)):(($v['tax_type']=='1' && $v['invoice_type']=='23')?$summoney*$taxrate/100:0),$rnddgt);	 
         	 $beforetax=($tax_isinside=='02'?($summoney-$taxmoney):$summoney);	 
 	        $aftertax=$beforetax+$taxmoney;	     
-            $shouldpayday=lastpayday($v['month_no'],$v['deliveryday'],$v['settle_day'],$v['check_way'],$v['paymentdays']);
+            $shouldpayday=lastpayday($v['month_no'],$v['deliveryday'],$v['settle_day'],$v['check_way'],$v['paymentdays'],'');
             
 			$insertSql[5] = "insert into k25 (F01,F02,F03,F04,F07,F08,F09,F10,F12,F14,F15,F19,F21,F22,F23,F24,F25,F26,F90) values ";
 	        $insertSql[5].= "('".$v['invoice_type']."','".$brr[2]."','".$brr[1]."','".$v['united_no']."','".$brr[6]."',".$beforetax.",'".$v['tax_type']."',";

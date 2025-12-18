@@ -44,7 +44,7 @@ function searchOptionsKey(tbno,slt5){
 	 
 }
 function searchKeyHint(tbno){    //搜尋畫面出現提示
-    return "搜尋出貨月報表對照欄位選擇";
+    return "搜尋應收帳款對帳單客戶選擇";
 }
 
 

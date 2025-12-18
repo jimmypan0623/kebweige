@@ -146,15 +146,16 @@ function sendFilePrc(updflg){     //新增資料及修改程序
         }			
 	    var target=getEventTarget(updflg);	
 		if(tbno==0){   //如果是表頭
-		   var x1=sourceAccount(20,0)*1-b03elements[12].value*1;
+		   //判斷退轉折或是折轉退
+		   var x1=sourceAccount(20,0)*1-b03elements[12].value*1;     
 		   var y1=sourceAccount(20,0)*1+b03elements[12].value*1;
 		   if(x1!=0 && y1>3){  //表示退改折或折改退		     
 		      if(x1<0){
-				tbjsn[11]=9;      
+				tbjsn[11]=9;     //x1=(1=>3 || 2=>3) 
 			  }else if(x1==2){
-				tbjsn[11]=7;     //x1=2=>1
+				tbjsn[11]=7;     //x1=(3=>1)
 			  }else{
-				tbjsn[11]=8;     //x1=1=>2
+				tbjsn[11]=8;     //x1=(3=>2)
 			  }				  
 		   }
 		}		
@@ -756,6 +757,9 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 		var nongsNo=0;	
 		var ttlcnt=Number(document.getElementById('ttlmny').innerHTML)-Number(maintable.rows[args[arglth-1]].cells[6].innerHTML);					
 	} 
+	if(parseInt(args[11])>3){
+	   args[11]=(parseInt(args[11])-6).toString();
+	}
 		while(fldsgsroup(fldidx,tbno)){					    	
 			if(fldsgsroup(fldidx,tbno)[0]=='directdata'){
 				if(fldidx==3 && tbno==1){

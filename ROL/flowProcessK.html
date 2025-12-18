@@ -8,33 +8,41 @@
     
     <script src="JS/mermaid.min.js?v=0.0.2"></script>
 	<script src="JS/flowProcess.js?v=0.0.3"></script>
-
+    
 </head>
 <body>
 
 <div style="font-weight:bold;font-family:arial;" class="mermaid">
 graph LR;
-    
-   
-	 
-	 B[/B02/]-->A{有無發票}
-	 C[/B03/]-->A
 
-	 D[/B04/]-->A
-	 E[/B05/]-->A
-	 A -->|有|F[K17];
- 
+	 B[/B02/]-->|&#x2705|H(K09)
+	 B -->|&#x2705|L(D19)
+	 B-->|&#x2705|A{正式發票}
+	 C[/B03/]-->|&#x2705|L
+	 C-->|&#x2705|A
+     E[/B05/]-->|&#x2705|A
+	 D[/B04/]-->|&#x2705|A	 
+	 L-->|進項發票明細|F(K17);
+	 A -->|有|F;
+	 E --> |&#x2705| I(C12)  
+	 D --> |&#x2705| I  
+     D -->|&#x2705| G(K08)
+	 I --> |銷項發票明細|F
 	style F fill:#FFFF6E,stroke:#642100; 		
 	style B fill:#6A6AFF,stroke:#BB5E00;
 	style C fill:#3BFF3B,stroke:#4A0080;
 	style D fill:#FFCC6E,stroke:#00008F;
 	style E fill:#D9FFFF,stroke:#2F0000;
-	 
+	style H fill:#FEBA29,stroke:#A0CDE6; 
     click B call FunDetailArg("B02") "B02 進貨單"
 	click C call FunDetailArg("B03") "B03 進貨退出/折讓單"
 	click D call FunDetailArg("B04") "B04 出貨單"
 	click E call FunDetailArg("B05") "B05 出貨退回/折讓單"
 	click F call FunDetailArg("K17") "K17 發票管理"
+	click G call FunDetailArg("K08") "K08 應收立沖結餘明細帳"
+	click H call FunDetailArg("K09") "K09 應付立沖結餘明細帳"
+	click I call FunDetailArg("C12") "C12 應收帳款對帳單"
+	click L call FunDetailArg("D19") "D19 應付帳款對帳單"
 	 
 </div>
  
