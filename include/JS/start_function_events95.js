@@ -204,7 +204,9 @@ function outprocs(event){
 	var scriptall=document.getElementsByTagName("script");
 	for(var j=0;j<scriptall.length;j++){
 	    if(scriptall[j].id){
-	       scriptall[j].parentNode.removeChild(scriptall[j]);		 
+	       //scriptall[j].parentNode.removeChild(scriptall[j]);	
+		    //alert(scriptall[j].src);
+		   scriptall[j].remove();
 		}
 	}		 	
 	/////	 
@@ -350,8 +352,10 @@ function commontemp(idn,stk){
 			    }
 	        }else{		
                 if (tbno==0){		
-					if (yesmth=='P'){  //如果非月份檔
-				       var queryString ="filename="+stk.substring(0,7)+"|"+idn;	
+					if (yesmth=='P'){  //如果非月份檔					  
+					     
+				        var queryString ="filename="+stk+"|"+idn;   //stk.substring(0,7)
+						
 				    }else{
 
 						if(yesdpt=='D'){   //如果為部門別檔

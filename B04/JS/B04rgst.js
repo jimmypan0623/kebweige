@@ -135,13 +135,15 @@ function sendFilePrc(updflg){     //新增資料及修改程序
         if(b04elements[1].value!="" ){		 
 		    if(tbno==0){ //表頭新增
                 var blngmth=document.getElementById('recmth').value;
-		        tbjsn.push(blngmth);   //要多一個所屬年月參數
-		    }else{   //表身新增
-				 tbjsn.push(sourceAccount(2,0));      //記住表頭客戶編號 
+		        tbjsn.push(blngmth);   //要多一個所屬年月參數				
+		    }else{   //表身新增			  
+				 tbjsn.push(sourceAccount(2,0));      //記住表頭客戶編號 		
+                 			 
 		    }			   
 		    tbjsn.push('0');
-		    tbjsn.push('0');	
-		    var rspns=TableToJson(tbjsn,nonjsn,tbno);        
+		    tbjsn.push('0');			 
+		    var rspns=TableToJson(tbjsn,nonjsn,tbno); 
+			
 	    } 
 	    else{
 		    blkshow("欄位資料不齊全無法新增權限");
@@ -934,7 +936,11 @@ function chsecust(event)  //選擇客戶
 	 var crntrate=document.getElementById('curncy');
 	 var invoicetype=document.getElementById('invtype');
 	 var taxkind=document.getElementById('taxtype');	 
-	 var maintable=document.getElementById("stuffTbody");  	 
+	 var maintable=document.getElementById("stuffTbody");  	
+	 var custFullName=document.getElementById('customfullname');
+	 var custUnitno=document.getElementById('unitno');
+	
+	 var custTelno=document.getElementById('telNo');
 	for(var i=0;i< maintable.rows.length; i++){			 
 		if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
 			 custNo.value=maintable.rows[i].cells[0].innerHTML;								 
@@ -996,6 +1002,16 @@ function chsecust(event)  //選擇客戶
 			 }
 			  if(taxkind){
 				 taxkind.value=maintable.rows[i].cells[13].innerHTML;
+			 }
+			  if(custFullName){
+				 custFullName.value=maintable.rows[i].cells[14].innerHTML;
+			 }
+			  if(custUnitno){
+				 custUnitno.value=maintable.rows[i].cells[15].innerHTML;
+			 }
+			
+			 if(custTelno){
+				 custTelno.value=maintable.rows[i].cells[16].innerHTML;
 			 }
 			 break;
 		}					  		   

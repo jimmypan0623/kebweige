@@ -114,8 +114,8 @@ function searchHaveshiped(str1,ajTable) {       //搜尋相關料號
 	  blkshow("無資料!");
 	  return false;
 	}else{
-	    var array = ['料號','異動數量','單價', '幣別','匯率','小計'];
-		var array4 = ['30%','16%','16%', '5%','16%','16%'];
+	    var array = ['料號','憑證單號','異動數量','單價', '幣別','匯率','小計'];
+		var array4 = ['25%','11%','14%','14%', '5%','14%','14%'];
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    for (var j = 0; j < array.length; j++) {
 		    var th = document.createElement('th'); //column		   

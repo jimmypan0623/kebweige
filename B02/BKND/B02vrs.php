@@ -90,6 +90,8 @@ if(trim($list2['F10'])=="Y"){
 		$arr = array ('order_no'=>1,'lastupdate'=>$lastdate.$list4['F03']);
 		echo json_encode($arr);
 	}
-}		
+}else{
+   echo json_encode("此進貨單已被反確認過(.|.)"); 
+}	
 	mysqli_close($link);
 ?>

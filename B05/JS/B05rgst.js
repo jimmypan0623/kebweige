@@ -186,32 +186,6 @@ function calculateTtl(tbno,maintable,i){      //刪除確認(delConfirm)中挑�
 	} 
  return;
  }
-////
-function lostfocus1(event){     
-   if (typeof event=="undefined"){
-		event=window.event;
-	}
-	var target=getEventTarget(event);
-	var slsno=sourceAccount(5,0);  //找到目前指向的列數與欄位資料	
-	
-	if (target.value!=slsno){	       //業務欄位資料變動	
-        target.parentNode.childNodes[1].innerHTML="";   //名字清空	
-	    srchshow(event);
-	}
-    return;	
-}
-function lostfocus2(event){     
-   if (typeof event=="undefined"){
-		event=window.event;
-	}
-	var target=getEventTarget(event);
-	var dptno=sourceAccount(7,1);  //找到目前指向的列數與欄位資料		
-	if (target.value!=dptno){	       //部門欄位資料變動	
-        target.parentNode.childNodes[1].innerHTML="";   //名字清空	
-	    srchshow(event);
-	}
-    return;	
-}
 
 function ratechange(event){     //匯率更改異動
 	if (typeof event=="undefined"){
@@ -236,40 +210,7 @@ function ratechange(event){     //匯率更改異動
 		}
 	} 	  	  
 }
-function rateSrch(event){   //出貨日期異動順便更動匯率
-    if (typeof event=="undefined")
-	{
-		event=window.event;
-	}	
-	var target=getEventTarget(event);	
-	var crtNow=document.getElementById('crntopt').value;
-	var ckc=document.getElementById("recmth");
-	var rte=document.getElementById('curncy');
-    if(getCookie('INT_011')!=crtNow){	 
-	    var sendSrcRec="filename="+crtNow+"|"+ckc.value+"|"+target.value;	       
-		var rsp="";  	
-        if(window.ActiveXObject){
-		   var request = new ActiveXObject("Microsoft.XMLHttp");
-	    }	
-	       else if(window.XMLHttpRequest){
-	   	      var request = new XMLHttpRequest();
-        }			 
-		request.onreadystatechange = respond;	       
-		var url="B04/BKND/C0ZRateChange.php?timestamp="+new Date().getTime();			
-	    request.open("POST",url);	 
-	    request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-	    request.send(sendSrcRec);		
-	    function respond(){           
-		    if (request.readyState == 4 && request.status == 200) {   
-			     rsp=JSON.parse(request.responseText);
-				 if(rsp[0]['curncy']>0){ 				     
-			        rte.value=rsp[0]['curncy']; 
-				 } 
-		    }
-	    }		  
-    }
-   return;
-}
+
 function c01CustomName(event){	
    if (typeof event=="undefined")
 	{
@@ -608,11 +549,10 @@ function topAndWidthModify(dropsheet_content,dropsheet,txtword,tbno){
 		   if (tbno==0){				
 			   var sales_no=document.getElementById('whono');		
 			   var ship_date=document.getElementById('shipdate');		
-			  // attachEventListener(sales_no,"focusout",lostfocus1,false);		
-			   //attachEventListener(ship_date,"focusout",rateSrch,false);		//日期變動若為外幣交易也一併修正匯率
+
 			}else{
 				var dept_no=document.getElementById('deptno');			
-				// attachEventListener(dept_no,"focusout",lostfocus2,false)
+				
 			}	
 		}else{				
 		    dropsheet_content.style.width="60%"; 			
@@ -780,8 +720,7 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 				if(fldidx==16 && tbno==0){
 				    maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=whichtax(args[8]);	     //稅別
 				}
-				if(fldidx==20 && tbno==0){       				//退或折		
-				   alert(args);
+				if(fldidx==20 && tbno==0){       				//退或折						  
 				   maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=(args[11]=='1'?'退回後補':(args[11]=='2'?'退貨不補':'金額折讓'));		
 				}
 		        if(fldidx==5 && tbno==1){   //小計
@@ -853,7 +792,6 @@ function searchKeyHint(tbno){    //搜尋畫面出現提示
 		return "搜尋出貨退回單單身欄位選擇";
 	}
 }
-
 ////以下處理回呼資料傳送給開窗選擇頁面
 function srcArgobj(srcId){
 	if (srcId=='customno' || srcId=='customname'){
@@ -993,6 +931,9 @@ function chsecust(event)  //選擇客戶
 	 var invoicetype=document.getElementById('invtype');
 	 var taxkind=document.getElementById('taxtype');	 
 	 var maintable=document.getElementById("stuffTbody");  	 
+	 var custFullName=document.getElementById('customfullname');
+	 var custUnitno=document.getElementById('unitno');	
+	 var custTelno=document.getElementById('telNo');
 	for(var i=0;i< maintable.rows.length; i++){			 
 		if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
 			custNo.value=maintable.rows[i].cells[0].innerHTML;								 
@@ -1018,6 +959,16 @@ function chsecust(event)  //選擇客戶
 			if(taxkind){
 				taxkind.value=maintable.rows[i].cells[8].innerHTML;
 			}
+			  if(custFullName){
+				 custFullName.value=maintable.rows[i].cells[9].innerHTML;
+			 }
+			  if(custUnitno){
+				 custUnitno.value=maintable.rows[i].cells[10].innerHTML;
+			 }
+			 
+			 if(custTelno){
+				 custTelno.value=maintable.rows[i].cells[11].innerHTML;
+			 }			
 			break;
 		}					  		   
 	}             

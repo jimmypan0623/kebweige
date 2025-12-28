@@ -19,8 +19,8 @@ function selfTag(jsvsn)
 			///
         var scriptall=document.getElementsByTagName("script");
 	    for(var j=0;j<scriptall.length;j++){
-	        if(scriptall[j].id){
-	            scriptall[j].parentNode.removeChild(scriptall[j]);		 
+	        if(scriptall[j].id){			
+	            scriptall[j].remove();
 		    }
 	    }			
 	    ///	
@@ -154,9 +154,9 @@ function accountDele(event){    //刪除帳號cookie
 	mainUl.remove();	
 	iflm=document.getElementById("frl");
 	iflm.remove();
-	var scriptall=document.getElementsByTagName("script");
-	for(var j=0;j<scriptall.length;j++){	         
-	    scriptall[j].parentNode.removeChild(scriptall[j]);		 		     
+	var scriptall=document.getElementsByTagName("script");	
+	for(var j=0;j<scriptall.length;j++){	         	 
+	    scriptall[j].remove();		 			
 	}			
    document.location.href="logOut.php";	
     return;	 

@@ -23,15 +23,16 @@
 		$sql3.="ORDER BY k25.F90,k25.F02,k25.F07 ";	
 		$start_rowrecord=$pagerows*($pgeno-1);	
 	    $sql3.=" LIMIT ".$start_rowrecord.",".$pagerows;      
-   }else{
-	    $fieldNo=substr($_POST['filename'],0,7);
-		$filterKey=substr(strrchr($_POST['filename'],'|'),1);
+   }else{	  
+        $str=explode('|',$_POST['filename']);  //將上面字串以逗號分割成陣列
+	    $fieldNo=$str[0];  //substr($_POST['filename'],0,7);	   
+		$filterKey=$str[1];//substr(strrchr($_POST['filename'],'|'),1);
 		$sql3="SELECT k25.*,c01.F05 AS F0E,a14.F02 AS F0B,a01.F03 AS F0C FROM k25 ";
 		$sql3.="LEFT JOIN c01 ON c01.F01=k25.F03 ";
 		$sql3.="LEFT JOIN a14 ON a14.F01=k25.F14 ";
 		$sql3.="LEFT JOIN a01 ON a01.F01=k25.F19 ";
 		$sql3.="WHERE k25.F12-k25.F27>0 AND (k25.F01>'24' AND k25.F01<'33') " ; 		
-		$sql3.="AND ".$fieldNo." like '%".trim($filterKey)."%' order by ".$fieldNo;           
+		$sql3.="AND ".$fieldNo." like '%".trim($filterKey)."%' ORDER BY k25.F90,k25.F02,k25.F07";//.$fieldNo;
    }	      
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 

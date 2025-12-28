@@ -644,9 +644,8 @@ function delConfirm(event){     //確定刪除
 		}
 	}				   	 
 	if (tbno==0){    //表頭處理		  
-		 var url=mainrightValue+"/BKND/"+mainrightValue+"del.php?timestamp="+new Date().getTime();	 		
-		 //if (mthjudge.innerHTML!='依月份顯示'){    //如果非月份檔
-		 if (mthjudge!='M'){    //如果非月份檔
+		 var url=mainrightValue+"/BKND/"+mainrightValue+"del.php?timestamp="+new Date().getTime();	 				
+		 if (yesbill!='R'){    //如果非單據檔		 
 			var sendDeleRec="filename="+sourceAccount('0',tbno);  			//抓紀錄號碼用引號框住0以免被當成false				
 		 }else{
 			 var sendDeleRec="filename="+sourceAccount(1,tbno);  //抓單據編號 
@@ -753,8 +752,29 @@ function delConfirm(event){     //確定刪除
 				responseDiv.setAttribute("style","font-weight:bold;color:#536a60;"); 
 				responseDiv.innerHTML="所勾選紀錄已刪除完畢....."; 						       					   
 				blocksclose();  //關掉原視窗
-			}else{
+			}else{    //刪除不成功
 				 blkshow(rsp);	
+				 var rcdindex=rcdindex=sourceAccount(null,0);	
+	             var headtable=document.getElementById('maintbody1'); 
+				 headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-3].innerHTML='Y';
+					    for (var i=1;i<headtable.rows[rcdindex].cells.length-3;i++){  //要從編號開始計
+		                    headtable.rows[rcdindex].cells[i].style.color="#000";
+		                    headtable.rows[rcdindex].cells[i].style.fontWeight="normal";					            
+	                    }
+				 
+				 var ansbtt=document.getElementById("ANS_BOTT");
+	             var editbtt=document.getElementById("EDIT_BOTT");
+	             var delbtt=document.getElementById("DEL_BOTT");  
+				 ansbtt.setAttribute("style","display:none;");
+				 detachEventListener(ansbtt,"click",ansproc,false);	
+				 editbtt.setAttribute("style","visibility:hidden;");
+			     detachEventListener(editbtt,"click",edtrec,false);
+				 delbtt.setAttribute("style","visibility:hidden;");
+				 detachEventListener(delbtt,"click",delrec,false);
+
+				 document.getElementById("serverResponse1").innerHTML="\u{A0}";
+				 document.getElementById("serverResponse2").innerHTML="\u{A0}";
+				 
 			}              		  
 		}
 	}

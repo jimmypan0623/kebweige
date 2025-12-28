@@ -5,7 +5,7 @@
         $fieldNo=substr($_POST['filename'],0,7);
 		$filterKey=substr(strrchr($_POST['filename'],'|'),1);
 	  $searchRecord =trim($filterKey);		
-	 $sql3="SELECT d01.F01,d01.F04,d01.F25,d01.F19,d01.F39,a01.F03 as F0C,d01.F08,d01.F15,d01.F36,d00.F02 as F0B FROM d01 ";	 
+	 $sql3="SELECT d01.F01,d01.F03,d01.F04,d01.F06,d01.F09,d01.F25,d01.F19,d01.F39,a01.F03 as F0C,d01.F08,d01.F15,d01.F36,d00.F02 as F0B FROM d01 ";	 
 	 $sql3=$sql3."LEFT OUTER join a01 ON d01.F39=a01.F01 ";
 	  $sql3=$sql3."LEFT OUTER join d00 ON d01.F25=d00.F01 ";
 	 if(strlen($searchRecord)==0) {	          
@@ -28,9 +28,10 @@
 					 'pay_ment_IHL_000'=>$list3['F36'],  //7
 					
 					 'direct_IHL_000'=>$list3['F19'],         //8
-					 'curncy_rate_IHL_000'=>$list3['F0B']    //9
-					 
-					 			
+					 'curncy_rate_IHL_000'=>$list3['F0B'],    //9
+					  'vendorFullname_rate_IHL_000'=>$list3['F03'],    //10
+					  'vendor_uniteno_IHL_000'=>$list3['F06'],    //11
+					   'vendor_telno_IHL_000'=>$list3['F09']     //12
 					 );    
 					                          
 		array_push($arr,$atr);

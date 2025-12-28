@@ -291,10 +291,8 @@ function d01VendorName(event){
 			document.getElementById('whono').value=rsp[0]['whono']; 
 			document.getElementById('whonameEx').innerHTML=rsp[0]['whonameEx']; 
 			document.getElementById('crntopt').value=rsp[0]['crntopt'];
-			document.getElementById('curncy').value=rsp[0]['curncy'];
-			 
-			document.getElementById('howpay').value=rsp[0]['howpay'];
-		 
+			document.getElementById('curncy').value=rsp[0]['curncy'];			 
+			document.getElementById('howpay').value=rsp[0]['howpay'];		 
 			document.getElementById('shipdirect').value=rsp[0]['shipdirect'];
 		}
 	}
@@ -920,14 +918,17 @@ function chsecust(event)  //選擇廠商
 	 var rprsntname=document.getElementById('whonameEx');
 	 var crnttpe=document.getElementById('crntopt');
 	 var contactman=document.getElementById('winman');
-//     var shipway=document.getElementById('howship');
+ 
 	 var paymenttp=document.getElementById('howpay');
-//	 var shipplace=document.getElementById('dlvbillno');
+ 
 	 var shipdirect=document.getElementById('shipdirect');
 	 var crntrate=document.getElementById('curncy');
-// 	 var invoicetype=document.getElementById('invtype');
-//	 var taxkind=document.getElementById('taxtype');	  
+   
 	 var maintable=document.getElementById("stuffTbody");  	 
+	 var vendorFullname=document.getElementById('vendorfullname');
+	 var vendorUnitno=document.getElementById('unitno');			
+	 var vendorTelNo=document.getElementById('telNo'); 
+	  
 	for(var i=0;i< maintable.rows.length; i++){			 
 		if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
 			 custNo.value=maintable.rows[i].cells[0].innerHTML;								 
@@ -944,10 +945,7 @@ function chsecust(event)  //選擇廠商
 			 if(contactman){
 				contactman.value=maintable.rows[i].cells[5].innerHTML;
 			 }
-			 /* if(shipway){
-				shipway.value=maintable.rows[i].cells[6].innerHTML;
-			 } */
-			  
+
 			 if(paymenttp){
 				var tpy=maintable.rows[i].cells[6].innerHTML;
 				switch (tpy){				        
@@ -975,21 +973,22 @@ function chsecust(event)  //選擇廠商
 				}	 
 				paymenttp.value=tpy+(maintable.rows[i].cells[7].innerHTML==0?'':maintable.rows[i].cells[7].innerHTML+'天');
 			 }	
-			/*  if(shipplace){
-				 shipplace.value=maintable.rows[i].cells[9].innerHTML;
-			 } */
+			
 			  if(shipdirect){
 				 shipdirect.value=maintable.rows[i].cells[8].innerHTML;
 			 }
 			 if(crntrate){
 				 crntrate.value=maintable.rows[i].cells[9].innerHTML;
 			 }
-			 /* if(invoicetype){
-				 invoicetype.value=maintable.rows[i].cells[12].innerHTML;
+             if(vendorFullname){
+				 vendorFullname.value=maintable.rows[i].cells[10].innerHTML;
+			 }  
+			 if(vendorUnitno){
+				 vendorUnitno.value=maintable.rows[i].cells[11].innerHTML;
 			 }
-			  if(taxkind){
-				 taxkind.value=maintable.rows[i].cells[13].innerHTML;
-			 } */
+		     if(vendorTelNo){
+				vendorTelNo.value=maintable.rows[i].cells[12].innerHTML;
+			 }
 			 break;
 		}					  		   
 	}             

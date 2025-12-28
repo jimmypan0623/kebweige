@@ -211,7 +211,7 @@ require_once "../../include/BKND/paymentclc.php"; // 引入
 		echo json_encode($arr); 
 	}
 }else{
-	   echo json_encode("此出貨退回單已被確認過"); 
+	   echo json_encode("此進貨退出單已被確認過(.|.)"); 
    
 } 
 mysqli_close($link);	

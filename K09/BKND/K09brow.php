@@ -24,8 +24,11 @@
 		$start_rowrecord=$pagerows*($pgeno-1);	
 	    $sql3.=" LIMIT ".$start_rowrecord.",".$pagerows;      
    }else{
-	    $fieldNo=substr($_POST['filename'],0,7);
-		$filterKey=substr(strrchr($_POST['filename'],'|'),1);
+	    /* $fieldNo=substr($_POST['filename'],0,7);
+		$filterKey=substr(strrchr($_POST['filename'],'|'),1); */
+		$str=explode('|',$_POST['filename']);  //將上面字串以逗號分割成陣列
+	    $fieldNo=$str[0];   
+		$filterKey=$str[1]; 
 		$sql3="SELECT k25.*,d01.F04 AS F0E,a14.F02 AS F0B,a01.F03 AS F0C FROM k25 ";
 		$sql3.="LEFT JOIN d01 ON d01.F01=k25.F03 ";
 		$sql3.="LEFT JOIN a14 ON a14.F01=k25.F14 ";

@@ -65,7 +65,7 @@ if($list2['F04']!='Y'){
        $arr = array ('order_no'=>$brr[0],'lastupdate'=>$lastdate.$list4['F03']);
 	    echo json_encode($arr);
 }else{
-	echo json_encode("此報價單已被確認過"); 
+	echo json_encode("此報價單已被確認過(.|.)"); 
 }
 mysqli_close($link);	
  	

@@ -289,7 +289,6 @@ function TableToJson(args,nongs,tbno){
 	}									
 	var json=order_head.slice(0,-1)+"}";   //去掉最後一個逗號再加上右大引號	 	 	
     var str_json=JSON.stringify(json);	
-    //alert(str_json);
     setCookie('useraccount',getAuth[1]()[0]);	
 	if(!getCookie('INT_HTM')){
 		 const myObject = getAuth[2]()[0];       //再呼叫第一次複製在閉包變數裡的再設一次cookie

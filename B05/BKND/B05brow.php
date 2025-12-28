@@ -45,7 +45,7 @@
 					 'crncy_rate_DSR_007'=>$list3['F16'],	
 					 'discount_ship_DHC_000'=>$list3['F24'], 
 					 'remark_DSL_009'=>$list3['F25'], 
-                     'shure_DHL_000'=>$list3['F10'],     					 
+                     'shure_IHC_000'=>$list3['F10'],     					 
 					 'lastupdate_DHC_000'=>$list3['F13']                      				 
 					 );                      			
 		array_push($arr,$atr);

@@ -6,7 +6,7 @@ function selfTag(jsvsn){
 	 contentdiv[0].insertBefore(text01,svrSpns1);		
 	var spn1=document.createElement('span');
 	spn1.id="ttltitle1";	 
-     spn1.innerHTML='逾期未沖:';
+     spn1.innerHTML='本頁逾期:';
 	contentdiv[0].insertBefore(spn1,svrSpns1);
 	
 	var spn3=document.createElement('span');
@@ -18,7 +18,7 @@ function selfTag(jsvsn){
 	 
 	 var spn4=document.createElement('span');
 	spn4.id="ttltitle2";	 
-     spn4.innerHTML='未沖金額:';
+     spn4.innerHTML='本頁未沖:';
 	contentdiv[0].insertBefore(spn4,svrSpns1); 
 	 var spn5=document.createElement('span');
 	spn5.id="ttlmny2";  
@@ -28,7 +28,7 @@ function selfTag(jsvsn){
 	 contentdiv[0].insertBefore(text03,svrSpns1);	
 	 var spn6=document.createElement('span');
     spn6.id="ttltitle3";	 
-     spn6.innerHTML='憑證總額:';
+     spn6.innerHTML='本頁總額:';
 	contentdiv[0].insertBefore(spn6,svrSpns1); 
 	 var spn7=document.createElement('span');
 	spn7.id="ttlmny3";  

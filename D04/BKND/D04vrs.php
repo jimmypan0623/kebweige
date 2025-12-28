@@ -20,7 +20,7 @@ if(trim($list2['F04'])=="Y"){
     mysqli_query($link ,$mscnt) or die(mysqli_error($link)); 
 	 $arr = array ('order_no'=>1,'lastupdate'=>$lastdate.$list4['F03']);
 	    echo json_encode($arr);
-}		
-	mysqli_close($link);
+}
+mysqli_close($link);
 
 ?>

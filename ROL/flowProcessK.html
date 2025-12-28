@@ -15,24 +15,32 @@
 <div style="font-weight:bold;font-family:arial;" class="mermaid">
 graph LR;
 
-	 B[/B02/]-->|&#x2705|H(K09)
-	 B -->|&#x2705|L(D19)
+	 B[/B02/]-->|&#x2705|H[(K09)]
+	 H --> N[/K11/]
+	 N --> |&#x2705| P[(K13)]
+	 B -->|&#x2705|L[(D19)]
 	 B-->|&#x2705|A{正式發票}
 	 C[/B03/]-->|&#x2705|L
 	 C-->|&#x2705|A
      E[/B05/]-->|&#x2705|A
 	 D[/B04/]-->|&#x2705|A	 
-	 L-->|進項發票明細|F(K17);
+	 L-->|進項發票明細|F[(K17)];
 	 A -->|有|F;
-	 E --> |&#x2705| I(C12)  
+	 E --> |&#x2705| I[(C12)]  
 	 D --> |&#x2705| I  
-     D -->|&#x2705| G(K08)
+     D -->|&#x2705| G[(K08)]
 	 I --> |銷項發票明細|F
+	 G --> M[/K10/]
+	 
+	 M --> |&#x2705| O[(K12)]
+	 
+	style A fill:#B9B973,stroke:#AE57A4; 		 
 	style F fill:#FFFF6E,stroke:#642100; 		
 	style B fill:#6A6AFF,stroke:#BB5E00;
 	style C fill:#3BFF3B,stroke:#4A0080;
 	style D fill:#FFCC6E,stroke:#00008F;
 	style E fill:#D9FFFF,stroke:#2F0000;
+	style G fill:#FF5151,stroke:#5B5B00;
 	style H fill:#FEBA29,stroke:#A0CDE6; 
     click B call FunDetailArg("B02") "B02 進貨單"
 	click C call FunDetailArg("B03") "B03 進貨退出/折讓單"
@@ -43,6 +51,10 @@ graph LR;
 	click H call FunDetailArg("K09") "K09 應付立沖結餘明細帳"
 	click I call FunDetailArg("C12") "C12 應收帳款對帳單"
 	click L call FunDetailArg("D19") "D19 應付帳款對帳單"
+	click M call FunDetailArg("K10") "K10 應收沖銷帳款作業"
+	click N call FunDetailArg("K11") "K11 應付沖銷帳款作業"
+	click O call FunDetailArg("K12") "K12 應收沖銷明細月報表"
+	click P call FunDetailArg("K13") "K13 應付沖銷明細月報表"
 	 
 </div>
  

@@ -1,7 +1,7 @@
 function selfTag(jsvsn){	
 	var maindiv=getElementsByAttribute('class','tab_css');	  	 
 	var orpButton5=document.getElementById("lgt");		  //離開按鈕    
-	//var text17 = document.createTextNode('\u{A0}');
+ 
 	var orpButton7=document.createElement("input");		   
 	orpButton7.setAttribute("type","button");
 	orpButton7.setAttribute("class","btn");
@@ -11,7 +11,7 @@ function selfTag(jsvsn){
 	orpButton7.id="ANS_BOTT";				
 	attachEventListener(orpButton7,"click",ansproc,false);    
 	maindiv[0].insertBefore(orpButton7,orpButton5);
-	//var text19 = document.createTextNode('\u{A0}');
+	 
 	var orpButton8=document.createElement("input");		   
 	orpButton8.setAttribute("type","button");
 	orpButton8.setAttribute("class","btn");

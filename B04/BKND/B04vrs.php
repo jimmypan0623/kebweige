@@ -91,7 +91,7 @@ if(trim($list2['F10'])=="Y"){
 		echo json_encode($arr);
 	}
 }else{
-	 echo json_encode("此出貨單已被反確認過"); 
+	 echo json_encode("此出貨單已被反確認過(.|.)"); 
 }	
 	mysqli_close($link);
 ?>

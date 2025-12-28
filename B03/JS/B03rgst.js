@@ -987,9 +987,11 @@ function chsecust(event)  //選擇廠商
 	 var crnttpe=document.getElementById('crntopt');
 	 var contactman=document.getElementById('winman'); 
 	 var crntrate=document.getElementById('curncy');
-	 /* var invoicetype=document.getElementById('invtype');
-	 var taxkind=document.getElementById('taxtype');	  */
+
 	 var maintable=document.getElementById("stuffTbody");  	 
+	  var vendorFullname=document.getElementById('vendorfullname');
+	 var vendorUnitno=document.getElementById('unitno');			
+	 var vendorTelNo=document.getElementById('telNo'); 
 	for(var i=0;i< maintable.rows.length; i++){			 
 		if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
 			custNo.value=maintable.rows[i].cells[0].innerHTML;								 
@@ -1009,12 +1011,16 @@ function chsecust(event)  //選擇廠商
 			if(crntrate){
 				crntrate.value=maintable.rows[i].cells[6].innerHTML;
 			}
-			/* if(invoicetype){
-				invoicetype.value=maintable.rows[i].cells[7].innerHTML*1+2;
-			} */
-			/* if(taxkind){
-				taxkind.value=maintable.rows[i].cells[8].innerHTML;
-			} */
+			
+			if(vendorFullname){
+				 vendorFullname.value=maintable.rows[i].cells[7].innerHTML;
+			 }  
+			 if(vendorUnitno){
+				 vendorUnitno.value=maintable.rows[i].cells[8].innerHTML;
+			 }
+		     if(vendorTelNo){
+				vendorTelNo.value=maintable.rows[i].cells[9].innerHTML;
+			 }
 			break;
 		}					  		   
 	}             

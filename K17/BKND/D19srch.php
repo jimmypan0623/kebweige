@@ -7,12 +7,13 @@
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_assoc($sql4)){		  
-		$atr = array('material_DSL_030'=>$list3['F05'],
-		             'shipqty_DSR_016'=>$list3['F06'] ,
-		             'unitproce_DSR_016'=>$list3['F07'],
+		$atr = array('material_DSL_025'=>$list3['F05'],
+		             'shipbillno_DSR_011'=>$list3['F02'] ,
+		             'shipqty_DSR_014'=>$list3['F06'] ,
+		             'unitproce_DSR_014'=>$list3['F07'],
 		              'crncytype_DSC_005'=>$list3['F13'], 
-					  'crncyrate_DSR_016'=>$list3['F14'],
-		             'ttlmoney_DSR_016'=>round($list3['F06']*$list3['F07']*$list3['F14']),2);          
+					  'crncyrate_DSR_014'=>$list3['F14'],
+		             'ttlmoney_DSR_014'=>round($list3['F06']*$list3['F07']*$list3['F14']),2);          
 		array_push($arr,$atr);
 	}
 	mysqli_close($link);

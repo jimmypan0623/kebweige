@@ -53,7 +53,7 @@ function selfTag(jsvsn){
     var scriptall=document.getElementsByTagName("script");
 	    for(var j=0;j<scriptall.length;j++){
 	        if(scriptall[j].id){
-	            scriptall[j].parentNode.removeChild(scriptall[j]);		 
+               scriptall[j].remove();				
 		    }
 	    }			
 	///	

@@ -91,7 +91,7 @@ require_once "../../include/BKND/paymentclc.php"; // 引入
 				'".$v['query_no']."',
 				'".$v['oring_no']."',
 				'".$v['crncy_no']."',
-				".$v['unit_price'].",
+				".($tax_isinside=='02'?round($v['unit_price']/(1+$taxrate/100),3):$v['unit_price']).",				
 				".$v['orderqty']*(-1).",
 				'".$v['crncy_rate']."',			
 				'".$v['salesno']."',
@@ -213,7 +213,7 @@ require_once "../../include/BKND/paymentclc.php"; // 引入
 		echo json_encode($arr); 
 	}
 }else{
-	   echo json_encode("此出貨退回單已被確認過"); 
+	   echo json_encode("此出貨退回單已被確認過(.|.)"); 
    
 } 
 mysqli_close($link);	

@@ -5,7 +5,7 @@
         $fieldNo=substr($_POST['filename'],0,7);
 		$filterKey=substr(strrchr($_POST['filename'],'|'),1);
 	  $searchRecord =trim($filterKey);		
-	 $sql3="SELECT c01.F01,c01.F05,c01.F07,c01.F39,c01.F32,c01.F33,c01.F29,c01.F30,a01.F03 as F0C,c01.F12,c01.F31,c01.F15,c01.F36,c00.F02 as F0B FROM c01 ";	 
+	 $sql3="SELECT c01.F01,c01.F04,c01.F05,c01.F07,c01.F10,c01.F39,c01.F32,c01.F33,c01.F29,c01.F30,a01.F03 as F0C,c01.F12,c01.F13,c01.F31,c01.F15,c01.F36,c00.F02 as F0B FROM c01 ";	 
 	 $sql3=$sql3."LEFT OUTER join a01 ON c01.F33=a01.F01 ";
 	  $sql3=$sql3."LEFT OUTER join c00 ON c01.F39=c00.F01 ";
 	 if(strlen($searchRecord)==0) {	          
@@ -22,7 +22,7 @@
 					 'sales_no_IHL_000'=>$list3['F33'],
 					 'sales_name_IHL_000'=>$list3['F0C'],
 					 'crncy_type_IHL_000'=>$list3['F39'],
-					  'touch_person_IHL_000'=>$list3['F12'],
+					 'touch_person_IHL_000'=>$list3['F12'], //5
 					 'ship_way_IHL_000'=>$list3['F31'],
 					 'pay_way_IHL_000'=>$list3['F15'],   //7
 					 'pay_ment_IHL_000'=>$list3['F36'],  //8
@@ -30,7 +30,10 @@
 					 'direct_IHL_000'=>$list3['F32'],         //10
 					 'curncy_rate_IHL_000'=>$list3['F0B'],    //11
 					 'invoice_type_IHL_000'=>$list3['F29'],    //12
-					 'tax_type_IHL_000'=>$list3['F30']   ///13					
+					 'tax_type_IHL_000'=>$list3['F30'],   ///13				
+					  'custom_fullname_IHL_000'=>$list3['F04'],  //14
+					  'custom_unitno_IHL_000'=>$list3['F10'],   //15
+					  'custom_Telno_IHL_000'=>$list3['F13']   //16
 					 );    
 					                          
 		array_push($arr,$atr);

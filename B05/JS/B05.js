@@ -105,7 +105,7 @@ function getProfile(str1,trncde,tbno) {
 		myCheck.type="checkbox";
 		if(tbno==0){
 			myCheck.setAttribute("name","chkbxmember1");   //讓使用者勾選的checkbox單頭
-			if(arr[i]['shure_DHL_000']!='Y'){  //未確認
+			if(arr[i]['shure_IHC_000']!='Y'){  //未確認
 			    oTr.setAttribute("style","font-weight:bold;color:#704214;"); 
 		    } 
 		}else{

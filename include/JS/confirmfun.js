@@ -67,10 +67,25 @@ function shurePrc(event){        //單據確認程序
     function respond() {		
         if (request.readyState == 4 && request.status == 200) { 
 		    rsp=JSON.parse(request.responseText);   			 
-			if(rsp.order_no==0){
-                blkshow('可確認之數量超過未確認數量');	
+			if(!rsp.order_no){
+                //blkshow('可確認之數量超過未確認數量');	
+				blkshow(rsp);
 				if(target.value=='\u{2705}'){			
-		           headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-3].innerHTML='N';
+				    if(rsp.indexOf('(.|.)')>0){
+					    headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-3].innerHTML='Y';
+					    for (var i=1;i<headtable.rows[rcdindex].cells.length-fieldlast;i++){  //要從編號開始計
+		                    headtable.rows[rcdindex].cells[i].style.color="#000";
+		                    headtable.rows[rcdindex].cells[i].style.fontWeight="normal";					            
+	                    }
+						ansbtt.setAttribute("style","display:none;");
+				        detachEventListener(ansbtt,"click",ansproc,false);	
+				        editbtt.setAttribute("style","visibility:hidden;");
+			        	detachEventListener(editbtt,"click",edtrec,false);
+				        delbtt.setAttribute("style","visibility:hidden;");
+				        detachEventListener(delbtt,"click",delrec,false);
+				    }else{
+		               headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-3].innerHTML='N';
+				    }  
 				}else{
 				   headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-4].innerHTML='N';
 				}					  
@@ -166,8 +181,11 @@ function vrshrPrc(event){
 	function respond(){           
 		if (request.readyState == 4 && request.status == 200) {     		  
 			rsp=JSON.parse(request.responseText);   			 
-			if(rsp.order_no==0){
-			   blkshow('可反確認之數量超過已確認數量');		
+			if(!rsp.order_no){
+			   blkshow(rsp);		
+			   if(rsp.indexOf('(.|.)')>0){
+					headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-3].innerHTML='N';
+				}
 			   responseDiv.innerHTML="\u{A0}";
 			}else{			
 				var rsp=request.responseText;	 					
@@ -235,6 +253,10 @@ function whichrspns1(tpe){
       }
 	  case 'D04': {    
           tpemsg = '所勾選採購單已確認，並寫入進貨計劃...';   
+          break;     
+      }
+	   case 'K10': {    
+          tpemsg = '所勾選應收沖銷單已確認，並扣除其應收立沖結餘明細帳...';   
           break;     
       }
        default: {
@@ -312,7 +334,10 @@ function whichrspns3(tpe){
           tpemsg = '所勾選採購單號已反確認,並清除其進貨計劃... ';   
           break;
       }
-	   
+	  case 'K10': {    
+          tpemsg = '所勾選應收沖銷單號已反確認,並還原其應收立沖結餘明細帳... ';   
+          break;
+      } 
        default: {
          break;
        }
