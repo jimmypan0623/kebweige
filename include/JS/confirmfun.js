@@ -259,6 +259,10 @@ function whichrspns1(tpe){
           tpemsg = '所勾選應收沖銷單已確認，並扣除其應收立沖結餘明細帳...';   
           break;     
       }
+	    case 'K11': {    
+          tpemsg = '所勾選應付沖銷單已確認，並扣除其應收立沖結餘明細帳...';   
+          break;     
+      }
        default: {
          break;
        }
@@ -336,6 +340,10 @@ function whichrspns3(tpe){
       }
 	  case 'K10': {    
           tpemsg = '所勾選應收沖銷單號已反確認,並還原其應收立沖結餘明細帳... ';   
+          break;
+      } 
+	   case 'K11': {    
+          tpemsg = '所勾選應付沖銷單號已反確認,並還原其應收立沖結餘明細帳... ';   
           break;
       } 
        default: {
