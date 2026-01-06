@@ -73,7 +73,7 @@ function getProfile(str1,trncde,tbno) {
 				var oTd = oTr.insertCell(oTr.cells.length);
 				oTd.setAttribute("class","indirectdata");					 
 				oTd.setAttribute("style","width:10%;text-align:center;");	
-				oTd.innerHTML=whichinvoice(arr[i][jk]);
+				oTd.innerHTML=howtopay(arr[i][jk]);
 				attachEventListener(oTd,'click',rowchoose,false);		//點選資料
 			}		 				   
 	        if(jk.substr(0,jk.lastIndexOf('_')-4)=='reduce_number' && tbno==1){
@@ -259,8 +259,8 @@ function rowchoseSecond(targetRow){    //紀錄移動
        document.getElementById('ttlmny3').innerHTML=sourceAccount(11,0)*1-document.getElementById('ttlmny2').innerHTML;
    return true;	
 }
-//發票聯式
-function whichinvoice(tpe){
+ 
+function howtopay(tpe){
 	 var tpemsg="";
      switch(tpe){
       case '1': {    

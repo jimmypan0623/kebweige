@@ -1,6 +1,5 @@
 function crtElm(){	
-     var thr1=document.getElementById('headrow1');
-	 
+     var thr1=document.getElementById('headrow1');	 
 	 var array1 = ['幣別代號','幣別名稱','預設匯率', '最後異動'];
 	 //var array2 = ['25%','25%','25%', '25%'];
 	for (var j = 0; j < array1.length; j++) {
@@ -22,12 +21,7 @@ function crtElm(){
 		thr2.appendChild(th2);
 		
 	}		
-    var tabnames=getElementsByAttribute('name','tablbl');	
-	tabnames[0].innerHTML="設定業務幣別";
-	tabnames[1].innerHTML="三旬匯率";	
 	var keynames=getElementsByAttribute('name','keyname');	
 	keynames[0].innerHTML="幣別:";
 	var fatherkeys=getElementsByAttribute('name','fatherkey');	
-/* 	fatherkeys[0].style.width="8%";
-	fatherkeys[0].size="4"; */
 }

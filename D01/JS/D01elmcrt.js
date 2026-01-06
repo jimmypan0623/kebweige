@@ -51,7 +51,6 @@ function crtElm(){
 	secondCover.appendChild(righttbl1); 
 	cntdiv[0].appendChild(secondCover); 
     var tabnames=getElementsByAttribute('name','tablbl');	
-	tabnames[0].innerHTML="廠商基本資料";
     var keynames=getElementsByAttribute('name','keyname');		 
     if(getAuth[0]()[5]=='Y'){	 //有查看報價紀錄權限時
 	    var thr2=document.getElementById('headrow2');
@@ -64,7 +63,6 @@ function crtElm(){
 		    th2.appendChild(text);
 		    thr2.appendChild(th2);		
 	    }		    	     	  
-	    tabnames[1].innerHTML="詢價紀錄";  
 		keynames[0].innerHTML="廠商編號:";	
 	    var fatherkeys=getElementsByAttribute('name','fatherkey');	 
 		var rspn2=document.getElementById('serverResponse2'); 

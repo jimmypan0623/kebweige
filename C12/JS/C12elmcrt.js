@@ -15,8 +15,7 @@ function crtElm(){
 	spn3.id="ttlmny";  
 	spn3.innerHTML='0';
 	 cntdiv[0].insertBefore(spn3,rspn1);		
-	
-	
+
 	var firstCover=getElementsByAttribute('class','table_cover');	
 	firstCover[0].style.width="16%";
 
@@ -58,7 +57,4 @@ function crtElm(){
 	righttbl1.appendChild(tbdy2);    
 	secondCover.appendChild(righttbl1); 	 
 	cntdiv[0].appendChild(secondCover); 		
-	 var tabnames=getElementsByAttribute('name','tablbl');	
-    tabnames[0].innerHTML="應收帳款對帳單";  
-	return;
 }

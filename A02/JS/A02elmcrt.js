@@ -25,9 +25,6 @@ function crtElm(){
 		thr2.appendChild(th2);
 		
 	}			
-	var tabnames=getElementsByAttribute('name','tablbl');	
-	tabnames[0].innerHTML="設定人員帳號";
-	tabnames[1].innerHTML="帳號權限設定";
 	var keynames=getElementsByAttribute('name','keyname');	
 	keynames[0].innerHTML="帳號:";
 	var fatherkeys=getElementsByAttribute('name','fatherkey');	

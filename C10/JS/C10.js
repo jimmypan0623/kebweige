@@ -62,20 +62,31 @@ function getProfile(str1,reccount) {
 	   		  
 	}
 	
-	  var responseDiv=document.getElementById("serverResponse1");  		
-	  if(responseDiv.innerHTML=='Searching......'){	
-		 if (cnt==0){
-			 responseDiv.setAttribute("style","color:red;"); 
-	   	     responseDiv.innerHTML="無此資料！Not found!検索できません。";
-	      }else{ 		 
-		     responseDiv.setAttribute("style","color:#536a60;"); 
-             responseDiv.innerHTML="搜尋到 "+String(cnt)+" 筆資料。" +String(cnt)+" record"+(cnt>1?"s":"")+" match your search. " +String(cnt)+" レコードを検索。";            		 
-          }	
-	  }
+	  var responseDiv=document.getElementById("serverResponse1");  			  
 	  if(cnt>0){       //初始畫面呼叫
-		  chooserc(1);		
-		  scndttl.innerHTML=thousands(Math.round((queryttl + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt));
-	  }	  
+	     if(responseDiv.innerHTML=='Searching......'){	
+		      responseDiv.setAttribute("style","color:#536a60;"); 
+             responseDiv.innerHTML="搜尋到 "+String(cnt)+" 筆資料。" +String(cnt)+" record"+(cnt>1?"s":"")+" match your search. " +String(cnt)+" レコードを検索。";            		 
+		 }else{
+			 var seekrcd=document.getElementById("SEEK_BOTT");
+		     seekrcd.setAttribute("style","visibility:visible;");
+		     attachEventListener(seekrcd,"click",seekrec,false);
+		 }			 
+	      
+		  chooserc(1);
+		  scndttl.innerHTML=thousands(Math.round((queryttl + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt));		
+	  }else{
+	     if(responseDiv.innerHTML=='Searching......'){	
+		    responseDiv.setAttribute("style","color:red;"); 
+	   	    responseDiv.innerHTML="無此資料！Not found!検索できません。";
+		 }else{
+			 responseDiv.innerHTML="本月無出貨紀錄。"; 
+			 var seekrcd=document.getElementById("SEEK_BOTT");
+		    seekrcd.setAttribute("style","visibility:hidden;");
+		    detachEventListener(seekrcd,"click",seekrec,false);
+		 }			 
+	     scndttl.innerHTML="0";
+	  }		  
 }
 
 function choseExtraDeal(targetTrChildren){   //紀錄移動

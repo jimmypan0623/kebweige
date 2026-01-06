@@ -65,7 +65,6 @@ function crtElm(){
 	secondCover.appendChild(righttbl1); 
 	cntdiv[0].appendChild(secondCover); 	
     var tabnames=getElementsByAttribute('name','tablbl');	
-    tabnames[0].innerHTML="客戶基本資料";  
     var keynames=getElementsByAttribute('name','keyname');	
 	var fatherkeys=getElementsByAttribute('name','fatherkey');	
     if(getAuth[0]()[5]=='Y'){	 //有查看報價紀錄權限時
@@ -79,7 +78,6 @@ function crtElm(){
 		    th2.appendChild(text);
 		    thr2.appendChild(th2);		
 	    }		    	     
-	    tabnames[1].innerHTML="報價紀錄";  
 		keynames[0].innerHTML="客戶編號:";	
 	    var fatherkeys=getElementsByAttribute('name','fatherkey');	
 		var rspn2=document.getElementById('serverResponse2'); 
@@ -97,7 +95,6 @@ function crtElm(){
 	    cntdiv[1].style.display='none';
 	    tabnames[1].style.display='none';        
 	}
- 
 }
 
 

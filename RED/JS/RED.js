@@ -27,6 +27,7 @@ function getProfile(str1,cmpnme) {
 	}		
 	document.getElementById('company_name').innerHTML="\u{1F4FF}"+getAuth[2]()[0].INT_000;   //顯示公司名稱
     var authField='';    
+	var pageNames='';
     var tmpItemName='';
 	var mainPrgNo=' ';
 	var arr = str1; 	
@@ -71,15 +72,16 @@ function getProfile(str1,cmpnme) {
 				attachEventListener(oLison,"click",excuteFun,false);
 				oUl.appendChild(oLison);
 				tmpItemName='';
-				authField='';					  
-			}else{
-				authField+=arr[i][jk];								   
+				authField='';	
+				pageNames='';			 
+			}else{				
+				authField+=arr[i][jk]+',';								   
 			}					  
-		}		     
+		}		     		
 		var newSpan=document.createElement('span');
 		newSpan.setAttribute("style","display:none;");
-		newSpan.appendChild(document.createTextNode(authField));
-		oLison.appendChild(newSpan);			 
+		newSpan.appendChild(document.createTextNode(authField.slice(0,-1)));
+		oLison.appendChild(newSpan);			
     }
 	var oLiUncle=document.createElement('li');   //最底下再新增一個li tag修改密碼
 	attachEventListener(oLiUncle,"click",blockPsdshow,false);  //修改密碼按鈕程序		   

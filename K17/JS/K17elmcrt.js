@@ -1,6 +1,4 @@
 function crtElm(){	
-	var tablblnames=getElementsByAttribute('name','tablbl');	 
-	tablblnames[0].innerHTML="發票管理";
 	var oMember = document.getElementById("member1");	 
 	oMember.setAttribute("style","width:120%;");
      var thr1=document.getElementById('headrow1');	 

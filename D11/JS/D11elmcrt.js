@@ -14,8 +14,6 @@ function crtElm(){
 	spn3.id="ttlmny";  
 	spn3.innerHTML='0';
 	 cntdiv[0].insertBefore(spn3,rspn1);	
-	var tabnames=getElementsByAttribute('name','tablbl');	
-	tabnames[0].innerHTML="進貨月報表";
 	var oMember = document.getElementById("member1");	 
 	oMember.setAttribute("style","width:120%;");
      var thr1=document.getElementById('headrow1');	 

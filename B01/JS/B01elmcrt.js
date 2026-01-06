@@ -1,7 +1,6 @@
 function crtElm(){	        
     var cntdiv=getElementsByAttribute('class','tab_content');	  
-	var tabnames=getElementsByAttribute('name','tablbl');		
-	tabnames[0].innerHTML="物料基本資料"; 
+	var tabnames=getElementsByAttribute('name','tablbl');			
      var firstCover=getElementsByAttribute('class','table_cover');	
 	 firstCover[0].style.width="37%";
      var thr1=document.getElementById('headrow1');	 
@@ -77,7 +76,6 @@ function crtElm(){
 	    spn3.id="ttlmny";       
 	    spn3.innerHTML='0';
 	    cntdiv[1].insertBefore(spn3,rspn2);	 
-		tabnames[1].innerHTML="客戶報價紀錄";
 	    keynames[0].innerHTML="料號:";	
  	
     }else{
@@ -106,7 +104,6 @@ function crtElm(){
 	    spn5.id="ttlmny1";
 	    spn5.innerHTML='0';
 	    cntdiv[2].insertBefore(spn5,rspn3);  	
-	    tabnames[2].innerHTML="廠商詢價紀錄";
 		keynames[1].innerHTML="料號:";
     }else{
 		cntdiv[2].style.display='none';

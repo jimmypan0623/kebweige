@@ -173,6 +173,24 @@ function modifyFields(tbno,txtword,ajTable){   //新增修改時出現之欄位
     if(tbno==0){
 		var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);
+	    oTd.setAttribute('style','text-align:right;width:15%');
+	    oTd.innerHTML='頁籤三';
+	    var oTd = oTr.insertCell(1);
+	    oTd.innerHTML="<input type='text' name='a01update' id='page3_name' class='txt' maxlength='20' style='width:50%;'   />"; 
+		var oTr=ajTable.insertRow(ajTable,ajTable.length);
+	    var oTd = oTr.insertCell(0);
+	    oTd.setAttribute('style','text-align:right;width:15%');
+	    oTd.innerHTML='頁籤二';
+	    var oTd = oTr.insertCell(1);
+	    oTd.innerHTML="<input type='text' name='a01update' id='page2_name' class='txt' maxlength='20' style='width:50%;'   />"; 
+		var oTr=ajTable.insertRow(ajTable,ajTable.length);
+	    var oTd = oTr.insertCell(0);
+	    oTd.setAttribute('style','text-align:right;width:15%');
+	    oTd.innerHTML='頁籤一';
+	    var oTd = oTr.insertCell(1);
+	    oTd.innerHTML="<input type='text' name='a01update' id='page1_name' class='txt' maxlength='20' style='width:50%;'   />"; 
+		var oTr=ajTable.insertRow(ajTable,ajTable.length);
+	    var oTd = oTr.insertCell(0);
 	    oTd.setAttribute('style','text-align:right;width:15%;');
 	    oTd.innerHTML='功能屬性';
 	    var oTd = oTr.insertCell(1);

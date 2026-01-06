@@ -1,6 +1,4 @@
 function crtElm(){	
-	var tabnames=getElementsByAttribute('name','tablbl');	
-	tabnames[0].innerHTML="報價紀錄";
 	var oMember = document.getElementById("member1");	 
 	oMember.setAttribute("style","width:120%;");
      var thr1=document.getElementById('headrow1');	 

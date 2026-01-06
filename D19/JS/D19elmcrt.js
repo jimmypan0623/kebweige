@@ -58,7 +58,4 @@ function crtElm(){
 	righttbl1.appendChild(tbdy2);   
 	secondCover.appendChild(righttbl1); 	 
 	cntdiv[0].appendChild(secondCover); 		
-	var tabnames=getElementsByAttribute('name','tablbl');	
-    tabnames[0].innerHTML="應付帳款對帳單";  
-	return;
 }

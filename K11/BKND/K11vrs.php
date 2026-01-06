@@ -10,8 +10,10 @@ include("../../include/BKND/mysqli_server.php");                              //
      $rows1=@mysqli_num_rows($sql1);                       
      $list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名   
      $lastdate=date('Y'.'-'.'m'.'-'.'d');
-   
-	
+     $mscnt[]="DELETE FROM `k09` where `F05`='".$delmsg."'";	        
+	 foreach ($mscnt as $delvalue){
+		    mysqli_query($link ,$delvalue) or die(mysqli_error($link)); 
+	 }
         $k25update1="UPDATE k25 SET k25.F27=k25.F27+(-1)
        *(SELECT k0h.F05 FROM k0h WHERE k25.F15=k0h.F03 AND k0h.F01='".$delmsg."') 
 	   WHERE k25.F15 IN (SELECT F03 FROM k0h WHERE F01='".$delmsg."')";

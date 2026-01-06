@@ -22,12 +22,7 @@ function crtElm(){
 		thr2.appendChild(th2);
 		
 	}		
-    var tabnames=getElementsByAttribute('name','tablbl');	
-	tabnames[0].innerHTML="設定採購幣別";
-	tabnames[1].innerHTML="三旬匯率";	
 	var keynames=getElementsByAttribute('name','keyname');	
 	keynames[0].innerHTML="幣別:";
 	var fatherkeys=getElementsByAttribute('name','fatherkey');	
-/* 	fatherkeys[0].style.width="8%";
-	fatherkeys[0].size="4"; */
 }

@@ -44,6 +44,9 @@
 					 'auth4_attch_DSL_010'=>$list3['F11'],
                      'attch5_attch_DSL_010'=>$list3['F12'],
 					 'attr_auth_DSL_005'=>$list3['F03'],
+					  'page_nme1_DSL_010'=>$list3['F16'],
+					  'page_nme2_DSL_010'=>$list3['F17'],
+					 'page_nme3_DSL_010'=>$list3['F18'],
 					 'lastupdate_DHC_000'=>$list3['F15'] 
 					 );                      						 
 		array_push($arr,$atr);

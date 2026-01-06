@@ -1,6 +1,4 @@
 function crtElm(){
-	var tabnames=getElementsByAttribute('name','tablbl');	
-	tabnames[0].innerHTML="貨品包裝資料";
      var thr1=document.getElementById('headrow1');	 
 	 var array1 = ['料品編號','品名規格','單位', '包裝基量','包裝方式','外箱數量','最少出貨','外箱才積','單位毛重','單位淨重','備註'];
 	 var array2 = ['13%','13%','5%', '8%','7%','8%','8%','8%','8%','8%','13%'];

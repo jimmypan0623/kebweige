@@ -13,10 +13,11 @@ if((int)$str[1]==0){   //剛開始登入必須要抓取參數一次，此後就�
 	   array_push($arg,$para);
 	}				
 }	
-	$sql3="select a02.F03,a03.F02,a02.F04,a02.F05,a02.F06,a02.F07,a02.F08,a02.F09,a02.F10,a02.F11,a02.F12,a03.F03 AS Ftb from a02,a03 where a03.F01=a02.F03 and a02.F01='".$searchRecord."' order by a02.F03"; 	   
+	$sql3="select a02.F03,a03.F02,a02.F04,a02.F05,a02.F06,a02.F07,a02.F08,a02.F09,a02.F10,a02.F11,a02.F12,a03.F03 AS Ftb,a03.F16,a03.F17,a03.F18 from a02,a03 where a03.F01=a02.F03 and a02.F01='".$searchRecord."' order by a02.F03"; 	   
 	$arr=array();	
 	$sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_assoc($sql4)){		 	    
+	while ($list3=mysqli_fetch_assoc($sql4)){	
+	    $FTB=str_split($list3['Ftb']);	
 		$atr = array('prg_no'=>$list3['F03'],
 				 'dscrpt'=>$list3['F02'],
 				 'newauth'=>$list3['F04'],
@@ -28,7 +29,14 @@ if((int)$str[1]==0){   //剛開始登入必須要抓取參數一次，此後就�
 				 'rmk3'=>$list3['F10'],
 				 'rmk4'=>$list3['F11'],
 				 'rmk5'=>$list3['F12'],
-				 'attbcode'=>$list3['Ftb']);       				
+				 'attbcode1'=>$FTB[0],
+				 'attbcode2'=>$FTB[1],
+				 'attbcode3'=>$FTB[2],
+				 'attbcode4'=>$FTB[3],
+				 'page_name1'=>$list3['F16'],
+				 'page_name2'=>$list3['F17'],
+				 'page_name3'=>$list3['F18']
+				 );       				
 		array_push($arr,$atr);
 	}
 

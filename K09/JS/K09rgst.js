@@ -44,12 +44,14 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){  //在此
 }
 function searchOptionsKey(tbno,slt5){	
      slt5.options.add(new Option("交易日期","CONCAT(k25.F90,'-',k25.F02)"));
-     slt5.options.add(new Option('憑證單號','k25.F15'));	
+     slt5.options.add(new Option('進貨單號','k25.F15'));	
 	 slt5.options.add(new Option('發票號碼','k25.F07'));	
-	 slt5.options.add(new Option('對象編號','k25.F03'));	
-	 slt5.options.add(new Option('對象簡稱','d01.F04'));
-	 slt5.options.add(new Option('統一編號','k25.F04'));	
-	 slt5.options.add(new Option('擔當人員','a01.F03'));	
+	 slt5.options.add(new Option('廠商編號','k25.F03'));	
+	 slt5.options.add(new Option('廠商簡稱','d01.F04'));
+	 slt5.options.add(new Option('統一編號','k25.F04'));
+     slt5.options.add(new Option('採購編號','k25.F19'));	 
+	 slt5.options.add(new Option('採購姓名','a01.F03'));	
+	 slt5.options.add(new Option("付款日期","k25.F25"));
 }
 
 

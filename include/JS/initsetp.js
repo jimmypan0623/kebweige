@@ -28,6 +28,9 @@ getAuth[0] = createArrayClosure();
 //getAuth[0]()[11] :   M首頁為月份分頁，P則為固定筆數(視參數INT_RCD設定)分頁,
 //getAuth[0]()[12] :   類別，M為主檔或首頁有左右TABLE，R為單據，B為基本資料，A為分析資料，S為系統檔
 //getAuth[0]()[13] :  首頁分頁為月份外判斷是否多加部門別分頁->D:多加部門別下拉選項	
+//getAuth[0]()[14] :  第一頁頁籤名
+//getAuth[0]()[15] :  第二頁頁籤名
+//getAuth[0]()[16] :  第三頁頁籤名
 getAuth[1] = createArrayClosure();	 //帳號與上次執行功能
 getAuth[2] = createArrayClosure();	 //不列入COOKIE之系統參數
 getAuth[3] = createArrayClosure();	 //各系統參數之屬性
@@ -119,7 +122,7 @@ function initDialog()
 			if(loginform){
 			   loginform.parentNode.removeChild(loginform);
 			}			 					
-			 links[0].href="include/Operate.css?v=0.1.2" ;						 
+			 links[0].href="include/Operate.css?v=0.1.3" ;						 
 			 var gifarray=['ROL','puto','0','cell','1','birthdaycake','2','spec','3','stckgood','S02',
 			 '4','cddisk','5','smlbulb','6','myrndm','7','S03','openfile','8','penandrule','9','S04','calculator','foreignermoney']; 			
 			 links[1].href="digits/"+gifarray[nwsd]+".gif";			
@@ -131,8 +134,7 @@ function initDialog()
 			var tablblnames=getElementsByAttribute('name','tablbl');	
 			var pages=getAuth[0]()[10];
 			var tabCss=document.createElement("div");			
-			tabCss.setAttribute("class","tab_css");
-			var sureChoice=['表頭資料','表身資料一','表身資料二']; 
+			tabCss.setAttribute("class","tab_css");	
   			var bckgdColor=["background-color:#FCFCFC;","background-color:#F9FAD9;","background-color:#F3F3FA;"];
 		    for (var i=0;i<pages;i++){
 		        var bsechkbx=document.createElement('input'); 
@@ -144,7 +146,7 @@ function initDialog()
 		        basechklbl.setAttribute('name','tablbl');					
 		        basechklbl.setAttribute('for',bsechkbx.id);
 				basechklbl.setAttribute('title',`跳至第${String(i+1)}頁，快速鍵Alt+${String(i+1)}`);
-		        basechklbl.innerHTML=sureChoice[i];			 				   
+		        basechklbl.innerHTML=getAuth[0]()[14+i];    		//直接抓閉包變數裡的頁籤名	 				   
 				if (i==0){   //預設值
 					bsechkbx.checked='checked';
 			    }				
@@ -157,7 +159,7 @@ function initDialog()
 				srvrSpnse.innerHTML='&nbsp';							 
 				var lastLevelDiv=document.createElement("div");				 
 				lastLevelDiv.setAttribute("class","table_cover");				  			    
-				var tbleCntnt=document.createElement("table");
+				var tbleCntnt=document.createElement("table");    //一頁一基本TABLE
 				tbleCntnt.id="member"+(i+1).toString();
 				tbleCntnt.setAttribute("class","gridlist");				 
 				var ctHead=document.createElement("thead");
@@ -168,7 +170,7 @@ function initDialog()
 				var ctBody=document.createElement("tbody");
 				ctBody.id="maintbody"+(i+1).toString();
 				tbleCntnt.appendChild(ctHead);
-				tbleCntnt.appendChild(ctBody);
+				tbleCntnt.appendChild(ctBody);				
 				var text25 = document.createTextNode('\u{A0}\u{A0}\u{A0}');	
 				if(i>0){				  
 				   var keyName=document.createElement("span");
@@ -190,7 +192,7 @@ function initDialog()
 				   tabContent.appendChild(keydscrpt);
 				}				
 				tabContent.appendChild(srvrSpnse); 
-				lastLevelDiv.appendChild(tbleCntnt);
+				lastLevelDiv.appendChild(tbleCntnt);				    
 				tabContent.appendChild(lastLevelDiv);
 				tabCss.appendChild(bsechkbx);
 				tabCss.appendChild(basechklbl);
@@ -214,10 +216,9 @@ function initDialog()
 			var cmmjsvs=gifarray[nwsd]+scnd;			
 			var urljsname=left(nowExcute,3)+'/JS/'+left(nowExcute,3)+'elmcrt.js?v='+cmmjsvs; 			
 			loadScript(urljsname,function(){crtElm();});  
-			var mthjudge=getAuth[0]()[11];//getCookie("MorP");
+			var mthjudge=getAuth[0]()[11];//判斷是否為月份檔
 			var contentdiv=getElementsByAttribute('class','tab_content');			
-			if(!(contentdiv[0])){   //如果同時觸發兩隻程式引發記憶體錯亂,強制中斷以第一隻程式為準,重來一次			    
-				//alert(getAuth[0]());				
+			if(!(contentdiv[0])){   //如果同時觸發兩隻程式引發記憶體錯亂,強制中斷以第一隻程式為準,重來一次			    							
 			    tabCss.parentNode.removeChild(tabCss);				        
 				RecoverArg(left(nowExcute,3));	
 			}else{

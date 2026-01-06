@@ -24,16 +24,13 @@ function crtElm(){
 	cntdiv[1].insertBefore(text01,rspn2);
 	var spn1=document.createElement('span');
 	spn1.id="ttltitle";
-	//spn1.setAttribute("style","font-size:1rem;font-weight:bold;");
      spn1.innerHTML='總金額:';
 	cntdiv[1].insertBefore(spn1,rspn2);
 	var spn2=document.createElement('span');
 	spn2.id="crncy" ;
-	//spn2.setAttribute("style","font-size:1rem;font-weight:bold;");
     cntdiv[1].insertBefore(spn2,rspn2);
 	var spn3=document.createElement('span');
 	spn3.id="ttlmny";
-    //spn3.setAttribute("style","font-size:1rem;font-weight:bold;");
 	spn3.innerHTML='0';
 	cntdiv[1].insertBefore(spn3,rspn2);
     var thr1=document.getElementById('headrow1');	 
@@ -56,9 +53,6 @@ function crtElm(){
 		th2.appendChild(text);
 		thr2.appendChild(th2);		
 	}			
-	var tabnames=getElementsByAttribute('name','tablbl');	
-	tabnames[0].innerHTML="採購單瀏覽";
-	tabnames[1].innerHTML="採購單內容";
 	var keynames=getElementsByAttribute('name','keyname');	
 	keynames[0].innerHTML="單號:";
 	var fatherkeys=getElementsByAttribute('name','fatherkey');

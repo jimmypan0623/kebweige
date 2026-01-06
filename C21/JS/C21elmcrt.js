@@ -42,14 +42,9 @@ function crtElm(){
 		thr2.appendChild(th2);
 		
 	}			
-	var tabnames=getElementsByAttribute('name','tablbl');	
-	tabnames[0].innerHTML="報價單瀏覽";
-	tabnames[1].innerHTML="報價單內容";
 	var keynames=getElementsByAttribute('name','keyname');	
 	keynames[0].innerHTML="單號:";
 	var fatherkeys=getElementsByAttribute('name','fatherkey');	
-	/* fatherkeys[0].style.width="12%";
-	fatherkeys[0].size="10"; */
 }
 
 

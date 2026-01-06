@@ -1,10 +1,9 @@
 function crtElm(){
-	var tabnames=getElementsByAttribute('name','tablbl');	
-	tabnames[0].innerHTML="系統功能總覽";
-	tabnames[1].innerHTML="人員授權設定";
+	var oMember = document.getElementById("member1");	 
+	oMember.setAttribute("style","width:129%;");
     var thr1=document.getElementById('headrow1');	 
-	var array1 = ['功能編號','功能說明','新增', '修改','刪除','列印','附加權限一','附加權限二','附加權限三','附加權限四','附加權限五','屬性'];
-	var array2 = ['7%','17%','5%', '5%','5%','5%','10%','10%','10%','10%','10%','5%'];
+	var array1 = ['功能編號','功能說明','新增', '修改','刪除','列印','附加權限一','附加權限二','附加權限三','附加權限四','附加權限五','屬性','頁籤一','頁籤二','頁籤三'];
+	var array2 = ['7%','17%','5%', '5%','5%','5%','10%','10%','10%','10%','10%','5%','10%','10%','10%'];
 	for (var j = 0; j < array1.length; j++) {
 		var th1 = document.createElement('th'); //column		   
 		var text = document.createTextNode(array1[j]); //cell		

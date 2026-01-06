@@ -46,10 +46,12 @@ function searchOptionsKey(tbno,slt5){
      slt5.options.add(new Option("交易日期","CONCAT(k25.F90,'-',k25.F02)"));
      slt5.options.add(new Option("憑證單號","k25.F15"));	
 	 slt5.options.add(new Option("發票號碼","k25.F07"));	
-	 slt5.options.add(new Option("對象編號","k25.F03"));	
-	 slt5.options.add(new Option("對象簡稱","c01.F05"));	
+	 slt5.options.add(new Option("客戶編號","k25.F03"));	
+	 slt5.options.add(new Option("客戶簡稱","c01.F05"));	
 	 slt5.options.add(new Option("統一編號","k25.F04"));	
-	 slt5.options.add(new Option("擔當人員","a01.F03"));	
+	 slt5.options.add(new Option("業務編號","k25.F19"));	
+	 slt5.options.add(new Option("業務姓名","a01.F03"));	
+	 slt5.options.add(new Option("收款日期","k25.F25"));	
 }
 
 function searchKeyHint(tbno){    //搜尋畫面出現提示

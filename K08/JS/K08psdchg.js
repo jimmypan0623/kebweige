@@ -14,11 +14,11 @@ function selfTag(jsvsn){
 	  var text02 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
 	 contentdiv[0].insertBefore(text02,svrSpns1);	  	 
 	 var spn4=document.createElement('span');
-	spn4.id="ttltitle2";	 
+	 spn4.id="ttltitle2";	 	
      spn4.innerHTML='本頁未沖:';
 	contentdiv[0].insertBefore(spn4,svrSpns1); 
 	 var spn5=document.createElement('span');
-	spn5.id="ttlmny2";  
+	spn5.id="ttlmny2";  	
 	spn5.innerHTML='0';
 	 contentdiv[0].insertBefore(spn5,svrSpns1);	 
 	var text03 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');

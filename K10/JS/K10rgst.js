@@ -115,13 +115,25 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 			      k10elements[j].parentNode.removeChild(k10elements[j].nextSibling);
 			    }			   
 		    }
-		    if((tbno==1 && (j==3 || j==4)) || (tbno==0 && j==11) ){			
-			   if(k10elements[j].value == 0){
-			      filtermsg(k10elements[j],"不得為 0");
+		    if((tbno==1 && (j==4 || j==5)) || (tbno==0 && j==8) ){			
+			   if(k10elements[j].value <= 0){
+			      filtermsg(k10elements[j],"不得小於等於 0");
 		          return false ;
 			   }
+			   if( tbno==1 &&  j==5  ){
+				   if(updflg==1){
+					   var readywrite=document.getElementById('ttlmny3').innerHTML*1-k10elements[j].value;
+				   }else{
+					   var readywrite=document.getElementById('ttlmny3').innerHTML*1-(k10elements[j].value*1-sourceAccount(5,1)*1);
+				   }
+			        if(readywrite<0){						 
+						filtermsg(k10elements[j],"超過剩餘未沖:請"+readywrite.toString());
+		                return false ;
+			        } 
+			   }
 		    }
-	    }	    
+	    }	 
+		
 	}
     //--------過濾區結束----------//	
 	
@@ -410,8 +422,8 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 }
 
 function topAndWidthModify(dropsheet_content,dropsheet,txtword,tbno){	 	 
-	dropsheet_content.style.width="75%";   //原訊息內框畫面寬度調整  
-		dropsheet.style.paddingTop="25px";      // 高度也往上提 
+	dropsheet_content.style.width="65%";   //原訊息內框畫面寬度調整  
+		dropsheet.style.paddingTop="25px";      // 高度也往下提 
 		if(txtword!=7){
 		   if (tbno==0){				
 			   var sales_no=document.getElementById('whono');		
@@ -470,7 +482,6 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 }
 
 function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nongs,tbno)函數內新增紀錄後呼叫的畫面更動   
-       
 	var ttlcnt2=document.getElementById('ttlmny2').innerHTML*1;
 	var ttlcnt3=document.getElementById('ttlmny3').innerHTML*1;
 	var fldidx=0;
@@ -490,7 +501,7 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 			}
 			
 			if(fldidx==7 && tbno==0){
-				   oTd.innerHTML=whichinvoice(args[4]);  //支付方式
+				   oTd.innerHTML=howtopay(args[4]);  //支付方式
 				 
 			}
 		}
@@ -509,6 +520,8 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
     oTd.setAttribute("class","directdata");					   
     oTd.innerHTML=rsp.lastupdate;	
 	if (tbno==0){
+	  document.getElementById('ttlmny3').innerHTML =args[7];	
+	  document.getElementById('ttlmny2').innerHTML ='0';	
 	   oTr.setAttribute("style","font-weight:bold;color:#704214;");		
        oTd.setAttribute("style","display:none;"); //最後異動要隱藏
 	}else{
@@ -524,6 +537,7 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 		}
 	    oTd.setAttribute("style","width:12%;text-align:center;");
 	}
+	
 }
 
 function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,nongs,tbno)函數修改紀錄後呼叫的畫面更動
@@ -606,15 +620,19 @@ function  addNewRecordHint(tbno){
     if (tbno==0){  //表頭資料
 	   return "請輸入應收沖銷單表頭資料：";
     }else{
-	   return "請輸入應收沖銷單內容資料："; 
+		if(document.getElementById('ttlmny3').innerHTML*1>0){
+	      return "請輸入應收沖銷單內容資料[剩餘未沖="+document.getElementById('ttlmny3').innerHTML+"]\u{A0}\u{A0}";
+		}else{		   
+		   blocksclose();
+		}
     }		
 }
 
 function editRecordHint(tbno){
     if (tbno==0){  
 		return "修改應收沖銷單表頭資料："; 
-	}else{
-		return "修改應收沖銷單內容資料："; 
+	}else{	 	
+		return "修改應收沖銷單內容資料[剩餘未沖="+document.getElementById('ttlmny3').innerHTML+"]\u{A0}\u{A0}";		 
 	}	 
 }
 

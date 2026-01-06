@@ -18,8 +18,7 @@ foreach($cart as $key=>$val){
      $sql1=@mysqli_query($link,$sql0);
      $rows1=@mysqli_num_rows($sql1);                       
      $list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名   
-     $lastdate=date('Y'.'-'.'m'.'-'.'d');
-     $mArlth=count($brr);  
+     $lastdate=date('Y'.'-'.'m'.'-'.'d'); 
 	 $sql3="SELECT b0d.*,c01.F23,c01.F05 AS F0E,c01.F10 AS F1Z,c01.F15 AS F1E,c01.F17,c01.F36,b01.F98 FROM b0d,c01,b01 WHERE b0d.F01='".$brr[0]."' AND c01.F01='".$brr[1]."' AND b01.F01=b0d.F03 ORDER BY b0d.F03"; 
 	 $sql4=@mysqli_query($link,$sql3); 
      $arr=array(); 

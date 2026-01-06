@@ -142,8 +142,11 @@ function fldsgsroup(fidx,tbno){
 					['directdata','block','left','10'],   
 					['directdata','block','left','10'],   
 					['directdata','block','left','10'],   
-	                ['directdata','block','left','5']  	 
-	            ]; 
+	                ['directdata','block','left','5'],  
+                    ['directdata','block','left','10'], 
+                    ['directdata','block','left','10'], 
+                    ['directdata','block','left','10']
+	              ];
 	}else{
 	    var groups=[['directdata','block','left','10'],    
 	                ['indirectdata','block','left','15'], 

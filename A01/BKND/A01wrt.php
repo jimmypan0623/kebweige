@@ -26,7 +26,7 @@ if ($rows1>0){
 				echo json_encode("資料庫已有此功能編號"); 
 			}else{ 
 		//以下處理MySQL記錄新增  
-			 $mscnt="INSERT INTO a03(F01,F02,F04,F05,F06,F07,F08,F09,F10,F11,F12,F03,F15) VALUES (";  //先把準備插入記錄的SQL 語法前半段先寫在字串中	    
+			 $mscnt="INSERT INTO a03(F01,F02,F04,F05,F06,F07,F08,F09,F10,F11,F12,F03,F16,F17,F18,F15) VALUES (";  //先把準備插入記錄的SQL 語法前半段先寫在字串中	    
 			 $mscnt.="'".$brr[0]."',";
 			 $mscnt.="'".$brr[1]."',";
 			 $mscnt.="'".$brr[2]."',";
@@ -38,7 +38,10 @@ if ($rows1>0){
 			 $mscnt.="'".$brr[8]."'".",";	 
 			 $mscnt.="'".$brr[9]."'".",";	 		
 			 $mscnt.="'".$brr[10]."'".",";	
-			 $mscnt.="'".$brr[11]."'".",";			 
+			 $mscnt.="'".$brr[11]."'".",";			
+			 $mscnt.="'".$brr[12]."'".",";		
+             $mscnt.="'".$brr[13]."'".",";			
+             $mscnt.="'".$brr[14]."'".",";			 
 			 $mscnt.="'".$lastdate.$list4['F03']."')";		 
 					 $sql=$mscnt;                                               //寫入MySQL 	 
 				   mysqli_query($link ,$sql) or die(mysqli_error($link));  
@@ -70,6 +73,9 @@ if ($rows1>0){
 			$mscnt.="F11="."'".$brr[9]."'".",";			  
 			$mscnt.="F12="."'".$brr[10]."'".",";		
 			$mscnt.="F03="."'".$brr[11]."'".",";
+			$mscnt.="F16="."'".$brr[12]."'".",";
+			$mscnt.="F17="."'".$brr[13]."'".",";
+			$mscnt.="F18="."'".$brr[14]."'".",";
 			$mscnt.="F15="."'".$lastdate.$list4['F03']."'";
 			$mscnt.=" WHERE F00="."'".$brr[$mArlth-2]."'";	                                                 //寫入MySQL 	 
 			mysqli_query($link ,$mscnt) or die(mysqli_error($link));  	  

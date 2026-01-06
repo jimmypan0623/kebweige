@@ -118,17 +118,17 @@
 		    responseDiv.setAttribute("style","color:#536a60;"); 
             responseDiv.innerHTML="搜尋到 "+String(cnt)+" 筆資料。" +String(cnt)+" record"+(cnt>1?"s":"")+" match your search. " +String(cnt)+" レコードを検索。";            		              
 		    if (tbno==1){       //如果是表身
-			   document.getElementById('ttltitle').innerHTML="本頁金額:"+sourceAccount(11,0)+":";
+			   document.getElementById('ttltitle').innerHTML="本頁金額:"+sourceAccount(11,0)+":";			    
 			}
 		}else{
 		    var seekrcd=document.getElementById("SEEK_BOTT");
 		    seekrcd.setAttribute("style","visibility:visible;");
 		    attachEventListener(seekrcd,"click",seekrec,false);
 			if (tbno==1){       //如果是表身
-			     document.getElementById('ttltitle').innerHTML="本單總額:"+sourceAccount(11,0)+":";
+			     document.getElementById('ttltitle').innerHTML="本單總額:"+sourceAccount(11,0)+":";				 
 			}
 		}
-	
+		
 		chooserc(1); //跳到第一列
 	}else{ 
 	     if(responseDiv.innerHTML=='Searching......'){   

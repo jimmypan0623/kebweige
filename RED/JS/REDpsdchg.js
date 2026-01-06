@@ -105,13 +105,17 @@ function excuteFun(event){
     }			 	 
 	var target=getEventTarget(event);
 	var exucPrgNo=target.childNodes[0].textContent;	
-	var authArray=target.parentNode.childNodes[1].textContent.trim().split("");  //切割成陣列		
+	
+	var authArray=target.parentNode.childNodes[1].textContent.trim().split(",");  //切割成陣列
 	if( getAuth[0]().length<1){ 	          
 	    getAuth[0](exucPrgNo);
 		for(var i=0;i<authArray.length;i++){   //該登入者之權限設定
 		   getAuth[0](authArray[i]);
 		}	    
+		
     }
+	
+	
     /* var urlcmp=(decodeURI(window.location.search));
 	 var username=urlcmp.substr(urlcmp.indexOf('=')+1);	
 	 document.location.href='ZRO.html'+"?username="+username+"&ourcompany="+encodeURI(document.getElementById('company_name').innerHTML);	     */

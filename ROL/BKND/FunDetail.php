@@ -6,7 +6,7 @@
 		$filterKey=substr(strrchr($_POST['filename'],'|'),1);
 	  $searchRecord =trim($filterKey);		
 	// $sql3="SELECT * FROM `a02` WHERE binary `F03` ='".$fieldNo."' AND `F01`='".$searchRecord."'";	 	 
-     $sql3="select a02.F03,a03.F02,a02.F04,a02.F05,a02.F06,a02.F07,a02.F08,a02.F09,a02.F10,a02.F11,a02.F12,a03.F03 AS Ftb from a02,a03 where a03.F01=a02.F03 and a02.F01='".$searchRecord."' AND a02.F03='".$fieldNo."' order by a02.F03"; 	   
+     $sql3="select a02.F03,a03.F02,a02.F04,a02.F05,a02.F06,a02.F07,a02.F08,a02.F09,a02.F10,a02.F11,a02.F12,a03.F03 AS Ftb,a03.F16,a03.F17,a03.F18 from a02,a03 where a03.F01=a02.F03 and a02.F01='".$searchRecord."' AND a02.F03='".$fieldNo."' order by a02.F03"; 	   
     $arr=array();	
 	$sql4=@mysqli_query($link,$sql3); 
 	$rows=@mysqli_num_rows($sql4);
@@ -28,7 +28,10 @@
 				 'attbcode1'=>$FTB[0],
 				 'attbcode2'=>$FTB[1],
 				 'attbcode3'=>$FTB[2],
-				 'attbcode4'=>$FTB[3] 
+				 'attbcode4'=>$FTB[3],
+				 'pge1'=>$list3['F16'],
+				 'pge2'=>$list3['F17'],
+				 'pge3'=>$list3['F18']
 				 );       
 				
 		    array_push($arr,$atr);

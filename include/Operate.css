@@ -207,14 +207,14 @@ body{
 }
 
 @media screen and (min-width:1081px){
- .tabCntntSpan,#ttltitle,#crncy,#ttlmny,#ttltitle1,#ttlmny1{
+ .tabCntntSpan,#ttltitle,#crncy,#ttlmny,#ttltitle1,#ttlmny1,#ttltitle2,#ttlmny2,#ttltitle3,#ttlmny3 {
    font-size:120%;
    font-weight:bold;
   }
 }
  
 @media screen and (max-width:1080px){
- .tabCntntSpan,#ttltitle,#crncy,#ttlmny,#ttltitle1,#ttlmny1{
+ .tabCntntSpan,#ttltitle,#crncy,#ttlmny,#ttltitle1,#ttlmny1,#ttltitle2,#ttlmny2,#ttltitle3,#ttlmny3 {
    font-size:100%;
    font-weight:bold;
   }

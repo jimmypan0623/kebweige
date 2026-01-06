@@ -23,11 +23,58 @@ if($list2['F10']!='Y'){
 		 $list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名   
 		 $lastdate=date('Y'.'-'.'m'.'-'.'d');
 		 
+		 $sql3="SELECT k0h.* FROM k0h WHERE k0h.F01='".$brr[0]."' ORDER BY k0h.F03"; 
+	     $sql4=@mysqli_query($link,$sql3); 
+         $arr=array(); 
+		 
+		
+		    while ($list3=mysqli_fetch_assoc($sql4)){
+		    $my_array  = array(			              
+					    'billno'=>$list3['F03'],
+						'invoice_no'=>$list3['F02'],
+					    'writemoney'=>$list3['F05'],
+					    'invoiceday'=>$list3['F14'],
+						'writeno'=>$brr[0],
+					    'custom_no'=>$brr[1], 
+					    'writeday'=>$brr[2],
+					    'salesno'=>$brr[3],				
+						'payway'=>$brr[4],
+						'checkno'=>$brr[5],
+					    'cashday'=>$brr[6],
+					    'month_no'=>$brr[10],					    
+						'lastupdate'=>$lastdate.$list4['F03']
+                     );   		     
+			      array_push($arr,$my_array);		           
+	        }
+			
+     $valueStr1 ='';
+	foreach($arr as $v){
+	     $valueStr1 .= "('".$v['writeno']."',
+		    '".$v['custom_no']."',
+		    '".$v['writeday']."',
+		    '".$v['salesno']."',
+		    '".$v['payway']."',
+		    '".$v['checkno']."',		  
+		    '".$v['cashday']."',
+		    '".$v['invoice_no']."',			
+		    '".$v['billno']."',
+		    ".$v['writemoney'].",
+			'".$v['invoiceday']."',		 
+		    '2', 
+			'".$v['lastupdate']."', 
+		    '".$v['month_no']."'),";
+	 }		 
+	 $valueStr1 = substr($valueStr1,0,strlen($valueStr1)-1);   //去掉最右邊的逗號,新增出貨月報表
+	 $insertSql[0] = "insert into k09 (F05,F02,F01,F11,F08,F09,F10,F04,F03,F07,F06,F22,F19,F90) values ".$valueStr1;
+	 foreach ($insertSql as  $values){
+		    @mysqli_query($link,$values);
+	 }
 			$k25update1="UPDATE k25 SET k25.F28=k25.F28+(-1)
 		   *(SELECT k0h.F05 FROM k0h WHERE k25.F15=k0h.F03 AND k0h.F01='".$brr[0]."') 
 		   WHERE k25.F15 IN (SELECT F03 FROM k0h WHERE F01='".$brr[0]."')";
-		   mysqli_query($link ,$k25update1) or die(mysqli_error($link));    		   
-			$k25update2="UPDATE k25 SET k25.F27=k25.F27+(1)
+		   mysqli_query($link ,$k25update1) or die(mysqli_error($link));    
+		   
+			  $k25update2="UPDATE k25 SET k25.F27=k25.F27+(1)
 		   *(SELECT k0h.F05 FROM k0h WHERE k25.F15=k0h.F03 AND k0h.F01='".$brr[0]."') 
 		   WHERE k25.F15 IN (SELECT F03 FROM k0h WHERE F01='".$brr[0]."')";
 		   mysqli_query($link ,$k25update2) or die(mysqli_error($link));    

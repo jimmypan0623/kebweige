@@ -1,6 +1,4 @@
 function crtElm(){
-	var tabnames=getElementsByAttribute('name','tablbl');	
-	tabnames[0].innerHTML="廠商品號對照表";
      var thr1=document.getElementById('headrow1');	 
 	 var array1 = ['料品編號','品名規格','廠商編號', '廠商簡稱','廠商品號','資料來源'];
 	 var array2 = ['24%','24%','8%', '8%','24%','10%'];

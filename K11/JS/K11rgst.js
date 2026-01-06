@@ -70,62 +70,75 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 		}
 	}					 		
     if (tbno==0){
-	    var k10elements=document.getElementsByName('k10update');
-        var k10athments=document.getElementsByName('k10others');			
+	    var k11elements=document.getElementsByName('k11update');
+        var k11athments=document.getElementsByName('k11others');			
 	}else{
-		 var k10elements=document.getElementsByName('k0hupdate');	
-		 var k10athments=document.getElementsByName('k0hothers');			 
+		 var k11elements=document.getElementsByName('k0hupdate');	
+		 var k11athments=document.getElementsByName('k0hothers');			 
 	}
-	for(var r=0;r<k10athments.length;r++){        //關聯資料
-		    nonjsn.push(k10athments[r].tagName.toUpperCase()=='SPAN'?k10athments[r].innerHTML:k10athments[r].value);		
+	for(var r=0;r<k11athments.length;r++){        //關聯資料
+		    nonjsn.push(k11athments[r].tagName.toUpperCase()=='SPAN'?k11athments[r].innerHTML:k11athments[r].value);		
 	}
-	for(var q=1;q<k10elements.length;q++){  	    //開始堆疊待異動資料陣列
-		 tbjsn.push(k10elements[q].value);	   
+	for(var q=1;q<k11elements.length;q++){  	    //開始堆疊待異動資料陣列
+		 tbjsn.push(k11elements[q].value);	   
 	}
-	for(var j=1;j<k10elements.length-1;j++){
+	for(var j=1;j<k11elements.length-1;j++){
 		if(tbno==0 && j==3){
-			var oDate=new Date(document.getElementById('recmth').value+'-'+k10elements[j].value);
+			var oDate=new Date(document.getElementById('recmth').value+'-'+k11elements[j].value);
 		    var cYear = oDate.getFullYear();
             var cMonth = oDate.getMonth() + 1;
             var cDate = oDate.getDate();
 			var iYear=left(document.getElementById('recmth').value,4);
 			var iMonth=right(document.getElementById('recmth').value,2);
-			var iDate=paddingLeft(k10elements[j].value.trim(),2);
+			var iDate=paddingLeft(k11elements[j].value.trim(),2);
 			var result = (iYear == cYear) && (iMonth == cMonth) && (iDate == cDate);
 			if(!result){
-				filtermsg(k10elements[j],"日期格式不對");
+				filtermsg(k11elements[j],"日期格式不對");
 				return false ;
 			}else{
-	    	    if(k10elements[j].nextSibling){		      
-			       k10elements[j].parentNode.removeChild(k10elements[j].nextSibling);
+	    	    if(k11elements[j].nextSibling){		      
+			       k11elements[j].parentNode.removeChild(k11elements[j].nextSibling);
 		        }		
 	        }
 	    }		
-        if(k10elements[j].value.trim()=="" && !((j==2 || j==6 ) && tbno==1) && !((j==6 || j==9 ) && tbno==0)){		
+        if(k11elements[j].value.trim()=="" && !((j==2 || j==6 ) && tbno==1) && !((j==6 || j==9 ) && tbno==0)){		
 		     if (j==1 ){
-			    k10elements[j].placeholder="不得空白" ;
+			    k11elements[j].placeholder="不得空白" ;
 			 }else{
-		        filtermsg(k10elements[j],"不得空白");
+				 
+		        filtermsg(k11elements[j],"不得空白");
 			 }
 		     return false ;
         }else{		     
-		    if(k10elements[j].nextSibling ){		
+		    if(k11elements[j].nextSibling ){		
                 if(!((j==4 && tbno==0) || (j==1 && tbno==1))){		   //非人名與料號移除
-			      k10elements[j].parentNode.removeChild(k10elements[j].nextSibling);
+			      k11elements[j].parentNode.removeChild(k11elements[j].nextSibling);
 			    }			   
 		    }
-		    if((tbno==1 && (j==3 || j==4)) || (tbno==0 && j==11) ){			
-			   if(k10elements[j].value == 0){
-			      filtermsg(k10elements[j],"不得為 0");
+		    if((tbno==1 && (j==4 || j==5)) || (tbno==0 && j==8) ){			
+			   if(k11elements[j].value <= 0){
+			      filtermsg(k11elements[j],"不得小於等於 0");
 		          return false ;
 			   }
+			   if( tbno==1 &&  j==5  ){
+				   if(updflg==1){
+					   var readywrite=document.getElementById('ttlmny3').innerHTML*1-k11elements[j].value;
+				   }else{
+					   var readywrite=document.getElementById('ttlmny3').innerHTML*1-(k11elements[j].value*1-sourceAccount(5,1)*1);
+				   }
+			        if(readywrite<0){						 
+						filtermsg(k11elements[j],"超過剩餘未沖:請"+readywrite.toString());
+		                return false ;
+			        } 
+			   }
 		    }
-	    }	    
+	    }	 
+		
 	}
     //--------過濾區結束----------//	
 	
     if (updflg==1){     //如果是新增	 	   
-        if(k10elements[1].value!="" ){		 
+        if(k11elements[1].value!="" ){		 
 		    if(tbno==0){ //表頭新增
                 var blngmth=document.getElementById('recmth').value;
 		        tbjsn.push(blngmth);   //要多一個所屬年月參數
@@ -147,9 +160,8 @@ function sendFilePrc(updflg){     //新增資料及修改程序
         }			
 	    var target=getEventTarget(updflg);	
 		
-		if(tbno==1){   //如果是表身		   
-		  // alert(tbjsn[4]);
-           tbjsn[4]=k10elements[5].value*1-sourceAccount(5,1)*1;  //傳到後端為新數量減原出貨數之差
+		if(tbno==1){   //如果是表身		   		   
+           tbjsn[4]=k11elements[5].value*1-sourceAccount(5,1)*1;  //傳到後端為新數量減原出貨數之差
 		   tbjsn.push(sourceAccount(2,0));  //記住表頭廠商編號 
 		}  
 		var tablerowindex=sourceAccount(null,tbno);   //記住是目前table的哪一列	
@@ -226,21 +238,21 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    oTd.innerHTML='備註:';
 	    var oTd = oTr.insertCell(1);      
 		oTd.colspan=3;
-	    oTd.innerHTML="<input type='text' name='k10update' id='remark' class='txt' maxlength='20' style='width:30%;' />";		
+	    oTd.innerHTML="<input type='text' name='k11update' id='remark' class='txt' maxlength='20' style='width:30%;' />";		
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
 	    oTd.innerHTML='兌現日期:';
 	    var oTd = oTr.insertCell(1);   	     	
-		oTd.innerHTML="<input type='Date' name='k10update' id='querydate' class='txt' style='width:55%;' maxlength='10'/>";  				    
+		oTd.innerHTML="<input type='Date' name='k11update' id='querydate' class='txt' style='width:55%;' maxlength='10'/>";  				    
 	    var oTd = oTr.insertCell(2);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
 	    oTd.innerHTML='收款金額:';
 	    var oTd = oTr.insertCell(3);      
 		if(txtword==2){   //如果是修改	
-	       oTd.innerHTML="<input type='number' name='k10update' id='curncy' value=1 class='txt' style='background-color:#B9B9FF;width:35%;;text-align:right'  readOnly=true />";
+	       oTd.innerHTML="<input type='number' name='k11update' id='curncy' value=1 class='txt' style='background-color:#B9B9FF;width:35%;;text-align:right'  readOnly=true />";
 		}else{
-		     oTd.innerHTML="<input type='number' name='k10update' id='curncy' value=1 class='txt' style='width:35%;text-align:right;' />";
+		     oTd.innerHTML="<input type='number' name='k11update' id='curncy' value=1 class='txt' style='width:35%;text-align:right;' />";
 		}			
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);	   
@@ -254,32 +266,30 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		slt11.options.add(new Option('現金','1'));
 	    slt11.options.add(new Option('支票','2'));
 		slt11.options.add(new Option('銀行存款','3'));
-	    slt11.options.add(new Option('銷貨退回','4'));
-		slt11.options.add(new Option('銷貨折讓','5'));
-	    slt11.options.add(new Option('備抵呆帳-應收帳款','6'));
-		slt11.options.add(new Option('兌換損失準備','7'));
+	    slt11.options.add(new Option('進貨退回','4'));
+		slt11.options.add(new Option('進貨折讓','5'));			   
 	    slt11.options.add(new Option('匯費','8'));
 		slt11.options.add(new Option('郵資','9'));
 	    slt11.options.add(new Option('其他','10'));
-	    slt11.setAttribute("name","k10update");		 
+	    slt11.setAttribute("name","k11update");		 
 	    oTd.appendChild(slt11);	      	 
 		var oTd = oTr.insertCell(2);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
 	    oTd.innerHTML='支票/收據號碼:';
 	    var oTd = oTr.insertCell(3);   		
-		oTd.innerHTML="<input type='text' name='k10update' id='billno' class='txt' style='width:55%;' maxlength='20'    />";  					   		
+		oTd.innerHTML="<input type='text' name='k11update' id='billno' class='txt' style='width:55%;' maxlength='20'    />";  					   		
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
 	    oTd.innerHTML='沖銷日:';
 	    var oTd = oTr.insertCell(1);            		
-	    oTd.innerHTML="<input type='text' name='k10update' id='writedate' class='txt' style='width:18%;' maxlength='2'   />";  				  	   
+	    oTd.innerHTML="<input type='text' name='k11update' id='writedate' class='txt' style='width:18%;' maxlength='2'   />";  				  	   
 	    var oTd = oTr.insertCell(2);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
 	    oTd.innerHTML='採購擔當:';
 	    var oTd = oTr.insertCell(3);               	              
-	    oTd.innerHTML="<input type='text' name='k10update' id='whono' class='txt' style='width:40%;' maxlength='8'    />";  				  
-	    oTd.innerHTML+="<span name='k10others' id='whonameEx'></span>&nbsp&nbsp";  
+	    oTd.innerHTML="<input type='text' name='k11update' id='whono' class='txt' style='width:40%;' maxlength='8'    />";  				  
+	    oTd.innerHTML+="<span name='k11others' id='whonameEx'></span>&nbsp&nbsp";  
 	    var srchButton1=document.createElement("input");				   
 	    srchButton1.setAttribute("type","button");	
 	    srchButton1.setAttribute("class","scopelook");				   
@@ -292,9 +302,9 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    oTd.innerHTML='廠商代號:';
    	    var oTd = oTr.insertCell(1);       
 	    if(txtword==2){   //如果是修改	
-		    oTd.innerHTML="<input type='text' name='k10update' id='customno' class='txt' style='background-color:#B9B9FF;width:35%;' maxlength='6' readOnly=true  />";  				              
+		    oTd.innerHTML="<input type='text' name='k11update' id='customno' class='txt' style='background-color:#B9B9FF;width:35%;' maxlength='6' readOnly=true  />";  				              
 	    }else{
-		    oTd.innerHTML="<input type='text' name='k10update' id='customno' class='txt' style='width:35%;' maxlength='6'    />";  				
+		    oTd.innerHTML="<input type='text' name='k11update' id='customno' class='txt' style='width:35%;' maxlength='6'    />";  				
 		    var srchButton3=document.createElement("input");				   
 		    srchButton3.setAttribute("type","button");	
 		    srchButton3.setAttribute("class","scopelook");				   
@@ -307,9 +317,9 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    oTd.innerHTML='廠商簡稱:';
 	    var oTd = oTr.insertCell(3);   
 	    if(txtword==2){   //如果是修改	
-		    oTd.innerHTML="<input type='text' name='k10others' id='customname' class='txt' style='background-color:#B9B9FF;width:40%;' maxlength='8' readOnly=true  />";  					  
+		    oTd.innerHTML="<input type='text' name='k11others' id='customname' class='txt' style='background-color:#B9B9FF;width:40%;' maxlength='8' readOnly=true  />";  					  
 	    }else{
-	   	   oTd.innerHTML="<input type='text' name='k10others' id='customname' class='txt' style='width:40%;' maxlength='8'    />";  				 
+	   	   oTd.innerHTML="<input type='text' name='k11others' id='customname' class='txt' style='width:40%;' maxlength='8'    />";  				 
 		   var srchButton2=document.createElement("input");				   
 		   srchButton2.setAttribute("type","button");	
 	 	   srchButton2.setAttribute("class","scopelook");				   
@@ -324,15 +334,15 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    var oTd = oTr.insertCell(1);		
 	    oTd.colspan=3;				  
 	    if(txtword==2){   //如果是修改		                
-	 	   oTd.innerHTML="<input type='text' name='k10update' id='queryno' class='txt' style='background-color:#B9B9FF;width:25%;' maxlength='10' readOnly=true  />";		  
+	 	   oTd.innerHTML="<input type='text' name='k11update' id='queryno' class='txt' style='background-color:#B9B9FF;width:25%;' maxlength='10' readOnly=true  />";		  
 		}else{
-		   oTd.innerHTML="<input type='text' name='k10update' id='queryno' class='txt' style='width:25%;' maxlength='10'/>"; 		  	 
+		   oTd.innerHTML="<input type='text' name='k11update' id='queryno' class='txt' style='width:25%;' maxlength='10'/>"; 		  	 
 	    }			 	              
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);  //以下第一列都隱藏起來當變數
 	    var oTd = oTr.insertCell(0);	             
 	    oTd.innerHTML='紀錄號碼';
 	    var oTd = oTr.insertCell(1);	  
-	    oTd.innerHTML="<input type='text' name='k10update' id='rcrd_no' class='txt' maxlength='14' autosize  />";                 
+	    oTd.innerHTML="<input type='text' name='k11update' id='rcrd_no' class='txt' maxlength='14' autosize  />";                 
 	    oTr.setAttribute("style","display:none;");	
     }else{               //異動表身資料			  			 		 
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
@@ -445,7 +455,7 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 		   document.getElementById("rcrd_no").value=aWaitUpdate[0];       //把紀錄號碼也存起來	
 		   if (tbno==0){
 			  document.getElementById("writedate").focus();				  			 				  
-			  var editinit=document.getElementsByName('k10update');
+			  var editinit=document.getElementsByName('k11update');
 			  
 			  document.getElementById('customname').value=notWaitdata[0];
 			  document.getElementById('whonameEx').innerHTML=notWaitdata[1];
@@ -489,7 +499,7 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 			}
 			
 			if(fldidx==7 && tbno==0){
-				   oTd.innerHTML=whichinvoice(args[4]);  //支付方式
+				   oTd.innerHTML=howtopay(args[4]);  //支付方式
 				 
 			}
 		}
@@ -502,12 +512,13 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 		}					 		
 		fldidx++;
 	}				
-
 	 //最後異動
     var oTd = oTr.insertCell(oTr.cells.length);	
     oTd.setAttribute("class","directdata");					   
     oTd.innerHTML=rsp.lastupdate;	
 	if (tbno==0){
+	   document.getElementById('ttlmny3').innerHTML =args[7];	
+	    document.getElementById('ttlmny2').innerHTML ='0';
 	   oTr.setAttribute("style","font-weight:bold;color:#704214;");		
        oTd.setAttribute("style","display:none;"); //最後異動要隱藏
 	}else{
@@ -516,10 +527,11 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 		var newbtt=document.getElementById("NEW_BOTT");	
 		if(ttlcnt3-args[4]*1<=0 || getAuth[0]()[1]=='N' ){
 		    newbtt.setAttribute("style","visibility:hidden;"); 			
-	        detachEventListener(newbtt,"click",addrec,false);
+	        detachEventListener(newbtt,"click",addrec,false);			 
 		}else{
 		    newbtt.setAttribute("style","visibility:visible;");
 		     attachEventListener(newbtt,"click",addrec,false);  //新增紀錄按鈕程序	
+			 
 		}
 	    oTd.setAttribute("style","width:12%;text-align:center;");
 	}
@@ -602,25 +614,29 @@ function searchOptionsKey(tbno,slt5){
 
 function  addNewRecordHint(tbno){
     if (tbno==0){  //表頭資料
-	   return "請輸入應收沖銷單表頭資料：";
+	   return "請輸入應付沖銷單表頭資料：";
     }else{
-	   return "請輸入應收沖銷單內容資料："; 
+	   if(document.getElementById('ttlmny3').innerHTML*1>0){
+	      return "請輸入應付沖銷單內容資料[剩餘未沖="+document.getElementById('ttlmny3').innerHTML+"]\u{A0}\u{A0}";
+	   }else{
+	      blocksclose();
+	   }
     }		
 }
 
 function editRecordHint(tbno){
     if (tbno==0){  
-		return "修改應收沖銷單表頭資料："; 
-	}else{
-		return "修改應收沖銷單內容資料："; 
+		return "修改應付沖銷單表頭資料："; 
+	}else{		 
+		return "修改應付沖銷單內容資料[剩餘未沖="+document.getElementById('ttlmny3').innerHTML+"]\u{A0}\u{A0}";		 		
 	}	 
 }
 
 function searchKeyHint(tbno){    //搜尋畫面出現提示
     if (tbno==0){  //表頭資料	
-		return "搜尋應收沖銷單單頭欄位選擇";
+		return "搜尋應付沖銷單單頭欄位選擇";
 	}else{
-		return "搜尋應收沖銷單單身欄位選擇";
+		return "搜尋應付沖銷單單身欄位選擇";
 	}
 }
 

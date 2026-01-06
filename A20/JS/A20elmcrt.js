@@ -21,14 +21,10 @@ function crtElm(){
 		thr2.appendChild(th2);
 		
 	}			
-	var tabnames=getElementsByAttribute('name','tablbl');	
-	tabnames[0].innerHTML="設定表格資料";
-	tabnames[1].innerHTML="表格欄位設定";
 	var keynames=getElementsByAttribute('name','keyname');	
 	keynames[0].innerHTML="檔名:";
 	var fatherkeys=getElementsByAttribute('name','fatherkey');	
-/* 	fatherkeys[0].style.width="6%";
-	fatherkeys[0].size="3"; */
+
 }
 
 

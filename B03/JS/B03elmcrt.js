@@ -46,14 +46,9 @@ function crtElm(){
 		th2.appendChild(text);
 		thr2.appendChild(th2);		
 	}			
-	var tabnames=getElementsByAttribute('name','tablbl');	
-	tabnames[0].innerHTML="退出單瀏覽";
-	tabnames[1].innerHTML="退出單內容";
 	var keynames=getElementsByAttribute('name','keyname');	
 	keynames[0].innerHTML="單號:";
 	var fatherkeys=getElementsByAttribute('name','fatherkey');	
-/* 	fatherkeys[0].style.width="12%";
-	fatherkeys[0].size="10"; */
 }
 
 

@@ -31,7 +31,7 @@ function crtElm(){
 	var spn4=document.createElement('span');
 	spn4.id="ttltitle2";
 	spn4.setAttribute("style","font-size:120%;font-weight:bold;");
-     spn4.innerHTML='已沖金額:';
+     spn4.innerHTML='待沖金額:';
 	cntdiv[1].insertBefore(spn4,rspn2);
 	var spn5=document.createElement('span');
 	spn5.id="ttlmny2";
@@ -45,7 +45,7 @@ function crtElm(){
 	var spn6=document.createElement('span');
 	spn6.id="ttltitle2";
 	spn6.setAttribute("style","font-size:120%;font-weight:bold;");
-     spn6.innerHTML='待沖金額:';
+     spn6.innerHTML='剩餘未沖:';
 	cntdiv[1].insertBefore(spn6,rspn2);
 	var spn7=document.createElement('span');
 	spn7.id="ttlmny3";
@@ -74,9 +74,6 @@ function crtElm(){
 		th2.appendChild(text);
 		thr2.appendChild(th2);		
 	}			
-	var tabnames=getElementsByAttribute('name','tablbl');	
-	tabnames[0].innerHTML="應付沖銷單瀏覽";
-	tabnames[1].innerHTML="應付沖銷單內容";
 	var keynames=getElementsByAttribute('name','keyname');	
 	keynames[0].innerHTML="單號:";
 	var fatherkeys=getElementsByAttribute('name','fatherkey');	
