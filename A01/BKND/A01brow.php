@@ -2,6 +2,7 @@
    header("Content-Type:text/html; charset=utf-8");   
 
  include("../../include/BKND/mysqli_server.php");                                  //引用檔
+ require_once "../../include/BKND/fieldpreset.php"; // 引入
   $rows=0;
    if (substr($_POST['filename'],0,3)=="PGE"){	  
 	   $pgeno=getNeedBetween($_POST['filename'],'E','|'); // 頁次 
@@ -28,26 +29,27 @@
 		$sql="SELECT * FROM a03 "; 	   		 
 		$sql3=$sql." WHERE ".$fieldNo." like '%".trim($filterKey)."%' order by ".$fieldNo ; 
    }	   
+    $wthary=fldwdthpre('A01','1',$link);
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_assoc($sql4)){
-		$atr = array('rc_no_DHL_000'=>$list3['F00'],
-		             'prg_no_DSC_007'=>$list3['F01'], 
-					 'prg_name_DSL_017'=>$list3['F02'],	        					
-                     'new_auth_DSC_005'=>$list3['F04'],
-                     'edit_auth_DSC_005'=>$list3['F05'],
-					 'del_auth_DSC_005'=>$list3['F06'],
-					 'prnt_auth_DSC_005'=>$list3['F07'],
-					 'auth1_attch_DSL_010'=>$list3['F08'],
-					 'auth2_attch_DSL_010'=>$list3['F09'],
-					 'auth3_attch_DSL_010'=>$list3['F10'],
-					 'auth4_attch_DSL_010'=>$list3['F11'],
-                     'attch5_attch_DSL_010'=>$list3['F12'],
-					 'attr_auth_DSL_005'=>$list3['F03'],
-					  'page_nme1_DSL_010'=>$list3['F16'],
-					  'page_nme2_DSL_010'=>$list3['F17'],
-					 'page_nme3_DSL_010'=>$list3['F18'],
-					 'lastupdate_DHC_000'=>$list3['F15'] 
+		$atr = array('rc_no'.$wthary[0]=>$list3['F00'],      //_DHL_000
+		             'prg_no'.$wthary[1]=>$list3['F01'],      //_DSC_007
+					 'prg_name'.$wthary[2]=>$list3['F02'],	        		//_DSL_017			
+                     'new_auth'.$wthary[3]=>$list3['F04'],      //_DSC_005
+                     'edit_auth'.$wthary[4]=>$list3['F05'],       //_DSC_005
+					 'del_auth'.$wthary[5]=>$list3['F06'],        //_DSC_005
+					 'prnt_auth'.$wthary[6]=>$list3['F07'],            //_DSC_005
+					 'auth1_attch'.$wthary[7]=>$list3['F08'],          //_DSL_010
+					 'auth2_attch'.$wthary[8]=>$list3['F09'],            //_DSL_010
+					 'auth3_attch'.$wthary[9]=>$list3['F10'],          //_DSL_010
+					 'auth4_attch'.$wthary[10]=>$list3['F11'],                 //_DSL_010
+                     'attch5_attch'.$wthary[11]=>$list3['F12'],          //_DSL_010
+					 'attr_auth'.$wthary[12]=>$list3['F03'],          //_DSL_005
+					  'page_nme1'.$wthary[13]=>$list3['F16'],             //_DSL_010
+					  'page_nme2'.$wthary[14]=>$list3['F17'],          //_DSL_010
+					 'page_nme3'.$wthary[15]=>$list3['F18'],            //_DSL_010
+					 'lastupdate'.$wthary[16]=>$list3['F15']          //_DHC_000
 					 );                      						 
 		array_push($arr,$atr);
 	}

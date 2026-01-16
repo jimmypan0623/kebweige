@@ -1,6 +1,7 @@
 ﻿<?php
    header("Content-Type:text/html; charset=utf-8");   
    include("../../include/BKND/mysqli_server.php");               //引用檔   
+    require_once "../../include/BKND/fieldpreset.php"; // 引入     
     $rows=0;
    if (substr($_POST['filename'],0,3)=="PGE"){	  
 	   $pgeno=getNeedBetween($_POST['filename'],'E','|'); // 頁次 
@@ -31,18 +32,19 @@
 	    $sql.=" left outer join b01 on b01.F01=c34.F02"; 
 		$sql3=$sql." WHERE ".$fieldNo." like '%".trim($filterKey)."%' order by ".$fieldNo ; 
    }	   
+   $wthary=fldwdthpre('C34','1',$link);  	     
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_assoc($sql4)){
 		 
-		$atr = array('rc_no_DHL_000'=>$list3['F00'],  		            	             
-		             'stock_no_DSL_024'=>$list3['F02'], 
-                     'stock_name_ISL_024'=>$list3['F0B'],                     				                     				                                       
-					 'custom_no_DSL_008'=>$list3['F01'],
-					 'custom_name_ISL_008'=>$list3['F0E'], 
-					  'custom_partno_DSL_024'=>$list3['F03'], 	
-					 'origin_data_DSL_010'=>$list3['F04'], 					
-					 'lastupdate_DHL_000'=>$list3['F05']                      				 
+		$atr = array('rc_no'.$wthary[0]=>$list3['F00'],  		            	             
+		             'stock_no'.$wthary[1]=>$list3['F02'], 
+                     'stock_name'.$wthary[2]=>$list3['F0B'],                     				                     				                                       
+					 'custom_no'.$wthary[3]=>$list3['F01'],
+					 'custom_name'.$wthary[4]=>$list3['F0E'], 
+					  'custom_partno'.$wthary[5]=>$list3['F03'], 	
+					 'origin_data'.$wthary[6]=>$list3['F04'], 					
+					 'lastupdate'.$wthary[7]=>$list3['F05']                      				 
 					 );                      			
 		array_push($arr,$atr);
 	}

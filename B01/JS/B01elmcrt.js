@@ -1,9 +1,9 @@
 function crtElm(){	        
-    var cntdiv=getElementsByAttribute('class','tab_content');	  
+  /*   var contentdiv=getElementsByAttribute('class','tab_content');	  
 	var tabnames=getElementsByAttribute('name','tablbl');			
      var firstCover=getElementsByAttribute('class','table_cover');	
-	 firstCover[0].style.width="37%";
-     var thr1=document.getElementById('headrow1');	 
+	 firstCover[0].style.width="37%"; */
+    /*  var thr1=document.getElementById('headrow1');	 
 	 var array1 = ['料品編號','品名規格'];
 	 var array2 = ['50%','40%'];
 	for (var j = 0; j < array1.length; j++) {
@@ -12,8 +12,8 @@ function crtElm(){
 		th1.style.width=array2[j];
 		th1.appendChild(text);
 		thr1.appendChild(th1);		
-	}	
-    var secondCover=document.createElement('div');	 
+	}	 */
+   /*  var secondCover=document.createElement('div');	 
 	secondCover.setAttribute("class","table_cover");
 	secondCover.style.width="63%";
     var righttbl1=document.createElement("table");
@@ -51,64 +51,46 @@ function crtElm(){
          oTd.innerHTML=arrayRgt2[i];
 	}		
 	secondCover.appendChild(righttbl1); 
-    cntdiv[0].appendChild(secondCover);   //畫面右邊欄位
-    var keynames=getElementsByAttribute('name','keyname');	
-	 var fatherkeys=getElementsByAttribute('name','fatherkey');	
-    if(getAuth[0]()[5]=='Y'){	 //有查看報價紀錄權限時
-	    var thr2=document.getElementById('headrow2');
-        var array3 = ['客戶編號','客戶簡稱','客戶品號', '幣別','單價','包裝基量','最少訂購','付款方式','報價單號','生效日期','有效期限','備註說明'];
-	    var array4 = ['7%','7%','10%', '4%','8%','7%','7%','10%','10%','10%','10%','10%'];
-	    for (var k = 0; k < array3.length; k++) {
-		    var th2 = document.createElement('th'); //column		   
-		    var text = document.createTextNode(array3[k]); //cell		
-		    th2.style.width=array4[k];
-		    th2.appendChild(text);
-		    thr2.appendChild(th2);		
-	    }		
+    contentdiv[0].appendChild(secondCover);   //畫面右邊欄位
+  //  var keynames=getElementsByAttribute('name','keyname');	
+	 var fatherkeys=getElementsByAttribute('name','fatherkey');	 */
+    /* if(getAuth[0]()[5]=='Y'){	 //有查看報價紀錄權限時
+	   
 		var rspn2=document.getElementById('serverResponse2'); 
 	    var text01 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
-	    cntdiv[1].insertBefore(text01,rspn2);
+	    contentdiv[1].insertBefore(text01,rspn2);
 	    var spn1=document.createElement('span');
 	    spn1.id="ttltitle";
         spn1.innerHTML="報價筆數:";
-	    cntdiv[1].insertBefore(spn1,rspn2);
+	    contentdiv[1].insertBefore(spn1,rspn2);
 	    var spn3=document.createElement('span');
 	    spn3.id="ttlmny";       
 	    spn3.innerHTML='0';
-	    cntdiv[1].insertBefore(spn3,rspn2);	 
-	    keynames[0].innerHTML="料號:";	
+	    contentdiv[1].insertBefore(spn3,rspn2);	 
+	    //keynames[0].innerHTML="料號:";	
  	
     }else{
-        cntdiv[1].style.display='none';
+        contentdiv[1].style.display='none';
 	    tabnames[1].style.display='none';        
     }	   
     if(getAuth[0]()[6]=='Y'){	        //有查看詢價紀錄權限時
-        var thr3=document.getElementById('headrow3');
-        var array5 = ['廠商編號','廠商簡稱','廠商品號', '幣別','單價','包裝基量','最少訂購','付款方式','前置天數','生效日期','有效期限','備註說明'];
-	    var array6 = ['7%','7%','10%', '4%','8%','7%','7%','10%','7%','10%','10%','10%'];
-	    for (var l = 0; l < array5.length; l++) {
-		    var th3 = document.createElement('th'); //column		   
-		    var text = document.createTextNode(array5[l]); //cell		
-		    th3.style.width=array6[l];
-		    th3.appendChild(text);
-		    thr3.appendChild(th3);		
-	    }
+      
         var rspn3=document.getElementById('serverResponse3'); 
 	    var text02 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
-	    cntdiv[2].insertBefore(text02,rspn3);
+	    contentdiv[2].insertBefore(text02,rspn3);
 	    var spn4=document.createElement('span');
 	    spn4.id="ttltitle1";
         spn4.innerHTML="詢價筆數:";
-	    cntdiv[2].insertBefore(spn4,rspn3);
+	    contentdiv[2].insertBefore(spn4,rspn3);
 	    var spn5=document.createElement('span');
 	    spn5.id="ttlmny1";
 	    spn5.innerHTML='0';
-	    cntdiv[2].insertBefore(spn5,rspn3);  	
-		keynames[1].innerHTML="料號:";
+	    contentdiv[2].insertBefore(spn5,rspn3);  	
+		
     }else{
-		cntdiv[2].style.display='none';
+		contentdiv[2].style.display='none';
 	    tabnames[2].style.display='none';
-	}
+	} */
 	
 }
 

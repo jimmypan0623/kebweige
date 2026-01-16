@@ -311,35 +311,3 @@ function howtopay(tpe){
 }
 
 
-function fldsgsroup(fidx,tbno){
-	 var groups=[];
-	if(tbno==0){	
-       var groups=[['directdata','block','left','10'],     //query_no
-	               ['directdata','block','left','8'],      //custom_no
-	               ['indirectdata','block','left','8'],    //custom_name	               
-	               ['directdata','block','center','4'],    //query_date	
-                   ['directdata','none','center','0'], 	   //sales_no	
-				   ['indirectdata','block','left','8'],    //sales_name	
-				   ['directdata','none','center','0'],       //wayofpay
-				   ['indirectdata','block','center','10'],      //wayofpayName
-				   ['directdata','block','left','10'],      //支票號碼				   
-				   ['directdata','block','center','8'],   //兌現日				  				  
-				   ['directdata','block','right','10'],    // 收款金額						   
-				   ['directdata','block','left','12'],       //remark				   
-                   ['indirectdata','none','center','0']        //確認狀態
-	            ]; 
-	}else{		
-	    var groups=[['directdata','block','left','12'],     //出貨單號
-		           ['directdata','block','left','12'],    //發票號碼
-				   ['directdata','block','center','12'],      //出貨日期
-				   ['directdata','block','right','12'],     //原始金額
-				   ['directdata','block','right','12'],      //沖銷金額
-				   ['directdata','block','left','14'],    //備註說明				  				      
-				   ]; 	
-		
-	}		
-    return groups[fidx];			  
-}
-
-
-

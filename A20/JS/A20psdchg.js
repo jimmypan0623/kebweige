@@ -1,5 +1,7 @@
 function selfTag(jsvsn){
 	///
+	/* var keynames=getElementsByAttribute('name','keyname');	
+	keynames[0].innerHTML="檔名:"; */
     var scriptall=document.getElementsByTagName("script");
 	    for(var j=0;j<scriptall.length;j++){
 	        if(scriptall[j].id){

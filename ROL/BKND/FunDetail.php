@@ -31,7 +31,7 @@
 				 'attbcode4'=>$FTB[3],
 				 'pge1'=>$list3['F16'],
 				 'pge2'=>$list3['F17'],
-				 'pge3'=>$list3['F18']
+				 'pge3'=>$list3['F18']				
 				 );       
 				
 		    array_push($arr,$atr);

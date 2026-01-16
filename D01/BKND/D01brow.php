@@ -1,6 +1,7 @@
 ﻿<?php
    header("Content-Type:text/html; charset=utf-8");   
    include("../../include/BKND/mysqli_server.php");        //引用檔   
+   require_once "../../include/BKND/fieldpreset.php"; // 引入  
     $rows=0;
    if (substr($_POST['filename'],0,3)=="PGE"){	  
 	   $pgeno=getNeedBetween($_POST['filename'],'E','|'); // 頁次 
@@ -34,36 +35,37 @@
 	   LEFT OUTER JOIN `d00` ON d00.F01=d01.F25  
 		WHERE ".$fieldNo." like '%".trim($filterKey)."%' order by ".$fieldNo ; 
    }	   
+    $wthary=fldwdthpre('D01','1',$link); 
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_assoc($sql4)){
 		 
-		$atr = array('rc_no_DHC_000'=>$list3['F00'],  		            	             
-		             'vender_noo_DSL_022'=>$list3['F01'], 					 
-                     'vender_name_DSL_078'=>$list3['F03'],					                     
-                     'vender_abbrv_DHC_000'=>$list3['F04'],  
-                     'level_DHC_000'=>$list3['F12'],
-                     'unitedno_DHC_000'=>$list3['F06'],                   
-                     'product_DHC_000'=>$list3['F11'],					
-                     'wayofship_DHC_000'=>$list3['F19'],      					 						
-					 'address_DHC_000'=>$list3['F05'],
-					 'addressoffactory_DHC_0000'=>$list3['F21'],					 					 					 					 
-					 'contact_DHC_000'=>$list3['F08'],	
-					 'boss_DHC_000'=>$list3['F07'],		
-					 'tel_DHC_000'=>$list3['F09'],		
-                     'fax_DHC_000'=>$list3['F10'],	                  		
-                     'email_DHC_000'=>$list3['F22'],						                  
-                     'moneycrnt_DHC_000'=>$list3['F25'],	
-					 'crntname_IHC_000'=>$list3['F0D'],	
-                     'dayofincount_DHC_000'=>$list3['F15'],									 
-                     'dayofcharge_DHC_000'=>$list3['F38'],	     					 
-                     'wayofpay_DHC_000'=>$list3['F13'],		                   
-                     'paymentterm_DHC_000'=>$list3['F36'],	                                 	                    
-                     'procureno_DHC_000'=>$list3['F39'],
-					 'procurename_IHC_000'=>$list3['F03A'],
-                     'remark_DHC_000'=>$list3['F16'],                     				 
-                     'lasttrade_IHC_000'=>$list3['F14'],									                     
-					 'lastupdate_DHC_000'=>$list3['F18']                      				 
+		$atr = array('rc_no'.$wthary[0]=>$list3['F00'],  		            	             
+		             'vender_no'.$wthary[1]=>$list3['F01'], 					 
+                     'vender_name'.$wthary[2]=>$list3['F03'],					                     
+                     'vender_abbrv'.$wthary[3]=>$list3['F04'],  
+                     'level'.$wthary[4]=>$list3['F12'],
+                     'unitedno'.$wthary[5]=>$list3['F06'],                   
+                     'product'.$wthary[6]=>$list3['F11'],					
+                     'wayofship'.$wthary[7]=>$list3['F19'],      					 						
+					 'address'.$wthary[8]=>$list3['F05'],
+					 'addressoffactory'.$wthary[9]=>$list3['F21'],					 					 					 					 
+					 'contact'.$wthary[10]=>$list3['F08'],	
+					 'boss'.$wthary[11]=>$list3['F07'],		
+					 'tel'.$wthary[12]=>$list3['F09'],		
+                     'fax'.$wthary[13]=>$list3['F10'],	                  		
+                     'email'.$wthary[14]=>$list3['F22'],						                  
+                     'moneycrnt'.$wthary[15]=>$list3['F25'],	
+					 'crntname'.$wthary[16]=>$list3['F0D'],	
+                     'dayofincount'.$wthary[17]=>$list3['F15'],									 
+                     'dayofcharge'.$wthary[18]=>$list3['F38'],	     					 
+                     'wayofpay'.$wthary[19]=>$list3['F13'],		                   
+                     'paymentterm'.$wthary[20]=>$list3['F36'],	                                 	                    
+                     'procureno'.$wthary[21]=>$list3['F39'],
+					 'procurename'.$wthary[22]=>$list3['F03A'],
+                     'remark'.$wthary[23]=>$list3['F16'],                     				 
+                     'lasttrade'.$wthary[24]=>$list3['F14'],									                     
+					 'lastupdate'.$wthary[25]=>$list3['F18']                      				 
 					 );                      			
 		array_push($arr,$atr);
 	}

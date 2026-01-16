@@ -105,39 +105,3 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 function rowchoseSecond(targetRow){    //紀錄移動
    return true;	
 }
-
-function fldsgsroup(fidx,tbno){
-	 var groups=[];
-	if(tbno==0){
-
-        var groups=[['directdata','block','left','8'],     
-	                ['directdata','block','left','8'],   
-	                ['directdata','block','left','8'],   
-				    ['indirectdata','block','left','8'],   
-					['directdata','block','left','12'],   
-					['directdata','block','left','20'],
-                    ['directdata','block','left','8'],					
-	                ['directdata','block','center','8'] 	 				     
-	            ]; 
-	}else{
-
-	    var groups=[['directdata','block','center','8'],    
-	                ['indirectdata','block','left','17'], 
-	                ['directdata','block','center','5'], 
-	                ['directdata','block','center','5'],  
-	                ['directdata','block','center','5'],  
-	                ['directdata','block','center','5'],  
-					['directdata','none','center','0'], 
-	                ['directdata','none','center','0'],  
-	                ['directdata','none','center','0'],  
-	                ['directdata','none','center','0'],  
-					['directdata','none','center','0'],  
-					['indirectdata','block','left','11'], 
-	                ['indirectdata','block','left','11'],  
-	                ['indirectdata','block','left','11'],  
-	                ['indirectdata','block','left','11'],  
-					['indirectdata','block','left','11']
- 	               ]; 	
-	}		
-    return groups[fidx];			  
-}

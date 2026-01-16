@@ -1,6 +1,7 @@
 ﻿<?php
    header("Content-Type:text/html; charset=utf-8");   
    include("../../include/BKND/mysqli_server.php");                              //引用檔
+    require_once "../../include/BKND/fieldpreset.php"; // 引入  
    $rnddgt=$_COOKIE["INT_069"];
    if (substr($_POST['filename'],0,3)=="PGE"){	  
 	   $pgeno=getNeedBetween($_POST['filename'],'E','|'); // 月次 
@@ -43,27 +44,28 @@
      $sql1=@mysqli_query($link,$sql0);                           
      $list4=mysqli_fetch_assoc($sql1);  //紀錄當前月份是否已結轉月庫存報表   
  //	 'objtname_DSL_007'=>$list3['F0E'],
+    $wthary=fldwdthpre('K17','1',$link);
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_assoc($sql4)){	 
-		$atr = array('rc_no_DHL_000'=>$list3['F00'],  
-                     'shipday_DSC_003'=>$list3['F02'], 
-					 'invoiceno_DSL_010'=>$list3['F07'],	
-					 'objtno_DSL_007'=>$list3['F03'], 		
-                     'objtname_DSL_007'=>$list3['F0E'],					 
-					 'unitedno_DSL_007'=>$list3['F04'],
-					 'tax_type_DHL_000'=>$list3['F09'], 
-					 'crncytype_DSC_004'=>$list3['F21'],  
-					 'crncyrate_DSR_008'=>$list3['F22'],						
-					 'beforetax_DSR_009'=>$list3['F08'],		           			 
-                     'taxamt_DSR_009'=>$list3['F10'],	 
-                     'amount_DSR_009'=>$list3['F12'],	 					 
-                     'billno_DSL_010'=>$list3['F15'],					 					
-                     'departno_DHL_000'=>$list3['F14'],	
-					 'departname_DSL_007'=>$list3['F0B'],	
-					 'inchargeno_DHL_000'=>$list3['F19'],	
-					  'inchargename_DSL_007'=>$list3['F0C'],	
-					 'lastupdate_DHL_000'=>$list3['F24']                      				 
+		$atr = array('rc_no'.$wthary[0]=>$list3['F00'],  
+                     'shipday'.$wthary[1]=>$list3['F02'], 
+					 'invoiceno'.$wthary[2]=>$list3['F07'],	
+					 'objtno'.$wthary[3]=>$list3['F03'], 		
+                     'objtname'.$wthary[4]=>$list3['F0E'],					 
+					 'unitedno'.$wthary[5]=>$list3['F04'],
+					 'tax_type'.$wthary[6]=>$list3['F09'], 
+					 'crncytype'.$wthary[7]=>$list3['F21'],  
+					 'crncyrate'.$wthary[8]=>$list3['F22'],						
+					 'beforetax_'.$wthary[9]=>$list3['F08'],		           			 
+                     'taxamt_'.$wthary[10]=>$list3['F10'],	 
+                     'amount_'.$wthary[11]=>$list3['F12'],	 					 
+                     'billno'.$wthary[12]=>$list3['F15'],					 					
+                     'departno'.$wthary[13]=>$list3['F14'],	
+					 'departname'.$wthary[14]=>$list3['F0B'],	
+					 'inchargeno'.$wthary[15]=>$list3['F19'],	
+					  'inchargename'.$wthary[16]=>$list3['F0C'],	
+					 'lastupdate'.$wthary[17]=>$list3['F24']                      				 
 					 );                     			 
 		array_push($arr,$atr);
 		

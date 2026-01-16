@@ -293,37 +293,3 @@ function getUrlParams2(url){  //解析url成物件
    return result;
 
 }
-
-function fldsgsroup(fidx,tbno){
-	 var groups=[];
-	if(tbno==0){	
-       var groups=[['directdata','block','left','10'],     
-	               ['directdata','block','left','7'],   
-	               ['indirectdata','block','left','7'],   
-	               ['indirectdata','none','center','0'],   	 
-	               ['directdata','block','center','10'],  	
-                   ['directdata','none','center','0'], 	 	
-				   ['indirectdata','block','left','7'], 	
-				   ['directdata','block','center','4'], 
-				   ['directdata','block','left','12'], 
-				   ['directdata','block','left','32'], 
-				   ['directdata','block','left','10'], 				  
-				   ['directdata','none','center','0'], 
-				   ['directdata','none','center','0']
-	            ]; 
-	}else{
-	    var groups=[['directdata','block','left','13'],    
-				   ['indirectdata','block','left','13'], 
-				   ['directdata','block','right','8'], 
-				   ['directdata','block','right','8'],  
-				   ['indirectdata','block','right','8'],
-				   ['directdata','block','left','13'],  
-				   ['directdata','block','center','10'],  
-				   ['indirectdata','block','right','8'],  
-				   ['indirectdata','block','right','8'],  
-				   ['indirectdata','boock','right','8'],   
-				   ['indirectdata','none','center','0']   
-				   ]; 	
-	}		
-    return groups[fidx];			  
-}

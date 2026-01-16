@@ -1,20 +1,6 @@
 function crtElm(){	
-	var cntdiv=getElementsByAttribute('class','tab_content');	
-	var rspn1=document.getElementById('serverResponse1'); 
-	 var text01 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
-	 cntdiv[0].insertBefore(text01,rspn1);		
-	var spn1=document.createElement('span');
-	spn1.id="ttltitle";	 
-     spn1.innerHTML='總金額:';
-	cntdiv[0].insertBefore(spn1,rspn1);
-	var spn2=document.createElement('span');
-	spn2.id="crncy" ;
-    cntdiv[0].insertBefore(spn2,rspn1);
-	var spn3=document.createElement('span');
-	spn3.id="ttlmny";  
-	spn3.innerHTML='0';
-	 cntdiv[0].insertBefore(spn3,rspn1);	
-	var oMember = document.getElementById("member1");	 
+	
+	/* var oMember = document.getElementById("member1");	 
 	oMember.setAttribute("style","width:120%;");
      var thr1=document.getElementById('headrow1');	 
 	 var array1 = ['料品編號','進貨單號','日', '採購單號','廠商編號','廠商簡稱','數量','單價','幣別','匯率','小計','收料部門','採購人員','送貨單號','廠商品號'];
@@ -25,5 +11,5 @@ function crtElm(){
 		th.style.width=array2[j];
 		th.appendChild(text);
 		thr1.appendChild(th);		
-	}					 
+	}					  */
 }

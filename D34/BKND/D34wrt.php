@@ -7,7 +7,8 @@ foreach($cart as $key=>$val){
     $brr[]=addslashes($val);		//要加入此函數避免中間有單引號錯亂
 }
 include("../../include/BKND/mysqli_server.php");        //引用檔   
-
+require_once "../../include/BKND/fieldDOMset.php"; // 引入     
+$trnarray=fldafterwrite('D34','1',$link,true);  	
      $sql0="select * from a01 where F01="."'".$_COOKIE['useraccount']."'"; 
      $sql1=@mysqli_query($link,$sql0);
      $rows1=@mysqli_num_rows($sql1);                       
@@ -33,7 +34,7 @@ include("../../include/BKND/mysqli_server.php");        //引用檔
 	           $sql=$mscnt;                                               //寫入MySQL 	 
                mysqli_query($link ,$sql) or die(mysqli_error($link));  
 			   $last_id = mysqli_insert_id($link);     //找最後一個號碼	          					     
-			   $arr = array ('order_no'=>$last_id,'lastupdate'=>$lastdate.$list4['F03']);						 
+			   $arr = array ('order_no'=>$last_id,'lastupdate'=>$lastdate.$list4['F03'],'fldsatrr'=>$trnarray);						 
 	           echo json_encode($arr);
 		 } //新增判斷或執行結束   	     
      }else{	   //修改
@@ -44,7 +45,7 @@ include("../../include/BKND/mysqli_server.php");        //引用檔
 	   $mscnt.=" WHERE F00="."'".$brr[$mArlth-2]."'";
 	   $sql=$mscnt;                                                 //寫入MySQL 	 
        mysqli_query($link ,$sql) or die(mysqli_error($link));  	  
-       $arr = array ('order_no'=>$brr[$mArlth-2],'lastupdate'=>$lastdate.$list4['F03']);
+       $arr = array ('order_no'=>$brr[$mArlth-2],'lastupdate'=>$lastdate.$list4['F03'],'fldsatrr'=>$trnarray);
 	    echo json_encode($arr);
       //echo $brr[11];
     }  

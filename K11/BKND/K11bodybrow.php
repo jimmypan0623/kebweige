@@ -2,25 +2,25 @@
    header("Content-Type:text/html; charset=utf-8");   
 
  include("../../include/BKND/mysqli_server.php");                              //引用檔   
-         
+      require_once "../../include/BKND/fieldpreset.php"; // 引入       
 		 
         $str=explode('|',$_POST['filename']);  //將上面字串以逗號分割成陣列
 	   
 		$sql3="select k0h.* from `k0h`"; 
 	  //  $sql3.=" where k0h.F01='".$str[0]."' ";
 		$sql3.=" where k0h.F01='".$str[0]."' and ".$str[1]." like '%".trim($str[2])."%' order by k0h.F03"; 
-		                                                              
+	 $wthary=fldwdthpre('K11','2',$link);    	                                                              
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_assoc($sql4)){
-		$atr = array('rc_no_DHL_000'=>$list3['F00'],		           
-					  'bill_no_DSL_012'=>$list3['F03'], 
-					 'invoice_no_DSL_012'=>$list3['F02'],	                     
-                     'ship_date_DSC_012'=>$list3['F14'],                         	
-					 'origin_fee_DSR_012'=>$list3['F04'],  
-                     'reduce_number_DSR_012'=>$list3['F05'],  	
-					 'ship_remark_DSL_014'=>$list3['F12'],  	
-                     'lastupdate_DSC_012'=>$list3['F11']);                      						 
+		$atr = array('rc_no'.$wthary[0]=>$list3['F00'],		           
+					  'bill_no'.$wthary[1]=>$list3['F03'], 
+					 'invoice_no'.$wthary[2]=>$list3['F02'],	                     
+                     'ship_date'.$wthary[3]=>$list3['F14'],                         	
+					 'origin_fee'.$wthary[4]=>$list3['F04'],  
+                     'reduce_number'.$wthary[5]=>$list3['F05'],  	
+					 'ship_remark'.$wthary[6]=>$list3['F12'],  	
+                     'lastupdate'.$wthary[7]=>$list3['F11']);                      						 
 		array_push($arr,$atr);
 	}
 	mysqli_close($link);

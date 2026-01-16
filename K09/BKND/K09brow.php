@@ -1,6 +1,7 @@
 ﻿<?php
    header("Content-Type:text/html; charset=utf-8");   
    include("../../include/BKND/mysqli_server.php");                              //引用檔  
+    require_once "../../include/BKND/fieldpreset.php"; // 引入  
    $rows=0;
     $lastdate=date('Y'.'-'.'m'.'-'.'d');
    if (substr($_POST['filename'],0,3)=="PGE"){	  
@@ -36,27 +37,28 @@
 		$sql3.="WHERE k25.F12-k25.F27>0 AND (k25.F01>'00' AND k25.F01<'23') " ; 		
 		$sql3.="AND ".$fieldNo." like '%".trim($filterKey)."%' order by ".$fieldNo;           
    }	      
+     $wthary=fldwdthpre('K09','1',$link);  
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_assoc($sql4)){
 		$firstday=new DateTime($lastdate);
 	    $secondday=new DateTime($list3['F25']);		
 	    $intvl = $secondday->diff($firstday);
-		$atr = array('rc_no_DHL_000'=>$list3['F00'],  
-                     'shipday_DSC_009'=>$list3['F90'].'-'.$list3['F02'], 
-					  'billno_DSL_010'=>$list3['F15'],
-					 'invoiceno_DSL_010'=>$list3['F07'],	
-					 'amount_DSR_009'=>$list3['F12'],
-					 'restmoney_DSR_009'=>$list3['F12']-$list3['F27'],
-					 'objtno_DSL_007'=>$list3['F03'], 		
-                     'objtname_DSL_007'=>$list3['F0E'],					 
-					 'unitedno_DSL_007'=>$list3['F04'],					
-					 'inchargeno_DHL_000'=>$list3['F19'],	
-					  'inchargename_DSL_007'=>$list3['F0C'],	
-					  'shouldpayday_DSC_009'=>$list3['F25'], 
-					  'over_days_DSR_007'=>($firstday>$secondday)?($intvl->days):0, 
-					  'paymentway_DSL_008'=>$list3['F26'],					 
-					 'lastupdate_DHL_000'=>$list3['F24']                      				 
+		$atr = array('rc_no'.$wthary[0]=>$list3['F00'],  
+                     'shipday'.$wthary[1]=>$list3['F90'].'-'.$list3['F02'], 
+					  'billno'.$wthary[2]=>$list3['F15'],
+					 'invoiceno'.$wthary[3]=>$list3['F07'],	
+					 'amount'.$wthary[4]=>$list3['F12'],
+					 'restmoney'.$wthary[5]=>$list3['F12']-$list3['F27'],
+					 'objtno'.$wthary[6]=>$list3['F03'], 		
+                     'objtname'.$wthary[7]=>$list3['F0E'],					 
+					 'unitedno'.$wthary[8]=>$list3['F04'],					
+					 'inchargeno'.$wthary[9]=>$list3['F19'],	
+					  'inchargename'.$wthary[10]=>$list3['F0C'],	
+					  'shouldpayday'.$wthary[11]=>$list3['F25'], 
+					  'over_days'.$wthary[12]=>($firstday>$secondday)?($intvl->days):0, 
+					  'paymentway'.$wthary[13]=>$list3['F26'],					 
+					 'lastupdate'.$wthary[14]=>$list3['F24']                      				 
 					 );                     			 
 		array_push($arr,$atr);
 		

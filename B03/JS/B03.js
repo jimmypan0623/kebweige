@@ -306,51 +306,5 @@ function whichtax(tpe){
     return tpemsg;
 }
 
-function fldsgsroup(fidx,tbno){
-	 var groups=[];
-	if(tbno==0){	
-       var groups=[['directdata','block','left','9'],     //query_no
-	               ['directdata','block','left','7'],      //custom_no
-	               ['indirectdata','block','left','7'],    //custom_name
-	               ['indirectdata','none','center','0'],   //custom_fullname	 
-				   ['indirectdata','none','center','0'],   //unitedno
-				   ['indirectdata','none','center','0'],   //contact
-				   ['indirectdata','none','center','0'],   //tel
-	               ['directdata','block','center','3'],    //query_date	
-                   ['directdata','none','center','0'], 	   //sales_no	
-				   ['indirectdata','block','left','7'],    //sales_name	
-				   ['directdata','block','center','7'],       //originmonth
-				   ['directdata','block','left','9'],      //ship_bill
-				   ['directdata','block','left','9'],      //invoice_no
-				   ['directdata','none','center','0'],      //invoice_type
-				   ['indirectdata','block','center','5'],   //發票類別
-				   ['directdata','none','center','0'],      //tax_type
-				   ['indirectdata','block','center','4'],   //稅別
-				   ['directdata','block','center','4'],    //crncy_type
-				   ['directdata','block','right','7'],    // crncy_rate				
-				   ['directdata','none','left','0'],       //discount_ship
-				   ['indirectdata','block','center','7'],  //退貨或折讓
-				   ['directdata','block','left','9'],       //remark
-				   ['indirectdata','none','center','0']        //確認狀態
-	            ]; 
-	}else{		
-	    var groups=[['directdata','block','left','13'],     //stockno
-		           ['indirectdata','block','left','13'],    //stockname
-				   ['directdata','block','left','10'],      //order_no
-				   ['directdata','block','right','7'],     //query_qty
-				   ['directdata','block','right','7'],      //query_price
-				   ['indirectdata','block','right','7'],    //小計
-				   ['directdata','none','center','0'],      //dept_no
-				   ['indirectdata','block','left','7'],     //dept_name
-				   ['directdata','block','left','13'],      //custom_partno
-				   ['directdata','block','left','13']      //custom_po				       
-				   ]; 	
-		if(sourceAccount(20,0)*1==1){
-		   groups.push(['directdata','block','left','10']);   	//ship_date			
-		}
-	}		
-    return groups[fidx];			  
-}
-
 
 

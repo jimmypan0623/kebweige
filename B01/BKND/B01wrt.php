@@ -10,6 +10,8 @@ $brr=array();
         $brr[]=addslashes($val);		
    }
 include("../../include/BKND/mysqli_server.php");                      //引用檔 
+require_once "../../include/BKND/fieldDOMset.php"; // 引入     
+ $trnarray=fldafterwrite('B01','1',$link,true);  	
   $sql0="select * from a01 where F01="."'".$_COOKIE['useraccount']."'" ; 
    $sql1=@mysqli_query($link,$sql0);
    $rows1=@mysqli_num_rows($sql1);                       
@@ -60,7 +62,7 @@ if ($rows1>0){
 				$sql=$mscnt;                                               //寫入MySQL 	 
 				mysqli_query($link ,$sql) or die(mysqli_error($link));  
 				$last_id = mysqli_insert_id($link);     //找最後一個號碼	          						 
-				$arr = array ('order_no'=>$last_id,'dpt_name'=>$brr[21],'lastupdate'=>$lastdate.$list4['F03']);
+				$arr = array ('order_no'=>$last_id,'dpt_name'=>$brr[21],'lastupdate'=>$lastdate.$list4['F03'],'fldsatrr'=>$trnarray);
 				echo json_encode($arr);
 			}	   			 
 		}else{
@@ -88,7 +90,7 @@ if ($rows1>0){
 			$mscnt.=" WHERE F00="."'".$brr[$mArlth-2]."'";
 			$sql=$mscnt;                                                 //寫入MySQL 	 
 			mysqli_query($link ,$sql) or die(mysqli_error($link));  		  
-			$arr = array ('order_no'=>$brr[$mArlth-2],'lastupdate'=>$lastdate.$list4['F03']);
+			$arr = array ('order_no'=>$brr[$mArlth-2],'lastupdate'=>$lastdate.$list4['F03'],'fldsatrr'=>$trnarray);
 			echo json_encode($arr);
 		  //echo $brr[11];
 		}  

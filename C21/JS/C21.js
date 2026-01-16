@@ -249,41 +249,4 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 function rowchoseSecond(targetRow){    //紀錄移動表身
    return true;	
 }
-//////
 
-function fldsgsroup(fidx,tbno){
-	 var groups=[];
-	if(tbno==0){	
-        var groups=[['directdata','block','left','10'],     
-	               ['directdata','block','left','7'],   
-	               ['indirectdata','block','left','7'],   
-	               ['indirectdata','none','center','0'],   	 
-	               ['directdata','block','center','9'],  	
-                   ['directdata','none','center','0'], 	 	
-				   ['indirectdata','block','left','7'], 	
-				   ['directdata','block','center','4'], 
-				   ['directdata','block','left','13'], 
-				   ['directdata','block','left','13'], 
-				   ['directdata','block','left','13'], 
-				   ['directdata','block','left','13'], 
-				   ['directdata','none','center','0'], 
-				   ['directdata','none','center','0']
-	            ]; 
-	}else{
-	    var groups=[['directdata','block','left','13'],    
-				   ['indirectdata','block','left','13'], 
-				   ['directdata','block','right','8'], 
-				   ['directdata','block','right','8'],  
-				   ['indirectdata','block','right','8'],
-				   ['directdata','block','left','13'],  
-				   ['directdata','block','right','7'],  
-				   ['directdata','block','right','7'],  
-				   ['directdata','block','center','10'],  
-				   ['directdata','boock','center','10']  				  
-				   ]; 	
-	}		
-    return groups[fidx];			  
-}
-
-
-////<img src="./志翔水電_files/check-mark.png" alt="svg" style="position: absolute;top: 21px;left: 65%;width: 50px;opacity: 0.45;"></div></div>

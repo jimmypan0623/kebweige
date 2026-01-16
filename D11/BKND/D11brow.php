@@ -1,6 +1,7 @@
 ﻿<?php
    header("Content-Type:text/html; charset=utf-8");   
    include("../../include/BKND/mysqli_server.php");                              //引用檔   
+    require_once "../../include/BKND/fieldpreset.php"; // 引入  
    $rnddgt=intval($_COOKIE["INT_069"]);
     if (substr($_POST['filename'],0,3)=="PGE"){	  
 	   $pgeno=getNeedBetween($_POST['filename'],'E','|'); // 月次 
@@ -22,31 +23,31 @@
     $sql0="select F07 from a23 where F01="."'".$pgeno."'"; 
      $sql1=@mysqli_query($link,$sql0);                           
      $list4=mysqli_fetch_assoc($sql1);  //紀錄當前月份是否已結轉月庫存報表   
-   
-   
+     
+    $wthary=fldwdthpre('D11','1',$link);
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_assoc($sql4)){
 		 
-		$atr = array('rc_no_DHL_000'=>$list3['F00'],  
-                     'stock_no_DSL_012'=>$list3['F03'], 	
-					 'bill_no_DSL_010'=>$list3['F04'], 	
-					 'ship_date_DSC_003'=>$list3['F01'],
-					 'recipt_no_DSL_010'=>$list3['F05'],  
-					 'custom_no_DSL_007'=>$list3['F02'],	
-					 'custom_name_ISL_007'=>$list3['F0E'],	
-					 'ship_qty_DSR_007'=>$list3['F08'],
-		             'unit_price_DSR_007'=>$list3['F07'], 					 
-                     'crncy_type_DSC_004'=>$list3['F06'],	 
-                     'crncy_rate_DSR_007'=>$list3['F09'],	 					 
-                     'rcd_total_DSR_008'=>round($list3['F08']*$list3['F07']*$list3['F09'],$rnddgt),
-					 'depart_no_DHL_000'=>$list3['F15'],				
-					  'depart_name_ISL_007'=>$list3['F0D'],						
-                     'sales_no_DHL_000'=>$list3['F10'],				
-					  'sales_name_ISL_007'=>$list3['F0C'],	
-					   'sending_bill_DSL_010'=>$list3['F16'],  	
-					  'vendor_partno_DSL_012'=>$list3['F17'],  	
-					 'lastupdate_DHL_000'=>$list3['F19']                      				 
+		$atr = array('rc_no_DHL'.$wthary[0]=>$list3['F00'],  
+                     'stock_no'.$wthary[1]=>$list3['F03'], 	
+					 'bill_no'.$wthary[2]=>$list3['F04'], 	
+					 'ship_date'.$wthary[3]=>$list3['F01'],
+					 'recipt_no'.$wthary[4]=>$list3['F05'],  
+					 'custom_no'.$wthary[5]=>$list3['F02'],	
+					 'custom_name'.$wthary[6]=>$list3['F0E'],	
+					 'ship_qty'.$wthary[7]=>$list3['F08'],
+		             'unit_price'.$wthary[8]=>$list3['F07'], 					 
+                     'crncy_type'.$wthary[9]=>$list3['F06'],	 
+                     'crncy_rate'.$wthary[10]=>$list3['F09'],	 					 
+                     'rcd_total'.$wthary[11]=>round($list3['F08']*$list3['F07']*$list3['F09'],$rnddgt),
+					 'depart_no'.$wthary[12]=>$list3['F15'],				
+					  'depart_name'.$wthary[13]=>$list3['F0D'],						
+                     'sales_no'.$wthary[14]=>$list3['F10'],				
+					  'sales_name'.$wthary[15]=>$list3['F0C'],	
+					   'sending_bill'.$wthary[16]=>$list3['F16'],  	
+					  'vendor_partno'.$wthary[17]=>$list3['F17'],  	
+					 'lastupdate'.$wthary[18]=>$list3['F19']                      				 
 					 );                     			 
 		array_push($arr,$atr);
 		

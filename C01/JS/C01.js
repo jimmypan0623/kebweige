@@ -31,27 +31,28 @@ function getProfile(str1,reccount,tbno) {
 		oTr.setAttribute("name","mainrow");	      		
 		cnt++;		
 		for(var jk in arr[i]){		   
-			var oTd = oTr.insertCell(oTr.cells.length);		     		  
-			oTd.textContent=arr[i][jk];	
-			var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
-			var ks=ara.split('');		
-			//ks[0]:直接或間接 D/I
-			//ks[1]:是否顯示   S/H
-			//ks[2]:靠左中或右 L/C/R	
-			if(ks[0]=="D"){
-				oTd.setAttribute("class","directdata");	
-			}else{
-				oTd.setAttribute("class","indirectdata");	
-			}				 
-			if(ks[1]=='H'){
-				oTd.setAttribute("style","display:none;");		
-			}else{
-			   oTd.style.textAlign=(ks[2]=="L"?"left":(ks[2]=="C"?"center":"right"));
-			   var wdthln=jk.substr(jk.lastIndexOf('_')+1,4);  	  	
-			   oTd.style.width=wdthln/10+"%";
-			   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
-			}		
-		}
+	    	    var oTd = oTr.insertCell(oTr.cells.length);		     		  
+	    		oTd.textContent=arr[i][jk];		
+				var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
+			    var ks=ara.split('');		
+			    //ks[0]:直接或間接 D/I
+			    //ks[1]:是否顯示   S/H
+			    //ks[2]:靠左中或右 L/C/R	
+			    if(ks[0]=="D"){
+			    	oTd.setAttribute("class","directdata");	
+			    }else{
+			    	oTd.setAttribute("class","indirectdata");	
+			    }				 
+			    if(ks[1]=='H'){
+			    	oTd.setAttribute("style","display:none;");		
+			    }else{
+			       oTd.style.textAlign=(ks[2]=="L"?"left":(ks[2]=="C"?"center":"right"));
+			       var wdthln=jk.substr(jk.lastIndexOf('_')+1,3);  	  	
+			       oTd.style.width=wdthln+"%";
+			       attachEventListener(oTd,'click',rowchoose,false);		//點選資料
+			    }		
+		   }			  
+		
         //再新增一欄 	
 	    var oTd = oTr.insertCell(oTr.cells.length);		
 	    oTd.setAttribute("style","width:40px;display:none");   //勾選不顯示
@@ -150,62 +151,3 @@ function paycondition(tpy){
 	}	 
 	return tpy;	  
 }			  
-
-function fldsgsroup(fidx,tbno){
-	 var groups=[];
-	if(tbno==0){		
-       var groups=[['directdata','block','left','22'],     
-	               ['directdata','block','left','78'],   
-	               ['directdata','none','left','0'],   
-	               ['directdata','none','left','0'],   
-                   ['directdata','none','left','0'],   
-	               ['directdata','none','left','0'],   
-	               ['directdata','none','left','0'],   
-                   ['directdata','none','left','0'],   
-	               ['directdata','none','left','0'],   
-	               ['directdata','none','left','0'],   
-				   ['directdata','none','left','0'],   
-	               ['directdata','none','left','0'],   
-	               ['directdata','none','left','0'],   	
-				   ['directdata','none','left','0'],   
-	               ['directdata','none','left','0'],   
-	               ['directdata','none','left','0'],   	
-				   ['directdata','none','left','0'],   
-				   ['directdata','none','left','0'],   
-				   ['directdata','none','left','0'],   			
-				   ['directdata','none','left','0'],   
-				   ['directdata','none','left','0'],   
-				   ['directdata','none','left','0'],   	
-				   ['directdata','none','left','0'],   
-				   ['directdata','none','left','0'],   
-				   ['indirectdata','none','left','0'],   			
-				   ['directdata','none','left','0'],   
-				   ['directdata','none','left','0'],   
-				   ['directdata','none','left','0'],   	
-				   ['directdata','none','left','0'],   
-				   ['directdata','none','left','0'],   
-				   ['indirectdata','none','left','0'],   			
-				   ['directdata','none','left','0'],   
-				   ['indirectdata','none','left','0'],   
-				   ['directdata','none','left','0'],   
-				   ['directdata','none','left','0'],   
-				   ['directdata','none','left','0'],   
-				   ['indirectdata','none','left','0'],  
-	               ['indirectdata','none','left','0']  	 
-	            ]; 
-	}else{
-	    var groups=[['directdata','block','left','11.6'],    
-				   ['indirectdata','block','left','11.6'], 
-				   ['directdata','block','left','11'], 
-				   ['directdata','block','center','4'],  
-				   ['directdata','block','right','8'],  
-				   ['directdata','block','right','7'], 
-				   ['directdata','block','right','7'],  
-				   ['directdata','block','left','10'],  
-				   ['directdata','block','center','8'],  
-				   ['directdata','block','center','8'],  
-				   ['directdata','block','left','10']  
-				   ]; 	
-	}		
-    return groups[fidx];			  
-}

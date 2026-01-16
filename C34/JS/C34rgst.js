@@ -196,21 +196,24 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
     var fldidx=0;
 	var argsNo=0;
 	var nongsNo=0;	
-    while(fldsgsroup(fldidx,tbno)){
+	alert(rsp.fldsatrr);
+   //while(fldsgsroup(fldidx,tbno)){
+	 while(rsp.fldsatrr[fldidx]){	
 	    var oTd = oTr.insertCell(oTr.cells.length); 
-		if(fldsgsroup(fldidx,tbno)[0]=='directdata'){
+		//if(fldsgsroup(fldidx,tbno)[0]=='directdata'){
+		if(rsp.fldsatrr[fldidx][0]=='directdata'){	
 			oTd.innerHTML=args[argsNo];
 			argsNo++;
 		}else{
 			oTd.innerHTML=nongs[nongsNo];	
 			  nongsNo++;
 		}
-		oTd.setAttribute("class",fldsgsroup(fldidx,tbno)[0]);
-		if(fldsgsroup(fldidx,tbno)[1]=='none'){
+		oTd.setAttribute("class",rsp.fldsatrr[fldidx][0]);
+		if(rsp.fldsatrr[fldidx][1]=='none'){
 				oTd.setAttribute("style","display:none;");		
 		}else{
-			   oTd.style.textAlign=fldsgsroup(fldidx,tbno)[2];				     	
-			   oTd.style.width=fldsgsroup(fldidx,tbno)[3]+"%";				  
+			   oTd.style.textAlign=rsp.fldsatrr[fldidx][2];				     	
+			   oTd.style.width=rsp.fldsatrr[fldidx][3]+"%";				  
 		}					 		
         fldidx++;
     }
@@ -221,11 +224,14 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 }
 function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,nongs,tbno)函數修改紀錄後呼叫的畫面更動
 	var maintable=document.getElementById("maintbody1");	 
+	    
 	    var fldidx=2;
 		var argsNo=1;
 		var nongsNo=1;	
-		while(fldsgsroup(fldidx,tbno)){			
-			if(fldsgsroup(fldidx,tbno)[0]=='directdata'){				
+	//	while(fldsgsroup(fldidx,tbno)){	
+	    while(rsp.fldsatrr[fldidx]){	
+			//if(fldsgsroup(fldidx,tbno)[0]=='directdata'){	
+			if(rsp.fldsatrr[fldidx][0]=='directdata'){	  
 				 maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=args[argsNo];				
 				argsNo++;
 			}else{
@@ -234,6 +240,7 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 				}				
 				 nongsNo++;
 			}
+			
 			fldidx++;
 		}				
 	/* var tbrlth=maintable.rows[args[arglth-1]].cells.length;	
@@ -245,6 +252,7 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 	} */
 	/***********************************************************/                    
 	 maintable.rows[args[arglth-1]].cells[arglth+1].innerHTML=rsp.lastupdate;
+	 
 }
 function searchOptionsKey(tbno,slt5){	
 	 slt5.options.add(new Option('料品編號','c34.F02'));

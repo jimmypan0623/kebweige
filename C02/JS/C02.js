@@ -92,22 +92,3 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 function rowchoseSecond(targetRow){    //紀錄移動
    return true;	
 }
-
-function fldsgsroup(fidx,tbno){
-    let groups =[['directdata','block','left','9'],    //stock_no
-			     ['directdata','block','left','7'],  //custom_no
-			     ['indirectdata','block','left','7'],     //custom_name 
-			     ['directdata','block','left','9'],   //custom_partno
-			     ['directdata','block','center','4'],     //current 
-			     ['directdata','block','right','7'],     //price
-			     ['directdata','block','right','7'],     //minorder
-			     ['directdata','block','right','7'],     //basicpack
-				 ['directdata','block','left','9'],     //payment
-				 ['directdata','block','left','9'],     //quotation
-				 ['directdata','block','center','8'],     //origin_date
-				 ['directdata','block','center','8'],     //invalid_date
-				 ['directdata','block','left','9'],     //remark
-			    ];  
-    return groups[fidx];			  
-}
-					  

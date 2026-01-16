@@ -1,6 +1,7 @@
 ﻿<?php
    header("Content-Type:text/html; charset=utf-8");   
    include("../../include/BKND/mysqli_server.php");                      //引用檔  
+   require_once "../../include/BKND/fieldpreset.php"; // 引入  
    $rows=0;
    if (substr($_POST['filename'],0,3)=="PGE"){	  
 	   $pgeno=getNeedBetween($_POST['filename'],'E','|'); // 頁次 
@@ -35,35 +36,36 @@
 		WHERE BINARY ".$fieldNo." like '%".trim($filterKey)."%' order by ".$fieldNo.",b01.F01" ; 
    }	   
     $rndnb=$_COOKIE['INT_001'];  //參數設定的小數位數
+	$wthary=fldwdthpre('B01','1',$link);   
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_assoc($sql4)){		 
-		$atr = array('rc_no_DHC_000'=>$list3['F00'],  		            	             
-		             'stock_no_DSL_050'=>$list3['F01'], 					 
-                     'stock_nameo_DSL_040'=>$list3['F02'],					                     
-                     'tpemng_DHC_000'=>$list3['F06'],  
-                     'tpblng_DHC_000'=>$list3['F98'],
-                     'eachprchs_DHC_000'=>$list3['F03'],
-                     'eachcount_DHC_000'=>$list3['F04'],  	
-                     'dividing_DHC_000'=>$list3['F05'],
-					 'dptno_DHC_000'=>$list3['F07'],					
-					 'dptname_IHC_000'=>$list3['F0B'],	
-                     'ntqty_IHR_000'=>round($list3['nTqty'],$rndnb),							 
-					 'dpqty_IHR_000'=>round($list3['F0D'],$rndnb),                    
-					 'maxinv_DHR_000'=>$list3['F10'],
-					 'minuminv_DHR_000'=>$list3['F11'],
-					 'location_DHL_000'=>$list3['F41'],
-					 'buildbom_DHC_000'=>$list3['F97'],
-					 'tpeofaply_DHC_000'=>$list3['F39'],
-					 'lotnomng_DHC_000'=>$list3['F30'],
-					 'prchsleadtime_DHR_000'=>$list3['F28'],
-					 'warehousereadytime_DHR_000'=>$list3['F31'],					 					 
-					 'salescost_DHR_000'=>$list3['F38'],
-					 'averagecost_DHR_000'=>$list3['F37'],
-					 'remark_DHL_000'=>$list3['F29'],	
-					 'mtrtype_DHR_000'=>$list3['F42'],	
-					 'orignplace_DHL_000'=>$list3['F49'],	
-					 'lastupdate_DHC_000'=>$list3['F21']                      				 
+		$atr = array('rc_no'.$wthary[0]=>$list3['F00'],  		            	             
+		             'stock_no'.$wthary[1]=>$list3['F01'], 					 
+                     'stock_nameo'.$wthary[2]=>$list3['F02'],					                     
+                     'tpemng'.$wthary[3]=>$list3['F06'],  
+                     'tpblng'.$wthary[4]=>$list3['F98'],
+                     'eachprchs'.$wthary[5]=>$list3['F03'],
+                     'eachcount'.$wthary[6]=>$list3['F04'],  	
+                     'dividing'.$wthary[7]=>$list3['F05'],
+					 'dptno'.$wthary[8]=>$list3['F07'],					
+					 'dptname'.$wthary[9]=>$list3['F0B'],	
+                     'ntqty'.$wthary[10]=>round($list3['nTqty'],$rndnb),							 
+					 'dpqty'.$wthary[11]=>round($list3['F0D'],$rndnb),                    
+					 'maxinv'.$wthary[12]=>$list3['F10'],
+					 'minuminv'.$wthary[13]=>$list3['F11'],
+					 'location'.$wthary[14]=>$list3['F41'],
+					 'buildbom'.$wthary[15]=>$list3['F97'],
+					 'tpeofaply'.$wthary[16]=>$list3['F39'],
+					 'lotnomng'.$wthary[17]=>$list3['F30'],
+					 'prchsleadtime'.$wthary[18]=>$list3['F28'],
+					 'warehousereadytime'.$wthary[19]=>$list3['F31'],					 					 
+					 'salescost'.$wthary[20]=>$list3['F38'],
+					 'averagecost'.$wthary[21]=>$list3['F37'],
+					 'remark'.$wthary[22]=>$list3['F29'],	
+					 'mtrtype'.$wthary[23]=>$list3['F42'],	
+					 'orignplace'.$wthary[24]=>$list3['F49'],	
+					 'lastupdate'.$wthary[25]=>$list3['F21']                      				 
 					 );                      			
 		array_push($arr,$atr);
 	}

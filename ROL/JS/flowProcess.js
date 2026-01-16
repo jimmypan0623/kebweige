@@ -6,6 +6,9 @@ function setArg(arr){
 			 
         }); 
      window.parent.getAuth[1]()[1]=window.parent.getAuth[0]()[0];
+	 
+	 window.parent.fieldsSet(window.parent.getAuth[1]()[1].substr(0,3));   //欄位直接設定
+	 
 	 window.parent.initDialog();
 	 
 }	
@@ -19,7 +22,7 @@ function setArg(arr){
 		
 		
 	function FunDetailArg(arg){	
- 
+         ;
 	    var sendSrcRec="filename="+arg.substr(0,3)+"|"+window.parent.getAuth[1]()[0];		
 		 
 	    var rsp="";  	
@@ -42,7 +45,7 @@ function setArg(arr){
 				       window.parent.blkshow("您無"+arg+"操作權限");
 				     
 			    }else{
-			          
+			         
 					  setArg(rsp);  
 				}   
 		    }

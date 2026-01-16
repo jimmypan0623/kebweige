@@ -1,5 +1,40 @@
-function selfTag(jsvsn){	  	
-	var maindiv=getElementsByAttribute('class','tab_css');	  	 
+function selfTag(jsvsn){	
+    ////
+	var maindiv=getElementsByAttribute('class','tab_css');	
+	var beinsertedid=document.getElementById('tab1');
+	var spn=document.createElement('span');
+	spn.id="APPRVE";
+	maindiv[0].insertBefore(spn,beinsertedid);
+    var cntdiv=getElementsByAttribute('class','tab_content');	
+	var rspn2=document.getElementById('serverResponse2'); 	
+	var orpButton10=document.createElement("input");		   
+	orpButton10.setAttribute("type","button");
+	orpButton10.setAttribute("class","btn");
+	orpButton10.setAttribute("value","\u{1F4DA}");          
+    orpButton10.setAttribute("style","font-size:17px;");       			
+	orpButton10.setAttribute("title","查看出貨紀錄，快速鍵 Alt+B");   
+	orpButton10.setAttribute("accesskey","B");	
+	attachEventListener(orpButton10,"click",page2OtherButton1,false);
+	orpButton10.id="OUTRCD_BOTT";		
+	var text16 = document.createTextNode('\u{A0}\u{A0}');
+	var text17 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}');   
+	cntdiv[1].insertBefore(text16,rspn2);
+	cntdiv[1].insertBefore(orpButton10,rspn2);
+	cntdiv[1].insertBefore(text17,rspn2);		
+	var text01 = document.createTextNode('\u{A0}\u{A0}\u{A0}');
+	cntdiv[1].insertBefore(text01,rspn2);
+	var spn1=document.createElement('span');
+	spn1.id="ttltitle";
+     spn1.innerHTML='總金額:';
+	cntdiv[1].insertBefore(spn1,rspn2);
+	var spn2=document.createElement('span');
+	spn2.id="crncy" ;
+    cntdiv[1].insertBefore(spn2,rspn2);
+	var spn3=document.createElement('span');
+	spn3.id="ttlmny";
+	spn3.innerHTML='0';
+	cntdiv[1].insertBefore(spn3,rspn2);
+	////  	  	 
 	var orpButton5=document.getElementById("lgt");		  //離開按鈕    
 	var text17 = document.createTextNode('\u{A0}');
 	var orpButton7=document.createElement("input");		   

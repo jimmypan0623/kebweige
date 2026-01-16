@@ -89,6 +89,7 @@
 				attachEventListener(oTd,'click',rowchoose,false);		//點選資料					  
 			}	
 				//////
+			
 
 	    }		   
 		var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
@@ -97,6 +98,7 @@
 		myCheck.type="checkbox";
 		if(tbno==0){
 			myCheck.setAttribute("name","chkbxmember1");   //讓使用者勾選的checkbox單頭
+			
 			if(arr[i]['shure_IHC_000']!='Y'){  //未確認
 			    oTr.setAttribute("style","font-weight:bold;color:#704214;"); 
 		    } 
@@ -300,46 +302,4 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 
 function rowchoseSecond(targetRow){    //紀錄移動
    return true;	
-}
-
-function fldsgsroup(fidx,tbno){
-	 var groups=[];
-	if(tbno==0){	
-       var groups=[['directdata','block','left','10'],     //query_no
-	               ['directdata','block','left','7'],      //custom_no
-	               ['indirectdata','block','left','7'],    //custom_name
-	               ['indirectdata','none','center','0'],   //custom_fullname	 
-				   ['indirectdata','none','center','0'],   //unitedno
-				   ['indirectdata','none','center','0'],   //contact
-				   ['indirectdata','none','center','0'],   //tel
-	               ['directdata','block','center','3'],    //query_date	
-                   ['directdata','none','center','0'], 	   //sales_no	
-				   ['indirectdata','block','left','7'],    //sales_name	
-				   ['directdata','block','center','4'],    //crncy_type
-				   ['directdata','block','right','7'],    // crncy_rate
-				   ['directdata','block','left','10'],     // invoice_no
-				   ['directdata','none','center','0'],      //invoice_type
-				   ['indirectdata','block','center','5'],   //發票種類
-				   ['directdata','none','center','0'],      //tax_type
-				   ['indirectdata','block','center','4'],   //稅別
-				   ['directdata','block','left','8'],       //payment
-				   ['directdata','block','left','16'],      //ship_address
-				   ['directdata','block','left','8'],       //ship_direct
-				   ['indirectdata','none','center','0']        //確認狀態
-	            ]; 
-	}else{
-	    var groups=[['directdata','block','left','13'],    
-		           ['indirectdata','block','left','13'],
-				   ['directdata','block','left','10'], 
-				   ['directdata','block','right','7'], 
-				   ['directdata','block','right','7'],  
-				   ['indirectdata','block','right','7'],  
-				   ['directdata','none','center','0'],
-				   ['indirectdata','block','left','7'],  
-				   ['directdata','block','left','13'],  
-				   ['directdata','block','left','13'],  
-				   ['directdata','block','left','10']   				    
-				   ]; 	
-	}		
-    return groups[fidx];			  
 }

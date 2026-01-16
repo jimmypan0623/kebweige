@@ -7,6 +7,8 @@ foreach($cart as $key=>$val){
     $brr[]=addslashes($val);		//要加入此函數避免中間有單引號錯亂
 }
 include("../../include/BKND/mysqli_server.php");                              //引用檔   
+  require_once "../../include/BKND/fieldDOMset.php"; // 引入     
+ $trnarray=fldafterwrite('B05','2',$link,true);  
         $sql5="SELECT * FROM a14 WHERE F04='Y' AND F13='Y' AND F01="."'".$brr[5]."'"; 
 		 $sql6=mysqli_query($link,$sql5) or die(mysqli_error($link));
 		 $rows2=@mysqli_num_rows($sql6);
@@ -56,7 +58,7 @@ if($rows2==0){
 	            $sql=$mscnt;                                               //寫入MySQL 	 
                 mysqli_query($link ,$sql) or die(mysqli_error($link));  
 			    $last_id = mysqli_insert_id($link);     //找最後一個號碼	          					     
-			    $arr = array ('order_no'=>$last_id,'lastupdate'=>$lastdate.$list4['F03']);
+			    $arr = array ('order_no'=>$last_id,'lastupdate'=>$lastdate.$list4['F03'],'fldsatrr'=>$trnarray);
 	            echo json_encode($arr);
 			    if(intval($list5['F24'])<3){   //非折讓就要寫入原訂單開單未過帳量
                   $armstc04="UPDATE c04 SET F24=F24+".$brr[3]." WHERE F02='".$brr[1]."' AND F01='".$brr[2]."' ";  	                                               
@@ -77,7 +79,7 @@ if($rows2==0){
 	    $mscnt.=" WHERE F00="."'".$brr[$mArlth-2]."'";
 	    $sql=$mscnt;                                                 //寫入MySQL 	 
         mysqli_query($link ,$sql) or die(mysqli_error($link));  	  
-        $arr = array ('order_no'=>$brr[$mArlth-2],'lastupdate'=>$lastdate.$list4['F03']);
+        $arr = array ('order_no'=>$brr[$mArlth-2],'lastupdate'=>$lastdate.$list4['F03'],'fldsatrr'=>$trnarray);
 	    echo json_encode($arr);
 	    if(intval($list5['F24'])<3){   //非折讓就要寫入原訂單開單未退帳量
             $armstc04="UPDATE c04 SET F24=F24+".$brr[3]." WHERE F02='".$brr[1]."' AND F01='".$brr[2]."' ";  	                                               

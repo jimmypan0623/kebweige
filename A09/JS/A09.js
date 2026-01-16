@@ -85,18 +85,3 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
     
     return true;			   
 }	
-
-function fldsgsroup(fidx,tbno){
-    let groups =[['directdata','block','left','8'],    //dpt_no
-			     ['directdata','block','left','10'],  //dpt_name
-				 ['directdata','none','left','0'],   //who_incharge
-				 ['indirectdata','block','center','4'],   //who_incharge
-			     ['directdata','block','center','8'],     //inv_inc
-			     ['directdata','block','center','8'],   //prod_inc
-			     ['directdata','block','center','8'],     //cost_inc 
-			     ['directdata','block','center','8'],     //is_useful
-			     ['directdata','block','left','30'],     //remark			     
-			    ];  
-    return groups[fidx];			  
-}
-

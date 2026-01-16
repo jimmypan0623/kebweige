@@ -34,6 +34,7 @@ getAuth[0] = createArrayClosure();
 getAuth[1] = createArrayClosure();	 //帳號與上次執行功能
 getAuth[2] = createArrayClosure();	 //不列入COOKIE之系統參數
 getAuth[3] = createArrayClosure();	 //各系統參數之屬性
+
 function initDialog()
 {       
     var btmshowtme=document.getElementById('currentTime'); 
@@ -175,7 +176,7 @@ function initDialog()
 				if(i>0){				  
 				   var keyName=document.createElement("span");
 				   keyName.setAttribute("name","keyname");
-				   keyName.setAttribute("class","tabCntntSpan");
+				   keyName.setAttribute("class","tabCntntSpan");				   
 				   var marklight=document.createElement("mark");
 				   marklight.setAttribute("style","background-color:#BAF4D8;");
 				   var father=document.createElement("span");
@@ -213,9 +214,9 @@ function initDialog()
 	              scriptall[j].parentNode.removeChild(scriptall[j]);		 
 		        }
 	        }		 				 
-			var cmmjsvs=gifarray[nwsd]+scnd;			
+			/* var cmmjsvs=gifarray[nwsd]+scnd;			
 			var urljsname=left(nowExcute,3)+'/JS/'+left(nowExcute,3)+'elmcrt.js?v='+cmmjsvs; 			
-			loadScript(urljsname,function(){crtElm();});  
+			loadScript(urljsname,function(){crtElm();});   */
 			var mthjudge=getAuth[0]()[11];//判斷是否為月份檔
 			var contentdiv=getElementsByAttribute('class','tab_content');			
 			if(!(contentdiv[0])){   //如果同時觸發兩隻程式引發記憶體錯亂,強制中斷以第一隻程式為準,重來一次			    							
@@ -508,8 +509,11 @@ function initDialog()
 			}
 		}		 	
 		var jsvsn=nwsd.toString()+scnd;		
-		var urljsname=nowExcute.substr(0,3)+'/JS/'+nowExcute.substr(0,3)+'psdchg.js?v='+jsvsn;		 
-		loadScript(urljsname,function(){selfTag(jsvsn);});  			     
+		/* var showTime=document.getElementById('currentTime');
+		var jsvsn=(showTime.innerHTML.substring(0,4)+'-'+showTime.innerHTML.substring(5,7)+'-'+showTime.innerHTML.substring(8,10)); */
+		 
+		var urljsname=nowExcute.substr(0,3)+'/JS/'+nowExcute.substr(0,3)+'psdchg.js?v='+jsvsn;		 	
+    	loadScript(urljsname,function(){selfTag(jsvsn);});     
 	}	
 }
 
@@ -775,7 +779,7 @@ function delConfirm(event){     //確定刪除
 
 				 document.getElementById("serverResponse1").innerHTML="\u{A0}";
 				 document.getElementById("serverResponse2").innerHTML="\u{A0}";
-				 
+				 document.getElementById("serverResponse3").innerHTML="\u{A0}";
 			}              		  
 		}
 	}
@@ -878,4 +882,69 @@ function setArg(arr){
      getAuth[1]()[1]= getAuth[0]()[0];
 	 initDialog();
 	 
+}	
+
+function fieldsSet(exucPrgNo){	   //剛進操作畫面之欄位設定
+    var sendSrcRec="filename="+left( exucPrgNo,3);	    
+	var rsp="";  	
+	
+	if(window.ActiveXObject){
+	   var request = new ActiveXObject("Microsoft.XMLHttp");
+	}	
+	   else if(window.XMLHttpRequest){
+		  var request = new XMLHttpRequest();
+	}			 
+	request.onreadystatechange = respond;	   
+	var url="include/BKND/pagesFieldsData.php?timestamp="+new Date().getTime();		
+	request.open("POST",url);	 
+	request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	request.send(sendSrcRec);		
+	function respond(){           
+		if (request.readyState == 4 && request.status == 200){ 
+		   
+            rsp=JSON.parse(request.responseText);	
+			
+		     var widthttl=0;
+			 var m=0;
+			
+		    for(var i=0;i<rsp.length;i++){		
+			    
+			    for(var jk in rsp[i]){	 
+				    if(jk=='field_order' && parseInt(left(rsp[i][jk],1))!=m){
+						
+						
+						m=parseInt(left(rsp[i][jk],1));			
+						
+					    var thr=document.getElementById('headrow'+m.toString());
+						 widthttl=0;						
+					}
+					if(jk=='field_name'){
+						var th = document.createElement('th'); //column	
+						var text = document.createTextNode(rsp[i][jk]);
+					    th.appendChild(text);
+				  
+					}else if(jk=='width_ratio'){					  
+					   th.style.width=rsp[i][jk]+'%';
+					   widthttl+=rsp[i][jk]*1;
+					}
+					if(widthttl>100){
+							
+						  var oMember=document.getElementById('member'+m.toString());
+						   oMember.style.width=widthttl.toString()+'%';
+					}
+			    }
+				thr.appendChild(th);
+				 
+		    }
+            if(m>1){
+				var keynames=getElementsByAttribute('name','keyname');	
+				for(var k=0;k<keynames.length;k++){
+	                   keynames[k].innerHTML=rsp[0]['field_name']+":";
+				}
+			}   
+			 
+		}
+		return;
+	}	
+	
 }	

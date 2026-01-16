@@ -1,6 +1,7 @@
 ﻿<?php
    header("Content-Type:text/html; charset=utf-8");   
    include("../../include/BKND/mysqli_server.php");                              //引用檔
+     require_once "../../include/BKND/fieldpreset.php"; // 引入
    $rnddgt=$_COOKIE["INT_069"];
    if (substr($_POST['filename'],0,3)=="PGE"){	  
 	   $pgeno=getNeedBetween($_POST['filename'],'E','|'); // 月次 
@@ -24,26 +25,26 @@
     $sql0="select F07 from a23 where F01="."'".$pgeno."'"; 
      $sql1=@mysqli_query($link,$sql0);                           
      $list4=mysqli_fetch_assoc($sql1);  //紀錄當前月份是否已結轉月庫存報表   
- 
+     $wthary=fldwdthpre('B25','1',$link);
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_assoc($sql4)){
 	 
-		$atr = array('rc_no_DHL_000'=>$list3['F00'],  
-                     'stock_no_DSL_012'=>$list3['F02'], 	
-					 'mth_init_DSR_007'=>$list3['F03'], 	
-					 'shipIn_DSR_007'=>$list3['F04'],
-					 'inReject_DSR_007'=>$list3['F05'],  
-					 'shipOut_DSR_007'=>$list3['F06'],	
-					 'outReject_DSR_007'=>$list3['F07'],	
-					 'turnIn_DSR_007'=>$list3['F08'],
-		             'turnOut_DSR_007'=>$list3['F09'], 					 
-                     'product_DSR_007'=>$list3['F10'],	 
-                     'consume_DSR_007'=>$list3['F11'],	 					 
-                     'lose_DSR_007'=>$list3['F14'],
-					 'wend_DSR_007'=>$list3['F13'],  						
-                     'mth_end_DSR_007'=>$list3['F15'],									  
-					 'lastupdate_DHL_000'=>$list3['F16']                      				 
+		$atr = array('rc_no'.$wthary[0]=>$list3['F00'],  
+                     'stock_no'.$wthary[1]=>$list3['F02'], 	
+					 'mth_init'.$wthary[2]=>$list3['F03'], 	
+					 'shipIn'.$wthary[3]=>$list3['F04'],
+					 'inReject'.$wthary[4]=>$list3['F05'],  
+					 'shipOut'.$wthary[5]=>$list3['F06'],	
+					 'outReject'.$wthary[6]=>$list3['F07'],	
+					 'turnIn'.$wthary[7]=>$list3['F08'],
+		             'turnOut'.$wthary[8]=>$list3['F09'], 					 
+                     'product'.$wthary[9]=>$list3['F10'],	 
+                     'consume'.$wthary[10]=>$list3['F11'],	 					 
+                     'lose'.$wthary[11]=>$list3['F14'],
+					 'wend'.$wthary[12]=>$list3['F13'],  						
+                     'mth_end'.$wthary[13]=>$list3['F15'],									  
+					 'lastupdate'.$wthary[14]=>$list3['F16']                      				 
 					 );                     			 
 		array_push($arr,$atr);
 		

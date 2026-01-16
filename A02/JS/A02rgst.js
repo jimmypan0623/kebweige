@@ -443,9 +443,10 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
     	var fldidx=0;
 		var argsNo=0;
 		var nongsNo=0;	
-		while(fldsgsroup(fldidx,tbno)){
+		//while(fldsgsroup(fldidx,tbno)){
+		while(rsp.fldsatrr[fldidx]){	
 			var oTd = oTr.insertCell(oTr.cells.length); 			
-			if(fldsgsroup(fldidx,tbno)[0]=='directdata'){
+			if(rsp.fldsatrr[fldidx][0]=='directdata'){
 				oTd.innerHTML=args[argsNo];
 				if(tbno==1 && fldidx<6){
 				    if( oTd.innerHTML=='E'){
@@ -466,81 +467,16 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 				oTd.innerHTML=nongs[nongsNo];
 				nongsNo++;
 			}
-			oTd.setAttribute("class",fldsgsroup(fldidx,tbno)[0]);
-			if(fldsgsroup(fldidx,tbno)[1]=='none'){
+			oTd.setAttribute("class",rsp.fldsatrr[fldidx][0]);
+			if(rsp.fldsatrr[fldidx][1]=='none'){
 					oTd.setAttribute("style","display:none;");		
 			}else{
 				   oTd.style.textAlign=fldsgsroup(fldidx,tbno)[2];				     	
-				   oTd.style.width=fldsgsroup(fldidx,tbno)[3]+"%";				  
+				   oTd.style.width=rsp.fldsatrr[fldidx][3]+"%";				  
 			}					 		
 			fldidx++;
 		}				
-   /*  if (tbno==0){  //處理表頭新增
-		for(var i=0;i<3;i++){
-			var oTd = oTr.insertCell(oTr.cells.length);
-			oTd.innerHTML=args[i];		
-			oTd.setAttribute("class","directdata");						 
-			oTd.setAttribute("style","text-align:left;width:8%;");						 
-		}				 
-		var oTd = oTr.insertCell(oTr.cells.length);					
-		oTd.innerHTML=nongs[0];
-		oTd.setAttribute("class","indirectdata");
-		oTd.setAttribute("style","text-align:left;width:8%;");
-		for(var i=3;i<args.length-2;i++){
-			var oTd = oTr.insertCell(oTr.cells.length);
-			oTd.innerHTML=args[i];		
-			oTd.setAttribute("class","directdata");
-			switch (i) {
-			    case 3:
-				    oTd.setAttribute("style","text-align:left;width:12%;");   //連絡電話
-				    break;
-				case 4:
-					oTd.setAttribute("style","text-align:left;width:20%;");   //e-mail
-					break;
-				default:
-					oTd.setAttribute("style","text-align:left;width:8%;");
-					break;
-			}
-						  
-		}				 
-	}else{           //處理表身新增				    
-		var oTd = oTr.insertCell(oTr.cells.length);  //功能編號
-		oTd.innerHTML=args[0];				
-        oTd.setAttribute("class","directdata");	
-		oTd.setAttribute("style","width:8%;text-align:center;");
-		var oTd = oTr.insertCell(oTr.cells.length);  //功能名稱
-		oTd.innerHTML=nongs[0];				
-        oTd.setAttribute("class","indirectdata");	
-		oTd.setAttribute("style","width:17%;");	
-		for(var i=1;i<10;i++){
-			var oTd = oTr.insertCell(oTr.cells.length);
-			oTd.innerHTML=args[i];	
-			oTd.setAttribute("class","directdata");	
-			if(i<5){
-				if( oTd.innerHTML=='E'){
-					oTd.setAttribute("style","width:5%;;text-align:center;color:#BAF4D8;");
-				}else{ 
-					oTd.setAttribute("style","width:5%;text-align:center;");
-				}
-			}else{
-				oTd.setAttribute("style","display:none;");  
-			}  
-		}
-		for(var j=1;j<6;j++){
-			var oTd = oTr.insertCell(oTr.cells.length);
-			oTd.innerHTML=nongs[j];	
-			oTd.setAttribute("class","indirectdata");	
-			oTd.setAttribute("style","width:11%;");
-			if(nongs[j]){						
-				if(oTr.cells[j+6].innerHTML!='Y'){	
-					oTd.setAttribute("style","width:11%;text-decoration: line-through;color:#7f8890;");
-				}else{
-					oTd.setAttribute("style","width:11%;");
-				}						     							 
-			} 
-		}
-				      	
-	} */
+ 
 	var oTd = oTr.insertCell(oTr.cells.length);	  //最後更新
 	oTd.setAttribute("class","directdata");	
 	oTd.setAttribute("style","display:none");	

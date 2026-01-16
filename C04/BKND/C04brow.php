@@ -1,6 +1,7 @@
 ﻿<?php
    header("Content-Type:text/html; charset=utf-8");   
    include("../../include/BKND/mysqli_server.php");                             //引用檔   
+    require_once "../../include/BKND/fieldpreset.php"; // 引入       
    if (substr($_POST['filename'],0,3)=="PGE"){	  
 	   $pgeno=getNeedBetween($_POST['filename'],'E','|'); // 頁次 
        //$rows=(int)substr(strrchr($_POST['filename'],'|'),1);	
@@ -33,25 +34,26 @@
             left outer join a01 on a01.F01=c03.F07		   
 			WHERE ".$fieldNo." like '%".trim($filterKey)."%' order by ".$fieldNo." ASC,c03.F01 DESC" ; 
    }	   
+    $wthary=fldwdthpre('C04','1',$link);  
 	$arr=array();	
     $sql4=mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_assoc($sql4)){
 		 
-		$atr = array('rc_no_DHL_000'=>$list3['F00'],  		            	             
-		             'query_no_DSL_010'=>$list3['F01'], 					 
-                     'custom_no_DSL_007'=>$list3['F03'],	
-                     'custom_name_ISL_007'=>$list3['F0E'],		
-					 'custom_fullname_IHC_000'=>$list3['F0D'],		
-                     'query_date_DSC_010'=>$list3['F02'],
-                     'sales_no_DHC_000'=>$list3['F07'],		
-					 'sales_name_ISL_007'=>$list3['F0C'],	
-					 'crncy_type_DSC_004'=>$list3['F12'],	
-                     'customer_po_DSL_012'=>$list3['F14'],	
-                     'shipplace_DSL_026'=>$list3['F06'],     	
-                     'shipdirect_DSL_015'=>$list3['F13'],     						                  
-					 'trns_DHC_000'=>$list3['F08'],  	
-                     'shure_DHC_000'=>$list3['F04'],     					 
-					 'lastupdate_DHC_000'=>$list3['F10']                      				 
+		$atr = array('rc_no'.$wthary[0]=>$list3['F00'],  		            	             
+		             'query_no'.$wthary[1]=>$list3['F01'], 					 
+                     'custom_no'.$wthary[2]=>$list3['F03'],	
+                     'custom_name'.$wthary[3]=>$list3['F0E'],		
+					 'custom_fullname'.$wthary[4]=>$list3['F0D'],		
+                     'query_date'.$wthary[5]=>$list3['F02'],
+                     'sales_no'.$wthary[6]=>$list3['F07'],		
+					 'sales_name'.$wthary[7]=>$list3['F0C'],	
+					 'crncy_type'.$wthary[8]=>$list3['F12'],	
+                     'customer_po'.$wthary[9]=>$list3['F14'],	
+                     'shipplace'.$wthary[10]=>$list3['F06'],     	
+                     'shipdirect'.$wthary[11]=>$list3['F13'],     						                  
+					 'trns'.$wthary[12]=>$list3['F08'],  	
+                     'shure'.$wthary[13]=>$list3['F04'],     					 
+					 'lastupdate'.$wthary[14]=>$list3['F10']                      				 
 					 );                      			
 		array_push($arr,$atr);
 	}

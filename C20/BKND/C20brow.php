@@ -1,6 +1,7 @@
 ﻿<?php
    header("Content-Type:text/html; charset=utf-8");   
    include("../../include/BKND/mysqli_server.php");                    //引用檔   
+   require_once "../../include/BKND/fieldpreset.php"; // 引入     
    $rows=0;
    if (substr($_POST['filename'],0,3)=="PGE"){	  
 	   $pgeno=getNeedBetween($_POST['filename'],'E','|'); // 頁次 
@@ -28,23 +29,24 @@
 		$sql.=" left outer join b01 on b01.F01=c20.F01 ";	 	
 		$sql3=$sql." WHERE ".$fieldNo." like '%".trim($filterKey)."%' order by ".$fieldNo ; 
    }	   
+    $wthary=fldwdthpre('C20','1',$link);
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_assoc($sql4)){
 		 
-		$atr = array('rc_no_DHL_000'=>$list3['F00'],  		            	             
-		             'stock_no_DSL_013'=>$list3['F01'], 
-                     'stock_name_ISL_013'=>$list3['F0B'], 
-                     'stock_unit_ISC_005'=>$list3['F0D'], 					                     				                    
-                     'basic_pack_DSR_008'=>$list3['F03'], 
-					 'pack_way_DSC_007'=>$list3['F02'],
-					 'out_pack_DSR_008'=>$list3['F11'], 
-					 'minum_order_DSR_008'=>$list3['F15'], 	
-					  'cubic_qty_DSR_008'=>$list3['F12'],  
-					 'ross_weight_DSR_008'=>$list3['F13'],  
-                     'net_weight_DSR_008'=>$list3['F14'],   				
-					 'oth_remark_DSL_013'=>$list3['F05'],   
-					 'lastupdate_DHL_000'=>$list3['F99']                      				 
+		$atr = array('rc_no'.$wthary[0]=>$list3['F00'],  		            	             
+		             'stock_no'.$wthary[1]=>$list3['F01'], 
+                     'stock_name'.$wthary[2]=>$list3['F0B'], 
+                     'stock_unit'.$wthary[3]=>$list3['F0D'], 					                     				                    
+                     'basic_pack'.$wthary[4]=>$list3['F03'], 
+					 'pack_way'.$wthary[5]=>$list3['F02'],
+					 'out_pack'.$wthary[6]=>$list3['F11'], 
+					 'minum_order'.$wthary[7]=>$list3['F15'], 	
+					  'cubic_qty'.$wthary[8]=>$list3['F12'],  
+					 'ross_weight'.$wthary[9]=>$list3['F13'],  
+                     'net_weight'.$wthary[10]=>$list3['F14'],   				
+					 'oth_remark'.$wthary[11]=>$list3['F05'],   
+					 'lastupdate'.$wthary[12]=>$list3['F99']                      				 
 					 );                      			
 		array_push($arr,$atr);
 	}

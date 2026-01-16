@@ -1,27 +1,26 @@
 ﻿<?php
    header("Content-Type:text/html; charset=utf-8");   
-
  include("../../include/BKND/mysqli_server.php");                                //引用檔
-
+  require_once "../../include/BKND/fieldpreset.php"; // 引入      
         $str=explode('|',$_POST['filename']);  //將上面字串以逗號分割成陣列
 	   
 		$sql3="select c27.*,b01.F02 as F0B from c27 left outer join b01 on c27.F02=b01.F01 where c27.F01='".$str[0]."' and ".$str[1]." like '%".trim($str[2])."%' order by c27.F02"; 
-		                                                                     
+	$wthary=fldwdthpre('C21','2',$link);  	                                                                     
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_assoc($sql4)){
-		//['13%','13%','8%', '8%','8%','13%','7%','7%','10%','10%']; 
-		$atr = array('rc_no_DHL_000'=>$list3['F00'],		           
-					 'stockno_DSL_013'=>$list3['F02'], 
-					 'stockname_ISL_013'=>$list3['F0B'],
-					 'query_qty_DSR_008'=>$list3['F03'],	                     
-                     'query_price_DSR_008'=>$list3['F04'],     
-					 'custom_partno_DSL_013'=>$list3['F05'],  
-                     'basic_pack_DSR_007'=>$list3['F06'],  		
-                     'min_order_DSR_007'=>$list3['F07'],  				
-					 'datestart_DSC_010'=>$list3['F15'],  
-					 'dateline_DSC_010'=>$list3['F17'],  				
-                     'lastupdate_DHL_000'=>$list3['F99']);                      						 
+		
+		$atr = array('rc_no'.$wthary[0]=>$list3['F00'],		          //_DHL_000 
+					 'stockno'.$wthary[1]=>$list3['F02'],       //_DSL_013
+					 'stockname'.$wthary[2]=>$list3['F0B'],     //_ISL_013
+					 'query_qty'.$wthary[3]=>$list3['F03'],	      //_DSR_008               
+                     'query_price'.$wthary[4]=>$list3['F04'],        //_DSR_008
+					 'custom_partno'.$wthary[5]=>$list3['F05'],      //_DSL_013
+                     'basic_pack'.$wthary[6]=>$list3['F06'],  		  //_DSR_007
+                     'min_order'.$wthary[7]=>$list3['F07'],  			//_DSR_007	
+					 'datestart'.$wthary[8]=>$list3['F15'],          //_DSC_010
+					 'dateline'.$wthary[9]=>$list3['F17'],  			//_DSC_010
+                     'lastupdate'.$wthary[10]=>$list3['F99']);           //_DHL_000           						 
 		array_push($arr,$atr);
 	}
 	mysqli_close($link);

@@ -1,25 +1,6 @@
 function crtElm(){	    
-    var maindiv=getElementsByAttribute('class','tab_css');	
-	var beinsertedid=document.getElementById('tab1');
-	var spn=document.createElement('span');
-	spn.id="APPRVE";
-	maindiv[0].insertBefore(spn,beinsertedid);
-    var cntdiv=getElementsByAttribute('class','tab_content');	
-	var rspn2=document.getElementById('serverResponse2'); 
-	 var text01 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
-	 cntdiv[1].insertBefore(text01,rspn2);
-	var spn1=document.createElement('span');
-	spn1.id="ttltitle";
-     spn1.innerHTML='總金額:';
-	cntdiv[1].insertBefore(spn1,rspn2);
-	var spn2=document.createElement('span');
-	spn2.id="crncy" ;	
-    cntdiv[1].insertBefore(spn2,rspn2);
-	var spn3=document.createElement('span');
-	spn3.id="ttlmny";
-	spn3.innerHTML='0';
-	 cntdiv[1].insertBefore(spn3,rspn2);
-     var thr1=document.getElementById('headrow1');	 
+    
+     /* var thr1=document.getElementById('headrow1');	 
 	 var array1 = ['報價單號','客戶編號','客戶簡稱', '報價日期','業務擔當','幣別','聯絡人','交貨方式','付款方式','備註說明'];
 	 var array2 = ['10%','7%','7%', '9%','7%','4%','13%','13%','13%','13%'];
 	for (var j = 0; j < array1.length; j++) {
@@ -43,8 +24,8 @@ function crtElm(){
 		
 	}			
 	var keynames=getElementsByAttribute('name','keyname');	
-	keynames[0].innerHTML="單號:";
-	var fatherkeys=getElementsByAttribute('name','fatherkey');	
+	keynames[0].innerHTML="單號:"; */
+	//var fatherkeys=getElementsByAttribute('name','fatherkey');	
 }
 
 

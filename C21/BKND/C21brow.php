@@ -1,6 +1,7 @@
 ﻿<?php
    header("Content-Type:text/html; charset=utf-8");   
    include("../../include/BKND/mysqli_server.php");                               //引用檔   
+   require_once "../../include/BKND/fieldpreset.php"; // 引入     
    if (substr($_POST['filename'],0,3)=="PGE"){	  
 	   $pgeno=getNeedBetween($_POST['filename'],'E','|'); // 頁次 
 	   $rows=(int)getNeedBetween($_POST['filename'],'|','_') ;
@@ -30,26 +31,27 @@
 	        left outer join c01 on c01.F01=c26.F03
             left outer join a01 on a01.F01=c26.F06
 		    WHERE ".$fieldNo." like '%".trim($filterKey)."%' order by ".$fieldNo." ASC,c26.F01 DESC" ; 
-   }	   
+   }	
+    $wthary=fldwdthpre('C21','1',$link);  	                      
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_assoc($sql4)){
-		$atr = array('rc_no_DHL_000'=>$list3['F00'],  		            	             
-		             'query_no_DSL_010'=>$list3['F01'], 					 
-                     'custom_no_DSL_007'=>$list3['F03'],	
-                     'custom_name_ISL_007'=>$list3['F0E'],				
-					 'custom_fullname_IHL_000'=>$list3['F0D'],		
-                     'query_date_DSC_009'=>$list3['F02'],
-                     'sales_no_DHC_000'=>$list3['F06'],		
-					 'sales_name_ISL_007'=>$list3['F0C'],	
-					 'crncy_type_DSC_004'=>$list3['F14'],	
-                     'sourceman_DSL_013'=>$list3['F07'],	
-                     'shipway_DSL_013'=>$list3['F09'],     	
-                     'payment_DSL_013'=>$list3['F10'],     						 
-                     'remark_DSL_013'=>$list3['F11'],  
-                     'trns_IHC_000'=>$list3['F15'],     					 
-                     'shure_IHC_000'=>$list3['F04'],     					 
-					 'lastupdate_DHL_000'=>$list3['F05']                      				 
+		$atr = array('rc_no'.$wthary[0]=>$list3['F00'],  		     //_DHL_000       	             
+		             'query_no'.$wthary[1]=>$list3['F01'], 		//_DSL_010			 
+                     'custom_no'.$wthary[2]=>$list3['F03'],	    //_DSL_007
+                     'custom_name'.$wthary[3]=>$list3['F0E'],			//_ISL_007	
+					 'custom_fullname'.$wthary[4]=>$list3['F0D'],		//_IHL_000
+                     'query_date'.$wthary[5]=>$list3['F02'],       //_DSC_009
+                     'sales_no'.$wthary[6]=>$list3['F06'],		    //_DHC_000
+					 'sales_name'.$wthary[7]=>$list3['F0C'],	   //_ISL_007
+					 'crncy_type'.$wthary[8]=>$list3['F14'],	    //_DSC_004
+                     'sourceman'.$wthary[9]=>$list3['F07'],	    //_DSL_013
+                     'shipway'.$wthary[10]=>$list3['F09'],     	    //_DSL_013
+                     'payment'.$wthary[11]=>$list3['F10'],     			//_DSL_013			 
+                     'remark'.$wthary[12]=>$list3['F11'],        //_DSL_013
+                     'trns'.$wthary[13]=>$list3['F15'],     			//_IHC_000		 
+                     'shure'.$wthary[14]=>$list3['F04'],     			//_IHC_000		 
+					 'lastupdate'.$wthary[15]=>$list3['F05']              //_DHL_000        				 
 					 );                      			
 		array_push($arr,$atr);
 	}

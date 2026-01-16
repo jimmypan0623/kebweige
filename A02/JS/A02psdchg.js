@@ -3,6 +3,8 @@ function selfTag(jsvsn){
 	 var text6 = document.createTextNode('\u{A0}');
 	 var contentdiv=getElementsByAttribute('class','tab_content');	
 	 var svrSpns1=document.getElementById('serverResponse1'); 
+	 /* var keynames=getElementsByAttribute('name','keyname');	
+	keynames[0].innerHTML="帳號:"; */
     if (getAuth[0]()[5]=='Y'){	 
 	    var cpyAuthButton=document.createElement("input");		   
 		cpyAuthButton.setAttribute("type","button");

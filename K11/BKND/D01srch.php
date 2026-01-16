@@ -11,7 +11,7 @@
 	 if(strlen($searchRecord)==0) {	          
 		  $sql3=$sql3."WHERE d01.F14 < CURDATE()";
 	 }else{
-	    $sql3=$sql3."WHERE ".$fieldNo." LIKE '%".trim($searchRecord)."%' and d01.F14 < CURDATE()"; 
+	    $sql3=$sql3."WHERE ".$fieldNo." LIKE '%".trim($searchRecord)."%' and d01.F14 <= CURDATE()"; 
 	 }
 	 $sql3=$sql3."ORDER BY ".$fieldNo;
     $arr=array();	

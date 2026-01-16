@@ -135,25 +135,3 @@ function whichtable(tpe){
     }
     return tpemsg;
 }
-	
-function fldsgsroup(fidx,tbno){
-	 var groups=[];
-	if(tbno==0){
-       var groups=[['directdata','block','center','20'],     
-	               ['directdata','block','left','20'],   
-	               ['directdata','none','left','0'],   
-	               ['indirectdata','block','center','20'],   	 
-	               ['directdata','block','left','20']  	 
-	            ]; 
-	}else{
-	    var groups=[['directdata','block','center','14'],    
-	   ['directdata','block','center','14'], 
-	   ['directdata','block','center','14'], 
-	   ['directdata','block','center','14'],  
-	   ['directdata','block','center','14'],  
-	   ['directdata','block','center','14']  
- 	   ]; 	
-	}		
-    return groups[fidx];			  
-}
-

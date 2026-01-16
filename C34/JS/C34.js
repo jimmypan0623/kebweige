@@ -89,14 +89,3 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 function rowchoseSecond(targetRow){    //紀錄移動
    return true;	
 }
-function fldsgsroup(fidx,tbno){
-    let groups=[['directdata','block','left','24'],    //stock_no
-			  ['indirectdata','block','left','24'],  //stock_name
-			  ['directdata','block','left','8'],     //custom_no 
-			  ['indirectdata','block','left','8'],   //custom_name
-			  ['directdata','block','left','24'],     //custom_partno
-			  ['directdata','block','left','10'],     //origin_data
-			  ];  
-    return groups[fidx];			  
-}
-

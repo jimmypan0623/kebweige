@@ -6,7 +6,9 @@ $brr=array();
 foreach($cart as $key=>$val){	   
     $brr[]=addslashes($val);		//要加入此函數避免中間有單引號錯亂
 }
-include("../../include/BKND/mysqli_server.php");                              //引用檔           
+include("../../include/BKND/mysqli_server.php");                              //引用檔         
+require_once "../../include/BKND/fieldDOMset.php"; // 引入     
+$trnarray=fldafterwrite('K10','2',$link,true);    
 	    $sql3="SELECT k25.* FROM k25  WHERE k25.F15='".$brr[1]."' AND k25.F12>=(k25.F27+k25.F28+".$brr[5].") "; 		
 		$sql4=mysqli_query($link,$sql3) or die(mysqli_error($link)); 
 		 $rows1=@mysqli_num_rows($sql4);		
@@ -43,7 +45,7 @@ if($rows1==0){
 	            $sql=$mscnt;                                               //寫入MySQL 	 
                 mysqli_query($link ,$sql) or die(mysqli_error($link));  
 			   $last_id = mysqli_insert_id($link);     //找最後一個號碼	          					     
-		       $arr = array ('order_no'=>$last_id,'lastupdate'=>$lastdate.$list4['F03']);						 
+		       $arr = array ('order_no'=>$last_id,'lastupdate'=>$lastdate.$list4['F03'],'fldsatrr'=>$trnarray);						 
 		       echo json_encode($arr);
 			    $armstk25="UPDATE k25 SET F28=F28+".$brr[5]." where F15='".$brr[1]."' AND F03='".$brr[7]."' ";  	                                               
                mysqli_query($link ,$armstk25) or die(mysqli_error($link));    //寫入MySQL 	
@@ -55,7 +57,7 @@ if($rows1==0){
 	    $mscnt.=" WHERE F00="."'".$brr[$mArlth-2]."'";
 	    $sql=$mscnt;                                                 //寫入MySQL 	 
         mysqli_query($link ,$sql) or die(mysqli_error($link));  	  
-        $arr = array ('order_no'=>$brr[$mArlth-2],'lastupdate'=>$lastdate.$list4['F03']);
+        $arr = array ('order_no'=>$brr[$mArlth-2],'lastupdate'=>$lastdate.$list4['F03'],'fldsatrr'=>$trnarray);
 	    echo json_encode($arr);
 	   
 		 $armstk25="UPDATE k25 SET F28=F28+".$brr[5]." where F15='".$brr[1]."' AND F03='".$brr[7]."' ";  	                                               

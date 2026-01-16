@@ -1,6 +1,7 @@
 ﻿<?php
    header("Content-Type:text/html; charset=utf-8");   
    include("../../include/BKND/mysqli_server.php");                      //引用檔  
+   require_once "../../include/BKND/fieldpreset.php"; // 引入  
    $rows=0;
    if (substr($_POST['filename'],0,3)=="PGE"){	  
 	   $pgeno=getNeedBetween($_POST['filename'],'E','|'); // 頁次 
@@ -25,20 +26,21 @@
 	    //$searchRecord =$_POST['filename'];
 		$sql3="SELECT a26.F00,a26.F01,a26.F02,a26.F03,a26.F04,a26.F05,a26.F06,a26.F07,a26.F08,a26.F09 FROM a26  	
 		       WHERE ".$fieldNo." like '%".trim($filterKey)."%' order by ".$fieldNo ; 
-   }	   
+   }	  
+   $wthary=fldwdthpre('A26','1',$link);   
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_assoc($sql4)){		
-		$atr = array('rc_no_DHL_000'=>$list3['F00'],  		            	             
-		             'int_no_DSL_007'=>$list3['F01'], 					 
-                     'int_name_DSL_014'=>$list3['F02'],					                     
-                     'int_range_DSL_012'=>$list3['F03'], 
-					  'int_type_DSC_004'=>$list3['F04'], 
-					   'int_length_DSC_004'=>$list3['F05'], 
-					    'int_content_DSC_014'=>$list3['F06'], 
-					 'int_dscrp_DSL_014'=>$list3['F07'], 
-					  'int_check_DSL_014'=>$list3['F08'], 
-					 'lastupdate_DSL_012'=>$list3['F09']                      				 
+		$atr = array('rc_no_DHL'.$wthary[0]=>$list3['F00'],  		            	             
+		             'int_no'.$wthary[1]=>$list3['F01'], 					 
+                     'int_name'.$wthary[2]=>$list3['F02'],					                     
+                     'int_range'.$wthary[3]=>$list3['F03'], 
+					  'int_type'.$wthary[4]=>$list3['F04'], 
+					   'int_length'.$wthary[5]=>$list3['F05'], 
+					    'int_content'.$wthary[6]=>$list3['F06'], 
+					 'int_dscrp'.$wthary[7]=>$list3['F07'], 
+					  'int_check'.$wthary[8]=>$list3['F08'], 
+					 'lastupdate'.$wthary[9]=>$list3['F09']                      				 
 					 );                      			
 		array_push($arr,$atr);
 	}

@@ -1,59 +1,7 @@
 function crtElm(){	     
-    var maindiv=getElementsByAttribute('class','tab_css');	
-	var beinsertedid=document.getElementById('tab1');
-	var spn=document.createElement('span');
-	spn.id="APPRVE";
-	maindiv[0].insertBefore(spn,beinsertedid);
-    var cntdiv=getElementsByAttribute('class','tab_content');	
-	var rspn2=document.getElementById('serverResponse2'); 
-	 var text01 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
-	 cntdiv[1].insertBefore(text01,rspn2);
-	 var spn2=document.createElement('span');
-	spn2.id="dntOrRjt" ;
-	spn2.setAttribute("style","font-size:150%;");
-    cntdiv[1].insertBefore(spn2,rspn2); 
-	
-	  var text0a = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}');
-	 cntdiv[1].insertBefore(text0a,rspn2);
-	var spn1=document.createElement('span');
-	spn1.id="ttltitle";
-	spn1.setAttribute("style","font-size:120%;font-weight:bold;");
-     spn1.innerHTML='收款金額:';
-	cntdiv[1].insertBefore(spn1,rspn2);
-	var spn3=document.createElement('span');
-	spn3.id="ttlmny";
-    spn3.setAttribute("style","font-size:120%;font-weight:bold;");
-	spn3.innerHTML='0';
-	 cntdiv[1].insertBefore(spn3,rspn2); 
-	///// 
-	  var text0b = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}');
-	 cntdiv[1].insertBefore(text0b,rspn2);
-	var spn4=document.createElement('span');
-	spn4.id="ttltitle2";
-	spn4.setAttribute("style","font-size:120%;font-weight:bold;");
-     spn4.innerHTML='待沖金額:';
-	cntdiv[1].insertBefore(spn4,rspn2);
-	var spn5=document.createElement('span');
-	spn5.id="ttlmny2";
-	spn5.className="ttl";
-    spn5.setAttribute("style","font-size:120%;font-weight:bold;");
-	spn5.innerHTML='0';
-	 cntdiv[1].insertBefore(spn5,rspn2);  
-	 ////
-	   var text0c = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}');
-	 cntdiv[1].insertBefore(text0c,rspn2);
-	var spn6=document.createElement('span');
-	spn6.id="ttltitle2";
-	spn6.setAttribute("style","font-size:120%;font-weight:bold;");
-     spn6.innerHTML='剩餘未沖:';
-	cntdiv[1].insertBefore(spn6,rspn2);
-	var spn7=document.createElement('span');
-	spn7.id="ttlmny3";
-    spn7.setAttribute("style","font-size:120%;font-weight:bold;");
-	spn7.innerHTML='0';
-	 cntdiv[1].insertBefore(spn7,rspn2);  
+    
 
-     var thr1=document.getElementById('headrow1');	 
+    /*  var thr1=document.getElementById('headrow1');	 
 	 var array1 = ['沖銷單號','客戶編號','客戶簡稱', '日','業務擔當','收款方式','支票/單據號碼','兌現日期','收款金額','備註'];
 	 var array2 = ['10%','8%','8%', '4%','8%','10%','10%','8%','10%','12%'];
 	for (var j = 0; j < array1.length; j++) {
@@ -75,8 +23,8 @@ function crtElm(){
 		thr2.appendChild(th2);		
 	}			
 	var keynames=getElementsByAttribute('name','keyname');	
-	keynames[0].innerHTML="單號:";
-	var fatherkeys=getElementsByAttribute('name','fatherkey');	
+	keynames[0].innerHTML="單號:"; */
+	//var fatherkeys=getElementsByAttribute('name','fatherkey');	
 }
 
 

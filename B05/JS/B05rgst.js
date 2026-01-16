@@ -613,9 +613,9 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 	var ttlcnt=Number(document.getElementById('ttlmny').innerHTML);
 	var fldidx=0;
 	var argsNo=0;
-	while(fldsgsroup(fldidx,tbno)){		
+	while(rsp.fldsatrr[fldidx]){		
 		var oTd = oTr.insertCell(oTr.cells.length); 			
-		if(fldsgsroup(fldidx,tbno)[0]=='directdata'){
+		if(rsp.fldsatrr[fldidx][0]=='directdata'){
 			oTd.innerHTML=args[argsNo];
 			argsNo++;
 		}else{		               
@@ -662,12 +662,12 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 			   document.getElementById('ttlmny').innerHTML=ttlcnt;  //更新畫面上的總金額					  
 			}				
 		}
-		oTd.setAttribute("class",fldsgsroup(fldidx,tbno)[0]);
-		if(fldsgsroup(fldidx,tbno)[1]=='none'){
+		oTd.setAttribute("class",rsp.fldsatrr[fldidx][0]);
+		if(rsp.fldsatrr[fldidx][1]=='none'){
 				oTd.setAttribute("style","display:none;");		
 		}else{
-			   oTd.style.textAlign=fldsgsroup(fldidx,tbno)[2];				     	
-			   oTd.style.width=fldsgsroup(fldidx,tbno)[3]+"%";				  
+			   oTd.style.textAlign=rsp.fldsatrr[fldidx][2];				     	
+			   oTd.style.width=rsp.fldsatrr[fldidx][3]+"%";				  
 		}					 		
 		fldidx++;
 	}				
@@ -700,9 +700,9 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 	if(parseInt(args[11])>3){
 	   args[11]=(parseInt(args[11])-6).toString();
 	}
-		while(fldsgsroup(fldidx,tbno)){			
+		while(rsp.fldsatrr[fldidx]){			
 		    	
-			if(fldsgsroup(fldidx,tbno)[0]=='directdata'){
+			if(rsp.fldsatrr[fldidx][0]=='directdata'){
 				if(fldidx==3 && tbno==1){
 				    var orderQty=Number(maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML)*1+args[2]*1;						
 		            maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=orderQty;		

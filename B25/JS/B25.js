@@ -61,15 +61,17 @@ function getProfile(str1,reccount) {
           
 	       var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
 	       oTd.setAttribute("style","width:40px;display:none");   //勾選不顯示
-	 	   var myCheck=document.createElement('input'); 
+	 	   var myCheck=document.createElement('input'); 		   
 		   myCheck.type="checkbox";		  
 		   myCheck.setAttribute("name","chkbxmember1");   //讓使用者勾選的checkbox表頭			
+		   
 		   attachEventListener(myCheck,'click',chooserc,false);		   
 		   oTd.appendChild(myCheck);     
+		   
 		   //scndttl.innerHTML=thousands(Math.round((queryttl + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt));
-		  
-	}
-	
+		   
+	    }
+	    
 	  var responseDiv=document.getElementById("serverResponse1");  		
 	  if(responseDiv.innerHTML=='Searching......'){	
 		 if (cnt==0){

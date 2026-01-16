@@ -12,8 +12,8 @@
 		             'shipqty_DSR_014'=>$list3['F06'] ,
 		             'unitproce_DSR_014'=>$list3['F07'],
 		              'crncytype_DSC_005'=>$list3['F13'], 
-					  'crncyrate_DSR_014'=>$list3['F14'],
-		             'ttlmoney_DSR_014'=>round($list3['F06']*$list3['F07']*$list3['F14']),2);          
+					  'crncyrate_DSR_014'=>$list3['F14'],		         
+					  'ttlmoney_DSR_014'=>$list3['F06']*$list3['F07']*$list3['F14']);        
 		array_push($arr,$atr);
 	}
 	mysqli_close($link);

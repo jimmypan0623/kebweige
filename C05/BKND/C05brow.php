@@ -1,6 +1,7 @@
 ﻿<?php
    header("Content-Type:text/html; charset=utf-8");   
    include("../../include/BKND/mysqli_server.php");                     //引用檔   
+    require_once "../../include/BKND/fieldpreset.php"; // 引入       
    $rows=0;
     if (substr($_POST['filename'],0,3)=="PGE"){	  
 	    $pgeno=getNeedBetween($_POST['filename'],'E','|'); // 頁次 
@@ -32,25 +33,26 @@
 	    $sql.=" LEFT JOIN `c01` ON `c01`.`F01`=`c03`.`F03`"; 
 	    $sql.=" LEFT JOIN `a01` ON `a01`.`F01`=`c03`.`F07`"; 
 	    $sql3=$sql." WHERE ".$fieldNo." like '%".trim($filterKey)."%' AND `c04`.`F03`-`c04`.`F09`-`c04`.`F21` >0 AND `c03`.`F04`='Y' order by ".$fieldNo.",`c04`.`F06`" ; 
-	}	   
+	}	
+    $wthary=fldwdthpre('C05','1',$link);  	
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_assoc($sql4)){
-		$atr = array('rc_no_DHL_000'=>$list3['F00'],  		            	             
-		             'stock_no_DSL_013'=>$list3['F02'], 
-					 'stock_name_ISL_013'=>$list3['F0B'], 
-                     'order_no_DSL_010'=>$list3['F01'],                     				                     				                                       
-					 'shipdate_DSL_010'=>$list3['F06'],
-					 'order_qty_DSR_007'=>$list3['NSH'], 
-					 'readyship_qty_IHR_007'=>$list3['F23'], 	
-					 'customer_no_DSL_007'=>$list3['F03'], 	
-					 'customer_name_ISL_007'=>$list3['F0E'], 
-					 'customer_partno_DSL_013'=>$list3['F05'], 
-					  'customer_po_DSL_013'=>$list3['F14'], 
-					 'sales_no_DHL_000'=>$list3['F07'], 
-					 'sales_name_DSL_007'=>$list3['F0C'], 		
-					 'diffdate_IHL_000'=>$list3['diffdate'], 			
-					 'lastupdate_DHL_000'=>$list3['F12']                      				 
+		$atr = array('rc_no'.$wthary[0]=>$list3['F00'],  		            	             
+		             'stock_no'.$wthary[1]=>$list3['F02'], 
+					 'stock_name'.$wthary[2]=>$list3['F0B'], 
+                     'order_no'.$wthary[3]=>$list3['F01'],                     				                     				                                       
+					 'shipdate'.$wthary[4]=>$list3['F06'],
+					 'order_qty'.$wthary[5]=>$list3['NSH'], 
+					 'readyship_qty'.$wthary[6]=>$list3['F23'], 	
+					 'customer_no'.$wthary[7]=>$list3['F03'], 	
+					 'customer_name'.$wthary[8]=>$list3['F0E'], 
+					 'customer_partn'.$wthary[9]=>$list3['F05'], 
+					  'customer_po'.$wthary[10]=>$list3['F14'], 
+					 'sales_no'.$wthary[11]=>$list3['F07'], 
+					 'sales_name'.$wthary[12]=>$list3['F0C'], 		
+					 'diffdate'.$wthary[13]=>$list3['diffdate'], 			
+					 'lastupdate'.$wthary[14]=>$list3['F12']                      				 
 					 );                      			
 		array_push($arr,$atr);
 	}

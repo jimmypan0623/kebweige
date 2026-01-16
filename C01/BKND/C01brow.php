@@ -1,6 +1,7 @@
 ﻿<?php
    header("Content-Type:text/html; charset=utf-8");   
    include("../../include/BKND/mysqli_server.php");                              //引用檔   
+   require_once "../../include/BKND/fieldpreset.php"; // 引入      
    $rows=0;
    if (substr($_POST['filename'],0,3)=="PGE"){	  
 	   $pgeno=getNeedBetween($_POST['filename'],'E','|'); // 頁次       
@@ -35,49 +36,52 @@
 	   LEFT OUTER JOIN `c00` ON c00.F01=c01.F39  
 		WHERE ".$fieldNo." like '%".trim($filterKey)."%' order by ".$fieldNo ; 
    }	   
+   
+  
+      $wthary=fldwdthpre('C01','1',$link);  
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_assoc($sql4)){		 
-		$atr = array('rc_no_DHC_0000'=>$list3['F00'],  		            	             
-		             'custom_no_DSL_0220'=>$list3['F01'], 					 
-                     'custom_name_DSL_0780'=>$list3['F04'],					                     
-                     'custom_abbrv_DHC_0000'=>$list3['F05'],  
-                     'level_DHC_0000'=>$list3['F03'],
-                     'unitedno_DHC_0000'=>$list3['F10'],
-                     'typeofbusiness_DHC_0000'=>$list3['F43'],  
-                     'product_DHC_0000'=>$list3['F21'],					 
-					 'area_DHC_0000'=>$list3['F20'],										                           								
-					 'invoicename_DHC_0000'=>$list3['F41'],					
-					 'invoicepartno_DHC_0000'=>$list3['F42'],
-					 'typeofinvoice_DHC_0000'=>$list3['F29'],	
-                     'typeoftax_DHC_0000'=>$list3['F30'],	
-					 'englishname_DHC_0000'=>$list3['F09'],
-					 'address_DHC_0000'=>$list3['F06'],
-					 'addressforship_DHC_0000'=>$list3['F07'],					 					 
-					 'englishaddress_DHC_0000'=>$list3['F08'],
-					 'indicateforship_DHC_0000'=>$list3['F32'],
-					 'contact_DHC_0000'=>$list3['F12'],	
-					 'boss_DHC_0000'=>$list3['F11'],		
-					 'tel_DHC_0000'=>$list3['F13'],		
-                     'fax_DHC_0000'=>$list3['F14'],	                  		
-                     'email_DHC_0000'=>$list3['F22'],	
-					  'groupno_DHC_0000'=>$list3['F44'],		                    
-                     'moneycrnt_DHC_0000'=>$list3['F39'],	
-					 'crntname_IHL_0000'=>$list3['F0D'],	
-                     'dayofincount_DHC_0000'=>$list3['F17'],									 
-                     'dayofcharge_DHC_0000'=>$list3['F38'],	     					 
-                     'wayofpay_DHC_0000'=>$list3['F15'],		                   
-                     'paymentterm_DHL_0000'=>$list3['F36'],	                                 	                    
-                     'salesno_DHC_0000'=>$list3['F33'],
-					 'salesname_IHL_0000'=>$list3['F03A'],
-                     'assistantno_DHL_0000'=>$list3['F23'],	
-					 'assistantname_IHC_0000'=>$list3['F03B'],	
-                     'wayofship_DHL_0000'=>$list3['F31'],      
-                      'receiver_DHL_0000'=>$list3['F40'],					 
-                     'remark_DHC_0000'=>$list3['F25'],                     				 
-                     'lasttrade_IHC_0000'=>$list3['F16'],									 
-                     'lastquot_IHC_0000'=>$list3['F19'],	
-					 'lastupdate_DHC_0000'=>$list3['F26']                      				 
+		$atr = array('rc_no'.$wthary[0]=>$list3['F00'],  		       //_DHC_0000     	             
+		             'custom_no'.$wthary[1]=>$list3['F01'], 			//_DSC_025		 
+                     'custom_name'.$wthary[2]=>$list3['F04'],	          //_DSL_075			                     
+                     'custom_abbrv'.$wthary[3]=>$list3['F05'],      //_DHC_000
+                     'level'.$wthary[4]=>$list3['F03'],             //_DHC_000
+                     'unitedno'.$wthary[5]=>$list3['F10'],            //_DHC_000
+                     'typeofbusiness'.$wthary[6]=>$list3['F43'],      //_DHC_000
+                     'product'.$wthary[7]=>$list3['F21'],				//_DHC_000	 
+					 'area'.$wthary[8]=>$list3['F20'],					//_DHC_000					                           								
+					 'invoicename'.$wthary[9]=>$list3['F41'],				//_DHC_000	
+					 'invoicepartno'.$wthary[10]=>$list3['F42'],      //_DHC_000
+					 'typeofinvoice'.$wthary[11]=>$list3['F29'],	     //_DHC_000
+                     'typeoftax'.$wthary[12]=>$list3['F30'],	         //_DHC_000
+					 'englishname'.$wthary[13]=>$list3['F09'],           //_DHC_000
+					 'address'.$wthary[14]=>$list3['F06'],               //_DHC_000
+					 'addressforship'.$wthary[15]=>$list3['F07'],	     //_DHC_000		 					 
+					 'englishaddress'.$wthary[16]=>$list3['F08'],        //_DHC_000
+					 'indicateforship'.$wthary[17]=>$list3['F32'],       //_DHC_000
+					 'contact'.$wthary[18]=>$list3['F12'],	              //_DHC_000
+					 'boss'.$wthary[19]=>$list3['F11'],		//_DHC_000
+					 'tel'.$wthary[20]=>$list3['F13'],		            //_DHC_000
+                     'fax'.$wthary[21]=>$list3['F14'],	                //_DHC_000  		
+                     'email'.$wthary[22]=>$list3['F22'],	            //_DHC_000
+					  'groupno'.$wthary[23]=>$list3['F44'],		           //_DHC_000         
+                     'moneycrnt'.$wthary[24]=>$list3['F39'],	       //_DHC_000
+					 'crntname'.$wthary[25]=>$list3['F0D'],	           //_IHL_000
+                     'dayofincount'.$wthary[26]=>$list3['F17'],			//_DHC_000						 
+                     'dayofcharge'.$wthary[27]=>$list3['F38'],	     	//_DHC_000				 
+                     'wayofpay'.$wthary[28]=>$list3['F15'],		         //_DHC_000          
+                     'paymentterm'.$wthary[29]=>$list3['F36'],	         // _DHL_000                       	                    
+                     'salesno'.$wthary[30]=>$list3['F33'],                //_DHC_000
+					 'salesname'.$wthary[31]=>$list3['F03A'],             //_IHL_000
+                     'assistantno'.$wthary[32]=>$list3['F23'],	            //_DHL_000
+					 'assistantname'.$wthary[33]=>$list3['F03B'],	    //_IHC_000
+                     'wayofship'.$wthary[34]=>$list3['F31'],             //_DHL_000
+                      'receiver'.$wthary[35]=>$list3['F40'],			//_DHL_000		 
+                     'remark'.$wthary[36]=>$list3['F25'],                  //_DHC_000   				 
+                     'lasttrade'.$wthary[37]=>$list3['F16'],				//_IHC_000					 
+                     'lastquot'.$wthary[38]=>$list3['F19'],	              //_IHC_000
+					 'lastupdate'.$wthary[39]=>$list3['F26']                 //_DHC_000      				 
 					 );                      			
 		array_push($arr,$atr);
 	}

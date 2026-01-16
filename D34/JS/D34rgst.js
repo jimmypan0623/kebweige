@@ -188,21 +188,21 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
     var fldidx=0;
 	var argsNo=0;
 	var nongsNo=0;	
-    while(fldsgsroup(fldidx,tbno)){
+    while(rsp.fldsatrr[fldidx]){
 	    var oTd = oTr.insertCell(oTr.cells.length); 
-		if(fldsgsroup(fldidx,tbno)[0]=='directdata'){
+		if(rsp.fldsatrr[fldidx][0]=='directdata'){
 			oTd.innerHTML=args[argsNo];
 			argsNo++;
 		}else{
 			oTd.innerHTML=nongs[nongsNo];	
 			  nongsNo++;
 		}
-		oTd.setAttribute("class",fldsgsroup(fldidx,tbno)[0]);
-		if(fldsgsroup(fldidx,tbno)[1]=='none'){
+		oTd.setAttribute("class",rsp.fldsatrr[fldidx][0]);
+		if(rsp.fldsatrr[fldidx][1]=='none'){
 				oTd.setAttribute("style","display:none;");		
 		}else{
-			   oTd.style.textAlign=fldsgsroup(fldidx,tbno)[2];				     	
-			   oTd.style.width=fldsgsroup(fldidx,tbno)[3]+"%";				  
+			   oTd.style.textAlign=rsp.fldsatrr[fldidx][2];				     	
+			   oTd.style.width=rsp.fldsatrr[fldidx][3]+"%";				  
 		}					 		
         fldidx++;
     }
@@ -217,8 +217,8 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
     var fldidx=2;
 	var argsNo=1;
 	var nongsNo=1;	
-	while(fldsgsroup(fldidx,tbno)){			
-		if(fldsgsroup(fldidx,tbno)[0]=='directdata'){				
+	while(rsp.fldsatrr[fldidx]){			
+		if(rsp.fldsatrr[fldidx][0]=='directdata'){				
 			 maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=args[argsNo];				
 			argsNo++;
 		}else{

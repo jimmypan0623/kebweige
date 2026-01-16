@@ -48,9 +48,12 @@ function sendFilePrc(updflg){     //新增資料上傳檔案及修改程序
     if (tbno==0){
 	    var a01elements=document.getElementsByName('a01update');	
 		var a01athments=document.getElementsByName('a01others');
-	}else{
+	}else if(tbno==1){
 		 var a01elements=document.getElementsByName('a02update');	
 		 var a01athments=document.getElementsByName('a02others');	
+	}else{
+	    var a01elements=document.getElementsByName('a04update');	
+		var a01athments=document.getElementsByName('a04others');	
 	}
 	
 	for(var r=0;r<a01athments.length;r++){        //關聯資料
@@ -168,9 +171,8 @@ function removeAuthAll(event){     //確定移除所有權限
     }
 }
 
-
 function modifyFields(tbno,txtword,ajTable){   //新增修改時出現之欄位
-    if(tbno==0){
+    if(tbno==0){				
 		var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);
 	    oTd.setAttribute('style','text-align:right;width:15%');
@@ -245,9 +247,7 @@ function modifyFields(tbno,txtword,ajTable){   //新增修改時出現之欄位
 		    baseauthdiv.appendChild(bsechkbx);
 		    baseauthdiv.appendChild(basechklbl);					 
 	    }    			
-        oTd.appendChild(baseauthdiv);	
-
-        
+        oTd.appendChild(baseauthdiv);	        
         var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);
 	    oTd.setAttribute('style','text-align:right;width:15%;');
@@ -271,7 +271,7 @@ function modifyFields(tbno,txtword,ajTable){   //新增修改時出現之欄位
 	    var oTd = oTr.insertCell(1);
     	oTd.innerHTML="<input type='text' name='a01update' id='rcrd_no' class='txt' maxlength='14' style='width:40%;'   />";                 
         oTr.setAttribute("style","display:none;");		
-	}else {
+	}else if(tbno==1){
 		var authorder=['\u4E00','\u4E8C','\u4E09','\u56DB','\u4E94'];  //一 二 三 四 五
 		for(var k=5;k>0;k--){                                          //附加權限五到一
 			var oTr=ajTable.insertRow(ajTable,ajTable.length);
@@ -345,6 +345,80 @@ function modifyFields(tbno,txtword,ajTable){   //新增修改時出現之欄位
         oTd.colspan=3;
 	    oTd.innerHTML="<input type='text' name='a02update' id='rcrd_no' class='txt' maxlength='14' autosize  />";                 
         oTr.setAttribute("style","display:none;");	
+	}else{
+	     var oTr=ajTable.insertRow(ajTable,ajTable.length);
+	    var oTd = oTr.insertCell(0);
+	    oTd.setAttribute('style','text-align:right;width:15%');	
+	    oTd.innerHTML='資料關聯:';
+	    var oTd = oTr.insertCell(1);	   
+	    oTd.innerHTML="<input type='text' name='a04update' class='txt' id='datarelative' maxlength='50' style='width:70%;'  />"; 
+	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
+		var oTd = oTr.insertCell(0);
+	    oTd.setAttribute('style','text-align:right;width:15%');	
+	    oTd.innerHTML='欄位內容:';
+	    var oTd = oTr.insertCell(1);
+	    oTd.innerHTML="<input type='text' name='a04update' class='txt' id='fieldcontent' maxlength='50' style='width:70%;'  />";
+		var oTr=ajTable.insertRow(ajTable,ajTable.length);
+	    var oTd = oTr.insertCell(0);
+	    oTd.setAttribute('style','text-align:right;width:15%');	
+	    oTd.innerHTML='欄寬百分比:';
+	    var oTd = oTr.insertCell(1);
+	    oTd.innerHTML="<input type='number' name='a04update' class='txt' id='widthpercent'  value=1  style='width:15%;text-align:right;'  />"; 				       
+	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
+		var oTd = oTr.insertCell(0);
+	    oTd.setAttribute('style','text-align:right;width:15%');	
+	    oTd.innerHTML='顯示位置:';
+	    var oTd = oTr.insertCell(1);		
+		var slt11=document.createElement("select");
+	    slt11.options.add(new Option('靠左','L'));
+	    slt11.options.add(new Option('置中','C'));
+	    slt11.options.add(new Option('靠右','R'));
+		 slt11.setAttribute("id","whichlocate");
+	    slt11.setAttribute("name","a04update");
+	    oTd.appendChild(slt11);	  		
+	    var oTr=ajTable.insertRow(ajTable,ajTable.length);		
+	    var oTd = oTr.insertCell(0);
+	    oTd.setAttribute('style','text-align:right;width:15%');	
+	    oTd.innerHTML='是否顯示:';
+	    var oTd = oTr.insertCell(1);		
+		var slt12=document.createElement("select");
+	    slt12.options.add(new Option('是','S'));
+	    slt12.options.add(new Option('否','H'));	    
+		slt12.setAttribute("id","showorhide");
+	    slt12.setAttribute("name","a04update");
+	    oTd.appendChild(slt12);	  			    
+	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
+	    var oTd = oTr.insertCell(0);	   
+	    oTd.setAttribute('style','text-align:right;width:15%');					
+	    oTd.innerHTML='讀取來源:';
+	    var oTd = oTr.insertCell(1);    
+		var slt13=document.createElement("select");
+	    slt13.options.add(new Option('直接','D'));
+	    slt13.options.add(new Option('關聯','I'));	  
+	    slt13.options.add(new Option('DOM','M'));
+		slt13.setAttribute("id","wrfrom");
+	    slt13.setAttribute("name","a04update");
+	    oTd.appendChild(slt13);	  			    
+	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
+	    var oTd = oTr.insertCell(0);	   
+	    oTd.setAttribute('style','text-align:right;width:15%');					
+	    oTd.innerHTML='欄位名稱:';
+	    var oTd = oTr.insertCell(1);               
+	    oTd.innerHTML="<input type='text' name='a04update' id='fieldname'   class='txt' style='width:45%;'  maxlength='20'/>";  				 				  
+	    
+	   	var oTr=ajTable.insertRow(ajTable,ajTable.length);
+	    var oTd = oTr.insertCell(0);	   
+	    oTd.setAttribute('style','text-align:right;width:15%');					
+	    oTd.innerHTML='欄位順序:';
+	    var oTd = oTr.insertCell(1);               
+	    oTd.innerHTML="<input type='text' name='a04update' id='fieldorder'  class='txt'  style='width:25%;'  maxlength='4'/>";  				 				  		  			 	
+		var oTr=ajTable.insertRow(ajTable,ajTable.length);  //以下第一列都隱藏起來當變數
+		var oTd = oTr.insertCell(0);	             
+		oTd.innerHTML='紀錄號碼';
+		var oTd = oTr.insertCell(1);   
+		
+		oTd.innerHTML="<input type='text' name='a04update' id='rcrd_no' class='txt' maxlength='14' autosize  />";                 
+		oTr.setAttribute("style","display:none;");		
 	}
 }
 
@@ -383,7 +457,10 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 					attchedchk[j].style.visibility=((spanforchk[j].innerHTML)?"visible":"hidden");
 					ajTable.rows[j+3].style.display=((spanforchk[j].innerHTML)?"block":"none");									
 				}										
-			}			     	
+			}else{
+			   var fldOrd=document.getElementById("fieldorder");
+			   fldOrd.focus();	
+			}				
 			break;
 		case 2:        //如果是修改
 			document.getElementById("rcrd_no").value=aWaitUpdate[0];       //把紀錄號碼也存起來	
@@ -421,23 +498,33 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 				for(var k=0;k<editinit.length;k++){
 					editinit[k].value=aWaitUpdate[k];
 				}		
-			}					   				    			    
+			}else{
+				document.getElementById("fieldorder").focus();
+			    var editinit=document.getElementsByName('a04update');
+				for(var k=0;k<editinit.length;k++){
+					editinit[k].value=aWaitUpdate[k];
+				}	
+			}				
 		    break;
 		case 7:
 			var txtseek=document.getElementById('searchWords');
 			txtseek.focus();
 			attachEventListener(txtseek,'keypress',textKeypress,false);
-			break;        				 
+			break;        		
+		case 8:
+			var authTxt=document.getElementById('authcopy_no');
+			 authTxt.focus();		
 	}
 }
 
 function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nongs,tbno)函數內新增紀錄後呼叫的畫面更動
    	var fldidx=0;
-		var argsNo=0;
-		var nongsNo=0;	
-		while(fldsgsroup(fldidx,tbno)){
+	var argsNo=0;
+	var nongsNo=0;	
+		//while(fldsgsroup(fldidx,tbno)){
+		while(rsp.fldsatrr[fldidx]){		
 			var oTd = oTr.insertCell(oTr.cells.length); 			
-			if(fldsgsroup(fldidx,tbno)[0]=='directdata'){
+			if(rsp.fldsatrr[fldidx][0]=='directdata'){
 				oTd.innerHTML=args[argsNo];
 				if(tbno==1 && fldidx<6){
 				    if( oTd.innerHTML=='E'){
@@ -447,7 +534,9 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 				    }
 				}
 				argsNo++;
-			}else{																 
+			}else{					
+               oTd.innerHTML=nongs[nongsNo];	
+			   	                
 				if(fldidx>10 && tbno==1){
 				    if(args[fldidx-6]!='Y'){	
 				   	   oTd.setAttribute("style","width:11%;text-decoration: line-through;color:#7f8890;");
@@ -455,15 +544,24 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 					   oTd.setAttribute("style","width:11%;");
 				    }	
 				}
-				oTd.innerHTML=nongs[nongsNo];
-				nongsNo++;
+				
+				if(tbno==2 && fldidx==3){   //資料來源
+				    oTd.innerHTML=whichDIM(args[2]);	
+				}				
+				if(tbno==2 && fldidx==5){   //是否顯示
+				    oTd.innerHTML=showOrNot(args[3]);	
+				}			
+				if(tbno==2 && fldidx==7){   //顯示位子
+				    oTd.innerHTML=locateLCR(args[4]);	
+				}
+				nongsNo++; 	
 			}
-			oTd.setAttribute("class",fldsgsroup(fldidx,tbno)[0]);
-			if(fldsgsroup(fldidx,tbno)[1]=='none'){
+			oTd.setAttribute("class",rsp.fldsatrr[fldidx][0]);
+			if(rsp.fldsatrr[fldidx][1]=='none'){
 					oTd.setAttribute("style","display:none;");		
 			}else{
-				   oTd.style.textAlign=fldsgsroup(fldidx,tbno)[2];				     	
-				   oTd.style.width=fldsgsroup(fldidx,tbno)[3]+"%";				  
+				   oTd.style.textAlign=rsp.fldsatrr[fldidx][2];				     	
+				   oTd.style.width=rsp.fldsatrr[fldidx][3]+"%";				  
 			}					 		
 			fldidx++;
 		}				
@@ -476,16 +574,29 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,nongs,tbno)函數修改紀錄後呼叫的畫面更動	
 	if (tbno==0){     //處理表頭修改   	   								
 		var maintable=document.getElementById("maintbody1");	 
-	}else{
+	}else if(tbno==1){
 	    var maintable=document.getElementById("maintbody2");	
-	}		 
-	var fldidx=1;
-	var argsNo=1;	
-	while(fldsgsroup(fldidx,tbno)){			
-		if(fldsgsroup(fldidx,tbno)[0]=='directdata'){
+	}else{
+	     var maintable=document.getElementById("maintbody3");	
+	}		
+	var fldidx=0;
+	var argsNo=0;	
+	//while(fldsgsroup(fldidx,tbno)){			
+	 while(rsp.fldsatrr[fldidx]){	
+		if(rsp.fldsatrr[fldidx][0]=='directdata'){
 			 maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=args[argsNo];				
 			argsNo++;
 		}else{
+			
+			if(fldidx==3 && tbno==2){
+				    maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=whichDIM(args[2]);  //發票類別
+			}
+			if(fldidx==5 && tbno==2){
+				    maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=showOrNot(args[3]);  //發票類別
+			}
+			if(fldidx==7 && tbno==2){
+				    maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=locateLCR(args[4]);  //發票類別
+			}
 			if(fldidx > 10 && tbno==1){
 			    if(args[fldidx-6]!='Y'){	
 				   	maintable.rows[args[arglth-1]].cells[fldidx+1].setAttribute("style","width:11%;text-decoration: line-through;color:#7f8890;");
@@ -504,27 +615,53 @@ function searchOptionsKey(tbno,slt5){
 		slt5.options.add(new Option('功能編號','a03.F01'));
 		slt5.options.add(new Option('功能名稱','a03.F02'));		
 		slt5.options.add(new Option('屬性','a03.F03'));		
-	}else{
+	}else if(tbno==1){
 		slt5.options.add(new Option('人員帳號','a02.F01'));
 		slt5.options.add(new Option('人員姓名','a01.F03')); 										  
-	}   
+	}else{
+		 slt5.options.add(new Option('欄位順序','a04.F02'));
+	     slt5.options.add(new Option('欄位名稱','a04.F03'));
+		 slt5.options.add(new Option('欄位內容','a04.F08')); 		
+	}		
+}
+
+function bodyCopyList(ajTable){
+    var oTr=ajTable.insertRow(ajTable,ajTable.length);  
+	var oTd = oTr.insertCell(0);	
+    oTd.setAttribute('style','text-align:right;width:20%');					
+	oTd.innerHTML='功能編號';
+	var oTd = oTr.insertCell(1);
+	var authTxt=document.createElement('input');
+	authTxt.type='text';
+	authTxt.setAttribute('id','authcopy_no');
+	authTxt.setAttribute('class','txt');				
+	authTxt.setAttribute('placeholder','請輸入未設定欄位之功能編號');
+	attachEventListener(authTxt,'keypress',authEnter,false);  
+	oTd.appendChild(authTxt);				 
 }
 
 function  addNewRecordHint(tbno){
         if (tbno==0){
             return "請輸入新功能編號與名稱：";
-	    }else{
+	    }else if(tbno==1){
 			return "請新增："+sourceAccount(1,0)+'\u{A0}'+document.getElementById('keydscrpt1').innerHTML+'\u{A0}'+'使用帳號';
-		}						
+		}else{
+		   return "請新增："+sourceAccount(1,0)+'\u{A0}'+document.getElementById('keydscrpt2').innerHTML+'\u{A0}'+'欄位設定';
+		}			
 }
 
 function editRecordHint(tbno){
    if (tbno==0){  
 	   return "修改功能預設授權狀況";
-	}else{
+	}else if(tbno==1){
 	   return "修改此帳號授權："+document.getElementById('fatherkey1').innerHTML+'\u{A0}'+document.getElementById('keydscrpt1').innerHTML;
+	}else{
+	    return "修改此程式欄位："+document.getElementById('fatherkey2').innerHTML+'\u{A0}'+document.getElementById('keydscrpt2').innerHTML;
 	}
 
+}
+function copyToOtherList(tbno){
+   return "將功能"+sourceAccount(1,0)+":"+sourceAccount(2,0)+"的畫面欄位複製到";
 }
 
 function removeAllList(tbno){
@@ -596,3 +733,70 @@ function chseprg1(event)  //選擇資料後填入目前form之textbox
 	srchblkclose(event);	
 	return true;
 }	
+
+
+/////
+function authEnter(event){  //權限複製小視窗TEXTBOX ENTER
+	 
+	if (typeof event=="undefined"){
+		event=window.event;
+    }			 
+	var target=getEventTarget(event);
+	 var responseDiv=document.getElementById("serverResponse3");	
+	 responseDiv.style.textAlign='center';	
+	 responseDiv.innerHTML='<img src="digits/Loading.gif" width="1.5%" height="1.5%" border="0">';
+	 if (event.keyCode == 13){
+		 if (target.value.trim().length<3){
+			blkshow('非系統功能');
+			responseDiv.innerHTML=='&nbsp';
+		 }else{			 
+			 athcpy(event);			
+		 }
+	}		  		
+    return;    			
+}
+
+function athcpy(event){        //欄位屬性複製
+	if (typeof event=="undefined"){
+		event=window.event;
+	}
+	var target=getEventTarget(event);	  
+	var rsp=atjtb(sourceAccount(1,0),document.getElementById('authcopy_no').value);
+	blocksclose();			//關掉原視窗   
+    return true;	 		
+}
+
+function atjtb(sourceaccount,objaccount){
+	var args=arguments; //記錄傳進了的參數	 
+    var rsp="";        
+	var order_head="{";
+	for (var n=0;n<args.length;n++){
+		order_head+="\""+"elem"+String(n)+"\""+":"+"\""+args[n]+"\""+",";
+	}
+	var json=order_head.slice(0,-1)+"}";   //去掉最後一個逗號再加上右大引號
+    var str_json=JSON.stringify(json);	 
+	if(window.ActiveXObject){
+		var request = new ActiveXObject("Microsoft.XMLHttp");
+	}	
+	else if(window.XMLHttpRequest){
+		var request = new XMLHttpRequest();
+    }		
+	request.onreadystatechange = respond;
+    request.open("POST", "A01/BKND/A04cpy.php", true);        //新增記錄的php檔
+    request.setRequestHeader("Content-type", "application/json");
+    request.send(str_json);
+    function respond() {		
+        if (request.readyState == 4 && request.status == 200) {     
+			rsp=JSON.parse(request.responseText);			
+            var responseDiv=document.getElementById("serverResponse3");	 
+		   	responseDiv.setAttribute("style","font-weight:bold;color:#536a60;"); 			
+			if(!isNaN(Number(rsp))){     			   			   
+	           responseDiv.innerHTML="已複製"+objaccount+" "+rsp+"畫面欄位屬性..."; 					   
+			}else{
+				blkshow(rsp);   //新增不成功才顯示訊息	
+				responseDiv.innerHTML="&nbsp";
+            }										
+        }
+    }      
+	return true; 	
+}

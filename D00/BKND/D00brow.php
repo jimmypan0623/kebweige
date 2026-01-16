@@ -1,6 +1,7 @@
 ﻿<?php
    header("Content-Type:text/html; charset=utf-8");   
    include("../../include/BKND/mysqli_server.php");                           //引用檔
+     require_once "../../include/BKND/fieldpreset.php"; // 引入  
    $rows=0;
    if (substr($_POST['filename'],0,3)=="PGE"){	  
         $pgeno=getNeedBetween($_POST['filename'],'E','|'); // 頁次       
@@ -25,15 +26,16 @@
 		$sql3="SELECT d00.F00,d00.F01,d00.F04,d00.F02,d00.F03 FROM d00  	
 		       WHERE ".$fieldNo." like '%".trim($filterKey)."%' order by ".$fieldNo ; 
    }	   
+     $wthary=fldwdthpre('D00','1',$link); 
 	$arr=array();	
     $sql4=mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_assoc($sql4)){
 		 
-		$atr = array('rc_no_DHL_000'=>$list3['F00'],  		            	             
-		             'crncy_no_DSC_025'=>$list3['F01'], 					 
-                     'crncy_name_DSC_025'=>$list3['F04'],					                     
-                     'rate_DSC_025'=>$list3['F02'],                                         
-					 'lastupdate_DSC_025'=>$list3['F03']                      				 
+		$atr = array('rc_no'.$wthary[0]=>$list3['F00'],  		            	             
+		             'crncy_no'.$wthary[1]=>$list3['F01'], 					 
+                     'crncy_name'.$wthary[2]=>$list3['F04'],					                     
+                     'rate'.$wthary[3]=>$list3['F02'],                                         
+					 'lastupdate'.$wthary[4]=>$list3['F03']                      				 
 					 );                      			
 		array_push($arr,$atr);
 	}

@@ -1,5 +1,5 @@
 function crtElm(){	
-     var thr1=document.getElementById('headrow1');	 
+    /*  var thr1=document.getElementById('headrow1');	 
 	 var array1 = ['參數編號','參數說明','使用程式', '型態','長度','設定內容','內容說明','檢查字串','最後異動'];
 	 var array2 = ['7%','14%','12%', '4%','4%','14%','14%','14%','12%'];	
 	for (var j = 0; j < array1.length; j++) {
@@ -8,5 +8,5 @@ function crtElm(){
 		th.style.width=array2[j];
 		th.appendChild(text);
 		thr1.appendChild(th);		
-	}				  
+	}				   */
 }

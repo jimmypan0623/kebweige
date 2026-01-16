@@ -85,20 +85,3 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 function rowchoseSecond(targetRow){    //紀錄移動
    return true;	
 }
-
-function fldsgsroup(fidx,tbno){
-    let groups =[['directdata','block','left','13'],    //stock_no
-			     ['indirectdata','block','left','13'],  //stock_name
-			     ['indirectdata','block','center','5'],     //stock_unit 
-			     ['directdata','block','right','8'],   //basic_pack
-			     ['directdata','block','center','7'],     //pack_way 
-			     ['directdata','block','right','8'],     //out_pack
-			     ['directdata','block','right','8'],     //minum_order
-			     ['directdata','block','right','8'],     //cubic_qty
-				 ['directdata','block','right','8'],     //ross_weight
-				 ['directdata','block','right','8'],     //net_weight
-				 ['directdata','block','left','13'],     //oth_remark
-			    ];  
-    return groups[fidx];			  
-}
-

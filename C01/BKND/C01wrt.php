@@ -7,6 +7,8 @@ foreach($cart as $key=>$val){
     $brr[]=addslashes(trim($val));		//要加入此函數避免中間有單引號錯亂
 }
 include("../../include/BKND/mysqli_server.php");        //引用檔   
+require_once "../../include/BKND/fieldDOMset.php"; // 引入     
+$trnarray=fldafterwrite('C01','1',$link,true);  
 if( trim($brr[0])!=trim($brr[22])){  //如果群組編號不等於客戶編號
         $sql="select * from c01 where F01="."'".$brr[22]."'";  //要判斷群組編號是否存在客戶主檔中
         $sql2=mysqli_query($link,$sql);
@@ -73,7 +75,7 @@ if( trim($brr[0])!=trim($brr[22])){  //如果群組編號不等於客戶編號
 	           $sql=$mscnt;                                               //寫入MySQL 	 
                mysqli_query($link ,$sql) or die(mysqli_error($link));  
 			   $last_id = mysqli_insert_id($link);     //找最後一個號碼	          					     
-			   $arr = array ('order_no'=>$last_id,'group_no'=>$brr[22],'lastupdate'=>$lastdate.$list4['F03']);						 
+			   $arr = array ('order_no'=>$last_id,'group_no'=>$brr[22],'lastupdate'=>$lastdate.$list4['F03'],'fldsatrr'=>$trnarray);						 
 	           echo json_encode($arr);
 		 } //新增判斷或執行結束   	     
      }else{	   //修改
@@ -113,7 +115,7 @@ if( trim($brr[0])!=trim($brr[22])){  //如果群組編號不等於客戶編號
 	   $mscnt.=" WHERE F00="."'".$brr[$mArlth-2]."'";
 	   $sql=$mscnt;                                                 //寫入MySQL 	 
        mysqli_query($link ,$sql) or die(mysqli_error($link));  	  
-       $arr = array ('order_no'=>$brr[$mArlth-2],'group_no'=>$brr[22],'lastupdate'=>$lastdate.$list4['F03']);
+       $arr = array ('order_no'=>$brr[$mArlth-2],'group_no'=>$brr[22],'lastupdate'=>$lastdate.$list4['F03'],'fldsatrr'=>$trnarray);
 	    echo json_encode($arr);
       //echo $brr[11];
     }  

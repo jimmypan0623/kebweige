@@ -36,6 +36,7 @@ if((int)$str[1]==0){   //剛開始登入必須要抓取參數一次，此後就�
 				 'page_name1'=>$list3['F16'],
 				 'page_name2'=>$list3['F17'],
 				 'page_name3'=>$list3['F18']
+
 				 );       				
 		array_push($arr,$atr);
 	}

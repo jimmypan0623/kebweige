@@ -106,18 +106,3 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 function rowchoseSecond(targetRow){    //紀錄移動 表身
    return true;	
 }
-
-function fldsgsroup(fidx,tbno){
-	 var groups=[];
-	if(tbno==0){
-       var groups=[['directdata','block','center','25'],     
-	   ['directdata','block','center','25'],   
-	   ['directdata','block','center','25']    
-	   ]; 
-	}else{
-	    var groups=[['directdata','block','center','25'],    
-	   ['directdata','block','center','25']  
- 	   ]; 	
-	}		
-    return groups[fidx];			  
-}

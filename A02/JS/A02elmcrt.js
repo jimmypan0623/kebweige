@@ -1,6 +1,6 @@
 function crtElm(){
 	
-     var thr1=document.getElementById('headrow1');
+   /*   var thr1=document.getElementById('headrow1');
 	 
 	 var array1 = ['登入帳號','人員姓名','部門編號', '部門名稱','連絡電話','電子郵件','員工編號','失效日期'];
 	 var array2 = ['8%','8%','8%', '8%','12%','20%','8%','8%'];
@@ -24,10 +24,10 @@ function crtElm(){
 		th2.appendChild(text);
 		thr2.appendChild(th2);
 		
-	}			
-	var keynames=getElementsByAttribute('name','keyname');	
+	}			 */
+	/* var keynames=getElementsByAttribute('name','keyname');	
 	keynames[0].innerHTML="帳號:";
-	var fatherkeys=getElementsByAttribute('name','fatherkey');	
+	var fatherkeys=getElementsByAttribute('name','fatherkey');	 */
 }
 
  

@@ -1,5 +1,67 @@
 function selfTag(jsvsn){
-	///
+	////
+	var cntdiv=getElementsByAttribute('class','tab_content');		
+	var firstCover=getElementsByAttribute('class','table_cover');	
+	firstCover[0].style.width="32%";
+  
+    var secondCover=document.createElement('div');
+	secondCover.setAttribute("class","table_cover");
+	secondCover.style.width="68%";
+    righttbl1=document.createElement("table");
+	righttbl1.id="rightMember1";	
+	var arrayRgt1=["廠商編號:","廠商名稱:","廠商簡稱:","品質等級:","統一編號:","營業項目:",
+	"運送方式:","公司地址:","工廠地址:","聯絡人:","負責人:","電話:",
+	"傳真:","E-mail:","交易幣別:","結帳日期:","請款日:","付款方式:",
+	"票期(T/T)天數:","採購人員:","其他備註:","最後交易:","最後更新:"];
+     var arrayRgt2=["<td><span name='d01value' id='vender_no'></span>","<span name='d01value' id='vender_name'></span>",
+	 "<span name='d01value' id='vender_name_abbrv'></span>","<span name='d01value' id='level_of_impt'></span>",
+	 "<span name='d01value' id='unite_no'></span>","<span name='d01value' id='main_product'>",
+	 "<span name='d01value' id='way_of_ship'></span>","<span name='d01value' id='addrss'></span>",
+	 "<span name='d01value' id='shipaddrss'></span>","<span name='d01value' id='window_man'>",
+	 "<span name='d01value' id='representive'></span>","<span name='d01value' id='tel_no'></span>",
+	 "<span name='d01value' id='fax_no'></span>","<span name='d01value' id='emailaddrss'></span>",
+	 "<span name='d01value' id='typeofcrnt'></span>&nbsp&nbsp<span span name='d01value' id='crnt_name'></span>","<span name='d01value' id='dayofincount'></span>",
+	 "<span name='d01value' id='dayofcharge'>","<span name='d01value' id='typeofpay'></span>",
+	 "<span name='d01value' id='paymentterm'></span>","<span name='d01value' id='proc_no'></span>&nbsp&nbsp<span name='d01value' id='proc_name'></span>",
+	 "<span name='d01value' id='otherremark'></span>","<span name='d01value' id='lasttrade'></span>",  
+	 "<span name='d01value' id='lastchange'></span>"];  
+	 var rowPop=[21,20,19,17,14,13,11,9,8,7,5,2,0]; //算好哪一欄要重新一列丟到陣列(逆排序)
+	for(var i=0;i<arrayRgt1.length;i++){  //一陣列指示產生一列,完畢後pop掉
+		if(i==rowPop[rowPop.length-1]){		  	
+		    var oTr=righttbl1.insertRow(-1);		
+			rowPop.pop();
+		}
+		 var oTd = oTr.insertCell(oTr.cells.length);			
+		oTd.setAttribute("class","Rgtkey"); 
+		oTd.innerHTML=arrayRgt1[i];
+		 var oTd = oTr.insertCell(oTr.cells.length);
+		 if (i==0 ){
+		     oTd.style.width='12%';		 
+		 }		
+         oTd.innerHTML=arrayRgt2[i];
+	}		
+	secondCover.appendChild(righttbl1); 
+	cntdiv[0].appendChild(secondCover); 
+    var tabnames=getElementsByAttribute('name','tablbl');	
+    var keynames=getElementsByAttribute('name','keyname');	
+	if(getAuth[0]()[5]=='Y'){	 //有查看報價紀錄權限時
+	   
+		var rspn2=document.getElementById('serverResponse2'); 
+	    var text01 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
+	    cntdiv[1].insertBefore(text01,rspn2);
+	    var spn1=document.createElement('span');
+	    spn1.id="ttltitle";	 
+        spn1.innerHTML="詢價筆數:";
+	    cntdiv[1].insertBefore(spn1,rspn2);
+	    var spn3=document.createElement('span');
+	    spn3.id="ttlmny";   
+	    spn3.innerHTML='0';
+	    cntdiv[1].insertBefore(spn3,rspn2);	 
+	}else{
+	    cntdiv[1].style.display='none';
+	    tabnames[1].style.display='none';        
+	}
+	////
     var scriptall=document.getElementsByTagName("script");
 	    for(var j=0;j<scriptall.length;j++){
 	        if(scriptall[j].id){

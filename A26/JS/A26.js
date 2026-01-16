@@ -87,17 +87,3 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
     
     return true;			   
 }	
- 
-function fldsgsroup(fidx,tbno){
-	
-    let groups =[['directdata','block','left','07'],    //int_no
-			     ['directdata','block','left','14'],  //int_name
-				 ['directdata','block','left','12'],   //int_range
-				 ['directdata','block','center','4'],   //int_type
-			     ['directdata','block','center','4'],     //int_length
-			     ['directdata','block','center','14'],   //int_content
-			     ['directdata','block','center','14'],     //int_dscrp
-			     ['directdata','block','center','12'],     //int_check			    	     
-			    ];  
-    return groups[fidx];			  
-}

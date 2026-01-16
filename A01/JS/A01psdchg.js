@@ -1,7 +1,10 @@
 function selfTag(jsvsn){
 	 var contentdiv=getElementsByAttribute('class','tab_content');	
+	 var tabnames=getElementsByAttribute('name','tablbl');			
 	var svrSpns1=document.getElementById('serverResponse1'); 
     var svrSpns2=document.getElementById('serverResponse2');	 
+	var svrSpns3=document.getElementById('serverResponse3');	 
+    
     for (var i=0;i<9;i++){
         var hintSpan=document.createElement('span');
         hintSpan.setAttribute("style","display:none;");
@@ -12,6 +15,29 @@ function selfTag(jsvsn){
 		}
 		contentdiv[1].insertBefore(hintSpan,svrSpns2);		
     }		 
+	
+	if (getAuth[0]()[7]=='Y' ){	 
+	    
+		if(getAuth[0]()[8]=='Y'){
+			 var text1 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
+			 var text2 = document.createTextNode('\u{A0}');
+			var cpyAuthButton=document.createElement("input");		   
+			cpyAuthButton.setAttribute("type","button");
+			cpyAuthButton.setAttribute("class","btn");
+			cpyAuthButton.setAttribute("value","\u{1F4BE}");    
+			cpyAuthButton.setAttribute("style","font-size:17px;");
+			cpyAuthButton.setAttribute("title","複製此功能畫面欄位屬性予以其他功能");							
+			cpyAuthButton.id="COPY_BOTT";		
+			attachEventListener(cpyAuthButton,"click",authCopy,false);  //複製權限按鈕程序
+			contentdiv[2].insertBefore(text1,svrSpns3);
+			contentdiv[2].insertBefore(cpyAuthButton,svrSpns3);
+			contentdiv[2].insertBefore(text2,svrSpns3);
+		}
+	}else{
+	    contentdiv[2].style.display='none';
+	    tabnames[2].style.display='none';
+	}
+	
 	if (getAuth[0]()[6]=='Y'){	 
 	     var text5 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
 	    var reMoveButton=document.createElement("input");		   
@@ -45,6 +71,11 @@ function selfTag(jsvsn){
 	if(tab2Click){		
 		tab2Click.setAttribute("accesskey","2");
 	    attachEventListener(tab2Click,"click",tab2View,false);		
+	}
+	var tab3Click=document.getElementById("tab3");	
+	if(tab3Click){		
+		tab3Click.setAttribute("accesskey","3");
+	    attachEventListener(tab3Click,"click",tab3View,false);		
 	}
 }
 
@@ -108,16 +139,15 @@ function tab2View(event){
 		   }
 	   }   
 	  
-	   keydescription.innerHTML=aWaitUpdate[2];
-	 
-	     fthkey.innerHTML=aWaitUpdate[1];
+	    keydescription.innerHTML=aWaitUpdate[2];	 
+	    fthkey.innerHTML=aWaitUpdate[1];
 	   var responseDiv=document.getElementById("serverResponse2"); 
 	   responseDiv.innerHTML='&nbsp';
 	   var bibau=cko[3](0);   //找出閉包變數現值
 	   cko[3](bibau*(-1));    //將表身閉包變數歸零	
 	    bibau=cko[6](0);   //找出閉包變數現值
 	    cko[6](bibau*(-1));    //將表身閉包變數歸零 
-		  var btns=getElementsByAttribute('class','btn');			 
+		 var btns=getElementsByAttribute('class','btn');			 
 		 for (var i=0;i<btns.length;i++){		
 		     if(btns[i].accessKey=='T' || btns[i].accessKey=='J' || btns[i].accessKey=='K' || btns[i].accessKey=='V'){		    
 		        btns[i].removeAttribute("accesskey");		
@@ -127,4 +157,54 @@ function tab2View(event){
 			 } 
 	     }		  
 	   commontemp(fthkey.innerHTML,"a02.F03");						  
+}
+
+function tab3View(event){	  
+       if (typeof event=="undefined"){
+		   event=window.event;
+    	}
+		var localbottoncl=document.getElementById('lclbtnbk');       //按鈕背景
+		 localbottoncl.style.backgroundColor="#F3F3FA";
+		 localbottoncl.style.border=" 2px solid #F3F3FA";
+		 localbottoncl.style.boxShadow="skyblue 5px 10px 10px 7px";
+   
+	   if (cko[2](0)==0){
+		  blkshow("未勾選任何紀錄，請勾選一筆再編輯表身內容");	
+	  	  document.getElementById("tab1").checked="checked";		
+		  return false;	
+       }
+	
+	   var keydescription=document.getElementById('keydscrpt2');    
+       var fthkey=document.getElementById("fatherkey2");
+	   var aWaitUpdate=[];	//準備記錄修改時欄位的內容資料
+       var maintable=document.getElementById("maintbody1");		//所指向的表頭紀錄	
+	   var topvth=0;
+	   for(var i=0;i< maintable.rows.length; i++){			 		            
+		   if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
+			   for (j=0;j<maintable.rows[i].cells.length-1;j++){
+				  if(maintable.rows[i].cells[j].className=='directdata'){
+					aWaitUpdate.push(maintable.rows[i].cells[j].innerHTML);  //將待修改欄位資料存入陣列
+				  }
+			   }				  
+               break;					   
+		   }
+	   }   
+	   keydescription.textContent=aWaitUpdate[2];   
+	   fthkey.innerHTML=aWaitUpdate[1];	 
+	   var responseDiv=document.getElementById("serverResponse3"); 
+	   responseDiv.innerHTML='&nbsp';
+	   var bibau=cko[4](0);   //找出閉包變數現值
+	   cko[4](bibau*(-1));    //將表身閉包變數歸零			
+	    bibau=cko[6](0);   //找出閉包變數現值
+	    cko[6](bibau*(-1));    //將表身閉包變數歸零 
+		var btns=getElementsByAttribute('class','btn');			 
+		 for (var i=0;i<btns.length;i++){		
+		     if(btns[i].accessKey=='T' || btns[i].accessKey=='J' || btns[i].accessKey=='K' || btns[i].accessKey=='V'){		    
+		        btns[i].removeAttribute("accesskey");		
+			 } 
+			  if(right(btns[i].title,1)=='I' ||right(btns[i].title,1)=='M'){
+		        btns[i].setAttribute("accesskey",right(btns[i].title,1));		
+			 } 
+	     }		  
+	   commontemp(fthkey.innerHTML,"a04.F01");
 }

@@ -1,6 +1,7 @@
 ﻿<?php
    header("Content-Type:text/html; charset=utf-8");   
    include("../../include/BKND/mysqli_server.php");                              //引用檔   
+    require_once "../../include/BKND/fieldpreset.php"; // 引入
    $rows=0;
    if (substr($_POST['filename'],0,3)=="PGE"){	  
 	   $pgeno=getNeedBetween($_POST['filename'],'E','|'); // 頁次 
@@ -27,21 +28,22 @@
 		$sql="SELECT * FROM a14 "; 	   		 
 		$sql3=$sql." WHERE ".$fieldNo." like '%".trim($filterKey)."%' order by ".$fieldNo ; 
    }	   
+    $wthary=fldwdthpre('A09','1',$link);
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_assoc($sql4)){
 		 
 		
-	$atr = array('rc_no_DHL_000'=>$list3['F00'],
-		             'dpt_no_DSL_008'=>$list3['F01'], 
-					 'dpt_name_DSL_010'=>$list3['F02'],	
-                     'who_incharge_DHL_000'=>$list3['F03'],	
-                     'inv_inc_DSC_008'=>$list3['F04'],
-                     'prod_inc_DSC_008'=>$list3['F05'],
-					 'cost_inc_DSC_008'=>$list3['F13'],					
-                     'is_useful_DSC_008'=>$list3['F12'],
-					  'remark_DSL_030'=>$list3['F06'],
-					  'lastupdate_DSL_013'=>$list3['F07'] 
+	$atr = array('rc_no_DHL'.$wthary[0]=>$list3['F00'],
+		             'dpt_no'.$wthary[1]=>$list3['F01'], 
+					 'dpt_name'.$wthary[2]=>$list3['F02'],	
+                     'who_incharge'.$wthary[3]=>$list3['F03'],	
+                     'inv_inc'.$wthary[4]=>$list3['F04'],
+                     'prod_inc'.$wthary[5]=>$list3['F05'],
+					 'cost_inc'.$wthary[6]=>$list3['F13'],					
+                     'is_useful'.$wthary[7]=>$list3['F12'],
+					  'remark'.$wthary[8]=>$list3['F06'],
+					  'lastupdate'.$wthary[9]=>$list3['F07'] 
 					  );                      			
 		array_push($arr,$atr);
 	}

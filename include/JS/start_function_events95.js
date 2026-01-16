@@ -860,3 +860,4 @@ function createArrayClosure() {
         };
 		return f;
     }
+	

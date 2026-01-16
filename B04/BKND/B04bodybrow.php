@@ -2,7 +2,7 @@
    header("Content-Type:text/html; charset=utf-8");   
 
   include("../../include/BKND/mysqli_server.php");                              //引用檔   
-         
+  require_once "../../include/BKND/fieldpreset.php"; // 引入         
 		 
         $str=explode('|',$_POST['filename']);  //將上面字串以逗號分割成陣列
 	   
@@ -10,23 +10,23 @@
 		$sql3.=" left outer join b01 on b0d.F03=b01.F01";
 		$sql3.=" left outer join a14 on b0d.F05=a14.F01 "; 		
 		$sql3.=" where b0d.F01='".$str[0]."' and ".$str[1]." like '%".trim($str[2])."%' order by b0d.F03"; 
-		                                                              
+	 $wthary=fldwdthpre('B04','2',$link); 	 	 	                                                              
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_assoc($sql4)){
 		//['13%','13%','10%', '7%','7%','7%','7%','13%','13%','10%'];
-		$atr = array('rc_no_DHL_000'=>$list3['F00'],		           
-					 'stockno_DSL_013'=>$list3['F03'], 
-					 'stockname_ISL_013'=>$list3['F0B'],
-					  'order_no_DSL_010'=>$list3['F07'], 
-					 'query_qty_DSR_007'=>$list3['F04'],	                     
-                     'query_price_DSR_007'=>$list3['F15'],                         	
-					 'dept_no_DHC_000'=>$list3['F05'],
-					 'dept_name_ISL_007'=>$list3['F0C'],
-					 'custom_partno_DSL_013'=>$list3['F08'],  
-                     'custom_po_DSL_013'=>$list3['F09'],  
-					 'remark_DSL_010'=>$list3['F25'],
-                     'lastupdate_DHC_000'=>$list3['F11']);                      						 
+		$atr = array('rc_no'.$wthary[0]=>$list3['F00'],		           
+					 'stockno'.$wthary[1]=>$list3['F03'], 
+					 'stockname'.$wthary[2]=>$list3['F0B'],
+					  'order_no'.$wthary[3]=>$list3['F07'], 
+					 'query_qty'.$wthary[4]=>$list3['F04'],	                     
+                     'query_price'.$wthary[5]=>$list3['F15'],                         	
+					 'dept_no'.$wthary[6]=>$list3['F05'],
+					 'dept_name'.$wthary[7]=>$list3['F0C'],
+					 'custom_partno'.$wthary[8]=>$list3['F08'],  
+                     'custom_po'.$wthary[8]=>$list3['F09'],  
+					 'remark'.$wthary[10]=>$list3['F25'],
+                     'lastupdate'.$wthary[11]=>$list3['F11']);                      						 
 		array_push($arr,$atr);
 	}
 	mysqli_close($link);

@@ -2,25 +2,26 @@
    header("Content-Type:text/html; charset=utf-8");   
 
  include("../../include/BKND/mysqli_server.php");                                //引用檔
+ require_once "../../include/BKND/fieldpreset.php"; // 引入      
       $str=explode('|',$_POST['filename']);  //將上面字串以逗號分割成陣列
 	   
-		$sql3="select c04.*,b01.F02 as F0B from c04 left outer join b01 on c04.F02=b01.F01 where c04.F01='".$str[0]."' and ".$str[1]." like '%".trim($str[2])."%' order by c04.F02"; 
-		                                                                     
+		$sql3="SELECT c04.*,b01.F02 AS F0B FROM c04 LEFT OUTER JOIN b01 ON c04.F02=b01.F01 WHERE c04.F01='".$str[0]."' AND ".$str[1]." LIKE '%".trim($str[2])."%' ORDER BY c04.F02"; 
+	 $wthary=fldwdthpre('C04','2',$link);  	                                                                     
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_assoc($sql4)){
 		 
-		$atr = array('rc_no_DHL_000'=>$list3['F00'],		           
-					 'stockno_DSL_013'=>$list3['F02'], 
-					 'stockname_ISL_013'=>$list3['F0B'],
-					 'query_qty_DSR_008'=>$list3['F03'],	                     
-                     'query_price_DSR_008'=>$list3['F04'],     
-					 'custom_partno_DSL_013'=>$list3['F05'],  
-                     'hopedate_DSC_010'=>$list3['F06'],  		
-                     'already_ISR_008'=>$list3['F09'],  		//已出數量		
-					 'beencancel_ISR_008'=>$list3['F21'],  	    //取消數量
-                     'notout_IHR_000'=>$list3['F23'],			//開單未出		 
-                     'lastupdate_DHL_000'=>$list3['F12']);                      						 
+		$atr = array('rc_no'.$wthary[0]=>$list3['F00'],		           
+					 'stockno'.$wthary[1]=>$list3['F02'], 
+					 'stockname'.$wthary[2]=>$list3['F0B'],
+					 'query_qty'.$wthary[3]=>$list3['F03'],	                     
+                     'query_price'.$wthary[4]=>$list3['F04'],     
+					 'custom_partno'.$wthary[5]=>$list3['F05'],  
+                     'hopedate'.$wthary[6]=>$list3['F06'],  		
+                     'already'.$wthary[7]=>$list3['F09'],  		//已出數量		
+					 'beencancel'.$wthary[8]=>$list3['F21'],  	    //取消數量
+                     'notout'.$wthary[9]=>$list3['F23'],			//開單未出		 
+                     'lastupdate'.$wthary[10]=>$list3['F12']);                      						 
 		array_push($arr,$atr);
 	}
 	mysqli_close($link);

@@ -1,5 +1,29 @@
 function selfTag(jsvsn){	
-	var maindiv=getElementsByAttribute('class','tab_css');	  	 
+   ////////
+    var maindiv=getElementsByAttribute('class','tab_css');	
+	var beinsertedid=document.getElementById('tab1');
+	var spn=document.createElement('span');
+	spn.id="APPRVE";
+	maindiv[0].insertBefore(spn,beinsertedid);
+    var cntdiv=getElementsByAttribute('class','tab_content');	
+	var rspn2=document.getElementById('serverResponse2'); 
+	 var text01 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
+	 cntdiv[1].insertBefore(text01,rspn2);
+	var spn1=document.createElement('span');
+	spn1.id="ttltitle";
+     spn1.innerHTML='總金額:';
+	cntdiv[1].insertBefore(spn1,rspn2);
+	var spn2=document.createElement('span');
+	spn2.id="crncy" ;
+    cntdiv[1].insertBefore(spn2,rspn2);
+	var spn3=document.createElement('span');
+	spn3.id="ttlmny";
+	spn3.innerHTML='0';
+	 cntdiv[1].insertBefore(spn3,rspn2); 
+
+  ////////   
+
+		 
 	var orpButton5=document.getElementById("lgt");		  //離開按鈕    
 	var text17 = document.createTextNode('\u{A0}');
 	var orpButton7=document.createElement("input");		   
@@ -105,7 +129,7 @@ function tab1View(event){
 		 localbottoncl.style.border=" 2px solid ##FCFCFC";
 		 localbottoncl.style.boxShadow ="sandybrown 5px 10px 10px 7px";
 		 var bibau=cko[3](0);   //找出閉包變數現值
-		 //var fthkey=document.getElementById("fatherkey");
+		
 	
 	        cko[3](bibau*(-1));    //將表身閉包變數歸零
 			bibau=cko[6](0);   //找出閉包變數現值

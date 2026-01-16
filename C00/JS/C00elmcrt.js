@@ -1,5 +1,5 @@
 function crtElm(){	
-     var thr1=document.getElementById('headrow1');	 
+     /* var thr1=document.getElementById('headrow1');	 
 	 var array1 = ['幣別代號','幣別名稱','預設匯率', '最後異動'];
 	 //var array2 = ['25%','25%','25%', '25%'];
 	for (var j = 0; j < array1.length; j++) {
@@ -20,8 +20,8 @@ function crtElm(){
 		th2.appendChild(text);
 		thr2.appendChild(th2);
 		
-	}		
-	var keynames=getElementsByAttribute('name','keyname');	
-	keynames[0].innerHTML="幣別:";
+	}		 */
+/* 	var keynames=getElementsByAttribute('name','keyname');	
+	keynames[0].innerHTML="幣別:"; */
 	var fatherkeys=getElementsByAttribute('name','fatherkey');	
 }

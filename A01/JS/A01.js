@@ -10,7 +10,7 @@ function getProfile(str1,reccount,tbno) {
 			    var item_no=paddingLeft(i,optdigts);				
 		        var varItem=new Option(item_no,item_no);
 	    	    slt2.options.add(varItem);	 
-           }		  
+            }		  
 		   		   //第一個選項位數修正		   
 		   slt2.options[0].value=paddingLeft(1,optdigts);
 		   slt2.options[0].text=paddingLeft(1,optdigts);
@@ -20,10 +20,13 @@ function getProfile(str1,reccount,tbno) {
 	    }
 		var oTable = document.getElementById("maintbody1");
 		var fld=document.getElementById('recfield'); 
-	}else{
+	}else if(tbno==1){
 	    var oTable = document.getElementById("maintbody2");
 		var fld=document.getElementById('recfield2');
-	}				
+	}else{
+	     var oTable = document.getElementById("maintbody3");
+		var fld=document.getElementById('recfield3');
+	}		
 	for(var i=0;i<arr.length;i++){		
 	    var oTr=oTable.insertRow(-1);	
         oTr.setAttribute("name","mainrow");	      		
@@ -64,8 +67,30 @@ function getProfile(str1,reccount,tbno) {
 			   var wdthln=jk.substr(jk.lastIndexOf('_')+1,3);  	  	
 			   oTd.style.width=wdthln+"%";
 			   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
-			}					 			
+			}				
+            if(jk.substr(0,jk.lastIndexOf('_')-4)=='isdirect'){
+			   var oTd = oTr.insertCell(oTr.cells.length);
+			   oTd.setAttribute("class","indirectdata");	
+			   oTd.setAttribute("style","width:6%;text-align:center;");	
+			   oTd.innerHTML=whichDIM(arr[i][jk]);
+			   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
+			}			
+			if(jk.substr(0,jk.lastIndexOf('_')-4)=='showornot'){
+			   var oTd = oTr.insertCell(oTr.cells.length);
+			   oTd.setAttribute("class","indirectdata");	
+			   oTd.setAttribute("style","width:6%;text-align:center;");	
+			   oTd.innerHTML=showOrNot(arr[i][jk]);
+			   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
+			}			
+			if(jk.substr(0,jk.lastIndexOf('_')-4)=='location'){
+			   var oTd = oTr.insertCell(oTr.cells.length);
+			   oTd.setAttribute("class","indirectdata");	
+			   oTd.setAttribute("style","width:6%;text-align:center;");	
+			   oTd.innerHTML=locateLCR(arr[i][jk]);
+			   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
+			}			
 		} 	
+		
         var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
 	    oTd.setAttribute("style","display:none");   //勾選不顯示
 	 	var myCheck=document.createElement('input'); 
@@ -128,43 +153,65 @@ function rowchoseSecond(targetRow){    //紀錄移動
    return true;	
 }
 
-function fldsgsroup(fidx,tbno){
-	 var groups=[];
-	if(tbno==0){
-        var groups=[['directdata','block','center','7'],     
-	                ['directdata','block','left','17'],   
-	                ['directdata','block','center','5'],   
-				    ['directdata','block','center','5'],   
-					['directdata','block','center','5'],   
-					['directdata','block','center','5'],   
-	                ['directdata','block','left','10'],   	 
-				    ['directdata','block','left','10'],   
-					['directdata','block','left','10'],   
-					['directdata','block','left','10'],   
-					['directdata','block','left','10'],   
-	                ['directdata','block','left','5'],  
-                    ['directdata','block','left','10'], 
-                    ['directdata','block','left','10'], 
-                    ['directdata','block','left','10']
-	              ];
-	}else{
-	    var groups=[['directdata','block','left','10'],    
-	                ['indirectdata','block','left','15'], 
-	                ['directdata','block','center','5'], 
-	                ['directdata','block','center','5'],  
-	                ['directdata','block','center','5'],  
-	                ['directdata','block','center','5'],  
-					['directdata','none','center','0'], 
-	                ['directdata','none','center','0'],  
-	                ['directdata','none','center','0'],  
-	                ['directdata','none','center','0'],  
-					['directdata','none','center','0'],  
-					['indirectdata','block','left','11'], 
-	                ['indirectdata','block','left','11'],  
-	                ['indirectdata','block','left','11'],  
-	                ['indirectdata','block','left','11'],  
-					['indirectdata','block','left','11']
- 	               ]; 	
-	}		
-    return groups[fidx];			  
+
+
+function whichDIM(tpe){
+	 var tpemsg="";
+     switch(tpe){
+      case 'D': {    
+          tpemsg = '直接';    
+          break;  
+      }
+      case 'I': {    
+          tpemsg = '關聯';   
+          break;
+      }
+	   case 'M': {    
+          tpemsg = 'DOM';   
+          break;
+      }	  
+       default: {
+         break;
+       }
+    }
+    return tpemsg;
+}
+function showOrNot(tpe){
+    var tpemsg="";
+     switch(tpe){
+      case 'S': {    
+          tpemsg = '是';    
+          break;  
+      }
+      case 'H': {    
+          tpemsg = '否';   
+          break;
+      }
+	 
+      default: {
+         break;
+       }
+    }
+    return tpemsg;
+}
+function locateLCR(tpe){
+   var tpemsg="";
+     switch(tpe){
+      case 'L': {    
+          tpemsg = '靠左';    
+          break;  
+      }
+      case 'C': {    
+          tpemsg = '置中';   
+          break;
+      }
+	   case 'R': {    
+          tpemsg = '靠右';   
+          break;
+      }
+      default: {
+         break;
+       }
+    }
+    return tpemsg;
 }
