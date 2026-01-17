@@ -214,9 +214,7 @@ function initDialog()
 	              scriptall[j].parentNode.removeChild(scriptall[j]);		 
 		        }
 	        }		 				 
-			/* var cmmjsvs=gifarray[nwsd]+scnd;			
-			var urljsname=left(nowExcute,3)+'/JS/'+left(nowExcute,3)+'elmcrt.js?v='+cmmjsvs; 			
-			loadScript(urljsname,function(){crtElm();});   */
+			
 			var mthjudge=getAuth[0]()[11];//判斷是否為月份檔
 			var contentdiv=getElementsByAttribute('class','tab_content');			
 			if(!(contentdiv[0])){   //如果同時觸發兩隻程式引發記憶體錯亂,強制中斷以第一隻程式為準,重來一次			    							
@@ -508,9 +506,9 @@ function initDialog()
 			  scriptall[j].parentNode.removeChild(scriptall[j]);		 
 			}
 		}		 	
-		var jsvsn=nwsd.toString()+scnd;		
-		/* var showTime=document.getElementById('currentTime');
-		var jsvsn=(showTime.innerHTML.substring(0,4)+'-'+showTime.innerHTML.substring(5,7)+'-'+showTime.innerHTML.substring(8,10)); */
+		//var jsvsn=nwsd.toString()+scnd;		
+		var showTime=document.getElementById('currentTime');
+		var jsvsn=(showTime.innerHTML.substring(0,4)+'_'+showTime.innerHTML.substring(5,7)+'_'+showTime.innerHTML.substring(8,10))+'_'+getAuth[1]()[0];
 		 
 		var urljsname=nowExcute.substr(0,3)+'/JS/'+nowExcute.substr(0,3)+'psdchg.js?v='+jsvsn;		 	
     	loadScript(urljsname,function(){selfTag(jsvsn);});     

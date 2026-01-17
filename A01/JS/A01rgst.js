@@ -539,9 +539,9 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 			   	                
 				if(fldidx>10 && tbno==1){
 				    if(args[fldidx-6]!='Y'){	
-				   	   oTd.setAttribute("style","width:11%;text-decoration: line-through;color:#7f8890;");
+				   	   oTd.setAttribute("style","width:11%;text-decoration: line-through;color:#7f8890;text-align:center;");
 				    }else{
-					   oTd.setAttribute("style","width:11%;");
+					   oTd.setAttribute("style","width:11%;text-align:center;");
 				    }	
 				}
 				
@@ -599,9 +599,9 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 			}
 			if(fldidx > 10 && tbno==1){
 			    if(args[fldidx-6]!='Y'){	
-				   	maintable.rows[args[arglth-1]].cells[fldidx+1].setAttribute("style","width:11%;text-decoration: line-through;color:#7f8890;");
+				   	maintable.rows[args[arglth-1]].cells[fldidx+1].setAttribute("style","text-align:center;width:11%;text-decoration: line-through;color:#7f8890;");
 				}else{
-					maintable.rows[args[arglth-1]].cells[fldidx+1].setAttribute("style","width:11%;");
+					maintable.rows[args[arglth-1]].cells[fldidx+1].setAttribute("style","text-align:center;width:11%;");
 				}				    				     			
 			}							 
 		}
