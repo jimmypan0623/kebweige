@@ -78,28 +78,37 @@ function blkshow(txtword)
 					}
 				    break;	   
 			case 3:				 	      //確認或過帳
-				    if (tbno==0){  //表頭資料	
-				        if(sourceAccount(1,0)){
-					       var headtitle='單號:'+sourceAccount(1,0)+",之所有資料核准確認?";
-					    }else{
-						   blkshow("無資料可確認!");
-						   return false;
-					    }
-				    }else{				 
-					    var headtitle='單號:'+document.getElementById('fatherkey1').innerHTML+",之所有資料核准確認?";					 
-				    }
+			        if (getAuth[0]()[12]!='A'){
+						if (tbno==0){  //表頭資料	
+							if(sourceAccount(1,0)){
+							   var headtitle='單號:'+sourceAccount(1,0)+",之所有資料核准確認?";
+							}else{
+							   blkshow("無資料可確認!");
+							   return false;
+							}
+						}else{				 
+							var headtitle='單號:'+document.getElementById('fatherkey1').innerHTML+",之所有資料核准確認?";					 
+						}
+					}else{
+					    var headtitle="是否結轉期末庫存?";
+					}
 				    break;
 			case 5:                             //反確認或反過帳
-				    if (tbno==0){  //表頭資料	
-				        if(sourceAccount(1,0)){
-					        var headtitle='單號:'+sourceAccount(1,0)+",之所有資料反確認修正?";
-					    }else{
-						   blkshow("無資料可反確認!");
-						   return false;
-					    }
-				    }else{
-					    var headtitle='單號:'+document.getElementById('fatherkey1').innerHTML+",之所有資料反確認修正?";
-				    }	                   
+			        if (getAuth[0]()[12]!='A'){
+						if (tbno==0){  //表頭資料	
+							if(sourceAccount(1,0)){
+								var headtitle='單號:'+sourceAccount(1,0)+",之所有資料反確認修正?";
+							}else{
+							   blkshow("無資料可反確認!");
+							   return false;
+							}
+						}else{
+							var headtitle='單號:'+document.getElementById('fatherkey1').innerHTML+",之所有資料反確認修正?";
+						}	
+					}else{
+					    var headtitle="本月是否反結轉期末庫存?";
+					    
+					}						
 				    break;
 			case 6:                                    //轉單				 
 				    var headtitle=transRecordHint(tbno);

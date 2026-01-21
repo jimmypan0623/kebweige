@@ -1,11 +1,11 @@
-function getProfile(str1,reccount) {       
+function getProfile(str1,trncde) {       
     var cnt=0;
 	 var rnddgt=getCookie('INT_069');  //四捨五入到幾位
 	var arr = str1; 
 	var queryttl=0;
-	//var scndttl=document.getElementById('ttlmny');   //次頁表頭的總金額物件
+	var apprv=document.getElementById('APPRVE');	 
     var tabs=getElementsByAttribute("class","tab");
-        var pagecount=Math.ceil(reccount/parseInt(getCookie('INT_RCD')));
+        /* var pagecount=Math.ceil(reccount/parseInt(getCookie('INT_RCD')));
         var optdigts= (pagecount.toString()).length;
 	    
         var slt2=document.getElementById('recmth');
@@ -23,7 +23,46 @@ function getProfile(str1,reccount) {
 	        cko[0](bibau*(-1));    //將閉包變數歸零
 		    cko[0](reccount);      //將筆數記起來	
           
-	    }
+	    } */
+		
+		var bibau=cko[0](0);   //找出閉包變數
+	    cko[0](bibau*(-1));    //將閉包變數歸零
+		cko[0](trncde=='Y'?1:0);      //將此變數當作是否結轉的旗號		
+       	var showTime=document.getElementById('currentTime'); //利用djtime.js顯示畫面的預設日期日期輸入欄之值為今天
+		var thmth=showTime.innerHTML.substring(0,4)+'-'+showTime.innerHTML.substring(5,7);	
+		var crntpge=document.getElementById('recmth').value ;
+		
+        var ansbtt=document.getElementById('ANS_BOTT');	
+		var vrsbtt=document.getElementById('VRS_BOTT');	
+		 if(crntpge==thmth){    //如果當月兩個鈕都無效
+		     ansbtt.setAttribute("style","display:none;");
+		     detachEventListener(ansbtt,"click",ansproc,false);	
+		     vrsbtt.setAttribute("style","display:none;");
+			 detachEventListener(vrsbtt,"click",vrsproc,false);	
+			 
+			 apprv.innerHTML='\u{A0}';  
+		 }else{
+		     if(cko[0](0)==1){	   //如果庫存帳已結轉則 
+			    ansbtt.setAttribute("style","display:none;");
+		        detachEventListener(ansbtt,"click",ansproc,false);	
+		        if (getAuth[0]()[9]=='Y'){   //(getCookie('auth09')=='Y'){
+					vrsbtt.setAttribute("style","display:block;");
+					attachEventListener(vrsbtt,"click",vrsproc,false);  //反確認按鈕程序  
+				}		
+				
+				apprv.innerHTML="<img src='digits/marker.png' alt='svg' style='position: absolute;top: 39px;left: 54%;width: 50px;opacity: 0.45;'>"
+
+			 }else{
+			    if (getAuth[0]()[8]=='Y'){   //getCookie('auth08')=='Y'
+					ansbtt.setAttribute("style","display:block;");
+					attachEventListener(ansbtt,"click",ansproc,false);  //確認按鈕程序  
+				}		
+		        vrsbtt.setAttribute("style","display:none;");
+			    detachEventListener(vrsbtt,"click",vrsproc,false);		
+				apprv.innerHTML='\u{A0}';  
+			 }
+		 }
+		
 		var oTable = document.getElementById("maintbody1");
 		//var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
         //let ks=ara.split('');		
@@ -100,8 +139,7 @@ function choseExtraDeal(targetTrChildren){   //紀錄移動
     }else{
 	   rdyship.setAttribute("style","visibility:visible;font-size:17px;");				   				   
 		 attachEventListener(rdyship,"click",page1OtherButton1,false);
-	} 
-	
+	} 	
 	 
     return true;			   
 }

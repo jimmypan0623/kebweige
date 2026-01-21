@@ -471,7 +471,7 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 			if(rsp.fldsatrr[fldidx][1]=='none'){
 					oTd.setAttribute("style","display:none;");		
 			}else{
-				   oTd.style.textAlign=fldsgsroup(fldidx,tbno)[2];				     	
+				   oTd.style.textAlign=rsp.fldsatrr[fldidx][2];				     	
 				   oTd.style.width=rsp.fldsatrr[fldidx][3]+"%";				  
 			}					 		
 			fldidx++;

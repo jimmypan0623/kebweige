@@ -64,7 +64,7 @@
 			   oTd.style.width=wdthln+"%";
 			   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
 			}	
-			/////
+			//////////
 			if(jk.substr(0,jk.lastIndexOf('_')-4)=='invoice_type' && tbno==0){
 				var oTd = oTr.insertCell(oTr.cells.length);
 				oTd.setAttribute("class","indirectdata");					 
@@ -88,9 +88,8 @@
 				queryttl+=Number(oTd.innerHTML);
 				attachEventListener(oTd,'click',rowchoose,false);		//點選資料					  
 			}	
-				//////
+			//////////
 			
-
 	    }		   
 		var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
 	    oTd.setAttribute("style","width:40px;display:none");   
@@ -98,13 +97,16 @@
 		myCheck.type="checkbox";
 		if(tbno==0){
 			myCheck.setAttribute("name","chkbxmember1");   //讓使用者勾選的checkbox單頭
-			
+			//////////
 			if(arr[i]['shure_IHC_000']!='Y'){  //未確認
 			    oTr.setAttribute("style","font-weight:bold;color:#704214;"); 
 		    } 
+			//////////
 		}else{
 			myCheck.setAttribute("name","chkbxmember2");   //讓使用者勾選的checkbox表身
-			scndttl.innerHTML= Math.round((queryttl + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);              
+			//////////
+			scndttl.innerHTML= Math.round((queryttl + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);          
+			//////////
 		}   
 		attachEventListener(myCheck,'click',chooserc,false);		   
 		oTd.appendChild(myCheck);  		   		  

@@ -22,9 +22,10 @@
 		$sql3.="AND ".$fieldNo." like '%".trim($filterKey)."%' order by ".$fieldNo;   
              
    }	   
-    $sql0="select F07 from a23 where F01="."'".$pgeno."'"; 
+    $sql0="select * from a23 where F01='".$pgeno."'"; 
      $sql1=@mysqli_query($link,$sql0);                           
-     $list4=mysqli_fetch_assoc($sql1);  //紀錄當前月份是否已結轉月庫存報表   
+     $list4=mysqli_fetch_assoc($sql1);  //紀錄當前月份是否已結轉月庫存報表 
+	 
      $wthary=fldwdthpre('B25','1',$link);
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
@@ -55,7 +56,7 @@
       //usort($arr, 'score_sort');  //料號再排序一次        
           $arr = array_values($arr);
        //  $json_string1 = json_encode($arr); 	
-         echo json_encode(array ('recdrow'=>$arr,'transcode'=>$list4['F07']));		 
+         echo json_encode(array ('recdrow'=>$arr,'pgttl'=>$list4['F07']));		 
          //echo "getProfile($json_string1,$total_pages)";  	   //
 //接著建立一個排序的函數
      /*    function score_sort($a, $b){

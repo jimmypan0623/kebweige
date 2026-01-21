@@ -10,7 +10,7 @@ for (var i=0;i<7;i++){
 //cko[4]    第三頁選擇計數(gridlist)
 //cko[5]    第四頁選擇計數(gridlist)
 //cko[6]    畫面主搜尋(也只有一個)功能目前鍵值紀錄指向計數 
-
+ 
 var getAuth=[];  //利用閉包函數當權限設定與其他系統參數紀錄器 var getAuth=[]; 
 getAuth[0] = createArrayClosure();
 //getAuth[0]()[0]    功能代號與名稱
@@ -34,7 +34,6 @@ getAuth[0] = createArrayClosure();
 getAuth[1] = createArrayClosure();	 //帳號與上次執行功能
 getAuth[2] = createArrayClosure();	 //不列入COOKIE之系統參數
 getAuth[3] = createArrayClosure();	 //各系統參數之屬性
-
 function initDialog()
 {       
     var btmshowtme=document.getElementById('currentTime'); 
@@ -60,26 +59,30 @@ function initDialog()
 		var img4=document.getElementById('img4');	
         var img5=document.getElementById('img5');			
 	    var nwdt=new Date();	
+		var d4=d3=d2=d1=d0='0'; 
+		 
 		var nwsd=Math.ceil(Math.random()*nwdt.getSeconds());  
-        var d4=(nwsd*Math.floor(Math.random()*scnd+mnte)%10).toString();		
+        d4=(nwsd*Math.floor(Math.random()*scnd+mnte)%10).toString();		
 		img1.src="digits/"+d4+".gif";		 
 		var nwdt=new Date();	
 		var nwsd=Math.ceil(Math.random()*nwdt.getSeconds());  
-        var d3=(nwsd*Math.floor(Math.random()*scnd+mnte)%10).toString();		
+        d3=(nwsd*Math.floor(Math.random()*scnd+mnte)%10).toString();		
 		img2.src="digits/"+d3+".gif";
 		var nwdt=new Date();		 		 
 		var nwsd=Math.ceil(Math.random()*nwdt.getSeconds());	
-		var d2=(nwsd*Math.floor(Math.random()*scnd+mnte)%10).toString();
+	    d2=(nwsd*Math.floor(Math.random()*scnd+mnte)%10).toString();
 		img3.src="digits/"+d2+".gif";	 		
 		var nwdt=new Date();			
 		var nwsd=Math.ceil(Math.random()*nwdt.getSeconds());
-        var d1=(nwsd*Math.floor(Math.random()*scnd+mnte)%10).toString();		
+        d1=(nwsd*Math.floor(Math.random()*scnd+mnte)%10).toString();		
 		img4.src="digits/"+d1+".gif";	 	
         var nwdt=new Date();	
 		var nwsd=Math.ceil(Math.random()*nwdt.getSeconds());	
-		var d0=(nwsd*Math.floor(Math.random()*scnd+mnte)%10).toString();
+		d0=(nwsd*Math.floor(Math.random()*scnd+mnte)%10).toString();
 		img5.src="digits/"+d0+".gif"; 		
-		setCookie("CAPTCHA",d0+d1+d2+d3+d4); 
+
+		document.getElementById('originrandom').value=paddingLeft(parseInt(d0+d1+d2+d3+d4).toString(),5);   
+		 
 		var errMsg=getCookie('errmsg');
 		if(errMsg){		 
 			document.getElementById('account').value=getCookie('tmpacnt');			 
@@ -87,8 +90,7 @@ function initDialog()
 		    if(errMsg=='A1'){			      
 			   blkshow("帳號或密碼錯誤");				  
 		    }else if(errMsg=='A2'){			  		        
-			   blkshow("驗證碼錯誤");			  
-		    
+			   blkshow("驗證碼錯誤");			  		    
 			}else{			
 			     blkshow("同一瀏覽器重複登入系統");
 				 img1.remove();
@@ -506,10 +508,10 @@ function initDialog()
 			  scriptall[j].parentNode.removeChild(scriptall[j]);		 
 			}
 		}		 	
-		//var jsvsn=nwsd.toString()+scnd;		
-		var showTime=document.getElementById('currentTime');
+		var jsvsn=nwsd.toString()+scnd;		
+		/* var showTime=document.getElementById('currentTime');
 		var jsvsn=(showTime.innerHTML.substring(0,4)+'_'+showTime.innerHTML.substring(5,7)+'_'+showTime.innerHTML.substring(8,10))+'_'+getAuth[1]()[0];
-		 
+		  */
 		var urljsname=nowExcute.substr(0,3)+'/JS/'+nowExcute.substr(0,3)+'psdchg.js?v='+jsvsn;		 	
     	loadScript(urljsname,function(){selfTag(jsvsn);});     
 	}	

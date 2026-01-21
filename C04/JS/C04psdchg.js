@@ -38,7 +38,8 @@ function selfTag(jsvsn){
   	
   	 
 	var orpButton5=document.getElementById("lgt");		  //離開按鈕    
-	var text17 = document.createTextNode('\u{A0}');
+	//var text17 = document.createTextNode('\u{A0}');
+	
 	var orpButton7=document.createElement("input");		   
 	orpButton7.setAttribute("type","button");
 	orpButton7.setAttribute("class","btn");

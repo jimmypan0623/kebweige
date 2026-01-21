@@ -15,19 +15,21 @@ function shurePrc(event){        //單據確認程序
 	rcdindex=sourceAccount(null,0);	
 	var fieldlast=(document.getElementById("TRN_BOTT"))?4:3;
 	var shr_head="{";
-	for (var i=1;i<headtable.rows[rcdindex].cells.length-fieldlast;i++){  //要從編號開始計
-		if(headtable.rows[rcdindex].cells[i].className=='directdata'){			
-			shr_head+="\""+"elemh"+String(i)+"\""+":"+"\""+headtable.rows[rcdindex].cells[i].innerHTML+"\""+",";
+	if(getAuth[0]()[12]!='A'){
+		for (var i=1;i<headtable.rows[rcdindex].cells.length-fieldlast;i++){  //要從編號開始計
+			if(headtable.rows[rcdindex].cells[i].className=='directdata'){			
+				shr_head+="\""+"elemh"+String(i)+"\""+":"+"\""+headtable.rows[rcdindex].cells[i].innerHTML+"\""+",";
+			}
 		}
-	}
-	if(target.value=='\u{2705}'){			
-		headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-3].innerHTML='Y';
-		shr_head+="\""+"elemh"+String(headtable.rows[rcdindex].cells.length-3)+"\""+":"+"\""+'Y'+"\""+",";
-	}else{     
-		headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-4].innerHTML='Y';
-		shr_head+="\""+"elemh"+String(headtable.rows[rcdindex].cells.length-4)+"\""+":"+"\""+'Y'+"\""+",";	
-		shr_head+="\""+"elemhP"+"\""+":"+"\""+document.getElementById('newPono').value+"\""+",";		 
-		var NewNumber=document.getElementById('newPono').value;
+		if(target.value=='\u{2705}'){			
+			headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-3].innerHTML='Y';
+			shr_head+="\""+"elemh"+String(headtable.rows[rcdindex].cells.length-3)+"\""+":"+"\""+'Y'+"\""+",";
+		}else{     
+			headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-4].innerHTML='Y';
+			shr_head+="\""+"elemh"+String(headtable.rows[rcdindex].cells.length-4)+"\""+":"+"\""+'Y'+"\""+",";	
+			shr_head+="\""+"elemhP"+"\""+":"+"\""+document.getElementById('newPono').value+"\""+",";		 
+			var NewNumber=document.getElementById('newPono').value;
+		}
 	}
 	if(document.getElementById('recmth').value.search('-')>-1){
 		shr_head+="\""+"elemh"+String(headtable.rows[rcdindex].cells.length)+"\""+":"+"\""+document.getElementById('recmth').value+"\""+",";
@@ -72,13 +74,16 @@ function shurePrc(event){        //單據確認程序
 				blkshow(rsp);
 				if(target.value=='\u{2705}'){			
 				    if(rsp.indexOf('(.|.)')>0){
+						
 					    headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-3].innerHTML='Y';
 					    for (var i=1;i<headtable.rows[rcdindex].cells.length-fieldlast;i++){  //要從編號開始計
 		                    headtable.rows[rcdindex].cells[i].style.color="#000";
 		                    headtable.rows[rcdindex].cells[i].style.fontWeight="normal";					            
 	                    }
+						
 						ansbtt.setAttribute("style","display:none;");
 				        detachEventListener(ansbtt,"click",ansproc,false);	
+						
 				        editbtt.setAttribute("style","visibility:hidden;");
 			        	detachEventListener(editbtt,"click",edtrec,false);
 				        delbtt.setAttribute("style","visibility:hidden;");
@@ -87,7 +92,12 @@ function shurePrc(event){        //單據確認程序
 		               headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-3].innerHTML='N';
 				    }  
 				}else{
-				   headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-4].innerHTML='N';
+				    if(getAuth[0]()[12]!='A'){
+				       headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-4].innerHTML='N';
+				    }else{
+					   ansbtt.setAttribute("style","display:none;");
+				       detachEventListener(ansbtt,"click",ansproc,false);	
+					}
 				}					  
 				 responseDiv.innerHTML="\u{A0}";
 			}else{			
@@ -97,12 +107,14 @@ function shurePrc(event){        //單據確認程序
 		            headtable.rows[rcdindex].cells[i].style.color="#000";
 		            headtable.rows[rcdindex].cells[i].style.fontWeight="normal";					            
 	            }
-			    ansbtt.setAttribute("style","display:none;");
+			    ansbtt.setAttribute("style","display:none;");				
 				detachEventListener(ansbtt,"click",ansproc,false);	
-				editbtt.setAttribute("style","visibility:hidden;");
-				detachEventListener(editbtt,"click",edtrec,false);
-				delbtt.setAttribute("style","visibility:hidden;");
-				detachEventListener(delbtt,"click",delrec,false);
+				 if(getAuth[0]()[12]!='A'){
+				    editbtt.setAttribute("style","visibility:hidden;");
+				    detachEventListener(editbtt,"click",edtrec,false);
+				    delbtt.setAttribute("style","visibility:hidden;");
+				    detachEventListener(delbtt,"click",delrec,false);
+				 }
 				if(target.value=="\u{2705}"){
 				   if (getAuth[0]()[9]=='Y'){   //(getCookie('auth09')=='Y'){
 					   vrsbtt.setAttribute("style","display:block;");
@@ -122,10 +134,15 @@ function shurePrc(event){        //單據確認程序
 					   detachEventListener(trnsbtt,"click",trnsproc,false);
 					}
 				}
-
-				aprv.innerHTML="<img src='digits/approve.gif' alt='svg' style='position: absolute;top: 39px;left: 54%;width: 50px;opacity: 0.45;'>"
-				responseDiv.setAttribute("style","font-weight:bold;color:#536a60;"); 
-	            responseDiv.innerHTML=(target.value=="\u{2705}"?whichrspns1(urlpath):whichrspns2(urlpath)+NewNumber+"，請至該單確認"); 		
+                if(getAuth[0]()[12]!='A'){ 
+					aprv.innerHTML="<img src='digits/approve.gif' alt='svg' style='position: absolute;top: 39px;left: 54%;width: 50px;opacity: 0.45;'>"
+					responseDiv.setAttribute("style","font-weight:bold;color:#536a60;"); 
+					responseDiv.innerHTML=(target.value=="\u{2705}"?whichrspns1(urlpath):whichrspns2(urlpath)+NewNumber+"，請至該單確認"); 		
+			    }else{
+					
+					responseDiv.innerHTML=whichrspns1(urlpath);
+					aprv.innerHTML="<img src='digits/marker.png' alt='svg' style='position: absolute;top: 39px;left: 54%;width: 50px;opacity: 0.45;'>"
+				}
 			}   
 	    }
 		
@@ -138,10 +155,12 @@ function vrshrPrc(event){
 	}
 	var target=getEventTarget(event);
 	var ansbtt=document.getElementById("ANS_BOTT");
-	var editbtt=document.getElementById("EDIT_BOTT");
-	var delbtt=document.getElementById("DEL_BOTT");  
 	var vrsbtt=document.getElementById("VRS_BOTT");
-	var trnsbtt=document.getElementById("TRN_BOTT");
+	if(getAuth[0]()[12]!='A'){
+	    var editbtt=document.getElementById("EDIT_BOTT");
+	    var delbtt=document.getElementById("DEL_BOTT");  	
+	    var trnsbtt=document.getElementById("TRN_BOTT");
+	}
 	var tabs=getElementsByAttribute('class','tab');	  
 	var headtable=document.getElementById('maintbody1');
 	var aprv=document.getElementById('APPRVE');
@@ -149,7 +168,11 @@ function vrshrPrc(event){
 	var query_no='';
 	var fieldlast=(document.getElementById("TRN_BOTT"))?4:3;	
 	rcdindex=sourceAccount(null,0);
-	query_no=headtable.rows[rcdindex].cells[1].innerHTML;
+	if(getAuth[0]()[12]!='A'){
+	    query_no=headtable.rows[rcdindex].cells[1].innerHTML;
+	}else{
+	  query_no=document.getElementById('recmth').value;
+	}
 	setCookie('useraccount',getAuth[1]()[0]);
 	var sendDeleRec="filename="+query_no;		
 	var rsp="";  	
@@ -187,37 +210,42 @@ function vrshrPrc(event){
 					headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-3].innerHTML='N';
 				}
 			   responseDiv.innerHTML="\u{A0}";
-			}else{			
-				var rsp=request.responseText;	 					
-				headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-2].innerHTML=rsp.lastupdate;					       
-				headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-3].innerHTML='N';				  	 
-				for (var i=1;i<headtable.rows[rcdindex].cells.length-fieldlast;i++){  //要變色
-					 headtable.rows[rcdindex].cells[i].style.color="#704214";
-					 headtable.rows[rcdindex].cells[i].style.fontWeight="bold";	
-				}				   				   
-			   
-				vrsbtt.setAttribute("style","display:none;");
-				detachEventListener(vrsbtt,"click",vrsproc,false);	
-				if(trnsbtt){
-					 trnsbtt.setAttribute("style","visibility:hidden;");
-					detachEventListener(trnsbtt,"click",trnsproc,false);	
-				} 
-				if (getAuth[0]()[8]=='Y'){   //getCookie('auth08')=='Y'
-					ansbtt.setAttribute("style","display:block;");
-					attachEventListener(ansbtt,"click",ansproc,false);  //確認按鈕程序  
-				}		
-				if (getAuth[0]()[2]=='Y'){			 //getCookie('auth02')=='Y'
-					editbtt.style.visibility="visible";
-					attachEventListener(editbtt,"click",edtrec,false);  //修改紀錄按鈕程序
-				}
-  
-				if (getAuth[0]()[3]=='Y'){  //getCookie('auth03')=='Y'
-				   delbtt.style.visibility="visible";
-				   attachEventListener(delbtt,"click",delrec,false);  //刪除紀錄按鈕程序
-				}
-				responseDiv.setAttribute("style","font-weight:bold;color:#536a60;"); 
-				responseDiv.innerHTML=whichrspns3(urlpath); 	
-				aprv.innerHTML='\u{A0}';
+			}else{		
+			        if(getAuth[0]()[12]!='A'){
+						var rsp=request.responseText;	 					
+						headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-2].innerHTML=rsp.lastupdate;					       
+						headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-3].innerHTML='N';				  	 
+						for (var i=1;i<headtable.rows[rcdindex].cells.length-fieldlast;i++){  //要變色
+							 headtable.rows[rcdindex].cells[i].style.color="#704214";
+							 headtable.rows[rcdindex].cells[i].style.fontWeight="bold";	
+						}				   				   
+				    }
+					vrsbtt.setAttribute("style","display:none;");
+					detachEventListener(vrsbtt,"click",vrsproc,false);	
+					if(trnsbtt){
+						 trnsbtt.setAttribute("style","visibility:hidden;");
+						detachEventListener(trnsbtt,"click",trnsproc,false);	
+					} 
+					if (getAuth[0]()[8]=='Y'){   //getCookie('auth08')=='Y'
+						ansbtt.setAttribute("style","display:block;");
+						attachEventListener(ansbtt,"click",ansproc,false);  //確認按鈕程序  
+					}		
+					if (getAuth[0]()[2]=='Y'){			 //getCookie('auth02')=='Y'
+						editbtt.style.visibility="visible";
+						attachEventListener(editbtt,"click",edtrec,false);  //修改紀錄按鈕程序
+					}
+	  
+					if (getAuth[0]()[3]=='Y'){  //getCookie('auth03')=='Y'
+					   delbtt.style.visibility="visible";
+					   attachEventListener(delbtt,"click",delrec,false);  //刪除紀錄按鈕程序
+					}
+					responseDiv.setAttribute("style","font-weight:bold;color:#536a60;"); 
+					 
+					responseDiv.innerHTML=whichrspns3(urlpath); 	
+					   
+					 
+					aprv.innerHTML='\u{A0}';
+				 
 			}
 		}
 	} 
@@ -249,6 +277,10 @@ function whichrspns1(tpe){
       }
 	 case 'B05': {    
           tpemsg = '已確認過帳，請檢查相對應庫存與帳款及訂單未出量是否正確...';   
+          break;
+      }
+	  case 'B25': {    
+          tpemsg = '已將本月期末庫存結轉至次月，請檢查次月期初庫存是否正確...';   
           break;
       }
 	  case 'D04': {    
@@ -332,6 +364,10 @@ function whichrspns3(tpe){
       }
 	  case 'B05': {    
           tpemsg = '本單出貨退回料號庫存帳已減去，且帳款也減去...';   
+          break;
+      }
+	   case 'B25': {    
+          tpemsg = '本月之庫存月報檔已反結轉，可修正本月之庫存單據...';   
           break;
       }
 	  case 'D04': {    

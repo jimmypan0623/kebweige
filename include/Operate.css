@@ -187,12 +187,11 @@ body{
 #rightMember1 {
     background-color:#F0F0F0;
     position:relative;
-	height:432px;
+	height:440px;
  	font-size:18px;  
 	display:block;
-    overflow-y:scroll; 
-	
- }
+    overflow-y:scroll; 	
+}
  .Rgtkey{
    text-align:right;
    width:17%;
