@@ -531,7 +531,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    oTd.setAttribute('style','text-align:right;width:15%');					
 	    oTd.innerHTML='退貨部門:';
 	    var oTd = oTr.insertCell(1);               	              
-	    oTd.innerHTML="<input type='text' name='b0cupdate' id='deptno' class='txt' style='width:15%;' maxlength='5'    />";  				  
+	    oTd.innerHTML="<input type='text' name='b0cupdate' id='deptno' class='txt' style='width:15%;' maxlength='6'    />";  				  
 	    oTd.innerHTML+="<span name='b0cothers' id='deptname'></span>&nbsp&nbsp";  
 	    var srchButton5=document.createElement("input");				   
 	    srchButton5.setAttribute("type","button");	

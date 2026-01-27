@@ -40,7 +40,6 @@ function shurePrc(event){        //單據確認程序
 	var urlpath=(left(urlfolder[0].innerHTML,3));   
 	var json=shr_head.slice(0,-1)+"}";   //去掉最後一個逗號再加上右大引號	 	      
     str_json=JSON.stringify(json);   
-
     setCookie('useraccount',getAuth[1]()[0]);	
 	if(target.value=="\u{2705}"){   //確認		   	
 	    urlphp=urlpath+"/BKND/"+urlpath+"shrh.php";	
@@ -73,17 +72,14 @@ function shurePrc(event){        //單據確認程序
                 //blkshow('可確認之數量超過未確認數量');	
 				blkshow(rsp);
 				if(target.value=='\u{2705}'){			
-				    if(rsp.indexOf('(.|.)')>0){
-						
+				    if(rsp.indexOf('(.|.)')>0){						
 					    headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-3].innerHTML='Y';
 					    for (var i=1;i<headtable.rows[rcdindex].cells.length-fieldlast;i++){  //要從編號開始計
 		                    headtable.rows[rcdindex].cells[i].style.color="#000";
 		                    headtable.rows[rcdindex].cells[i].style.fontWeight="normal";					            
-	                    }
-						
+	                    }						
 						ansbtt.setAttribute("style","display:none;");
-				        detachEventListener(ansbtt,"click",ansproc,false);	
-						
+				        detachEventListener(ansbtt,"click",ansproc,false);							
 				        editbtt.setAttribute("style","visibility:hidden;");
 			        	detachEventListener(editbtt,"click",edtrec,false);
 				        delbtt.setAttribute("style","visibility:hidden;");
@@ -138,14 +134,12 @@ function shurePrc(event){        //單據確認程序
 					aprv.innerHTML="<img src='digits/approve.gif' alt='svg' style='position: absolute;top: 39px;left: 54%;width: 50px;opacity: 0.45;'>"
 					responseDiv.setAttribute("style","font-weight:bold;color:#536a60;"); 
 					responseDiv.innerHTML=(target.value=="\u{2705}"?whichrspns1(urlpath):whichrspns2(urlpath)+NewNumber+"，請至該單確認"); 		
-			    }else{
-					
+			    }else{					
 					responseDiv.innerHTML=whichrspns1(urlpath);
 					aprv.innerHTML="<img src='digits/marker.png' alt='svg' style='position: absolute;top: 39px;left: 54%;width: 50px;opacity: 0.45;'>"
 				}
 			}   
-	    }
-		
+	    }		
     }							       					  				 
     blocksclose();  //關掉原視窗     	 	
 } 
@@ -279,6 +273,10 @@ function whichrspns1(tpe){
           tpemsg = '已確認過帳，請檢查相對應庫存與帳款及訂單未出量是否正確...';   
           break;
       }
+	 case 'B06': {    
+          tpemsg = '已確認過帳，請檢查轉出部門與轉入部門之庫存是否正確...';   
+          break;
+      } 
 	  case 'B25': {    
           tpemsg = '已將本月期末庫存結轉至次月，請檢查次月期初庫存是否正確...';   
           break;
@@ -364,6 +362,10 @@ function whichrspns3(tpe){
       }
 	  case 'B05': {    
           tpemsg = '本單出貨退回料號庫存帳已減去，且帳款也減去...';   
+          break;
+      }
+	   case 'B06': {    
+          tpemsg = '本單轉出與轉入部門庫存帳已回復原來未確認前狀態...';   
           break;
       }
 	   case 'B25': {    

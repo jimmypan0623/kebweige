@@ -34,8 +34,9 @@ foreach($cart as $key=>$val){
      $sqlb=@mysqli_query($link,$sqla); 
 	 $rows1=@mysqli_num_rows($sqlb);  
 	 if($rows1>0){
-		echo json_encode("前一個月份庫存尚未結轉");  
+		echo json_encode($lastMth."月份庫存尚未結轉");  
 	 }else{
+
 		  $NbMthtrn2=(int)substr($brr[0], 0, 4);
 	      $NbDaytrn2=(int)substr($brr[0],-2);
 		  $NbDaytrn2=$NbDaytrn2+1;
@@ -44,6 +45,15 @@ foreach($cart as $key=>$val){
 			 $NbMthtrn2=$NbMthtrn2+1;
 		 }
 		 $nextMth=(string)$NbMthtrn2.'-'.str_pad((string)$NbDaytrn2,2,"0",STR_PAD_LEFT);
+		 
+		 $mscnt="UPDATE b25 SET F15=F04-F05-F06+F07+F08-F09+F10-F11+F13-F14,F03=0";	    	  
+		 
+		$mscnt.=" WHERE F90="."'".$nextMth."'";
+		$sql=$mscnt;                                                 //寫入MySQL 	 
+		mysqli_query($link ,$sql) or die(mysqli_error($link));  	  
+		 
+		 
+		 
 		 $sql3="SELECT F01,F02,F15 FROM b25  WHERE F90='".$brr[0]."'  ORDER BY F01,F02"; 
 		 $sql4=@mysqli_query($link,$sql3); 
 		 $arr=array(); 
@@ -79,7 +89,7 @@ foreach($cart as $key=>$val){
 
 		$valueStr3 = substr($valueStr3,0,strlen($valueStr3)-1);   //去掉最右邊的逗號,異動庫存月報表
 
-		$insertSql[2] = "insert into b25 (F01,F02,F03,F15,F16,F90) values ".$valueStr3." ON DUPLICATE KEY UPDATE F03=VALUES(F03),F15=F15+VALUES(F15),F16=VALUES(F16)"; 
+		$insertSql[2] = "insert into b25 (F01,F02,F03,F15,F16,F90) values ".$valueStr3." ON DUPLICATE KEY UPDATE F03=VALUES(F03),F15=VALUES(F15)+F04-F05-F06+F07+F08-F09+F10-F11+F13-F14,F16=VALUES(F16)"; 
 		
 		foreach ($insertSql as  $values){
 				@mysqli_query($link,$values);

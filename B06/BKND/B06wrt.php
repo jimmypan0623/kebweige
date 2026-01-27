@@ -1,0 +1,83 @@
+<?php
+$str_json = file_get_contents('php://input'); //($_POST doesn't work here)
+$response =json_decode($str_json); // decoding received JSON to array
+$cart=json_decode($response);
+$brr=array();
+foreach($cart as $key=>$val){	   
+    $brr[]=addslashes($val);		//要加入此函數避免中間有單引號錯亂
+}
+ 
+ $mArlth=count($brr);  
+ include("../../include/BKND/mysqli_server.php");                              //引用檔   
+ require_once "../../include/BKND/fieldDOMset.php"; // 引入     
+ $trnarray=fldafterwrite('B06','1',$link,true);  
+     $sql5="select * from a14 where F01="."'".$brr[2]."' AND F04='Y'"; 
+		 $sql6=mysqli_query($link,$sql5) or die(mysqli_error($link));
+		 $rows2=@mysqli_num_rows($sql6);
+		 if($brr[$mArlth-2]==0){
+	        $sql3="select * from a14 where F01="."'".$brr[3]."' AND F04='Y'" ; ; 
+		    $sql4=mysqli_query($link,$sql3) or die(mysqli_error($link)); 
+		    $rows1=@mysqli_num_rows($sql4);
+		 }else{
+		    $rows1=1;
+		 }
+if($rows1==0 || $rows2==0){
+    if($_COOKIE["INT_099"]=="Y" ){
+	   $sql7="INSERT INTO a0i(F01,F08) values ('".substr($brr[0],0,5)."','".$brr[0]."')"; 
+	   $sql8=mysqli_query($link,$sql7) or die(mysqli_error($link)); 
+    }
+	if($rows1==0) echo json_encode("無此轉入部門編號"); 	   
+	if($rows2==0) echo json_encode("無此轉出部門編號");  
+}else{
+     $sql0="select * from a01 where F01="."'".$_COOKIE['useraccount']."'"; 
+     $sql1=@mysqli_query($link,$sql0);
+     $rows1=@mysqli_num_rows($sql1);                       
+     $list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名        
+	 $lastdate=date('Y'.'-'.'m'.'-'.'d');
+    
+     if($brr[$mArlth-2]==0){        //如果旗標指示為新增		
+	     
+	    $sql="select * from b06 where F01="."'".$brr[0]."'"; 
+        $sql2=mysqli_query($link,$sql);
+        $rows=@mysqli_num_rows($sql2);
+		if($rows>0){			 
+			echo json_encode("資料庫已有此編號"); 		
+		}else{
+             
+			  
+            //寫入json檔(其實就是文字檔只是每一筆以json格式存放)
+ 
+        	//以下處理MySQL記錄新增  	        
+	           $mscnt="INSERT INTO b06(F01,F02,F05,F07,F08,F90,F10,F11)  VALUES (";  //先把準備插入記錄的SQL 語法前半段先寫在字串中	 			   
+	           $mscnt.="'".$brr[0]."',";	      
+   	           $mscnt.="'".str_pad(trim($brr[1]),2,"0",STR_PAD_LEFT)."',";	 
+               $mscnt.="'".$brr[2]."',";	 	
+               $mscnt.="'".$brr[3]."',";
+   	           $mscnt.="'".$brr[4]."',";	               
+               $mscnt.="'".$brr[5]."',";	  	
+			   $mscnt.="'N',";	
+	           $mscnt.="'".$lastdate.$list4['F03']."')";		      
+	           $sql=$mscnt;                                               //寫入MySQL 	 
+               mysqli_query($link ,$sql) or die(mysqli_error($link));  
+			   $last_id = mysqli_insert_id($link);     //找最後一個號碼	          					     
+			   $arr = array ('order_no'=>$last_id,'lastupdate'=>$lastdate.$list4['F03'],'fldsatrr'=>$trnarray);						 
+	           echo json_encode($arr);
+		 } //新增判斷或執行結束   	     
+     }else{	   //修改
+	   $mscnt="UPDATE b06 SET F02="."'".str_pad(trim($brr[1]),2,"0",STR_PAD_LEFT)."',";	    
+	   $mscnt.="F05="."'".$brr[2]."',";	   	    
+	   $mscnt.="F07="."'".$brr[3]."',";	 
+	   $mscnt.="F08="."'".$brr[4]."',";	 	   
+	   $mscnt.="F11="."'".$lastdate.$list4['F03']."'";
+	   $mscnt.=" WHERE F00="."'".$brr[$mArlth-2]."'";
+	   $sql=$mscnt;                                                 //寫入MySQL 	 
+       mysqli_query($link ,$sql) or die(mysqli_error($link));  	  
+       $arr = array ('order_no'=>$brr[$mArlth-2],'lastupdate'=>$lastdate.$list4['F03'],'fldsatrr'=>$trnarray);
+	    echo json_encode($arr);
+      //echo $brr[11];
+    }  
+}  
+mysqli_close($link);	
+ 	
+?>
+ 

@@ -18,8 +18,14 @@ if(trim($list2['F07'])=="Y"){
      $sqlb=@mysqli_query($link,$sqla); 
 	 $rows1=@mysqli_num_rows($sqlb);  
 	 if($rows1>0){
-		echo json_encode("次月份庫存尚未反結轉");  
+		echo json_encode($nextMth."月份庫存尚未反結轉");  
 	 }else{
+		 
+	    $mscnt="UPDATE b25 SET F15=F04-F05-F06+F07+F08-F09+F10-F11+F13-F14,F03=0";	    	  		 
+		$mscnt.=" WHERE F90="."'".$nextMth."'";
+		$sql=$mscnt;                                                 //寫入MySQL 	 
+		mysqli_query($link ,$sql) or die(mysqli_error($link));  	  
+	 
 	 
 			$mscnt="UPDATE `a23` SET `F07`='N'  WHERE `F01`='".$delmsg."'";								   
 			mysqli_query($link ,$mscnt) or die(mysqli_error($link)); 
