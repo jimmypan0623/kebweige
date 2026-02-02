@@ -170,7 +170,7 @@ function tab2View(event){
 			     
 			  }					
                shrno=aWaitUpdate[aWaitUpdate.length-2]	;		              			   
-               document.getElementById('crncy').innerHTML=aWaitUpdate[aWaitUpdate.length-7];                  
+               document.getElementById('crncy').innerHTML=aWaitUpdate[aWaitUpdate.length-7]+'&nbsp';                  
 			   break;					   
 		   }
 	   } 

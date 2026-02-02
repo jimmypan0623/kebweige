@@ -33,10 +33,12 @@ function blocksclose(event)  //關閉註冊彈出視窗
 	    }
     }
 	var dropsheet=document.getElementById("myModal");
-	dropsheet.style.display="none";       //關閉視窗 	
-	if (dropsheet!=null){		
-        dropsheet.parentNode.removeChild(dropsheet);  //並將這些元素移除	 
-	}   	
+	if(dropsheet){
+	    dropsheet.style.display="none";       //關閉視窗 	
+	    if (dropsheet!=null){		
+            dropsheet.parentNode.removeChild(dropsheet);  //並將這些元素移除	 
+	    }  
+	}		
     var btns=getElementsByAttribute('class','btn');			 
     for (var i=0;i<btns.length;i++){		
         if (tabs[0].checked){
@@ -277,7 +279,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    oTd.setAttribute('style','text-align:right;width:15%');					
 	    oTd.innerHTML='支票/收據號碼:';
 	    var oTd = oTr.insertCell(3);   		
-		oTd.innerHTML="<input type='text' name='k11update' id='billno' class='txt' style='width:55%;' maxlength='20'    />";  					   		
+		oTd.innerHTML="<input type='text' name='k11update' id='checkno' class='txt' style='width:55%;' maxlength='20'    />";  					   		
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
@@ -399,7 +401,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    oTd.innerHTML='憑證單號:';
 	    var oTd = oTr.insertCell(1);     
 	    if(txtword==2){   //如果是修改	
-		    oTd.innerHTML="<input type='text' name='k0hupdate' id='shipbill_no' class='txt' style='background-color:#B9B9FF;width:30%;' maxlength='10' readOnly=true  />";  				              
+		    oTd.innerHTML="<input type='text' name='k0hupdate' id='billno' class='txt' style='background-color:#B9B9FF;width:30%;' maxlength='10' readOnly=true  />";  				              
 	    }else{
 		    oTd.innerHTML="<input type='text' name='k0hupdate' id='billno' class='txt' style='width:30%;' maxlength='10'    />";
 		    var srchButton4=document.createElement("input");				   
@@ -448,7 +450,10 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 				   cstNo.focus();	
 				   attachEventListener(cstNo,"change",d01VendorName,false);	//找廠商名稱
 		   }else{			    				
-				document.getElementById("billno").focus();
+				var billNo=document.getElementById("billno");
+				if(billNo){
+					billNo.focus();
+				}
 		   }
 		   break;
 		case 2:                                                     //如果是修改，要先顯示目前該筆資料

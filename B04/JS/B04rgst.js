@@ -182,33 +182,6 @@ function calculateTtl(tbno,maintable,i){      //刪除確認(delConfirm)中挑�
 	} 
  return;
  }
-////
-function lostfocus1(event){     
-   if (typeof event=="undefined"){
-		event=window.event;
-	}
-	var target=getEventTarget(event);
-	var slsno=sourceAccount(5,0);  //找到目前指向的列數與欄位資料	
-	
-	if (target.value!=slsno){	       //業務欄位資料變動	
-        target.parentNode.childNodes[1].innerHTML="";   //名字清空	
-	    srchshow(event);
-	}
-    return;	
-}
-function lostfocus2(event){     
-   if (typeof event=="undefined"){
-		event=window.event;
-	}
-	var target=getEventTarget(event);
-	var dptno=sourceAccount(7,1);  //找到目前指向的列數與欄位資料	
-	
-	if (target.value!=dptno){	       //部門欄位資料變動	
-        target.parentNode.childNodes[1].innerHTML="";   //名字清空	
-	    srchshow(event);
-	}
-    return;	
-}
 
 function ratechange(event){     //匯率更改異動
 	if (typeof event=="undefined"){
@@ -570,14 +543,11 @@ function topAndWidthModify(dropsheet_content,dropsheet,txtword,tbno){
 	dropsheet_content.style.width="75%";   //原訊息內框畫面寬度調整  
 		dropsheet.style.paddingTop="25px";      // 高度也往上提 
 		if(txtword!=7){
-		   if (tbno==0){				
-			  //  var sales_no=document.getElementById('whono');	 
-			   // attachEventListener(sales_no,"focusout",lostfocus1,false);
+		   if (tbno==0){							  
 			   var ship_date=document.getElementById('shipdate');					 		
 			   attachEventListener(ship_date,"focusout",rateSrch,false);		//日期變動若為外幣交易也一併修正匯率  
 			}else{
 				var dept_no=document.getElementById('deptno');			
-				 //attachEventListener(dept_no,"focusout",lostfocus2,false)
 			}	
 		}else{			
 		    dropsheet_content.style.width="60%"; 

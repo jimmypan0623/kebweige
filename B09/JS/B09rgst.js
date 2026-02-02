@@ -22,13 +22,13 @@ function blocksclose(event)  //關閉註冊彈出視窗
 		    if(maintable.rows.length>0){     //如果不為空檔
 		      var query_no=maintable.rows[tablerowindex].cells[1].innerHTML;
 		    }else{
-			  var query_no="BExxxxxxxx";
+			  var query_no="BHxxxxxxxx";
 			}
 	      if(document.getElementById('queryno')!=null){			  
 	         var currentNo=document.getElementById('queryno').value;	            	 
 	         if (currentNo.trim()!="" && currentNo.trim()!=query_no){ //如果非修改且自動編號		         
 		   	     var thtdy=document.getElementById('recmth').value;
-				 discardNoRec('BE'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase(),currentNo.trim());
+				 discardNoRec('BH'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase(),currentNo.trim());
 	         } 
 	      }
 	   }
@@ -72,62 +72,62 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 		}
 	}					 		
     if (tbno==0){
-	    var b06elements=document.getElementsByName('b06update');
-        var b06athments=document.getElementsByName('b06others');			
+	    var b09elements=document.getElementsByName('b09update');
+        var b09athments=document.getElementsByName('b09others');			
 	}else{
-		 var b06elements=document.getElementsByName('b0fupdate');	
-		 var b06athments=document.getElementsByName('b0fothers');			 
+		 var b09elements=document.getElementsByName('b0iupdate');	
+		 var b09athments=document.getElementsByName('b0iothers');			 
 	}
-	for(var r=0;r<b06athments.length;r++){        //關聯資料
-		    nonjsn.push(b06athments[r].tagName.toUpperCase()=='SPAN'?b06athments[r].innerHTML:b06athments[r].value);		
+	for(var r=0;r<b09athments.length;r++){        //關聯資料
+		    nonjsn.push(b09athments[r].tagName.toUpperCase()=='SPAN'?b09athments[r].innerHTML:b09athments[r].value);		
 	}
-	for(var q=1;q<b06elements.length;q++){  	    //開始堆疊待異動資料陣列
-		 tbjsn.push(b06elements[q].value);	   
+	for(var q=1;q<b09elements.length;q++){  	    //開始堆疊待異動資料陣列
+		 tbjsn.push(b09elements[q].value);	   
 	}
-	for(var j=1;j<b06elements.length-1;j++){
+	for(var j=1;j<b09elements.length-1;j++){
 		if(tbno==0 && j==2){
-			  let oDate=new Date(document.getElementById('recmth').value+'-'+b06elements[j].value);
+			  let oDate=new Date(document.getElementById('recmth').value+'-'+b09elements[j].value);
 		      let cYear = oDate.getFullYear();
               let cMonth = oDate.getMonth() + 1;
               let cDate = oDate.getDate();
 			  let iYear=left(document.getElementById('recmth').value,4);
 			  let iMonth=right(document.getElementById('recmth').value,2);
-			  let iDate=paddingLeft(b06elements[j].value.trim(),2);
+			  let iDate=paddingLeft(b09elements[j].value.trim(),2);
 			  let result = (iYear == cYear) && (iMonth == cMonth) && (iDate == cDate);
 			  if(!result){
-				  filtermsg(b06elements[j],"日期格式不對");
+				  filtermsg(b09elements[j],"日期格式不對");
 				  return false ;
 			  }else{
-	    	    if(b06elements[j].nextSibling){		      
-			       b06elements[j].parentNode.removeChild(b06elements[j].nextSibling);
+	    	    if(b09elements[j].nextSibling){		      
+			       b09elements[j].parentNode.removeChild(b09elements[j].nextSibling);
 		        }		
 	          }
 	    }
 		
-        if(b06elements[j].value.trim()=="" && !(j==3 && tbno==1) && !(j==5  && tbno==0)){		//|| j==8 || j==9
+        if(b09elements[j].value.trim()=="" && !(j==3 && tbno==1) && !(j==5  && tbno==0)){		//|| j==8 || j==9
 		     
-			    b06elements[j].placeholder="不得空白" ;
+			    b09elements[j].placeholder="不得空白" ;
 				
 			  
 		     return false ;
         }else{		     
-		   if(b06elements[j].nextSibling ){		
+		   if(b09elements[j].nextSibling ){		
 		       if(!((j==4 && tbno==0) || (j==1 && tbno==1))){		   //非人名與料號移除
              
-			      b06elements[j].parentNode.removeChild(b06elements[j].nextSibling);
+			      b09elements[j].parentNode.removeChild(b09elements[j].nextSibling);
 				  
 			   }			   
 		   }
 		   if(tbno==1 && j==2){			      
-		      if(b06elements[j].value == 0){
-			     filtermsg(b06elements[j],"不得為 0");
+		      if(b09elements[j].value == 0){
+			     filtermsg(b09elements[j],"不得為 0");
 				  return false ;
 			  }
 		     
 		   } 
 		   if(tbno==0 && j==4){
-		      if(b06elements[4].value==b06elements[3].value){
-				   filtermsg(b06elements[j],"轉出跟轉入部門不得相同!");
+		      if(b09elements[4].value==b09elements[3].value){
+				   filtermsg(b09elements[j],"轉出跟轉入部門不得相同!");
 				  return false ;
 			  }
 		   }
@@ -135,7 +135,7 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 	}
     //--------過濾區結束----------//		
     if (updflg==1){     //如果是新增	 	   
-        if(b06elements[1].value!="" ){		 
+        if(b09elements[1].value!="" ){		 
 		    if(tbno==0){ //表頭新增
                 var blngmth=document.getElementById('recmth').value;
 		        tbjsn.push(blngmth);   //要多一個所屬年月參數						 
@@ -165,7 +165,7 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 function billNoReCreate(currentNo){         //刪除確認(delConfirm)中挑出之個別程序
     if (getCookie('INT_099')=='Y' && getCookie('INT_127')=='Y'){ //如果是系統參數設為自動編號且刪掉號碼重用			
 		var thtdy=document.getElementById('recmth').value;
-		discardNoRec('BE'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase(),currentNo.trim());
+		discardNoRec('BH'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase(),currentNo.trim());
 	} 
     return;
 }
@@ -177,27 +177,15 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    oTd.setAttribute('style','text-align:right;width:15%');					
 	    oTd.innerHTML='備註說明:';
 	    var oTd = oTr.insertCell(1);   	     
-	    oTd.innerHTML="<input type='text' name='b06update' id='shipdirect' class='txt' style='width:55%;' maxlength='40'    />";  		
+	    oTd.innerHTML="<input type='text' name='b09update' id='shipdirect' class='txt' style='width:55%;' maxlength='40'    />";  		
+	   
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
-	    oTd.innerHTML='轉入部門:';
+	    oTd.innerHTML='盤差部門:';
 	    var oTd = oTr.insertCell(1);               	              
-	    oTd.innerHTML="<input type='text' name='b06update' id='deptno2' class='txt' style='width:15%;' maxlength='6'    />";  				  
-	    oTd.innerHTML+="<span name='b06others' id='deptname2'></span>&nbsp&nbsp";  
-	    var srchButton6=document.createElement("input");				   
-	    srchButton6.setAttribute("type","button");	
-	    srchButton6.setAttribute("class","scopelook");				   
-	    srchButton6.style.background="url('digits/brows1.png')";   
-	    attachEventListener(srchButton6,"click",srchshow,false);		//		
-	    oTd.appendChild(srchButton6);								    	   
-	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
-	    var oTd = oTr.insertCell(0);	   
-	    oTd.setAttribute('style','text-align:right;width:15%');					
-	    oTd.innerHTML='轉出部門:';
-	    var oTd = oTr.insertCell(1);               	              
-	    oTd.innerHTML="<input type='text' name='b06update' id='deptno1' class='txt' style='width:15%;' maxlength='6'    />";  				  
-	    oTd.innerHTML+="<span name='b06others' id='deptname1'></span>&nbsp&nbsp";  
+	    oTd.innerHTML="<input type='text' name='b09update' id='deptno1' class='txt' style='width:15%;' maxlength='6'    />";  				  
+	    oTd.innerHTML+="<span name='b09others' id='deptname1'></span>&nbsp&nbsp";  
 	    var srchButton5=document.createElement("input");				   
 	    srchButton5.setAttribute("type","button");	
 	    srchButton5.setAttribute("class","scopelook");				   
@@ -207,25 +195,25 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
-	    oTd.innerHTML='移轉日:';
+	    oTd.innerHTML='盤差日:';
 	    var oTd = oTr.insertCell(1);            		
-	    oTd.innerHTML="<input type='text' name='b06update' id='shipdate' class='txt' style='width:8%;' maxlength='2'   />";  	 	 			
+	    oTd.innerHTML="<input type='text' name='b09update' id='shipdate' class='txt' style='width:8%;' maxlength='2'   />";  	 	 			
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);
 	    oTd.setAttribute('style','text-align:right;width:15%');	
-	    oTd.innerHTML='移轉單號:';
+	    oTd.innerHTML='盤差單號:';
 	    var oTd = oTr.insertCell(1);		
 	    oTd.colspan=3;				  
 	    if(txtword==2){   //如果是修改		                    
-	 	   oTd.innerHTML="<input type='text' name='b06update' id='queryno' class='txt' style='background-color:#B9B9FF;width:25%;' maxlength='10' readOnly=true  />";		    				 	         
+	 	   oTd.innerHTML="<input type='text' name='b09update' id='queryno' class='txt' style='background-color:#B9B9FF;width:25%;' maxlength='10' readOnly=true  />";		    				 	         
 		}else{
-		   oTd.innerHTML="<input type='text' name='b06update' id='queryno' class='txt' style='width:25%;' maxlength='10'/>"; 		     	 
+		   oTd.innerHTML="<input type='text' name='b09update' id='queryno' class='txt' style='width:25%;' maxlength='10'/>"; 		     	 
 	    }			             
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);  //以下第一列都隱藏起來當變數
 	    var oTd = oTr.insertCell(0);	             
 	    oTd.innerHTML='紀錄號碼';
 	    var oTd = oTr.insertCell(1);	  
-	    oTd.innerHTML="<input type='text' name='b06update' id='rcrd_no' class='txt' maxlength='14' autosize  />";                 
+	    oTd.innerHTML="<input type='text' name='b09update' id='rcrd_no' class='txt' maxlength='14' autosize  />";                 
 	    oTr.setAttribute("style","display:none;");	
     }else{               //異動表身資料			
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
@@ -233,22 +221,22 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    oTd.setAttribute('style','text-align:right;width:15%');	
 	    oTd.innerHTML='備註:';
 	    var oTd = oTr.insertCell(1);		
-		oTd.innerHTML="<input type='text' name='b0fupdate' id='extradsp' class='txt' style='width:50%;' maxlength='20'/>"; 				 		    
+		oTd.innerHTML="<input type='text' name='b0iupdate' id='extradsp' class='txt' style='width:50%;' maxlength='20'/>"; 				 		    
  	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
    	    oTd.innerHTML='數量:';
 	    var oTd = oTr.insertCell(1);      
-	    oTd.innerHTML="<input type='number' name='b0fupdate' id='queryqty' value=1 class='txt' style='width:20%;text-align:right;' />";	    
+	    oTd.innerHTML="<input type='number' name='b0iupdate' id='queryqty' value=1 class='txt' style='width:20%;text-align:right;' />";	    
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
 	    oTd.innerHTML='品名規格:';
 	    var oTd = oTr.insertCell(1);      
 	    if(txtword==2){   //如果是修改
-		   oTd.innerHTML="<input type='text' name='b06others' id='stockname' class='txt' style='background-color:#B9B9FF;width:70%;' maxlength='40' readOnly=true />";  				 
+		   oTd.innerHTML="<input type='text' name='b09others' id='stockname' class='txt' style='background-color:#B9B9FF;width:70%;' maxlength='40' readOnly=true />";  				 
 	    }else{
-		   oTd.innerHTML="<input type='text' name='b0fothers' id='stockname' class='txt' style='width:70%;' maxlength='40'    />";  				 
+		   oTd.innerHTML="<input type='text' name='b0iothers' id='stockname' class='txt' style='width:70%;' maxlength='40'    />";  				 
 		   var srchButton8=document.createElement("input");				   
 		   srchButton8.setAttribute("type","button");	
 		   srchButton8.setAttribute("class","scopelook");				   
@@ -262,9 +250,9 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    oTd.innerHTML='料品編號:';
 	    var oTd = oTr.insertCell(1);     
 	    if(txtword==2){   //如果是修改	
-		    oTd.innerHTML="<input type='text' name='b0fupdate' id='stockno' class='txt' style='background-color:#B9B9FF;width:60%;' maxlength='43' readOnly=true  />";  				              
+		    oTd.innerHTML="<input type='text' name='b0iupdate' id='stockno' class='txt' style='background-color:#B9B9FF;width:60%;' maxlength='43' readOnly=true  />";  				              
 	    }else{
-		    oTd.innerHTML="<input type='text' name='b0fupdate' id='stockno' class='txt' style='width:60%;' maxlength='43'    />";
+		    oTd.innerHTML="<input type='text' name='b0iupdate' id='stockno' class='txt' style='width:60%;' maxlength='43'    />";
 		    var srchButton4=document.createElement("input");				   
 		    srchButton4.setAttribute("type","button");	
 		    srchButton4.setAttribute("class","scopelook");				   
@@ -276,7 +264,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    var oTd = oTr.insertCell(0);	             
 	    oTd.innerHTML='紀錄號碼';
 	    var oTd = oTr.insertCell(1);                 
-	    oTd.innerHTML="<input type='text' name='b0fupdate' id='rcrd_no' class='txt' maxlength='14' autosize  />";                 
+	    oTd.innerHTML="<input type='text' name='b0iupdate' id='rcrd_no' class='txt' maxlength='14' autosize  />";                 
 	    oTr.setAttribute("style","display:none;");	
 	}				  			             	
 }
@@ -298,7 +286,7 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 			   var nowDate=new Date();				   
 			   document.getElementById("shipdate").value=paddingLeft(nowDate.getDate(),2);  //
 					   //單號為系統自動編號
-				objGetNo('queryno','BE'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase());				        	 
+				objGetNo('queryno','BH'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase());				        	 
 
 		   }else{
 																
@@ -309,12 +297,12 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 		   document.getElementById("rcrd_no").value=aWaitUpdate[0];       //把紀錄號碼也存起來	
 		   if (tbno==0){
 			  document.getElementById("shipdate").focus();				  			 				  
-			  var editinit=document.getElementsByName('b06update');
+			  var editinit=document.getElementsByName('b09update');
 			  document.getElementById('deptname1').innerHTML=notWaitdata[0];
-			  document.getElementById('deptname2').innerHTML=notWaitdata[1];  
+			  
 		   }else{
 			   document.getElementById("queryqty").focus();				  			 				  
-			  var editinit=document.getElementsByName('b0fupdate');
+			  var editinit=document.getElementsByName('b0iupdate');
 			  document.getElementById('stockname').value=notWaitdata[0];
 			  
 		   }
@@ -340,18 +328,16 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 				oTd.innerHTML=args[argsNo];
 				argsNo++;
 			}else{		               			   
-				if(tbno==0 && fldidx==7){   //確認				 
+				if(tbno==0 && fldidx==5){   //確認				 
 				   oTd.innerHTML='N';				   
 				}				
 			    if(tbno==1 && fldidx==1){   //品名
 				   oTd.innerHTML=nongs[0];				    
 				}
-				if(tbno==0 && fldidx==3){   //轉出部門名稱
+				if(tbno==0 && fldidx==3){   //盤差部門名稱
 				   oTd.innerHTML=nongs[0];				   
 				}
-			   	if(tbno==0 && fldidx==5){   //轉入部門名稱
-				   oTd.innerHTML=nongs[1];				   
-				}	
+			   
 			}
 			oTd.setAttribute("class",rsp.fldsatrr[fldidx][0]);
 			if(rsp.fldsatrr[fldidx][1]=='none'){
@@ -363,14 +349,16 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 			fldidx++;
 		}				
 	    if (tbno==0){
+			
 		    oTr.setAttribute("style","font-weight:bold;color:#704214;");			 
 		}
 	//最後異動
     var oTd = oTr.insertCell(oTr.cells.length);	
-    oTd.setAttribute("class","directdata");					   
+    oTd.setAttribute("class","directdata");			
+	
     oTd.innerHTML=rsp.lastupdate;	
 	 
-       oTd.setAttribute("style","width:12%;text-align:center;"); 
+       oTd.setAttribute("style","width:15%;text-align:center;"); 
 	 
 }
 
@@ -401,6 +389,7 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 			}		 		
 			fldidx++;
 		}		
+	
 		maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=rsp.lastupdate;
 
 }
@@ -410,15 +399,13 @@ function transConfirm(oTd){
 }   
 function searchOptionsKey(tbno,slt5){	
     if (tbno==0){		 
-		 slt5.options.add(new Option('移轉單號','b06.F01'));		  		 
-		 slt5.options.add(new Option('移轉日期','b06.F02'));
-		 slt5.options.add(new Option('轉出部門編號','b06.F05')); 
-		 slt5.options.add(new Option('轉出部門名稱','a1A.F02')); 
-		 slt5.options.add(new Option('轉入部門編號','b06.F07')); 
-		 slt5.options.add(new Option('轉入部門名稱','a1B.F02')); 
-		 slt5.options.add(new Option('已確認?(Y/N)','b06.F10')); 			
+		 slt5.options.add(new Option('盤差單號','b09.F01'));		  		 
+		 slt5.options.add(new Option('盤差日期','b09.F02'));
+		 slt5.options.add(new Option('轉出部門編號','b09.F05')); 
+		 slt5.options.add(new Option('轉差部門名稱','a14.F02')); 		
+		 slt5.options.add(new Option('已確認?(Y/N)','b09.F10')); 			
 	}else{
-		 slt5.options.add(new Option('料品編號','b0f.F03'));
+		 slt5.options.add(new Option('料品編號','b0i.F03'));
 		 slt5.options.add(new Option('品名規格','b01.F02'));
 							  
 	}
@@ -426,25 +413,25 @@ function searchOptionsKey(tbno,slt5){
 
 function  addNewRecordHint(tbno){
     if (tbno==0){  //表頭資料
-	   return "請輸入移轉單表頭資料：";
+	   return "請輸入盤差單表頭資料：";
     }else{
-	   return "請輸入移轉單:"+sourceAccount(1,0)+"內容資料："; 
+	   return "請輸入盤差單:"+sourceAccount(1,0)+"內容資料："; 
     }		
 }
 
 function editRecordHint(tbno){
     if (tbno==0){  
-		return "修改移轉單表頭資料："; 
+		return "修改盤差單表頭資料："; 
 	}else{
-		return "修改移轉單:"+sourceAccount(1,0)+"內容資料："; 
+		return "修改盤差單:"+sourceAccount(1,0)+"內容資料："; 
 	}	 
 }
 
 function searchKeyHint(tbno){    //搜尋畫面出現提示
     if (tbno==0){  //表頭資料	
-		return "搜尋移轉單單頭欄位選擇";
+		return "搜尋盤差單單頭欄位選擇";
 	}else{
-		return "搜尋移轉單單身欄位選擇";
+		return "搜尋盤差單單身欄位選擇";
 	}
 }
 ////以下處理回呼資料傳送給開窗選擇頁面
@@ -452,10 +439,8 @@ function srcArgobj(srcId){
 	
 	if(srcId=='deptno1'){
 		var qrystring=document.getElementById(srcId).value;
-       return {"headtitle":"請選取轉出部門","drpshtWidth":"28%","thCntnt":['部門編號', '部門名稱'],"thWidth":['50%','50%'],"urlPth":"B06/BKND/A14srch.php","clickfunc":deptchoose1,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};    
-	}else if(srcId=='deptno2'){
-		var qrystring=document.getElementById(srcId).value;
-       return {"headtitle":"請選取轉入部門","drpshtWidth":"28%","thCntnt":['部門編號', '部門名稱'],"thWidth":['50%','50%'],"urlPth":"B06/BKND/A14srch.php","clickfunc":deptchoose2,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};     
+       return {"headtitle":"請選取盤差部門","drpshtWidth":"28%","thCntnt":['部門編號', '部門名稱'],"thWidth":['50%','50%'],"urlPth":"B06/BKND/A14srch.php","clickfunc":deptchoose1,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};    
+	
 	}else{
 		
 		var stockNo=document.getElementById(srcId).value;		 
@@ -468,7 +453,7 @@ function srcArgobj(srcId){
 			tttlt="請選取品名";		
 		}
 		return {"headtitle":tttlt,"drpshtWidth":"45%","thCntnt":['料品編號', '品名規格'],
-		"thWidth":['50%','50%'],"urlPth":"B06/BKND/B01srch.php","clickfunc":stckchg,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
+		"thWidth":['50%','50%'],"urlPth":"B09/BKND/B01srch.php","clickfunc":stckchg,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
 	}
 }
 
@@ -499,7 +484,7 @@ function stckchg(event)  //選擇料號
 }	
 
 
-function deptchoose1(event)  //轉出部門編號選擇
+function deptchoose1(event)  //盤差部門編號選擇
 {
 	if (typeof event=="undefined"){
 		event=window.event;
@@ -515,29 +500,6 @@ function deptchoose1(event)  //轉出部門編號選擇
 		if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
 			deptNo1.value=maintable.rows[i].cells[0].innerHTML;								 
 			deptName1.innerHTML=maintable.rows[i].cells[1].innerHTML;				
-			break;
-		}				 
-	}             
-	srchblkclose(event);	
-	return true;
-}	
-
-function deptchoose2(event)  //轉入部門編號選擇
-{
-	if (typeof event=="undefined"){
-		event=window.event;
-	}
-	let target=getEventTarget(event);	 
-	
-	let deptNo2=document.getElementById('deptno2');
-	deptNo2.value="";
-    let deptName2=document.getElementById('deptname2');			
-	deptName2.innerHTML="";
-	let maintable=document.getElementById("stuffTbody");  
-	for(let i=0;i< maintable.rows.length; i++){			 
-		if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
-			deptNo2.value=maintable.rows[i].cells[0].innerHTML;								 
-			deptName2.innerHTML=maintable.rows[i].cells[1].innerHTML;				
 			break;
 		}				 
 	}             

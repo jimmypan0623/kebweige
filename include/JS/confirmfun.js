@@ -39,7 +39,7 @@ function shurePrc(event){        //單據確認程序
 	var urlfolder=document.getElementsByTagName('title');
 	var urlpath=(left(urlfolder[0].innerHTML,3));   
 	var json=shr_head.slice(0,-1)+"}";   //去掉最後一個逗號再加上右大引號	 	      
-    str_json=JSON.stringify(json);   
+    str_json=JSON.stringify(json);   	 
     setCookie('useraccount',getAuth[1]()[0]);	
 	if(target.value=="\u{2705}"){   //確認		   	
 	    urlphp=urlpath+"/BKND/"+urlpath+"shrh.php";	
@@ -85,9 +85,11 @@ function shurePrc(event){        //單據確認程序
 				        delbtt.setAttribute("style","visibility:hidden;");
 				        detachEventListener(delbtt,"click",delrec,false);
 				    }else{
+					
 		               headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-3].innerHTML='N';
 				    }  
 				}else{
+					 
 				    if(getAuth[0]()[12]!='A'){
 				       headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-4].innerHTML='N';
 				    }else{
@@ -97,7 +99,7 @@ function shurePrc(event){        //單據確認程序
 				}					  
 				 responseDiv.innerHTML="\u{A0}";
 			}else{			
-	            var rsp=request.responseText;	
+	    
                 headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-2].innerHTML=rsp.lastupdate;
 			    for (var i=1;i<headtable.rows[rcdindex].cells.length-fieldlast;i++){  //要從編號開始計
 		            headtable.rows[rcdindex].cells[i].style.color="#000";
@@ -200,13 +202,12 @@ function vrshrPrc(event){
 			rsp=JSON.parse(request.responseText);   			 
 			if(!rsp.order_no){
 			   blkshow(rsp);		
-			   if(rsp.indexOf('(.|.)')>0){
+			   if(rsp.indexOf('(.|.)')>0){				   
 					headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-3].innerHTML='N';
-				}
+				}				
 			   responseDiv.innerHTML="\u{A0}";
 			}else{		
-			        if(getAuth[0]()[12]!='A'){
-						var rsp=request.responseText;	 					
+			        if(getAuth[0]()[12]!='A'){																
 						headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-2].innerHTML=rsp.lastupdate;					       
 						headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-3].innerHTML='N';				  	 
 						for (var i=1;i<headtable.rows[rcdindex].cells.length-fieldlast;i++){  //要變色
@@ -277,6 +278,14 @@ function whichrspns1(tpe){
           tpemsg = '已確認過帳，請檢查轉出部門與轉入部門之庫存是否正確...';   
           break;
       } 
+	 case 'B09': {    
+          tpemsg = '已確認過帳，請檢查盤差部門之庫存是否正確...';   
+          break;
+      }  
+	 case 'B10': {    
+          tpemsg = '已確認過帳，請檢查報廢部門之庫存是否減少...';   
+          break;
+      }   
 	  case 'B25': {    
           tpemsg = '已將本月期末庫存結轉至次月，請檢查次月期初庫存是否正確...';   
           break;
@@ -310,22 +319,9 @@ function whichrspns2(tpe){
           tpemsg = '已轉入B04出貨單:';   
           break;
       }
-	    case 'B02': {    
-          tpemsg = '本單進貨料號庫存帳已減去，且帳款已減去...';   
-          break;
-      }
-	  case 'B03': {    
-          tpemsg = '本單進貨退出單料號庫存帳已加回，且帳款已減去...';   
-          break;
-      }
-	   case 'B04': {    
-          tpemsg = '本單出貨料號庫存帳已減去，且帳款已增加...';   
-          break;
-      }
-	   case 'B05': {    
-          tpemsg = '本單出貨退回單料號庫存帳已加回，且帳款也減去...';   
-          break;
-      }
+	 
+	 
+	   
 	  case 'D04': {    
           tpemsg = '已轉入B02進貨單:';   
           break;
@@ -366,6 +362,14 @@ function whichrspns3(tpe){
       }
 	   case 'B06': {    
           tpemsg = '本單轉出與轉入部門庫存帳已回復原來未確認前狀態...';   
+          break;
+      }
+	  case 'B09': {    
+          tpemsg = '本單部門庫存帳已回復原來未確認前狀態...';   
+          break;
+      }
+	    case 'B10': {    
+          tpemsg = '本單部門庫存帳已回復原來未確認前狀態...';   
           break;
       }
 	   case 'B25': {    

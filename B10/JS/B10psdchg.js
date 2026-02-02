@@ -8,36 +8,22 @@ function selfTag(jsvsn){
     var cntdiv=getElementsByAttribute('class','tab_content');	
 	var rspn2=document.getElementById('serverResponse2'); 
 	 var text01 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
-	 cntdiv[1].insertBefore(text01,rspn2);
-	/* var spn1=document.createElement('span');
-	spn1.id="ttltitle";	
-     spn1.innerHTML='總金額:';
-	cntdiv[1].insertBefore(spn1,rspn2);
-	var spn2=document.createElement('span');
-	spn2.id="crncy" ;	
-    cntdiv[1].insertBefore(spn2,rspn2);
-	var spn3=document.createElement('span');
-	spn3.id="ttlmny";   
-	spn3.innerHTML='0';
-	 cntdiv[1].insertBefore(spn3,rspn2);
- */
-	var orpButton5=document.getElementById("lgt");		  //離開按鈕    
- 
+	 cntdiv[1].insertBefore(text01,rspn2);	
+	var orpButton5=document.getElementById("lgt");		  //離開按鈕     
 	var orpButton7=document.createElement("input");		   
 	orpButton7.setAttribute("type","button");
 	orpButton7.setAttribute("class","btn");
 	orpButton7.setAttribute("value","\u{2714}");       	      
-	orpButton7.setAttribute("title","確認本張移轉單所有紀錄，快速鍵Alt+A");  
+	orpButton7.setAttribute("title","確認本張盤差單所有紀錄，快速鍵Alt+A");  
 	orpButton7.setAttribute("accesskey","A");					
 	orpButton7.id="ANS_BOTT";				
 	attachEventListener(orpButton7,"click",ansproc,false);    
-	maindiv[0].insertBefore(orpButton7,orpButton5);
-	 
+	maindiv[0].insertBefore(orpButton7,orpButton5);	 
 	var orpButton8=document.createElement("input");		   
 	orpButton8.setAttribute("type","button");
 	orpButton8.setAttribute("class","btn");
 	orpButton8.setAttribute("value","\u{1F504}");       	      
-	orpButton8.setAttribute("title","反確認本張移轉單所有紀錄，快速鍵Alt+Z");  
+	orpButton8.setAttribute("title","反確認本張盤差單所有紀錄，快速鍵Alt+Z");  
 	orpButton8.setAttribute("accesskey","Z");					
 	orpButton8.id="VRS_BOTT";				
 	attachEventListener(orpButton8,"click",vrsproc,false);    
@@ -63,8 +49,8 @@ function selfTag(jsvsn){
 		    }
 	    }			
 	///	
-	loadScript(`B06/JS/B06.js?v=${jsvsn}`,function(){DrawTable();});		
-    loadScript(`B06/JS/B06rgst.js?v=${jsvsn}`);	 	
+	loadScript(`B10/JS/B10.js?v=${jsvsn}`,function(){DrawTable();});		
+    loadScript(`B10/JS/B10rgst.js?v=${jsvsn}`);	 	
 	loadScript(`include/JS/commonsrch.js?v=${jsvsn}`);
 	loadScript(`C01/JS/A09getno.js?v=${jsvsn}`);		
 	loadScript(`include/JS/confirmfun.js?v=${jsvsn}`);	
@@ -126,8 +112,7 @@ function tab1View(event){
 		 localbottoncl.style.border=" 2px solid ##FCFCFC";
 		 localbottoncl.style.boxShadow ="sandybrown 5px 10px 10px 7px";
 		 var bibau=cko[3](0);   //找出閉包變數現值
-		 //var fthkey=document.getElementById("fatherkey");
-	
+		
 	        cko[3](bibau*(-1));    //將表身閉包變數歸零
 			bibau=cko[6](0);   //找出閉包變數現值
 			cko[6](bibau*(-1));    //將表身閉包變數歸零
@@ -167,7 +152,7 @@ function tab2View(event){
                break;					   
 		   }
 	   } 	   	 
-	   keydescription.innerHTML=aWaitUpdate[3]+'&nbsp'+aWaitUpdate[4]+'\u{A0}\u{A0}\u{27A1}\u{A0}\u{A0}'+aWaitUpdate[5]+'&nbsp'+aWaitUpdate[6];
+	   keydescription.innerHTML=aWaitUpdate[3]+'&nbsp'+aWaitUpdate[4];
 	   fthkey.innerHTML=aWaitUpdate[1];
 	   var responseDiv=document.getElementById("serverResponse2"); 
 	   responseDiv.innerHTML='&nbsp';
@@ -193,7 +178,7 @@ function tab2View(event){
 			    } 
 	        } 
 		}	
-	   commontemp(fthkey.innerHTML,"b0f.F01");
+	   commontemp(fthkey.innerHTML,"b1Z.F01");
 						  
 }
 
