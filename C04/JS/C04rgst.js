@@ -170,19 +170,6 @@ function calculateTtl(tbno,maintable,i){
  }
 
 
-function lostfocus1(event){     
-   if (typeof event=="undefined"){
-		event=window.event;
-	}
-	var target=getEventTarget(event);
-	var slsno=sourceAccount(5,0);  //找到目前指向的列數與欄位資料	
-	
-	if (target.value!=slsno){	       //業務欄位資料變動	
-        target.parentNode.childNodes[1].innerHTML="";   //名字清空	
-	    srchshow(event);
-	}
-    return;	
-}
 
 function c01CustomName(event){	
    if (typeof event=="undefined")
@@ -390,7 +377,7 @@ function topAndWidthModify(dropsheet_content,dropsheet,txtword,tbno){
 	dropsheet.style.paddingTop="25px";      // 高度也往上提 	
 	if (tbno==0 && (txtword!=7)){				
 		var sales_no=document.getElementById('whono');			
-		//attachEventListener(sales_no,"focusout",lostfocus1,false);		
+			
 	}	 	 
     return true;
 }
@@ -407,7 +394,8 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 				   var cstNo=document.getElementById("customno");
 				   cstNo.focus();	
 				   attachEventListener(cstNo,"change",c01CustomName,false);	//找客戶名稱
-				  
+				   var acntNo1=document.getElementById("whono");				 
+			       attachEventListener(acntNo1,"change",a01AccountName,false);	//找帳號姓名
 				}else{	 
 
 				   document.getElementById("queryno").focus();
@@ -425,6 +413,8 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 			    document.getElementById('customname').value=notWaitdata[0];
 			    document.getElementById('customfullname').value=notWaitdata[1];
 			    document.getElementById('whonameEx').innerHTML=notWaitdata[2];
+				var acntNo1=document.getElementById("whono");				 
+			    attachEventListener(acntNo1,"change",a01AccountName,false);	//找帳號姓名
 		    }else{
 			     document.getElementById("queryqty").focus();				  			 				  
 			     var editinit=document.getElementsByName('c04update');

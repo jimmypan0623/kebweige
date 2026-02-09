@@ -53,66 +53,7 @@ function selfTag(jsvsn){
     spn7.setAttribute("style","font-size:120%;font-weight:bold;");
 	spn7.innerHTML='0';
 	 cntdiv[1].insertBefore(spn7,rspn2);  
-	////
-		
-	var beinsertedid=document.getElementById('tab1');
-	var spn=document.createElement('span');
-	spn.id="APPRVE";
-	maindiv[0].insertBefore(spn,beinsertedid);
-    var cntdiv=getElementsByAttribute('class','tab_content');	
-	var rspn2=document.getElementById('serverResponse2'); 
-	 var text01 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
-	 cntdiv[1].insertBefore(text01,rspn2);
-	 var spn2=document.createElement('span');
-	spn2.id="dntOrRjt" ;
-	spn2.setAttribute("style","font-size:150%;");
-    cntdiv[1].insertBefore(spn2,rspn2); 
-	
-	  var text0a = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}');
-	 cntdiv[1].insertBefore(text0a,rspn2);
-	var spn1=document.createElement('span');
-	spn1.id="ttltitle";
-	spn1.setAttribute("style","font-size:120%;font-weight:bold;");
-     spn1.innerHTML='收款金額:';
-	cntdiv[1].insertBefore(spn1,rspn2);
-	var spn3=document.createElement('span');
-	spn3.id="ttlmny";
-    spn3.setAttribute("style","font-size:120%;font-weight:bold;");
-	spn3.innerHTML='0';
-	 cntdiv[1].insertBefore(spn3,rspn2); 
-	///// 
-	  var text0b = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}');
-	 cntdiv[1].insertBefore(text0b,rspn2);
-	var spn4=document.createElement('span');
-	spn4.id="ttltitle2";
-	spn4.setAttribute("style","font-size:120%;font-weight:bold;");
-     spn4.innerHTML='待沖金額:';
-	cntdiv[1].insertBefore(spn4,rspn2);
-	var spn5=document.createElement('span');
-	spn5.id="ttlmny2";
-	spn5.className="ttl";
-    spn5.setAttribute("style","font-size:120%;font-weight:bold;");
-	spn5.innerHTML='0';
-	 cntdiv[1].insertBefore(spn5,rspn2);  
-	 ////
-	   var text0c = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}');
-	 cntdiv[1].insertBefore(text0c,rspn2);
-	var spn6=document.createElement('span');
-	spn6.id="ttltitle2";
-	spn6.setAttribute("style","font-size:120%;font-weight:bold;");
-     spn6.innerHTML='剩餘未沖:';
-	cntdiv[1].insertBefore(spn6,rspn2);
-	var spn7=document.createElement('span');
-	spn7.id="ttlmny3";
-    spn7.setAttribute("style","font-size:120%;font-weight:bold;");
-	spn7.innerHTML='0';
-	 cntdiv[1].insertBefore(spn7,rspn2);  
-	
-	/////
-	
-	
-	
-//	var maindiv=getElementsByAttribute('class','tab_css');	  	 
+
 	var orpButton5=document.getElementById("lgt");		  //離開按鈕    
 	var text17 = document.createTextNode('\u{A0}');
 	var orpButton7=document.createElement("input");		   
@@ -163,6 +104,7 @@ function selfTag(jsvsn){
 	loadScript(`include/JS/commonsrch.js?v=${jsvsn}`);
 	loadScript(`C01/JS/A09getno.js?v=${jsvsn}`);		
 	loadScript(`include/JS/confirmfun.js?v=${jsvsn}`);	
+	loadScript(`C01/JS/A01Name.js?v=${jsvsn}`);	
 	var tab1Click=document.getElementById("tab1");
 	if(tab1Click){
 		tab1Click.setAttribute("accesskey","1");  

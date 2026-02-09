@@ -26,9 +26,6 @@ function selfTag(jsvsn){
     spn3.setAttribute("style","font-size:120%;font-weight:bold;");
 	spn3.innerHTML='0';
 	 cntdiv[1].insertBefore(spn3,rspn2); 
-	////
-	
-	 	 
 	var orpButton5=document.getElementById("lgt");		  //離開按鈕    
 	var text17 = document.createTextNode('\u{A0}');
 	var orpButton7=document.createElement("input");		   
@@ -79,6 +76,8 @@ function selfTag(jsvsn){
 	loadScript(`include/JS/commonsrch.js?v=${jsvsn}`);
 	loadScript(`C01/JS/A09getno.js?v=${jsvsn}`);		
 	loadScript(`include/JS/confirmfun.js?v=${jsvsn}`);	
+	loadScript(`C01/JS/A01Name.js?v=${jsvsn}`);	
+	loadScript(`B02/JS/A14Name.js?v=${jsvsn}`);	
 	var tab1Click=document.getElementById("tab1");
 	if(tab1Click){
 		tab1Click.setAttribute("accesskey","1");  

@@ -144,26 +144,7 @@ function calculateTtl(tbno,maintable,i){  //刪除後計算總數量
 	return;
 }
 
-function lostfocus1(event){     
-   if (typeof event=="undefined"){
-		event=window.event;
-	}
-	var target=getEventTarget(event);
-	var prcno="";
-	var maintable=document.getElementById("maintbody1");				 				 	 
-	for(var i=0;i< maintable.rows.length; i++){			 		            
-		if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){		   	
-           prcno=maintable.rows[i].cells[20].innerHTML;	   
-           break;					   
-	    }
-	} 		
-	 
-	if (target.value!=prcno){	       //業務欄位資料變動	
-        target.parentNode.childNodes[1].innerHTML="";   //名字清空	
-	    srchshow(event);
-	}
-    return;	
-}
+
 
 function lostfocus3(event){        //新增修改時廠商名稱帶到簡稱
    if (typeof event=="undefined"){
@@ -491,7 +472,7 @@ function topAndWidthModify(dropsheet_content,dropsheet,txtword,tbno){
 	     // 高度也往上提 	
 	if (tbno==0 && (txtword!=7)){	
 	   var procurement_no=document.getElementById('whono');			
-	 //  attachEventListener(procurement_no,"focusout",lostfocus1,false);	
+	 
 	   var cstmname=document.getElementById('vendername');
 	   attachEventListener(cstmname,"focusout",lostfocus3,false);	
 	   var cstadrs=document.getElementById('coaddrss');
@@ -509,7 +490,8 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 			      objGetNo('venderno','V0000');
 			   }
 			   document.getElementById("venderno").focus();	
-			   
+			   var acntNo1=document.getElementById("whono");				 
+			   attachEventListener(acntNo1,"change",a01AccountName,false);	//找帳號姓名
 			}else{
 			   var showTime=document.getElementById('currentTime'); //利用djtime.js顯示畫面的預設日期日期輸入欄之值為今天
 				 var thtdy=(showTime.innerHTML.substring(0,4)+'-'+showTime.innerHTML.substring(5,7)+'-'+showTime.innerHTML.substring(8,10)); //中間一定要用減號分隔年月日			        
@@ -528,7 +510,9 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 			    document.getElementById("vender_name").focus();
 				document.getElementById("rcrd_no").value=aWaitUpdate[0];       //把紀錄號碼也存起來			
 				var editinit=document.getElementsByName('d01update');
-				document.getElementById('whonameEx').innerHTML=notWaitdata[1];//aWaitUpdate[30];				   
+				document.getElementById('whonameEx').innerHTML=notWaitdata[1];//aWaitUpdate[30];	
+				var acntNo1=document.getElementById("whono");				 
+				attachEventListener(acntNo1,"change",a01AccountName,false);	//找帳號姓名
 			}else{
 				document.getElementById("custompartno").focus();				  			 				  
 				 var editinit=document.getElementsByName('d02update');
@@ -619,42 +603,7 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 		d01a_value_names[d01a_value_names.length-1].innerHTML=rsp.lastupdate;	
 	}		
 	maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=rsp.lastupdate;		
-    /* if (tbno==0){  		   					   
-		var d01a_value_names=document.getElementsByName("d01value");
-		
-		var maintable=document.getElementById("maintbody1");	               
-		for (var j=2;j<16;j++){				       
-		   maintable.rows[args[arglth-1]].cells[j].innerHTML=args[j-1];
-		   
-		   d01a_value_names[j-1].innerHTML=args[j-1];
-		}			
-       
-		maintable.rows[args[arglth-1]].cells[16].innerHTML=nongs[0];  //幣別名稱
-	    d01a_value_names[15].innerHTML=nongs[0];
-		for (var j=17;j<22;j++){				       
-		   maintable.rows[args[arglth-1]].cells[j].innerHTML=args[j-2];		   
-		   d01a_value_names[j-1].innerHTML=args[j-2];
-		}						
-		maintable.rows[args[arglth-1]].cells[22].innerHTML=nongs[1];  //採購人員姓名
-	   d01a_value_names[21].innerHTML=nongs[1];
-	   
-		maintable.rows[args[arglth-1]].cells[23].innerHTML=args[20];  //備註  
-		d01a_value_names[22].innerHTML=args[20];    
-		
-		var tpy=paycondition(d01a_value_names[18].innerHTML);	
-		
-		d01a_value_names[18].innerHTML=tpy;		
-		
-		maintable.rows[args[arglth-1]].cells[d01a_value_names.length].innerHTML=rsp.lastupdate;
-		d01a_value_names[d01a_value_names.length-1].innerHTML=rsp.lastupdate;  //安全資料(最後異動)		
-	}else{  //第二頁修改					 
-		var maintable=document.getElementById("maintbody2");	                      					   
-		var tbrlth=maintable.rows[args[arglth-1]].cells.length;			 
-		for (var j=3;j<tbrlth-2;j++){				            
-			 maintable.rows[args[arglth-1]].cells[j].innerHTML=args[j-2];						 
-		}
-		maintable.rows[args[arglth-1]].cells[tbrlth-2].innerHTML=rsp.lastupdate;   
-	}		 */				
+ 
 }
 function searchOptionsKey(tbno,slt5){	
 	if (tbno==0){

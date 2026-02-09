@@ -452,6 +452,8 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 			     var cstNo=document.getElementById("customno");
 				   cstNo.focus();	
 				   attachEventListener(cstNo,"change",c01CustomName,false);	//找客戶名稱
+				   var acntNo1=document.getElementById("whono");				 
+			       attachEventListener(acntNo1,"change",a01AccountName,false);	//找帳號姓名
 		   }else{			    			
                 var billNo=	document.getElementById("billno");	 
 				if(billNo){
@@ -467,6 +469,8 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 			  
 			  document.getElementById('customname').value=notWaitdata[0];
 			  document.getElementById('whonameEx').innerHTML=notWaitdata[1];
+			  var acntNo1=document.getElementById("whono");				 
+			  attachEventListener(acntNo1,"change",a01AccountName,false);	//找帳號姓名
 			    
 		   }else{
 			  document.getElementById("writemoney").focus();				  			 				  

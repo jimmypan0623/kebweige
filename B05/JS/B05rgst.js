@@ -563,41 +563,45 @@ function topAndWidthModify(dropsheet_content,dropsheet,txtword,tbno){
 function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 	switch (txtword) {
 		case 1:                                   //如果是新增
-		   var thtdy=document.getElementById('recmth').value;
-		   if (tbno==0){			      
-			   var nowDate=new Date();				   
-			   document.getElementById("shipdate").value=paddingLeft(nowDate.getDate(),2);  //
+		    var thtdy=document.getElementById('recmth').value;
+		    if (tbno==0){			      
+			    var nowDate=new Date();				   
+			    document.getElementById("shipdate").value=paddingLeft(nowDate.getDate(),2);  //
 					   //單號為系統自動編號
-				objGetNo('queryno','BD'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase());				        	 
-			   //document.getElementById("customno").focus();	
-			     var cstNo=document.getElementById("customno");
-				   cstNo.focus();	
-				   attachEventListener(cstNo,"change",c01CustomName,false);	//找客戶名稱
-		   }else{
+				objGetNo('queryno','BD'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase());				        	 			   
+			    var cstNo=document.getElementById("customno");
+				cstNo.focus();	
+				attachEventListener(cstNo,"change",c01CustomName,false);	//找客戶名稱
+				var acntNo1=document.getElementById("whono");				 
+			    attachEventListener(acntNo1,"change",a01AccountName,false);	//找帳號姓名
+		    }else{
 			    var showTime=document.getElementById('currentTime'); //利用djtime.js顯示畫面的預設日期日期輸入欄之值為今天
 		        var thtdy=(showTime.innerHTML.substring(0,4)+'-'+showTime.innerHTML.substring(5,7)+'-'+showTime.innerHTML.substring(8,10)); //中間一定要用減號分隔年月日			     
 				document.getElementById("reoutdate").value=thtdy;  //日期都設為今天												
 				document.getElementById("stockno").focus();
-		   }
-		   break;
+				 var dptNo1=document.getElementById("deptno");				 			 
+				attachEventListener(dptNo1,"change",a14DepartName,false);	//找轉出部門名稱
+		    }
+		    break;
 		case 2:                                                     //如果是修改，要先顯示目前該筆資料
 		   document.getElementById("rcrd_no").value=aWaitUpdate[0];       //把紀錄號碼也存起來	
-		   if (tbno==0){
-			  document.getElementById("shipdate").focus();				  			 				  
-			  var editinit=document.getElementsByName('b05update');
-			  //var editinit=getElementsByAttribute("name","b05update");
-			  document.getElementById('customname').value=notWaitdata[0];
-			  document.getElementById('whonameEx').innerHTML=notWaitdata[5];
-			    
-		   }else{
+		    if (tbno==0){
+			   document.getElementById("shipdate").focus();				  			 				  
+			   var editinit=document.getElementsByName('b05update');			  
+			   document.getElementById('customname').value=notWaitdata[0];
+			   document.getElementById('whonameEx').innerHTML=notWaitdata[5];
+			   var acntNo1=document.getElementById("whono");				 
+			   attachEventListener(acntNo1,"change",a01AccountName,false);	//找帳號姓名  
+		    }else{
 			   document.getElementById("queryqty").focus();				  			 				  
-			  var editinit=document.getElementsByName('b0eupdate');
-			  document.getElementById('stockname').value=notWaitdata[0];
-			  document.getElementById('deptname').innerHTML=notWaitdata[2];
-		   }
+			   var editinit=document.getElementsByName('b0eupdate');
+			   document.getElementById('stockname').value=notWaitdata[0];
+			   document.getElementById('deptname').innerHTML=notWaitdata[2];
+			    var dptNo1=document.getElementById("deptno");				 			 
+				attachEventListener(dptNo1,"change",a14DepartName,false);	//找轉出部門名稱
+		    }
 		   for(var k=0;k<editinit.length;k++){ 
-			   editinit[k].value=aWaitUpdate[k];
-				   
+			   editinit[k].value=aWaitUpdate[k];				   
 		   }				    			
 		   break;	
 		case 7:   	   	//搜尋   		   
@@ -792,6 +796,7 @@ function searchKeyHint(tbno){    //搜尋畫面出現提示
 		return "搜尋出貨退回單單身欄位選擇";
 	}
 }
+
 ////以下處理回呼資料傳送給開窗選擇頁面
 function srcArgobj(srcId){
 	if (srcId=='customno' || srcId=='customname'){
@@ -811,7 +816,7 @@ function srcArgobj(srcId){
        return {"headtitle":"請選取業務人員帳號姓名","drpshtWidth":"28%","thCntnt":['人員編號', '人員姓名'],"thWidth":['50%','50%'],"urlPth":"C01/BKND/A01srch.php","clickfunc":chseprg1,"qryString":qrystring,"mendwidth":"calc( 100%  )"};    
 	}else if(srcId=='deptno'){
 		var qrystring=document.getElementById(srcId).value;
-       return {"headtitle":"請選取出貨部門","drpshtWidth":"28%","thCntnt":['部門編號', '部門名稱'],"thWidth":['50%','50%'],"urlPth":"B05/BKND/A14srch.php","clickfunc":deptchoose,"qryString":qrystring,"mendwidth":"calc( 100% )"};    
+       return {"headtitle":"請選取出貨部門","drpshtWidth":"28%","thCntnt":['部門編號', '部門名稱'],"thWidth":['50%','50%'],"urlPth":"B02/BKND/A14srch.php","clickfunc":deptchoose,"qryString":qrystring,"mendwidth":"calc( 100% )"};    
 	}else if(srcId=='billno' || srcId=='invoiceno'){
 		var billNo=document.getElementById(srcId).value;		
 		var tttlt='';
@@ -976,27 +981,6 @@ function chsecust(event)  //選擇客戶
 	return true;
 }	
 
-function deptchoose(event)  //部門編號選擇
-{
-	if (typeof event=="undefined"){
-		event=window.event;
-	}
-	var target=getEventTarget(event);	 
-	var deptNo=document.getElementById('deptno');
-	deptNo.value="";
-    var deptName=document.getElementById('deptname');			
-	deptName.innerHTML="";
-	var maintable=document.getElementById("stuffTbody");  
-	for(var i=0;i< maintable.rows.length; i++){			 
-		if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
-			deptNo.value=maintable.rows[i].cells[0].innerHTML;								 
-			deptName.innerHTML=maintable.rows[i].cells[1].innerHTML;				
-			break;
-		}				 
-	}             
-	srchblkclose(event);	
-	return true;
-}	
 
 function bill_no(event)  //出貨單號選取
 {

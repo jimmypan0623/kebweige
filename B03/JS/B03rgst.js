@@ -188,31 +188,6 @@ function calculateTtl(tbno,maintable,i){      //刪除確認(delConfirm)中挑�
  return;
  }
 ////
-function lostfocus1(event){     
-   if (typeof event=="undefined"){
-		event=window.event;
-	}
-	var target=getEventTarget(event);
-	var slsno=sourceAccount(5,0);  //找到目前指向的列數與欄位資料	
-	
-	if (target.value!=slsno){	       //業務欄位資料變動	
-        target.parentNode.childNodes[1].innerHTML="";   //名字清空	
-	    srchshow(event);
-	}
-    return;	
-}
-function lostfocus2(event){     
-   if (typeof event=="undefined"){
-		event=window.event;
-	}
-	var target=getEventTarget(event);
-	var dptno=sourceAccount(7,1);  //找到目前指向的列數與欄位資料		
-	if (target.value!=dptno){	       //部門欄位資料變動	
-        target.parentNode.childNodes[1].innerHTML="";   //名字清空	
-	    srchshow(event);
-	}
-    return;	
-}
 
 function ratechange(event){     //匯率更改異動
 	if (typeof event=="undefined"){
@@ -605,18 +580,8 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 function topAndWidthModify(dropsheet_content,dropsheet,txtword,tbno){	 	 
 	dropsheet_content.style.width="75%";   //原訊息內框畫面寬度調整  
 		dropsheet.style.paddingTop="25px";      // 高度也往上提 
-		if(txtword!=7){
-		   if (tbno==0){				
-			   var sales_no=document.getElementById('whono');		
-			   var ship_date=document.getElementById('shipdate');		
-			   //attachEventListener(sales_no,"focusout",lostfocus1,false);		
-			   //attachEventListener(ship_date,"focusout",rateSrch,false);		//日期變動若為外幣交易也一併修正匯率
-			}else{
-				var dept_no=document.getElementById('deptno');			
-				// attachEventListener(dept_no,"focusout",lostfocus2,false)
-			}	
-		}else{				
-		    dropsheet_content.style.width="60%"; 			
+		if(txtword==7){
+		   dropsheet_content.style.width="60%"; 			
 		}	 
     return true;
 }
@@ -630,31 +595,38 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 			   document.getElementById("shipdate").value=paddingLeft(nowDate.getDate(),2);  //
 					   //單號為系統自動編號
 				objGetNo('queryno','BB'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase());				        	 
-			   //document.getElementById("vendorno").focus();	
+			   	
 			     var cstNo=document.getElementById("vendorno");
 				   cstNo.focus();	
 				   attachEventListener(cstNo,"change",d01VendorName,false);	//找廠商名稱
+				    var acntNo1=document.getElementById("whono");				 
+			       attachEventListener(acntNo1,"change",a01AccountName,false);	//找帳號姓名
 		   }else{
 			    var showTime=document.getElementById('currentTime'); //利用djtime.js顯示畫面的預設日期日期輸入欄之值為今天
 		        var thtdy=(showTime.innerHTML.substring(0,4)+'-'+showTime.innerHTML.substring(5,7)+'-'+showTime.innerHTML.substring(8,10)); //中間一定要用減號分隔年月日			     
 				document.getElementById("reoutdate").value=thtdy;  //日期都設為今天												
 				document.getElementById("stockno").focus();
+				var dptNo1=document.getElementById("deptno");				 			 
+				attachEventListener(dptNo1,"change",a14DepartName,false);	//找轉出部門名稱
 		   }
 		   break;
 		case 2:                                                     //如果是修改，要先顯示目前該筆資料
 		   document.getElementById("rcrd_no").value=aWaitUpdate[0];       //把紀錄號碼也存起來	
 		   if (tbno==0){
 			  document.getElementById("shipdate").focus();				  			 				  
-			  var editinit=document.getElementsByName('b03update');
-			  //var editinit=getElementsByAttribute("name","b03update");
+			  var editinit=document.getElementsByName('b03update');			 
 			  document.getElementById('vendorname').value=notWaitdata[0];
 			  document.getElementById('whonameEx').innerHTML=notWaitdata[5];
+			   var acntNo1=document.getElementById("whono");				 
+			  attachEventListener(acntNo1,"change",a01AccountName,false);	//找帳號姓名
 			    
 		   }else{
 			   document.getElementById("queryqty").focus();				  			 				  
 			  var editinit=document.getElementsByName('b0cupdate');
 			  document.getElementById('stockname').value=notWaitdata[0];
 			  document.getElementById('deptname').innerHTML=notWaitdata[2];
+			  var dptNo1=document.getElementById("deptno");				 			 
+			  attachEventListener(dptNo1,"change",a14DepartName,false);	//找轉出部門名稱
 		   }
 		   for(var k=0;k<editinit.length;k++){ 
 			   editinit[k].value=aWaitUpdate[k];
@@ -870,7 +842,7 @@ function srcArgobj(srcId){
        return {"headtitle":"請選取採購人員帳號姓名","drpshtWidth":"28%","thCntnt":['人員編號', '人員姓名'],"thWidth":['50%','50%'],"urlPth":"D01/BKND/A01srch.php","clickfunc":chseprg1,"qryString":qrystring,"mendwidth":"calc( 100%  )"};    
 	}else if(srcId=='deptno'){
 		var qrystring=document.getElementById(srcId).value;
-       return {"headtitle":"請選取退貨部門","drpshtWidth":"28%","thCntnt":['部門編號', '部門名稱'],"thWidth":['50%','50%'],"urlPth":"B03/BKND/A14srch.php","clickfunc":deptchoose,"qryString":qrystring,"mendwidth":"calc( 100% )"};    
+       return {"headtitle":"請選取退貨部門","drpshtWidth":"28%","thCntnt":['部門編號', '部門名稱'],"thWidth":['50%','50%'],"urlPth":"B02/BKND/A14srch.php","clickfunc":deptchoose,"qryString":qrystring,"mendwidth":"calc( 100% )"};    
 	}else if(srcId=='billno' || srcId=='invoiceno'){
 		var billNo=document.getElementById(srcId).value;		
 		var tttlt='';
@@ -1025,28 +997,6 @@ function chsecust(event)  //選擇廠商
 		}					  		   
 	}             
 	srchblkclose(event);
-	return true;
-}	
-
-function deptchoose(event)  //部門編號選擇
-{
-	if (typeof event=="undefined"){
-		event=window.event;
-	}
-	var target=getEventTarget(event);	 
-	var deptNo=document.getElementById('deptno');
-	deptNo.value="";
-    var deptName=document.getElementById('deptname');			
-	deptName.innerHTML="";
-	var maintable=document.getElementById("stuffTbody");  
-	for(var i=0;i< maintable.rows.length; i++){			 
-		if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
-			deptNo.value=maintable.rows[i].cells[0].innerHTML;								 
-			deptName.innerHTML=maintable.rows[i].cells[1].innerHTML;				
-			break;
-		}				 
-	}             
-	srchblkclose(event);	
 	return true;
 }	
 

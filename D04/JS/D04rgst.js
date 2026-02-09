@@ -408,6 +408,8 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 				   attachEventListener(cstNo,"change",d01VendorName,false);	//找廠商名稱
 				   //document.getElementById("receiveadd").value=getAuth[2]()[0].INT_071;
 					document.getElementById('dlvrplace').value=getAuth[2]()[0].INT_071;
+					var acntNo1=document.getElementById("whono");				 
+			       attachEventListener(acntNo1,"change",a01AccountName,false);	//找帳號姓名
 				}else{	 
 
 				   document.getElementById("queryno").focus();
@@ -425,6 +427,8 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 			    document.getElementById('vendorname').value=notWaitdata[0];
 			    document.getElementById('vendorfullname').value=notWaitdata[1];
 			    document.getElementById('whonameEx').innerHTML=notWaitdata[2];
+				var acntNo1=document.getElementById("whono");				 
+			    attachEventListener(acntNo1,"change",a01AccountName,false);	//找帳號姓名
 		    }else{
 			     document.getElementById("queryqty").focus();				  			 				  
 			     var editinit=document.getElementsByName('d04update');
@@ -665,7 +669,7 @@ function page2OtherWindow1(){
    return "\u{1F4E4}"+document.getElementById("fatherkey1").innerHTML+"\u{A0}\u{1F4E6}:\u{300C}"+sourceAccount(1,1)+"\u{300D}的進貨紀錄";
 
 }
-
+////
 function srcArgobj(srcId){
 	if(srcId=='vendorno' || srcId=='vendorname'){
 		var custno=document.getElementById(srcId).value; 

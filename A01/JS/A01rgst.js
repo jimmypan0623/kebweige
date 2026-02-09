@@ -675,34 +675,6 @@ function searchKeyHint(tbno){    //搜尋畫面出現提示
        return "搜尋"+document.getElementById('fatherkey1').innerHTML+"功能帳號欄位選擇";
    }	   
 }
-////以下處理回呼資料傳送給開窗選擇頁面
-function a01AccountName(event){	
-   if (typeof event=="undefined")
-	{
-		event=window.event;
-	}	
-	var targetCustomNo=getEventTarget(event);		
-	var sendSrcRec="filename="+targetCustomNo.value;		
-		var rsp="";  	
-        if(window.ActiveXObject){
-		   var request = new ActiveXObject("Microsoft.XMLHttp");
-	    }	
-	       else if(window.XMLHttpRequest){
-	   	      var request = new XMLHttpRequest();
-        }			 
-		request.onreadystatechange = respond;	       
-		var url="A01/BKND/A01AccountName.php?timestamp="+new Date().getTime();			
-	    request.open("POST",url);	 
-	    request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-	    request.send(sendSrcRec);		
-	function respond(){           
-		  if (request.readyState == 4 && request.status == 200) {    
-             rsp=JSON.parse(request.responseText);			 
-			 document.getElementById('whonameEx').innerHTML=rsp[0]['accountname'];			 	          
-		  }
-	}
-	return;
-}
 
 function srcArgobj(srcId){
     if(srcId=='whono'){

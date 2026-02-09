@@ -150,44 +150,7 @@ function calculateTtl(tbno,maintable,i){  //刪除後計算總數量
 	return;
 }
 
-function lostfocus1(event){     
-   if (typeof event=="undefined"){
-		event=window.event;
-	}
-	var target=getEventTarget(event);
-	var slsno="";
-	var maintable=document.getElementById("maintbody1");				 				 	 
-	for(var i=0;i< maintable.rows.length; i++){			 		            
-		if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){		   	
-           slsno=maintable.rows[i].cells[29].innerHTML;	   
-           break;					   
-	    }
-	} 		
-	if (target.value!=slsno){	       //業務欄位資料變動	
-        target.parentNode.childNodes[1].innerHTML="";   //名字清空	
-	    srchshow(event);
-	}
-    return;	
-}
-function lostfocus2(event){        
-   if (typeof event=="undefined"){
-		event=window.event;
-	}
-	var target=getEventTarget(event);
-	var assno="";
-	var maintable=document.getElementById("maintbody1");				 				 	 
-	for(var i=0;i< maintable.rows.length; i++){			 		            
-		if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){		   	
-           assno=maintable.rows[i].cells[31].innerHTML;	   
-           break;					   
-	    }
-	} 		
-	if (target.value!=assno){	   //業助欄位資料變動	
-        target.parentNode.childNodes[1].innerHTML="";   //名字清空	
-	    srchshow(event);
-	}
-    return;	
-}
+
 function lostfocus3(event){        //新增修改時客戶名稱帶到發票抬頭與簡稱
    if (typeof event=="undefined"){
 		event=window.event;
@@ -618,11 +581,7 @@ function topAndWidthModify(dropsheet_content,dropsheet,txtword,tbno){
 		}
 	}		
     dropsheet.style.paddingTop="20px";      // 高度也往上提 	
-	if ((tbno==0) && txtword!=7){	
-		//var sales_no=document.getElementById('whono');			
-        //attachEventListener(sales_no,"focusout",lostfocus1,false);	
-		//var assist_no=document.getElementById('assistno');
-	    //attachEventListener(assist_no,"focusout",lostfocus2,false);	  
+	if ((tbno==0) && txtword!=7){			
 	    var cstmname=document.getElementById('customname');
 	    attachEventListener(cstmname,"focusout",lostfocus3,false);	
 	    var cstadrs=document.getElementById('coaddrss');
@@ -642,6 +601,10 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 				}	 
 				var cstNo=document.getElementById("customno");
 				cstNo.focus();	
+				var acntNo1=document.getElementById("whono");				 
+				attachEventListener(acntNo1,"change",a01AccountName,false);	//找帳號姓名
+				var acntNo2=document.getElementById("assistno");				 
+				attachEventListener(acntNo2,"change",a01AccountName,false);	//找帳號姓名
 			 }else{
 				 var showTime=document.getElementById('currentTime'); //利用djtime.js顯示畫面的預設日期日期輸入欄之值為今天
 				 var thtdy=(showTime.innerHTML.substring(0,4)+'-'+showTime.innerHTML.substring(5,7)+'-'+showTime.innerHTML.substring(8,10)); //中間一定要用減號分隔年月日			        
@@ -659,7 +622,11 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 				document.getElementById("rcrd_no").value=aWaitUpdate[0];       //把紀錄號碼也存起來				 		  
 				var editinit=document.getElementsByName('c01update');								 
 				document.getElementById('whonameEx').innerHTML=notWaitdata[1];//aWaitUpdate[30];	
-				document.getElementById('assistnameEx').innerHTML=notWaitdata[2]; //aWaitUpdate[32];	
+				document.getElementById('assistnameEx').innerHTML=notWaitdata[2]; //aWaitUpdate[32];
+				var acntNo1=document.getElementById("whono");				 
+				attachEventListener(acntNo1,"change",a01AccountName,false);	//找帳號姓名
+				var acntNo2=document.getElementById("assistno");				 
+				attachEventListener(acntNo2,"change",a01AccountName,false);	//找帳號姓名
 			 }else{
 				 document.getElementById("custompartno").focus();				  			 				  
 				 var editinit=document.getElementsByName('c02update');
@@ -808,7 +775,6 @@ function searchKeyHint(tbno){    //搜尋畫面出現提示
 		return "搜尋報價紀錄欄位選擇";
 	}
 }
-
 
 function srcArgobj(srcId){
     if(srcId=='whono'){

@@ -298,8 +298,12 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 			   var nowDate=new Date();				   
 			   document.getElementById("shipdate").value=paddingLeft(nowDate.getDate(),2);  //
 					   //單號為系統自動編號
-				objGetNo('queryno','BE'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase());				        	 
-
+				objGetNo('queryno','BE'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase());
+				document.getElementById("shipdate").focus();		
+                var dptNo1=document.getElementById("deptno1");
+				var dptNo2=document.getElementById("deptno2"); 					 
+				attachEventListener(dptNo1,"change",a14DepartName,false);	//找轉出部門名稱
+				attachEventListener(dptNo2,"change",a14DepartName,false);	//找轉入部門名稱
 		   }else{
 																
 				document.getElementById("stockno").focus();
@@ -312,6 +316,10 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 			  var editinit=document.getElementsByName('b06update');
 			  document.getElementById('deptname1').innerHTML=notWaitdata[0];
 			  document.getElementById('deptname2').innerHTML=notWaitdata[1];  
+			  var dptNo1=document.getElementById("deptno1");
+			  var dptNo2=document.getElementById("deptno2"); 					 
+			  attachEventListener(dptNo1,"change",a14DepartName,false);	//找轉出部門名稱
+			  attachEventListener(dptNo2,"change",a14DepartName,false);	//找轉入部門名稱
 		   }else{
 			   document.getElementById("queryqty").focus();				  			 				  
 			  var editinit=document.getElementsByName('b0fupdate');
@@ -447,6 +455,42 @@ function searchKeyHint(tbno){    //搜尋畫面出現提示
 		return "搜尋移轉單單身欄位選擇";
 	}
 }
+////部門名稱抓取
+function a14DepartName(event){	
+   if (typeof event=="undefined")
+	{
+		event=window.event;
+	}	
+	var targetDepartNo=getEventTarget(event);	
+    
+	var sendSrcRec="filename="+targetDepartNo.value;		
+		var rsp="";  	
+        if(window.ActiveXObject){
+		   var request = new ActiveXObject("Microsoft.XMLHttp");
+	    }	
+	       else if(window.XMLHttpRequest){
+	   	      var request = new XMLHttpRequest();
+        }			 
+		request.onreadystatechange = respond;	       
+		var url="B06/BKND/A14DepartName.php?timestamp="+new Date().getTime();			
+	    request.open("POST",url);	 
+	    request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	    request.send(sendSrcRec);		
+	function respond(){           
+		if (request.readyState == 4 && request.status == 200) {    
+             rsp=JSON.parse(request.responseText);	             		 
+			 if(targetDepartNo.id=='deptno1'){		     
+		        document.getElementById('deptname1').innerHTML=rsp[0]['departname'];	
+	         }else{
+		         document.getElementById('deptname2').innerHTML=rsp[0]['departname'];	
+	         }		 					 	          
+		}
+	}
+	return;
+}
+
+
+
 ////以下處理回呼資料傳送給開窗選擇頁面
 function srcArgobj(srcId){
 	

@@ -89,6 +89,7 @@ function selfTag(jsvsn){
 	loadScript(`C01/JS/C01rgst.js?v=${jsvsn}`);
 	loadScript(`include/JS/commonsrch.js?v=${jsvsn}`);
 	loadScript(`C01/JS/A09getno.js?v=${jsvsn}`);	
+	loadScript(`C01/JS/A01Name.js?v=${jsvsn}`);	
 	var tab1Click=document.getElementById("tab1");
 	if(tab1Click){
 		tab1Click.setAttribute("accesskey","1");  

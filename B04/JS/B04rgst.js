@@ -546,8 +546,6 @@ function topAndWidthModify(dropsheet_content,dropsheet,txtword,tbno){
 		   if (tbno==0){							  
 			   var ship_date=document.getElementById('shipdate');					 		
 			   attachEventListener(ship_date,"focusout",rateSrch,false);		//日期變動若為外幣交易也一併修正匯率  
-			}else{
-				var dept_no=document.getElementById('deptno');			
 			}	
 		}else{			
 		    dropsheet_content.style.width="60%"; 
@@ -564,13 +562,16 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 			   document.getElementById("shipdate").value=paddingLeft(nowDate.getDate(),2);  //
 					   //單號為系統自動編號
 				objGetNo('queryno','BC'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase());				        	 
-			   //document.getElementById("customno").focus();	
+			   
 			     var cstNo=document.getElementById("customno");
 				   cstNo.focus();	
 				   attachEventListener(cstNo,"change",c01CustomName,false);	//找客戶名稱
-		   }else{
-																
+				     var acntNo1=document.getElementById("whono");				 
+			       attachEventListener(acntNo1,"change",a01AccountName,false);	//找帳號姓名
+		   }else{																
 				document.getElementById("stockno").focus();
+				 var dptNo1=document.getElementById("deptno");				 			 
+				attachEventListener(dptNo1,"change",a14DepartName,false);	//找轉出部門名稱
 		   }
 		   break;
 		case 2:                                                     //如果是修改，要先顯示目前該筆資料
@@ -580,12 +581,16 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 			  var editinit=document.getElementsByName('b04update');
 			  document.getElementById('customname').value=notWaitdata[0];
 			  document.getElementById('whonameEx').innerHTML=notWaitdata[5];
+			  var acntNo1=document.getElementById("whono");				 
+			  attachEventListener(acntNo1,"change",a01AccountName,false);	//找帳號姓名
 			    
 		   }else{
-			   document.getElementById("queryqty").focus();				  			 				  
+			  document.getElementById("queryqty").focus();				  			 				  
 			  var editinit=document.getElementsByName('b0dupdate');
 			  document.getElementById('stockname').value=notWaitdata[0];
 			  document.getElementById('deptname').innerHTML=notWaitdata[2];
+			  var dptNo1=document.getElementById("deptno");				 			 
+			  attachEventListener(dptNo1,"change",a14DepartName,false);	//找轉出部門名稱
 		   }
 		   for(var k=0;k<editinit.length;k++){ 
 			   editinit[k].value=aWaitUpdate[k]			 							   
@@ -774,6 +779,7 @@ function searchKeyHint(tbno){    //搜尋畫面出現提示
 		return "搜尋出貨單單身欄位選擇";
 	}
 }
+
 ////以下處理回呼資料傳送給開窗選擇頁面
 function srcArgobj(srcId){
 	if (srcId=='customno' || srcId=='customname'){
@@ -793,7 +799,7 @@ function srcArgobj(srcId){
        return {"headtitle":"請選取業務人員帳號姓名","drpshtWidth":"28%","thCntnt":['人員編號', '人員姓名'],"thWidth":['50%','50%'],"urlPth":"C01/BKND/A01srch.php","clickfunc":chseprg1,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};    
 	}else if(srcId=='deptno'){
 		var qrystring=document.getElementById(srcId).value;
-       return {"headtitle":"請選取出貨部門","drpshtWidth":"28%","thCntnt":['部門編號', '部門名稱'],"thWidth":['50%','50%'],"urlPth":"B04/BKND/A14srch.php","clickfunc":deptchoose,"qryString":qrystring,"mendwidth":"calc( 100% )"};    
+       return {"headtitle":"請選取出貨部門","drpshtWidth":"28%","thCntnt":['部門編號', '部門名稱'],"thWidth":['50%','50%'],"urlPth":"B02/BKND/A14srch.php","clickfunc":deptchoose,"qryString":qrystring,"mendwidth":"calc( 100% )"};    
 	}else{
 		var cstno=document.getElementById('keydscrpt1').innerHTML;
 		var stockNo=document.getElementById(srcId).value;		 
@@ -987,27 +993,5 @@ function chsecust(event)  //選擇客戶
 		}					  		   
 	}             
 	srchblkclose(event);
-	return true;
-}	
-
-function deptchoose(event)  //部門編號選擇
-{
-	if (typeof event=="undefined"){
-		event=window.event;
-	}
-	var target=getEventTarget(event);	 
-	var deptNo=document.getElementById('deptno');
-	deptNo.value="";
-    var deptName=document.getElementById('deptname');			
-	deptName.innerHTML="";
-	var maintable=document.getElementById("stuffTbody");  
-	for(var i=0;i< maintable.rows.length; i++){			 
-		if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
-			deptNo.value=maintable.rows[i].cells[0].innerHTML;								 
-			deptName.innerHTML=maintable.rows[i].cells[1].innerHTML;				
-			break;
-		}				 
-	}             
-	srchblkclose(event);	
 	return true;
 }	

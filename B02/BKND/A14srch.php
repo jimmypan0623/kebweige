@@ -6,9 +6,9 @@
 	 $sql3="SELECT `F01`,`F02` FROM `a14` ";
 	 if(strlen($searchRecord)==0) {
 	  
-         $sql3=$sql3."WHERE F04='Y' AND F12='Y' ";		
+         $sql3=$sql3."WHERE F04='Y' AND F13='Y'";		
 	 }else{
-		   $sql3=$sql3."WHERE `F01` like '%".$searchRecord."%' AND F04='Y' AND F12='Y' AND F13='Y'";	 
+		   $sql3=$sql3."WHERE `F01` like '%".$searchRecord."%' AND F04='Y' AND F13='Y'";	 
 	 }
 	 $sql3=$sql3."ORDER BY `F01`";
     $arr=array();	
