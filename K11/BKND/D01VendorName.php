@@ -8,7 +8,7 @@
 	 $sql3.="FROM `d01` ";
 	
      $sql3.="LEFT OUTER JOIN `a01` ON `a01`.`F01`=`d01`.`F39` ";	
-	 $sql3.="WHERE binary `d01`.`F01` ='".$_POST['filename']."' AND `d01`.`F12`!='X' ";	 	 
+	 $sql3.="WHERE binary `d01`.`F01` ='".$_POST['filename']."' and d01.F14 <= CURDATE()";	 	 
 
     $arr=array();	
     $sql4=@mysqli_query($link,$sql3); 

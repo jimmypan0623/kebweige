@@ -39,5 +39,3 @@
          $json_string1 = json_encode($arr); 
          echo $json_string1;	   
 ?>  
-
- 

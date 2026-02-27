@@ -182,7 +182,7 @@ function contentShow(arr){
 	    } 
     }
      if(cnt>0){       //初始畫面呼叫
-		  document.getElementById("ttltitle").innerHTML="<mark>"+sourceAccount('0',0)+"&nbsp"+sourceAccount(2,0)+"</mark>\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}本月應付總額:";
+		  document.getElementById("ttltitle").innerHTML="<mark style='background-color:#BAF4D8;'>"+sourceAccount('0',0)+"&nbsp"+sourceAccount(2,0)+"</mark>\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}本月應付總額:";
 		  scndttl.innerHTML=thousands(Math.round((queryttl + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt));
 	}else{
 	   if(scndttl.innerHTML=='0'){

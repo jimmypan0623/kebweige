@@ -616,8 +616,7 @@ function srchOutRcd(str1,ajTable) {       //搜尋相關料號
 		var text = document.createTextNode(array[j]); //cell		
 		th.appendChild(text);
 		oTr.appendChild(th);
-	}		
-   
+	}		  
 }
 
 function  addNewRecordHint(tbno){
