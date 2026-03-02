@@ -124,7 +124,13 @@ function blkshow(txtword)
 				   break;	   					 
 			case 101:                                  //第一頁其他第一按鈕功能開窗			 			       
 				    var headtitle=page1OtherWindow1();					
-				   break;		  
+				   break;		
+			case 102:                                  //第一頁其他第二按鈕功能開窗			 			       
+				    var headtitle=page1OtherWindow2();					
+				   break;		  	   	   
+			case 103:                                  //第一頁其他第三按鈕功能開窗			 			       
+				    var headtitle=page1OtherWindow3();					
+				   break;		  	   
 			case 201:                                  //第二頁其他第一按鈕功能開窗			      
 				   var headtitle=page2OtherWindow1();
 				   break;		 	   
@@ -260,6 +266,12 @@ function blkshow(txtword)
 		} 
 		if(txtword==101){  		    
 		    page1Detail01(ajTable);
+		}
+		if(txtword==102){  		    
+		    page1Detail02(ajTable);
+		}
+		if(txtword==103){  		    
+		    page1Detail03(ajTable);
 		}
 		if(txtword==201){  
 		    page2Detail01(ajTable);

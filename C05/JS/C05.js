@@ -96,7 +96,8 @@ function choseExtraDeal(targetTrChildren){   //紀錄移動
 		 rdyship.setAttribute("style","visibility:visible;font-size:17px;");				   				   
 		 attachEventListener(rdyship,"click",page1OtherButton1,false);
 	 }
-	 
+	/* var invdtl=document.getElementById("INVDTL_BOTT");
+	 attachEventListener(invdtl,"click",page1OtherButton2,false); */
     return true;			   
 }
 function rowchoseExtraDeal(targetRow){    //紀錄移動
@@ -109,7 +110,8 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 		 rdyship.setAttribute("style","visibility:visible;font-size:17px;");				   				   
 		 attachEventListener(rdyship,"click",page1OtherButton1,false);
 	 }
-	
+	/*  var invdtl=document.getElementById("INVDTL_BOTT");
+	 attachEventListener(invdtl,"click",page1OtherButton2,false); */
     return true;			   
 }	
 

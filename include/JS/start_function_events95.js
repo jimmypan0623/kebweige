@@ -147,12 +147,11 @@ function optionitem(adored,id_no,select_width,url_path){
 	}	
 	return
 }
-function optionadd(opt3,crntslt,idNo,slctWdth){
-	
+
+function optionadd(opt3,crntslt,idNo,slctWdth){	
 	var slt4 = document.getElementById(idNo);	    	//crntopt
 	var item_no="";
-	var item_value="";
-	 
+	var item_value="";	 
 	for(var i=0;i<opt3.length;i++){		
 		var item_no="";
 		var varItem="";
@@ -162,11 +161,9 @@ function optionadd(opt3,crntslt,idNo,slctWdth){
 		}
 		slt4.options.add(varItem);  		 
  	   if(slt4.options[i].value.trim()==crntslt){	
-	       slt4.options[i].selected=true;	
-         	   
+	       slt4.options[i].selected=true;	        	   
        }
-	}
-	
+	}	
 }
 
  function checkLength (dom, maxLength){   //中英文限制字數辨別
@@ -540,6 +537,28 @@ function page1OtherButton1(event){
 		return false;	
     } 
 	blkshow(101);
+}
+function page1OtherButton2(event){
+	if (typeof event=="undefined")
+	{
+		event=window.event;
+	}	
+	if (cko[2](0)==0){
+		blkshow("未勾選任何紀錄，請勾選一筆再按此鈕執行複製權限");	
+		return false;	
+    } 
+	blkshow(102);
+}
+function page1OtherButton3(event){
+	if (typeof event=="undefined")
+	{
+		event=window.event;
+	}	
+	if (cko[2](0)==0){
+		blkshow("未勾選任何紀錄，請勾選一筆再按此鈕執行複製權限");	
+		return false;	
+    } 
+	blkshow(103);
 }
 //第二頁面其他按鈕功能
 function page2OtherButton1(event){

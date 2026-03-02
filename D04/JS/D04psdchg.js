@@ -10,7 +10,7 @@ function selfTag(jsvsn){
 	var orpButton10=document.createElement("input");		   
 	orpButton10.setAttribute("type","button");
 	orpButton10.setAttribute("class","btn");
-	orpButton10.setAttribute("value","\u{1F4DA}");          
+	orpButton10.setAttribute("value","\u{1F4DC}");          
     orpButton10.setAttribute("style","font-size:17px;");       			
 	orpButton10.setAttribute("title","查看出貨紀錄，快速鍵 Alt+B");   
 	orpButton10.setAttribute("accesskey","B");	

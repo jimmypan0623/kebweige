@@ -508,10 +508,10 @@ function initDialog()
 			  scriptall[j].parentNode.removeChild(scriptall[j]);		 
 			}
 		}		 	
-	//	var jsvsn=nwsd.toString()+scnd;		
-		var showTime=document.getElementById('currentTime');
+		var jsvsn=nwsd.toString()+scnd;		
+		/* var showTime=document.getElementById('currentTime');
 		var jsvsn=(showTime.innerHTML.substring(0,4)+'_'+showTime.innerHTML.substring(5,7)+'_'+showTime.innerHTML.substring(8,10))+'_'+getAuth[1]()[0];
-		 
+		  */
 		var urljsname=nowExcute.substr(0,3)+'/JS/'+nowExcute.substr(0,3)+'psdchg.js?v='+jsvsn;		 	
     	loadScript(urljsname,function(){selfTag(jsvsn);});     
 	}	

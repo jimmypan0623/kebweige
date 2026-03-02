@@ -209,10 +209,10 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 		        }	 		       
 		        return false ;
 			}else{
-			   if(b01elements[j].nextSibling){		
-			      if(j!=1 ){
-			         b01elements[j].parentNode.removeChild(b01elements[j].nextSibling);
-				  }
+			    if(b01elements[j].nextSibling){		
+			        if(j!=1 ){
+			           b01elements[j].parentNode.removeChild(b01elements[j].nextSibling);
+				    }  
 		        }	
 			}
 	    }   
@@ -291,7 +291,7 @@ function sendFilePrc(updflg){     //新增資料及修改程序
    blocksclose();			//關掉原視窗   
    return true;	 	
 }
-/* */
+ 
 function calculateTtl(tbno,maintable,i){  //刪除後計算總數量
     if (tbno==1){	//計算本單總金額
 	   var ttlcnt=Number(document.getElementById('ttlmny').innerHTML);		  					
@@ -1073,6 +1073,7 @@ function page1Detail01(ajTable){
 	 }
 	 
 }
+
 function srchStockNo(str1,ajTable) {       //搜尋相關料號
     var cnt=0;
 	var arr = str1;     
@@ -1086,20 +1087,26 @@ function srchStockNo(str1,ajTable) {       //搜尋相關料號
 			     oTd.setAttribute("style","text-align:center;width:18%;");
 		    }else if(jk=='dpt_name'){			 
 		        oTd.setAttribute("style","text-align:center;");
+			
 		    }else if(jk=='stock_qty'){		  
-		        oTd.setAttribute("style","text-align:right;");
+			    if(oTr.cells[2].innerHTML!='Y'){									  
+				    	oTd.setAttribute("style","text-align:right;text-decoration: line-through;color:#7f8890;");
+				    }else{
+					    oTd.setAttribute("style","text-align:right;");
+				}
+			
 		    }else if(jk=='last_update'){		  
 		        oTd.setAttribute("style","text-align:center;");
 		    }else if (jk=='apply'){		  
 		        oTd.setAttribute("style","text-align:left;"); 														  		
-		    }else if(jk=='diffdate'){
+		    }else if(jk=='diffdate' || jk=='avail'){
 				oTd.setAttribute("style","display:none;");
 			}				
 	    }	
-        if(arr[i]['diffdate']>210){  //最後異動日期距今超過210天紅字
-			oTr.setAttribute("style","font-weight:bold;color:#E60000;");
-		}else if(arr[i]['diffdate']>90){//最後異動日期距今超過90天低於210天棕色字
-			oTr.setAttribute("style","font-weight:bold;color:#704214;");
+        if(arr[i]['diffdate']>210 ){  //最後異動日期距今超過210天紅字		   
+			oTr.setAttribute("style","font-weight:bold;color:#E60000;");			
+		}else if(arr[i]['diffdate']>90 ){//最後異動日期距今超過90天低於210天棕色字
+			oTr.setAttribute("style","font-weight:bold;color:#704214;");			
 		}
 	}	
     var array = ['部門編號', '部門名稱','庫存數量','最後異動','預計用途'];
