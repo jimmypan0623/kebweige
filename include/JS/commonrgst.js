@@ -208,8 +208,7 @@ function blkshow(txtword)
 		dialogButton3.setAttribute("value","\u{274E}");
 		dialogButton3.setAttribute("title","放棄或結束並離開，快速鍵Alt+X");
 		dialogButton3.setAttribute("accesskey","X");					
-		attachEventListener(dialogButton3,"click",blocksclose,false);	
-		
+		attachEventListener(dialogButton3,"click",blocksclose,false);			
 		var oTd = oTr.insertCell(0);	   		      
 		if (txtword==2 || txtword==4 || txtword==3 || txtword==5 || txtword==6 || txtword==7 || txtword==8 || txtword==9){			
 		   oTd.appendChild(dialogButton1);	         //修改刪除	確認  反確認
@@ -310,6 +309,11 @@ function TableToJson(args,nongs,tbno){
 	}									
 	var json=order_head.slice(0,-1)+"}";   //去掉最後一個逗號再加上右大引號	 	 	
     var str_json=JSON.stringify(json);	
+	////
+	
+	
+	////
+	
     setCookie('useraccount',getAuth[1]()[0]);	
 	if(!getCookie('INT_HTM')){
 		 const myObject = getAuth[2]()[0];       //再呼叫第一次複製在閉包變數裡的再設一次cookie
@@ -339,7 +343,9 @@ function TableToJson(args,nongs,tbno){
 		var url=mainrightValue+"/BKND/"+mainrightValue+"hipswrt.php?timestamp="+new Date().getTime();		  
 	}	 
 	request.open("POST",url);	
-    request.setRequestHeader("Content-type", "application/json");
+   request.setRequestHeader("Content-type", "application/json");
+	//request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	
     request.send(str_json);
     function respondUpdate() {		
         if (request.readyState == 4 && request.status == 200) {              		
@@ -360,7 +366,7 @@ function TableToJson(args,nongs,tbno){
 					  attachEventListener(oTr.cells[i],'click',rowchoose,false);		//點選資料   
 				  }				    				   				 			  	
 		             var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
-	                 oTd.setAttribute("style","width:41px;display:none");   
+	                 oTd.setAttribute("style","display:none");   
 	 	             var myCheck=document.createElement('input'); 
 		             myCheck.type="checkbox";
 				     myCheck.setAttribute("name","chkbxmember"+(tbno+1).toString());
@@ -374,20 +380,19 @@ function TableToJson(args,nongs,tbno){
 					        tabs[1].checked=true;			//表頭新增完畢立即跳到表身處理單據內容新增			
 	                        tab2View(event);
 					     }	 
-						 blkshow(1);	
-					 }else{
-                        blkshow(1);	
-					 }				 
-			   }else{            //如果是修改則原列更改內容		                    		   								
 
-					colomnContextChange(tbno,args,nongs,arglth,rsp);   //修改確認後表格欄位處理
+					 }	
+					  blkshow(1);	
+			   }else{            //如果是修改則原列更改內容	
+			                   
+					colomnContextChange(tbno,args,nongs,arglth,rsp);   //修改確認後表格欄位處理					 
 			   }			   
 			}else{
 				
 				blkshow(rsp);   //新增不成功才顯示訊息
 				 
 			 
-	            if(rsp=="請勿蓄意修改成他人帳號後，再來異動資料！"){
+	            if(rsp=="請勿蓄意修改成他人帳號後，再來異動資料！" ){ 
 					var i;	
                        (function myLoop(i) {
                        setTimeout(function() {
@@ -395,14 +400,16 @@ function TableToJson(args,nongs,tbno){
                        if (--i) myLoop(i);   //  decrement i and call myLoop again if i > 0
                     }, 9000)
                      })(9000);                   //  pass the number of iterations as an argument
-       
+					 
 		             document.location.href="logOut.php";
-				}
+				} 
+				
             }										
         }
     }      
 	return true; 
 }  
+
 
 function notIceChg(event){
     if (typeof event=="undefined"){

@@ -1,57 +1,66 @@
 ﻿<!DOCTYPE html>
 <html lang="zh-Hant-TW">
 <head>
-<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-<meta  charset=utf-8">
-<meta name="author" content="潘振銘">
-<meta name="description" content="知訊數位管理資訊系統">
-<meta name="revised" content="最後更新2025/07/04">
-<title>RED.知訊數位營運管理系統</title> 
-<link href="include/loginstyle.css?v=0.0.3" rel="stylesheet">
-<link rel="shortcut icon" href="digits/kandm.gif"> 
-<script type="text/javascript" src='include/JS/add-load-listener.js?v=0.0.1'></script> 
-<script type="text/javascript" src='include/JS/start_function_events95.js?v=0.2.4'></script>  
-<script type="text/javascript" src='include/JS/djntime.js?v=0.0.1'></script> 
-<script type="text/javascript" src='include/JS/cookie.js?v=0.0.1'></script> 
-<script type="text/javascript" src='include/JS/commonrgst.js?v=0.0.9'></script> 
-<script type="text/javascript" src='include/JS/initsetp.js?v=1.8.2'></script>  
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="author" content="潘振銘">
+    <meta name="description" content="知訊數位管理資訊系統">
+    <meta name="revised" content="最後更新2026/03/14">
+    <title>RED.知訊數位營運管理系統</title>
+    <link href="include/loginstyle.css?v=0.0.3" rel="stylesheet">
+    <link rel="shortcut icon" href="digits/kandm.gif">
+    <script defer src="include/JS/add-load-listener.js?v=0.0.1"></script>
+    <script defer src="include/JS/start_function_events95.js?v=0.2.4"></script>
+    <script defer src="include/JS/djntime.js?v=0.0.1"></script>
+    <script defer src="include/JS/cookie.js?v=0.0.1"></script>
+    <script defer src="include/JS/commonrgst.js?v=0.1.0"></script>
+    <script defer src="include/JS/initsetp.js?v=1.8.9"></script>
 </head>
-<body>    
-<!--登入畫面--> 
-<form id="login" method="post" action="loginchk.php">   
-    <h1>LOG IN</h1>
-    <fieldset id="inputs">
-        <input id="account" name="account" type="text" placeholder="Account"  autocomplete="account" autofocus required>   
-        <input id="password" name= "password" type="password" autocomplete="current-password" placeholder="Password" required>
-        <input id="validcode" name= "validcode" type="text" style="width:47%;"  placeholder="輸入右邊驗證碼" maxlength='5' required>	
-		<input id="originrandom" name= "originrandom" type="text" style="width:47%;display:none;"  maxlength='5'  >	
-        <img id="img1">  
-		<img id="img2"> 
-		<img id="img3">		 	 
-		<img id="img4"> 	 
-		<img id="img5"> 	
-    </fieldset>
-    <fieldset id="actions">
-        <input type="submit" id="submit" value="Log in">  		
-    </fieldset>    
-	<script type="text/javascript">
-	function blocksclose(event)  
-    {	
-		if (typeof event=="undefined"){
-			event=window.event;
-		}	
-		var target=getEventTarget(event);
-		var dropsheet=document.getElementById("myModal");
-		dropsheet.style.display="none";       
-		if (dropsheet!=null){		
-		   dropsheet.parentNode.removeChild(dropsheet);  
-		}   	 	
-		return true;
-    }   	
-	</script>
-</form>
+<body>
+    <form id="login" method="post" action="loginchk.php" autocomplete="on">
+        <h1>LOG IN</h1>
+        <fieldset id="inputs">         
+			<input id="account"
+			name="account"
+			type="text"
+			placeholder="Account"
+			autocomplete="username"
+			autofocus
+			required>
+			<input id="password"
+			name="password"
+			type="password"
+			placeholder="Password"
+			autocomplete="current-password"
+			required>
+			<input id="validcode"
+			name="validcode"
+			type="text"
+			placeholder="輸入驗證碼"
+			maxlength="4"
+			required>			 
+		    <img id="img4" alt="">
+            <img id="img3" alt="">
+            <img id="img2" alt="">
+            <img id="img1" alt="">
+        </fieldset>
+        <fieldset id="actions">
+            <input type="submit" id="submit" value="Log in">
+        </fieldset>        
+        <script type="text/javascript">
+        function blocksclose(event) {
+            event = event || window.event;
+            var target = (typeof getEventTarget === 'function') ? getEventTarget(event) : (event.target || event.srcElement);
+            const modal = document.getElementById("myModal");
+            if(modal){
+               modal.remove();
+            }
+            return true;
+        }
+        </script>
+    </form>
     <div id="footbottom">
-    &nbsp&nbsp&nbsp&nbsp&nbsp<span id="currentTime">更新時間2017/01/01 10:50 am</span>
-    </div> 
+        <span id="currentTime">更新時間 2026/03/16</span>
+    </div>
 </body>
 </html>

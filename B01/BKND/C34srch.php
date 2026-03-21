@@ -1,9 +1,12 @@
 ﻿<?php
-   header("Content-Type:text/html; charset=utf-8");   
-
+    
+ header("Content-Type: application/json; charset=utf-8");
  include("../../include/BKND/mysqli_server.php");                      //引用檔 
 	$str=explode('|',$_POST['filename']);  //將上面字串以逗號分割成陣列
-	 $sql3="SELECT `F03` FROM `c34` WHERE `F01` ='".$str[0]."' AND `F02`='".$str[1]."' "	;	 
+	$cust_no  = mysqli_real_escape_string($link, $str[0]);
+    $part_no  = mysqli_real_escape_string($link, $str[1]); 
+	$sql3 = "SELECT `F03` FROM `c34` WHERE `F01` = '$cust_no' AND `F02` = '$part_no' LIMIT 1";
+	 //$sql3="SELECT `F03` FROM `c34` WHERE `F01` ='".$str[0]."' AND `F02`='".$str[1]."' "	;	 
 
     $arr=array();	
     $sql4=@mysqli_query($link,$sql3); 

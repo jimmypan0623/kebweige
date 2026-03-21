@@ -1,276 +1,192 @@
-/****登入畫面與登入錯誤訊息畫面CSS設定****/
-html, body
-{
+/**** 登入畫面與登入錯誤訊息畫面 CSS 優化版 ****/
+
+html, body {
     height: 100%;
-	 
-}
-body
-{
-    font: 12px 'Lucida Sans Unicode', 'Trebuchet MS', Arial, Helvetica;    
     margin: 0;
-   /*  background-color: #d9dee2;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#ebeef2), to(#d9dee2));
-    background-image: -webkit-linear-gradient(top, #ebeef2, #d9dee2);
-    background-image: -moz-linear-gradient(top, #ebeef2, #d9dee2);
-    background-image: -ms-linear-gradient(top, #ebeef2, #d9dee2);
-    background-image: -o-linear-gradient(top, #ebeef2, #d9dee2);
-    background-image: linear-gradient(top, #ebeef2, #d9dee2);  */   
-  
-     background-image: url(../IMAGE/lotuspools.jpg);
-	 opacity: 0.8;
+}
+
+body {
+    font: 14px 'Microsoft JhengHei', Arial, Helvetica, sans-serif;
+    /* 背景圖優化：覆蓋全螢幕且固定 */
+    background: url(../IMAGE/lotuspools.jpg) no-repeat center center fixed;
+    background-size: cover;
+    position: relative;
+}
+
+/* 增加一個半透明遮罩，讓文字更清晰 */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(255, 255, 255, 0.2); /* 調低背景亮度 */
+    z-index: -1;
 }
 
 /*--------------------*/
 
-#login
-{
+#login {
     background-color: #fff;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#eee));
-    background-image: -webkit-linear-gradient(top, #fff, #eee);
-    background-image: -moz-linear-gradient(top, #fff, #eee);
-    background-image: -ms-linear-gradient(top, #fff, #eee);
-    background-image: -o-linear-gradient(top, #fff, #eee);
-    background-image: linear-gradient(top, #fff, #eee);  
-    height: 280px;
-    width: 400px;
-    margin: -150px 0 0 -230px;
-    padding: 30px;
+    background: linear-gradient(to bottom, #ffffff, #f9f9f9);
+    
+    /* 調整高度為 auto 讓內容自動撐開，避免驗證碼擠壓 */
+    min-height: 300px;
+    width: 90%;
+    max-width: 420px;
+    
+    /* 改用 Flex 居中替代負邊距，更適合手機 */
     position: absolute;
-    top: 47%;
+    top: 50%;
     left: 50%;
-    z-index: 0;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    border-radius: 3px;  
-    -webkit-box-shadow:
-          0 0 2px rgba(0, 0, 0, 0.2),
-          0 1px 1px rgba(0, 0, 0, .2),
-          0 3px 0 #fff,
-          0 4px 0 rgba(0, 0, 0, .2),
-          0 6px 0 #fff,  
-          0 7px 0 rgba(0, 0, 0, .2);
-    -moz-box-shadow:
-          0 0 2px rgba(0, 0, 0, 0.2),  
-          1px 1px   0 rgba(0,   0,   0,   .1),
-          3px 3px   0 rgba(255, 255, 255, 1),
-          4px 4px   0 rgba(0,   0,   0,   .1),
-          6px 6px   0 rgba(255, 255, 255, 1),  
-          7px 7px   0 rgba(0,   0,   0,   .1);
-    box-shadow:
-          0 0 2px rgba(0, 0, 0, 0.2),  
-          0 1px 1px rgba(0, 0, 0, .2),
-          0 3px 0 #fff,
-          0 4px 0 rgba(0, 0, 0, .2),
-          0 6px 0 #fff,  
-          0 7px 0 rgba(0, 0, 0, .2);
+    transform: translate(-50%, -50%);
+    
+    padding: 35px;
+    z-index: 1;
+    border-radius: 8px;
+    box-shadow: 
+        0 0 2px rgba(0, 0, 0, 0.1),
+        0 15px 35px rgba(0, 0, 0, 0.15),
+        0 3px 0 #fff,
+        0 4px 0 rgba(0, 0, 0, 0.05);
 }
 
-#login:before
-{
+/* 內部的虛線裝飾邊框 */
+#login:before {
     content: '';
     position: absolute;
     z-index: -1;
-    border: 1px dashed #ccc;
-    top: 5px;
-    bottom: 5px;
-    left: 5px;
-    right: 5px;
-    -moz-box-shadow: 0 0 0 1px #fff;
-    -webkit-box-shadow: 0 0 0 1px #fff;
+    border: 1px dashed #e0e0e0;
+    top: 8px;
+    bottom: 8px;
+    left: 8px;
+    right: 8px;
     box-shadow: 0 0 0 1px #fff;
+    border-radius: 6px;
 }
 
 /*--------------------*/
 
-h1
-{
-    text-shadow: 0 1px 0 rgba(255, 255, 255, .7), 0px 2px 0 rgba(0, 0, 0, .5);
+h1 {
+    text-shadow: 0 1px 1px rgba(0,0,0,0.1);
     text-transform: uppercase;
     text-align: center;
-    color: #666;
+    color: #444;
     margin: 0 0 30px 0;
     letter-spacing: 4px;
-    font: normal 26px/1 Verdana, Helvetica;
+    font: bold 26px Verdana, Helvetica;
     position: relative;
 }
 
-h1:after, h1:before
-{
-    background-color: #777;
+/* 標題兩側的線條優化 */
+h1:after, h1:before {
+    background: linear-gradient(to right, #ccc, transparent);
     content: "";
     height: 1px;
     position: absolute;
-    top: 15px;
-    width: 120px;   
+    top: 50%;
+    width: 20%;
 }
-
-h1:after
-{ 
-    background-image: -webkit-gradient(linear, left top, right top, from(#777), to(#fff));
-    background-image: -webkit-linear-gradient(left, #777, #fff);
-    background-image: -moz-linear-gradient(left, #777, #fff);
-    background-image: -ms-linear-gradient(left, #777, #fff);
-    background-image: -o-linear-gradient(left, #777, #fff);
-    background-image: linear-gradient(left, #777, #fff);      
-    right: 0;
-}
-
-h1:before
-{
-    background-image: -webkit-gradient(linear, right top, left top, from(#777), to(#fff));
-    background-image: -webkit-linear-gradient(right, #777, #fff);
-    background-image: -moz-linear-gradient(right, #777, #fff);
-    background-image: -ms-linear-gradient(right, #777, #fff);
-    background-image: -o-linear-gradient(right, #777, #fff);
-    background-image: linear-gradient(right, #777, #fff);
-    left: 0;
-}
+h1:after { right: 0; background: linear-gradient(to left, #ccc, transparent); }
+h1:before { left: 0; }
 
 /*--------------------*/
 
-fieldset
-{
-    border: 0;
-    padding: 0;
-    margin: 0;
-}
+fieldset { border: 0; padding: 0; margin: 0; }
 
 /*--------------------*/
 
-#inputs input
-{
-    background: #f1f1f1 url(../IMAGE/chart.png) no-repeat;
-    padding: 15px 15px 15px 30px;
-    margin: 0 0 10px 0;
-    width: 353px; /* 353 + 2 + 45 = 400 */
-    border: 1px solid #ccc;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
+#inputs input {
+    background: #f8f8f8 url(../IMAGE/chart.png) no-repeat;
+    padding: 12px 15px 12px 35px;
+    margin-bottom: 15px;
+    width: 100%; /* 使用 100% 配合 box-sizing */
+    box-sizing: border-box;
+    border: 1px solid #ddd;
     border-radius: 5px;
-    -moz-box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;
-    -webkit-box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;
-    box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;
-	 font: bold 15px Arial, Helvetica;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+    font: 15px Arial, Helvetica;
+    transition: all 0.3s ease;
 }
+#account { background-position: 8px -2px !important; }
+#password { background-position: 8px -52px !important; }
+#validcode { background-position: 8px -102px !important; }
 
-#account
-{
-    background-position: 5px -2px !important;
-}
-
-#password
-{
-    background-position: 5px -52px !important;
-}
-#validcode
-{
-    background-position: 5px -102px !important;
-}
-
-#inputs input:focus
-{
-    background-color: #fff;
-    border-color: #e8c291;
-    outline: none;
-    -moz-box-shadow: 0 0 0 1px #e8c291 inset;
-    -webkit-box-shadow: 0 0 0 1px #e8c291 inset;
-    box-shadow: 0 0 0 1px #e8c291 inset;
-}
-
-/*--------------------*/
-#actions
-{
-    margin: 25px 0 0 0;
-}
-
-#submit
-{		
-    background-color: #ffb94b;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#fddb6f), to(#ffb94b));
-    background-image: -webkit-linear-gradient(top, #fddb6f, #ffb94b);
-    background-image: -moz-linear-gradient(top, #fddb6f, #ffb94b);
-    background-image: -ms-linear-gradient(top, #fddb6f, #ffb94b);
-    background-image: -o-linear-gradient(top, #fddb6f, #ffb94b);
-    background-image: linear-gradient(top, #fddb6f, #ffb94b);
-    
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    border-radius: 3px;
-    
-    text-shadow: 0 1px 0 rgba(255,255,255,0.5);
-    
-     -moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
-     -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
-     box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;    
-    
-    border-width: 1px;
-    border-style: solid;
-    border-color: #d69e31 #e3a037 #d5982d #e3a037;
-
+/* 驗證碼輸入框寬度調整 */
+#validcode {
+    width: 55% !important;
     float: left;
-    height: 35px;
-    padding: 0;
-    width: 120px;
-    cursor: pointer;
-    font: bold 15px Arial, Helvetica;
-    color: #8f5a0a;
 }
 
-#submit:hover,#submit:focus
-{		
-    background-color: #fddb6f;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#ffb94b), to(#fddb6f));
-    background-image: -webkit-linear-gradient(top, #ffb94b, #fddb6f);
-    background-image: -moz-linear-gradient(top, #ffb94b, #fddb6f);
-    background-image: -ms-linear-gradient(top, #ffb94b, #fddb6f);
-    background-image: -o-linear-gradient(top, #ffb94b, #fddb6f);
-    background-image: linear-gradient(top, #ffb94b, #fddb6f);
-}	
-
-#submit:active
-{		
-    outline: none;
-   
-     -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;
-     -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;
-     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;		
-}
-
-#submit::-moz-focus-inner
-{
-  border: none;
-}
-
-#actions a
-{
-    color: #3151A2;    
+/* 驗證碼圖片組合 */
+#img1, #img2, #img3, #img4, #img5 {
     float: right;
-    line-height: 35px;
-    margin-left: 10px;
+   /*  width: 35px;
+    height: 42px;  */
+	
+	 width: 2rem;
+     height: 2rem;
+    /* margin-left: 2px; */
+    border-radius: 4px;
+    background-color: #eee;
+}
+
+#inputs input:focus {
+    background-color: #fff;
+    border-color: #ffb94b;
+    outline: none;
+    box-shadow: 0 0 5px rgba(255, 185, 75, 0.3);
 }
 
 /*--------------------*/
+#actions {
+    margin: 20px 0 0 0;
+    overflow: hidden; /* 清除浮動 */
+}
 
-#back
-{
-    display: block;
+#submit {
+    background: linear-gradient(to bottom, #fddb6f, #ffb94b);
+    border: 1px solid #d69e31;
+    border-radius: 4px;
+    color: #8f5a0a;
+    cursor: pointer;
+    float: left;
+    font: bold 16px Arial, Helvetica;
+    height: 42px;
+    width: 100%; /* 按鈕滿寬，手機點擊更方便 */
+    text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: all 0.2s;
+}
+
+#submit:hover {
+    background: linear-gradient(to bottom, #ffb94b, #fddb6f);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+#submit:active {
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+    transform: translateY(1px);
+}
+
+/*--------------------*/
+#footbottom {
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
     text-align: center;
-    position: relative;
-    top: 60px;
-    color: #999;
-}
-/*錯誤訊息字體顏色*/
-span.errorMsg{
-   color:#0080FF;
-   font-family:標楷體;    
+    color: #555;
+    font-size: 12px;
+    text-shadow: 0 1px 1px #fff;
 }
 
-#img1, #img2,#img3,#img4,#img5 {
-  float: right;
-  width: 2rem;
-  height: 2rem;
-  
+/* 錯誤訊息 */
+span.errorMsg {
+    color: #d9534f;
+    font-family: "Microsoft JhengHei", sans-serif;
+    display: block;
+    margin-top: 10px;
+    text-align: center;
 }
+
 
 .close:hover {
     /* :hover 代表滑鼠移到元素上時的狀態 */ 
@@ -297,3 +213,4 @@ span.errorMsg{
   text-decoration: none;
   cursor: pointer;
 }
+

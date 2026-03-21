@@ -78,7 +78,9 @@ function searchHaveshiped(str1,ajTable) {       //搜尋相關料號
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 		cnt++;         
 		for(var jk in arr[i]){		   
-		    var oTd = oTr.insertCell(oTr.cells.length); 
+		   
+			var oTd = oTr.insertCell(-1);
+			
 			oTd.innerHTML=arr[i][jk];	
 			var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
 			var ks=ara.split('');		
@@ -107,6 +109,7 @@ function searchHaveshiped(str1,ajTable) {       //搜尋相關料號
 	    var array = ['異動日期','單據類別','單據編號', '異動數量','累計數量','備註說明'];
 		var array4 = ['10%','12%','12%', '14%','14%','38%'];
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
+		
 	    for (var j = 0; j < array.length; j++) {
 		    var th = document.createElement('th'); //column		   
 		    var text = document.createTextNode(array[j]); //cell	

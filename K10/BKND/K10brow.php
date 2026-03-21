@@ -1,5 +1,5 @@
 ﻿<?php
-   header("Content-Type:text/html; charset=utf-8");   
+   header("Content-Type: application/json; charset=utf-8");
    include("../../include/BKND/mysqli_server.php");                              //引用檔   
     require_once "../../include/BKND/fieldpreset.php"; // 引入  
    if (substr($_POST['filename'],0,3)=="PGE"){	  

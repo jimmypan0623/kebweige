@@ -3,28 +3,30 @@ function selfTag(jsvsn){
 	 var text6 = document.createTextNode('\u{A0}');
 	 var contentdiv=getElementsByAttribute('class','tab_content');	
 	 var svrSpns1=document.getElementById('serverResponse1'); 
-	 /* var keynames=getElementsByAttribute('name','keyname');	
-	keynames[0].innerHTML="帳號:"; */
+	
     if (getAuth[0]()[5]=='Y'){	 
 	    var cpyAuthButton=document.createElement("input");		   
-		cpyAuthButton.setAttribute("type","button");
-		cpyAuthButton.setAttribute("class","btn");
-		cpyAuthButton.setAttribute("value","\u{1F465}");    
-	    cpyAuthButton.setAttribute("style","font-size:17px;");
-		cpyAuthButton.setAttribute("title","複製此帳戶權限予以他人");							
+		cpyAuthButton.type="button";
+		cpyAuthButton.className="btn";
+		cpyAuthButton.value="\u{1F465}";    
+	    cpyAuthButton.style.fontSize="17px";
+		cpyAuthButton.title="複製此帳戶權限予以他人";							
 		cpyAuthButton.id="COPY_BOTT";		
 		attachEventListener(cpyAuthButton,"click",authCopy,false);  //複製權限按鈕程序
-		contentdiv[0].insertBefore(text5,svrSpns1);
-	    contentdiv[0].insertBefore(cpyAuthButton,svrSpns1);
-		contentdiv[0].insertBefore(text6,svrSpns1);
+		const frag1 = document.createDocumentFragment();			
+		frag1.appendChild(text5);
+		frag1.appendChild(cpyAuthButton);
+		frag1.appendChild(text6); 
+		contentdiv[0].insertBefore(frag1,svrSpns1); 
+	
 	}
 	if (getAuth[0]()[6]=='Y'){	 
 	    var reMoveButton=document.createElement("input");		   
-		reMoveButton.setAttribute("type","button");
-		reMoveButton.setAttribute("class","btn");
-		reMoveButton.setAttribute("value","\u{1F512}");    
-	    reMoveButton.setAttribute("style","font-size:17px;");
-		reMoveButton.setAttribute("title","移除此帳戶所有功能權限");							
+		reMoveButton.type="button";
+		reMoveButton.className="btn";
+		reMoveButton.value="\u{1F512}";    
+	    reMoveButton.style.fontSize="17px";
+		reMoveButton.title="移除此帳戶所有功能權限";							
 		reMoveButton.id="REMOVE_BOTT";		
 		attachEventListener(reMoveButton,"click",authRemove,false);  //移除權限按鈕程序
 	    contentdiv[0].insertBefore(reMoveButton,svrSpns1);

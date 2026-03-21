@@ -1,9 +1,11 @@
 ﻿<?php
-   header("Content-Type:text/html; charset=utf-8");   
+ header("Content-Type: application/json; charset=utf-8");
 
  include("../../include/BKND/mysqli_server.php");                      //引用檔 
 	$str=explode('|',$_POST['filename']);  //將上面字串以逗號分割成陣列
-	 $sql3="SELECT `F03` FROM `d34` WHERE `F01` ='".$str[0]."' AND `F02`='".$str[1]."' "	;	 
+	$vendor_no  = mysqli_real_escape_string($link, $str[0]);
+    $part_no  = mysqli_real_escape_string($link, $str[1]);
+	 $sql3="SELECT `F03` FROM `d34` WHERE `F01` ='".$vendor_no."' AND `F02`='".$part_no ."' "	;	 
 
     $arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
@@ -23,10 +25,7 @@
          $json_string1 = json_encode($arr); 
          echo $json_string1;	 
         // echo "srchStockNo($json_string1)";    
-       
-		 
- 		 
-          
+   
 ?>  
 
  

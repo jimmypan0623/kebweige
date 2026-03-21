@@ -1,8 +1,8 @@
-function getProfile(str1,trncde) {       
-    var cnt=0;
-	 var rnddgt=getCookie('INT_069');  //四捨五入到幾位
-	var arr = str1; 
-	var queryttl=0;
+function getProfile(arr,trncde) {         
+	var rnddgt=getCookie('INT_069');  //四捨五入到幾位
+	//var arr = str1; 
+	//var queryttl=0;
+	var cnt = 0;
 	var apprv=document.getElementById('APPRVE');	 
     var tabs=getElementsByAttribute("class","tab");
  
@@ -44,7 +44,7 @@ function getProfile(str1,trncde) {
 		 }
 	}
 	
-	var oTable = document.getElementById("maintbody1");
+	/* var oTable = document.getElementById("maintbody1");
 	//var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
 	//let ks=ara.split('');		
 	//ks[0]:直接或間接 D/I
@@ -87,10 +87,151 @@ function getProfile(str1,trncde) {
 	   
 	   attachEventListener(myCheck,'click',chooserc,false);		   
 	   oTd.appendChild(myCheck);     
+	    //scndttl.innerHTML=thousands(Math.round((queryttl + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt));
 	   
-	   //scndttl.innerHTML=thousands(Math.round((queryttl + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt));
-	   
+	} */
+	   ////
+	   /*  var oTable = document.getElementById("maintbody1");
+		var cnt = 0;
+
+		for (var i = 0; i < arr.length; i++) {
+			var oTr = oTable.insertRow(-1);
+			oTr.setAttribute("name", "mainrow");
+			cnt++;
+
+			for (var jk in arr[i]) {
+				var oTd = oTr.insertCell(-1);
+				var val = arr[i][jk];
+
+				// --- 數值處理：如果是數字則四捨五入，若為 0 則顯示空字串 ---
+				if (val !== "" && !isNaN(val)) {
+					var num = Math.round(Number(val));
+					oTd.innerHTML = (num !== 0) ? num : "";
+				} else {
+					oTd.innerHTML = val;
+				}
+
+				// --- 欄位屬性解析 (例如: ...DICL_010) ---
+				var lastIdx = jk.lastIndexOf('_');
+				var ara = jk.substr(lastIdx - 3, 3);
+				var ks = ara.split(''); 
+				// ks[0]:D/I, ks[1]:S/H, ks[2]:L/C/R
+
+				// 修正：移除 class 名稱中的分號
+				oTd.className = (ks[0] === "D") ? "directdata" : "indirectdata";
+
+				if (ks[1] === 'H') {
+					oTd.style.display = "none";
+				} else {
+					// 對齊處理
+					var alignMap = { "L": "left", "C": "center", "R": "right" };
+					oTd.style.textAlign = alignMap[ks[2]] || "left";
+
+					// 寬度處理
+					var wdthln = jk.substr(lastIdx + 1, 3);
+					oTd.style.width = wdthln + "%";
+
+					// 點選資料事件
+					attachEventListener(oTd, 'click', rowchoose, false);
+				}
+			}
+
+			// --- 新增隱藏的 Checkbox 欄位 ---
+			var oTdCheck = oTr.insertCell(-1);
+			oTdCheck.style.width = "40px";
+			oTdCheck.style.display = "none"; // 勾選不顯示
+
+			var myCheck = document.createElement('input');
+			myCheck.type = "checkbox";
+			myCheck.name = "chkbxmember1";
+
+			attachEventListener(myCheck, 'click', chooserc, false);
+			oTdCheck.appendChild(myCheck);
+		} */
+	    ////
+        var oTable = document.getElementById("maintbody1");
+	// 1. 使用 DocumentFragment 容器，先在記憶體中構建 DOM
+	var fragment = document.createDocumentFragment();
+
+	for (var i = 0; i < arr.length; i++) {
+		var rowData = arr[i];
+		var oTr = document.createElement("tr"); // 改用 createElement 效能更好
+		oTr.setAttribute("name", "mainrow");
+		cnt++;
+
+		// 處理資料欄位
+		for (var jk in rowData) {
+			var oTd = document.createElement("td");
+			var cellValue = rowData[jk];
+			
+			// --- 數值處理：如果是數字則四捨五入，若為 0 則顯示空字串 ---
+				if (cellValue !== "" && !isNaN(cellValue)) {
+					var num = Math.round(Number(cellValue));
+					oTd.innerHTML = (num !== 0) ? num : "";
+				} else {
+					oTd.innerHTML = cellValue;
+				}
+			
+		
+
+			// 解析欄位規則 (例如: ..._DSR_10)
+			var lastUnderline = jk.lastIndexOf('_');
+			var ruleStr = jk.substr(lastUnderline - 3, 3); // 取得 DSR 部分
+			var ks = ruleStr.split(''); 
+			// ks[0]: D/I, ks[1]: S/H, ks[2]: L/C/R
+
+			// 設定樣式類別
+			oTd.className = (ks[0] === "D") ? "directdata" : "indirectdata";
+
+			if (ks[1] === 'H') {
+				oTd.style.display = "none";
+			} else {
+				// 文字對齊
+				var alignMap = { "L": "left", "C": "center", "R": "right" };
+				oTd.style.textAlign = alignMap[ks[2]] || "left";
+
+				// 寬度設定
+				var wdthln = jk.substr(lastUnderline + 1, 3);
+				oTd.style.width = wdthln + "%";
+
+				// 事件綁定 (建議確認 attachEventListener 是否為自定義函數)
+				if (typeof attachEventListener === "function") {
+					attachEventListener(oTd, 'click', rowchoose, false);
+				}
+			}
+
+			// 累加總金額
+			/* if (jk.substr(0, lastUnderline - 4) === 'rcd_total') {
+				queryttl += Number(cellValue) || 0;
+			} */
+
+			oTr.appendChild(oTd);
+		}
+
+		// 2. 新增隱藏的 Checkbox 欄位
+		var oTdCheck = document.createElement("td");
+		oTdCheck.style.width = "40px";
+		oTdCheck.style.display = "none";
+
+		var myCheck = document.createElement('input');
+		myCheck.type = "checkbox";
+		myCheck.setAttribute("name", "chkbxmember1");
+		
+		if (typeof attachEventListener === "function") {
+			attachEventListener(myCheck, 'click', chooserc, false);
+		}
+
+		oTdCheck.appendChild(myCheck);
+		oTr.appendChild(oTdCheck);
+
+		// 將整列加入 Fragment
+		fragment.appendChild(oTr);
 	}
+
+	// 3. 最後一次性將所有資料掛載到 Table，只觸發一次重繪
+	oTable.appendChild(fragment);		
+	   ////
+	  
 	    
 	  var responseDiv=document.getElementById("serverResponse1");  	
 	   responseDiv.setAttribute("style","color:#536a60;"); 
@@ -141,5 +282,3 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 	 
     return true;			   
 }	 
-
-  

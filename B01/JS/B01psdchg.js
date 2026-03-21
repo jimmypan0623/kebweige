@@ -44,33 +44,36 @@ function selfTag(jsvsn){
     contentdiv[0].appendChild(secondCover);   //畫面右邊欄位
 	if(getAuth[0]()[5]=='Y'){	 //有查看報價紀錄權限時	   
 		var rspn2=document.getElementById('serverResponse2'); 
-	    var text01 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
-	    contentdiv[1].insertBefore(text01,rspn2);
+		const frag1 = document.createDocumentFragment();			
+	    var text01 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');	    
+		frag1.appendChild(text01);
 	    var spn1=document.createElement('span');
 	    spn1.id="ttltitle";
-        spn1.innerHTML="報價筆數:";
-	    contentdiv[1].insertBefore(spn1,rspn2);
+        spn1.innerHTML="報價筆數:";	   
+		frag1.appendChild(spn1);
 	    var spn3=document.createElement('span');
 	    spn3.id="ttlmny";       
-	    spn3.innerHTML='0';
-	    contentdiv[1].insertBefore(spn3,rspn2);	  	
+	    spn3.innerHTML='0';	    
+	  	frag1.appendChild(spn3);
+		contentdiv[1].insertBefore(frag1,rspn2);
     }else{
         contentdiv[1].style.display='none';
 	    tabnames[1].style.display='none';        
     }	   
-    if(getAuth[0]()[6]=='Y'){	        //有查看詢價紀錄權限時
-      
+    if(getAuth[0]()[6]=='Y'){	        //有查看詢價紀錄權限時      
         var rspn3=document.getElementById('serverResponse3'); 
-	    var text02 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
-	    contentdiv[2].insertBefore(text02,rspn3);
+		const frag2 = document.createDocumentFragment();			
+	    var text02 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');	    
+		frag2.appendChild(text02);
 	    var spn4=document.createElement('span');
 	    spn4.id="ttltitle1";
-        spn4.innerHTML="詢價筆數:";
-	    contentdiv[2].insertBefore(spn4,rspn3);
+        spn4.innerHTML="詢價筆數:";	   
+		frag2.appendChild(spn4);
 	    var spn5=document.createElement('span');
 	    spn5.id="ttlmny1";
 	    spn5.innerHTML='0';
-	    contentdiv[2].insertBefore(spn5,rspn3);  			
+		frag2.appendChild(spn5);
+		contentdiv[2].insertBefore(frag2,rspn3);
     }else{
 		contentdiv[2].style.display='none';
 	    tabnames[2].style.display='none';
@@ -79,22 +82,17 @@ function selfTag(jsvsn){
 	var svrSpns1=document.getElementById('serverResponse1');    	 
 	var text5 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
 	var invDetailButton=document.createElement("input");		   
-	invDetailButton.setAttribute("type","button");
-	invDetailButton.setAttribute("class","btn");
-	invDetailButton.setAttribute("value","\u{1F3E1}");     //u{1F3E1}
+	invDetailButton.type="button";
+	invDetailButton.className="btn";
+	invDetailButton.value="\u{1F3E1}";     //u{1F3E1}
 	invDetailButton.setAttribute("style","font-size:130%;margin:0px;");
-	invDetailButton.setAttribute("title","各庫別明細，快速鍵 Alt+B");	
-	invDetailButton.setAttribute('accesskey','B')
+	invDetailButton.title="各庫別明細，快速鍵 Alt+B";	
+	invDetailButton.accessKey='B';
 	invDetailButton.id="INVDTL_BOTT";		
 	contentdiv[0].insertBefore(text5,svrSpns1);
 	contentdiv[0].insertBefore(invDetailButton,svrSpns1);
     ///
-    var scriptall=document.getElementsByTagName("script");
-	for(var j=0;j<scriptall.length;j++){
-		if(scriptall[j].id){
-			scriptall[j].parentNode.removeChild(scriptall[j]);		 
-		}
-	}			
+    document.querySelectorAll("script[id]").forEach(s=>s.remove());		
 	///		
 	loadScript(`B01/JS/B01.js?v=${jsvsn}`,function(){DrawTable();});	
 	loadScript(`B01/JS/B01rgst.js?v=${jsvsn}`);

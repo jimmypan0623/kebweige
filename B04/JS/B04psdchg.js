@@ -1,46 +1,56 @@
 function selfTag(jsvsn){	
     ////
-	 var maindiv=getElementsByAttribute('class','tab_css');	
+	var maindiv=document.getElementsByClassName('tab_css');	
 	var beinsertedid=document.getElementById('tab1');
 	var spn=document.createElement('span');
 	spn.id="APPRVE";
 	maindiv[0].insertBefore(spn,beinsertedid);
     var cntdiv=getElementsByAttribute('class','tab_content');	
-	var rspn2=document.getElementById('serverResponse2'); 
+	var rspn2=document.getElementById('serverResponse2'); 	
+	const frag1 = document.createDocumentFragment();
 	 var text01 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
-	 cntdiv[1].insertBefore(text01,rspn2);
+	
+	 frag1.appendChild(text01);
 	var spn1=document.createElement('span');
 	spn1.id="ttltitle";	
-     spn1.innerHTML='總金額:';
-	cntdiv[1].insertBefore(spn1,rspn2);
+     spn1.textContent='總金額:';
+
+	 frag1.appendChild(spn1);
 	var spn2=document.createElement('span');
 	spn2.id="crncy" ;	
-    cntdiv[1].insertBefore(spn2,rspn2);
+    
+	 frag1.appendChild(spn2);
 	var spn3=document.createElement('span');
 	spn3.id="ttlmny";   
-	spn3.innerHTML='0';
-	 cntdiv[1].insertBefore(spn3,rspn2);
+	spn3.textContent='0';
+	 frag1.appendChild(spn3);
+	 cntdiv[1].insertBefore(frag1,rspn2);
 	////
 
 	 
 	var orpButton5=document.getElementById("lgt");		  //離開按鈕    
- 
+    const frag2 = document.createDocumentFragment();
 	var orpButton7=document.createElement("input");		   
-	orpButton7.setAttribute("type","button");
-	orpButton7.setAttribute("class","btn");
-	orpButton7.setAttribute("value","\u{2714}");       	      
-	orpButton7.setAttribute("title","確認本張出貨單所有紀錄，快速鍵Alt+A");  
-	orpButton7.setAttribute("accesskey","A");					
+	
+	orpButton7.type="button";
+	orpButton7.className="btn";
+	orpButton7.value="\u{2714}";       	      
+	orpButton7.title="確認本張出貨單所有紀錄，快速鍵Alt+A";  
+	orpButton7.accessKey="A";			
+	////
 	orpButton7.id="ANS_BOTT";				
 	attachEventListener(orpButton7,"click",ansproc,false);    
-	maindiv[0].insertBefore(orpButton7,orpButton5);
-	 
+	
+	
+	 frag2.appendChild(orpButton7);
 	var orpButton8=document.createElement("input");		   
-	orpButton8.setAttribute("type","button");
-	orpButton8.setAttribute("class","btn");
-	orpButton8.setAttribute("value","\u{1F504}");       	      
-	orpButton8.setAttribute("title","反確認本張出貨單所有紀錄，快速鍵Alt+Z");  
-	orpButton8.setAttribute("accesskey","Z");					
+	 
+	orpButton8.type="button";	
+	orpButton8.className="btn";
+	orpButton8.value="\u{1F504}";       	      
+	orpButton8.title="反確認本張出貨單所有紀錄，快速鍵Alt+Z";  
+	orpButton8.accessKey="Z";	
+	////
 	orpButton8.id="VRS_BOTT";				
 	attachEventListener(orpButton8,"click",vrsproc,false);    
 	maindiv[0].insertBefore(orpButton8,orpButton5);	 
@@ -48,22 +58,21 @@ function selfTag(jsvsn){
 	var text14 = document.createTextNode('\u{A0}\u{A0}');
 	var text15 = document.createTextNode('\u{A0}\u{A0}');
 	var orpButton6=document.createElement("input");		   
-	orpButton6.setAttribute("type","button");
-	orpButton6.setAttribute("class","btn");
-	orpButton6.setAttribute("value","\u{1F5A8}");      // \u{1F5B6 	  
-	orpButton6.setAttribute("title","列印所選紀錄，快速鍵Alt+P");  
-	orpButton6.setAttribute("accesskey","P");					
-	orpButton6.id="PRNT_BOTT";					
-	maindiv[0].insertBefore(text14,orpButton5);		
-	maindiv[0].insertBefore(orpButton6,orpButton5);
-	maindiv[0].insertBefore(text15,orpButton5);			
+	orpButton6.type="button";
+	orpButton6.className="btn";
+	orpButton6.value="\u{1F5A8}";      // \u{1F5B6 	  
+	orpButton6.title="列印所選紀錄，快速鍵Alt+P";  
+	orpButton6.accessKey="P";					
+	orpButton6.id="PRNT_BOTT";			
+	
+	 frag2.appendChild(text14);
+	 frag2.appendChild(orpButton6);
+	 frag2.appendChild(text15);
+	 maindiv[0].insertBefore(frag2,orpButton5);		
 	///
-    var scriptall=document.getElementsByTagName("script");
-	    for(var j=0;j<scriptall.length;j++){
-	        if(scriptall[j].id){
-	            scriptall[j].parentNode.removeChild(scriptall[j]);		 
-		    }
-	    }			
+   
+
+    document.querySelectorAll("script[id]").forEach(s=>s.remove());		
 	///	
 	loadScript(`B04/JS/B04.js?v=${jsvsn}`,function(){DrawTable();});		
     loadScript(`B04/JS/B04rgst.js?v=${jsvsn}`);	 	
@@ -102,7 +111,7 @@ function prntproc(event){
 		 }
 	}
 	for (var i=1;i<maintable.rows[headidx].cells.length-3;i++){  //要從編號開始計		     					 			
-	   headdata.push(maintable.rows[headidx].cells[i].innerHTML);			 
+	   headdata.push(maintable.rows[headidx].cells[i].textContent);			 
 	}
 	 var urlcmp=(decodeURI(window.location.search));
 	 var ourcmp=urlcmp.substr(urlcmp.indexOf('=')+1);
@@ -130,7 +139,7 @@ function tab1View(event){
 		 localbottoncl.style.border=" 2px solid ##FCFCFC";
 		 localbottoncl.style.boxShadow ="sandybrown 5px 10px 10px 7px";
 		 var bibau=cko[3](0);   //找出閉包變數現值
-		 //var fthkey=document.getElementById("fatherkey");
+		
 	
 	        cko[3](bibau*(-1));    //將表身閉包變數歸零
 			bibau=cko[6](0);   //找出閉包變數現值
@@ -144,9 +153,10 @@ function tab1View(event){
 			 
 }
 function tab2View(event){	  
-       if (typeof event=="undefined"){
+       /* if (typeof event=="undefined"){
 		event=window.event;
-    	}
+    	} */
+		event = event || window.event;
 	    var localbottoncl=document.getElementById('lclbtnbk');       //按鈕背景
 		 localbottoncl.style.backgroundColor="#F9FAD9";
 		 localbottoncl.style.border=" 2px solid #F9FAD9";
@@ -165,16 +175,16 @@ function tab2View(event){
 	   for(var i=0;i< maintable.rows.length; i++){			 		            
 		   if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){			   
 			   for (j=0;j<maintable.rows[i].cells.length-1;j++){				  
-				   aWaitUpdate.push(maintable.rows[i].cells[j].innerHTML);  //將待修改欄位資料存入陣列				 			      
+				   aWaitUpdate.push(maintable.rows[i].cells[j].textContent);  //將待修改欄位資料存入陣列				 			      
 			   }					
                shrno=aWaitUpdate[aWaitUpdate.length-2]	;		        
                break;					   
 		   }
 	   } 	   	 
-	   keydescription.innerHTML=aWaitUpdate[2]+'&nbsp'+aWaitUpdate[3];
-	   fthkey.innerHTML=aWaitUpdate[1];
+	   keydescription.textContent=aWaitUpdate[2]+'\u{A0}'+aWaitUpdate[3];
+	   fthkey.textContent=aWaitUpdate[1];
 	   var responseDiv=document.getElementById("serverResponse2"); 
-	   responseDiv.innerHTML='&nbsp';
+	   responseDiv.textContent='\u{A0}';
 	   var bibau=cko[3](0);   //找出閉包變數現值
 	   cko[3](bibau*(-1));    //將表身閉包變數歸零			
 	    bibau=cko[6](0);   //找出閉包變數現值
@@ -197,7 +207,7 @@ function tab2View(event){
 			    } 
 	        } 
 		}	
-	   commontemp(fthkey.innerHTML,"b0d.F01");
+	   commontemp(fthkey.textContent,"b0d.F01");
 						  
 }
 

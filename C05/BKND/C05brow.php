@@ -1,5 +1,5 @@
 ﻿<?php
-   header("Content-Type:text/html; charset=utf-8");   
+  header("Content-Type: application/json; charset=utf-8");
    include("../../include/BKND/mysqli_server.php");                     //引用檔   
     require_once "../../include/BKND/fieldpreset.php"; // 引入       
 	
@@ -42,7 +42,8 @@
  
     }else{
 	    $fieldNo=substr($_POST['filename'],0,7);
-		$filterKey=substr(strrchr($_POST['filename'],'|'),1);	 	    
+		//$filterKey=substr(strrchr($_POST['filename'],'|'),1);	 	    
+		$filterKey = mysqli_real_escape_string($link, substr(strrchr($_POST['filename'], '|'), 1));
 	    $sql="SELECT `c04`.`F00`,`c04`.`F02`,`b01`.`F02` AS F0B,`c04`.`F01`,`c04`.`F06`,`c04`.`F03`-`c04`.`F09`-`c04`.`F21` AS NSH,`c04`.`F23`,`c03`.`F03`,`c01`.`F05` As F0E,`c04`.`F05`,`c03`.`F14`,`c03`.`F07`,`a01`.`F03` AS F0C,`c04`.`F12`,b11B.nTqty,DATEDIFF(CURDATE( ),`c04`.`F06`) AS diffdate FROM `c04`";
 	    $sql.=" LEFT JOIN `b01` ON `b01`.`F01`=`c04`.`F02`"; 
 	    $sql.=" LEFT JOIN `c03` ON `c03`.`F01`=`c04`.`F01`"; 
@@ -101,14 +102,22 @@
                 if($a['stockno'] == $b['stockno']) return 0;
                    return ($a['stockno'] > $b['stockno'])? 1 : -1;				 
         }        */
-function getNeedBetween($kw1,$mark1,$mark2){  //抓取兩個字元間的字串函數
+/* function getNeedBetween($kw1,$mark1,$mark2){  //抓取兩個字元間的字串函數
    $kw=$kw1; 
    $st =stripos($kw,$mark1);
    $ed =stripos($kw,$mark2);
    if(($st==false||$ed==false)||$st>=$ed)
       return 0;
    $kw=substr($kw,($st+1),($ed-$st-1));
-return $kw;
+return $kw; 
+}*/
+
+function getNeedBetween($kw1, $mark1, $mark2) {
+    $st = stripos($kw1, $mark1);
+    $ed = stripos($kw1, $mark2);
+    // 使用強型別比較，避免索引為 0 時判定為 false
+    if ($st === false || $ed === false || $st >= $ed) return "";
+    return substr($kw1, ($st + 1), ($ed - $st - 1));
 }
 ?>  
 

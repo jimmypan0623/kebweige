@@ -16,14 +16,10 @@ function selfTag(jsvsn)
 		   getAuth[1](myAccount); 
           	   
 		}
-			///
-        var scriptall=document.getElementsByTagName("script");
-	    for(var j=0;j<scriptall.length;j++){
-	        if(scriptall[j].id){			
-	            scriptall[j].remove();
-		    }
-	    }			
-	    ///	
+	
+        
+		document.querySelectorAll("script[id]").forEach(s=>s.remove());	
+	   
 		 loadScript(`RED/JS/RED.js?v=${jsvsn}`,function(){commontemp();});	
 		 loadScript(`RED/JS/REDrgst.js?v=${jsvsn}`);
      		 
@@ -33,12 +29,17 @@ function selfTag(jsvsn)
 		var logoutDivBtn=document.getElementById('getOutBtn');
 		attachEventListener(logoutDivBtn,"click",accountDele,false);  
 		var iflm=document.createElement('iframe');
-		if(getAuth[1]()[1] && (left(getAuth[1]()[1],1)=='C' || left(getAuth[1]()[1],1)=='D' || left(getAuth[1]()[1],1)=='B' || left(getAuth[1]()[1],1)=='K')){
-		  
-			var htmfile='ROL/flowProcess'+left(getAuth[1]()[1],1)+'.html';
-			
+		
+		//if(getAuth[1]()[1] && (left(getAuth[1]()[1],1)=='C' || left(getAuth[1]()[1],1)=='D' || left(getAuth[1]()[1],1)=='B' || left(getAuth[1]()[1],1)=='K')){		  
+		var auth1 = getAuth[1]();
+
+        if(auth1[1] && ['C','D','B','K'].includes(auth1[1].slice(0,1))){	
+			var htmfile='ROL/flowProcess'+getAuth[1]()[1].slice(0,1)+'.html?v=${jsvsn}';			
 		}else{
-		   var htmfile='ROL/'+(getCookie('INT_HTM')?getCookie('INT_HTM'):getAuth[2]()[0].INT_HTM);
+	      
+		     var htmfile='ROL/'+(getCookie('INT_HTM')?getCookie('INT_HTM'):getAuth[2]()[0].INT_HTM);
+		    
+		   
 		}
 		iflm.id="frl";		 
 		iflm.src=htmfile;
@@ -58,7 +59,7 @@ function redmenuchange(event){    //畫面展開縮起來
   	    if(oSecondDiv.className == "myHide"){	 	
 		    var closeother=getElementsByAttribute('class','myShow');			   		 
 		    for(var i=0;i<closeother.length;i++){
-		        if(closeother[i].className="myShow"){					
+		        if(closeother[i].className=="myShow"){					
 		           closeother[i].setAttribute("class","myHide");
 			       closeother[i].parentNode.getElementsByTagName("a")[0].style.backgroundImage="url('digits/add.gif')";
 			      break;
@@ -66,34 +67,30 @@ function redmenuchange(event){    //畫面展開縮起來
 		    }						
 			oSecondDiv.setAttribute("class","myShow");
 			target.style.backgroundImage="url('digits/up.gif')";	    
-			switch (left(target.innerHTML,1)){
-			     case 'B':
-			       var htmfile='ROL/flowProcess'+left(target.innerHTML,1)+'.html';
-			      break;	   
-			   case 'C':
-			       var htmfile='ROL/flowProcess'+left(target.innerHTML,1)+'.html';
-			      break;
-				case 'D':
-			       var htmfile='ROL/flowProcess'+left(target.innerHTML,1)+'.html';
-			      break;  
-				case 'K':
-			       var htmfile='ROL/flowProcess'+left(target.innerHTML,1)+'.html';
-			      break;    
+			switch (target.innerHTML.slice(0,1)){
+			    case 'B':
+                case 'C':
+                case 'D':
+                case 'K':
+                    var htmfile = 'ROL/flowProcess' +target.innerHTML.slice(0,1) + '.html';
+               break;
 			   default :
 			      var htmfile='ROL/'+(getCookie('INT_HTM')?getCookie('INT_HTM'):getAuth[2]()[0].INT_HTM);
 				  break;
 			      
 			} 
-            iflm.src=htmfile; 		
+             		
 	    }else{			 
 		    var htmfile='ROL/'+(getCookie('INT_HTM')?getCookie('INT_HTM'):getAuth[2]()[0].INT_HTM);
-            iflm.src=htmfile; 	
+            
 			oSecondDiv.setAttribute("class","myHide");
             target.style.backgroundImage="url('digits/add.gif')";				
 	    }
+		iflm.src=htmfile; 	
 		window.scrollTo(0,0);  //先置頂	
 		target.scrollIntoView({
-            behavior: 'smooth'
+            behavior: 'smooth',
+			block: 'start'
         }); 		
 	}else{
          
@@ -104,8 +101,7 @@ function excuteFun(event){
 		event=window.event;
     }			 	 
 	var target=getEventTarget(event);
-	var exucPrgNo=target.childNodes[0].textContent;	
-	
+	var exucPrgNo=target.childNodes[0].textContent;		
 	var authArray=target.parentNode.childNodes[1].textContent.trim().split(",");  //切割成陣列
 	if( getAuth[0]().length<1){ 	          
 	    getAuth[0](exucPrgNo);
@@ -123,7 +119,8 @@ function excuteFun(event){
  	initDialog();
 	window.scrollTo(0,0);  //先置頂	 
 	target.scrollIntoView({
-        behavior: 'smooth' 
+        behavior: 'smooth',
+		block: 'start'
     }); 		 
 }	
 
@@ -135,7 +132,7 @@ function blockPsdshow(event)    //變更密碼程序
     var target=getEventTarget(event);	 	
     var closeother=getElementsByAttribute('class','myShow');			   		 
 	for(var i=0;i<closeother.length;i++){
-		if(closeother[i].className="myShow"){					
+		if(closeother[i].className=="myShow"){					
 		    closeother[i].setAttribute("class","myHide");
 			closeother[i].parentNode.getElementsByTagName("a")[0].style.backgroundImage="url('digits/add.gif')";
 			break;
@@ -154,15 +151,15 @@ function accountDele(event){    //刪除帳號cookie
     var target=getEventTarget(event);
 	getAuth[1]('Clear_All');
 	getAuth[2]('Clear_All');	
+	
 	var mainUl=document.getElementById("listUL");   
 	mainUl.remove();	
-	iflm=document.getElementById("frl");
+	var iflm=document.getElementById("frl");
 	iflm.remove();
-	var scriptall=document.getElementsByTagName("script");	
-	for(var j=0;j<scriptall.length;j++){	         	 
-	    scriptall[j].remove();		 			
-	}			
-   document.location.href="logOut.php";	
+	Array.from(document.querySelectorAll("script[id]")).forEach(s=>{
+    s.remove();
+    });
+      document.location.href="logOut.php";	
     return;	 
 }
 

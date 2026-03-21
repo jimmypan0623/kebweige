@@ -201,11 +201,11 @@ function outprocs(event){
 	var scriptall=document.getElementsByTagName("script");
 	for(var j=0;j<scriptall.length;j++){
 	    if(scriptall[j].id){
-	       //scriptall[j].parentNode.removeChild(scriptall[j]);	
-		    //alert(scriptall[j].src);
+	       
 		   scriptall[j].remove();
 		}
 	}		 	
+	
 	/////	 
      var urlfolder=document.getElementsByTagName('title');		 
  
@@ -284,7 +284,7 @@ function commontemp(idn,stk){
 				break;
 			}
 		}	   
-	    if (aTable.rows.length>0){
+	    /* if (aTable.rows.length>0){
 		    var i=0;
 	        while (i<aTable.rows.length){
 		    
@@ -292,7 +292,8 @@ function commontemp(idn,stk){
 		       i--;		    
 		     i++; 	     
 	        }	 		    
-	    }
+	    } */
+		while(aTable.rows.length > 0) { aTable.deleteRow(0); }
 	}
 	if(window.ActiveXObject){
 		var request = new ActiveXObject("Microsoft.XMLHttp");
@@ -593,9 +594,9 @@ function HeadPageChange(event){       //在表身按上下一張按鈕(正三角
 	for(var i=0;i<recChecked.length;i++){				 
 		if (recChecked[i].checked==true){					     
 			if(i+(crntrec==2?1:0)==(crntrec==2?recChecked.length:0)){		
-                var tablbl=document.getElementsByName('tablbl');				 				 			    
-				blkshow('資料已到表頭頁最'+(crntrec==2?'下':'上')+'筆，請點擊頁籤\u{300E}'+"<mark style='background-color:olive;color:white;'>"+tablbl[0].innerHTML+"</mark>\u{300F}以翻"+(crntrec==2?'下':'上')+'一頁');			   						   
-			    acskyflg='GY';
+                var tablbl=document.getElementsByName('tablbl');					
+				blkshow('資料已到表頭頁最'+(crntrec==2?'下':'上')+'筆，請點擊頁籤\u{300E}'+"<mark style='background-color:olive;color:white;'>"+tablbl[0].textContent+"</mark>\u{300F}以翻"+(crntrec==2?'下':'上')+'一頁');			   						   			    
+				acskyflg='GY';
 			}else{						                 				 
                  var hghtvth=(recChecked[i].parentNode.parentNode.scrollHeight);   				 
                  document.getElementById('maintbody1').scrollBy(0,(hghtvth)*(crntrec==2?1:-1));			
@@ -848,35 +849,26 @@ function loadScript(url, callback) {        //動態加入js
 
 //閉包函數紀錄CHECKBOX點了幾個
 function chkCount() {
-      var x = 0;
-       function f(y) {
-           return x += y;
+      let xt = 0;
+       function f(ys) {
+           return xt += ys;
        };
        return f;
 }	
+
+//閉包函數參數與權限	
 function createArrayClosure() {
-  // 外部函式的陣列
-     var myArray = []; 
+  // 私有變數，外部無法直接存取，只能透過回傳的函數操作
+  let myArray = []; 
       
-      // 內部函式，它會形成閉包並存取 myArray
-           function f(A) {
-			     
-			    if(A=='Clear_All'){
-					 myArray=[];
-					 while (myArray.length) {
-                          myArray.pop();
-                     }
-				}else{
-				    myArray.push(A);
-				    var filteredArr = myArray.filter(Boolean);					
-				    while (myArray.length) {
-                          myArray.pop();
-                     }
-				   myArray=filteredArr;
-                   return myArray;
-				}
-		
-        };
-		return f;
+  return function(A) {
+    if (A === 'Clear_All') {
+      myArray = []; // 直接重置為空陣列
+    } else {
+      myArray.push(A);
+      // 使用 filter(Boolean) 過濾掉無效值，並更新 myArray
+      myArray = myArray.filter(Boolean);
     }
-	
+    return myArray;
+  };
+}

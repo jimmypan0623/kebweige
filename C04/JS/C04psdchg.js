@@ -7,6 +7,7 @@ function selfTag(jsvsn){
 	maindiv[0].insertBefore(spn,beinsertedid);
     var cntdiv=getElementsByAttribute('class','tab_content');	
 	var rspn2=document.getElementById('serverResponse2'); 	
+	const frag1 = document.createDocumentFragment();
 	var orpButton10=document.createElement("input");		   
 	orpButton10.setAttribute("type","button");
 	orpButton10.setAttribute("class","btn");
@@ -17,29 +18,26 @@ function selfTag(jsvsn){
 	attachEventListener(orpButton10,"click",page2OtherButton1,false);
 	orpButton10.id="OUTRCD_BOTT";		
 	var text16 = document.createTextNode('\u{A0}\u{A0}');
-	var text17 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}');   
-	cntdiv[1].insertBefore(text16,rspn2);
-	cntdiv[1].insertBefore(orpButton10,rspn2);
-	cntdiv[1].insertBefore(text17,rspn2);		
-	var text01 = document.createTextNode('\u{A0}\u{A0}\u{A0}');
-	cntdiv[1].insertBefore(text01,rspn2);
+	var text17 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}');   	 
+	frag1.appendChild(text16);	 
+	frag1.appendChild(orpButton10);
+	frag1.appendChild(text17);
+	var text01 = document.createTextNode('\u{A0}\u{A0}\u{A0}');	 
+	frag1.appendChild(text01);
 	var spn1=document.createElement('span');
 	spn1.id="ttltitle";
-     spn1.innerHTML='總金額:';
-	cntdiv[1].insertBefore(spn1,rspn2);
+     spn1.innerHTML='總金額:';	 
+	frag1.appendChild(spn1);
 	var spn2=document.createElement('span');
-	spn2.id="crncy" ;
-    cntdiv[1].insertBefore(spn2,rspn2);
+	spn2.id="crncy" ;     
+	frag1.appendChild(spn2);
 	var spn3=document.createElement('span');
 	spn3.id="ttlmny";
-	spn3.innerHTML='0';
-	cntdiv[1].insertBefore(spn3,rspn2);
-	////
-  	
-  	 
+	spn3.innerHTML='0';	 
+	frag1.appendChild(spn3);
+	cntdiv[1].insertBefore(frag1,rspn2);
 	var orpButton5=document.getElementById("lgt");		  //離開按鈕    
-	//var text17 = document.createTextNode('\u{A0}');
-	
+	const frag2 = document.createDocumentFragment();
 	var orpButton7=document.createElement("input");		   
 	orpButton7.setAttribute("type","button");
 	orpButton7.setAttribute("class","btn");
@@ -47,9 +45,9 @@ function selfTag(jsvsn){
 	orpButton7.setAttribute("title","確認本訂單所有紀錄，快速鍵Alt+A");  
 	orpButton7.setAttribute("accesskey","A");					
 	orpButton7.id="ANS_BOTT";				
-	attachEventListener(orpButton7,"click",ansproc,false);    
-	maindiv[0].insertBefore(orpButton7,orpButton5);		 
-	orpButton7.setAttribute("style","visiblity:visible;font-size:130%;margin:0;color:black;");	  
+	attachEventListener(orpButton7,"click",ansproc,false);    	 	
+	frag2.appendChild(orpButton7);
+	orpButton7.setAttribute("style","visibility:visible;font-size:130%;margin:0;color:black;");	  
 	var text19 = document.createTextNode('\u{A0}');
 	var orpButton8=document.createElement("input");		   
 	orpButton8.setAttribute("type","button");
@@ -58,8 +56,8 @@ function selfTag(jsvsn){
 	orpButton8.setAttribute("title","反確認本訂單所有紀錄，快速鍵Alt+Z");  
 	orpButton8.setAttribute("accesskey","Z");					
 	orpButton8.id="VRS_BOTT";				
-	attachEventListener(orpButton8,"click",vrsproc,false);    
-	maindiv[0].insertBefore(orpButton8,orpButton5);
+	attachEventListener(orpButton8,"click",vrsproc,false);    	 
+	frag2.appendChild(orpButton8);
 	orpButton8.setAttribute("style","visiblity:visible;font-size:130%;margin:0;color:black;");				 
 	var text21 = document.createTextNode('\u{A0}');
 	var orpButton9=document.createElement("input");		   
@@ -68,9 +66,9 @@ function selfTag(jsvsn){
 	orpButton9.setAttribute("value","\u{1F516}");       		      
 	orpButton9.setAttribute("title","直接轉出貨單，快速鍵Alt+G");  
 	orpButton9.setAttribute("accesskey","G");					
-	orpButton9.id="TRN_BOTT";						 
-	maindiv[0].insertBefore(orpButton9,orpButton5);
-	maindiv[0].insertBefore(text21,orpButton5);				 
+	orpButton9.id="TRN_BOTT";						 	 
+	frag2.appendChild(orpButton9);	 			 
+	frag2.appendChild(text21);
 	orpButton9.setAttribute("style","visiblity:visible;font-size:130%;margin:0;color:black;");		
 	var cokath4=getAuth[0]()[4];
 	if (cokath4=='Y'){	   
@@ -82,18 +80,14 @@ function selfTag(jsvsn){
 	    orpButton6.setAttribute("title","列印所選紀錄，快速鍵Alt+P");  
 		orpButton6.setAttribute("accesskey","P");					
 		orpButton6.id="PRNT_BOTT";				
-		attachEventListener(orpButton6,"click",prntproc,false);  //列印按鈕程序		 
-		maindiv[0].insertBefore(orpButton6,orpButton5);
-		maindiv[0].insertBefore(text15,orpButton5);				 
-		orpButton6.setAttribute("style","visiblity:visible;font-size:130%;margin:0;color:black;");		
-	}	    	
+		attachEventListener(orpButton6,"click",prntproc,false);  //列印按鈕程序		 		 
+		orpButton6.setAttribute("style","visiblity:visible;font-size:130%;margin:0;color:black;");
+		frag2.appendChild(orpButton6);
+		frag2.appendChild(text15);
+	}	 
+    maindiv[0].insertBefore(frag2,orpButton5);   	
 	///
-    var scriptall=document.getElementsByTagName("script");
-	    for(var j=0;j<scriptall.length;j++){
-	        if(scriptall[j].id){
-               scriptall[j].remove();				
-		    }
-	    }			
+    document.querySelectorAll("script[id]").forEach(s=>s.remove());		
 	///	
 	loadScript(`C04/JS/C04.js?v=${jsvsn}`,function(){DrawTable();});	
     loadScript(`C04/JS/C04rgst.js?v=${jsvsn}`);	 
@@ -104,14 +98,12 @@ function selfTag(jsvsn){
 	var tab1Click=document.getElementById("tab1");
 	if(tab1Click){
 		tab1Click.setAttribute("accesskey","1");  
-	    attachEventListener(tab1Click,"click",tab1View,false);
-		
+	    attachEventListener(tab1Click,"click",tab1View,false);		
 	}	
 	var tab2Click=document.getElementById("tab2");	
 	if(tab2Click){		
 		tab2Click.setAttribute("accesskey","2");
-	    attachEventListener(tab2Click,"click",tab2View,false);
-		
+	    attachEventListener(tab2Click,"click",tab2View,false);		
 	}
 }
 

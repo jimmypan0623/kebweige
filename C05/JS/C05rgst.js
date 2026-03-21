@@ -265,5 +265,5 @@ function page1OtherWindow2(){
 }
 
 function page1OtherWindow3(){		 
-   return "\u{1F4E6}:\u{300E}"+sourceAccount(1,0)+"\u{300F}\u{A0}\u{A0}預期異動明細\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{1F4C4}目前庫存:"+sourceAccount(8,0);
+   return "\u{1F4E6}:\u{300E}"+sourceAccount(1,0)+"\u{300F}\u{A0}\u{A0}預期庫存異動明細\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{1F4C4}目前庫存:"+sourceAccount(8,0);
 }

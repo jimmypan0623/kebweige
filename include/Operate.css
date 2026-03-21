@@ -15,7 +15,8 @@
 /*	padding-top:4px; padding-bottom:4px;
 	padding-left:12px; padding-right:12px;*/
 	text-align:center;
-	
+	position: sticky; 
+	top: 0;
 }
 .gridlist td{
 	border:1px solid #744011;	/* 單元格邊框 */
@@ -187,7 +188,7 @@ body{
 #rightMember1 {
     background-color:#F0F0F0;
     position:relative;
-	height:440px;
+	height:450px;
  	font-size:18px;  
 	display:block;
     overflow-y:scroll; 	

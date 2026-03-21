@@ -1,44 +1,78 @@
 ﻿<?php
-   header("Content-Type:text/html; charset=utf-8");   
+header("Content-Type: application/json; charset=utf-8");
+header("Cache-Control: no-cache, must-revalidate");
+header("Pragma: no-cache");
+include("../../include/BKND/mysqli_server.php");
+require_once "../../include/BKND/fieldpreset.php";
 
-    include("../../include/BKND/mysqli_server.php");                      //引用檔 
-    require_once "../../include/BKND/fieldpreset.php"; // 引入  
-        $str=explode('|',$_POST['filename']);  //將上面字串以逗號分割成陣列	 
-		$sql3="select d02.*,d01.F04 as F0D from d02 left outer join d01 on d02.F01=d01.F01 where d02.F03='".$str[0]."' and ".$str[1]." like '%".trim($str[2])."%' order by d02.F01"; 
-	$wthary=fldwdthpre('B01','3',$link);  	
-	$arr=array();	
-    $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_assoc($sql4)){
-		$atr = array('rc_no'.$wthary[0]=>$list3['F00'],		           
-					 'vendorno'.$wthary[1]=>$list3['F01'], 
-					 'vendorname'.$wthary[2]=>$list3['F0D'],
-					 'vendor_partno'.$wthary[3]=>$list3['F04'],  
-					 'crncy_type'.$wthary[4]=>$list3['F06'],	                     
-                     'query_price'.$wthary[5]=>$list3['F07'],     					
-                     'basic_pack'.$wthary[6]=>$list3['F13'],  		
-                     'min_order'.$wthary[7]=>$list3['F08'],  	
-					 'payment'.$wthary[8]=>$list3['F10'],
-					 'lead_time'.$wthary[9]=>$list3['F11'], 
-					 'datestart'.$wthary[10]=>$list3['F02'],  
-					 'dateline'.$wthary[11]=>$list3['F15'],  		
-					 'remark'.$wthary[12]=>$list3['F16'],
-                     'lastupdate'.$wthary[13]=>$list3['F99']);                      						 
-		array_push($arr,$atr);
-	}
-	mysqli_close($link);
-	 //最後使用usort來做排序
-        // usort(要排序的陣列,使用的函數) 
-      //usort($arr, 'score_sort');  //料號再排序一次        
-          $arr = array_values($arr);
-         //$json_string1 = json_encode($arr); 		
-		echo json_encode(array ('recdrow'=>$arr,'pgttl'=>12));
-		   
-         //echo "getProfile($json_string1,$total_pages)";  	   //
-//接著建立一個排序的函數
-/*         function score_sort($a, $b){
-                if($a['stockno'] == $b['stockno']) return 0;
-                   return ($a['stockno'] > $b['stockno'])? 1 : -1;				 
-        }        */
-?>  
+// 1. 檢查參數是否存在
+if (!isset($_POST['filename'])) {
+    echo json_encode(['error' => 'Missing parameters']);
+    exit;
+}
 
- 
+// 2. 解析參數
+$str = explode('|', $_POST['filename']);
+$f03_val    = $str[0] ?? '';
+$search_col = $str[1] ?? '';
+$search_val = trim($str[2] ?? '');
+
+// 3. 安全驗證函式
+function isValidField($field) {
+    // 嚴格限制格式：d01.Fxx 或 d02.Fxx 或 Fxx (xx 為數字)
+    return preg_match('/^((d01|d02)\.)?F[0-9]{2}$/i', $field);
+}
+
+// 4. 執行欄位安全檢查 (這是最關鍵的一步！)
+if (!isValidField($search_col)) {
+    echo json_encode(['error' => 'Invalid field detected', 'field' => $search_col]);
+    exit;
+}
+
+// 取得欄位寬度
+$wthary = fldwdthpre('B01', '3', $link);
+
+// 5. 準備 SQL (欄位已通過正規化驗證，其餘參數使用綁定)
+$sql = "SELECT d02.*, d01.F04 AS F0D 
+        FROM d02 
+        LEFT OUTER JOIN d01 ON d02.F01 = d01.F01 
+        WHERE d02.F03 = ? AND $search_col LIKE ? 
+        ORDER BY d02.F01";
+
+$stmt = mysqli_prepare($link, $sql);
+$like_val = "%$search_val%";
+mysqli_stmt_bind_param($stmt, "ss", $f03_val, $like_val);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+
+$arr = array();
+while ($list3 = mysqli_fetch_assoc($result)) {
+    // 使用陣列映射來減少重複代碼，也避免 $wthary 索引遺失
+    $mapping = [
+        'rc_no'         => 'F00', 'vendorno'      => 'F01',
+        'vendorname'    => 'F0D', 'vendor_partno' => 'F04',
+        'crncy_type'    => 'F06', 'query_price'   => 'F07',
+        'basic_pack'    => 'F13', 'min_order'     => 'F08',
+        'payment'       => 'F10', 'lead_time'     => 'F11',
+        'datestart'     => 'F02', 'dateline'      => 'F15',
+        'remark'        => 'F16', 'lastupdate'    => 'F99'
+    ];
+
+    $atr = [];
+    $i = 0;
+    foreach ($mapping as $key => $db_col) {
+        $suffix = $wthary[$i] ?? '';
+        $atr[$key . $suffix] = $list3[$db_col] ?? '';
+        $i++;
+    }
+    $arr[] = $atr;
+}
+
+mysqli_close($link);
+
+// 6. 輸出結果
+echo json_encode([
+    'recdrow' => $arr,
+    'pgttl'   => 12
+], JSON_UNESCAPED_UNICODE);
+?>

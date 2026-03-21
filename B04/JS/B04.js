@@ -24,7 +24,7 @@
 			}
 			var cokath4=getAuth[0]()[4];
 	        if (cokath4=='Y'){
-			    prnbtt.setAttribute("style","visiblity:visible;font-size:130%;margin:0;color:black;");			
+			    prnbtt.setAttribute("style","visibility:visible;font-size:130%;margin:0;color:black;");			
 			    attachEventListener(prnbtt,"click",prntproc,false);	
 			}else{
 			    prnbtt.setAttribute("style","visibility:hidden;");			
@@ -45,7 +45,7 @@
 		cnt++;		
 		for(var jk in arr[i]){		   
 			var oTd = oTr.insertCell(oTr.cells.length);		     		  
-			oTd.innerHTML=arr[i][jk];	
+			oTd.textContent=arr[i][jk];	
 			var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
 			var ks=ara.split('');		
 			//ks[0]:直接或間接 D/I
@@ -69,23 +69,23 @@
 				var oTd = oTr.insertCell(oTr.cells.length);
 				oTd.setAttribute("class","indirectdata");					 
 				oTd.setAttribute("style","width:5%;text-align:center;");	
-				oTd.innerHTML=whichinvoice(arr[i][jk]);
+				oTd.textContent=whichinvoice(arr[i][jk]);
 				attachEventListener(oTd,'click',rowchoose,false);		//點選資料
 			}		 				   
 			if(jk.substr(0,jk.lastIndexOf('_')-4)=='tax_type' && tbno==0){
 				var oTd = oTr.insertCell(oTr.cells.length);
 				oTd.setAttribute("class","indirectdata");					 
 				oTd.setAttribute("style","width:4%;text-align:center;");	
-				oTd.innerHTML=whichtax(arr[i][jk]);					 
+				oTd.textContent=whichtax(arr[i][jk]);					 
 				attachEventListener(oTd,'click',rowchoose,false);		//點選資料					  
 			}		
 			if(jk.substr(0,jk.lastIndexOf('_')-4)=='query_price' && tbno==1){
 				var oTd = oTr.insertCell(oTr.cells.length);
 				oTd.setAttribute("class","indirectdata");					 
 				oTd.setAttribute("style","width:7%;text-align:right;");	
-				oTd.innerHTML=whichtax(arr[i][jk]);		
-				oTd.innerHTML=Math.round((oTr.cells[4].innerHTML*oTr.cells[5].innerHTML + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);					    
-				queryttl+=Number(oTd.innerHTML);
+					
+				oTd.textContent=Math.round((oTr.cells[4].textContent*oTr.cells[5].textContent + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);					    
+				queryttl+=Number(oTd.textContent);
 				attachEventListener(oTd,'click',rowchoose,false);		//點選資料					  
 			}	
 			//////////
@@ -105,7 +105,7 @@
 		}else{
 			myCheck.setAttribute("name","chkbxmember2");   //讓使用者勾選的checkbox表身
 			//////////
-			scndttl.innerHTML= Math.round((queryttl + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);          
+			scndttl.textContent= Math.round((queryttl + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);          
 			//////////
 		}   
 		attachEventListener(myCheck,'click',chooserc,false);		   
@@ -248,11 +248,13 @@ function choseExtraDeal(targetTrChildren,targetTr){   //紀錄移動
 		  detachEventListener(delbtt,"click",delrec,false);
 	   }
     }  
+	 
     return true;			   
 }
 
 function rowchoseExtraDeal(targetRow){    //紀錄移動
-	var shrno=targetRow.cells[targetRow.cells.length-3].innerHTML;
+      
+	 var shrno=targetRow.cells[targetRow.cells.length-3].innerHTML;
 	var ansbtt=document.getElementById("ANS_BOTT");	
 	var vrsbtt=document.getElementById("VRS_BOTT");	
 	var editbtt=document.getElementById("EDIT_BOTT");
@@ -299,6 +301,7 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 		   detachEventListener(delbtt,"click",delrec,false);
 		}
 	}  
+	 
     return true;			   
 }	
 

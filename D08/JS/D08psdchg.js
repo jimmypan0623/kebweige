@@ -17,7 +17,7 @@ function selfTag(jsvsn){
 	var invDetailButton=document.createElement("input");		   
 	invDetailButton.setAttribute("type","button");
 	invDetailButton.setAttribute("class","btn");
-	invDetailButton.setAttribute("value","\u{1F3E1}");     //u{1F3E1}
+	invDetailButton.setAttribute("value","\u{1F3EC}");     //u{1F3E1}
 	invDetailButton.setAttribute("style","font-size:130%;margin:0px;");
 	invDetailButton.setAttribute("title","各庫別明細，快速鍵 Alt+B");	
 	invDetailButton.setAttribute('accesskey','B')
@@ -32,7 +32,7 @@ function selfTag(jsvsn){
 	mrpListButton.setAttribute("class","btn");
 	mrpListButton.setAttribute("value","\u{1F453}");     //u{1F3E1}
 	mrpListButton.setAttribute("style","font-size:130%;margin:0px;");
-	mrpListButton.setAttribute("title","預期異動明細，快速鍵 Alt+R");	
+	mrpListButton.setAttribute("title","預期庫存異動明細，快速鍵 Alt+R");	
 	mrpListButton.setAttribute('accesskey','R')
 	mrpListButton.id="FUTURE_BOTT";		
 	attachEventListener(mrpListButton,"click",page1OtherButton3,false);

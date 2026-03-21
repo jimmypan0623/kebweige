@@ -22,16 +22,18 @@ function selfTag(jsvsn){
 			 var text1 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
 			 var text2 = document.createTextNode('\u{A0}');
 			var cpyAuthButton=document.createElement("input");		   
-			cpyAuthButton.setAttribute("type","button");
-			cpyAuthButton.setAttribute("class","btn");
-			cpyAuthButton.setAttribute("value","\u{1F4BE}");    
-			cpyAuthButton.setAttribute("style","font-size:17px;");
-			cpyAuthButton.setAttribute("title","複製此功能畫面欄位屬性予以其他功能");							
+			cpyAuthButton.type="button";
+			cpyAuthButton.className="btn";
+			cpyAuthButton.value="\u{1F4BE}";    
+			cpyAuthButton.style.fontSize="17px";
+			cpyAuthButton.title="複製此功能畫面欄位屬性予以其他功能";							
 			cpyAuthButton.id="COPY_BOTT";		
 			attachEventListener(cpyAuthButton,"click",authCopy,false);  //複製權限按鈕程序
-			contentdiv[2].insertBefore(text1,svrSpns3);
-			contentdiv[2].insertBefore(cpyAuthButton,svrSpns3);
-			contentdiv[2].insertBefore(text2,svrSpns3);
+			const frag1 = document.createDocumentFragment();			
+			frag1.appendChild(text1);
+			frag1.appendChild(cpyAuthButton);
+			frag1.appendChild(text2); 
+			contentdiv[2].insertBefore(frag1,svrSpns3); 
 		}
 	}else{
 	    contentdiv[2].style.display='none';
@@ -41,24 +43,24 @@ function selfTag(jsvsn){
 	if (getAuth[0]()[6]=='Y'){	 
 	     var text5 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
 	    var reMoveButton=document.createElement("input");		   
-		reMoveButton.setAttribute("type","button");
-		reMoveButton.setAttribute("class","btn");
-		reMoveButton.setAttribute("value","\u{1F512}");    
-	    reMoveButton.setAttribute("style","font-size:17px;");
-		reMoveButton.setAttribute("title","移除此功能所有帳號權限");							
+		reMoveButton.type="button";
+		reMoveButton.className="btn";
+		reMoveButton.value="\u{1F512}";    
+	    reMoveButton.style.fontSize="17px";
+		reMoveButton.title="移除此功能所有帳號權限";							
 		reMoveButton.id="REMOVE_BOTT";		
 		attachEventListener(reMoveButton,"click",authRemove,false);  //移除權限按鈕程序
-		contentdiv[0].insertBefore(text5,svrSpns1);
-	    contentdiv[0].insertBefore(reMoveButton,svrSpns1);
+		const frag2 = document.createDocumentFragment();
+		/* contentdiv[0].insertBefore(text5,svrSpns1);
+	    contentdiv[0].insertBefore(reMoveButton,svrSpns1); */
+		frag2.appendChild(text5);
+		frag2.appendChild(reMoveButton);
+		contentdiv[0].insertBefore(frag2,svrSpns1);
+		
 	}
-	///
-    var scriptall=document.getElementsByTagName("script");
-	    for(var j=0;j<scriptall.length;j++){
-	        if(scriptall[j].id){
-	            scriptall[j].parentNode.removeChild(scriptall[j]);		 
-		    }
-	    }			
-	///	
+
+    document.querySelectorAll("script[id]").forEach(s=>s.remove());		
+
 	loadScript(`A01/JS/A01.js?v=${jsvsn}`,function(){DrawTable();});		 
 	loadScript(`A01/JS/A01rgst.js?v=${jsvsn}`);
 	loadScript(`include/JS/commonsrch.js?v=${jsvsn}`);

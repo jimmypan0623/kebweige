@@ -1,5 +1,5 @@
 ﻿<?php
-   header("Content-Type:text/html; charset=utf-8");   
+   header("Content-Type: application/json; charset=utf-8");
    include("../../include/BKND/mysqli_server.php");                              //引用檔   
     require_once "../../include/BKND/fieldpreset.php"; // 引入  
    $rnddgt=intval($_COOKIE["INT_069"]);
@@ -43,7 +43,7 @@
                 if($a['stockno'] == $b['stockno']) return 0;
                    return ($a['stockno'] > $b['stockno'])? 1 : -1;				 
         }        */
-function getNeedBetween($kw1,$mark1,$mark2){  //抓取兩個字元間的字串函數
+/* function getNeedBetween($kw1,$mark1,$mark2){  //抓取兩個字元間的字串函數
    $kw=$kw1; 
    $st =stripos($kw,$mark1);
    $ed =stripos($kw,$mark2);
@@ -51,6 +51,16 @@ function getNeedBetween($kw1,$mark1,$mark2){  //抓取兩個字元間的字串�
       return 0;
    $kw=substr($kw,($st+1),($ed-$st-1));
 return $kw;
+
+
+} */
+
+function getNeedBetween($kw1, $mark1, $mark2) {
+    $st = stripos($kw1, $mark1);
+    $ed = stripos($kw1, $mark2);
+    // 使用強型別比較，避免索引為 0 時判定為 false
+    if ($st === false || $ed === false || $st >= $ed) return "";
+    return substr($kw1, ($st + 1), ($ed - $st - 1));
 }
 ?>  
 

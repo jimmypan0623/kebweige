@@ -1,9 +1,9 @@
 ﻿<?php
-   header("Content-Type:text/html; charset=utf-8");   
+   header('Content-Type: application/json; charset=utf-8');
 
  include("../../include/BKND/mysqli_server.php");               //引用檔   
-	
-	 $sql3="SELECT `F02`,`F00`  FROM `a01` WHERE binary `F01` ='".$_POST['filename']."' ";	 	 
+	$filename = mysqli_real_escape_string($link, $_POST['filename']);
+    $sql3 = "SELECT `F02`, `F00` FROM `a01` WHERE binary `F01` = '$filename'";
 
     $arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
@@ -18,14 +18,13 @@
 	    $atr = array('passWord'=>"",'userId'=>"");                              
 		    array_push($arr,$atr);
 	}
+	mysqli_free_result($sql4);
 	mysqli_close($link);
 	     $arr = array_values($arr);
          $json_string1 = json_encode($arr); 
          echo $json_string1;	 
         // echo "srchStockNo($json_string1)";    
-       
-		 
- 		 
+ 
           
 ?>  
 

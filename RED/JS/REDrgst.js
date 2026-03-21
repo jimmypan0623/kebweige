@@ -30,7 +30,7 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 	    }     
 	}						
 	
-	if(!/^[a-zA-Z0-9]/.test(REDelements[1].value)){
+	if(!/^[a-zA-Z0-9]+$/.test(REDelements[1].value)){
 		filtermsg(REDelements[1],"請建立有字元的密碼");
 		REDelements[1].focus();
 		return false ;
@@ -65,10 +65,10 @@ function sendFilePrc(updflg){     //新增資料及修改程序
     //--------過濾區結束----------//	
 	var myCookieUser_id = document.getElementById('oRiginID').value; //取得目前使用者的記錄號碼
 	tbjsn.push(myCookieUser_id);		  	
-	var rspns=TableToJson(tbjsn,nonjsn,tbno);       
-	 
-    blocksclose();			//關掉原視窗   
-    return true;	 	
+	var rspns=TableToJson(tbjsn,nonjsn,tbno);       	 
+    blocksclose();			//關掉原視窗  	
+	delCookie('useraccount');
+	return true;	 	
 }
 
 function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出現之欄位            
@@ -120,7 +120,6 @@ function  addNewRecordHint(tbno){
     return "修改密碼：";
 }
 
-
 function PasswordFromBackEnd(useraccount){	
     
 	var getPassword="";
@@ -139,10 +138,14 @@ function PasswordFromBackEnd(useraccount){
 	    request.send(sendSrcRec);		
 	function respond(){           
 		  if (request.readyState == 4 && request.status == 200) {    
-             rsp=JSON.parse(request.responseText);			 						  
-			 document.getElementById('oRiginpassword').value=rsp[0]['passWord'];	 
-			  document.getElementById('oRiginID').value=rsp[0]['userId'];	 
+             rsp=JSON.parse(request.responseText);			
+             if(rsp && rsp.length > 0){			 
+			    document.getElementById('oRiginpassword').value=rsp[0]['passWord'];	 
+			     document.getElementById('oRiginID').value=rsp[0]['userId'];	
+				 
+		    }				 
 		  }
 	}
+	
 	return ;
 }

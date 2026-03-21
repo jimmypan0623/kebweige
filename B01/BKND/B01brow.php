@@ -1,48 +1,86 @@
-﻿<?php
-   header("Content-Type:text/html; charset=utf-8");   
-   include("../../include/BKND/mysqli_server.php");                      //引用檔  
-   require_once "../../include/BKND/fieldpreset.php"; // 引入  
-   $rows=0;
-   if (substr($_POST['filename'],0,3)=="PGE"){	  
-	   $pgeno=getNeedBetween($_POST['filename'],'E','|'); // 頁次 
-       //$rows=(int)substr(strrchr($_POST['filename'],'|'),1);	
-	   $rows=(int)getNeedBetween($_POST['filename'],'|','_') ;		 
-       //$pagerows=$_COOKIE['INT_RCD'] ;  //每頁筆數 
-	     $pagerows=(int)substr(strrchr($_POST['filename'],'_'),1);	
-	   $total_pages=ceil($rows/$pagerows);   //如果非初始畫面則應有大於等於1的數字	   
-	  if($total_pages<=1){
-		  $sqlK="SELECT F01 FROM `b01` WHERE 1 "; 
-	      $sql2=mysqli_query($link,$sqlK);
-   	      $rows=@mysqli_num_rows($sql2);	   	      //主要是在此先算有幾筆資料而不再join處算
-	      $total_pages=ceil($rows/$pagerows);
-       }    
-	   $sql="SELECT b01.F00,b01.F01,b01.F02,b01.F03,b01.F04,b01.F06,b01.F98,b01.F03,b01.F04,b01.F05,
-	   b01.F07,a14.F02 as F0B,b01.F07,b11B.nTqty,b11A.F04 as F0D,b01.F10,b01.F11,b01.F41,b01.F97,b01.F28,b01.F31,b01.F39,b01.F30,b01.F38,b01.F37,b01.F21,b01.F29,b01.F42,b01.F49 FROM `b01` 
-	   LEFT OUTER JOIN `a14` ON  a14.F01=b01.F07 
-       LEFT OUTER JOIN (SELECT F03,SUM(F04) AS nTqty FROM b11 GROUP BY F03) as b11B ON b11B.F03=b01.F01	   
-       LEFT OUTER JOIN `b11` AS b11A  ON b01.F01=b11A.F03 AND b01.F07=b11A.F01 	   
-	   order by b01.F01 ";	   
-	   $start_rowrecord=$pagerows*($pgeno-1);	
-	   $sql3=$sql." LIMIT ".$start_rowrecord.",".$pagerows;  
-   }else{
-	    $fieldNo=substr($_POST['filename'],0,7);
-		$filterKey=substr(strrchr($_POST['filename'],'|'),1);
-	    //$searchRecord =$_POST['filename'];
-		$sql3="SELECT b01.F00,b01.F01,b01.F02,b01.F03,b01.F04,b01.F06,b01.F98,b01.F03,b01.F04,b01.F04,b01.F05,
-		b01.F07,a14.F02 as F0B,b01.F07,b11B.nTqty,b11A.F04 as F0D,b01.F10,b01.F11,b01.F41,b01.F97,b01.F28,b01.F31,b01.F39,b01.F30,b01.F38,b01.F37,b01.F21,b01.F29,b01.F42,b01.F49 FROM `b01` 
-		LEFT JOIN `a14` ON a14.F01=b01.F07 
-		LEFT OUTER JOIN `b11` AS b11A  ON b01.F01=b11A.F03 AND b01.F07=b11A.F01	   
-		LEFT OUTER JOIN (SELECT F03,SUM(F04) AS nTqty FROM b11 GROUP BY F03) as b11B ON b11B.F03=b01.F01	
-		WHERE BINARY ".$fieldNo." like '%".trim($filterKey)."%' order by ".$fieldNo.",b01.F01" ; 
-   }	   
-    $rndnb=$_COOKIE['INT_001'];  //參數設定的小數位數
-	$wthary=fldwdthpre('B01','1',$link);   
-	$arr=array();	
-    $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_assoc($sql4)){		 
-		$atr = array('rc_no'.$wthary[0]=>$list3['F00'],  		            	             
-		             'stock_no'.$wthary[1]=>$list3['F01'], 					 
-                     'stock_nameo'.$wthary[2]=>$list3['F02'],					                     
+<?php
+ header("Content-Type: application/json; charset=utf-8");
+ header("Cache-Control: no-cache, must-revalidate");
+header("Pragma: no-cache");
+include("../../include/BKND/mysqli_server.php");
+require_once "../../include/BKND/fieldpreset.php";
+
+$rows = 0;
+$arr = array();
+$rndnb = isset($_COOKIE['INT_001']) ? (int)$_COOKIE['INT_001'] : 0;
+$rndnb = max(0, min($rndnb, 6));
+// --- 輔助函式：白名單檢查欄位名 ---
+function isValidField($field) {
+    // 限制欄位格式為 b01.Fxx 或 a14.Fxx，防止注入非法 SQL 指令
+    return preg_match('/^((b01|a14)\.)?F[0-9]{2}$/i', $field);	
+}
+
+
+// 統一的欄位選取 (避免兩邊寫兩次，維護麻煩)
+$columns = "b01.F00, b01.F01, b01.F02, b01.F03, b01.F04, b01.F06, b01.F98, b01.F05,
+            b01.F07, a14.F02 AS F0B, b11B.nTqty, b11A.F04 AS F0D, b01.F10, b01.F11, 
+            b01.F41, b01.F97, b01.F28, b01.F31, b01.F39, b01.F30, b01.F38, b01.F37, 
+            b01.F21, b01.F29, b01.F42, b01.F49";
+
+$joins = "FROM `b01` 
+          LEFT JOIN `a14` ON a14.F01 = b01.F07 
+          LEFT JOIN (SELECT F03, SUM(F04) AS nTqty FROM b11 GROUP BY F03) AS b11B ON b11B.F03 = b01.F01 
+          LEFT JOIN `b11` AS b11A ON b01.F01 = b11A.F03 AND b01.F07 = b11A.F01";
+
+if (substr($_POST['filename'], 0, 3) == "PGE") {
+    
+    // 1. 分頁模式處理
+    $pgeno = (int)getNeedBetween($_POST['filename'], 'E', '|');
+    $rows = (int)getNeedBetween($_POST['filename'], '|', '_');
+    $pagerows = (int)substr(strrchr($_POST['filename'], '_'), 1);
+    
+    // 計算總頁數與總筆數 (初次載入時)
+    if ($rows <= 0) {		
+        $resK = mysqli_query($link, "SELECT COUNT(*) as total FROM `b01` ");
+        $rowK = mysqli_fetch_assoc($resK);
+        $rows = (int)$rowK['total'];
+    }
+
+    $start_row = ($pgeno - 1) * $pagerows;
+
+    $sql = "SELECT $columns $joins ORDER BY b01.F01 LIMIT ?, ?";
+    $stmt = mysqli_prepare($link, $sql);
+    mysqli_stmt_bind_param($stmt, "ii", $start_row, $pagerows);
+
+} else {    
+    // 2. 搜尋模式
+    $parts = explode('|', $_POST['filename']);
+    $fieldNo = $parts[0];
+    $filterValue = trim($parts[1] ?? '');
+    $filterKey = "%$filterValue%";
+
+    if (!isValidField($fieldNo)) {
+        die(json_encode(array('error' => 'Invalid Field: ' . $fieldNo)));
+    }
+
+    // --- 優化點：確保 $fieldNo 至少有 b01 前綴以策安全 ---
+    // 如果傳入的是 F01，將其補為 b01.F01
+    if (stripos($fieldNo, '.') === false) {
+        $fieldNo = "b01." . $fieldNo;
+    }
+
+    $sql = "SELECT $columns $joins WHERE BINARY $fieldNo LIKE ? ORDER BY $fieldNo, b01.F01";
+    $stmt = mysqli_prepare($link, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $filterKey);
+}
+
+// 執行並獲取結果
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+
+$wthary = fldwdthpre('B01', '1', $link);
+
+while ($list3 = mysqli_fetch_assoc($result)) {
+    // ... 保持您原有的 $atr 陣列組合邏輯 ...
+    $atr = array(
+        'rc_no'.$wthary[0] => $list3['F00'],
+        'stock_no'.$wthary[1] => $list3['F01'],
+        'stock_nameo'.$wthary[2]=>$list3['F02'],					                     
                      'tpemng'.$wthary[3]=>$list3['F06'],  
                      'tpblng'.$wthary[4]=>$list3['F98'],
                      'eachprchs'.$wthary[5]=>$list3['F03'],
@@ -65,32 +103,27 @@
 					 'remark'.$wthary[22]=>$list3['F29'],	
 					 'mtrtype'.$wthary[23]=>$list3['F42'],	
 					 'orignplace'.$wthary[24]=>$list3['F49'],	
-					 'lastupdate'.$wthary[25]=>$list3['F21']                      				 
-					 );                      			
-		array_push($arr,$atr);
-	}
-	mysqli_close($link);
-	 //最後使用usort來做排序
-        // usort(要排序的陣列,使用的函數) 
-      //usort($arr, 'score_sort');  //料號再排序一次        
-          $arr = array_values($arr);
-       //  $json_string1 = json_encode($arr); 	
-         echo json_encode(array ('recdrow'=>$arr,'pgttl'=>$rows));		 
-         //echo "getProfile($json_string1,$total_pages)";  	   //
-//接著建立一個排序的函數
-     /*    function score_sort($a, $b){
-                if($a['stockno'] == $b['stockno']) return 0;
-                   return ($a['stockno'] > $b['stockno'])? 1 : -1;				 
-        }        */
-function getNeedBetween($kw1,$mark1,$mark2){  //抓取兩個字元間的字串函數
-   $kw=$kw1; 
-   $st =stripos($kw,$mark1);
-   $ed =stripos($kw,$mark2);
-   if(($st==false||$ed==false)||$st>=$ed)
-      return 0;
-   $kw=substr($kw,($st+1),($ed-$st-1));
-return $kw;
+        'lastupdate'.$wthary[25] => $list3['F21']
+    );
+    //array_push($arr, $atr);
+	$arr[] = $atr;
 }
-?>  
 
- 
+mysqli_stmt_close($stmt);
+mysqli_close($link);
+
+$json_output = array('recdrow' => $arr, 'pgttl' => (int)$rows);
+
+// 清除緩衝區防止多餘輸出破壞 JSON
+if (ob_get_length()) ob_clean(); 
+
+echo json_encode($json_output, JSON_UNESCAPED_UNICODE);
+
+// --- 原有輔助函式 ---
+function getNeedBetween($kw, $mark1, $mark2) {
+    $st = stripos($kw, $mark1);
+    $ed = stripos($kw, $mark2);
+    if (($st === false || $ed === false) || $st >= $ed) return 0;
+    return substr($kw, ($st + 1), ($ed - $st - 1));
+}
+?>

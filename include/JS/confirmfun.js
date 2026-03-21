@@ -18,14 +18,14 @@ function shurePrc(event){        //單據確認程序
 	if(getAuth[0]()[12]!='A'){
 		for (var i=1;i<headtable.rows[rcdindex].cells.length-fieldlast;i++){  //要從編號開始計
 			if(headtable.rows[rcdindex].cells[i].className=='directdata'){			
-				shr_head+="\""+"elemh"+String(i)+"\""+":"+"\""+headtable.rows[rcdindex].cells[i].innerHTML+"\""+",";
+				shr_head+="\""+"elemh"+String(i)+"\""+":"+"\""+headtable.rows[rcdindex].cells[i].textContent+"\""+",";
 			}
 		}
 		if(target.value=='\u{2705}'){			
-			headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-3].innerHTML='Y';
+			headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-3].textContent='Y';
 			shr_head+="\""+"elemh"+String(headtable.rows[rcdindex].cells.length-3)+"\""+":"+"\""+'Y'+"\""+",";
 		}else{     
-			headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-4].innerHTML='Y';
+			headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-4].textContent='Y';
 			shr_head+="\""+"elemh"+String(headtable.rows[rcdindex].cells.length-4)+"\""+":"+"\""+'Y'+"\""+",";	
 			shr_head+="\""+"elemhP"+"\""+":"+"\""+document.getElementById('newPono').value+"\""+",";		 
 			var NewNumber=document.getElementById('newPono').value;
@@ -54,8 +54,9 @@ function shurePrc(event){        //單據確認程序
 	    detachEventListener(newrcath,"click",addrec,false);		
 	    var responseDiv=document.getElementById("serverResponse2"); 
 	}		
-	responseDiv.style.textAlign='center';	 
-	responseDiv.innerHTML='<img src="digits/Loading.gif" width="1.5%" height="1.5%" border="0">';
+	/* responseDiv.style.textAlign='center';	 
+	responseDiv.innerHTML='<img src="digits/Loading.gif" width="1.5%" height="1.5%" border="0">'; */	
+	aprv.innerHTML="<img src='digits/Loading.gif' alt='svg' style='position: absolute;top: 47px;left: 50%;width: 50px;opacity: 0.45;'>"
 	if(window.ActiveXObject){
 		var request = new ActiveXObject("Microsoft.XMLHttp");
 	}else if(window.XMLHttpRequest){
@@ -73,7 +74,7 @@ function shurePrc(event){        //單據確認程序
 				blkshow(rsp);
 				if(target.value=='\u{2705}'){			
 				    if(rsp.indexOf('(.|.)')>0){						
-					    headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-3].innerHTML='Y';
+					    headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-3].textContent='Y';
 					    for (var i=1;i<headtable.rows[rcdindex].cells.length-fieldlast;i++){  //要從編號開始計
 		                    headtable.rows[rcdindex].cells[i].style.color="#000";
 		                    headtable.rows[rcdindex].cells[i].style.fontWeight="normal";					            
@@ -86,12 +87,12 @@ function shurePrc(event){        //單據確認程序
 				        detachEventListener(delbtt,"click",delrec,false);
 				    }else{
 					
-		               headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-3].innerHTML='N';
+		               headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-3].textContent='N';
 				    }  
 				}else{
 					 
 				    if(getAuth[0]()[12]!='A'){
-				       headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-4].innerHTML='N';
+				       headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-4].textContent='N';
 				    }else{
 					   ansbtt.setAttribute("style","display:none;");
 				       detachEventListener(ansbtt,"click",ansproc,false);	
@@ -100,7 +101,7 @@ function shurePrc(event){        //單據確認程序
 				 responseDiv.innerHTML="\u{A0}";
 			}else{			
 	    
-                headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-2].innerHTML=rsp.lastupdate;
+                headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-2].textContent=rsp.lastupdate;
 			    for (var i=1;i<headtable.rows[rcdindex].cells.length-fieldlast;i++){  //要從編號開始計
 		            headtable.rows[rcdindex].cells[i].style.color="#000";
 		            headtable.rows[rcdindex].cells[i].style.fontWeight="normal";					            
@@ -135,14 +136,17 @@ function shurePrc(event){        //單據確認程序
                 if(getAuth[0]()[12]!='A'){ 
 					aprv.innerHTML="<img src='digits/approve.gif' alt='svg' style='position: absolute;top: 39px;left: 54%;width: 50px;opacity: 0.45;'>"
 					responseDiv.setAttribute("style","font-weight:bold;color:#536a60;"); 
-					responseDiv.innerHTML=(target.value=="\u{2705}"?whichrspns1(urlpath):whichrspns2(urlpath)+NewNumber+"，請至該單確認"); 		
+					responseDiv.innerHTML=(target.value=="\u{2705}"?whichrspns1(urlpath):whichrspns2(urlpath)+NewNumber+"，請至該單確認"); 	
+					 
 			    }else{					
-					responseDiv.innerHTML=whichrspns1(urlpath);
+					responseDiv.innerHTML=whichrspns1(urlpath);					
 					aprv.innerHTML="<img src='digits/marker.png' alt='svg' style='position: absolute;top: 39px;left: 54%;width: 50px;opacity: 0.45;'>"
+				   
 				}
+				 setTimeout(() => { responseDiv.innerHTML='\u{A0}'; }, 3000);
 			}   
 	    }		
-    }							       					  				 
+    }			
     blocksclose();  //關掉原視窗     	 	
 } 
 function vrshrPrc(event){
@@ -165,7 +169,7 @@ function vrshrPrc(event){
 	var fieldlast=(document.getElementById("TRN_BOTT"))?4:3;	
 	rcdindex=sourceAccount(null,0);
 	if(getAuth[0]()[12]!='A'){
-	    query_no=headtable.rows[rcdindex].cells[1].innerHTML;
+	    query_no=headtable.rows[rcdindex].cells[1].textContent;
 	}else{
 	  query_no=document.getElementById('recmth').value;
 	}
@@ -182,8 +186,9 @@ function vrshrPrc(event){
 		} 		 
 		var responseDiv=document.getElementById("serverResponse2"); 
 	}
-	responseDiv.style.textAlign='center';	 
-	responseDiv.innerHTML='<img src="digits/Loading.gif" width="1.5%" height="1.5%" border="0">';
+	//responseDiv.style.textAlign='center';	 
+	//responseDiv.innerHTML='<img src="digits/Loading.gif" width="1.5%" height="1.5%" border="0">';	
+	aprv.innerHTML="<img src='digits/Loading.gif' alt='svg' style='position: absolute;top: 47px;left: 50%;width: 50px;opacity: 0.45;'>"
 	if(window.ActiveXObject){
 	   var request = new ActiveXObject("Microsoft.XMLHttp");
 	}	
@@ -203,13 +208,13 @@ function vrshrPrc(event){
 			if(!rsp.order_no){
 			   blkshow(rsp);		
 			   if(rsp.indexOf('(.|.)')>0){				   
-					headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-3].innerHTML='N';
+					headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-3].textContent='N';
 				}				
 			   responseDiv.innerHTML="\u{A0}";
 			}else{		
 			        if(getAuth[0]()[12]!='A'){																
-						headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-2].innerHTML=rsp.lastupdate;					       
-						headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-3].innerHTML='N';				  	 
+						headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-2].textContent=rsp.lastupdate;					       
+						headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-3].textContent='N';				  	 
 						for (var i=1;i<headtable.rows[rcdindex].cells.length-fieldlast;i++){  //要變色
 							 headtable.rows[rcdindex].cells[i].style.color="#704214";
 							 headtable.rows[rcdindex].cells[i].style.fontWeight="bold";	
@@ -237,7 +242,7 @@ function vrshrPrc(event){
 					responseDiv.setAttribute("style","font-weight:bold;color:#536a60;"); 
 					 
 					responseDiv.innerHTML=whichrspns3(urlpath); 	
-					   
+					setTimeout(() => { responseDiv.innerHTML='\u{A0}'; }, 3000);   
 					 
 					aprv.innerHTML='\u{A0}';
 				 

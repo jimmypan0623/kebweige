@@ -1,5 +1,5 @@
 ﻿<?php
-   header("Content-Type:text/html; charset=utf-8");   
+    header("Content-Type: application/json; charset=utf-8");   
     include("../../include/BKND/mysqli_server.php");                              //引用檔         
 	  
 	$str=explode('|',$_POST['filename']);  //將上面字串以逗號分割成陣列

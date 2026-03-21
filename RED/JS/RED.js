@@ -3,7 +3,7 @@ function getProfile(str1,cmpnme) {
 	if(getAuth[2]().length<1){
 		var paraObj={};
 		var paraTpe={};
-	    for(j=0;j<cmpnme.length;j++){	       
+	    for(var j=0;j<cmpnme.length;j++){	       
 			paraObj[cmpnme[j]['paraNo']]=cmpnme[j]['cngpra'];
 			paraTpe[cmpnme[j]['paraNo']]=cmpnme[j]['gTYPE'];
 	    }
@@ -96,40 +96,11 @@ function getProfile(str1,cmpnme) {
 	
 }
 
-function summaryName(dtshow){
-	switch (dtshow) {
-        case 'A':
-           return '系統設定';
-           break; 
-        case 'B':
-            return '庫存管理';
-            break;
-        case 'C':
-            return '營業管理';
-            break;
-	    case 'D':          
-            return '採購管理';
-           break;    
-	    case 'E':          
-            return '生產管理';
-           break;    	
-	    case 'F':          
-            return '料表管理';
-            break;   	
-	    case 'G':          
-            return '成本管理';
-            break;   		
-		case 'K':          
-            return '發票帳款';
-            break;   			
-        case 'Q':
-            return '品保文管';
-            break;
-        case 'S':
-             return '出勤管理';
-             break;	
-         default: 
-	       return '其他';        
-          break;
-    }
+function summaryName(dtshow) {
+    const names = {
+        'A': '系統設定', 'B': '庫存管理', 'C': '營業管理', 
+        'D': '採購管理', 'E': '生產管理', 'F': '料表管理', 
+        'G': '成本管理', 'K': '發票帳款', 'Q': '品保文管', 'S': '出勤管理'
+    };
+    return names[dtshow] || '其他';
 }
