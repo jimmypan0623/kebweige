@@ -37,109 +37,143 @@
 	mysqli_close($link);
 	     $arr = array_values($arr);
          $json_string1 = json_encode($arr); 
-         echo $json_string1;	   
-		  */
+         echo $json_string1;	    */
 		 
-		 
-		 //////
+		 ////
 
-header("Content-Type: application/json; charset=utf-8"); // 修正為 application/json
 
-// 1. 資料庫連線資訊 (建議將這些放入 config.php 並 include)
-$db_host = 'localhost';
-$db_name = 'tkdata';
-$db_user = 'root';
-$db_pass = 'To6035376615004513834';
+header("Content-Type: application/json; charset=utf-8");
+header("Cache-Control: no-cache, must-revalidate");
+header("Pragma: no-cache");
 
-try {
-    // 建立 PDO 連線並設定錯誤模式
-    $pdo = new PDO("mysql:host=$db_host;dbname=$db_name;charset=utf8mb4", $db_user, $db_pass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+include("../../include/BKND/mysqli_server.php");
 
-    // 2. 解析傳入參數
-    if (!isset($_POST['filename'])) {
-        echo json_encode([]);
-        exit;
-    }
-
-    $str = explode(',', $_POST['filename']);
-    $field_name   = $str[0]; // 注意：欄位名稱不能直接綁定參數，需做白名單過濾
-    $searchRecord = trim($str[1] ?? '');
-    $customno     = trim($str[2] ?? '');
-    $currency     = trim($str[3] ?? '');
-
-    // 3. 第一步：取得客戶的群組編號 (F44)
-    $stmt0 = $pdo->prepare("SELECT F44 FROM c01 WHERE F01 = ?");
-    $stmt0->execute([$customno]);
-    $list4 = $stmt0->fetch();
-    $group_no = $list4 ? $list4['F44'] : '';
-
-    // 4. 第二步：建構主查詢
-    // 注意：$field_name 是欄位名，PDO 不支援參數化欄位名，故需限制可搜尋的範圍
-    $allowed_fields = ['b01.F01', 'b01.F02', 'c04.F05']; // 根據您的 searchOptionsKey 定義
-    if (!in_array($field_name, $allowed_fields)) {
-        $field_name = 'b01.F01'; // 預設安全欄位
-    }
-
-    $sql = "SELECT b01.F01, b01.F02, b01.F04, b01.F28, b01.F31, b01.F05, 
-                   c02A.F13, c02A.F08, c02A.F04 as F0D, c02A.F07, c02A.F15, 
-                   c20.F03 AS F0C, c20.F15 AS F1E 
-            FROM b01 
-            LEFT OUTER JOIN (
-                SELECT F01, F02, F03, F04, F06, F07, F08, F13, F15 
-                FROM c02 
-                WHERE F06 = :currency 
-                  AND F01 = :group_no 
-                  AND (CURDATE() BETWEEN F02 AND F15)
-            ) AS c02A ON c02A.F03 = b01.F01 
-            LEFT OUTER JOIN c20 ON c20.F01 = b01.F01 ";
-
-    // 判斷搜尋條件
-    if (empty($searchRecord)) {
-        $sql .= "WHERE RIGHT(F98, 1) = 'Y' OR F98 = 'NNN' ";
-    } else {
-        $sql .= "WHERE $field_name LIKE :search AND (RIGHT(F98, 1) = 'Y' OR F98 = 'NNN') ";
-    }
-    
-    $sql .= "ORDER BY $field_name";
-
-    $stmt = $pdo->prepare($sql);
-    
-    // 綁定參數
-    $stmt->bindValue(':currency', $currency);
-    $stmt->bindValue(':group_no', $group_no);
-    if (!empty($searchRecord)) {
-        $stmt->bindValue(':search', "%$searchRecord%");
-    }
-
-    $stmt->execute();
-
-    // 5. 第三步：封裝結果
-    $arr = [];
-    $itemno = 0;
-    while ($list3 = $stmt->fetch()) {
-        $itemno++;
-        $arr[] = [
-            'item_no_IHC_000'      => $itemno,
-            'stock_no_ISL_026'     => $list3['F01'],
-            'stock_name_ISL_020'   => $list3['F02'],
-            'unit_name_IHL_000'    => $list3['F04'],
-            'basic_qty_IHR_000'    => ($list3['F13'] > 0 ? $list3['F13'] : $list3['F0C']),
-            'minum_qty_ISR_010'    => ($list3['F08'] > 0 ? $list3['F08'] : $list3['F1E']),
-            'custom_part_ISL_018'  => $list3['F0D'],
-            'invalid_date_ISC_011' => $list3['F15'],
-            'order_price_ISR_010'  => ($list3['F07'] > 0 ? $list3['F07'] : $list3['F05']),
-            'leadtime_IHL_000'     => ($list3['F28'] + $list3['F31'])
-        ];
-    }
-
-    echo json_encode($arr);
-
-} catch (PDOException $e) {
-    // 實際環境中應寫入 Log，不直接噴出錯誤
-    http_response_code(500);
-    echo json_encode(["error" => "Database Error"]);
+// --- 輔助函式：白名單檢查欄位名 (與 C04 風格一致) ---
+function isValidField($field) {
+    // 限制欄位格式，防止 SQL 注入
+    return preg_match('/^((b01|c02|c20)\.)?F[0-9]{2}$/i', $field);
 }
-	 
-?>  
+
+// 取得傳入參數
+$filename = isset($_POST['filename']) ? $_POST['filename'] : '';
+$str = explode(',', $filename);
+
+// 基本檢查：確保參數完整 (搜尋欄位, 關鍵字, 客戶編號, 類別代碼)
+if (count($str) < 4) {
+    echo json_encode(array());
+    exit;
+}
+
+$searchField  = trim($str[0]); 
+$searchRecord = trim($str[1]); 
+$customno     = trim($str[2]); 
+$categoryCode = trim($str[3]); // 用於子查詢 c02 的 F06
+$filterKey    = "%$searchRecord%";
+
+// 1. 取得該客戶之群組編號 (F44) - 使用預處理
+$groupNo = "";
+$sql0 = "SELECT F44 FROM c01 WHERE F01 = ?";
+$stmt0 = mysqli_prepare($link, $sql0);
+mysqli_stmt_bind_param($stmt0, "s", $customno);
+mysqli_stmt_execute($stmt0);
+$res0 = mysqli_stmt_get_result($stmt0);
+if ($row0 = mysqli_fetch_assoc($res0)) {
+    $groupNo = $row0['F44'];
+}
+////chtgpt
+if (empty($groupNo)) {
+    echo json_encode([
+        "error" => "groupNo empty",
+        "customno" => $customno
+    ]);
+    exit;
+}
+/////
+mysqli_stmt_close($stmt0);
+
+// 2. 構建主要 SQL 語句
+$columns = "b01.F01, b01.F02, b01.F04, b01.F28, b01.F31, b01.F05, 
+            c02A.F13, c02A.F08, c02A.F04 AS F0D, c02A.F07, c02A.F15, 
+            c20.F03 AS F0C, c20.F15 AS F1E";
+
+// 子查詢與 Join 邏輯
+$joins = "FROM b01 
+          LEFT OUTER JOIN (
+              SELECT F01, F02, F03, F04, F06, F07, F08, F13, F15 
+              FROM c02 
+             
+			  
+			  WHERE F06 = ? AND F01 = ? AND (F02 IS NULL OR F15 IS NULL OR CURDATE() BETWEEN F02 AND F15)
+			  
+          ) AS c02A ON c02A.F03 = b01.F01  
+          LEFT OUTER JOIN c20 ON c20.F01 = b01.F01";
+
+/*
+ WHERE F06 = ? AND F01 = ? AND (CURDATE() BETWEEN F02 AND F15)
+WHERE F06 = ? 
+AND F01 = ?
+AND (
+    F02 IS NULL 
+    OR F15 IS NULL 
+    OR CURDATE() BETWEEN F02 AND F15
+)
+*/
+// 處理搜尋欄位安全
+if (!isValidField($searchField)) {
+    $searchField = "F01"; 
+}
+
+// 補上前綴防止欄位模糊 (Ambiguous)
+$dbField = (stripos($searchField, '.') === false) ? "b01." . $searchField : $searchField;
+
+// 組合條件
+//$where = " WHERE (RIGHT(b01.F98, 1) = 'Y' OR b01.F98 = 'NNN')";
+$where ="WHERE (RIGHT(IFNULL(b01.F98,''),1)='Y' OR b01.F98='NNN')";
+if (strlen($searchRecord) > 0) {
+    $where .= " AND $dbField LIKE ?";
+}
+
+$sqlFinal = "SELECT $columns $joins $where ORDER BY $dbField";
+
+// 3. 執行主查詢
+$stmt = mysqli_prepare($link, $sqlFinal);
+
+if (strlen($searchRecord) > 0) {
+    // 參數綁定順序：子查詢(categoryCode, groupNo) + WHERE(filterKey)
+    mysqli_stmt_bind_param($stmt, "sss", $categoryCode, $groupNo, $filterKey);
+} else {
+    mysqli_stmt_bind_param($stmt, "ss", $categoryCode, $groupNo);
+}
+
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+
+$arr = array();
+$itemno = 0;
+
+while ($list3 = mysqli_fetch_assoc($result)) {
+    $itemno++;
+    $arr[] = array(
+        'item_no_IHC_000'      => $itemno,
+        'stock_no_ISL_026'     => $list3['F01'],
+        'stock_name_ISL_020'   => $list3['F02'],
+        'unit_name_IHL_000'    => $list3['F04'],
+        // 價格與數量邏輯判斷 (特價檔優先)
+        'basic_qty_IHR_000'    => ($list3['F13'] > 0 ? $list3['F13'] : $list3['F0C']),
+        'minum_qty_ISR_010'    => ($list3['F08'] > 0 ? $list3['F08'] : $list3['F1E']),
+        'custom_part_ISL_018'  => $list3['F0D'],
+        'invalid_date_ISC_011' => $list3['F15'],
+        'order_price_ISR_010'  => ($list3['F07'] > 0 ? $list3['F07'] : $list3['F05']),
+        'leadtime_IHL_000'     => ((int)$list3['F28'] + (int)$list3['F31'])
+    );
+}
+
+mysqli_stmt_close($stmt);
+mysqli_close($link);
+
+// 輸出 JSON (不使用 array_values 因為 $arr[] 本身就是索引陣列)
+if (ob_get_length()) ob_clean(); 
+echo json_encode($arr, JSON_UNESCAPED_UNICODE);
+?>
+ 
+ 

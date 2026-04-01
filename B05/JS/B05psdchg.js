@@ -7,25 +7,31 @@ function selfTag(jsvsn){
 	maindiv[0].insertBefore(spn,beinsertedid);
     var cntdiv=getElementsByAttribute('class','tab_content');	
 	var rspn2=document.getElementById('serverResponse2'); 
+	const frag1 = document.createDocumentFragment();
 	 var text01 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
-	 cntdiv[1].insertBefore(text01,rspn2);
+	 //cntdiv[1].insertBefore(text01,rspn2);
+	 frag1.appendChild(text01);
 	 var spn2=document.createElement('span');
 	spn2.id="dntOrRjt" ;
 	spn2.setAttribute("style","font-size:150%;");
-    cntdiv[1].insertBefore(spn2,rspn2); 
+    //cntdiv[1].insertBefore(spn2,rspn2); 
+	frag1.appendChild(spn2);
 	  var text0a = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}');
-	 cntdiv[1].insertBefore(text0a,rspn2);
+	// cntdiv[1].insertBefore(text0a,rspn2);
+	frag1.appendChild(text0a);
 	var spn1=document.createElement('span');
 	spn1.id="ttltitle";
 	spn1.setAttribute("style","font-size:120%;font-weight:bold;");
      spn1.innerHTML='總金額:';
-	cntdiv[1].insertBefore(spn1,rspn2);
-
+	//cntdiv[1].insertBefore(spn1,rspn2);
+    frag1.appendChild(spn1);
 	var spn3=document.createElement('span');
 	spn3.id="ttlmny";
     spn3.setAttribute("style","font-size:120%;font-weight:bold;");
 	spn3.innerHTML='0';
-	 cntdiv[1].insertBefore(spn3,rspn2); 
+	// cntdiv[1].insertBefore(spn3,rspn2); 
+	frag1.appendChild(spn3);
+	cntdiv[1].insertBefore(frag1,rspn2); 
 	var orpButton5=document.getElementById("lgt");		  //離開按鈕    
 	var text17 = document.createTextNode('\u{A0}');
 	var orpButton7=document.createElement("input");		   
@@ -64,12 +70,7 @@ function selfTag(jsvsn){
 	maindiv[0].insertBefore(orpButton6,orpButton5);
 	maindiv[0].insertBefore(text15,orpButton5);				 
 	///
-    var scriptall=document.getElementsByTagName("script");
-	    for(var j=0;j<scriptall.length;j++){
-	        if(scriptall[j].id){
-	            scriptall[j].parentNode.removeChild(scriptall[j]);		 
-		    }
-	    }			
+    document.querySelectorAll("script[id]").forEach(s=>s.remove());		
 	///	
 	loadScript(`B05/JS/B05.js?v=${jsvsn}`,function(){DrawTable();});
     loadScript(`B05/JS/B05rgst.js?v=${jsvsn}`);	 

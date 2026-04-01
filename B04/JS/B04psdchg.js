@@ -8,18 +8,15 @@ function selfTag(jsvsn){
     var cntdiv=getElementsByAttribute('class','tab_content');	
 	var rspn2=document.getElementById('serverResponse2'); 	
 	const frag1 = document.createDocumentFragment();
-	 var text01 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
-	
+	 var text01 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');	
 	 frag1.appendChild(text01);
 	var spn1=document.createElement('span');
 	spn1.id="ttltitle";	
      spn1.textContent='總金額:';
-
 	 frag1.appendChild(spn1);
 	var spn2=document.createElement('span');
-	spn2.id="crncy" ;	
-    
-	 frag1.appendChild(spn2);
+	spn2.id="crncy" ;	    
+	frag1.appendChild(spn2);
 	var spn3=document.createElement('span');
 	spn3.id="ttlmny";   
 	spn3.textContent='0';
@@ -37,12 +34,9 @@ function selfTag(jsvsn){
 	orpButton7.value="\u{2714}";       	      
 	orpButton7.title="確認本張出貨單所有紀錄，快速鍵Alt+A";  
 	orpButton7.accessKey="A";			
-	////
 	orpButton7.id="ANS_BOTT";				
 	attachEventListener(orpButton7,"click",ansproc,false);    
-	
-	
-	 frag2.appendChild(orpButton7);
+	frag2.appendChild(orpButton7);
 	var orpButton8=document.createElement("input");		   
 	 
 	orpButton8.type="button";	

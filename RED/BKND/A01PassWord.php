@@ -1,31 +1,42 @@
 ﻿<?php
-   header('Content-Type: application/json; charset=utf-8');
+header('Content-Type: application/json; charset=utf-8');
+include("../../include/BKND/mysqli_server.php");
 
- include("../../include/BKND/mysqli_server.php");               //引用檔   
-	$filename = mysqli_real_escape_string($link, $_POST['filename']);
-    $sql3 = "SELECT `F02`, `F00` FROM `a01` WHERE binary `F01` = '$filename'";
+// 檢查 POST 參數是否存在
+$filename = isset($_POST['filename']) ? $_POST['filename'] : '';
 
-    $arr=array();	
-    $sql4=@mysqli_query($link,$sql3); 
-	$rows=@mysqli_num_rows($sql4);
-	if($rows>0){
-	    while ($list3=mysqli_fetch_assoc($sql4)){
-		 
-		    $atr = array('passWord'=>$list3['F02'],'userId'=>$list3['F00']);                              
-		    array_push($arr,$atr);
-	    }
-	}else{
-	    $atr = array('passWord'=>"",'userId'=>"");                              
-		    array_push($arr,$atr);
-	}
-	mysqli_free_result($sql4);
-	mysqli_close($link);
-	     $arr = array_values($arr);
-         $json_string1 = json_encode($arr); 
-         echo $json_string1;	 
-        // echo "srchStockNo($json_string1)";    
- 
-          
-?>  
+$arr = array();
 
- 
+// 1. 使用 Prepared Statement 防止 SQL 注入
+$sql = "SELECT `F02`, `F00` FROM `a01` WHERE binary `F01` = ?";
+$stmt = mysqli_prepare($link, $sql);
+
+if ($stmt) {
+    // 綁定參數 (s 代表 string)
+    mysqli_stmt_bind_param($stmt, "s", $filename);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $arr[] = array(
+                'passWord' => $row['F02'],
+                'userId'   => $row['F00']
+            );
+        }
+    } else {
+        // 查無資料時回傳空值結構
+        $arr[] = array('passWord' => "", 'userId' => "");
+    }
+    
+    mysqli_stmt_close($stmt);
+} else {
+    // 處理 SQL 語法錯誤
+    $arr[] = array('error' => 'Query failed');
+}
+
+mysqli_close($link);
+
+// 輸出 JSON
+echo json_encode($arr, JSON_UNESCAPED_UNICODE);
+?> 

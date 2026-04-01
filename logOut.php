@@ -19,8 +19,8 @@ if (isset($_COOKIE[session_name()])) {
 $cookiesToClear = ['userid', 'useraccount', 'CAPTCHA', 'svripmd5', 'stdmnu', 'tmpacnt', 'tmppswd', 'errmsg'];
 
 foreach ($cookiesToClear as $cookieName) {
-  setcookie($cookieName, '', $past, '/');
-	// setcookie($cookieName,'', time()-999);			 
+  //setcookie($cookieName, '', $past, '/');
+	setcookie($cookieName,'', time()-999,'/');			 
 }
 
 // 5. 動態清除 a26 表定義的系統參數
@@ -30,7 +30,7 @@ $sql4 = mysqli_query($link, $sql3);
 if ($sql4) {
     while ($list3 = mysqli_fetch_array($sql4)) {
         //setcookie($list3['F01'], '', $past, '/');
-		 setcookie($list3['F01'],'', time()-999);			 
+		 setcookie($list3['F01'],'', time()-999,'/');			 
     }
 }
 
