@@ -1,4 +1,4 @@
-function selfTag(jsvsn){	
+function selfTag(jsvsn,jsPth){	
     var contentdiv=getElementsByAttribute('class','tab_content');	
 	var tabnames=getElementsByAttribute('name','tablbl');			
     var firstCover=getElementsByAttribute('class','table_cover');	
@@ -52,7 +52,8 @@ function selfTag(jsvsn){
         spn1.innerHTML="報價筆數:";	   
 		frag1.appendChild(spn1);
 	    var spn3=document.createElement('span');
-	    spn3.id="ttlmny";       
+	    spn3.id="ttlmny"; 
+		spn3.className="ttl";
 	    spn3.innerHTML='0';	    
 	  	frag1.appendChild(spn3);
 		contentdiv[1].insertBefore(frag1,rspn2);
@@ -71,6 +72,7 @@ function selfTag(jsvsn){
 		frag2.appendChild(spn4);
 	    var spn5=document.createElement('span');
 	    spn5.id="ttlmny1";
+		spn5.className="ttl";
 	    spn5.innerHTML='0';
 		frag2.appendChild(spn5);
 		contentdiv[2].insertBefore(frag2,rspn3);
@@ -93,23 +95,25 @@ function selfTag(jsvsn){
 	contentdiv[0].insertBefore(invDetailButton,svrSpns1);
     ///
     document.querySelectorAll("script[id]").forEach(s=>s.remove());		
-	///		
-	loadScript(`B01/JS/B01.js?v=${jsvsn}`,function(){DrawTable();});	
-	loadScript(`B01/JS/B01rgst.js?v=${jsvsn}`);
+	///			
+	let axtmpl1=jsPth+jsPth.substr(0,3)+'.js?v='+jsvsn;
+	let axtmpl2=jsPth+jsPth.substr(0,3)+'rgst.js?v='+jsvsn;
+	loadScript(`${axtmpl1}`,function(){DrawTable();});
+	loadScript(`${axtmpl2}`);
 	loadScript(`include/JS/commonsrch.js?v=${jsvsn}`);
 	var tab1Click=document.getElementById("tab1");
 	if(tab1Click){
-		tab1Click.setAttribute("accesskey","1");
+	//	tab1Click.setAttribute("accesskey","1");
 	    attachEventListener(tab1Click,"click",tab1View,false);
 	}	
 	var tab2Click=document.getElementById("tab2");
 	if(tab2Click){
-		tab2Click.setAttribute("accesskey","2");
+	//	tab2Click.setAttribute("accesskey","2");
 	    attachEventListener(tab2Click,"click",tab2View,false);
 	}
 	var tab3Click=document.getElementById("tab3");
 	if(tab3Click){
-		tab3Click.setAttribute("accesskey","3");
+		//tab3Click.setAttribute("accesskey","3");
 	    attachEventListener(tab3Click,"click",tab3View,false);
 	}
 }

@@ -1,6 +1,7 @@
-function selfTag(jsvsn){	 	
+function selfTag(jsvsn,jsPth){	 	
 	var contentdiv=getElementsByAttribute('class','tab_content');	
-	var svrSpns1=document.getElementById('serverResponse1');    	 
+	var svrSpns1=document.getElementById('serverResponse1'); 
+	 const frag2 = document.createDocumentFragment();
 	var text5 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
 	var notOutButton=document.createElement("input");		   
 	notOutButton.setAttribute("type","button");
@@ -10,9 +11,8 @@ function selfTag(jsvsn){
 	notOutButton.setAttribute("title","開單未過帳明細，快速鍵 Alt+G");	
 	notOutButton.setAttribute('accesskey','G');
 	notOutButton.id="REDYSHIP_BOTT";		
-	contentdiv[0].insertBefore(text5,svrSpns1);
-	contentdiv[0].insertBefore(notOutButton,svrSpns1);	
-	////
+	frag2.appendChild(text5);  
+	frag2.appendChild(notOutButton);
 	var text6 = document.createTextNode('\u{A0}\u{A0}\u{A0}');
 	var invDetailButton=document.createElement("input");		   
 	invDetailButton.setAttribute("type","button");
@@ -23,9 +23,8 @@ function selfTag(jsvsn){
 	invDetailButton.setAttribute('accesskey','B')
 	invDetailButton.id="INVDTL_BOTT";		
 	attachEventListener(invDetailButton,"click",page1OtherButton2,false);
-	contentdiv[0].insertBefore(text6,svrSpns1);
-	contentdiv[0].insertBefore(invDetailButton,svrSpns1);
-	////
+	frag2.appendChild(text6);
+	frag2.appendChild(invDetailButton);
 	var text7 = document.createTextNode('\u{A0}\u{A0}\u{A0}');
 	var mrpListButton=document.createElement("input");		   
 	mrpListButton.setAttribute("type","button");
@@ -36,18 +35,16 @@ function selfTag(jsvsn){
 	mrpListButton.setAttribute('accesskey','R')
 	mrpListButton.id="FUTURE_BOTT";		
 	attachEventListener(mrpListButton,"click",page1OtherButton3,false);
-	contentdiv[0].insertBefore(text7,svrSpns1);
-	contentdiv[0].insertBefore(mrpListButton,svrSpns1);
+	frag2.appendChild(text7);
+	frag2.appendChild(mrpListButton);
+	contentdiv[0].insertBefore(frag2,svrSpns1);
 	///
-    var scriptall=document.getElementsByTagName("script");
-	    for(var j=0;j<scriptall.length;j++){
-	        if(scriptall[j].id){
-	            scriptall[j].parentNode.removeChild(scriptall[j]);		 
-		    }
-	    }			
+     document.querySelectorAll("script[id]").forEach(s=>s.remove());						
 	///	
-	loadScript(`C05/JS/C05.js?v=${jsvsn}`,function(){DrawTable();});	
-	loadScript(`C05/JS/C05rgst.js?v=${jsvsn}`);	
+	let axtmpl1=jsPth+jsPth.substr(0,3)+'.js?v='+jsvsn;
+	let axtmpl2=jsPth+jsPth.substr(0,3)+'rgst.js?v='+jsvsn;
+	loadScript(`${axtmpl1}`,function(){DrawTable();});
+	loadScript(`${axtmpl2}`);
 	var tab1Click=document.getElementById("tab1");
 	if(tab1Click){
 	  attachEventListener(tab1Click,"click",tab1View,false);

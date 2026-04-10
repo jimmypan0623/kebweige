@@ -1,27 +1,21 @@
-function selfTag(jsvsn){
+function selfTag(jsvsn,jsPth){
 	///
-    var scriptall=document.getElementsByTagName("script");
-	    for(var j=0;j<scriptall.length;j++){
-	        if(scriptall[j].id){
-	            scriptall[j].parentNode.removeChild(scriptall[j]);		 
-		    }
-	    }			
-	///	
-	loadScript(`D00/JS/D00.js?v=${jsvsn}`,function(){DrawTable();});	
-	loadScript(`D00/JS/D00rgst.js?v=${jsvsn}`);
+    document.querySelectorAll("script[id]").forEach(s=>s.remove());	
+	///		
+	let axtmpl1=jsPth+jsPth.substr(0,3)+'.js?v='+jsvsn;
+	let axtmpl2=jsPth+jsPth.substr(0,3)+'rgst.js?v='+jsvsn;
+	loadScript(`${axtmpl1}`,function(){DrawTable();});
+	loadScript(`${axtmpl2}`);
 	var tab1Click=document.getElementById("tab1");
 	if(tab1Click){
-		tab1Click.setAttribute("accesskey","1");  
 	    attachEventListener(tab1Click,"click",tab1View,false);		
 	}	
 	var tab2Click=document.getElementById("tab2");	
 	if(tab2Click){		
-		tab2Click.setAttribute("accesskey","2");
 	    attachEventListener(tab2Click,"click",tab2View,false);		
 	}
 }
-function tab1View(event){	  
- 
+function tab1View(event){	   
 	   if (typeof event=="undefined"){
 		   event=window.event;
     	}

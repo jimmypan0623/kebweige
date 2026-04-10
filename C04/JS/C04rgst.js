@@ -110,7 +110,7 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 			  }
 			    if(j==2 && updflg!=1){
 					 
-			        if(c04elements[2].value*1 < sourceAccount(8,1)*1+sourceAccount(9,1)*1+sourceAccount(11,1)*1){
+			        if(c04elements[2].value*1 < sourceAccount(8,1)*1+sourceAccount(9,1)*1+sourceAccount(10,1)*1){
 			           filtermsg(c04elements[2],"不得小於已出量加取消量加開單未出量");
 		              return false ;
 			        }
@@ -477,11 +477,21 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 				   ttlcnt=ttlcnt+Math.round((args[1]*args[2]+ Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);	
 				   document.getElementById('ttlmny').innerHTML=ttlcnt;  //更新畫面上的總金額				   
 				}
-				if(tbno==1 && fldidx==9){      //未出數量					 
-				     oTd.innerHTML=args[1];
-				}
-				if(tbno==1 && fldidx==10){      //開單未出					 
+				if(tbno==1 && fldidx==7){      //開單未出		
+				      
 				     oTd.innerHTML=0;
+				}
+				if(tbno==1 && fldidx==8){      //開單未出		
+				      
+				     oTd.innerHTML=0;
+				} 
+				if(tbno==1 && fldidx==9){      //開單未出		
+				      
+				     oTd.innerHTML=0;
+				}
+				
+				if(tbno==1 && fldidx==10){     	  //未出數量			 
+				     oTd.innerHTML=args[1]*1;
 				}
 			}
 			oTd.setAttribute("class",rsp.fldsatrr[fldidx][0]);
@@ -533,18 +543,10 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 		          document.getElementById('ttlmny').innerHTML=ttlcnt;  //更新畫面上的總金額
 				   maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=nongs[nongsNo];	
 				}	
-				if(fldidx==7 && tbno==1){
-				   nongs[nongsNo]=maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML;	
-				}
-				if(fldidx==8 && tbno==1){	
-				   nongs[nongsNo]=maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML;	
-				}
-				if(fldidx==9 && tbno==1){					 
-					 nongs[nongsNo]=args[1]*1-(nongs[nongsNo-2]*1+nongs[nongsNo-1]*1);
-					 maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=nongs[nongsNo];	
-				}			
+				
 				if(fldidx==10 && tbno==1){	
-				   nongs[nongsNo]=maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML;	
+				
+				   maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=args[1]*1-maintable.rows[args[arglth-1]].cells[fldidx-2].innerHTML*1-maintable.rows[args[arglth-1]].cells[fldidx-1].innerHTML*1 ;	  
 				}
 				nongsNo++;
 			}		 

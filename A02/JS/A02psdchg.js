@@ -1,4 +1,4 @@
-function selfTag(jsvsn){	
+function selfTag(jsvsn,jsPth){	
 	 var text5 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
 	 var text6 = document.createTextNode('\u{A0}');
 	 var contentdiv=getElementsByAttribute('class','tab_content');	
@@ -17,8 +17,7 @@ function selfTag(jsvsn){
 		frag1.appendChild(text5);
 		frag1.appendChild(cpyAuthButton);
 		frag1.appendChild(text6); 
-		contentdiv[0].insertBefore(frag1,svrSpns1); 
-	
+		contentdiv[0].insertBefore(frag1,svrSpns1); 	
 	}
 	if (getAuth[0]()[6]=='Y'){	 
 	    var reMoveButton=document.createElement("input");		   
@@ -32,24 +31,19 @@ function selfTag(jsvsn){
 	    contentdiv[0].insertBefore(reMoveButton,svrSpns1);
 	}
 	///
-    var scriptall=document.getElementsByTagName("script");
-	    for(var j=0;j<scriptall.length;j++){
-	        if(scriptall[j].id){
-	            scriptall[j].parentNode.removeChild(scriptall[j]);		 
-		    }
-	    }			
+     document.querySelectorAll("script[id]").forEach(s=>s.remove());			
 	///	
-	loadScript(`A02/JS/A02.js?v=${jsvsn}`,function(){DrawTable();});	
-	  loadScript(`A02/JS/A02rgst.js?v=${jsvsn}`);
-	  loadScript(`include/JS/commonsrch.js?v=${jsvsn}`);
+	var axtmpl1=jsPth+jsPth.substr(0,3)+'.js?v='+jsvsn;
+	var axtmpl2=jsPth+jsPth.substr(0,3)+'rgst.js?v='+jsvsn;
+	loadScript(`${axtmpl1}`,function(){DrawTable();});
+	loadScript(`${axtmpl2}`);
+	loadScript(`include/JS/commonsrch.js?v=${jsvsn}`);
 	var tab1Click=document.getElementById("tab1");
 	if(tab1Click){
-		tab1Click.setAttribute("accesskey","1");  
 	    attachEventListener(tab1Click,"click",tab1View,false);		
 	}	
 	var tab2Click=document.getElementById("tab2");	
 	if(tab2Click){		
-		tab2Click.setAttribute("accesskey","2");
 	    attachEventListener(tab2Click,"click",tab2View,false);		
 	}
 }

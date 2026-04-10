@@ -1,4 +1,4 @@
-function selfTag(jsvsn){
+function selfTag(jsvsn,jsPth){
 	var ath1=getAuth[0]()[1];  //getCookie新增
 	var ath2=getAuth[0]()[2];  //getCookie修改
 	var ath3=getAuth[0]()[3];  //getCookie刪除
@@ -9,15 +9,12 @@ function selfTag(jsvsn){
         ths[ths.length-2].parentNode.removeChild(ths[ths.length-2]);
 	}
 	///
-    var scriptall=document.getElementsByTagName("script");
-	    for(var j=0;j<scriptall.length;j++){
-	        if(scriptall[j].id){
-	            scriptall[j].parentNode.removeChild(scriptall[j]);		 
-		    }
-	    }			
+     document.querySelectorAll("script[id]").forEach(s=>s.remove());		
 	///	
-	loadScript(`A26/JS/A26.js?v=${jsvsn}`,function(){DrawTable();});		 
-	loadScript(`A26/JS/A26rgst.js?v=${jsvsn}`);
+	let axtmpl1=jsPth+jsPth.substr(0,3)+'.js?v='+jsvsn;
+	let axtmpl2=jsPth+jsPth.substr(0,3)+'rgst.js?v='+jsvsn;
+	loadScript(`${axtmpl1}`,function(){DrawTable();});
+	loadScript(`${axtmpl2}`);
 	var tab1Click=document.getElementById("tab1");
 	if(tab1Click){
 	     attachEventListener(tab1Click,"click",tab1View,false);
@@ -36,7 +33,6 @@ function tab1View(event){
 				break;
 			}
 		} 			
-
 		 var bibau=cko[2](0);   //找出閉包變數現值
 	     cko[2](bibau*(-1));    //將表身閉包變數歸零	  
          bibau=cko[6](0);   //找出閉包變數現值

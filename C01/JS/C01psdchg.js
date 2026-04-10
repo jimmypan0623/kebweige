@@ -1,9 +1,7 @@
-function selfTag(jsvsn){	
-    ////
+function selfTag(jsvsn,jsPth){	
 	 var cntdiv=getElementsByAttribute('class','tab_content');  	
 	  var firstCover=getElementsByAttribute('class','table_cover');	
-	 firstCover[0].style.width="32%";
-	
+	 firstCover[0].style.width="32%";	
 	 var secondCover=document.createElement('div');
 	secondCover.setAttribute("class","table_cover");
 	secondCover.style.width="68%";
@@ -71,6 +69,7 @@ function selfTag(jsvsn){
 	   cntdiv[1].insertBefore(spn1,rspn2);
 	   var spn3=document.createElement('span');
 	   spn3.id="ttlmny";
+	   spn3.className="ttl";
 	   spn3.innerHTML='0';
 	   cntdiv[1].insertBefore(spn3,rspn2);	 
 	}else{
@@ -78,26 +77,21 @@ function selfTag(jsvsn){
 	    tabnames[1].style.display='none';        
 	}
 	////
-    var scriptall=document.getElementsByTagName("script");
-	    for(var j=0;j<scriptall.length;j++){
-	        if(scriptall[j].id){
-	            scriptall[j].parentNode.removeChild(scriptall[j]);		 
-		    }
-	    }			
+    document.querySelectorAll("script[id]").forEach(s=>s.remove());			
 	///		
-	loadScript(`C01/JS/C01.js?v=${jsvsn}`,function(){DrawTable();});	
-	loadScript(`C01/JS/C01rgst.js?v=${jsvsn}`);
+	let axtmpl1=jsPth+jsPth.substr(0,3)+'.js?v='+jsvsn;
+	let axtmpl2=jsPth+jsPth.substr(0,3)+'rgst.js?v='+jsvsn;
+	loadScript(`${axtmpl1}`,function(){DrawTable();});
+	loadScript(`${axtmpl2}`);
 	loadScript(`include/JS/commonsrch.js?v=${jsvsn}`);
 	loadScript(`C01/JS/A09getno.js?v=${jsvsn}`);	
 	loadScript(`C01/JS/A01Name.js?v=${jsvsn}`);	
 	var tab1Click=document.getElementById("tab1");
 	if(tab1Click){
-		tab1Click.setAttribute("accesskey","1");  
 	    attachEventListener(tab1Click,"click",tab1View,false);		
 	}	
 	var tab2Click=document.getElementById("tab2");	
 	if(tab2Click){		
-		tab2Click.setAttribute("accesskey","2");
 	    attachEventListener(tab2Click,"click",tab2View,false);		
 	}
 }

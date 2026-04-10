@@ -1,4 +1,4 @@
-function selfTag(jsvsn){	 	
+function selfTag(jsvsn,jsPth){	 	
 	var contentdiv=getElementsByAttribute('class','tab_content');	
 	var svrSpns1=document.getElementById('serverResponse1');    	 
 	var text5 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
@@ -39,15 +39,13 @@ function selfTag(jsvsn){
 	contentdiv[0].insertBefore(text7,svrSpns1);
 	contentdiv[0].insertBefore(mrpListButton,svrSpns1);
 	///
-    var scriptall=document.getElementsByTagName("script");
-	    for(var j=0;j<scriptall.length;j++){
-	        if(scriptall[j].id){
-	            scriptall[j].parentNode.removeChild(scriptall[j]);		 
-		    }
-	    }			
+    document.querySelectorAll("script[id]").forEach(s=>s.remove());		
 	///	
-	loadScript(`D08/JS/D08.js?v=${jsvsn}`,function(){DrawTable();});	
-	loadScript(`D08/JS/D08rgst.js?v=${jsvsn}`);	
+	 
+	let axtmpl1=jsPth+jsPth.substr(0,3)+'.js?v='+jsvsn;
+	let axtmpl2=jsPth+jsPth.substr(0,3)+'rgst.js?v='+jsvsn;
+	loadScript(`${axtmpl1}`,function(){DrawTable();});
+	loadScript(`${axtmpl2}`);
 	var tab1Click=document.getElementById("tab1");
 	if(tab1Click){
 	  attachEventListener(tab1Click,"click",tab1View,false);

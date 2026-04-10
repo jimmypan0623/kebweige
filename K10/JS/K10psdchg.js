@@ -1,4 +1,4 @@
-function selfTag(jsvsn){
+function selfTag(jsvsn,jsPth){
 	//////
 	var maindiv=getElementsByAttribute('class','tab_css');	
 	var beinsertedid=document.getElementById('tab1');
@@ -7,55 +7,55 @@ function selfTag(jsvsn){
 	maindiv[0].insertBefore(spn,beinsertedid);
     var cntdiv=getElementsByAttribute('class','tab_content');	
 	var rspn2=document.getElementById('serverResponse2'); 
+	const frag1 = document.createDocumentFragment();
 	 var text01 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
-	 cntdiv[1].insertBefore(text01,rspn2);
+	frag1.appendChild(text01);
 	 var spn2=document.createElement('span');
 	spn2.id="dntOrRjt" ;
 	spn2.setAttribute("style","font-size:150%;");
-    cntdiv[1].insertBefore(spn2,rspn2); 
-	
-	  var text0a = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}');
-	 cntdiv[1].insertBefore(text0a,rspn2);
+	frag1.appendChild(spn2);
+	 var text0a = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}');
+	frag1.appendChild(text0a); 
 	var spn1=document.createElement('span');
 	spn1.id="ttltitle";
 	spn1.setAttribute("style","font-size:120%;font-weight:bold;");
      spn1.innerHTML='收款金額:';
-	cntdiv[1].insertBefore(spn1,rspn2);
+	frag1.appendChild(spn1); 
 	var spn3=document.createElement('span');
-	spn3.id="ttlmny";
+	spn3.id="ttlmny";	
     spn3.setAttribute("style","font-size:120%;font-weight:bold;");
 	spn3.innerHTML='0';
-	 cntdiv[1].insertBefore(spn3,rspn2); 
+	frag1.appendChild(spn3); 
 	///// 
 	  var text0b = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}');
-	 cntdiv[1].insertBefore(text0b,rspn2);
+	frag1.appendChild(text0b); 
 	var spn4=document.createElement('span');
 	spn4.id="ttltitle2";
 	spn4.setAttribute("style","font-size:120%;font-weight:bold;");
      spn4.innerHTML='待沖金額:';
-	cntdiv[1].insertBefore(spn4,rspn2);
+	frag1.appendChild(spn4); 
 	var spn5=document.createElement('span');
 	spn5.id="ttlmny2";
 	spn5.className="ttl";
     spn5.setAttribute("style","font-size:120%;font-weight:bold;");
 	spn5.innerHTML='0';
-	 cntdiv[1].insertBefore(spn5,rspn2);  
-	 ////
-	   var text0c = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}');
-	 cntdiv[1].insertBefore(text0c,rspn2);
+	frag1.appendChild(spn5); 
+	var text0c = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}');
+	frag1.appendChild(text0c); 
 	var spn6=document.createElement('span');
 	spn6.id="ttltitle2";
 	spn6.setAttribute("style","font-size:120%;font-weight:bold;");
-     spn6.innerHTML='剩餘未沖:';
-	cntdiv[1].insertBefore(spn6,rspn2);
+    spn6.innerHTML='剩餘未沖:';
+	frag1.appendChild(spn6); 
 	var spn7=document.createElement('span');
 	spn7.id="ttlmny3";
+	spn7.className="ttl";
     spn7.setAttribute("style","font-size:120%;font-weight:bold;");
 	spn7.innerHTML='0';
-	 cntdiv[1].insertBefore(spn7,rspn2);  
-
+    frag1.appendChild(spn7); 
+	cntdiv[1].insertBefore(frag1,rspn2)
 	var orpButton5=document.getElementById("lgt");		  //離開按鈕    
-	var text17 = document.createTextNode('\u{A0}');
+	const frag2 = document.createDocumentFragment();
 	var orpButton7=document.createElement("input");		   
 	orpButton7.setAttribute("type","button");
 	orpButton7.setAttribute("class","btn");
@@ -64,10 +64,7 @@ function selfTag(jsvsn){
 	orpButton7.setAttribute("accesskey","A");					
 	orpButton7.id="ANS_BOTT";				
 	attachEventListener(orpButton7,"click",ansproc,false);    
-	maindiv[0].insertBefore(orpButton7,orpButton5);
-
-
-	var text19 = document.createTextNode('\u{A0}');
+    frag2.appendChild(orpButton7); 
 	var orpButton8=document.createElement("input");		   
 	orpButton8.setAttribute("type","button");
 	orpButton8.setAttribute("class","btn");
@@ -76,8 +73,8 @@ function selfTag(jsvsn){
 	orpButton8.setAttribute("accesskey","Z");					
 	orpButton8.id="VRS_BOTT";				
 	attachEventListener(orpButton8,"click",vrsproc,false);    
-	maindiv[0].insertBefore(orpButton8,orpButton5);	 
-	orpButton8.setAttribute("style","visiblity:visible;font-size:130%;margin:0;color:black;");				 	   
+	orpButton8.setAttribute("style","visiblity:visible;font-size:130%;margin:0;color:black;");
+    frag2.appendChild(orpButton8); 	
 	var text14 = document.createTextNode('\u{A0}\u{A0}');
 	var text15 = document.createTextNode('\u{A0}\u{A0}');
 	var orpButton6=document.createElement("input");		   
@@ -88,31 +85,28 @@ function selfTag(jsvsn){
 	orpButton6.setAttribute("accesskey","P");					
 	orpButton6.id="PRNT_BOTT";				
 	//attachEventListener(orpButton6,"click",prntproc,false);  //列印按鈕程序	
-	maindiv[0].insertBefore(text14,orpButton5);		
-	maindiv[0].insertBefore(orpButton6,orpButton5);
-	maindiv[0].insertBefore(text15,orpButton5);				 
+	//maindiv[0].insertBefore(text14,orpButton5);	
+	frag2.appendChild(text14); 	
+	frag2.appendChild(orpButton6); 	
+	frag2.appendChild(text15); 	
+	maindiv[0].insertBefore(frag2,orpButton5);
 	///
-    var scriptall=document.getElementsByTagName("script");
-	    for(var j=0;j<scriptall.length;j++){
-	        if(scriptall[j].id){
-	            scriptall[j].parentNode.removeChild(scriptall[j]);		 
-		    }
-	    }			
-	///	
-	loadScript(`K10/JS/K10.js?v=${jsvsn}`,function(){DrawTable();});
-    loadScript(`K10/JS/K10rgst.js?v=${jsvsn}`);	 
+    document.querySelectorAll("script[id]").forEach(s=>s.remove());				
+	///		  
+	let axtmpl1=jsPth+jsPth.substr(0,3)+'.js?v='+jsvsn;
+	let axtmpl2=jsPth+jsPth.substr(0,3)+'rgst.js?v='+jsvsn;
+	loadScript(`${axtmpl1}`,function(){DrawTable();});
+	loadScript(`${axtmpl2}`);  
 	loadScript(`include/JS/commonsrch.js?v=${jsvsn}`);
 	loadScript(`C01/JS/A09getno.js?v=${jsvsn}`);		
 	loadScript(`include/JS/confirmfun.js?v=${jsvsn}`);	
 	loadScript(`C01/JS/A01Name.js?v=${jsvsn}`);	
 	var tab1Click=document.getElementById("tab1");
-	if(tab1Click){
-		tab1Click.setAttribute("accesskey","1");  
+	if(tab1Click){	
 	    attachEventListener(tab1Click,"click",tab1View,false);		
 	}	
 	var tab2Click=document.getElementById("tab2");	
-	if(tab2Click){		
-		tab2Click.setAttribute("accesskey","2");
+	if(tab2Click){			
 	    attachEventListener(tab2Click,"click",tab2View,false);		
 	}
 }

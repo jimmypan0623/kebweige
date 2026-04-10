@@ -1,4 +1,4 @@
-function selfTag(jsvsn)
+function selfTag(jsvsn,jsPth)
 {        
 	var myAccount=(getCookie('useraccount')?getCookie('useraccount'):getAuth[1]()[0] );
 	var i;	 
@@ -16,30 +16,23 @@ function selfTag(jsvsn)
 		   getAuth[1](myAccount); 
           	   
 		}
-	
-        
 		document.querySelectorAll("script[id]").forEach(s=>s.remove());	
-	   
-		 loadScript(`RED/JS/RED.js?v=${jsvsn}`,function(){commontemp();});	
-		 loadScript(`RED/JS/REDrgst.js?v=${jsvsn}`);
-     		 
+     	let axtmpl1=jsPth+jsPth.substr(0,3)+'.js?v='+jsvsn;
+	    let axtmpl2=jsPth+jsPth.substr(0,3)+'rgst.js?v='+jsvsn;
+	    loadScript(`${axtmpl1}`,function(){commontemp();});
+	    loadScript(`${axtmpl2}`);	 
 	    var plsElmnts=document.getElementById('company_name').parentNode;
 		var menubarcover=document.getElementById('menudivbtn');
 	    attachEventListener(menubarcover,"click",toggleMenu,false);  
 		var logoutDivBtn=document.getElementById('getOutBtn');
 		attachEventListener(logoutDivBtn,"click",accountDele,false);  
 		var iflm=document.createElement('iframe');
-		
 		//if(getAuth[1]()[1] && (left(getAuth[1]()[1],1)=='C' || left(getAuth[1]()[1],1)=='D' || left(getAuth[1]()[1],1)=='B' || left(getAuth[1]()[1],1)=='K')){		  
 		var auth1 = getAuth[1]();
-
         if(auth1[1] && ['C','D','B','K'].includes(auth1[1].slice(0,1))){	
 			var htmfile='ROL/flowProcess'+getAuth[1]()[1].slice(0,1)+'.html?v=${jsvsn}';			
-		}else{
-	      
+		}else{	      
 		     var htmfile='ROL/'+(getCookie('INT_HTM')?getCookie('INT_HTM'):getAuth[2]()[0].INT_HTM);
-		    
-		   
 		}
 		iflm.id="frl";		 
 		iflm.src=htmfile;
@@ -76,8 +69,7 @@ function redmenuchange(event){    //畫面展開縮起來
                break;
 			   default :
 			      var htmfile='ROL/'+(getCookie('INT_HTM')?getCookie('INT_HTM'):getAuth[2]()[0].INT_HTM);
-				  break;
-			      
+				  break;			      
 			} 
              		
 	    }else{			 

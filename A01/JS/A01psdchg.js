@@ -1,4 +1,4 @@
-function selfTag(jsvsn){
+function selfTag(jsvsn,jsPth){
 	 var contentdiv=getElementsByAttribute('class','tab_content');	
 	 var tabnames=getElementsByAttribute('name','tablbl');			
 	var svrSpns1=document.getElementById('serverResponse1'); 
@@ -60,26 +60,29 @@ function selfTag(jsvsn){
 	}
 
     document.querySelectorAll("script[id]").forEach(s=>s.remove());		
-
-	loadScript(`A01/JS/A01.js?v=${jsvsn}`,function(){DrawTable();});		 
-	loadScript(`A01/JS/A01rgst.js?v=${jsvsn}`);
+	var axtmpl1=jsPth+jsPth.substr(0,3)+'.js?v='+jsvsn;
+	var axtmpl2=jsPth+jsPth.substr(0,3)+'rgst.js?v='+jsvsn;
+	loadScript(`${axtmpl1}`,function(){DrawTable();});
+	loadScript(`${axtmpl2}`);
 	loadScript(`include/JS/commonsrch.js?v=${jsvsn}`);
 	loadScript(`C01/JS/A01Name.js?v=${jsvsn}`);	
+	
 	var tab1Click=document.getElementById("tab1");
 	if(tab1Click){
-		tab1Click.setAttribute("accesskey","1");  
+		
 	    attachEventListener(tab1Click,"click",tab1View,false);		
 	}	
 	var tab2Click=document.getElementById("tab2");	
 	if(tab2Click){		
-		tab2Click.setAttribute("accesskey","2");
+		
 	    attachEventListener(tab2Click,"click",tab2View,false);		
 	}
 	var tab3Click=document.getElementById("tab3");	
 	if(tab3Click){		
-		tab3Click.setAttribute("accesskey","3");
+		
 	    attachEventListener(tab3Click,"click",tab3View,false);		
 	}
+	
 }
 
 function tab1View(event){	  

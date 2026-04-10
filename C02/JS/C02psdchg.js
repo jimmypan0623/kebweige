@@ -1,15 +1,12 @@
-function selfTag(jsvsn){ 
+function selfTag(jsvsn,jsPth){ 
     ///
-    var scriptall=document.getElementsByTagName("script");
-	    for(var j=0;j<scriptall.length;j++){
-	        if(scriptall[j].id){
-	            scriptall[j].parentNode.removeChild(scriptall[j]);		 
-		    }
-	    }			
+    document.querySelectorAll("script[id]").forEach(s=>s.remove());				
 	///	
-	loadScript(`C02/JS/C02.js?v=${jsvsn}`,function(){DrawTable();});	
-	loadScript(`C02/JS/C02rgst.js?v=${jsvsn}`);
-	loadScript(`include/JS/commonsrch.js?v=${jsvsn}`);
+	
+	let axtmpl1=jsPth+jsPth.substr(0,3)+'.js?v='+jsvsn;
+	let axtmpl2=jsPth+jsPth.substr(0,3)+'rgst.js?v='+jsvsn;
+	loadScript(`${axtmpl1}`,function(){DrawTable();});
+	loadScript(`${axtmpl2}`);
 	var tab1Click=document.getElementById("tab1");
 	if(tab1Click){
 	     attachEventListener(tab1Click,"click",tab1View,false);

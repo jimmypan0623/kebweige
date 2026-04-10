@@ -1,24 +1,17 @@
-function selfTag(jsvsn){
+function selfTag(jsvsn,jsPth){
 	///
-	/* var keynames=getElementsByAttribute('name','keyname');	
-	keynames[0].innerHTML="檔名:"; */
-    var scriptall=document.getElementsByTagName("script");
-	    for(var j=0;j<scriptall.length;j++){
-	        if(scriptall[j].id){
-	            scriptall[j].parentNode.removeChild(scriptall[j]);		 
-		    }
-	    }			
-	///	
-	loadScript(`A20/JS/A20.js?v=${jsvsn}`,function(){DrawTable();});	
-	  loadScript(`A20/JS/A20rgst.js?v=${jsvsn}`);
+     document.querySelectorAll("script[id]").forEach(s=>s.remove());	
+	///		
+	var axtmpl1=jsPth+jsPth.substr(0,3)+'.js?v='+jsvsn;
+	var axtmpl2=jsPth+jsPth.substr(0,3)+'rgst.js?v='+jsvsn;
+	loadScript(`${axtmpl1}`,function(){DrawTable();});
+	loadScript(`${axtmpl2}`);
 　　var tab1Click=document.getElementById("tab1");
 	if(tab1Click){
-		tab1Click.setAttribute("accesskey","1");  
 	    attachEventListener(tab1Click,"click",tab1View,false);		
 	}	
 	var tab2Click=document.getElementById("tab2");	
 	if(tab2Click){		
-		tab2Click.setAttribute("accesskey","2");
 	    attachEventListener(tab2Click,"click",tab2View,false);		
 	}
 }

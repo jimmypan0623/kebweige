@@ -1,15 +1,7 @@
-function selfTag(jsvsn){
-	
-	
-	
-	   
+function selfTag(jsvsn,jsPth){
 	  var contentdiv=getElementsByAttribute('class','tab_content');	
 	  var svrSpns1=document.getElementById('serverResponse1'); 
-	
-	  
-	  
-	  
-	  
+	  const frag1 = document.createDocumentFragment();
       var dptspan=document.createElement("span");	  
 	  var text4 = document.createTextNode('\u{A0}\u{A0}發票類別:\u{A0}');
 	  dptspan.appendChild(text4);
@@ -24,10 +16,9 @@ function selfTag(jsvsn){
 		slt3.add(new Option("進項二聯式","22")); 
 		slt3.add(new Option("進退三聯式","33")); 
 		slt3.add(new Option("進退二聯式","24")); 
-
 		attachEventListener(slt3,'change',choiceClick,false); 
-      	contentdiv[0].insertBefore(dptspan,svrSpns1);
-		contentdiv[0].insertBefore(slt3,svrSpns1);
+		frag1.appendChild(dptspan);
+		frag1.appendChild(slt3);
 	    var text5 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
 	    var invDetailButton=document.createElement("input");		   
 		invDetailButton.setAttribute("type","button");
@@ -37,53 +28,42 @@ function selfTag(jsvsn){
 		invDetailButton.setAttribute("title","查看此發票之內容，快速鍵 Alt+B");	
 		invDetailButton.setAttribute('accesskey','B')
 		invDetailButton.id="HISTORY_BOTT";				
-		contentdiv[0].insertBefore(text5,svrSpns1);
-	    contentdiv[0].insertBefore(invDetailButton,svrSpns1);		
-		
+		frag1.appendChild(text5);
+		frag1.appendChild(invDetailButton);
 		  /////
 	  
-	  var text01 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
-	 contentdiv[0].insertBefore(text01,svrSpns1);		
+	var text01 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
+	frag1.appendChild(text01);
 	var spn1=document.createElement('span');
 	spn1.id="ttltitle1";	 
-     spn1.innerHTML='銷售總額:';
-	contentdiv[0].insertBefore(spn1,svrSpns1);
-	/* var spn2=document.createElement('span');
-	spn2.id="crncy" ;
-   contentdiv[0].insertBefore(spn2,svrSpns1); */
+    spn1.innerHTML='銷售總額:';
+	frag1.appendChild(spn1);
 	var spn3=document.createElement('span');
 	spn3.id="ttlmny1";  
 	spn3.innerHTML='0';
-	 contentdiv[0].insertBefore(spn3,svrSpns1);	
-	  var text02 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
-	 contentdiv[0].insertBefore(text02,svrSpns1);	  
-	 
-	 var spn4=document.createElement('span');
+	frag1.appendChild(spn3);
+	var text02 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
+	frag1.appendChild(text02);
+	var spn4=document.createElement('span');
 	spn4.id="ttltitle2";	 
-     spn4.innerHTML='稅金總額:';
-	contentdiv[0].insertBefore(spn4,svrSpns1); 
-	 var spn5=document.createElement('span');
+    spn4.innerHTML='稅金總額:';
+	frag1.appendChild(spn4);
+	var spn5=document.createElement('span');
 	spn5.id="ttlmny2";  
 	spn5.innerHTML='0';
-	 contentdiv[0].insertBefore(spn5,svrSpns1);	 
+	frag1.appendChild(spn5);
 	var text03 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
-	 contentdiv[0].insertBefore(text03,svrSpns1);	
-	 var spn6=document.createElement('span');
+	frag1.appendChild(text03);
+	var spn6=document.createElement('span');
     spn6.id="ttltitle3";	 
-     spn6.innerHTML='發票總額:';
-	contentdiv[0].insertBefore(spn6,svrSpns1); 
-	 var spn7=document.createElement('span');
+    spn6.innerHTML='發票總額:';
+	frag1.appendChild(spn6);
+	var spn7=document.createElement('span');
 	spn7.id="ttlmny3";  
 	spn7.innerHTML='0';
-	 contentdiv[0].insertBefore(spn7,svrSpns1);	 
-
-	 
-	  /////	
-		
-		
-		
-		///
-		  var cokath4=getAuth[0]()[4];
+    frag1.appendChild(spn7);
+	contentdiv[0].insertBefore(frag1,svrSpns1);	 
+	var cokath4=getAuth[0]()[4];
 	if (cokath4=='Y'){	   
 		var maindiv=getElementsByAttribute('class','tab_css');	  	 
 		var orpButton5=document.getElementById("lgt");		  //離開按鈕    	 
@@ -102,24 +82,18 @@ function selfTag(jsvsn){
 		maindiv[0].insertBefore(text15,orpButton5);	
 		orpButton6.setAttribute("style","visiblity:visible;font-size:130%;margin:0;color:black;");	
 	}	
-	
-        var scriptall=document.getElementsByTagName("script");
-	    for(var j=0;j<scriptall.length;j++){
-	        if(scriptall[j].id){
-	            scriptall[j].parentNode.removeChild(scriptall[j]);		 
-		    }
-	    }			
+	////
+    document.querySelectorAll("script[id]").forEach(s=>s.remove());			
 	    ///	
-		loadScript(`K17/JS/K17.js?v=${jsvsn}`,function(){DrawTable();});	 
-	    loadScript(`K17/JS/K17rgst.js?v=${jsvsn}`);
-	    var tab1Click=document.getElementById("tab1");
-		if(tab1Click){
-		  tab1Click.setAttribute("accesskey","1");	
-	      attachEventListener(tab1Click,"click",tab1View,false);
-		}	
-	return true;
+	let axtmpl1=jsPth+jsPth.substr(0,3)+'.js?v='+jsvsn;
+	let axtmpl2=jsPth+jsPth.substr(0,3)+'rgst.js?v='+jsvsn;
+	loadScript(`${axtmpl1}`,function(){DrawTable();});
+	loadScript(`${axtmpl2}`);  
+	var tab1Click=document.getElementById("tab1");
+	if(tab1Click){
+	   attachEventListener(tab1Click,"click",tab1View,false);
+	}		
 }
-
 
 function tab1View(event){	  
        if (typeof event=="undefined"){
@@ -132,9 +106,9 @@ function tab1View(event){
 	     cko[6](bibau*(-1));    //將表身閉包變數歸零 
 		var crntpge=document.getElementById('recmth').value ;
 		
-		//if (crntpge*1>=1) {
+		 
 		  choiceClick(crntpge);
-		//}
+		 
 	
 
 }

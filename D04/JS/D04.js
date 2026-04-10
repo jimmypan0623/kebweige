@@ -62,7 +62,7 @@ function getProfile(str1,reccount,tbno) {
 					attachEventListener(oTd,'click',rowchoose,false);		//點選資料
 				}		 
 				   
-				if(jk.substr(0,jk.lastIndexOf('_')-4)=='beencancel' && tbno==1){
+				if(jk.substr(0,jk.lastIndexOf('_')-4)=='notout' && tbno==1){
 					var oTd = oTr.insertCell(oTr.cells.length);
 					oTd.setAttribute("class","indirectdata");					 
 					oTd.setAttribute("style","width:8%;text-align:right;");	

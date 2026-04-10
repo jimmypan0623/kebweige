@@ -1,4 +1,4 @@
-function selfTag(jsvsn){	
+function selfTag(jsvsn,jsPth){	
     ////
 	var cntdiv=getElementsByAttribute('class','tab_content');	
 	
@@ -71,18 +71,14 @@ function selfTag(jsvsn){
 		orpButton6.setAttribute("style","visiblity:visible;font-size:130%;margin:0;color:black;");	
 	}	
     ////
-    var scriptall=document.getElementsByTagName("script");
-	for(var j=0;j<scriptall.length;j++){
-	    if(scriptall[j].id){
-	        scriptall[j].parentNode.removeChild(scriptall[j]);		 
-		}
-	}	
+    document.querySelectorAll("script[id]").forEach(s=>s.remove());	
 	////	
-     loadScript(`D19/JS/D19.js?v=${jsvsn}`,function(){DrawTable();});		 
-	  loadScript(`D19/JS/D19rgst.js?v=${jsvsn}`);		
+	    let axtmpl1=jsPth+jsPth.substr(0,3)+'.js?v='+jsvsn;
+		let axtmpl2=jsPth+jsPth.substr(0,3)+'rgst.js?v='+jsvsn;
+		loadScript(`${axtmpl1}`,function(){DrawTable();});
+		loadScript(`${axtmpl2}`);  
 		var tab1Click=document.getElementById("tab1");
 		if(tab1Click){
-		  tab1Click.setAttribute("accesskey","1");	
 	      attachEventListener(tab1Click,"click",tab1View,false);
 		}	
 }

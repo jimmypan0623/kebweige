@@ -1,4 +1,4 @@
-function selfTag(jsvsn){
+function selfTag(jsvsn,jsPth){
 	////////
 	 var maindiv=getElementsByAttribute('class','tab_css');	
 	var beinsertedid=document.getElementById('tab1');
@@ -7,28 +7,29 @@ function selfTag(jsvsn){
 	maindiv[0].insertBefore(spn,beinsertedid);
     var cntdiv=getElementsByAttribute('class','tab_content');	
 	var rspn2=document.getElementById('serverResponse2'); 
+	const frag1 = document.createDocumentFragment();
 	 var text01 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
-	 cntdiv[1].insertBefore(text01,rspn2);
+	 frag1.appendChild(text01); 
 	 var spn2=document.createElement('span');
 	spn2.id="dntOrRjt" ;
 	spn2.setAttribute("style","font-size:150%;");
-    cntdiv[1].insertBefore(spn2,rspn2); 
+	 frag1.appendChild(spn2);
 	  var text0a = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}');
-	 cntdiv[1].insertBefore(text0a,rspn2);
+	frag1.appendChild(text0a); 
 	var spn1=document.createElement('span');
 	spn1.id="ttltitle";
 	spn1.setAttribute("style","font-size:120%;font-weight:bold;");
      spn1.innerHTML='總金額:';
-	cntdiv[1].insertBefore(spn1,rspn2);
-
+    frag1.appendChild(spn1);
 	var spn3=document.createElement('span');
 	spn3.id="ttlmny";
+	spn3.className="ttl";
     spn3.setAttribute("style","font-size:120%;font-weight:bold;");
 	spn3.innerHTML='0';
-	 cntdiv[1].insertBefore(spn3,rspn2); 
-	///////
-	 ;	  	 
+	frag1.appendChild(spn3); 
+	cntdiv[1].insertBefore(frag1,rspn2);
 	var orpButton5=document.getElementById("lgt");		  //離開按鈕    
+	const frag2 = document.createDocumentFragment();
 	var text17 = document.createTextNode('\u{A0}');
 	var orpButton7=document.createElement("input");		   
 	orpButton7.setAttribute("type","button");
@@ -38,9 +39,7 @@ function selfTag(jsvsn){
 	orpButton7.setAttribute("accesskey","A");					
 	orpButton7.id="ANS_BOTT";				
 	attachEventListener(orpButton7,"click",ansproc,false);    
-	maindiv[0].insertBefore(orpButton7,orpButton5);
-
-
+    frag2.appendChild(orpButton7); 
 	var text19 = document.createTextNode('\u{A0}');
 	var orpButton8=document.createElement("input");		   
 	orpButton8.setAttribute("type","button");
@@ -50,7 +49,7 @@ function selfTag(jsvsn){
 	orpButton8.setAttribute("accesskey","Z");					
 	orpButton8.id="VRS_BOTT";				
 	attachEventListener(orpButton8,"click",vrsproc,false);    
-	maindiv[0].insertBefore(orpButton8,orpButton5);	 
+	 frag2.appendChild(orpButton8); 
 	orpButton8.setAttribute("style","visiblity:visible;font-size:130%;margin:0;color:black;");				 	   
 	var text14 = document.createTextNode('\u{A0}\u{A0}');
 	var text15 = document.createTextNode('\u{A0}\u{A0}');
@@ -62,19 +61,18 @@ function selfTag(jsvsn){
 	orpButton6.setAttribute("accesskey","P");					
 	orpButton6.id="PRNT_BOTT";				
 	//attachEventListener(orpButton6,"click",prntproc,false);  //列印按鈕程序	
-	maindiv[0].insertBefore(text14,orpButton5);		
-	maindiv[0].insertBefore(orpButton6,orpButton5);
-	maindiv[0].insertBefore(text15,orpButton5);				 
+	//maindiv[0].insertBefore(text14,orpButton5);		
+	frag2.appendChild(text14); 
+	frag2.appendChild(orpButton6); 
+	frag2.appendChild(text15); 
+	maindiv[0].insertBefore(frag2,orpButton5);	
 	///
-    var scriptall=document.getElementsByTagName("script");
-	    for(var j=0;j<scriptall.length;j++){
-	        if(scriptall[j].id){
-	            scriptall[j].parentNode.removeChild(scriptall[j]);		 
-		    }
-	    }			
+    document.querySelectorAll("script[id]").forEach(s=>s.remove());	
 	///	
-	loadScript(`B03/JS/B03.js?v=${jsvsn}`,function(){DrawTable();});
-    loadScript(`B03/JS/B03rgst.js?v=${jsvsn}`);	 
+	let axtmpl1=jsPth+jsPth.substr(0,3)+'.js?v='+jsvsn;
+	let axtmpl2=jsPth+jsPth.substr(0,3)+'rgst.js?v='+jsvsn;
+	loadScript(`${axtmpl1}`,function(){DrawTable();});
+	loadScript(`${axtmpl2}`);
 	loadScript(`include/JS/commonsrch.js?v=${jsvsn}`);
 	loadScript(`C01/JS/A09getno.js?v=${jsvsn}`);		
 	loadScript(`include/JS/confirmfun.js?v=${jsvsn}`);	
@@ -82,12 +80,10 @@ function selfTag(jsvsn){
 	loadScript(`B02/JS/A14Name.js?v=${jsvsn}`);	
 	var tab1Click=document.getElementById("tab1");
 	if(tab1Click){
-		tab1Click.setAttribute("accesskey","1");  
 	    attachEventListener(tab1Click,"click",tab1View,false);		
 	}	
 	var tab2Click=document.getElementById("tab2");	
 	if(tab2Click){		
-		tab2Click.setAttribute("accesskey","2");
 	    attachEventListener(tab2Click,"click",tab2View,false);		
 	}
 }

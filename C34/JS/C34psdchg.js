@@ -1,14 +1,11 @@
-function selfTag(jsvsn){ 
+function selfTag(jsvsn,jsPth){ 
     ///
-    var scriptall=document.getElementsByTagName("script");
-	    for(var j=0;j<scriptall.length;j++){
-	        if(scriptall[j].id){
-	            scriptall[j].parentNode.removeChild(scriptall[j]);		 
-		    }
-	    }			
-	///	
-	loadScript(`C34/JS/C34.js?v=${jsvsn}`,function(){DrawTable();});	 
-	loadScript(`C34/JS/C34rgst.js?v=${jsvsn}`);
+    document.querySelectorAll("script[id]").forEach(s=>s.remove());		
+	///		
+	let axtmpl1=jsPth+jsPth.substr(0,3)+'.js?v='+jsvsn;
+	let axtmpl2=jsPth+jsPth.substr(0,3)+'rgst.js?v='+jsvsn;
+	loadScript(`${axtmpl1}`,function(){DrawTable();});
+	loadScript(`${axtmpl2}`);
 	loadScript(`include/JS/commonsrch.js?v=${jsvsn}`);
 	var tab1Click=document.getElementById("tab1");
 	if(tab1Click){

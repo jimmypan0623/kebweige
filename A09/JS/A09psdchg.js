@@ -1,14 +1,11 @@
-function selfTag(jsvsn){
+function selfTag(jsvsn,jsPth){
 	///
-    var scriptall=document.getElementsByTagName("script");
-	    for(var j=0;j<scriptall.length;j++){
-	        if(scriptall[j].id){
-	            scriptall[j].parentNode.removeChild(scriptall[j]);		 
-		    }
-	    }			
+    document.querySelectorAll("script[id]").forEach(s=>s.remove());	
 	///	
-	loadScript(`A09/JS/A09.js?v=${jsvsn}`,function(){DrawTable();});	 
-	  loadScript(`A09/JS/A09rgst.js?v=${jsvsn}`);
+	var axtmpl1=jsPth+jsPth.substr(0,3)+'.js?v='+jsvsn;
+	var axtmpl2=jsPth+jsPth.substr(0,3)+'rgst.js?v='+jsvsn;
+	loadScript(`${axtmpl1}`,function(){DrawTable();});
+	loadScript(`${axtmpl2}`);
 	var tab1Click=document.getElementById("tab1");
 	if(tab1Click){
 	      attachEventListener(tab1Click,"click",tab1View,false);
@@ -31,7 +28,6 @@ function tab1View(event){
 				break;
 			}
 		} 			
-
 		 var bibau=cko[2](0);   //找出閉包變數現值
 	     cko[2](bibau*(-1));    //將表身閉包變數歸零	  
 		 bibau=cko[6](0);   //找出閉包變數現值

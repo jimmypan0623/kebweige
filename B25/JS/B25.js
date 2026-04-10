@@ -200,10 +200,7 @@ function getProfile(arr,trncde) {
 				}
 			}
 
-			// 累加總金額
-			/* if (jk.substr(0, lastUnderline - 4) === 'rcd_total') {
-				queryttl += Number(cellValue) || 0;
-			} */
+			
 
 			oTr.appendChild(oTd);
 		}

@@ -1,9 +1,8 @@
-function selfTag(jsvsn){
+function selfTag(jsvsn,jsPth){
 	////
 	var cntdiv=getElementsByAttribute('class','tab_content');		
 	var firstCover=getElementsByAttribute('class','table_cover');	
-	firstCover[0].style.width="32%";
-  
+	firstCover[0].style.width="32%"; 
     var secondCover=document.createElement('div');
 	secondCover.setAttribute("class","table_cover");
 	secondCover.style.width="68%";
@@ -44,8 +43,7 @@ function selfTag(jsvsn){
 	cntdiv[0].appendChild(secondCover); 
     var tabnames=getElementsByAttribute('name','tablbl');	
     var keynames=getElementsByAttribute('name','keyname');	
-	if(getAuth[0]()[5]=='Y'){	 //有查看報價紀錄權限時
-	   
+	if(getAuth[0]()[5]=='Y'){	 //有查看報價紀錄權限時	   
 		var rspn2=document.getElementById('serverResponse2'); 
 	    var text01 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
 	    cntdiv[1].insertBefore(text01,rspn2);
@@ -54,7 +52,8 @@ function selfTag(jsvsn){
         spn1.innerHTML="詢價筆數:";
 	    cntdiv[1].insertBefore(spn1,rspn2);
 	    var spn3=document.createElement('span');
-	    spn3.id="ttlmny";   
+	    spn3.id="ttlmny"; 
+		spn3.className="ttl";
 	    spn3.innerHTML='0';
 	    cntdiv[1].insertBefore(spn3,rspn2);	 
 	}else{
@@ -62,26 +61,21 @@ function selfTag(jsvsn){
 	    tabnames[1].style.display='none';        
 	}
 	////
-    var scriptall=document.getElementsByTagName("script");
-	    for(var j=0;j<scriptall.length;j++){
-	        if(scriptall[j].id){
-	            scriptall[j].parentNode.removeChild(scriptall[j]);		 
-		    }
-	    }			
-	///	
-	loadScript(`D01/JS/D01.js?v=${jsvsn}`,function(){DrawTable();});	
-	loadScript(`D01/JS/D01rgst.js?v=${jsvsn}`);
+    document.querySelectorAll("script[id]").forEach(s=>s.remove());		
+	///		 
+	var axtmpl1=jsPth+jsPth.substr(0,3)+'.js?v='+jsvsn;
+	var axtmpl2=jsPth+jsPth.substr(0,3)+'rgst.js?v='+jsvsn;
+	loadScript(`${axtmpl1}`,function(){DrawTable();});
+	loadScript(`${axtmpl2}`);
 	loadScript(`C01/JS/A09getno.js?v=${jsvsn}`);	
     loadScript(`include/JS/commonsrch.js?v=${jsvsn}`);	
 	loadScript(`C01/JS/A01Name.js?v=${jsvsn}`);	
 　　var tab1Click=document.getElementById("tab1");
 	if(tab1Click){
-		tab1Click.setAttribute("accesskey","1");  
 	    attachEventListener(tab1Click,"click",tab1View,false);		
 	}	
 	var tab2Click=document.getElementById("tab2");	
 	if(tab2Click){		
-		tab2Click.setAttribute("accesskey","2");
 	    attachEventListener(tab2Click,"click",tab2View,false);		
 	}
 }

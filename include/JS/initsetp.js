@@ -118,10 +118,10 @@ function initDialog()
 		var nwdt=new Date();	
 		var nwsd=Math.floor(Math.random()*nwdt.getSeconds())%26;				
 		var nowExcute=getAuth[0]()[0];   //getCookie("funNo");欲執行之功能編號
-		var jsvsn=nwsd.toString()+scnd;		
-		/* var showTime=document.getElementById('currentTime');
+		//var jsvsn=nwsd.toString()+scnd;		
+		var showTime=document.getElementById('currentTime');
 		var jsvsn=(showTime.textContent.substring(0,4)+'_'+showTime.textContent.substring(5,7)+'_'+showTime.textContent.substring(8,10));//+'_'+getAuth[1]()[0];
-		 */
+		
 		if(nowExcute){	         
 		    if(divcontainer){
 			   divcontainer.parentNode.removeChild(divcontainer);		
@@ -148,7 +148,7 @@ function initDialog()
 		        bsechkbx.type='radio';		       
 		        bsechkbx.setAttribute('name','tab');		
 				bsechkbx.setAttribute('class','tab');
-				bsechkbx.id='tab'+String(i+1);							
+				bsechkbx.id='tab'+String(i+1);			
 		        var basechklbl=document.createElement('label'); 
 		        basechklbl.setAttribute('name','tablbl');					
 		        basechklbl.setAttribute('for',bsechkbx.id);
@@ -156,7 +156,10 @@ function initDialog()
 		        basechklbl.innerHTML=getAuth[0]()[14+i];    		//直接抓閉包變數裡的頁籤名	 				   
 				if (i==0){   //預設值
 					bsechkbx.checked='checked';
-			    }				
+			    }		
+				////
+				bsechkbx.setAttribute("accesskey",String(i+1));
+				////
 				var tabContent=document.createElement("div");			 
 				tabContent.setAttribute("class","tab_content");
 				tabContent.setAttribute("style",bckgdColor[i]);
@@ -279,12 +282,10 @@ function initDialog()
 						frag.appendChild(pageBottomButton);
 						contentdiv[0].insertBefore(frag, initFirstNode);
 					}
-				}else{                                                   //月份檔
-				
+				}else{                                                   //月份檔				
 					var mthspan=document.createElement("span");
 					var text1 = document.createTextNode('年月\u{A0}');
-					mthspan.appendChild(text1);
-					
+					mthspan.appendChild(text1);					
 					mthspan.style.fontSize="120%;";
 					var sltPage=document.createElement("select");
 					sltPage.id="recmth";
@@ -517,13 +518,10 @@ function initDialog()
 			 nowExcute='RED.知訊數位營運管理系統';			
 			 var urlfolder=document.getElementsByTagName('title');
 			 urlfolder[0].textContent=nowExcute; 				 			   
-		}
-		
+		}		
 		document.querySelectorAll("script[id]").forEach(s=>s.remove());	
-		
-		 
 		var urljsname=nowExcute.substr(0,3)+'/JS/'+nowExcute.substr(0,3)+'psdchg.js?v='+jsvsn;		 	
-    	loadScript(urljsname,function(){selfTag(jsvsn);});     
+    	loadScript(urljsname,function(){selfTag(jsvsn,nowExcute.substr(0,3)+'/JS/');});  		
 	}	
 }
 

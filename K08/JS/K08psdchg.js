@@ -1,4 +1,4 @@
-function selfTag(jsvsn){
+function selfTag(jsvsn,jsPth){
 	  var contentdiv=getElementsByAttribute('class','tab_content');	
 	  var svrSpns1=document.getElementById('serverResponse1'); 
 	  var text01 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
@@ -31,17 +31,14 @@ function selfTag(jsvsn){
 	spn7.id="ttlmny3";  
 	spn7.innerHTML='0';
 	 contentdiv[0].insertBefore(spn7,svrSpns1);	 
-        var scriptall=document.getElementsByTagName("script");
-	    for(var j=0;j<scriptall.length;j++){
-	        if(scriptall[j].id){
-	            scriptall[j].parentNode.removeChild(scriptall[j]);		 
-		    }
-	    }			
-		loadScript(`K08/JS/K08.js?v=${jsvsn}`,function(){DrawTable();});	 
-	    loadScript(`K08/JS/K08rgst.js?v=${jsvsn}`);
+       document.querySelectorAll("script[id]").forEach(s=>s.remove());		
+
+	    let axtmpl1=jsPth+jsPth.substr(0,3)+'.js?v='+jsvsn;
+		let axtmpl2=jsPth+jsPth.substr(0,3)+'rgst.js?v='+jsvsn;
+		loadScript(`${axtmpl1}`,function(){DrawTable();});
+		loadScript(`${axtmpl2}`);
 	    var tab1Click=document.getElementById("tab1");
 		if(tab1Click){
-		  tab1Click.setAttribute("accesskey","1");	
 	      attachEventListener(tab1Click,"click",tab1View,false);
 		}	
 	return true;

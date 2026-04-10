@@ -1,4 +1,4 @@
-function selfTag(jsvsn){
+function selfTag(jsvsn,jsPth){
     ////
     var maindiv=getElementsByAttribute('class','tab_css');	
 	var beinsertedid=document.getElementById('tab1');
@@ -19,6 +19,7 @@ function selfTag(jsvsn){
 	 frag1.appendChild(spn2);
 	var spn3=document.createElement('span');
 	spn3.id="ttlmny";
+	spn3.className='ttl';
 	spn3.innerHTML='0';
 	 frag1.appendChild(spn3);   
 	cntdiv[1].insertBefore(frag1,rspn2);  	 
@@ -76,19 +77,19 @@ function selfTag(jsvsn){
 	///
     document.querySelectorAll("script[id]").forEach(s=>s.remove());		
 	///	
-	loadScript(`C21/JS/C21.js?v=${jsvsn}`,function(){DrawTable();});	
-    loadScript(`C21/JS/C21rgst.js?v=${jsvsn}`);	 
+	let axtmpl1=jsPth+jsPth.substr(0,3)+'.js?v='+jsvsn;
+	let axtmpl2=jsPth+jsPth.substr(0,3)+'rgst.js?v='+jsvsn;
+	loadScript(`${axtmpl1}`,function(){DrawTable();});
+	loadScript(`${axtmpl2}`);
 	loadScript(`C01/JS/A09getno.js?v=${jsvsn}`);	
 	loadScript(`include/JS/commonsrch.js?v=${jsvsn}`);	
 	loadScript(`include/JS/confirmfun.js?v=${jsvsn}`);	
 	var tab1Click=document.getElementById("tab1");
 	if(tab1Click){
-		tab1Click.setAttribute("accesskey","1");  
 	    attachEventListener(tab1Click,"click",tab1View,false);		
 	}	
 	var tab2Click=document.getElementById("tab2");	
 	if(tab2Click){		
-		tab2Click.setAttribute("accesskey","2");
 	    attachEventListener(tab2Click,"click",tab2View,false);		
 	}
 }

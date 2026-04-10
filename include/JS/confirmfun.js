@@ -15,7 +15,7 @@ function shurePrc(event){        //單據確認程序
 	rcdindex=sourceAccount(null,0);	
 	var fieldlast=(document.getElementById("TRN_BOTT"))?4:3;
 	var shr_head="{";
-	if(getAuth[0]()[12]!='A'){
+	if(getAuth[0]()[12]!='A'){  //非分析資料檔
 		for (var i=1;i<headtable.rows[rcdindex].cells.length-fieldlast;i++){  //要從編號開始計
 			if(headtable.rows[rcdindex].cells[i].className=='directdata'){			
 				shr_head+="\""+"elemh"+String(i)+"\""+":"+"\""+headtable.rows[rcdindex].cells[i].textContent+"\""+",";
@@ -85,8 +85,9 @@ function shurePrc(event){        //單據確認程序
 			        	detachEventListener(editbtt,"click",edtrec,false);
 				        delbtt.setAttribute("style","visibility:hidden;");
 				        detachEventListener(delbtt,"click",delrec,false);
+						aprv.innerHTML="<img src='digits/approve.gif' alt='svg' style='position: absolute;top: 39px;left: 54%;width: 50px;opacity: 0.45;'>"
 				    }else{
-					
+					   
 		               headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-3].textContent='N';
 				    }  
 				}else{
@@ -98,9 +99,8 @@ function shurePrc(event){        //單據確認程序
 				       detachEventListener(ansbtt,"click",ansproc,false);	
 					}
 				}					  
-				 responseDiv.innerHTML="\u{A0}";
-			}else{			
-	    
+				 responseDiv.innerHTML="\u{A0}";				 
+			}else{				    
                 headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-2].textContent=rsp.lastupdate;
 			    for (var i=1;i<headtable.rows[rcdindex].cells.length-fieldlast;i++){  //要從編號開始計
 		            headtable.rows[rcdindex].cells[i].style.color="#000";
@@ -209,8 +209,10 @@ function vrshrPrc(event){
 			   blkshow(rsp);		
 			   if(rsp.indexOf('(.|.)')>0){				   
 					headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-3].textContent='N';
+					
 				}				
 			   responseDiv.innerHTML="\u{A0}";
+			   aprv.innerHTML='\u{A0}';
 			}else{		
 			        if(getAuth[0]()[12]!='A'){																
 						headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-2].textContent=rsp.lastupdate;					       

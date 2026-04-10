@@ -1,7 +1,6 @@
-function selfTag(jsvsn){	
+function selfTag(jsvsn,jsPth){	
 //////////////
-    var cntdiv=getElementsByAttribute('class','tab_content');	
-	
+    var cntdiv=getElementsByAttribute('class','tab_content');		
     var rspn1=document.getElementById('serverResponse1'); 
 	 var text01 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
 	 cntdiv[0].insertBefore(text01,rspn1);		
@@ -69,20 +68,16 @@ function selfTag(jsvsn){
 		orpButton6.setAttribute("style","visiblity:visible;font-size:130%;margin:0;color:black;");	
 	}	
 	////
-    var scriptall=document.getElementsByTagName("script");
-	for(var j=0;j<scriptall.length;j++){
-	    if(scriptall[j].id){
-	        scriptall[j].parentNode.removeChild(scriptall[j]);		 
-		}
-	}	
+     document.querySelectorAll("script[id]").forEach(s=>s.remove());					
 	////	
-     loadScript(`C12/JS/C12.js?v=${jsvsn}`,function(){DrawTable();});		 
-	  loadScript(`C12/JS/C12rgst.js?v=${jsvsn}`);		
-		var tab1Click=document.getElementById("tab1");
-		if(tab1Click){
-		  tab1Click.setAttribute("accesskey","1");	
-	      attachEventListener(tab1Click,"click",tab1View,false);
-		}	
+	let axtmpl1=jsPth+jsPth.substr(0,3)+'.js?v='+jsvsn;
+	let axtmpl2=jsPth+jsPth.substr(0,3)+'rgst.js?v='+jsvsn;
+	loadScript(`${axtmpl1}`,function(){DrawTable();});
+	loadScript(`${axtmpl2}`);
+	var tab1Click=document.getElementById("tab1");
+	if(tab1Click){
+	  attachEventListener(tab1Click,"click",tab1View,false);
+	}	
 }
 function tab1View(event){	  
        if (typeof event=="undefined"){
