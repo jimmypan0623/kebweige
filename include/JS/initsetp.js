@@ -1,8 +1,9 @@
 addLoadListener(initDialog);
 var cko=[];  //利用閉包函數當計數器
-for (var i=0;i<7;i++){
+for (let i=0;i<7;i++){
     cko[i] = chkCount();
 }
+//var cko = Array.from({ length: 7 }, chkCount);  //利用閉包函數當計數器
 //cko[0]    此處紀錄首頁資料庫目前筆數，如果是月份單據類則紀錄是否已結轉
 //cko[1]    判斷現在開窗中的gridlist
 //cko[2]    首頁選擇計數(gridlist)
@@ -10,9 +11,11 @@ for (var i=0;i<7;i++){
 //cko[4]    第三頁選擇計數(gridlist)
 //cko[5]    第四頁選擇計數(gridlist)
 //cko[6]    畫面主搜尋(也只有一個)功能目前鍵值紀錄指向計數 
- 
-var getAuth=[];  //利用閉包函數當權限設定與其他系統參數紀錄器 var getAuth=[]; 
-getAuth[0] = createArrayClosure();
+var getAuth=[];  //利用閉包函數當計數器
+for (let j=0;j<4;j++){
+    getAuth[j] = createArrayClosure();	 //帳號與上次執行功能
+}
+//var getAuth = Array.from({ length: 4 }, createArrayClosure);  //利用閉包函數當權限設定與其他系統參數紀錄器 var getAuth=[]; 
 //getAuth[0]()[0]    功能代號與名稱
 //getAuth[0]()[1]    新增
 //getAuth[0]()[2]    修改
@@ -27,13 +30,13 @@ getAuth[0] = createArrayClosure();
 //getAuth[0]()[10] :   功能頁面數
 //getAuth[0]()[11] :   M首頁為月份分頁，P則為固定筆數(視參數INT_RCD設定)分頁,
 //getAuth[0]()[12] :   類別，M為主檔或首頁有左右TABLE，R為單據，B為基本資料，A為分析資料，S為系統檔
-//getAuth[0]()[13] :  首頁分頁為月份外判斷是否多加部門別分頁->D:多加部門別下拉選項	
+//getAuth[0]()[13] :  首頁分頁為月份外判斷是否多加部門別或其他類別分頁->D:多加部門別或其他類別下拉選項	
 //getAuth[0]()[14] :  第一頁頁籤名
 //getAuth[0]()[15] :  第二頁頁籤名
 //getAuth[0]()[16] :  第三頁頁籤名
-getAuth[1] = createArrayClosure();	 //帳號與上次執行功能
-getAuth[2] = createArrayClosure();	 //不列入COOKIE之系統參數
-getAuth[3] = createArrayClosure();	 //各系統參數之屬性
+//getAuth[1]  //帳號與上次執行功能
+//getAuth[2] 	 //不列入COOKIE之系統參數
+//getAuth[3] 	 //各系統參數之屬性 
 function initDialog()
 {       
     var btmshowtme=document.getElementById('currentTime'); 
@@ -50,15 +53,13 @@ function initDialog()
 		if(divcontainer){
 		   divcontainer.parentNode.removeChild(divcontainer);
 		}
-		for(var i=0;i<tabcsses.length;i++){
+		for(let i=0;i<tabcsses.length;i++){
 			tabcsses[i].parentNode.removeChild(tabcsses[i]);			
 		}					    	  		 
-	 
-		
 		if (img1 && img2 && img3 && img4 ) {
 			
-			for (var i = 1; i <= 4; i++) {
-                 var img = document.getElementById('img' + i);
+			for (let i = 1; i <= 4; i++) {
+                 let img = document.getElementById('img' + i);
                  if (img) {
                      img.style.cursor = 'pointer'; // 讓滑鼠移上去顯示手型
                      img.title = '看不清楚？可再點擊換一組'; // 增加提示文字
@@ -118,10 +119,10 @@ function initDialog()
 		var nwdt=new Date();	
 		var nwsd=Math.floor(Math.random()*nwdt.getSeconds())%26;				
 		var nowExcute=getAuth[0]()[0];   //getCookie("funNo");欲執行之功能編號
-		//var jsvsn=nwsd.toString()+scnd;		
-		var showTime=document.getElementById('currentTime');
+		var jsvsn=nwsd.toString()+scnd;		
+		/* var showTime=document.getElementById('currentTime');
 		var jsvsn=(showTime.textContent.substring(0,4)+'_'+showTime.textContent.substring(5,7)+'_'+showTime.textContent.substring(8,10));//+'_'+getAuth[1]()[0];
-		
+		 */
 		if(nowExcute){	         
 		    if(divcontainer){
 			   divcontainer.parentNode.removeChild(divcontainer);		
@@ -143,7 +144,7 @@ function initDialog()
 			var tabCss=document.createElement("div");						 
 			tabCss.className="tab_css";
   			var bckgdColor=["background-color:#FCFCFC;","background-color:#F9FAD9;","background-color:#F3F3FA;"];
-		    for (var i=0;i<pages;i++){
+		    for (let i=0;i<pages;i++){
 		        var bsechkbx=document.createElement('input'); 
 		        bsechkbx.type='radio';		       
 		        bsechkbx.setAttribute('name','tab');		
@@ -459,13 +460,13 @@ function initDialog()
 			 if(loginform){
 			    loginform.parentNode.removeChild(loginform);
 		     }
-			 for(var i=0;i<tabcsses.length;i++){
+			 for(let i=0;i<tabcsses.length;i++){
 				tabcsses[i].parentNode.removeChild(tabcsses[i]);
 				
 			 }	
 			  btmshowtme.style.display="none";
 		     var ftchlds=ftbtm.childNodes;
-			 for(var i=ftchlds.length-1;i>2;i--){
+			 for(let i=ftchlds.length-1;i>2;i--){
 			     ftbtm.removeChild(ftchlds[i]);
 			}
              var conTainer=document.createElement("div");
@@ -555,7 +556,7 @@ function chooserc(event){   //初始或直接跳該筆	   從 1 開始計數!!!
 	var chsntail=0;		 	
 	var tables=document.getElementsByClassName("gridlist");
     var targetG=targetA.parentNode.parentNode.parentNode.parentNode;       
-	for(var i=0;i<tables.length;i++){		
+	for(let i=0;i<tables.length;i++){		
 		 if(targetG.id==tables[i].id){
 		   chsntail=i;			
 		   break;
@@ -566,7 +567,7 @@ function chooserc(event){   //初始或直接跳該筆	   從 1 開始計數!!!
 	var targetTrChildren=targetTr.getElementsByTagName("td"); 		 	
 	if (targetA.checked){			
 		var recChecked=document.getElementsByName("chkbx"+targetG.id );    //尋找 
-		for(var i=0;i<recChecked.length;i++){
+		for(let i=0;i<recChecked.length;i++){
 			if(recChecked[i].parentNode.parentNode.firstChild.textContent!=targetTrChildren[0].textContent){
 				 if (recChecked[i].checked){						
 					recChecked[i].checked=false;					 
@@ -605,7 +606,7 @@ function rowchoose(event){   //點選列ROW就可以選擇該筆資料
 	var targetG=targetRow.parentNode.parentNode;	 
     
 	var tables=document.getElementsByClassName("gridlist");
-	for(var i=0;i<tables.length;i++){		
+	for(let i=0;i<tables.length;i++){		
 		if(targetG.id==tables[i].id){
 			 chsntail=i;
 		     break;
@@ -613,7 +614,7 @@ function rowchoose(event){   //點選列ROW就可以選擇該筆資料
 	}
 	if(targetRow.lastChild.firstChild.checked==false){		     
 	    var recChecked=document.getElementsByName("chkbx"+targetG.id );    //尋找表頭
-		for(var i=0;i<recChecked.length;i++){
+		for(let i=0;i<recChecked.length;i++){
 		    if(recChecked[i].parentNode.parentNode.firstChild.textContent!=targetRow.firstChild.textContent){
 			    if (recChecked[i].checked){
 				    recChecked[i].checked=false;				
@@ -652,7 +653,7 @@ function delConfirm(event){     //確定刪除
 	var ttls=document.getElementsByClassName('ttl');		//表頭或表身有無總計數字
 	var tabs=document.getElementsByClassName('tab');	 	  
 	var tbno=0;
-	for(var i=0;i<tabs.length;i++){
+	for(let i=0;i<tabs.length;i++){
 		if(tabs[i].checked){
 			tbno=i;
 			break;
@@ -692,7 +693,7 @@ function delConfirm(event){     //確定刪除
 				var rowidx=0;
 				var currentNo=""; 
 				var maintable=document.getElementById("maintbody"+(tbno+1).toString());	
-				for(var i=0;i< maintable.rows.length; i++){			 
+				for(let i=0;i< maintable.rows.length; i++){			 
 					if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){	
 					
 						aWaitDelete.push(maintable.rows[i].cells[0].textContent);   //將待刪除資料存入陣列
@@ -711,7 +712,7 @@ function delConfirm(event){     //確定刪除
 					var mainrightvalue=mainrightValue.toLowerCase() ;
 					var valueshows=document.getElementsByName(mainrightValue+"value");  
 					if(valueshows.length>0){                     //如果是主檔首頁
-						for(var p=0;p<valueshows.length;p++){    //清空頁面資料
+						for(let p=0;p<valueshows.length;p++){    //清空頁面資料
 							valueshows[p].textContent="";
 						}
 					}						////
@@ -777,7 +778,7 @@ function delConfirm(event){     //確定刪除
 				 var rcdindex=sourceAccount(null,0);	
 	             var headtable=document.getElementById('maintbody1'); 
 				 headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-3].textContent='Y';
-					    for (var i=1;i<headtable.rows[rcdindex].cells.length-3;i++){  //要從編號開始計
+					    for (let i=1;i<headtable.rows[rcdindex].cells.length-3;i++){  //要從編號開始計
 		                    headtable.rows[rcdindex].cells[i].style.color="#000";
 		                    headtable.rows[rcdindex].cells[i].style.fontWeight="normal";					            
 	                    }
@@ -919,12 +920,12 @@ function fieldsSet(exucPrgNo){	   //剛進操作畫面之欄位設定
 		   
             rsp=JSON.parse(request.responseText);	
 			
-		     var widthttl=0;
-			 var m=0;
+		     let widthttl=0;
+			 let m=0;
 			
-		    for(var i=0;i<rsp.length;i++){		
+		    for(let i=0;i<rsp.length;i++){		
 			    
-			    for(var jk in rsp[i]){	 
+			    for(let jk in rsp[i]){	 
 				    if(jk=='field_order' && parseInt(left(rsp[i][jk],1))!=m){
 
 						m=parseInt(left(rsp[i][jk], 1));			
@@ -953,7 +954,7 @@ function fieldsSet(exucPrgNo){	   //剛進操作畫面之欄位設定
             if(m>1){
 				
 				var keynames=document.getElementsByName('keyname');	
-				for(var k=0;k<keynames.length;k++){
+				for(let k=0;k<keynames.length;k++){
 	                   keynames[k].textContent=rsp[0]['field_name']+":";
 				}
 			}   
@@ -966,11 +967,11 @@ function fieldsSet(exucPrgNo){	   //剛進操作畫面之欄位設定
 
 // 這是最穩定的版本，能徹底解決 Chrome/Edge 的差異
 function refreshCaptcha(event) {
-    var ts = new Date().getTime();
-    var i1 = document.getElementById('img1');
-    var i2 = document.getElementById('img2');
-    var i3 = document.getElementById('img3');
-    var i4 = document.getElementById('img4');
+    let ts = new Date().getTime();
+    let i1 = document.getElementById('img1');
+    let i2 = document.getElementById('img2');
+    let i3 = document.getElementById('img3');
+    let i4 = document.getElementById('img4');
 
     if (i1) {
         // 1. 先載入第一張，啟動伺服器 Session 更新

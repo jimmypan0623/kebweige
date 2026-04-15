@@ -80,6 +80,7 @@ function page1Detail01(ajTable){
 		}			
 	 }	 
 }
+
 function searchHaveshiped(str1,ajTable) {       //搜尋相關料號
     var cnt=0;
 	var arr = str1;     	 
@@ -111,8 +112,8 @@ function searchHaveshiped(str1,ajTable) {       //搜尋相關料號
 	}	
 	  
     if(cnt==0){
-	  blkshow("無資料!");
-	  return false;
+	    blkshow("無資料!");
+	    return false;
 	}else{
 	    var array = ['料號','憑證單號','異動數量','單價', '幣別','匯率','小計'];
 		var array4 = ['25%','12%','12%','12%', '5%','12%','12%'];
@@ -127,7 +128,6 @@ function searchHaveshiped(str1,ajTable) {       //搜尋相關料號
 	}		
 	
 }
-
 
 
 function searchKeyHint(tbno){    //搜尋畫面出現提示

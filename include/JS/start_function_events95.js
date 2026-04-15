@@ -198,14 +198,14 @@ function outprocs(event){
 	}
 	 getAuth[0]('Clear_All');
 	///// 
-	var scriptall=document.getElementsByTagName("script");
+	/* var scriptall=document.getElementsByTagName("script");
 	for(var j=0;j<scriptall.length;j++){
 	    if(scriptall[j].id){
 	       
 		   scriptall[j].remove();
 		}
-	}		 	
-	
+	}		  */	
+	document.querySelectorAll("script[id]").forEach(s=>s.remove());		
 	/////	 
      var urlfolder=document.getElementsByTagName('title');		 
  
@@ -224,7 +224,7 @@ function DrawTable(){
 	var tabs=getElementsByAttribute("class","tab");	
 	if (tabs[0].checked){
 		 var btns=getElementsByAttribute('class','btn');			 
-		 for (var i=0;i<btns.length;i++){		
+		 for (let i=0;i<btns.length;i++){		
 		     if(btns[i].accessKey=='I' || btns[i].accessKey=='M' ){
 		        btns[i].removeAttribute("accesskey");		
 			 } 
@@ -284,15 +284,7 @@ function commontemp(idn,stk){
 				break;
 			}
 		}	   
-	    /* if (aTable.rows.length>0){
-		    var i=0;
-	        while (i<aTable.rows.length){
-		    
-		       aTable.deleteRow(i);		    	    
-		       i--;		    
-		     i++; 	     
-	        }	 		    
-	    } */
+		
 		while(aTable.rows.length > 0) { aTable.deleteRow(0); }
 	}
 	if(window.ActiveXObject){
