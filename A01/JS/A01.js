@@ -68,6 +68,8 @@ function getProfile(str1,reccount,tbno) {
 			   oTd.style.width=wdthln+"%";
 			   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
 			}				
+			
+			
             if(jk.substr(0,jk.lastIndexOf('_')-4)=='isdirect'){
 			   var oTd = oTr.insertCell(oTr.cells.length);
 			   oTd.setAttribute("class","indirectdata");	
@@ -90,7 +92,7 @@ function getProfile(str1,reccount,tbno) {
 			   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
 			}			
 		} 	
-		
+
         var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
 	    oTd.setAttribute("style","display:none");   //勾選不顯示
 	 	var myCheck=document.createElement('input'); 

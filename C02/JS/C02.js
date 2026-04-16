@@ -28,7 +28,7 @@ function getProfile(str1,reccount,tbno) {
 	////
 	var oTable = document.getElementById("maintbody1");	 
 	 
-	for(var i=0;i<arr.length;i++){		
+	/* for(var i=0;i<arr.length;i++){		
 		var oTr=oTable.insertRow(-1);	
 		oTr.setAttribute("name","mainrow");	      		
 		cnt++;		
@@ -53,7 +53,21 @@ function getProfile(str1,reccount,tbno) {
 			   oTd.style.width=wdthln+"%";
 			   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
 			} 
-	   }
+	   } */
+	    for (var jk in arr[i]) {
+			var meta = parseFieldMeta(jk);
+			var oTd = oTr.insertCell(-1);
+			oTd.innerHTML = arr[i][jk];
+
+			if (meta) {
+				oTd.className = meta.isDirect ? "directdata" : "indirectdata";
+				oTd.style.width = meta.width;
+				oTd.style.textAlign = meta.align;
+				if (meta.isHidden) oTd.style.display = "none";
+			}						
+			// 點擊事件綁定
+			attachEventListener(oTd, 'click', rowchoose, false);
+		}
 	   var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
 	   oTd.setAttribute("style","width:40px;display:none");   //勾選不顯示
 	   var myCheck=document.createElement('input'); 

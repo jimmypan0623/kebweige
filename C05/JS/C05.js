@@ -1,153 +1,152 @@
-function getProfile(arr, reccount) {
-    var cnt = 0;
-    var oTable = document.getElementById("maintbody1");
-    var slt2 = document.getElementById('recmth');
-    var responseDiv = document.getElementById("serverResponse1");
-    var rdyship = document.getElementById("REDYSHIP_BOTT");
-    var seekrcd = document.getElementById("SEEK_BOTT");
+function getProfile(str1,reccount) {      
+    var cnt=0;
+	var arr = str1; 
+    var tabs=getElementsByAttribute("class","tab");
+        var pagecount=Math.ceil(reccount/parseInt(getAuth[2]()[0].INT_RCD));
+        var optdigts= (pagecount.toString()).length;	    
+        var slt2=document.getElementById('recmth');
+	    if (slt2.options.length<pagecount){
+		for (var i=slt2.options.length+1;i<=pagecount;i++){
+			var item_no=paddingLeft(i,optdigts);				
+			var varItem=new Option(item_no,item_no);
+			slt2.options.add(varItem);	 
+	   }	  
+			   //第一個選項位數修正		   
+	   slt2.options[0].value=paddingLeft(1,optdigts);
+	   slt2.options[0].text=paddingLeft(1,optdigts);
+		var bibau=cko[0](0);   //找出閉包筆數變數現值
+		cko[0](bibau*(-1));    //將閉包變數歸零
+		cko[0](reccount);      //將筆數記起來	
+	  
+	}
+	var oTable = document.getElementById("maintbody1");
+	var fld=document.getElementById('recfield');
+	for(var i=0;i<arr.length;i++){		
+		var oTr=oTable.insertRow(-1);	
+		oTr.setAttribute("name","mainrow");	      		
+		cnt++;		
+		/* for(var jk in arr[i]){		   
+			var oTd = oTr.insertCell(oTr.cells.length);		     		  
+			oTd.innerHTML=arr[i][jk];		
+            var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
+			var ks=ara.split('');		
+			//ks[0]:直接或間接 D/I
+			//ks[1]:是否顯示   S/H
+			//ks[2]:靠左中或右 L/C/R	
+			if(ks[0]=="D"){
+				oTd.setAttribute("class","directdata");	
+			}else{
+				oTd.setAttribute("class","indirectdata");	
+			}				 
+			if(ks[1]=='H'){
+				oTd.setAttribute("style","display:none;");		
+			}else{
+			   oTd.style.textAlign=(ks[2]=="L"?"left":(ks[2]=="C"?"center":"right"));
+			   var wdthln=jk.substr(jk.lastIndexOf('_')+1,3);  	  	
+			   oTd.style.width=wdthln+"%";
+			   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
+			}			 			 
+	   } */
+       for (var jk in arr[i]) {
+			var meta = parseFieldMeta(jk);
+			var oTd = oTr.insertCell(-1);
+			oTd.innerHTML = arr[i][jk];
+			if (meta) {
+				oTd.className = meta.isDirect ? "directdata" : "indirectdata";
+				oTd.style.width = meta.width;
+				oTd.style.textAlign = meta.align;
+				if (meta.isHidden) oTd.style.display = "none";
+			}											
+			// 點擊事件綁定
+			attachEventListener(oTd, 'click', rowchoose, false);
+		}
+	   var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
+	   oTd.setAttribute("style","width:40px;display:none");   //勾選不顯示
+	   var myCheck=document.createElement('input'); 
+	   myCheck.type="checkbox";		  
+	   myCheck.setAttribute("name","chkbxmember1");   //讓使用者勾選的checkbox表頭			
+	   attachEventListener(myCheck,'click',chooserc,false);		   
+	   oTd.appendChild(myCheck);     		    
+		if(arr[i]['readyship_qty_IHC_000']*1>0){  //有開單未過帳量
+			oTr.setAttribute("style","font-weight:bold;color:#704214;");//#949100
+		}else if(arr[i]['diffdate_IHL_000']>0){  //預定交期超過今天紅字
+			oTr.setAttribute("style","font-weight:bold;color:#E60000;");
+		}		  
+	}
+	   
+	 var responseDiv=document.getElementById("serverResponse1");  		
 
-    // 1. 分頁選單優化
-    var intRcd = parseInt(getAuth[2]()[0].INT_RCD) || 10;
-    var pagecount = Math.ceil(reccount / intRcd);
-    var optdigts = pagecount.toString().length;
-
-    if (slt2.options.length < pagecount) {
-        var optFrag = document.createDocumentFragment();
-        for (var i = slt2.options.length + 1; i <= pagecount; i++) {
-            var item_no = paddingLeft(i, optdigts);
-            optFrag.appendChild(new Option(item_no, item_no));
-        }
-        slt2.appendChild(optFrag);
-        slt2.options[0].value = slt2.options[0].text = paddingLeft(1, optdigts);
-        cko[0](cko[0](0) * -1);
-        cko[0](reccount);
-    }
-
-    // 2. 表格渲染優化 (使用 DocumentFragment)
-    var fragment = document.createDocumentFragment();
-    var alignMap = { "L": "left", "C": "center", "R": "right" };
-
-    for (var i = 0; i < arr.length; i++) {
-        var rowData = arr[i];
-        var oTr = document.createElement("tr");
-        oTr.setAttribute("name", "mainrow");
-        
-        // --- 【關鍵修復：自動校對錯誤資料】 ---
-        var realReadyQty = 0;
-        var realDiffDate = 0;
-        for (var key in rowData) {
-            // 模糊匹配：只要包含關鍵字就抓取數值，預防後端欄位結尾更動
-            if (key.indexOf('readyship_qty') !== -1) realReadyQty = Number(rowData[key]) || 0;
-            if (key.indexOf('diffdate') !== -1) realDiffDate = Number(rowData[key]) || 0;
-        }
-        // 將數值存入 dataset，供 toggleShipButton 精準讀取 (不再數格子)
-        oTr.dataset.readyQty = realReadyQty;
-        // ------------------------------------
-
-        cnt++;
-
-        for (var jk in rowData) {
-            var cellValue = rowData[jk];
-            var oTd = document.createElement("td");
-            oTd.innerHTML = cellValue;
-
-            var match = jk.match(/^(.*)_([DI])([SH])([LCR])_(\d{3})$/);
-            if (match) {
-                var isDirect = match[2] === "D";
-                var isHidden = match[3] === "H";
-                var align = alignMap[match[4]] || "left";
-                var width = match[5];
-
-                oTd.className = isDirect ? "directdata" : "indirectdata";
-                
-                if (isHidden) {
-                    oTd.style.display = "none";
-                } else {
-                    oTd.style.textAlign = align;
-                    oTd.style.width = width + "%";
-                    if (typeof attachEventListener === "function") {
-                        attachEventListener(oTd, 'click', rowchoose, false);
-                    }
-                }
-            }
-            oTr.appendChild(oTd);
-        }
-
-        // 3. Checkbox 欄位
-        var oTdCheck = document.createElement("td");
-        oTdCheck.style.cssText = "width:40px; display:none;";
-        var myCheck = document.createElement('input');
-        myCheck.type = "checkbox";
-        myCheck.name = "chkbxmember1";
-        if (typeof attachEventListener === "function") {
-            attachEventListener(myCheck, 'click', chooserc, false);
-        }
-        oTdCheck.appendChild(myCheck);
-        oTr.appendChild(oTdCheck);
-
-        // 4. 特殊狀態顏色處理 (使用校對後的數值)
-        if (realReadyQty > 0) {
-            oTr.style.cssText = "font-weight:bold; color:#704214;"; // 有開單未過帳
-        } else if (realDiffDate > 0) {
-            oTr.style.cssText = "font-weight:bold; color:#E60000;"; // 逾期紅字
-        }
-
-        fragment.appendChild(oTr);
-    }
-
-    oTable.innerHTML = ""; 
-    oTable.appendChild(fragment);
-
-    updateUIFeedback(cnt, responseDiv, seekrcd, rdyship);
+	  if(cnt>0){       //初始畫面呼叫		  
+		  if(responseDiv.innerHTML=='Searching......'){
+			  responseDiv.setAttribute("style","color:#536a60;"); 
+             responseDiv.innerHTML="搜尋到 "+String(cnt)+" 筆資料。" +String(cnt)+" record"+(cnt>1?"s":"")+" match your search. " +String(cnt)+" レコードを検索。";            		
+	      }
+		  chooserc(1);
+	 }else{
+		 if(responseDiv.innerHTML=='Searching......'){
+			responseDiv.setAttribute("style","color:red;"); 
+	   	     responseDiv.innerHTML="無此資料！Not found!検索できません。"; 
+	      }else{
+		      responseDiv.innerHTML="客戶訂單均已出清....";
+			  var seekrcd=document.getElementById("SEEK_BOTT");
+		      seekrcd.setAttribute("style","visibility:hidden;");
+		      detachEventListener(seekrcd,"click",seekrec,false);
+		  }
+	     var rdyship=document.getElementById("REDYSHIP_BOTT");
+		 rdyship.setAttribute("style","visibility:hidden;");				   
+		 detachEventListener(rdyship,"click",page1OtherButton1,false);		  
+		 
+	  }		    
 }
+/* function choseExtraDeal(targetTrChildren){   //紀錄移動
+     var rdyship=document.getElementById("REDYSHIP_BOTT");
+	 
+	 if(targetTrChildren[6].innerHTML*1==0){
+		  rdyship.setAttribute("style","visibility:hidden;");				   
+		  detachEventListener(rdyship,"click",page1OtherButton1,false);
+	 }else{
+		 rdyship.setAttribute("style","visibility:visible;font-size:17px;");				   				   
+		 attachEventListener(rdyship,"click",page1OtherButton1,false);
+	 }
+	 
+    return true;			   
+}
+function rowchoseExtraDeal(targetRow){    //紀錄移動
+    var rdyship=document.getElementById("REDYSHIP_BOTT");
+	 
+	 if(targetRow.childNodes[6].innerHTML*1==0){
+		  rdyship.setAttribute("style","visibility:hidden;");				   
+		  detachEventListener(rdyship,"click",page1OtherButton1,false);
+	 }else{
+		 rdyship.setAttribute("style","visibility:visible;font-size:17px;");				   				   
+		 attachEventListener(rdyship,"click",page1OtherButton1,false);
+	 }
+	 
+    return true;			   
+}	 */
 
-/** 修正後的按鈕連動：解決「沒內容」與「抓錯列」問題 */
-function toggleShipButton(target, isRow) {
-    var rdyship = document.getElementById("REDYSHIP_BOTT");
-    if (!rdyship) return;
 
-    // 取得正確的 TR 物件
-    var oTr = isRow ? target : target[0].parentNode;
+
+/**
+ * 按鈕可用性檢查 (整合版)
+ */
+function checkButtonAvailability(target, isRow) {
+    const rdyship = document.getElementById("REDYSHIP_BOTT");
+    const cells = isRow ? target.childNodes : target;
     
-    // 直接讀取渲染時預存的 dataset 數值，最準確
-    var qty = Number(oTr.dataset.readyQty) || 0;
+    // 檢查關鍵數值欄位 (假設在第 7 欄，Index 6)
+    const val = Number(cells[6]?.innerHTML) || 0;
 
-    if (qty === 0) {
+    if (val === 0) {
         rdyship.style.visibility = "hidden";
         detachEventListener(rdyship, "click", page1OtherButton1, false);
     } else {
-        rdyship.style.cssText = "visibility:visible; font-size:17px; cursor:pointer;";
-        // 重新綁定事件
-        detachEventListener(rdyship, "click", page1OtherButton1, false);
+        rdyship.style.cssText = "visibility:visible; font-size:17px;";
         attachEventListener(rdyship, "click", page1OtherButton1, false);
     }
-    return true;
 }
 
-// 介面反饋保持不變
-function updateUIFeedback(cnt, responseDiv, seekrcd, rdyship) {
-    var isSearching = responseDiv.innerHTML === 'Searching......';
-    if (cnt > 0) {
-        if (isSearching) {
-            responseDiv.style.color = "#536a60";
-            responseDiv.innerHTML = "搜尋到 " + cnt + " 筆資料。";
-        }
-        chooserc(1);
-    } else {
-        if (isSearching) {
-            responseDiv.style.color = "red";
-            responseDiv.innerHTML = "無此資料！Not found!";
-        } else {
-            responseDiv.innerHTML = "客戶訂單均已出清....";
-            if (seekrcd) {
-                seekrcd.style.visibility = "hidden";
-                detachEventListener(seekrcd, "click", seekrec, false);
-            }
-        }
-        rdyship.style.visibility = "hidden";
-        detachEventListener(rdyship, "click", page1OtherButton1, false);
-    }
-}
+// 供外部調用
+function choseExtraDeal(targetTrChildren) { checkButtonAvailability(targetTrChildren, false); return true; }
+function rowchoseExtraDeal(targetRow) { checkButtonAvailability(targetRow, true); return true; }
 
-function choseExtraDeal(targetTrChildren) { return toggleShipButton(targetTrChildren, false); }
-function rowchoseExtraDeal(targetRow) { return toggleShipButton(targetRow, true); }

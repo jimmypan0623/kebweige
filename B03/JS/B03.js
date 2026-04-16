@@ -43,51 +43,39 @@ function getProfile(str1,trncde,tbno) {
 	for(var i=0;i<arr.length;i++){		
 		var oTr=oTable.insertRow(-1);	
 		oTr.setAttribute("name","mainrow");	      		
-		cnt++;		
-		for(var jk in arr[i]){
+		cnt++;				
+		for (var jk in arr[i]) {
 			if(jk=='ship_date_DSC_010' && sourceAccount(20,0)*1>1){  //不補貨無補貨日期欄
 				continue;
 			}
-			var oTd = oTr.insertCell(oTr.cells.length);				
-			oTd.innerHTML=arr[i][jk];	
-			var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
-			var ks=ara.split('');		
-			//ks[0]:直接或間接 D/I
-			//ks[1]:是否顯示   S/H
-			//ks[2]:靠左中或右 L/C/R	
-			if(ks[0]=="D"){
-				oTd.setAttribute("class","directdata");	
-			}else{
-				oTd.setAttribute("class","indirectdata");	
-			}				 
-			if(ks[1]=='H'){
-				oTd.setAttribute("style","display:none;");		
-			}else{
-			   oTd.style.textAlign=(ks[2]=="L"?"left":(ks[2]=="C"?"center":"right"));
-			   var wdthln=jk.substr(jk.lastIndexOf('_')+1,3);  	  	
-			   oTd.style.width=wdthln+"%";
-			   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
-			}		
+			var meta = parseFieldMeta(jk);
+			var oTd = oTr.insertCell(-1);
+			oTd.innerHTML = arr[i][jk];
+
+			if (meta) {
+				oTd.className = meta.isDirect ? "directdata" : "indirectdata";
+				oTd.style.width = meta.width;
+				oTd.style.textAlign = meta.align;
+				if (meta.isHidden) oTd.style.display = "none";
+			}
+						
 			if(jk.substr(0,jk.lastIndexOf('_')-4)=='invoice_type' && tbno==0){
 				var oTd = oTr.insertCell(oTr.cells.length);
 				oTd.setAttribute("class","indirectdata");					 
 				oTd.setAttribute("style","width:5%;text-align:center;");	
-				oTd.innerHTML=whichinvoice(arr[i][jk]);
-				attachEventListener(oTd,'click',rowchoose,false);		//點選資料
+				oTd.innerHTML=whichinvoice(arr[i][jk]);			 
 			}		 				   
 			if(jk.substr(0,jk.lastIndexOf('_')-4)=='tax_type' && tbno==0){
 				var oTd = oTr.insertCell(oTr.cells.length);
 				oTd.setAttribute("class","indirectdata");					 
 				oTd.setAttribute("style","width:4%;text-align:center;");	
-				oTd.innerHTML=whichtax(arr[i][jk]);					 
-				attachEventListener(oTd,'click',rowchoose,false);		//點選資料					  
+				oTd.innerHTML=whichtax(arr[i][jk]);					 			 			  
 			}		
 			if(jk.substr(0,jk.lastIndexOf('_')-4)=='discount_ship' && tbno==0){
 				var oTd = oTr.insertCell(oTr.cells.length);
 				oTd.setAttribute("class","indirectdata");					 
 				oTd.innerHTML=(arr[i][jk]=='1'?'退回後補':(arr[i][jk]=='2'?'退貨不補':'金額折讓'));
-				oTd.setAttribute("style","text-align:center;width:7%;");		 
-				attachEventListener(oTd,'click',rowchoose,false);		//點選資料					  
+				oTd.setAttribute("style","text-align:center;width:7%;");		 			 				  
 			}		
 			if(jk.substr(0,jk.lastIndexOf('_')-4)=='query_price' && tbno==1){
 				var oTd = oTr.insertCell(oTr.cells.length);
@@ -96,9 +84,12 @@ function getProfile(str1,trncde,tbno) {
 				oTd.innerHTML=whichtax(arr[i][jk]);		
 				oTd.innerHTML=Math.round((oTr.cells[4].innerHTML*oTr.cells[5].innerHTML + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);					    
 				queryttl+=Number(oTd.innerHTML);
-				attachEventListener(oTd,'click',rowchoose,false);		//點選資料					  
-			}		
-	    }		   
+			 				  
+			}					
+			// 點擊事件綁定
+			attachEventListener(oTd, 'click', rowchoose, false);
+		}
+
 		var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
 	    oTd.setAttribute("style","display:none");   
 	 	var myCheck=document.createElement('input'); 

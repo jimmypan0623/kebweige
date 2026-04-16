@@ -206,26 +206,31 @@ function prntproc(event){
 	{
 		event=window.event;
 	}
-	var headidx=0;
+   
+	
 	var headdata=[];
 	 var maintable=document.getElementById("maintbody1");	 
 	 for(var i=0;i< maintable.rows.length; i++){			 
 		 if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
-			headidx=i;				 					 
+					
+			for (var j=1;j<maintable.rows[i].cells.length-3;j++){    //要從單據編號開始計	
+				 headdata.push(maintable.rows[i].cells[j].innerHTML);	
+			}
 			break;
 		 }
 	}
-	for (var i=1;i<maintable.rows[headidx].cells.length-3;i++){  //要從編號開始計		     					 			
-	   headdata.push(maintable.rows[headidx].cells[i].innerHTML);			 
-	}
+
+   
 	/*  var urlcmp=(decodeURI(window.location.search));
-	 var ourcmp=urlcmp.substr(urlcmp.indexOf('=')+1); */
-	  var urlcmp=(decodeURI(window.location.search));
 	 var rslt=getUrlParams2(urlcmp);
-	 var ourcmp=rslt.ourcompany;
-	var urlphp="C21/BKND/C21report.php?ourCompany="+ourcmp+"&queryNo="+headdata[0]+"&customNo="+headdata[1]+' '+headdata[3];		 
-	urlphp+="&salesMan="+headdata[6]+"&curNcy="+headdata[7]+"&shipWay="+headdata[9];
-	urlphp+="&payMent="+headdata[10]+"&reMark="+headdata[11]+"&windowMan="+headdata[8];
-	window.open(urlphp,"_blank");
+	 var ourcmp=rslt.ourcompany; */
+	  var ourcmp=getAuth[2]()[0].INT_000;
+	
+
+	var urlphp="C04/BKND/C04report.php?ourCompany="+ourcmp+"&queryNo="+headdata[0]+"&customNo="+headdata[1]+"\u{A0}"+headdata[3];	
+    urlphp+="&salesMan="+headdata[6]+"\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}"+"&curNcy="+headdata[7]+"&shipAddress="+headdata[9];
+	urlphp+="&shipDirect="+headdata[10]+"&customerPo="+headdata[8];		 
+	 window.open(urlphp,"_blank");
 	return;
+	//"&shipDirect="+headdata[10]+
 }

@@ -176,7 +176,8 @@ $pdf->AddPage('P', 'LETTER');
  mysqli_query($dbc,'set names utf8'); */
  $link = @mysqli_connect('localhost','root','To6035376615004513834','tkdata');
  mysqli_query($link,'set names utf8');  
-         
+       
+  
  $sql3="select c27.*,b01.F02 as F0B,b01.F04 as F0D,b01.F28+b01.F31 as F2A from c27 left outer join b01 on c27.F02=b01.F01 where c27.F01='".$_GET['queryNo']."' order by c27.F02"; 
   
    $sql4=@mysqli_query($link,$sql3); 

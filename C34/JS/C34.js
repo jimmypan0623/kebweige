@@ -2,64 +2,53 @@ function getProfile(str1,reccount,tbno) {
     var cnt=0;
 	var arr = str1; 
     var tabs=getElementsByAttribute("class","tab");
-        var pagecount=Math.ceil(reccount/parseInt(getAuth[2]()[0].INT_RCD));
-        var optdigts= (pagecount.toString()).length;	    
-        var slt2=document.getElementById('recmth');
-	    if (slt2.options.length<pagecount){
-    		for (var i=slt2.options.length+1;i<=pagecount;i++){
-			    var item_no=paddingLeft(i,optdigts);				
-		        var varItem=new Option(item_no,item_no);
-	    	    slt2.options.add(varItem);	 
-           }
-		  
-		   		   //第一個選項位數修正		   
-		   slt2.options[0].value=paddingLeft(1,optdigts);
-		   slt2.options[0].text=paddingLeft(1,optdigts);
-		    var bibau=cko[0](0);   //找出閉包筆數變數現值
-	        cko[0](bibau*(-1));    //將閉包變數歸零
-		    cko[0](reccount);      //將筆數記起來	          
-	    }
-		var oTable = document.getElementById("maintbody1");
-		var fld=document.getElementById('recfield');
-	    for(var i=0;i<arr.length;i++){		
-	    	var oTr=oTable.insertRow(-1);	
-            oTr.setAttribute("name","mainrow");	      		
-            cnt++;		
-	    	for(var jk in arr[i]){		   
-	    	    var oTd = oTr.insertCell(oTr.cells.length);		     		  
-	    		oTd.innerHTML=arr[i][jk];		
-                var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
-                var ks=ara.split('');		
-		        //ks[0]:直接或間接 D/I
-		        //ks[1]:是否顯示   S/H
-		        //ks[2]:靠左中或右 L/C/R	
-				if(ks[0]=="D"){
-					oTd.setAttribute("class","directdata");	
-				}else{
-					oTd.setAttribute("class","indirectdata");	
-				}				 
-				if(ks[1]=='H'){
-					oTd.setAttribute("style","display:none;");		
-				}else{
-				   oTd.style.textAlign=(ks[2]=="L"?"left":(ks[2]=="C"?"center":"right"));
-				   var wdthln=jk.substr(jk.lastIndexOf('_')+1,3);  	  	
-				   oTd.style.width=wdthln+"%";
-				   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
-				}
+	var pagecount=Math.ceil(reccount/parseInt(getAuth[2]()[0].INT_RCD));
+	var optdigts= (pagecount.toString()).length;	    
+	var slt2=document.getElementById('recmth');
+	if (slt2.options.length<pagecount){
+		for (var i=slt2.options.length+1;i<=pagecount;i++){
+			var item_no=paddingLeft(i,optdigts);				
+			var varItem=new Option(item_no,item_no);
+			slt2.options.add(varItem);	 
+	   }
+	  
+			   //第一個選項位數修正		   
+	   slt2.options[0].value=paddingLeft(1,optdigts);
+	   slt2.options[0].text=paddingLeft(1,optdigts);
+		var bibau=cko[0](0);   //找出閉包筆數變數現值
+		cko[0](bibau*(-1));    //將閉包變數歸零
+		cko[0](reccount);      //將筆數記起來	          
+	}
+	var oTable = document.getElementById("maintbody1");
+	var fld=document.getElementById('recfield');
+	for(var i=0;i<arr.length;i++){		
+		var oTr=oTable.insertRow(-1);	
+		oTr.setAttribute("name","mainrow");	      		
+		cnt++;		
+		for (var jk in arr[i]) {
+			var meta = parseFieldMeta(jk);
+			var oTd = oTr.insertCell(-1);
+			oTd.innerHTML = arr[i][jk];
 
-		    }
-
-	       var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
-	       oTd.setAttribute("style","width:40px;display:none");   //勾選不顯示
-	 	   var myCheck=document.createElement('input'); 
-		   myCheck.type="checkbox";		  
-		   myCheck.setAttribute("name","chkbxmember1");   //讓使用者勾選的checkbox表頭			
-		   attachEventListener(myCheck,'click',chooserc,false);		   
-		   oTd.appendChild(myCheck);     
+			if (meta) {
+				oTd.className = meta.isDirect ? "directdata" : "indirectdata";
+				oTd.style.width = meta.width;
+				oTd.style.textAlign = meta.align;
+				if (meta.isHidden) oTd.style.display = "none";
+			}						
+			// 點擊事件綁定
+			attachEventListener(oTd, 'click', rowchoose, false);
+		}
+	   var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
+	   oTd.setAttribute("style","width:40px;display:none");   //勾選不顯示
+	   var myCheck=document.createElement('input'); 
+	   myCheck.type="checkbox";		  
+	   myCheck.setAttribute("name","chkbxmember1");   //讓使用者勾選的checkbox表頭			
+	   attachEventListener(myCheck,'click',chooserc,false);		   
+	   oTd.appendChild(myCheck);     
 		  
 	}
-	   
-	
+
 	  var responseDiv=document.getElementById("serverResponse1");  		
 	  if(responseDiv.innerHTML=='Searching......'){	
 		 if (cnt==0){

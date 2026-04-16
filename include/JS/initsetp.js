@@ -55,7 +55,11 @@ function initDialog()
 		}
 		for(let i=0;i<tabcsses.length;i++){
 			tabcsses[i].parentNode.removeChild(tabcsses[i]);			
-		}					    	  		 
+		}			
+		var img1=document.getElementById('img1');
+		var img2=document.getElementById('img2');
+		var img3=document.getElementById('img3');
+		var img4=document.getElementById('img4');
 		if (img1 && img2 && img3 && img4 ) {
 			
 			for (let i = 1; i <= 4; i++) {
@@ -987,4 +991,19 @@ function refreshCaptcha(event) {
         };
     }
 
+}
+	// 優化欄位解析邏輯
+function parseFieldMeta(fieldName) {
+    var parts = fieldName.split('_');
+    var metaStr = parts[parts.length - 2]; // 取得如 "DSL"
+    var widthStr = parts[parts.length - 1]; // 取得如 "010"
+    
+    if (!metaStr || metaStr.length !== 3) return null;
+
+    return {
+        isDirect: metaStr[0] === 'D',
+        isHidden: metaStr[1] === 'H',
+        align: { 'L': 'left', 'C': 'center', 'R': 'right' }[metaStr[2]] || 'left',
+        width: parseInt(widthStr, 10) + '%'
+    };
 }

@@ -27,7 +27,7 @@ function getProfile(str1,reccount) {
 		var oTr=oTable.insertRow(-1);	
 		oTr.setAttribute("name","mainrow");	      		
 		cnt++;		
-		for(var jk in arr[i]){		   
+		/* for(var jk in arr[i]){		   
 			var oTd = oTr.insertCell(oTr.cells.length);		     		  
 			oTd.innerHTML=arr[i][jk];		 	
 			var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
@@ -49,8 +49,21 @@ function getProfile(str1,reccount) {
 			   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
 			}		
 			 
-	    }
-	  
+	    } */
+	    for (var jk in arr[i]) {
+			var meta = parseFieldMeta(jk);
+			var oTd = oTr.insertCell(-1);
+			oTd.innerHTML = arr[i][jk];
+
+			if (meta) {
+				oTd.className = meta.isDirect ? "directdata" : "indirectdata";
+				oTd.style.width = meta.width;
+				oTd.style.textAlign = meta.align;
+				if (meta.isHidden) oTd.style.display = "none";
+			}						
+			// 點擊事件綁定
+			attachEventListener(oTd, 'click', rowchoose, false);
+		}
 	   var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
 	   oTd.setAttribute("style","width:40px;display:none");   //勾選不顯示
 	   var myCheck=document.createElement('input'); 
@@ -150,7 +163,7 @@ function contentShow(arr){
 		var oTr=oTable.insertRow(-1);	
 		//oTr.setAttribute("name","mainrow");	      		
 		cnt1++;		
-		for(var jk in arr[i]){		   
+		/* for(var jk in arr[i]){		   
 			var oTd = oTr.insertCell(oTr.cells.length);		     		  
 			oTd.innerHTML=arr[i][jk];		 			
 			if(oTd.innerHTML=="稅額"){
@@ -177,7 +190,26 @@ function contentShow(arr){
 			if(jk.substr(0,jk.lastIndexOf('_')-4)=='rcd_total'){
 			   queryttl+=Number(oTd.innerHTML);
 			} 
-	    } 
+	    }  */
+		for (var jk in arr[i]) {
+			var meta = parseFieldMeta(jk);
+			var oTd = oTr.insertCell(-1);
+			oTd.innerHTML = arr[i][jk];
+
+			if (meta) {
+				oTd.className = meta.isDirect ? "directdata" : "indirectdata";
+				oTd.style.width = meta.width;
+				oTd.style.textAlign = meta.align;
+				if (meta.isHidden) oTd.style.display = "none";
+			}				
+			if(oTd.innerHTML=="稅額"){
+			   oTd.parentNode.style.color="#5B5B5B";
+			}
+			if(jk.substr(0,jk.lastIndexOf('_')-4)=='rcd_total'){
+			   queryttl+=Number(oTd.innerHTML);
+			} 
+			 
+		}
    }
     if(cnt1>0){       //初始畫面呼叫
 		  document.getElementById("ttltitle").innerHTML="<mark style='background-color:#BAF4D8;'>"+sourceAccount('0',0)+"&nbsp"+sourceAccount(2,0)+"</mark>\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}本月應收總額:";
