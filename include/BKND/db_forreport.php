@@ -1,21 +1,23 @@
 <?php
-// db_config.php
+// db_forreport.php 建議內容
+$db_host = 'localhost';
+$db_user = 'root';
+$db_pass = 'To6035376615004513834';
+$db_name = 'tkdata';
 
-// 定義連線參數
-define('DB_SERVER', 'localhost');
-define('DB_USERNAME', 'root');
-define('DB_PASSWORD', 'To6035376615004513834');
-define('DB_NAME', 'tkdata');
+// 建立連線
+$link = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
 
-// 建立連線並設定編碼
-function get_db_connection() {
-    $link = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
-    
-    if (!$link) {
-        die("連線失敗: " . mysqli_connect_error());
-    }
-    
-    mysqli_query($link, 'set names utf8');
-    return $link;
+if (!$link) {
+    die("報表資料庫連線失敗: " . mysqli_connect_error());
 }
+
+// 強制設定編碼
+mysqli_query($link, 'set names utf8');
+
+// (選填) 報表專用設定：如果資料量大，可以放寬記憶體或執行時間
+// ini_set('memory_limit', '256M');
+
+////
+
 ?>

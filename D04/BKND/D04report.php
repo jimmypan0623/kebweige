@@ -79,16 +79,11 @@ $pdf->SetAutoPageBreak(TRUE, 20);
 $pdf->AddPage();
   
 // --- 4. 資料庫處理 (保持不變) ---
-
 require_once('../../include/BKND/db_forreport.php');  // 引入設定檔
-
-// 取得連線實例
-$link = get_db_connection();
 $sql = "SELECT d04.*, b01.F02 as F0B, b01.F04 as F0D 
         FROM d04 LEFT JOIN b01 ON d04.F02 = b01.F01 
         WHERE d04.F01 = '".mysqli_real_escape_string($link, $_GET['queryNo'])."' 
         ORDER BY d04.F02";
-
 $result = mysqli_query($link, $sql);
 $tbody = '';
 $grandTotal = 0;

@@ -1,6 +1,6 @@
  <?php 
  // 避免重複定義，確保系統穩定
-if (!isset($link)) {
+ if (!isset($link)) {
     // 1. 建立連線
     $link = @mysqli_connect('localhost', 'root', 'To6035376615004513834', 'tkdata');
     
@@ -13,6 +13,7 @@ if (!isset($link)) {
     
     // 3. 設定正確的編碼 (推薦方式)
     mysqli_set_charset($link, 'utf8');
-} 
+}  
+
 
 ?>

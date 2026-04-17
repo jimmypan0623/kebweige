@@ -106,7 +106,7 @@ function prntproc(event){
 	 for(var i=0;i< maintable.rows.length; i++){			 
 		 if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
 					
-			for (var j=1;j<maintable.rows[i].cells.length-3;j++){    //要從單據編號開始計	
+			for (var j=1;j<maintable.rows[i].cells.length-2;j++){    //要從單據編號開始計	
 				 headdata.push(maintable.rows[i].cells[j].innerHTML);	
 			}
 			break;
@@ -114,15 +114,15 @@ function prntproc(event){
 	}
 
    
-	/*  var urlcmp=(decodeURI(window.location.search));
+	var urlcmp=(decodeURI(window.location.search));
 	 var rslt=getUrlParams2(urlcmp);
-	 var ourcmp=rslt.ourcompany; */
+	 var username=rslt.username;
 	  var ourcmp=getAuth[2]()[0].INT_000;
 	
 
 	var urlphp="C21/BKND/C21report.php?ourCompany="+ourcmp+"&queryNo="+headdata[0]+"&customNo="+headdata[3];	
     urlphp+="&salesMan="+headdata[6]+"&curNcy="+headdata[7]+"&shipWay="+headdata[9];
-	urlphp+="&payMent="+headdata[10]+"&reMark="+headdata[11]+"&windowMan="+headdata[8];		 
+	urlphp+="&payMent="+headdata[10]+"&reMark="+headdata[11]+"&windowMan="+headdata[8]+"&isConfrim="+headdata[13]+"&username="+username;	;		 
 	 window.open(urlphp,"_blank");
 	return;
 }

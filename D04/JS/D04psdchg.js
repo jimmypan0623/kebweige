@@ -233,5 +233,5 @@ function prntproc(event){
 	urlphp+="&shipDirect="+headdata[10]+"&customerPo="+headdata[8]+"&isConfrim="+headdata[12]+"&username="+username;		 
 	 window.open(urlphp,"_blank");
 	return;
-	//"&shipDirect="+headdata[10]+
+	 
 }
