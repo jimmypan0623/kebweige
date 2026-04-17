@@ -1,10 +1,8 @@
-function getProfile(str1,reccount,tbno) {      
+function getProfile(str1,reccount,tbno) {     
     var cnt=0;
-	var arr = str1;     
+	var arr = str1;      
 	var pagecount=Math.ceil(reccount/parseInt(getAuth[2]()[0].INT_RCD));
-		
-	var optdigts= (pagecount.toString()).length;
-	
+	var optdigts= (pagecount.toString()).length;	    
 	var slt2=document.getElementById('recmth');
 	if (slt2.options.length<pagecount){
 		for (var i=slt2.options.length+1;i<=pagecount;i++){
@@ -20,41 +18,13 @@ function getProfile(str1,reccount,tbno) {
 		cko[0](reccount);      //將筆數記起來	
 	  
 	}
-	////
-	/* var oMember = document.getElementById("member1");	 
-	 
-	 
-	oMember.setAttribute("style","width:120%;"); */
-	////
 	var oTable = document.getElementById("maintbody1");	 
-	 
-	/* for(var i=0;i<arr.length;i++){		
+	for(var i=0;i<arr.length;i++){		
 		var oTr=oTable.insertRow(-1);	
 		oTr.setAttribute("name","mainrow");	      		
 		cnt++;		
-		for(var jk in arr[i]){		   
-			var oTd = oTr.insertCell(oTr.cells.length);		     		  
-			oTd.innerHTML=arr[i][jk];		 	
-            var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
-			var ks=ara.split('');		
-			//ks[0]:直接或間接 D/I
-			//ks[1]:是否顯示   S/H
-			//ks[2]:靠左中或右 L/C/R	
-			if(ks[0]=="D"){
-				oTd.setAttribute("class","directdata");	
-			}else{
-				oTd.setAttribute("class","indirectdata");	
-			}				 
-			if(ks[1]=='H'){
-				oTd.setAttribute("style","display:none;");		
-			}else{
-			   oTd.style.textAlign=(ks[2]=="L"?"left":(ks[2]=="C"?"center":"right"));
-			   var wdthln=jk.substr(jk.lastIndexOf('_')+1,3);  	  	
-			   oTd.style.width=wdthln+"%";
-			   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
-			} 
-	   } */
-	    for (var jk in arr[i]) {
+		
+		for (var jk in arr[i]) {
 			var meta = parseFieldMeta(jk);
 			var oTd = oTr.insertCell(-1);
 			oTd.innerHTML = arr[i][jk];
@@ -68,29 +38,27 @@ function getProfile(str1,reccount,tbno) {
 			// 點擊事件綁定
 			attachEventListener(oTd, 'click', rowchoose, false);
 		}
-	   var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
-	   oTd.setAttribute("style","width:40px;display:none");   //勾選不顯示
-	   var myCheck=document.createElement('input'); 
-	   myCheck.type="checkbox";		  
-	   myCheck.setAttribute("name","chkbxmember1");   //讓使用者勾選的checkbox表頭			
-	   attachEventListener(myCheck,'click',chooserc,false);		   
-	   oTd.appendChild(myCheck);     
-		  
+	    var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
+	    oTd.setAttribute("style","display:none");   //勾選不顯示
+	    var myCheck=document.createElement('input'); 
+	    myCheck.type="checkbox";		  
+	    myCheck.setAttribute("name","chkbxmember1");   //讓使用者勾選的checkbox表頭			
+	    attachEventListener(myCheck,'click',chooserc,false);		   
+	    oTd.appendChild(myCheck);     		  
+	}	
+	var responseDiv=document.getElementById("serverResponse1");  		
+	if(responseDiv.innerHTML=='Searching......'){	
+		if (cnt==0){
+			responseDiv.setAttribute("style","color:red;"); 
+	   	    responseDiv.innerHTML="無此資料！Not found!検索できません。";
+	    }else{ 		 
+		    responseDiv.setAttribute("style","color:#536a60;"); 
+            responseDiv.innerHTML="搜尋到 "+String(cnt)+" 筆資料。" +String(cnt)+" record"+(cnt>1?"s":"")+" match your search. " +String(cnt)+" レコードを検索。";            		 
+         }	
 	}
-	
-	  var responseDiv=document.getElementById("serverResponse1");  		
-	  if(responseDiv.innerHTML=='Searching......'){	
-		 if (cnt==0){
-			 responseDiv.setAttribute("style","color:red;"); 
-	   	     responseDiv.innerHTML="無此資料！Not found!検索できません。";
-	      }else{ 		 
-		     responseDiv.setAttribute("style","color:#536a60;"); 
-             responseDiv.innerHTML="搜尋到 "+String(cnt)+" 筆資料。" +String(cnt)+" record"+(cnt>1?"s":"")+" match your search. " +String(cnt)+" レコードを検索。";            		 
-          }	
-	  }
-	  if(cnt>0){       //初始畫面呼叫
-		  chooserc(1);
-	  }	  
+	if(cnt>0){       //初始畫面呼叫
+		chooserc(1);
+	}	  
 }
 function choseSecond(targetTrChildren,targetTr){	 
    return true;	
@@ -102,7 +70,7 @@ function choseExtraDeal(targetTrChildren){   //紀錄移動
 function rowchoseExtraDeal(targetRow){    //紀錄移動
     
     return true;			   
-}	 
+}	
 function rowchoseSecond(targetRow){    //紀錄移動
    return true;	
 }

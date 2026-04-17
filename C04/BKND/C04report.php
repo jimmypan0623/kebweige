@@ -30,12 +30,12 @@ class MYPDF extends TCPDF {
             $infoTable = '
             <table cellpadding="1">
                 <tr>
-                    <td style="width:50%;">客戶PO: '.$_GET['customerPo'].' ('.$_GET['customNo'].')</td>
-                    <td style="width:50%; text-align:right;">訂單號碼: '.$_GET['queryNo'].'</td>
+                    <td style="width:80%;">客戶編號: '.$_GET['customNo'].'</td>
+                    <td style="width:20%; text-align:right;">訂單號碼: '.$_GET['queryNo'].'</td>
                 </tr>
                 <tr>
-                    <td style="width:50%;">業務姓名: '.$_GET['salesMan'].'  交易幣別: '.$_GET['curNcy'].'</td>
-                    <td style="width:50%; text-align:right;">接單日期: '.date('Y/m/d').'</td>
+                    <td style="width:80%;">客戶單號:'.$_GET['customerPo'].'業務擔當: '.$_GET['salesMan'].'  交易幣別: '.$_GET['curNcy'].'</td>
+                    <td style="width:20%; text-align:right;">接單日期: '.date('Y/m/d').'</td>
                 </tr>
 				<tr>
                     <td style="width:50%;">交貨地點: '.$_GET['shipAddress'].'</td>
@@ -79,9 +79,13 @@ $pdf->SetAutoPageBreak(TRUE, 20);
 $pdf->AddPage();
   
 // --- 4. 資料庫處理 (保持不變) ---
-$link = mysqli_connect('localhost', 'root', 'To6035376615004513834', 'tkdata');
-mysqli_query($link, 'set names utf8');
 
+require_once('../../include/BKND/db_forreport.php'); // 引入設定檔
+
+// 取得連線實例
+$link = get_db_connection();
+
+// 使用 mysqli_real_escape_string 保護 SQL (保持不變)
 $sql = "SELECT c04.*, b01.F02 as F0B, b01.F04 as F0D 
         FROM c04 LEFT JOIN b01 ON c04.F02 = b01.F01 
         WHERE c04.F01 = '".mysqli_real_escape_string($link, $_GET['queryNo'])."' 
@@ -91,6 +95,7 @@ $result = mysqli_query($link, $sql);
 $tbody = '';
 $grandTotal = 0;
 
+////
 while ($row = mysqli_fetch_assoc($result)) {
     $subtotal = $row['F03'] * $row['F04'];
     $grandTotal += $subtotal;
@@ -109,7 +114,6 @@ while ($row = mysqli_fetch_assoc($result)) {
 }
 
 // --- 5. 輸出內容 ---    
-// 縮小表身字體至 9pt
 $pdf->SetFont('msungstdlight', '', 9); 
 
 $tableHtml = '<table cellpadding="3" border="0.5" style="border-top:none;">' . $tbody . '
@@ -121,6 +125,28 @@ $tableHtml = '<table cellpadding="3" border="0.5" style="border-top:none;">' . $
 </table>'; 
 
 $pdf->writeHTML($tableHtml, true, false, false, false, '');
+
+// --- 調整「審核」與「開單」區塊 ---
+
+// 1. 設定較大的字體 (例如 12pt)
+$pdf->SetFont('msungstdlight', '', 11); 
+
+// 2. 繪製「審核」
+$pdf->MultiCell(40, 15, '審核:', 0, 'L', 0, 0); 
+
+// 3. 處理簽章圖片 (位置會隨著 X 軸調整)
+if($_GET['isConfrim'] == 'Y'){
+    // 將圖片往右移動一點，避免壓到「審核」二字
+    $pdf->Image('../../digits/approve.gif', $pdf->getX() - 25, $pdf->getY() - 3, 12, 12);
+}
+
+// 4. 拉開間距：增加一個空白的 MultiCell 或者加大前一個 Cell 的寬度
+// 這裡我們直接增加 X 座標，移動 30mm 的距離
+$pdf->SetX($pdf->getX() + 30); 
+
+// 5. 繪製「開單」
+$pdf->MultiCell(60, 15, '開單：' . $_GET['username'], 0, 'L', 0, 0);
+//----//
 
 mysqli_close($link);
 $pdf->Output($queryNo.'.pdf', 'I');

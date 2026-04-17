@@ -301,18 +301,20 @@ function initDialog()
 					contentdiv[0].insertBefore(frag, initFirstNode); 
 				}			 
 				if(ftbtm.childNodes.length<4){
-				   var urlcmp=(decodeURI(window.location.search));			
-				   var rslt=getUrlParams2(urlcmp);
-				   var text9 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}登入者:');
+				    var urlcmp=(decodeURI(window.location.search));			
+				    var rslt=getUrlParams2(urlcmp);
+				    var text9 = document.createTextNode('登入者:');
 				    var text10=document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}目前作業:');
-				   var username=document.createElement("span");	
-				   var crntopr=document.createElement("span");
-				   crntopr.textContent=nowExcute;
-				   username.textContent=rslt.username;		   
-				   ftbtm.appendChild(text9);
-				   ftbtm.appendChild(username); 
-				   ftbtm.appendChild(text10);
-				   ftbtm.appendChild(crntopr);
+					var text11=document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
+				    var username=document.createElement("span");	
+				    var crntopr=document.createElement("span");
+				    crntopr.textContent=nowExcute;
+				    username.textContent=rslt.username;
+				    ftbtm.insertBefore(text9,btmshowtme);
+				    ftbtm.insertBefore(username,btmshowtme);
+				    ftbtm.insertBefore(text10,btmshowtme);
+				    ftbtm.insertBefore(crntopr,btmshowtme);
+				    ftbtm.insertBefore(text11,btmshowtme);				  
 				}
 				var mainSpan1=document.getElementById('lclbtnbk')
 				if(mainSpan1){
@@ -424,8 +426,7 @@ function initDialog()
 					frag2.appendChild(text6);
 					frag2.appendChild(pageDownButton);
 					frag2.appendChild(text8); 
-					contentdiv[1].insertBefore(frag2, initTab2FirstNode); 
-					
+					contentdiv[1].insertBefore(frag2, initTab2FirstNode); 					
 				} 
 				var tab3Click=document.getElementById("tab3");
 				if(tab3Click){	     
@@ -470,7 +471,8 @@ function initDialog()
 			 }	
 			  btmshowtme.style.display="none";
 		     var ftchlds=ftbtm.childNodes;
-			 for(let i=ftchlds.length-1;i>2;i--){
+			 for(let i=ftchlds.length-3;i>0;i--){
+			
 			     ftbtm.removeChild(ftchlds[i]);
 			}
              var conTainer=document.createElement("div");

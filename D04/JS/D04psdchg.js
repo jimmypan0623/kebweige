@@ -214,7 +214,7 @@ function prntproc(event){
 	 for(var i=0;i< maintable.rows.length; i++){			 
 		 if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
 					
-			for (var j=1;j<maintable.rows[i].cells.length-3;j++){    //要從單據編號開始計	
+			for (var j=1;j<maintable.rows[i].cells.length-2;j++){    //要從單據編號開始計	
 				 headdata.push(maintable.rows[i].cells[j].innerHTML);	
 			}
 			break;
@@ -222,15 +222,15 @@ function prntproc(event){
 	}
 
    
-	/*  var urlcmp=(decodeURI(window.location.search));
+	var urlcmp=(decodeURI(window.location.search));
 	 var rslt=getUrlParams2(urlcmp);
-	 var ourcmp=rslt.ourcompany; */
+	 var username=rslt.username;
 	  var ourcmp=getAuth[2]()[0].INT_000;
 	
 
 	var urlphp="D04/BKND/D04report.php?ourCompany="+ourcmp+"&queryNo="+headdata[0]+"&customNo="+headdata[1]+"\u{A0}"+headdata[3];	
-    urlphp+="&salesMan="+headdata[6]+"\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}"+"&curNcy="+headdata[7]+"&shipAddress="+headdata[9];
-	urlphp+="&shipDirect="+headdata[10]+"&customerPo="+headdata[8];		 
+    urlphp+="&salesMan="+headdata[5]+"\u{A0}"+headdata[6]+"\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}"+"&curNcy="+headdata[7]+"&shipAddress="+headdata[9];
+	urlphp+="&shipDirect="+headdata[10]+"&customerPo="+headdata[8]+"&isConfrim="+headdata[12]+"&username="+username;		 
 	 window.open(urlphp,"_blank");
 	return;
 	//"&shipDirect="+headdata[10]+
