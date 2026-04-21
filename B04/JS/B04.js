@@ -61,17 +61,17 @@
 				oTd.setAttribute("style","width:5%;text-align:center;");	
 				oTd.textContent=whichinvoice(arr[i][jk]);
 			}		 				   
-			if(jk.substr(0,jk.lastIndexOf('_')-4)=='tax_type' && tbno==0){
+			if(jk.substr(0,jk.lastIndexOf('_')-4)=='tax_type' && tbno==0){				
 				var oTd = oTr.insertCell(oTr.cells.length);
 				oTd.setAttribute("class","indirectdata");					 
 				oTd.setAttribute("style","width:4%;text-align:center;");	
 				oTd.textContent=whichtax(arr[i][jk]);					 			  
 			}		
 			if(jk.substr(0,jk.lastIndexOf('_')-4)=='query_price' && tbno==1){
+				attachEventListener(oTd, 'click', rowchoose, false);  //點選資料
 				var oTd = oTr.insertCell(oTr.cells.length);
 				oTd.setAttribute("class","indirectdata");					 
-				oTd.setAttribute("style","width:7%;text-align:right;");	
-					
+				oTd.setAttribute("style","width:7%;text-align:right;");						
 				oTd.textContent=Math.round((oTr.cells[4].textContent*oTr.cells[5].textContent + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);					    
 				queryttl+=Number(oTd.textContent);	  
 			}				
@@ -101,7 +101,8 @@
 	if (tbno==0){       //如果是單頭	     
 		var responseDiv=document.getElementById("serverResponse1");  
 	}else{		 
-		var responseDiv=document.getElementById("serverResponse2");  
+		var responseDiv=document.getElementById("serverResponse2"); 
+		document.getElementById("isTax").textContent=(sourceAccount(14,0)=='32' && sourceAccount(16,0)=='1')?'\u{A0}稅內含':''
 	} 		
 
 	if(cnt>0){       //初始畫面呼叫	   

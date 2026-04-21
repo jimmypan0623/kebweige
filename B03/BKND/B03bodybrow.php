@@ -1,5 +1,5 @@
 ﻿<?php 
- include("../../include/BKND/mysqli_server.php");                              //引用檔   
+ require_once("../../include/BKND/mysqli_server.php");                              //引用檔   
      require_once "../../include/BKND/fieldpreset.php"; // 引入      
 		 
         $str=explode('|',$_POST['filename']);  //將上面字串以逗號分割成陣列

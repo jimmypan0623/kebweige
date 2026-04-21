@@ -9,7 +9,7 @@ $brr=array();
    foreach($cart as $key=>$val){	   
         $brr[]=$val;		
    }
-    include("../../include/BKND/mysqli_server.php");         //引用檔   
+    require_once("../../include/BKND/mysqli_server.php");         //引用檔   
                           
 					  
    $sql="select * from a01 where F01="."'".$brr[1]."'"; 

@@ -1,5 +1,4 @@
 <?php
-// db_forreport.php 建議內容
 $db_host = 'localhost';
 $db_user = 'root';
 $db_pass = 'To6035376615004513834';
@@ -17,7 +16,4 @@ mysqli_query($link, 'set names utf8');
 
 // (選填) 報表專用設定：如果資料量大，可以放寬記憶體或執行時間
 // ini_set('memory_limit', '256M');
-
-////
-
 ?>

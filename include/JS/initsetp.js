@@ -123,10 +123,10 @@ function initDialog()
 		var nwdt=new Date();	
 		var nwsd=Math.floor(Math.random()*nwdt.getSeconds())%26;				
 		var nowExcute=getAuth[0]()[0];   //getCookie("funNo");欲執行之功能編號
-		var jsvsn=nwsd.toString()+scnd;		
-		/* var showTime=document.getElementById('currentTime');
+		//var jsvsn=nwsd.toString()+scnd;		
+		var showTime=document.getElementById('currentTime');
 		var jsvsn=(showTime.textContent.substring(0,4)+'_'+showTime.textContent.substring(5,7)+'_'+showTime.textContent.substring(8,10));//+'_'+getAuth[1]()[0];
-		 */
+		
 		if(nowExcute){	         
 		    if(divcontainer){
 			   divcontainer.parentNode.removeChild(divcontainer);		

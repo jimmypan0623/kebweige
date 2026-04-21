@@ -3,7 +3,7 @@ header("Content-Type: application/json; charset=utf-8"); // 修正為 JSON 格�
 header("Cache-Control: no-cache, must-revalidate");
 header("Pragma: no-cache");
 
-include("../../include/BKND/mysqli_server.php");
+require_once("../../include/BKND/mysqli_server.php");
 require_once "../../include/BKND/fieldpreset.php";
 
 // --- 輔助函式：白名單檢查欄位名 (與 C04/D04 主檔一致) ---

@@ -1,7 +1,7 @@
 ﻿<?php
    header("Content-Type:text/html; charset=utf-8");   
 
-  include("../../include/BKND/mysqli_server.php");                              //引用檔     
+  require_once("../../include/BKND/mysqli_server.php");                              //引用檔     
 		
 	    $searchRecord =$_POST['filename'];
 	    $sql1="SELECT * FROM `a23` WHERE F01='".$searchRecord."' "; 

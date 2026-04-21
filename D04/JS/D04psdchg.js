@@ -203,7 +203,7 @@ function tab2View(event){
 }
 
 function prntproc(event){
-	if (typeof event=="undefined")
+	/* if (typeof event=="undefined")
 	{
 		event=window.event;
 	}
@@ -233,5 +233,62 @@ function prntproc(event){
 	urlphp+="&shipDirect="+headdata[10]+"&customerPo="+headdata[8]+"&isConfrim="+headdata[12]+"&username="+username;		 
 	 window.open(urlphp,"_blank");
 	return;
-	 
+	 */
+
+    const e = event || window.event;
+
+    // 1. 取得表格並精確定位選中的行 (Checkbox 勾選的那一行)
+    const maintable = document.getElementById("maintbody1");
+    if (!maintable) return;
+
+    const checkedInput = maintable.querySelector('input[type="checkbox"]:checked');
+    if (!checkedInput) {
+        alert("請先選擇一筆採購單據");
+        return;
+    }
+
+    // 將該行單元格轉為陣列，並清理前後空白
+    const row = checkedInput.closest('tr');
+    const cells = Array.from(row.cells).map(cell => cell.innerText.trim());
+
+    // 2. 取得環境與權限參數
+    const urlParams = new URLSearchParams(window.location.search);
+    const username = urlParams.get('username') || "";
+    
+    let ourcmp = "";
+    try {
+        // 確保 getAuth 存在，避免腳本中斷
+        ourcmp = (typeof getAuth !== 'undefined') ? getAuth[2]()[0].INT_000 : "";
+    } catch (err) {
+        console.warn("無法取得公司名稱 (ourCompany)");
+    }
+
+    // 3. 封裝採購單專用參數 (依照 headdata 索引對應)
+    // 原 headdata[0] = cells[1], headdata[1] = cells[2] ... 依此類推
+    const params = {
+        ourCompany:  ourcmp,
+        queryNo:     cells[1], // 採購單號
+        // 供應商編號 + 空格 + 供應商簡稱
+        customNo:    `${cells[2]}\u00A0${cells[4]}`, 
+        // 採購人員 + 空格 + 姓名 + 填充空格
+        salesMan:    `${cells[6]}\u00A0${cells[7]}\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0`,
+        curNcy:      cells[8],  // 幣別
+        shipAddress: cells[10], // 交貨地點 (地址常有 # 號，此處已安全化)
+        shipDirect:  cells[11], // 運輸方式
+        customerPo:  cells[9],  // 對方單號
+        isConfrim:   cells[13], // 確認狀態 (Y/N)
+        username:    username   // 登入者
+    };
+
+    // 4. 使用物件導向方式建立查詢字串
+    const searchParams = new URLSearchParams();
+    Object.keys(params).forEach(key => {
+        if (params[key] !== undefined) {
+            searchParams.append(key, params[key]);
+        }
+    });
+
+    // 5. 組合最終 URL 並開啟
+    const urlphp = `D04/BKND/D04report.php?${searchParams.toString()}`;
+    window.open(urlphp, "_blank");	
 }

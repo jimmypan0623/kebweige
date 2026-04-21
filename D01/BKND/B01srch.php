@@ -1,6 +1,6 @@
 ﻿<?php
    header("Content-Type:text/html; charset=utf-8");   
-    include("../../include/BKND/mysqli_server.php");                              //引用檔   
+    require_once("../../include/BKND/mysqli_server.php");                              //引用檔   
     $fieldNo=substr($_POST['filename'],0,7);                //料號欄位key		
 	$filterKey=trim(getNeedBetween($_POST['filename'],'|','_')); // 搜尋料號 
 	$vendorno=trim(substr(strrchr($_POST['filename'],'_'),1));   //廠商編號		 

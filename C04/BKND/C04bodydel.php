@@ -1,6 +1,6 @@
 <?php
   header("Content-Type:text/html; charset=utf-8");   
-   include("../../include/BKND/mysqli_server.php");     
+   require_once("../../include/BKND/mysqli_server.php");     
    $delmsg=$_POST['filename'];
    
    $sql7="SELECT c03.F04,c04.F00 FROM c03,c04 WHERE c03.F01=c04.F01 AND c04.F00='".$delmsg."'"; 

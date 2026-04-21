@@ -1,7 +1,7 @@
 ﻿<?php
    header("Content-Type:text/html; charset=utf-8");   
 
-  include("../../include/BKND/mysqli_server.php");                              //引用檔      
+  require_once("../../include/BKND/mysqli_server.php");                              //引用檔      
 	$str=explode('|',$_POST['filename']);  //將上面字串以逗號分割成陣列 
      $sql3="SELECT `F03` FROM c0z WHERE `F01` ='".$str[0]."' AND `F02`='".$str[1]."-".nouem($str[2])."'";	 	 	 
     $arr=array();	

@@ -14,14 +14,16 @@ function selfTag(jsvsn,jsPth){
 	spn1.id="ttltitle";	
      spn1.textContent='總金額:';
 	 frag1.appendChild(spn1);
+	
 	var spn2=document.createElement('span');
-	spn2.id="crncy" ;	    
-	frag1.appendChild(spn2);
-	var spn3=document.createElement('span');
-	spn3.id="ttlmny";  
-	spn3.className='ttl';
-	spn3.textContent='0';
-	 frag1.appendChild(spn3);
+	spn2.id="ttlmny";  
+	spn2.className='ttl';
+	spn2.textContent='0';
+	 frag1.appendChild(spn2);
+	 var spn3=document.createElement('span');
+	spn3.id="isTax" ;	    
+	frag1.appendChild(spn3);
+	 
 	 cntdiv[1].insertBefore(frag1,rspn2);
 	////
 
@@ -86,33 +88,96 @@ function selfTag(jsvsn,jsPth){
 	}
 }
 function prntproc(event){
-	if (typeof event=="undefined")
+	/* if (typeof event=="undefined")
 	{
 		event=window.event;
 	}
-	var headidx=0;
+   
+	
 	var headdata=[];
 	 var maintable=document.getElementById("maintbody1");	 
-	 if(maintable.rows.length==0){
-	    blkshow("空白資料無法列印!");
-		return false;
-	 }
 	 for(var i=0;i< maintable.rows.length; i++){			 
 		 if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
-			headidx=i;				 					 
+					
+			for (var j=1;j<maintable.rows[i].cells.length-2;j++){    //要從單據編號開始計	
+				 headdata.push(maintable.rows[i].cells[j].innerHTML);	
+			}
 			break;
 		 }
 	}
-	for (var i=1;i<maintable.rows[headidx].cells.length-3;i++){  //要從編號開始計		     					 			
-	   headdata.push(maintable.rows[headidx].cells[i].textContent);			 
-	}
+
+   
 	 var urlcmp=(decodeURI(window.location.search));
-	 var ourcmp=urlcmp.substr(urlcmp.indexOf('=')+1);
-	var urlphp="C21/BKND/C21report.php?ourCompany="+ourcmp+"&queryNo="+headdata[0]+"&customNo="+headdata[1]+' '+headdata[2];		 
-	urlphp+="&salesMan="+headdata[5]+"&curNcy="+headdata[6]+"&shipWay="+headdata[8];
-	urlphp+="&payMent="+headdata[9]+"&reMark="+headdata[10]+"&windowMan="+headdata[7];
-	window.open(urlphp,"_blank");
-	return;
+	 var rslt=getUrlParams2(urlcmp);
+	 var username=rslt.username;
+	  var ourcmp=getAuth[2]()[0].INT_000;
+	
+
+	var urlphp="B04/BKND/B04report.php?ourCompany="+ourcmp+"&queryNo="+headdata[0]+"&customNo="+headdata[1]+"\u{A0}"+encodeURIComponent(headdata[3]);	
+    urlphp+="&shipAddress="+encodeURIComponent(headdata[18])+"&contact="+headdata[5]+"\u{A0}\u{A0}\u{A0}\u{A0}"+"&telNo="+encodeURIComponent(headdata[6])+"&salesMan="+headdata[8]+"\u{A0}"+headdata[9]+"\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}"
+	urlphp+="&curNcy="+encodeURIComponent(headdata[10])+"\u{A0}\u{A0}"+"&rate="+headdata[11]+"&shipDate="+headdata[20]+"-"+headdata[7];
+	urlphp+="&shipDirect="+headdata[19]+"&invoiceNo="+headdata[12]+"&payment="+headdata[17]+"&isConfrim="+headdata[21]+"&username="+username;		 
+	 window.open(urlphp,"_blank");
+	return; */
+	
+	const e = event || window.event;
+    
+    // 1. 取得表格中被選中的資料列
+    const maintable = document.getElementById("maintbody1");
+    if (!maintbody1) return;
+
+    let selectedRow = null;
+    // 使用 querySelector 直接找出被勾選的項目
+    const checkedInput = maintable.querySelector('input[type="checkbox"]:checked');
+    
+    if (!checkedInput) {
+        alert("請先選擇一筆單據");
+        return;
+    }
+
+    // 取得該勾選框所在的整行 TR
+    const row = checkedInput.closest('tr');
+    const cells = Array.from(row.cells).map(cell => cell.innerText.trim()); // 使用 innerText 取得純文字比較安全
+
+    // 2. 獲取環境參數
+    const urlParams = new URLSearchParams(window.location.search);
+    const username = urlParams.get('username') || "";
+    const ourcmp = (typeof getAuth !== 'undefined') ? getAuth[2]()[0].INT_000 : "";
+
+    // 3. 建立參數物件 (這對應你原本 headdata[j] 的順序)
+    // 根據你原本的索引 j=1 開始，對應 cells[1]
+    const params = {
+        ourCompany: ourcmp,
+        queryNo: cells[1],
+        // 客戶編號 + 空格 + 某個名稱
+        customNo: `${cells[2]}\u00A0${cells[4]}`, 
+        shipAddress: cells[19],
+        contact: `${cells[6]}\u00A0\u00A0\u00A0\u00A0`,
+        telNo: cells[7], // 這裡包含 # 號，會被自動處理
+        salesMan: `${cells[9]}\u00A0${cells[10]}\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0`,
+        curNcy: `${cells[11]}\u00A0\u00A0`,
+        rate: cells[12],
+        shipDate: `${cells[21]}-${cells[8]}`,
+        shipDirect: cells[20],
+        invoiceNo: cells[13],
+		invoiceType: cells[14],
+		taxType: cells[16],
+        payment: cells[18],
+        isConfrim: cells[22],
+        username: username
+    };
+
+    // 4. 使用 URLSearchParams 自動進行 URL 編碼
+    const searchParams = new URLSearchParams();
+    for (const key in params) {
+        searchParams.append(key, params[key]);
+    }
+
+    const urlphp = `B04/BKND/B04report.php?${searchParams.toString()}`;
+    
+    // 5. 開啟視窗
+    window.open(urlphp, "_blank");
+	
 }
   
 function tab1View(event){	  

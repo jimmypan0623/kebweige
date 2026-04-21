@@ -16,7 +16,7 @@ function selfTag(jsvsn,jsPth)
 		   getAuth[1](myAccount); 
           	   
 		}
-		document.querySelectorAll("script[id]").forEach(s=>s.remove());	
+		document.querySelectorAll("script[id]").forEach(s=>s.remove());			
      	let axtmpl1=jsPth+jsPth.substr(0,3)+'.js?v='+jsvsn;
 	    let axtmpl2=jsPth+jsPth.substr(0,3)+'rgst.js?v='+jsvsn;
 	    loadScript(`${axtmpl1}`,function(){commontemp();});

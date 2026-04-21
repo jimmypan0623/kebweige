@@ -1,6 +1,6 @@
 ﻿<?php
 header("Content-Type: application/json; charset=utf-8");
-include("../../include/BKND/mysqli_server.php");
+require_once("../../include/BKND/mysqli_server.php");
 require_once "../../include/BKND/fieldpreset.php";
 
 $rows = 0;

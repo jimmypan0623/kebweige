@@ -9,7 +9,7 @@ header("Cache-Control: no-cache, must-revalidate");
 header("Pragma: no-cache");
 
 // 引入資料庫連線與欄位預設值
-include("../../include/BKND/mysqli_server.php");
+require_once("../../include/BKND/mysqli_server.php");
 require_once "../../include/BKND/fieldpreset.php";
 
 // 1. 取得並解析輸入參數

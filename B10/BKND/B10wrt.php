@@ -8,7 +8,7 @@ foreach($cart as $key=>$val){
 }
  
  $mArlth=count($brr);  
- include("../../include/BKND/mysqli_server.php");                              //引用檔   
+ require_once("../../include/BKND/mysqli_server.php");                              //引用檔   
  require_once "../../include/BKND/fieldDOMset.php"; // 引入     
  $trnarray=fldafterwrite('B10','1',$link,true);  
      $sql5="select * from a14 where F01="."'".$brr[2]."' AND F04='Y'"; 

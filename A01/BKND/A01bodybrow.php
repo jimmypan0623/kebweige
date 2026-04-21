@@ -1,6 +1,6 @@
 ﻿<?php
   header("Content-Type:text/html; charset=utf-8");   
- include("../../include/BKND/mysqli_server.php");                               //引用檔       
+  require_once("../../include/BKND/mysqli_server.php");                               //引用檔       
  require_once "../../include/BKND/fieldpreset.php"; // 引入
         $str=explode('|',$_POST['filename']);  //將上面字串以逗號分割成陣列	   
 	    $sql3="SELECT a02.*,a01.F03 F03C,a03.F02,a03.F08 F0H,a03.F09 F0I,a03.F10 F1J,a03.F11 F1K,a03.F12 F1L FROM a02";

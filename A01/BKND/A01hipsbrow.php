@@ -1,8 +1,8 @@
 ﻿<?php
    header("Content-Type:text/html; charset=utf-8");   
 
- include("../../include/BKND/mysqli_server.php");                      //引用檔 
- require_once "../../include/BKND/fieldpreset.php"; // 引入
+ require_once("../../include/BKND/mysqli_server.php");                      //引用檔 
+ require_once("../../include/BKND/fieldpreset.php"); // 引入
         $str=explode('|',$_POST['filename']);  //將上面字串以逗號分割成陣列	 
 		$sql3="select a04.*  from a04 where a04.F01='".$str[0]."' and ".$str[1]." like '%".trim($str[2])."%' order by a04.F01,a04.F02"; 
 	$wthary=fldwdthpre('A01','3',$link);

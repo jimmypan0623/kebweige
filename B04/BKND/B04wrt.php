@@ -11,7 +11,7 @@ foreach($cart as $key=>$val){
 }
 
 // 2. 引入必要的資料庫與設定檔
-include("../../include/BKND/mysqli_server.php");
+require_once("../../include/BKND/mysqli_server.php");
 require_once "../../include/BKND/fieldDOMset.php";
 
 $regex = "/^[A-Z]{2}[0-9]{8}$/";

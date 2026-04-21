@@ -1,6 +1,6 @@
 ﻿<?php
 header("Content-Type: application/json; charset=utf-8"); // 改為 JSON 格式標頭
-include("../../include/BKND/mysqli_server.php");
+require_once("../../include/BKND/mysqli_server.php");
 
 // 1. 安全地處理參數
 $rndnb = isset($_COOKIE['INT_001']) ? (int)$_COOKIE['INT_001'] : 0;

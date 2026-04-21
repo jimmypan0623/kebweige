@@ -1,6 +1,7 @@
 ﻿<?php
+ob_start();
 header("Content-Type: application/json; charset=utf-8");
-include("../../include/BKND/mysqli_server.php");
+require_once("../../include/BKND/mysqli_server.php");
 
 // 取得小數點位數，預設為 0
 $rnddgt = isset($_COOKIE["INT_069"]) ? intval($_COOKIE["INT_069"]) : 0;
@@ -47,6 +48,7 @@ if ($result) {
 }
 
 mysqli_close($link);
+ob_end_clean(); 
 echo json_encode(array('recdrow' => $arr));
 ?>
  

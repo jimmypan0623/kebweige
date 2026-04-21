@@ -1,8 +1,9 @@
 ﻿<?php
+ob_start();
    header("Content-Type: application/json; charset=utf-8");
  header("Cache-Control: no-cache, must-revalidate");
 header("Pragma: no-cache");
-   include("../../include/BKND/mysqli_server.php");                              //引用檔  
+   require_once("../../include/BKND/mysqli_server.php");                              //引用檔  
     require_once "../../include/BKND/fieldpreset.php"; // 引入     
    $rnddgt=intval($_COOKIE["INT_069"]);
     if (substr($_POST['filename'],0,3)=="PGE"){	  
@@ -38,6 +39,8 @@ header("Pragma: no-cache");
       //usort($arr, 'score_sort');  //料號再排序一次        
           $arr = array_values($arr);
        //  $json_string1 = json_encode($arr); 	
+	    // 清除緩衝區內的所有內容（如 BOM 或任何 Warning）
+         ob_end_clean(); 
          echo json_encode(array ('recdrow'=>$arr,'transcode'=>$list4['F07']));		 
          //echo "getProfile($json_string1,$total_pages)";  	   //
 

@@ -2,7 +2,7 @@
 
    header("Content-Type:text/html; charset=utf-8");   
 
- include("../../include/BKND/mysqli_server.php");                              //引用檔   
+ require_once("../../include/BKND/mysqli_server.php");                              //引用檔   
         $fieldNo=substr($_POST['filename'],0,7);
 		$filterKey=substr(strrchr($_POST['filename'],'|'),1);
 	  $searchRecord =trim($filterKey);		
@@ -27,8 +27,7 @@
 	mysqli_close($link);
 	     $arr = array_values($arr);
          $json_string1 = json_encode($arr); 
-         echo $json_string1;	 
-        // echo "srchStockNo($json_string1)";          
+         echo $json_string1;	                 
 ?>  
 
  

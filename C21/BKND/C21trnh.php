@@ -6,7 +6,7 @@ $brr=array();
 foreach($cart as $key=>$val){	   
     $brr[]=addslashes($val);		//要加入此函數避免中間有單引號錯亂
 }
-include("../../include/BKND/mysqli_server.php");          //引用檔   
+require_once("../../include/BKND/mysqli_server.php");          //引用檔   
  $sql7="select `F15` from `c26` where `F01`='".$brr[0]."'"; 
  $sql8=@mysqli_query($link,$sql7);                       
   $list2=mysqli_fetch_assoc($sql8);  //檢查是否已轉單

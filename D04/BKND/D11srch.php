@@ -1,28 +1,9 @@
 ﻿<?php
- /* header("Content-Type:text/html; charset=utf-8");   
- include("../../include/BKND/mysqli_server.php");                               //引用檔
-    $str=explode('|',$_POST['filename']);  //將上面字串以逗號分割成陣列
-	$sql3="SELECT d11.F90,d11.F01,d11.F04,d11.F08 FROM d11 WHERE d11.F05='".$str[0]."' AND d11.F03='".$str[1]."'  ORDER BY CONCAT(d11.F90,d11.F01) DESC";                                                                    
-	$arr=array();	
-    $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_assoc($sql4)){		 
-		$atr = array('ship_date'=>($list3['F90'].'-'.$list3['F01']),		           
-					 'bill_no'=>$list3['F04'], 
-					 'ship_qty'=>$list3['F08']);					 						 
-        array_push($arr,$atr);
-	}
-	mysqli_close($link);
-	     $arr = array_values($arr);
-         $json_string1 = json_encode($arr); 
-         echo $json_string1;	 
-?>  
- */
-  
-header("Content-Type: application/json; charset=utf-8");
+ header("Content-Type: application/json; charset=utf-8");
 header("Cache-Control: no-cache, must-revalidate");
 header("Pragma: no-cache");
 
-include("../../include/BKND/mysqli_server.php");
+require_once("../../include/BKND/mysqli_server.php");
 
 // 取得傳入參數 (預期格式為 "廠商編號|料號")
 $filename = isset($_POST['filename']) ? $_POST['filename'] : '';

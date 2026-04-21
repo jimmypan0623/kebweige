@@ -7,7 +7,7 @@ $brr=array();
     $brr[]=$val;
 } 
 	//以下處理MySQL記錄異動
-    include("../../include/BKND/mysqli_server.php");         //引用檔
+    require_once("../../include/BKND/mysqli_server.php");         //引用檔
 	// 增加安全轉義
 $newPsd = mysqli_real_escape_string($link, $brr[1]); // 前端 REDelements[1] 是新密碼
 $userId = mysqli_real_escape_string($link, $brr[3]); // UserID

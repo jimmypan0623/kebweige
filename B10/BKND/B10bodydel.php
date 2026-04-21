@@ -1,6 +1,6 @@
 <?php
   header("Content-Type:text/html; charset=utf-8");   
-    include("../../include/BKND/mysqli_server.php");                              //引用檔   	
+   require_once("../../include/BKND/mysqli_server.php");                              //引用檔   	
    $delmsg=$_POST['filename'];   
    $sql7="SELECT b10.F10,b0i.F00 FROM b10,b0i WHERE b10.F01=b1z.F01 AND b1z.F00='".$delmsg."'"; 
     $sql8=@mysqli_query($link,$sql7);                       

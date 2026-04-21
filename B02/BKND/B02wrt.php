@@ -8,7 +8,7 @@ foreach($cart as $key=>$val){
 }
  $regex = "/^[A-Z]{2}[0-9]{8}$/";       //判斷是否有正確的發票號碼的正規式
  $mArlth=count($brr);  
- include("../../include/BKND/mysqli_server.php");                              //引用檔  
+ require_once("../../include/BKND/mysqli_server.php");                              //引用檔  
 require_once "../../include/BKND/fieldDOMset.php"; // 引入     
  $trnarray=fldafterwrite('B02','1',$link,true);   
      $sql5="select * from a01 where F01="."'".$brr[3]."'"; 

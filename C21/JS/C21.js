@@ -43,6 +43,7 @@ function getProfile(str1,reccount,tbno) {
 					if (meta.isHidden) oTd.style.display = "none";
 				}			
 				if(jk.substr(0,jk.lastIndexOf('_')-4)=='query_price' && tbno==1){
+					attachEventListener(oTd, 'click', rowchoose, false);  //點選資料
 					var oTd = oTr.insertCell(oTr.cells.length);
 					oTd.setAttribute("class","indirectdata");					 
 					oTd.setAttribute("style","width:8%;text-align:right;");	

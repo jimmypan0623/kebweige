@@ -7,7 +7,7 @@ foreach($cart as $key=>$val){
     $brr[]=addslashes($val);		//要加入此函數避免中間有單引號錯亂
 }
  $mArlth=count($brr);  
- include("../../include/BKND/mysqli_server.php");                  
+ require_once("../../include/BKND/mysqli_server.php");                  
   require_once "../../include/BKND/fieldDOMset.php"; // 引入     
  $trnarray=fldafterwrite('B05','1',$link,true);  
      $sql5="SELECT * FROM a01 WHERE F01='".$brr[3]."'"; 

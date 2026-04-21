@@ -202,34 +202,62 @@ function tab2View(event){
 }
 
 function prntproc(event){
-	if (typeof event=="undefined")
-	{
-		event=window.event;
-	}
-   
-	
-	var headdata=[];
-	 var maintable=document.getElementById("maintbody1");	 
-	 for(var i=0;i< maintable.rows.length; i++){			 
-		 if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
-					
-			for (var j=1;j<maintable.rows[i].cells.length-2;j++){    //要從單據編號開始計	
-				 headdata.push(maintable.rows[i].cells[j].innerHTML);	
-			}
-			break;
-		 }
-	}
+	const e = event || window.event;
 
-   
-	 var urlcmp=(decodeURI(window.location.search));
-	 var rslt=getUrlParams2(urlcmp);
-	 var username=rslt.username;
-	  var ourcmp=getAuth[2]()[0].INT_000;
-	
+    // 1. 定位表格與選中的行
+    const maintable = document.getElementById("maintbody1");
+    if (!maintable) return;
 
-	var urlphp="C04/BKND/C04report.php?ourCompany="+ourcmp+"&queryNo="+headdata[0]+"&customNo="+headdata[1]+"\u{A0}"+headdata[3];	
-    urlphp+="&salesMan="+headdata[5]+"\u{A0}"+headdata[6]+"\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}"+"&curNcy="+headdata[7]+"&shipAddress="+headdata[9];
-	urlphp+="&shipDirect="+headdata[10]+"&customerPo="+headdata[8]+"\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}"+"&isConfrim="+headdata[12]+"&username="+username;		 
-	 window.open(urlphp,"_blank");
-	return;
+    const checkedInput = maintable.querySelector('input[type="checkbox"]:checked');
+    if (!checkedInput) {
+        alert("請先選擇一筆訂單單據");
+        return;
+    }
+
+    // 取得該行所有單元格的文字內容 (使用 innerText 避免抓到 HTML 標籤)
+    const row = checkedInput.closest('tr');
+    const cells = Array.from(row.cells).map(cell => cell.innerText.trim());
+
+    // 2. 取得基礎環境參數
+    const urlParams = new URLSearchParams(window.location.search);
+    const username = urlParams.get('username') || "";
+    
+    let ourcmp = "";
+    try {
+        ourcmp = getAuth[2]()[0].INT_000;
+    } catch (err) {
+        console.error("無法取得公司代碼", err);
+    }
+
+    // 3. 封裝參數物件
+    // 根據你原始碼中的索引 j=1 開始 (headdata[0] = cells[1])
+    const params = {
+        ourCompany: ourcmp,
+        queryNo:    cells[1], // headdata[0]
+        // 客戶編號 + 空格 + 客戶簡稱
+        customNo:   `${cells[2]}\u00A0${cells[4]}`, 
+        // 業務擔當 + 空格 + 業務名稱
+        salesMan:   `${cells[6]}\u00A0${cells[7]}\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0`,
+        curNcy:     cells[8],  // headdata[7]
+        shipAddress: cells[10], // headdata[9]
+        shipDirect:  cells[11], // headdata[10]
+        customerPo:  `${cells[9]}\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0`,
+        isConfrim:   cells[13], // headdata[12]
+        username:    username
+    };
+
+    // 4. 自動生成 URL 查詢字串 (自動處理編碼)
+    const searchParams = new URLSearchParams();
+    for (const key in params) {
+        if (params[key] !== undefined) {
+            searchParams.append(key, params[key]);
+        }
+    }
+
+    const urlphp = `C04/BKND/C04report.php?${searchParams.toString()}`;
+
+    // 5. 開啟報表
+    window.open(urlphp, "_blank");
+	
+	
 }

@@ -1,7 +1,7 @@
 ﻿<?php
    header("Content-Type:text/html; charset=utf-8");   
 
- include("../../include/BKND/mysqli_server.php");                      //引用檔 
+ require_once("../../include/BKND/mysqli_server.php");                      //引用檔 
 	
 	 $sql3="SELECT `F04`,`F05` FROM `c01` WHERE binary `F01` ='".$_POST['filename']."' AND `F03`!='X' AND `F01`=`F44`";	 	 
 

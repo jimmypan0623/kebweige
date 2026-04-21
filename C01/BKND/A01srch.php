@@ -1,6 +1,6 @@
 ﻿<?php
    header("Content-Type:text/html; charset=utf-8");   
-    include("../../include/BKND/mysqli_server.php");                             //引用檔   
+    require_once("../../include/BKND/mysqli_server.php");                             //引用檔   
 	$searchRecord =trim($_POST['filename']);		
 	 $sql3="SELECT `F01`,`F03` FROM `a01` ";
 	 if(strlen($searchRecord)==0) {

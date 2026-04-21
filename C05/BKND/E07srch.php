@@ -1,6 +1,6 @@
 ﻿<?php
 header("Content-Type: application/json; charset=utf-8");
-include("../../include/BKND/mysqli_server.php");
+require_once("../../include/BKND/mysqli_server.php");
 
 // 1. 確保接收到資料且格式正確
 if (!isset($_POST['filename'])) {

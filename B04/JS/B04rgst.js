@@ -641,7 +641,10 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 				if(tbno==0 && fldidx==16){   //稅別
 				    oTd.innerHTML=whichtax(args[8]);
 				}				
-				if(tbno==0 && fldidx==20){   //確認				 
+				if(tbno==0 && fldidx==20){   //年月			 
+				   oTd.innerHTML=document.getElementById('recmth').value;				   
+				}				
+				if(tbno==0 && fldidx==21){   //確認				 
 				   oTd.innerHTML='N';				   
 				}				
 			    if(tbno==1 && fldidx==1){   //品名

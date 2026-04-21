@@ -1,6 +1,6 @@
 <?php
   header("Content-Type:text/html; charset=utf-8");   
-   include("../../include/BKND/mysqli_server.php");      
+   require_once("../../include/BKND/mysqli_server.php");      
    $askfor=$_POST['filename'];
     
 	  $mscnt="select F00,F01,F08 FROM a0i where F01='".$askfor."' ORDER BY F08 limit 1 ";	  

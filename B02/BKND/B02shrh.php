@@ -8,7 +8,7 @@ $brr=array();
 foreach($cart as $key=>$val){	   
     $brr[]=addslashes($val);		//要加入此函數避免中間有單引號錯亂
 }
- include("../../include/BKND/mysqli_server.php");                              //引用檔  
+ require_once("../../include/BKND/mysqli_server.php");                              //引用檔  
  require_once "../../include/BKND/paymentclc.php"; // 引入 
  $sql7="SELECT F10 FROM b02 WHERE F01='".$brr[0]."'"; 
  $sql8=@mysqli_query($link,$sql7);                       

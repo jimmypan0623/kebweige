@@ -6,7 +6,7 @@ $brr=array();
 foreach($cart as $key=>$val){	   
     $brr[]=addslashes($val);		//要加入此函數避免中間有單引號錯亂
 }
-include("../../include/BKND/mysqli_server.php");                      //引用檔
+require_once("../../include/BKND/mysqli_server.php");                      //引用檔
  require_once "../../include/BKND/fieldDOMset.php"; // 引入     
  $trnarray=fldafterwrite('C00','2',$link,true);
      $sql0="select * from a01 where F01="."'".$_COOKIE['useraccount']."'"; 
@@ -25,7 +25,7 @@ include("../../include/BKND/mysqli_server.php");                      //引用�
 		if($rows>0){			 
 			echo json_encode("資料庫已有此旬紀錄"); 
 		}else{
-              //$order_no=date(Y).date(m).date(d).date(H).date(i).date(s);
+            
 			  
             //寫入json檔(其實就是文字檔只是每一筆以json格式存放)
  
@@ -76,7 +76,7 @@ include("../../include/BKND/mysqli_server.php");                      //引用�
         mysqli_query($link ,$sql) or die(mysqli_error($link));  	  
         $arr = array ('order_no'=>$brr[$mArlth-2],'lastupdate'=>$lastdate.$list4['F03'],'fldsatrr'=>$trnarray);
 	    echo json_encode($arr);
-      //echo $brr[11];
+     
     }  
    
 mysqli_close($link);	

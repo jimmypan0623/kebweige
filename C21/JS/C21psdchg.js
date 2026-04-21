@@ -95,36 +95,63 @@ function selfTag(jsvsn,jsPth){
 }
 
 function prntproc(event){
-	if (typeof event=="undefined")
-	{
-		event=window.event;
-	}
-   
 	
-	var headdata=[];
-	 var maintable=document.getElementById("maintbody1");	 
-	 for(var i=0;i< maintable.rows.length; i++){			 
-		 if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
-					
-			for (var j=1;j<maintable.rows[i].cells.length-2;j++){    //要從單據編號開始計	
-				 headdata.push(maintable.rows[i].cells[j].innerHTML);	
-			}
-			break;
-		 }
-	}
+	const e = event || window.event;
 
-   
-	var urlcmp=(decodeURI(window.location.search));
-	 var rslt=getUrlParams2(urlcmp);
-	 var username=rslt.username;
-	  var ourcmp=getAuth[2]()[0].INT_000;
+    // 1. 定位表格並取得被勾選的資料列
+    const maintable = document.getElementById("maintbody1");
+    if (!maintable) return;
+
+    const checkedInput = maintable.querySelector('input[type="checkbox"]:checked');
+    if (!checkedInput) {
+        alert("請先選擇一筆報價單據");
+        return;
+    }
+
+    // 取得該行所有 Cell，並轉為純文字陣列
+    const row = checkedInput.closest('tr');
+    const cells = Array.from(row.cells).map(cell => cell.innerText.trim());
+
+    // 2. 取得環境與權限參數
+    const urlParams = new URLSearchParams(window.location.search);
+    const username = urlParams.get('username') || "";
+    
+    let ourcmp = "";
+    try {
+        ourcmp = (typeof getAuth !== 'undefined') ? getAuth[2]()[0].INT_000 : "";
+    } catch (err) {
+        console.warn("無法取得公司名稱");
+    }
+
+    // 3. 封裝報價單專用參數
+    // 根據您原始程式碼 headdata[0] = cells[1] 的偏移量對應：
+    const params = {
+        ourCompany: ourcmp,
+        queryNo:    cells[1],  // headdata[0]: 報價單號
+        customNo:   cells[4],  // headdata[3]: 客戶編號
+        salesMan:   cells[6]+"\u{A0}"+cells[7]+"\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}",  // headdata[6]: 業務擔當
+        curNcy:     cells[8],  // headdata[7]: 幣別
+        windowMan:  cells[9],  // headdata[8]: 聯絡窗口
+        shipWay:    cells[10], // headdata[9]: 運輸方式
+        payMent:    cells[11], // headdata[10]: 付款條件
+        reMark:     cells[12], // headdata[11]: 備註 (最常含特殊符號)
+        isConfrim:  cells[14], // headdata[13]: 確認狀態
+        username:   username
+    };
+
+    // 4. 自動處理 URL 編碼
+    const searchParams = new URLSearchParams();
+    Object.keys(params).forEach(key => {
+        if (params[key] !== undefined && params[key] !== null) {
+            searchParams.append(key, params[key]);
+        }
+    });
+
+    // 5. 組合最終路徑並開啟新視窗
+    const urlphp = `C21/BKND/C21report.php?${searchParams.toString()}`;
+    window.open(urlphp, "_blank");
 	
-
-	var urlphp="C21/BKND/C21report.php?ourCompany="+ourcmp+"&queryNo="+headdata[0]+"&customNo="+headdata[3];	
-    urlphp+="&salesMan="+headdata[6]+"&curNcy="+headdata[7]+"&shipWay="+headdata[9];
-	urlphp+="&payMent="+headdata[10]+"&reMark="+headdata[11]+"&windowMan="+headdata[8]+"&isConfrim="+headdata[13]+"&username="+username;	;		 
-	 window.open(urlphp,"_blank");
-	return;
+	
 }
   
 function tab1View(event){	  

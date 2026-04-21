@@ -79,10 +79,7 @@ $pdf->SetAutoPageBreak(TRUE, 20);
 $pdf->AddPage();
   
 // --- 4. 資料庫處理 (保持不變) ---
-require_once('../../include/BKND/db_forreport.php'); // 引入設定檔
-if (!isset($link)) {
-    die("錯誤：找不到 $link 連線變數，請檢查 db_forreport.php 內容");
-}
+require_once('../../include/BKND/db_forreport.php'); // 引入設定檔        
 // 使用 mysqli_real_escape_string 保護 SQL (保持不變)
 $sql = "SELECT c04.*, b01.F02 as F0B, b01.F04 as F0D 
         FROM c04 LEFT JOIN b01 ON c04.F02 = b01.F01 

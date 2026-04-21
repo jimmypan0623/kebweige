@@ -10,7 +10,7 @@ foreach($cart as $key=>$val){
     $brr[]=addslashes($val);		//要加入此函數避免中間有單引號錯亂
 }
 
-include("../../include/BKND/mysqli_server.php");
+require_once("../../include/BKND/mysqli_server.php");
 require_once "../../include/BKND/fieldDOMset.php";
 
 // 2. 基礎資訊獲取

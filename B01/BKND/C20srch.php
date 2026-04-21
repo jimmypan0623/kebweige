@@ -1,7 +1,7 @@
 ﻿<?php
    header("Content-Type:text/html; charset=utf-8");   
 
- include("../../include/BKND/mysqli_server.php");                      //引用檔 
+ require_once("../../include/BKND/mysqli_server.php");                      //引用檔 
 	
 	 $sql3="SELECT `F03`,`F15` FROM `c20` WHERE `F01` ='".$_POST['filename']."'"	;	 
 

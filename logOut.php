@@ -5,7 +5,7 @@ session_unset();
 session_destroy();
 
 header('Content-type:text/html; charset=utf-8');
-include("include/BKND/mysqli_server.php");
+require_once("include/BKND/mysqli_server.php");
 
 // 2. 定義 Cookie 過期時間
 $past = time() - 3600;

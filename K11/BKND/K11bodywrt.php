@@ -6,7 +6,7 @@ $brr=array();
 foreach($cart as $key=>$val){	   
     $brr[]=addslashes($val);		//要加入此函數避免中間有單引號錯亂
 }
-include("../../include/BKND/mysqli_server.php");                              //引用檔           
+require_once("../../include/BKND/mysqli_server.php");                              //引用檔           
 require_once "../../include/BKND/fieldDOMset.php"; // 引入     
 $trnarray=fldafterwrite('K11','2',$link,true);    
 	    $sql3="SELECT k25.* FROM k25  WHERE k25.F15='".$brr[1]."' AND k25.F12>=(k25.F27+k25.F28+".$brr[5].") "; 		

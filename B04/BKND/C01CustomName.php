@@ -1,7 +1,7 @@
 ﻿<?php
    header("Content-Type:text/html; charset=utf-8");   
 
-  include("../../include/BKND/mysqli_server.php");                              //引用檔    
+  require_once("../../include/BKND/mysqli_server.php");                              //引用檔    
 	 
 	 $sql3="SELECT `c01`.`F04`,`c01`.`F05`,`c01`.`F10`,`c01`.`F12`,`c01`.`F13`,`c01`.`F33`,`a01`.`F03`,";
 	 $sql3.="`c01`.`F39`,`c00`.`F02`,`c01`.`F29`,`c01`.`F30`,`c01`.`F15`,`c01`.`F36`,`c01`.`F07`,`c01`.`F32` ";

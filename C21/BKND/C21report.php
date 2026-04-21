@@ -31,7 +31,7 @@ class MYPDF extends TCPDF {
                     <td style="width:20%; text-align:right;">報價單號: '.$_GET['queryNo'].'</td>
                 </tr>
                 <tr>
-                    <td style="width:50%;">業務擔當: '.$_GET['salesMan'].' | 幣別: '.$_GET['curNcy'].'</td>
+                    <td style="width:50%;">業務擔當: '.$_GET['salesMan'].'  幣別: '.$_GET['curNcy'].'</td>
                     <td style="width:50%; text-align:right;">付款方式: '.$_GET['payMent'].'</td>
                 </tr>
                 <tr>
@@ -107,7 +107,7 @@ while ($row = mysqli_fetch_assoc($result)) {
         <td style="width: 70px;">'.$row['F05'].'</td>
         <td style="width: 40px; text-align:right;">'.$row['F06'].'</td>   
         <td style="width: 40px; text-align:right;">'.$row['F07'].'</td>
-        <td style="width: 35px; text-align:center;">'.$row['F2A'].'</td>
+        <td style="width: 35px; text-align:center;">'.$row['F2A'].'天</td>
         <td style="width: 55px; text-align:center;">'.$row['F15']."\n".$row['F17'].'</td>       
     </tr>';
 }

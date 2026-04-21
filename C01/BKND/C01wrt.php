@@ -6,7 +6,7 @@ $brr=array();
 foreach($cart as $key=>$val){	   
     $brr[]=addslashes(trim($val));		//要加入此函數避免中間有單引號錯亂
 }
-include("../../include/BKND/mysqli_server.php");        //引用檔   
+require_once("../../include/BKND/mysqli_server.php");        //引用檔   
 require_once "../../include/BKND/fieldDOMset.php"; // 引入     
 $trnarray=fldafterwrite('C01','1',$link,true);  
 if( trim($brr[0])!=trim($brr[22])){  //如果群組編號不等於客戶編號

@@ -1,7 +1,7 @@
 ﻿<?php
    header("Content-Type:text/html; charset=utf-8");   
 
-    include("../../include/BKND/mysqli_server.php");         //引用檔   
+    require_once("../../include/BKND/mysqli_server.php");         //引用檔   
 	$fieldNo=substr($_POST['filename'],0,7);                //程式欄位key		
 	$filterKey=trim(getNeedBetween($_POST['filename'],'|','_')); // 搜尋程式 
 	$accntno=trim(substr(strrchr($_POST['filename'],'_'),1));   //帳號		 

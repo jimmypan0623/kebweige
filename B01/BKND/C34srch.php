@@ -1,7 +1,7 @@
 ﻿<?php
     
  header("Content-Type: application/json; charset=utf-8");
- include("../../include/BKND/mysqli_server.php");                      //引用檔 
+ require_once("../../include/BKND/mysqli_server.php");                      //引用檔 
 	$str=explode('|',$_POST['filename']);  //將上面字串以逗號分割成陣列
 	$cust_no  = mysqli_real_escape_string($link, $str[0]);
     $part_no  = mysqli_real_escape_string($link, $str[1]); 

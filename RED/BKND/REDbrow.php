@@ -3,12 +3,14 @@
  * 權限明細查詢 API (a02/a03)
  * 功能：根據使用者代號查詢對應的程式權限與屬性
  */
+// 開啟輸出緩衝，攔截所有可能導致 JSON 損壞的空格、BOM 或警告
+ob_start();
 
 header("Content-Type: application/json; charset=utf-8");
 header("Cache-Control: no-cache, must-revalidate");
 header("Pragma: no-cache");
 
-include("../../include/BKND/mysqli_server.php");           
+require_once("../../include/BKND/mysqli_server.php");           
 require_once "../../include/BKND/fieldpreset.php"; 
 
 // 1. 取得並解析輸入參數
@@ -97,6 +99,8 @@ if ($stmt) {
 mysqli_close($link);
 
 // 4. 回傳結果
+// 清除緩衝區內的所有內容（如 BOM 或任何 Warning）
+ob_end_clean(); 
 echo json_encode([
     'recdrow' => $arr, 
     'pgttl'   => $arg

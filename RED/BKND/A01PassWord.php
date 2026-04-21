@@ -1,6 +1,6 @@
 ﻿<?php
 header('Content-Type: application/json; charset=utf-8');
-include("../../include/BKND/mysqli_server.php");
+require_once("../../include/BKND/mysqli_server.php");
 
 // 檢查 POST 參數是否存在
 $filename = isset($_POST['filename']) ? $_POST['filename'] : '';

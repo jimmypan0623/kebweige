@@ -14,6 +14,4 @@
     // 3. 設定正確的編碼 (推薦方式)
     mysqli_set_charset($link, 'utf8');
 }  
-
-
 ?>

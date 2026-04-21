@@ -1,6 +1,6 @@
 <?php
   header("Content-Type:text/html; charset=utf-8");   
-   include("../../include/BKND/mysqli_server.php");
+   require_once("../../include/BKND/mysqli_server.php");
    $objno=substr($_POST['filename'],0,5);
    $discardno=substr(strrchr($_POST['filename'],'|'),1);
    $str = trim($discardno);

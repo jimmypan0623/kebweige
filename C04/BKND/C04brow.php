@@ -2,10 +2,8 @@
 header('Content-Type: application/json; charset=utf-8');
 header("Cache-Control: no-cache, must-revalidate");
 header("Pragma: no-cache");
-
-include("../../include/BKND/mysqli_server.php");
+require_once("../../include/BKND/mysqli_server.php"); // 引入設定檔
 require_once "../../include/BKND/fieldpreset.php";
-
 $rows = 0;
 $arr = array();
 

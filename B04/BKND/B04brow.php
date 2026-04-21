@@ -3,7 +3,7 @@ header("Content-Type: application/json; charset=utf-8");
 header("Cache-Control: no-cache, must-revalidate");
 header("Pragma: no-cache");
 
-include("../../include/BKND/mysqli_server.php");
+require_once("../../include/BKND/mysqli_server.php");
 require_once "../../include/BKND/fieldpreset.php";
 
 $arr = array();
@@ -17,7 +17,7 @@ function isValidField($field) {
 
 // 統一的欄位選取與 JOIN 設定
 $columns = "b04.F00, b04.F01, b04.F02, b04.F06, b04.F10, b04.F09, b04.F11, b04.F12, b04.F14, b04.F16, b04.F20, b04.F21, b04.F22, b04.F23, b04.F24,
-            c01.F05 as F0E, c01.F04 AS F0D, c01.F10 AS F1Z, c01.F12 AS F1B, c01.F13, a01.F03 as F0C";
+            b04.F90,c01.F05 as F0E, c01.F04 AS F0D, c01.F10 AS F1Z, c01.F12 AS F1B, c01.F13, a01.F03 as F0C";
 
 $joins = "FROM b04 
           LEFT JOIN c01 ON c01.F01 = b04.F06
@@ -96,8 +96,9 @@ while ($list3 = mysqli_fetch_assoc($result)) {
         'payment' . ($wthary[16] ?? '')        => $list3['F21'],
         'ship_address' . ($wthary[17] ?? '')   => $list3['F12'],
         'ship_direct' . ($wthary[18] ?? '')    => $list3['F24'],
-        'shure' . ($wthary[19] ?? '')          => $list3['F10'],
-        'lastupdate' . ($wthary[20] ?? '')     => $list3['F11']
+		'year_mth' . ($wthary[19] ?? '')          => $list3['F90'],
+        'shure' . ($wthary[20] ?? '')          => $list3['F10'],
+        'lastupdate' . ($wthary[21] ?? '')     => $list3['F11']
     );
 }
 

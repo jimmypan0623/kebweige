@@ -1,7 +1,7 @@
 ﻿<?php
    header("Content-Type:text/html; charset=utf-8");   
 
- include("../../include/BKND/mysqli_server.php");                              //引用檔      
+ require_once("../../include/BKND/mysqli_server.php");                              //引用檔      
     $str1=$_POST['filename'];
 	$sql3="SELECT * FROM d19 WHERE d19.F02='".$str1."' ORDER BY d19.F05";			  
 	$arr=array();	

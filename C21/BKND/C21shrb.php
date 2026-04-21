@@ -4,7 +4,7 @@ $response =json_decode($str_json); // decoding received JSON to array
 $cart=json_decode($response);
 $brr=array();
 
-include("../../include/BKND/mysqli_server.php");          //引用檔    
+require_once("../../include/BKND/mysqli_server.php");          //引用檔    
     $sql0="select * from a01 where F01="."'".$_COOKIE['useraccount']."'"; 
     $sql1=@mysqli_query($link,$sql0);
     $rows1=@mysqli_num_rows($sql1);                       

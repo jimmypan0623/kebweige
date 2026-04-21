@@ -1,7 +1,7 @@
 ﻿<?php
    header("Content-Type:text/html; charset=utf-8");   
 
- include("../../include/BKND/mysqli_server.php");                              //引用檔
+ require_once("../../include/BKND/mysqli_server.php");                              //引用檔
         $str=explode('|',$_POST['filename']);  //將上面字串以逗號分割成陣列
  
 		$sql3="SELECT b0b.F01,b02.F90,b02.F02,b0b.F05,a14.F02 AS F0B,b0b.F04 FROM b0b,b02,a14 ";			  
@@ -22,10 +22,7 @@
 	     $arr = array_values($arr);
          $json_string1 = json_encode($arr); 
          echo $json_string1;	 
-	 
-        // echo "srchStockNo($json_string1)";    
-       
-		 
+
 
 ?>  
 

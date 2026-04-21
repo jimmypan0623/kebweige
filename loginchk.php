@@ -3,7 +3,7 @@
 session_start();
 //var_dump($_SESSION); exit;
 header("Content-Type:text/html; charset=utf-8");
-include("include/BKND/mysqli_server.php");
+require_once("include/BKND/mysqli_server.php");
 
 /**
  * 輔助函式：發生錯誤時重定向並記錄 Cookie

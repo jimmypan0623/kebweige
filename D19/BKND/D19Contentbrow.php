@@ -1,6 +1,7 @@
 ﻿<?php
+ob_start();
 header("Content-Type: application/json; charset=utf-8"); // 標準化為 JSON 輸出
-include("../../include/BKND/mysqli_server.php");
+require_once("../../include/BKND/mysqli_server.php");
 
 // 1. 取得小數點位數設定 (來自 Cookie)
 $rnddgt = isset($_COOKIE["INT_068"]) ? intval($_COOKIE["INT_068"]) : 0;
@@ -50,6 +51,7 @@ if ($result) {
 
 // 4. 關閉連線並回傳 JSON
 mysqli_close($link);
+ob_end_clean(); 
 echo json_encode(array('recdrow' => array_values($arr)));
 ?>
 
