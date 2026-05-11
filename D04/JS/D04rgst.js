@@ -41,9 +41,7 @@ function blocksclose(clsevt)  //關閉註冊彈出視窗
 	}
 	var dropsheet=document.getElementById("myModal");
 	dropsheet.style.display="none";       //關閉視窗 	
-	if (dropsheet!=null){		
-        dropsheet.parentNode.removeChild(dropsheet);  //並將這些元素移除	 
-	}   	 
+	dropsheet.remove();	  //並將這些元素移除	
 	var btns=getElementsByAttribute('class','btn');			 
     for (var i=0;i<btns.length;i++){		
         if (tabs[0].checked){
@@ -66,7 +64,7 @@ function blocksclose(clsevt)  //關閉註冊彈出視窗
 function sendFilePrc(updflg){     //新增資料及修改程序       
 	var tbjsn=[];
 	var nonjsn=[];
-	var recordNo=document.getElementById("rcrd_no");
+	
     //----資料寫入資料庫前過濾程序區-----//
 	var tabs=getElementsByAttribute('class','tab');	
 	var tbno=0;	 
@@ -83,6 +81,7 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 		 var d04elements=document.getElementsByName('d04update');	
 		 var d04athments=document.getElementsByName('d04others');			 
 	}
+	var recordNo=document.getElementById("rcrd_no"+(tbno+1).toString());
 	for(var r=0;r<d04athments.length;r++){        //關聯資料
 		    nonjsn.push(d04athments[r].tagName.toUpperCase()=='SPAN'?d04athments[r].innerHTML:d04athments[r].value);		
 	}
@@ -121,10 +120,13 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 		
 	}
     //--------過濾區結束----------//	
-	
+	if (tbno==0){    //處理幣別名稱
+		var selectElement=document.getElementById("crntopt");
+		var slicelth=selectElement.value.length;		
+		nonjsn.splice(3, 0, selectElement.options[selectElement.selectedIndex].text.slice(slicelth));  //取得幣別名稱內容		
+	}
     if (updflg==1){     //如果是新增	 	   
         if(d04elements[1].value!="" ){
-
 		   tbjsn.push('0');
 		   tbjsn.push('0');	
 		   var rspns=TableToJson(tbjsn,nonjsn,tbno);        
@@ -310,13 +312,13 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 			optionitem(aWaitUpdate[5],slt4.id,4,"D01/BKND/D00srch.php");		//幣別欄位					 
 		}else{
 			oTd.innerHTML="<input type='text' name='d03update' id='queryno' class='txt' style='width:25%;' maxlength='10'/>"; 
-			optionitem(getCookie('INT_011'),slt4.id,4,"D01/BKND/D00srch.php");	
+			optionitem(getAuth[2]()[0].INT_011,slt4.id,4,"D01/BKND/D00srch.php");	
 		}			 	              
 		var oTr=ajTable.insertRow(ajTable,ajTable.length);  //以下第一列都隱藏起來當變數
 		var oTd = oTr.insertCell(0);	             
 		oTd.innerHTML='紀錄號碼';
 		var oTd = oTr.insertCell(1);		  
-		oTd.innerHTML="<input type='text' name='d03update' id='rcrd_no' class='txt' maxlength='14' autosize  />";                 
+		oTd.innerHTML="<input type='text' name='d03update' id='rcrd_no1' class='txt' maxlength='14' autosize  />";                 
 		oTr.setAttribute("style","display:none;");	
 	}else{               //異動表身資料			      		 
 		var oTr=ajTable.insertRow(ajTable,ajTable.length);
@@ -379,7 +381,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		var oTd = oTr.insertCell(0);	             
 		oTd.innerHTML='紀錄號碼';
 		var oTd = oTr.insertCell(1);		 
-		oTd.innerHTML="<input type='text' name='d04update' id='rcrd_no' class='txt' maxlength='14' autosize  />";                 
+		oTd.innerHTML="<input type='text' name='d04update' id='rcrd_no2' class='txt' maxlength='14' autosize  />";                 
 		oTr.setAttribute("style","display:none;");	
 	}				  						 
 }
@@ -420,7 +422,7 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 		   }
 		   break;
 		case 2:                                                     //如果是修改，要先顯示目前該筆資料
-		    document.getElementById("rcrd_no").value=aWaitUpdate[0];       //把紀錄號碼也存起來	
+		    document.getElementById("rcrd_no"+(tbno+1).toString()).value=aWaitUpdate[0];       //把紀錄號碼也存起來	
 		    if (tbno==0){
 			    document.getElementById("querydate").focus();				  			 				  
 			    var editinit=document.getElementsByName('d03update');
@@ -474,12 +476,15 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 				 if(tbno==0 && fldidx==6){   //採購名稱
 				   oTd.innerHTML=nongs[2];				  
 				}
-				if(tbno==0 && fldidx==11){   //確認
-				   nongs[3]='N';
+				if(tbno==0 && fldidx==8){   //幣別名稱
+				   oTd.innerHTML=nongs[3];				  
+				}
+				if(tbno==0 && fldidx==12){   //確認
+				   nongs[4]='N';
 				   oTd.innerHTML='N';				   
 				}
-				if(tbno==0 && fldidx==12){   //  //轉單
-				   nongs[4]='N';
+				if(tbno==0 && fldidx==13){   //  //轉單
+				   nongs[5]='N';
 				   oTd.innerHTML='N';				   
 				}
 			    if(tbno==1 && fldidx==1){   //品名

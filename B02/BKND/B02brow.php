@@ -17,12 +17,12 @@ function isValidField($field) {
 
 // 統一的欄位選取與 JOIN 設定 (對應 B02 邏輯)
 $columns = "b02.F00, b02.F01, b02.F02, b02.F06, b02.F10, b02.F09, b02.F11, b02.F12, b02.F14, b02.F16, b02.F20, b02.F21, b02.F22, b02.F23, b02.F24,
-            d01.F04 as F0D, d01.F03 AS F0C, d01.F06 AS F1Z, d01.F08 AS F1B, d01.F09 AS F0I, a01.F03 as F0G";
+            b02.F90,d01.F04 as F0D, d01.F03 AS F0C, d01.F06 AS F1Z, d01.F08 AS F1B, d01.F09 AS F0I, a01.F03 as F0G,d00.F04 AS F0H";
 
 $joins = "FROM b02 
           LEFT OUTER JOIN d01 ON d01.F01 = b02.F06
-          LEFT OUTER JOIN a01 ON a01.F01 = b02.F09";
-
+          LEFT OUTER JOIN a01 ON a01.F01 = b02.F09 
+          LEFT OUTER JOIN d00 ON d00.F01 = b02.F14";
 // 2. 判斷模式
 $filename = $_POST['filename'] ?? '';
 
@@ -91,15 +91,17 @@ while ($list3 = mysqli_fetch_assoc($result)) {
         'sales_no' . ($wthary[9] ?? '')        => $list3['F09'],
         'sales_name' . ($wthary[10] ?? '')     => $list3['F0G'], // 對應 a01.F03
         'crncy_type' . ($wthary[11] ?? '')     => $list3['F14'],
-        'crncy_rate' . ($wthary[12] ?? '')     => $list3['F16'],
-        'invoice_no' . ($wthary[13] ?? '')     => $list3['F20'],
-        'invoice_type' . ($wthary[14] ?? '')   => $list3['F22'],
-        'tax_type' . ($wthary[15] ?? '')       => $list3['F23'],
-        'payment' . ($wthary[16] ?? '')        => $list3['F21'],
-        'ship_no' . ($wthary[17] ?? '')        => $list3['F12'], 
-        'ship_direct' . ($wthary[18] ?? '')    => $list3['F24'],
-        'shure' . ($wthary[19] ?? '')          => $list3['F10'],
-        'lastupdate' . ($wthary[20] ?? '')     => $list3['F11']
+		'crncy_name' . ($wthary[12] ?? '')     => $list3['F0H'],
+        'crncy_rate' . ($wthary[13] ?? '')     => $list3['F16'],
+        'invoice_no' . ($wthary[14] ?? '')     => $list3['F20'],
+        'invoice_type' . ($wthary[15] ?? '')   => $list3['F22'],
+        'tax_type' . ($wthary[16] ?? '')       => $list3['F23'],
+        'payment' . ($wthary[17] ?? '')        => $list3['F21'],
+        'ship_no' . ($wthary[18] ?? '')        => $list3['F12'], 
+        'ship_direct' . ($wthary[19] ?? '')    => $list3['F24'],
+		'ship_date' . ($wthary[20] ?? '')          => $list3['F90'],
+        'shure' . ($wthary[21] ?? '')          => $list3['F10'],
+        'lastupdate' . ($wthary[22] ?? '')     => $list3['F11']
     );
 }
 

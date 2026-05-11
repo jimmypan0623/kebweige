@@ -152,6 +152,7 @@ function choseSecond(targetTrChildren,targetTr){
 	 
    return true;	
 }
+
 function choseExtraDeal(targetTrChildren,targetTr){   //紀錄移動
     var ansbtt=document.getElementById("ANS_BOTT");	
 	var vrsbtt=document.getElementById("VRS_BOTT");	

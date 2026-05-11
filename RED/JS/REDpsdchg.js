@@ -39,7 +39,15 @@ function selfTag(jsvsn,jsPth)
 		plsElmnts.appendChild(iflm);
 	 }		 
 }
-function redmenuchange(event){    //畫面展開縮起來
+function redmenuchange(e){    //畫面展開縮起來
+
+    var event = e || window.event;
+    if (event.preventDefault) {
+        event.preventDefault(); // 現代瀏覽器
+    } else {
+        event.returnValue = false; // 舊版 IE
+    }
+
 	//通過父元素li，找到兄弟元素ul
 	if (typeof event=="undefined"){
 	   event=window.event;
@@ -170,12 +178,5 @@ function toggleMenu() {   //主選單隱藏或顯示
 		frlm.style.width='100%';
 		frlm.style.left='0%';
 	}
-	
-}
-
-function fieldsSetName(rsp){
-   
-           
-   
 	
 }

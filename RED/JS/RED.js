@@ -41,10 +41,10 @@ function getProfile(str1,cmpnme) {
 					 oLiFather.setAttribute("class","hasmenu");
 					 attachEventListener(oLiFather,"click",redmenuchange,false);					 
 					 var newA=document.createElement("a");
-					 newA.setAttribute("href","#");					 
+					 newA.setAttribute("href","javascript:void(0)");					 
 					 newA.appendChild(document.createTextNode(arr[i][jk].slice(0,1)+'.'+summaryName(arr[i][jk].slice(0,1))));					 
 					 oLiFather.appendChild(newA);							 
-					  mainUl.appendChild(oLiFather)
+					 mainUl.appendChild(oLiFather)
 					 var oUl=document.createElement('ul');	
 					 if(LastFunc && left(arr[i][jk],1)==left(LastFunc,1)){  //如果從子功能返回主選單恢復原狀					                        				
 						oUl.setAttribute("class","myShow");		   						 
@@ -65,8 +65,8 @@ function getProfile(str1,cmpnme) {
 			}else if(jk=='dscrpt'){
 				tmpItemName+=arr[i][jk];
 				var oLison=document.createElement('li');               
-				 var newB=document.createElement("a");				 
-			 	newB.setAttribute("href","#"); 
+				var newB=document.createElement("a");				 
+			  	newB.setAttribute("href","javascript:void(0)"); 
 			 	newB.appendChild(document.createTextNode(tmpItemName));					 
 			 	oLison.appendChild(newB);				     	
 				attachEventListener(oLison,"click",excuteFun,false);
@@ -86,7 +86,7 @@ function getProfile(str1,cmpnme) {
 	var oLiUncle=document.createElement('li');   //最底下再新增一個li tag修改密碼
 	attachEventListener(oLiUncle,"click",blockPsdshow,false);  //修改密碼按鈕程序		   
 	var newC=document.createElement("a");
-	newC.setAttribute("href","#");
+ 	newC.setAttribute("href","javascript:void(0)");
 	newC.appendChild(document.createTextNode("變更登入系統密碼"));
 	oLiUncle.appendChild(newC);
 	mainUl.appendChild(oLiUncle);	      

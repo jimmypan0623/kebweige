@@ -1,57 +1,68 @@
 ﻿<?php
-ob_start();
-   header("Content-Type: application/json; charset=utf-8");
- header("Cache-Control: no-cache, must-revalidate");
-header("Pragma: no-cache");
-   require_once("../../include/BKND/mysqli_server.php");                              //引用檔  
-    require_once "../../include/BKND/fieldpreset.php"; // 引入     
-   $rnddgt=intval($_COOKIE["INT_069"]);
-    if (substr($_POST['filename'],0,3)=="PGE"){	  
-	   $pgeno=getNeedBetween($_POST['filename'],'E','|'); // 月次 
-		$sql3="SELECT c01.F01,c01.F04,c01.F05 FROM c01 WHERE F01 IN (SELECT F03 FROM c13 WHERE F90='".$pgeno."')		 		
-		 ORDER BY c01.F01 ";  
-    }else{
-	    $fieldNo=substr($_POST['filename'],0,7);
-		$filterKey=getNeedBetween($_POST['filename'],'|','_');  
-		$pgeno=substr(strrchr($_POST['filename'],'_'),1); // 月次
-        $sql3="SELECT c01.F01,c01.F04,c01.F05 FROM c01 WHERE F01 IN (SELECT F03 FROM c13 WHERE F90='".$pgeno."') AND ".$fieldNo." LIKE '%".trim($filterKey)."%' ORDER BY ".$fieldNo  ;   
-    }	   
-    $sql0="select F07 from a23 where F01="."'".$pgeno."'"; 
-     $sql1=@mysqli_query($link,$sql0);                           
-     $list4=mysqli_fetch_assoc($sql1);  //紀錄當前月份是否已結轉月庫存報表  
-	 $wthary=fldwdthpre('C12','1',$link);
-	$arr=array();	
-    $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_assoc($sql4)){
-		 
-		$atr = array( 
-                    
-					 'custom_no'.$wthary[0]=>$list3['F01'],	
-					 'custom_fuulname'.$wthary[1]=>$list3['F04'],	
-					 'custom_name'.$wthary[2]=>$list3['F05'] 	 
-					 );                     			 
-		array_push($arr,$atr);
-		
-	}
-	mysqli_close($link);
-	 //最後使用usort來做排序
-        // usort(要排序的陣列,使用的函數) 
-      //usort($arr, 'score_sort');  //料號再排序一次        
-          $arr = array_values($arr);
-       //  $json_string1 = json_encode($arr); 	
-	    // 清除緩衝區內的所有內容（如 BOM 或任何 Warning）
-         ob_end_clean(); 
-         echo json_encode(array ('recdrow'=>$arr,'transcode'=>$list4['F07']));		 
-         //echo "getProfile($json_string1,$total_pages)";  	   //
+header("Content-Type: application/json; charset=utf-8");
+header("Cache-Control: no-cache, must-revalidate");
+require_once("../../include/BKND/mysqli_server.php");
+require_once "../../include/BKND/fieldpreset.php";
+
+$rnddgt = isset($_COOKIE["INT_069"]) ? intval($_COOKIE["INT_069"]) : 0;
+$filename = $_POST['filename'] ?? '';
+
+// 初始參數解析
+if (substr($filename, 0, 3) == "PGE") {
+    $pgeno = getNeedBetween($filename, 'E', '|');
+    $fieldNo = "c01.F01"; 
+    $filterKey = null;
+} else {
+    $fieldNo = mysqli_real_escape_string($link, substr($filename, 0, 7));
+    $filterKey = getNeedBetween($filename, '|', '_');
+    $pgeno = substr(strrchr($filename, '_'), 1);
+}
+
+// 1. 取得結轉狀態 (a23)
+$stmt0 = $link->prepare("SELECT F07 FROM a23 WHERE F01 = ?");
+$stmt0->bind_param("s", $pgeno);
+$stmt0->execute();
+$res0 = $stmt0->get_result();
+$trans_code = ($row = $res0->fetch_assoc()) ? $row['F07'] : '';
+
+// 2. 取得客戶清單 (改用 JOIN 提升效能)
+$sql = "SELECT DISTINCT c01.F01, c01.F04, c01.F05
+        FROM c01 
+        INNER JOIN c13 ON c01.F01 = c13.F03 
+        WHERE c13.F90 = ?";
+
+if ($filterKey !== null) {
+    $sql .= " AND $fieldNo LIKE ?";
+}
+$sql .= " ORDER BY $fieldNo";
+
+$stmt = $link->prepare($sql);
+if ($filterKey !== null) {
+    $likeKey = "%" . trim($filterKey) . "%";
+    $stmt->bind_param("ss", $pgeno, $likeKey);
+} else {
+    $stmt->bind_param("s", $pgeno);
+}
+
+$stmt->execute();
+$result = $stmt->get_result();
+
+$wthary = fldwdthpre('C12', '1', $link);
+$arr = [];
+
+while ($list3 = $result->fetch_assoc()) {
+    $arr[] = [
+        'custom_no' . ($wthary[0] ?? '')       => $list3['F01'],
+        'custom_fullname' . ($wthary[1] ?? '') => $list3['F04'],
+        'custom_name' . ($wthary[2] ?? '')     => $list3['F05']		 
+    ];
+}
+
+echo json_encode(['recdrow' => $arr, 'transcode' => $trans_code]);
 
 function getNeedBetween($kw1, $mark1, $mark2) {
     $st = stripos($kw1, $mark1);
     $ed = stripos($kw1, $mark2);
-    // 使用強型別比較，避免索引為 0 時判定為 false
     if ($st === false || $ed === false || $st >= $ed) return "";
     return substr($kw1, ($st + 1), ($ed - $st - 1));
 }
-
-?>  
-
- 

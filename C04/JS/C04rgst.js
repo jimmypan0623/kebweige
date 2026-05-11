@@ -9,7 +9,7 @@ function blocksclose(clsevt)  //關閉註冊彈出視窗
 		tabs[i].setAttribute("accesskey",(i+1).toString());
 	}		
 	if (tabs[0].checked){
-	   if (target.value=="\u{274E}"  && getCookie('INT_013')=='Y'){
+	   if (target.value=="\u{274E}"  && getAuth[2]()[0].INT_013 =='Y'){
 		   var maintable=document.getElementById("maintbody1");		 		
 		   var tablerowindex=0;
 		   for(var i=0;i< maintable.rows.length; i++){			 
@@ -28,7 +28,8 @@ function blocksclose(clsevt)  //關閉註冊彈出視窗
 	         if (currentNo.trim()!="" && currentNo.trim()!=query_no){ //如果非修改且自動編號
 		         var showTime=document.getElementById('currentTime'); //利用djtime.js顯示畫面的預設日期日期輸入欄之值為今天
 		         var thtdy=(showTime.innerHTML.substring(0,4)+'-'+showTime.innerHTML.substring(5,7)+'-'+showTime.innerHTML.substring(8,10)); //中間一定要用減號分隔年月日				  
-		   	     discardNoRec('CA'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase(),currentNo.trim());
+		   	    
+				discardNoRec('CA'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase(),currentNo.trim());
 	         } 
 	      }
 	   }
@@ -40,10 +41,8 @@ function blocksclose(clsevt)  //關閉註冊彈出視窗
 		discardNoRec('BC'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase(),currentNo.trim());
 	}
 	var dropsheet=document.getElementById("myModal");
-	dropsheet.style.display="none";       //關閉視窗 	
-	if (dropsheet!=null){		
-        dropsheet.parentNode.removeChild(dropsheet);  //並將這些元素移除	 
-	}   	 
+	dropsheet.style.display="none";       //關閉視窗 		
+    dropsheet.remove();	  //並將這些元素移除
 	var btns=getElementsByAttribute('class','btn');			 
     for (var i=0;i<btns.length;i++){		
         if (tabs[0].checked){
@@ -66,7 +65,7 @@ function blocksclose(clsevt)  //關閉註冊彈出視窗
 function sendFilePrc(updflg){     //新增資料及修改程序       
 	var tbjsn=[];
 	var nonjsn=[];
-	var recordNo=document.getElementById("rcrd_no");
+	
     //----資料寫入資料庫前過濾程序區-----//
 	var tabs=getElementsByAttribute('class','tab');	
 	var tbno=0;	 
@@ -78,11 +77,14 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 	}					 				
     if (tbno==0){
 	    var c04elements=document.getElementsByName('c03update');
-        var c04athments=document.getElementsByName('c03others');			
+        var c04athments=document.getElementsByName('c03others');	
+		
 	}else{
 		 var c04elements=document.getElementsByName('c04update');	
-		 var c04athments=document.getElementsByName('c04others');			 
+		 var c04athments=document.getElementsByName('c04others');	
+		 
 	}
+	var recordNo=document.getElementById("rcrd_no"+(tbno+1).toString());
 	for(var r=0;r<c04athments.length;r++){        //關聯資料
 		    nonjsn.push(c04athments[r].tagName.toUpperCase()=='SPAN'?c04athments[r].innerHTML:c04athments[r].value);		
 	}
@@ -121,7 +123,11 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 		
 	}
     //--------過濾區結束----------//	
-	
+	if (tbno==0){    //處理幣別名稱
+		var selectElement=document.getElementById("crntopt");
+		var slicelth=selectElement.value.length;		
+		nonjsn.splice(3, 0, selectElement.options[selectElement.selectedIndex].text.slice(slicelth));  //取得幣別名稱內容		
+	}
     if (updflg==1){     //如果是新增	 	   
         if(c04elements[1].value!="" ){
 
@@ -158,7 +164,7 @@ function calculateTtl(tbno,maintable,i){
 	return;
 }
  function billNoReCreate(currentNo){
-     if (getCookie('INT_099')=='Y' && getCookie('INT_013')=='Y'){ //如果是系統參數設為自動編號且刪掉號碼重用						      
+     if (getAuth[2]()[0].INT_099 =='Y' && getAuth[2]()[0].INT_013 =='Y'){ //如果是系統參數設為自動編號且刪掉號碼重用						      
 		var showTime=document.getElementById('currentTime'); //利用djtime.js顯示畫面的預設日期日期輸入欄之值為今天
 		var thtdy=(showTime.innerHTML.substring(0,4)+'-'+showTime.innerHTML.substring(5,7)+'-'+showTime.innerHTML.substring(8,10)); //中間一定要用減號分隔年月日				  
 		var crntmth=thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase();							  
@@ -297,14 +303,14 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 			oTd.innerHTML="<input type='text' name='c03update' id='queryno' class='txt' style='background-color:#B9B9FF;width:25%;' maxlength='10' readOnly=true  />"; 					
 			optionitem(aWaitUpdate[5],slt4.id,4,"C01/BKND/C00srch.php");		//幣別欄位					 
 		}else{
-			oTd.innerHTML="<input type='text' name='c03update' id='queryno' class='txt' style='width:25%;' maxlength='10'/>"; 
-			optionitem(getCookie('INT_011'),slt4.id,4,"C01/BKND/C00srch.php");	
+			oTd.innerHTML="<input type='text' name='c03update' id='queryno' class='txt' style='width:25%;' maxlength='10'/>"; 			
+			optionitem(getAuth[2]()[0].INT_011,slt4.id,4,"C01/BKND/C00srch.php");			
 		}			 	              
 		var oTr=ajTable.insertRow(ajTable,ajTable.length);  //以下第一列都隱藏起來當變數
 		var oTd = oTr.insertCell(0);	             
 		oTd.innerHTML='紀錄號碼';
 		var oTd = oTr.insertCell(1);		  
-		oTd.innerHTML="<input type='text' name='c03update' id='rcrd_no' class='txt' maxlength='14' autosize  />";                 
+		oTd.innerHTML="<input type='text' name='c03update' id='rcrd_no1' class='txt' maxlength='14' autosize  />";                 
 		oTr.setAttribute("style","display:none;");	
 	}else{               //異動表身資料			      		 
 		var oTr=ajTable.insertRow(ajTable,ajTable.length);
@@ -367,7 +373,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		var oTd = oTr.insertCell(0);	             
 		oTd.innerHTML='紀錄號碼';
 		var oTd = oTr.insertCell(1);		 
-		oTd.innerHTML="<input type='text' name='c04update' id='rcrd_no' class='txt' maxlength='14' autosize  />";                 
+		oTd.innerHTML="<input type='text' name='c04update' id='rcrd_no2' class='txt' maxlength='14' autosize  />";                 
 		oTr.setAttribute("style","display:none;");	
 	}				  						 
 }
@@ -389,7 +395,7 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 		   var thtdy=(showTime.innerHTML.substring(0,4)+'-'+showTime.innerHTML.substring(5,7)+'-'+showTime.innerHTML.substring(8,10)); //中間一定要用減號分隔年月日			        
 		   if (tbno==0){					  
 			   document.getElementById("querydate").value=thtdy;  //日期都設為今天
-				if(getCookie('INT_013')=='Y'){       //如果參數設為系統自動編號
+				if(getAuth[2]()[0].INT_013 =='Y'){       //如果參數設為系統自動編號
 				  objGetNo('queryno','CA'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase());
 				   var cstNo=document.getElementById("customno");
 				   cstNo.focus();	
@@ -406,7 +412,7 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 		   }
 		   break;
 		case 2:                                                     //如果是修改，要先顯示目前該筆資料
-		    document.getElementById("rcrd_no").value=aWaitUpdate[0];       //把紀錄號碼也存起來	
+		    document.getElementById("rcrd_no"+(tbno+1).toString()).value=aWaitUpdate[0];       //把紀錄號碼也存起來	
 		    if (tbno==0){
 			    document.getElementById("querydate").focus();				  			 				  
 			    var editinit=document.getElementsByName('c03update');
@@ -460,12 +466,15 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 				 if(tbno==0 && fldidx==6){   //業務名稱
 				   oTd.innerHTML=nongs[2];				  
 				}
-				if(tbno==0 && fldidx==11){   //確認
-				   nongs[3]='N';
+				 if(tbno==0 && fldidx==8){   //幣別名稱
+				   oTd.innerHTML=nongs[3];				  
+				}
+				if(tbno==0 && fldidx==12){   //確認
+				   nongs[4]='N';
 				   oTd.innerHTML='N';				   
 				}
-				if(tbno==0 && fldidx==12){   //  //轉單
-				   nongs[4]='N';
+				if(tbno==0 && fldidx==13){   //  //轉單
+				   nongs[5]='N';
 				   oTd.innerHTML='N';				   
 				}
 			    if(tbno==1 && fldidx==1){   //品名
@@ -515,7 +524,7 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 }
 
 function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,nongs,tbno)函數修改紀錄後呼叫的畫面更動
-    var rnddgt=getCookie('INT_069');  //四捨五入到幾位     
+    var rnddgt=getAuth[2]()[0].INT_069 ;  //四捨五入到幾位     
     if (tbno==0){
 	    var maintable=document.getElementById("maintbody1");		
 	    var fldidx=4;
@@ -554,6 +563,7 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 		}		
 		maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=rsp.lastupdate;
 }
+
 function transConfirm(oTd){      			 
 	oTd.innerHTML="<input type='text' name='b04update' id='newPono' class='txt' style='display:none;' maxlength='10'/>"; 				 
     return true;

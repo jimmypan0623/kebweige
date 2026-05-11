@@ -69,7 +69,7 @@ function getProfile(str1,reccount) {
 	   oTd.appendChild(myCheck);     		    
 		if(arr[i]['readyship_qty_IHC_000']*1>0){  //有開單未過帳量
 			oTr.setAttribute("style","font-weight:bold;color:#704214;");//#949100
-		}else if(arr[i]['diffdate_IHL_000']>0){  //預定交期超過今天紅字
+		}else if(arr[i]['diffdate_IHC_000']>0 || arr[i]['avlqty_ISR_007']<0){  //預定交期超過今天或預期數量小於零則紅字
 			oTr.setAttribute("style","font-weight:bold;color:#E60000;");
 		}		  
 	}

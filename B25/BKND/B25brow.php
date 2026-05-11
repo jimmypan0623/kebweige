@@ -1,75 +1,99 @@
 ﻿<?php
-   header("Content-Type: application/json; charset=utf-8");
-   require_once("../../include/BKND/mysqli_server.php");                              //引用檔
-     require_once "../../include/BKND/fieldpreset.php"; // 引入
-   $rnddgt=$_COOKIE["INT_069"];
-   if (substr($_POST['filename'],0,3)=="PGE"){	  
-	   $pgeno=getNeedBetween($_POST['filename'],'E','|'); // 月次 
-	   $dptno=substr(strrchr($_POST['filename'],'|'),1); // 月次
-      
-		$sql3="SELECT * FROM b25 WHERE F90='".$pgeno."' AND F01='".$dptno."' ";
-		$sql3.="AND !(F03=0 AND F04=0 AND F05=0 AND F06=0 AND F07=0 AND F08=0 AND F09=0 AND F10=0 AND F11=0 AND F13=0 AND F14=0 AND F15=0) ";
-		$sql3.="ORDER BY F01,F02 ";	
-		     
-   }else{
-	    $fieldNo=substr($_POST['filename'],0,7);
-		$filterKey=getNeedBetween($_POST['filename'],'|','_');  		
-	    $pgeno=getNeedBetween($_POST['filename'],'_','~'); // 月次 
-		$dptno=substr(strrchr($_POST['filename'],'~'),1);  //部門編號
-        $sql3="SELECT * FROM b25		   		
-		WHERE F90='".$pgeno."' AND F01='".$dptno."' ";
-		$sql3.="AND !(F03=0 AND F04=0 AND F05=0 AND F06=0 AND F07=0 AND F08=0 AND F09=0 AND F10=0 AND F11=0 AND F13=0 AND F14=0 AND F15=0) ";
-		$sql3.="AND ".$fieldNo." like '%".trim($filterKey)."%' order by ".$fieldNo;   
-             
-   }	   
-    $sql0="select * from a23 where F01='".$pgeno."'"; 
-     $sql1=@mysqli_query($link,$sql0);                           
-     $list4=mysqli_fetch_assoc($sql1);  //紀錄當前月份是否已結轉月庫存報表 
-	 
-     $wthary=fldwdthpre('B25','1',$link);
-	$arr=array();	
-    $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_assoc($sql4)){
-	 
-		$atr = array('rc_no'.$wthary[0]=>$list3['F00'],  
-                     'stock_no'.$wthary[1]=>$list3['F02'], 	
-					 'mth_init'.$wthary[2]=>$list3['F03'], 	
-					 'shipIn'.$wthary[3]=>$list3['F04'],
-					 'inReject'.$wthary[4]=>$list3['F05'],  
-					 'shipOut'.$wthary[5]=>$list3['F06'],	
-					 'outReject'.$wthary[6]=>$list3['F07'],	
-					 'turnIn'.$wthary[7]=>$list3['F08'],
-		             'turnOut'.$wthary[8]=>$list3['F09'], 					 
-                     'product'.$wthary[9]=>$list3['F10'],	 
-                     'consume'.$wthary[10]=>$list3['F11'],	 					 
-                     'lose'.$wthary[11]=>$list3['F14'],
-					 'wend'.$wthary[12]=>$list3['F13'],  						
-                     'mth_end'.$wthary[13]=>$list3['F15'],									  
-					 'lastupdate'.$wthary[14]=>$list3['F16']                      				 
-					 );                     			 
-		array_push($arr,$atr);
-		
-	}
-	mysqli_close($link);
-	 //最後使用usort來做排序
-        // usort(要排序的陣列,使用的函數) 
-      //usort($arr, 'score_sort');  //料號再排序一次        
-          $arr = array_values($arr);
-       //  $json_string1 = json_encode($arr); 	
-         echo json_encode(array ('recdrow'=>$arr,'pgttl'=>$list4['F07']));		 
-         //echo "getProfile($json_string1,$total_pages)";  	   //
- 
-function getNeedBetween($kw1,$mark1,$mark2){  //抓取兩個字元間的字串函數
-   $kw=$kw1; 
-   $st =stripos($kw,$mark1);
-   $ed =stripos($kw,$mark2);
-   if(($st==false||$ed==false)||$st>=$ed)
-      return 0;
-   $kw=substr($kw,($st+1),($ed-$st-1));
-return $kw;
-}  
+header("Content-Type: application/json; charset=utf-8");
+require_once("../../include/BKND/mysqli_server.php");
+require_once("../../include/BKND/fieldpreset.php");
 
+// 1. 初始化變數與取得參數
+$filename = $_POST['filename'] ?? '';
+$pgeno = "";
+$dptno = "";
+$fieldNo = "";
+$filterKey = "";
 
-?>  
+// 2. 解析檔名參數 (封裝解析邏輯)
+if (strpos($filename, "PGE") === 0) {
+    $pgeno = getNeedBetween($filename, 'E', '|');
+    $dptno = substr(strrchr($filename, '|'), 1);
+} else {
+    $fieldNo = substr($filename, 0, 7);
+    $filterKey = trim(getNeedBetween($filename, '|', '_'));
+    $pgeno = getNeedBetween($filename, '_', '~');
+    $dptno = substr(strrchr($filename, '~'), 1);
+}
 
- 
+// 3. 建立 SQL (使用預處理防止 SQL Injection)
+$sql_where = "WHERE F90 = ? AND F01 = ? ";
+// 排除全為 0 的無效數據 (過濾條件)
+$sql_where .= "AND NOT (F03=0 AND F04=0 AND F05=0 AND F06=0 AND F07=0 AND F08=0 AND F09=0 AND F10=0 AND F11=0 AND F13=0 AND F14=0 AND F15=0) ";
+
+$params = [$pgeno, $dptno];
+$types = "ss";
+
+if (strpos($filename, "PGE") !== 0) {
+    // 這裡欄位名稱 $fieldNo 必須是白名單過濾，假設它是安全的
+    $sql_where .= "AND $fieldNo LIKE ? ";
+    $params[] = "%$filterKey%";
+    $types .= "s";
+    $order_by = "ORDER BY $fieldNo";
+} else {
+    $order_by = "ORDER BY F01, F02";
+}
+
+$sql3 = "SELECT F00, F01, F02, F03, F04, F05, F06, F07, F08, F09, F10, F11, F13, F14, F15, F16 FROM b25 $sql_where $order_by";
+
+// 4. 執行查詢：a23 (月結資訊)
+$stmt0 = $link->prepare("SELECT F07 FROM a23 WHERE F01 = ?");
+$stmt0->bind_param("s", $pgeno);
+$stmt0->execute();
+$res0 = $stmt0->get_result();
+$list4 = $res0->fetch_assoc();
+$pgttl = $list4['F07'] ?? '';
+
+// 5. 執行查詢：b25 (主要資料)
+$stmt3 = $link->prepare($sql3);
+$stmt3->bind_param($types, ...$params);
+$stmt3->execute();
+$result3 = $stmt3->get_result();
+
+// 6. 整理回傳資料
+$wthary = fldwdthpre('B25', '1', $link);
+$arr = [];
+
+while ($list3 = $result3->fetch_assoc()) {
+    $arr[] = [
+        'rc_no' . ($wthary[0] ?? '')      => $list3['F00'],
+        'stock_no' . ($wthary[1] ?? '')   => $list3['F02'],
+        'mth_init' . ($wthary[2] ?? '')   => $list3['F03'],
+        'shipIn' . ($wthary[3] ?? '')     => $list3['F04'],
+        'inReject' . ($wthary[4] ?? '')   => $list3['F05'],
+        'shipOut' . ($wthary[5] ?? '')    => $list3['F06'],
+        'outReject' . ($wthary[6] ?? '')  => $list3['F07'],
+        'turnIn' . ($wthary[7] ?? '')     => $list3['F08'],
+        'turnOut' . ($wthary[8] ?? '')    => $list3['F09'],
+        'product' . ($wthary[9] ?? '')    => $list3['F10'],
+        'consume' . ($wthary[10] ?? '')   => $list3['F11'],
+        'lose' . ($wthary[11] ?? '')      => $list3['F14'],
+        'wend' . ($wthary[12] ?? '')      => $list3['F13'],
+        'mth_end' . ($wthary[13] ?? '')   => $list3['F15'],
+        'lastupdate' . ($wthary[14] ?? '') => $list3['F16']
+    ];
+}
+
+// 7. 輸出 JSON
+echo json_encode(['recdrow' => $arr, 'pgttl' => $pgttl], JSON_UNESCAPED_UNICODE);
+
+// 釋放資源
+$stmt0->close();
+$stmt3->close();
+$link->close();
+
+/**
+ * 抓取兩個字元間的字串
+ */
+function getNeedBetween($kw, $mark1, $mark2) {
+    $st = stripos($kw, $mark1);
+    $ed = stripos($kw, $mark2);
+    if ($st === false || $ed === false || $st >= $ed) return "";
+    return substr($kw, $st + 1, $ed - $st - 1);
+}
+?>

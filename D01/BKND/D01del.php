@@ -8,10 +8,17 @@
 		if($rows>0){			 			
 			echo "已有詢價紀錄，不得刪除！";
         }else{
-	         $mscnt="DELETE FROM `d01` where `F00`='".$delmsg."'";
-	         $sql=$mscnt;                           
-             mysqli_query($link ,$sql) or die(mysqli_error($link));  
-	         echo 1;
+			$sql3="SELECT * FROM `d11`,`d01` WHERE d11.F02=d01.F01 AND d01.F00='".$delmsg."'"; 
+			 $sql4=mysqli_query($link,$sql3);
+			 $rows2=@mysqli_num_rows($sql4); 
+			 if($rows2>0){			 			
+				echo "已有進貨紀錄，不得刪除！";
+			}else{
+				 $mscnt="DELETE FROM `d01` where `F00`='".$delmsg."'";
+				 $sql=$mscnt;                           
+				 mysqli_query($link ,$sql) or die(mysqli_error($link));  
+				 echo 1;
+			}
 		}
 		mysqli_close($link);
 

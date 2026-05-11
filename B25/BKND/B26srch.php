@@ -1,30 +1,61 @@
 ﻿<?php
-   header("Content-Type: application/json; charset=utf-8");  
+header("Content-Type: application/json; charset=utf-8");
+require_once("../../include/BKND/mysqli_server.php");
 
- require_once("../../include/BKND/mysqli_server.php");                              //引用檔
-        $str=explode('|',$_POST['filename']);  //將上面字串以逗號分割成陣列
- 
-		$sql3="SELECT * FROM b26 ";			  
+// 1. 檢查參數是否存在
+$filename = $_POST['filename'] ?? '';
+if (empty($filename)) {
+    echo json_encode([]);
+    exit;
+}
 
-	   	$sql3.=" WHERE b26.F02='".$str[1]."' AND b26.F01='".$str[0]."'  AND F90='".$str[2]."' order by b26.F03,b26.F07 "; 
-    
-	$arr=array();	
-    $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_assoc($sql4)){	
-	   $str[3]=$str[3]+$list3['F04'];
-		$atr = array('ship_date_DSC_010'=>$list3['F90'].'-'.$list3['F03'] ,
-		             'order_type_DSC_012'=>$list3['F06'] ,
-		             'ship_order_DSL_012'=>$list3['F07'],
-		              'ship_qty_DSR_014'=>$list3['F04'], 
-					  'calc_qty_DSR_014'=>$str[3], 
-		             'remark_DSL_038'=>$list3['F08']);          
-		array_push($arr,$atr);
-	}
-	mysqli_close($link);
-	     $arr = array_values($arr);
-         $json_string1 = json_encode($arr); 
-         echo $json_string1;	 
+// 2. 解析字串
+$parts = explode('|', $filename);
+[
+    $f01, 
+    $f02, 
+    $f90, 
+    $initial_val
+] = array_pad($parts, 4, ''); 
 
-?>  
+// 確保累計起點是數字
+$running_total = is_numeric($initial_val) ? (float)$initial_val : 0;
 
- 
+// 3. 使用 Prepared Statements
+$sql = "SELECT F90, F03, F06, F07, F04, F08 
+        FROM b26 
+        WHERE F01 = ? AND F02 = ? AND F90 = ? 
+        ORDER BY F03, F07";
+
+$stmt = mysqli_prepare($link, $sql);
+
+if ($stmt) {
+    mysqli_stmt_bind_param($stmt, "sss", $f01, $f02, $f90);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    $arr = array();
+    if ($result) {
+        while ($list3 = mysqli_fetch_assoc($result)) {
+            $current_qty = (float)$list3['F04']; // 轉為數字處理
+            $running_total += $current_qty;
+            
+            $arr[] = [
+                'ship_date_DSC_010'  => $list3['F90'] . '-' . $list3['F03'],
+                'order_type_DSC_012' => $list3['F06'],
+                'ship_order_DSL_012' => $list3['F07'],
+                'ship_qty_DSR_014'   => $current_qty,
+                'calc_qty_DSR_014'   => $running_total,
+                'remark_DSL_038'     => $list3['F08']
+            ];
+        }
+    }
+    mysqli_stmt_close($stmt);
+}
+
+// 4. 關閉連線與輸出
+mysqli_close($link);
+
+// 使用 JSON_UNESCAPED_UNICODE 讓中文正常顯示
+// 使用 JSON_NUMERIC_CHECK 則會自動將數字字串轉為數字型態 (選用)
+echo json_encode($arr, JSON_UNESCAPED_UNICODE);

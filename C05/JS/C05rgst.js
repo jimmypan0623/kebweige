@@ -228,7 +228,9 @@ function searchHaveshiped(str1,ajTable) {       //搜尋相關料號
 			   var wdthln=jk.substr(jk.lastIndexOf('_')+1,3);  	  	
 			   oTd.style.width=wdthln+"%";		
 			}
-			 
+			if( arr[i]['remain_qty_ISR_010']<0){  //預定交期超過今天紅字
+			    oTr.setAttribute("style","font-weight:bold;color:#E60000;");				 
+		    }	 
 			if(arr[i]['rc_no_IHC_000']==left(sourceAccount(3,0),2)+sourceAccount('0',0)){
 				
 			   //oTr.setAttribute("style","font-weight:bold;color:#704214;");

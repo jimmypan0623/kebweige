@@ -15,12 +15,12 @@ function isValidField($field) {
 
 // 統一的欄位與 JOIN 選取
 $columns = "c03.F00, c03.F01, c03.F02, c03.F03, c03.F04, c03.F06, c03.F07, c03.F08, c03.F10, c03.F12, c03.F14, c03.F13,
-            c01.F05 as F0E, c01.F04 AS F0D, a01.F03 as F0C";
+            c01.F05 as F0E, c01.F04 AS F0D, a01.F03 as F0C,c00.F04 AS F0H";
 
 $joins = "FROM c03 
           LEFT OUTER JOIN c01 ON c01.F01 = c03.F03
-          LEFT OUTER JOIN a01 ON a01.F01 = c03.F07";
-
+          LEFT OUTER JOIN a01 ON a01.F01 = c03.F07 
+          LEFT OUTER JOIN c00 ON c00.F01 = c03.F12";
 // 判斷模式
 if (substr($_POST['filename'], 0, 3) == "PGE") {
     
@@ -85,12 +85,13 @@ while ($list3 = mysqli_fetch_assoc($result)) {
         'sales_no' . $wthary[6]     => $list3['F07'],
         'sales_name' . $wthary[7]   => $list3['F0C'],
         'crncy_type' . $wthary[8]   => $list3['F12'],
-        'customer_po' . $wthary[9]  => $list3['F14'],
-        'shipplace' . $wthary[10]   => $list3['F06'],
-        'shipdirect' . $wthary[11]  => $list3['F13'],
-        'trns' . $wthary[12]        => $list3['F08'],
-        'shure' . $wthary[13]       => $list3['F04'],
-        'lastupdate' . $wthary[14]  => $list3['F10']
+		'crncy_name' . $wthary[9]   => $list3['F0H'],
+        'customer_po' . $wthary[10]  => $list3['F14'],
+        'shipplace' . $wthary[11]   => $list3['F06'],
+        'shipdirect' . $wthary[12]  => $list3['F13'],
+        'trns' . $wthary[13]        => $list3['F08'],
+        'shure' . $wthary[14]       => $list3['F04'],
+        'lastupdate' . $wthary[15]  => $list3['F10']
     );
     $arr[] = $atr;
 }

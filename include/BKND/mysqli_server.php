@@ -6,6 +6,7 @@
     
     // 2. 檢查連線
     if (!$link) {
+		header('Content-Type: application/json');
         // 在正式環境建議記錄在 Log，而不是直接 echo 噴在畫面上
         error_log("DB Connection Error: " . mysqli_connect_error());
         die("系統維護中，請稍後再試。"); 

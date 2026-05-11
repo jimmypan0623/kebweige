@@ -17,7 +17,7 @@ function selfTag(jsvsn,jsPth){
 	var invDetailButton=document.createElement("input");		   
 	invDetailButton.setAttribute("type","button");
 	invDetailButton.setAttribute("class","btn");
-	invDetailButton.setAttribute("value","\u{1F3EC}");     //u{1F3E1}
+	invDetailButton.setAttribute("value","\u{1F3EC}");     //u{1F3E1} 
 	invDetailButton.setAttribute("style","font-size:130%;margin:0px;");
 	invDetailButton.setAttribute("title","各庫別明細，快速鍵 Alt+B");	
 	invDetailButton.setAttribute('accesskey','B')

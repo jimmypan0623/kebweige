@@ -31,6 +31,7 @@ for (let j=0;j<4;j++){
 //getAuth[0]()[11] :   M首頁為月份分頁，P則為固定筆數(視參數INT_RCD設定)分頁,
 //getAuth[0]()[12] :   類別，M為主檔或首頁有左右TABLE，R為單據，B為基本資料，A為分析資料，S為系統檔
 //getAuth[0]()[13] :  首頁分頁為月份外判斷是否多加部門別或其他類別分頁->D:多加部門別或其他類別下拉選項	
+let pageNameIdx=14;//紀錄頁籤名起始陣列索引值
 //getAuth[0]()[14] :  第一頁頁籤名
 //getAuth[0]()[15] :  第二頁頁籤名
 //getAuth[0]()[16] :  第三頁頁籤名
@@ -123,10 +124,10 @@ function initDialog()
 		var nwdt=new Date();	
 		var nwsd=Math.floor(Math.random()*nwdt.getSeconds())%26;				
 		var nowExcute=getAuth[0]()[0];   //getCookie("funNo");欲執行之功能編號
-		//var jsvsn=nwsd.toString()+scnd;		
-		var showTime=document.getElementById('currentTime');
+		var jsvsn=nwsd.toString()+scnd;		
+		/* var showTime=document.getElementById('currentTime');
 		var jsvsn=(showTime.textContent.substring(0,4)+'_'+showTime.textContent.substring(5,7)+'_'+showTime.textContent.substring(8,10));//+'_'+getAuth[1]()[0];
-		
+		 */
 		if(nowExcute){	         
 		    if(divcontainer){
 			   divcontainer.parentNode.removeChild(divcontainer);		
@@ -158,7 +159,7 @@ function initDialog()
 		        basechklbl.setAttribute('name','tablbl');					
 		        basechklbl.setAttribute('for',bsechkbx.id);
 				basechklbl.setAttribute('title',`跳至第${String(i+1)}頁，快速鍵Alt+${String(i+1)}`);
-		        basechklbl.innerHTML=getAuth[0]()[14+i];    		//直接抓閉包變數裡的頁籤名	 				   
+		        basechklbl.innerHTML=getAuth[0]()[pageNameIdx+i];    		//直接抓閉包變數裡的頁籤名	 				   
 				if (i==0){   //預設值
 					bsechkbx.checked='checked';
 			    }		
@@ -334,7 +335,7 @@ function initDialog()
 					mainSpan1.appendChild(text1);
 					mainSpan1.appendChild(orpButton1);
 					var cokath1=getAuth[0]()[1]; //getCookie('auth01');					
-					if (cokath1!='E'){                  //新增			 
+					if (cokath1!='E'){                  //新增	'E'表示Empty		 
 						var orpButton2=document.createElement("input");		   
 						orpButton2.type="button";
 						orpButton2.className="btn";
@@ -392,7 +393,7 @@ function initDialog()
 					var orpButton5=document.createElement("input");		   
 					orpButton5.type="button";
 					orpButton5.className="btn";		       
-					orpButton5.value="\u{1F519}";		 //\u{1F3C3}
+					orpButton5.value="\u{1F519}";		 //\u{1F3C3} \u{1F519} \u{1F6AA} \u{241B}
 					orpButton5.setAttribute("style","font-size:130%;margin:0px;");		                	
 					orpButton5.title="離開本作業，快速鍵Alt+Q";
 					orpButton5.accessKey="Q";					        			
@@ -421,7 +422,7 @@ function initDialog()
 					pageDownButton.id="nextPage1";		
 					attachEventListener(pageDownButton,"click",HeadPageChange,false);
 					var text8 = document.createTextNode('\u{A0}');	
-					  const frag2 = document.createDocumentFragment();
+					const frag2 = document.createDocumentFragment();
 					frag2.appendChild(pageUpButton);
 					frag2.appendChild(text6);
 					frag2.appendChild(pageDownButton);
@@ -486,7 +487,7 @@ function initDialog()
 			 extenbtn.setAttribute("style","border-style:none;background-color:transparent;text-decoration: none; cursor: pointer;");
 			 extenbtn.title="開啟或隱藏主選單 Alt+V";
 			 extenbtn.accessKey="V";		
-			var btnimg = document.createElement('img');
+			 var btnimg = document.createElement('img');
 			 btnimg.id='menubtnimg';
 			 btnimg.style.width='12px';
 			 btnimg.src = 'digits/widget_closed.gif';           
@@ -843,7 +844,7 @@ function rollChange(event){    //按鈕翻頁
 	      slt2.options[crntrec].selected=true;
 		  choiceClick(slt2.value);	
 }
-function clrinpt(){
+function clrinpt(){    //登入畫面初始
 	if (typeof event=="undefined"){
 		   event=window.event;
     }

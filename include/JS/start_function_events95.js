@@ -148,7 +148,7 @@ function optionitem(adored,id_no,select_width,url_path){
 	return
 }
 
-function optionadd(opt3,crntslt,idNo,slctWdth){	
+/* function optionadd(opt3,crntslt,idNo,slctWdth){	
 	var slt4 = document.getElementById(idNo);	    	//crntopt
 	var item_no="";
 	var item_value="";	 
@@ -165,6 +165,37 @@ function optionadd(opt3,crntslt,idNo,slctWdth){
        }
 	}	
 }
+ */
+function optionadd(optionsData, currentValue, selectId, sliceWidth) {
+    const selectElement = document.getElementById(selectId);
+    if (!selectElement) return; // 安全檢查
+
+    // 1. 清空舊選項（若有需要，視情況保留）
+    // selectElement.options.length = 0; 
+
+    // 2. 使用 DocumentFragment 減少 DOM 重繪次數，提升效能
+    const fragment = document.createDocumentFragment();
+
+    optionsData.forEach((item) => {
+        // 3. 使用 Object.values 與 join 快速合併字串，取代內層迴圈
+        const itemText = Object.values(item).join("    ");
+        const itemValue = itemText.substring(0, sliceWidth).trim();
+
+        // 4. 建立 Option 物件：new Option(text, value)
+        const option = new Option(itemText, itemValue);
+
+        // 5. 判斷是否為當前選中項
+        if (itemValue === currentValue) {
+            option.selected = true;
+        }
+
+        fragment.appendChild(option);
+    });
+
+    // 6. 一次性加入 DOM
+    selectElement.appendChild(fragment);
+}
+
 
  function checkLength (dom, maxLength){   //中英文限制字數辨別
 	 var l = 0;

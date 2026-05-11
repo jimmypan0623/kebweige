@@ -119,7 +119,7 @@ function shurePrc(event){        //單據確認程序
 					   vrsbtt.setAttribute("style","display:block;");
 					   attachEventListener(vrsbtt,"click",vrsproc,false);  //反確認按鈕程序  
 				   }		
-				   if (getAuth[0]()[7]=='Y' && getCookie('INT_013')=='Y' && target.value=="\u{2705}"){  
+				   if (getAuth[0]()[7]=='Y' && getAuth[2]()[0].INT_013=='Y' && target.value=="\u{2705}"){  
 					   if(trnsbtt){
 						  trnsbtt.setAttribute("style","visibility:visible;");
 						  attachEventListener(trnsbtt,"click",trnsproc,false);  //轉訂單程序   

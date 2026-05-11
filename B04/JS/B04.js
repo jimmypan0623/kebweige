@@ -187,12 +187,14 @@ function choseSecond(targetTrChildren,targetTr){
    return true;	
 }
 function choseExtraDeal(targetTrChildren,targetTr){   //紀錄移動
+    var shrno=targetTr.cells[targetTr.cells.length-3].innerHTML;
     var ansbtt=document.getElementById("ANS_BOTT");	
 	var vrsbtt=document.getElementById("VRS_BOTT");	
 	var editbtt=document.getElementById("EDIT_BOTT");
 	var delbtt=document.getElementById("DEL_BOTT");
 	var apprv=document.getElementById('APPRVE');	   
-	var shrno=targetTr.cells[targetTr.cells.length-3].innerHTML;
+	
+	 
 	if(shrno=='Y'){
 	    ansbtt.setAttribute("style","display:none;"); 			
 	    detachEventListener(ansbtt,"click",ansproc,false);
@@ -247,7 +249,8 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 	var vrsbtt=document.getElementById("VRS_BOTT");	
 	var editbtt=document.getElementById("EDIT_BOTT");
 	var delbtt=document.getElementById("DEL_BOTT");  
-	var apprv=document.getElementById('APPRVE');			 
+	var apprv=document.getElementById('APPRVE');		
+    
 	if(shrno=='Y'){
 		ansbtt.setAttribute("style","display:none;");			
 		detachEventListener(ansbtt,"click",ansproc,false);				

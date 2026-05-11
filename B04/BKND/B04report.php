@@ -8,7 +8,6 @@ $queryNo = isset($_GET['queryNo']) ? $_GET['queryNo'] : '';
 class MYPDF extends TCPDF {
     public $customData = [];
     public $grandTotal = 0;
-
     public function Header() {
         $this->SetFont('msungstdlight', '', 10);      
         $headerHtml = '
@@ -17,8 +16,8 @@ class MYPDF extends TCPDF {
         </h4>        
         <table border="0" width="100%">
             <tr>
-                <td style="width:85%;text-align: center; font-size: 14pt; font-weight: bold;">出貨單</td>
-                <td style="width:15%;text-align: right; font-size: 8pt;">頁次:'.$this->getAliasNumPage().'/'.$this->getAliasNbPages().'</td>
+                <td style="width:50%;text-align: right; font-size: 14pt; font-weight: bold;">出貨單</td>
+                <td style="width:50%;text-align: right; font-size: 8pt;">頁次:'.$this->getAliasNumPage().'/'.$this->getAliasNbPages().'</td>
             </tr>
         </table>';
         
@@ -33,8 +32,8 @@ class MYPDF extends TCPDF {
                 <td style="width:25%; text-align:right;">發票號碼: '.($this->customData['invoiceNo'] ?? '').'</td>
             </tr>
             <tr>
-                <td style="width:40%;">交易幣別: '.($this->customData['curNcy'] ?? '').'  匯率: '.($this->customData['rate'] ?? '').'</td>
-                <td style="width:60%; text-align:right;">付款條件: '.($this->customData['payment'] ?? '').'</td>
+                <td style="width:80%;">交易幣別: '.($this->customData['curNcy'] ?? '').($this->customData['curNname'] ?? '').'  匯率: '.($this->customData['rate'] ?? '').'&nbsp;&nbsp;&nbsp;付款條件: '.($this->customData['payment'] ?? '').'</td>
+                <td style="width:20%; text-align:right;">統一編號: '.($this->customData['unitno'] ?? '').'&nbsp;</td>
             </tr>
             <tr>
                 <td style="width:40%;">業務擔當: '.($this->customData['salesMan'] ?? '').'</td>
@@ -42,7 +41,7 @@ class MYPDF extends TCPDF {
             </tr>
             <tr>
                 <td style="width:75%;">交貨地點: '.($this->customData['shipAddress'] ?? '').'</td>
-                <td style="width:25%; text-align:right;">出貨日期: '.($this->customData['shipDate'] ?? '').'</td> 
+                <td style="width:25%; text-align:right;">出貨日期: '.($this->customData['shipDate'] ?? '').'&nbsp;</td> 
             </tr>
         </table>';
 
@@ -64,7 +63,7 @@ class MYPDF extends TCPDF {
 
 		// --- 修正後的簽核圖檔判斷 ---
 		// 統一使用正確拼法 isConfirm
-		$confirmStatus = strtoupper(trim($this->customData['isConfrim'] ?? ''));
+		$confirmStatus = strtoupper(trim($this->customData['isConfirm'] ?? ''));
 
 		if ($confirmStatus == 'Y') {
 			// 根據「審核」文字的起點座標來位移，這樣位置最精準
@@ -106,26 +105,24 @@ $pdf->SetFooterMargin(10);
 $pdf->SetAutoPageBreak(TRUE, 25); 
 $pdf->AddPage();
 
-// --- 4. 構建主表格 ---
-// ... 前方代碼不變 (安全性檢查、MYPDF 類別定義等) ...
-
 // --- 4. 構建主表格 (加入分頁邏輯) ---
 $pdf->SetFont('msungstdlight', '', 9); 
 
 $maxRowsPerPage = 5; // 設定每頁最大筆數
 $rowCount = count($rows);
 $pages = ceil($rowCount / $maxRowsPerPage); // 計算總共需要幾頁
-
+$tax_isinside=(($_GET['invoiceType']=='32' && $_GET['taxType']=='1')?"02":"00");  //稅是否內含
 for ($p = 0; $p < $pages; $p++) {
     // 每一頁都重新開始一個 HTML 字串
+	
     $html = '<table cellpadding="3" border="0.5" width="100%">
         <thead>
             <tr style="background-color: #f2f2f2; font-weight: bold; text-align: center;">
                 <th style="width: 90px;">料品編號</th>
-                <th style="width: 110px;">品名規格</th>
+                <th style="width: 110px;">品名規格</th>				
                 <th style="width: 30px;">單位</th>
                 <th style="width: 50px;">數量</th>
-                <th style="width: 60px;">單價</th>
+                <th style="width: 60px;">單價'.($tax_isinside=="02"?"(含稅)":"").'</th>
                 <th style="width: 70px;">小計</th>
                 <th style="width: 50px;">出貨部門</th>
                 <th style="width: 75px;">客戶品號/PO</th>
@@ -143,7 +140,7 @@ for ($p = 0; $p < $pages; $p++) {
         $html .= '
         <tr>
             <td style="width: 90px;">'.$row['F03'].'</td>
-            <td style="width: 110px;">'.$row['F0B'].'</td>
+            <td style="width: 110px;">'.$row['F0B'].'</td>			
             <td style="width: 30px; text-align:center;">'.$row['F0D'].'</td>
             <td style="width: 50px; text-align:right;">'.number_format($row['F04']).'</td>
             <td style="width: 60px; text-align:right;">'.number_format($row['F15'], 2).'</td>
@@ -157,14 +154,15 @@ for ($p = 0; $p < $pages; $p++) {
     // 如果是最後一頁，才加入總計列
     if ($p == ($pages - 1)) {
 		$taxrate=intval($_COOKIE["INT_002"]);
-		$tax_isinside=(($_GET['invoiceType']=='32' && $_GET['taxType']=='1')?"02":"00");  //稅是否內含
-		$taxmoney=round($tax_isinside=='02'?($total-$total/(1+$taxrate/100)):(($_GET['taxType']=='1' && $_GET['invoiceType']=='31')?$total*$taxrate/100:0),0);		 
-		$beforetax=($tax_isinside=='02'?($total-$taxmoney):$total);
+		
+		$rateChgtotal=$total*$_GET['rate'];   //匯率換算
+		$taxmoney=round($tax_isinside=='02'?($rateChgtotal-$rateChgtotal/(1+$taxrate/100)):(($_GET['taxType']=='1' && $_GET['invoiceType']=='31')?$rateChgtotal*$taxrate/100:0),0);		 
+		$beforetax=($tax_isinside=='02'?($rateChgtotal-$taxmoney):$rateChgtotal);
 		$aftertax=$beforetax+$taxmoney;	
 		
         $html .= '
         <tr style="background-color: #fafafa; font-weight: bold;">
-		    <td style="text-align:right;">銷售額：</td>
+		    <td style="text-align:right;">新台幣銷售額：</td>
             <td style="text-align:right;">'.number_format($beforetax, 2).'</td>
 			<td colspan="2"style="text-align:right;">稅額：</td>
             <td style="text-align:right;">'.number_format($_GET['taxType']=='1'?$taxmoney:0, 0).'</td>
