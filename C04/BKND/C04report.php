@@ -36,12 +36,13 @@ class MYPDF extends TCPDF {
                     <td style="width:25%; text-align:right;">訂單號碼: '.($this->customData['queryNo'] ?? '').'</td>
                 </tr>
                 <tr>
-                    <td style="width:78%;">客戶單號: '.($this->customData['customerPo'] ?? '').' &nbsp; 業務擔當: '.($this->customData['salesMan'] ?? '').' &nbsp; 交易幣別: '.($this->customData['curNcy'] ?? '').' '.($this->customData['curName'] ?? '').'</td>
+                    <td style="width:78%;">客戶單號: '.($this->customData['customerPo'] ?? '').' &nbsp; 業務擔當: '.($this->customData['salesMan'] ?? '').' &nbsp; 交易幣別: '.($this->customData['curNcy'] ?? '').' '.($this->customData['curName'] ?? '').'</td>                  
+					
                     <td style="width:22%; text-align:right;">接單日期: '.date('Y/m/d').'</td>
-                </tr>
+				</tr>
                 <tr>
-                    <td style="width:50%;">交貨地點: '.($this->customData['shipAddress'] ?? '').'</td>
-                    <td style="width:50%; text-align:right;">出貨指示: '.($this->customData['shipDirect'] ?? '').'</td> 
+                    <td style="width:60%;">交貨地點: '.($this->customData['shipAddress'] ?? '').'</td>
+                     <td style="width:40%; text-align:right;">出貨指示: '.($this->customData['shipDirect'] ?? '').'</td> 
                 </tr>
             </table>';
         }

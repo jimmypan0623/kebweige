@@ -89,6 +89,7 @@ function shurePrc(event){        //單據確認程序
 				    }else{
 					   
 		               headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-3].textContent='N';
+					   aprv.innerHTML="\u{A0}";
 				    }  
 				}else{
 					 
