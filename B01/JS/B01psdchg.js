@@ -102,18 +102,15 @@ function selfTag(jsvsn,jsPth){
 	loadScript(`${axtmpl2}`);
 	loadScript(`include/JS/commonsrch.js?v=${jsvsn}`);
 	var tab1Click=document.getElementById("tab1");
-	if(tab1Click){
-	//	tab1Click.setAttribute("accesskey","1");
+	if(tab1Click){	
 	    attachEventListener(tab1Click,"click",tab1View,false);
 	}	
 	var tab2Click=document.getElementById("tab2");
-	if(tab2Click){
-	//	tab2Click.setAttribute("accesskey","2");
+	if(tab2Click){	
 	    attachEventListener(tab2Click,"click",tab2View,false);
 	}
 	var tab3Click=document.getElementById("tab3");
 	if(tab3Click){
-		//tab3Click.setAttribute("accesskey","3");
 	    attachEventListener(tab3Click,"click",tab3View,false);
 	}
 }
@@ -305,11 +302,9 @@ function tab3View(event){
 			   }				                 
                break;					   
 		   }
-	   } 
-	 
+	   } 	 
 	   keydescription.textContent=aWaitUpdate[2];   
-	   fthkey.innerHTML=aWaitUpdate[1];
-	   
+	   fthkey.innerHTML=aWaitUpdate[1];	   
 	   if(left(aWaitUpdate[4],1).trim()=='Y'){	
            if (getAuth[0]()[1]=='Y'){
                newrcath.style.visibility="visible";	
@@ -324,8 +319,7 @@ function tab3View(event){
 				    attachEventListener(delbtt,"click",delrec,false);
 			}
 			srchbtt.setAttribute("style","visibility:visible;");	
-		    attachEventListener(srchbtt,'click',seekrec,false);  
-			
+		    attachEventListener(srchbtt,'click',seekrec,false);  			
 	    }else{			
 			srchbtt.setAttribute("style","visibility:hidden;");	
 	     	detachEventListener(srchbtt,'click',seekrec,false);    			

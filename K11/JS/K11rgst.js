@@ -249,13 +249,13 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		oTd.innerHTML="<input type='Date' name='k11update' id='querydate' class='txt' style='width:55%;' maxlength='10'/>";  				    
 	    var oTd = oTr.insertCell(2);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
-	    oTd.innerHTML='收款金額:';
+	    oTd.innerHTML='付款金額:';
 	    var oTd = oTr.insertCell(3);      
-		if(txtword==2){   //如果是修改	
+		/* if(txtword==2){   //如果是修改	
 	       oTd.innerHTML="<input type='number' name='k11update' id='curncy' value=1 class='txt' style='background-color:#B9B9FF;width:35%;;text-align:right'  readOnly=true />";
-		}else{
+		}else{ */
 		     oTd.innerHTML="<input type='number' name='k11update' id='curncy' value=1 class='txt' style='width:35%;text-align:right;' />";
-		}			
+		//}			
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	    var oTd = oTr.insertCell(0);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					

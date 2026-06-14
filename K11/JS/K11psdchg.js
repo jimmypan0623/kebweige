@@ -32,7 +32,7 @@ function selfTag(jsvsn,jsPth){
 	var spn4=document.createElement('span');
 	spn4.id="ttltitle2";
 	spn4.setAttribute("style","font-size:120%;font-weight:bold;");
-     spn4.innerHTML='待沖金額:';
+     spn4.innerHTML='沖銷金額:';
 	frag1.appendChild(spn4);
 	var spn5=document.createElement('span');
 	spn5.id="ttlmny2";
@@ -46,7 +46,7 @@ function selfTag(jsvsn,jsPth){
 	var spn6=document.createElement('span');
 	spn6.id="ttltitle2";
 	spn6.setAttribute("style","font-size:120%;font-weight:bold;");
-     spn6.innerHTML='剩餘未沖:';
+     spn6.innerHTML='收款未沖:';
 	frag1.appendChild(spn6);
 	var spn7=document.createElement('span');
 	spn7.id="ttlmny3";

@@ -156,7 +156,7 @@ for ($p = 0; $p < $pages; $p++) {
 		$taxrate=intval($_COOKIE["INT_002"]);
 		
 		$rateChgtotal=$total*$_GET['rate'];   //匯率換算
-		$taxmoney=round($tax_isinside=='02'?($rateChgtotal-$rateChgtotal/(1+$taxrate/100)):(($_GET['taxType']=='1' && $_GET['invoiceType']=='31')?$rateChgtotal*$taxrate/100:0),0);		 
+		$taxmoney=round($tax_isinside=='02'?($rateChgtotal-$rateChgtotal/(1+$taxrate/100)):(($_GET['taxType']=='1' && $_GET['invoiceType']=='21')?$rateChgtotal*$taxrate/100:0),0);		 
 		$beforetax=($tax_isinside=='02'?($rateChgtotal-$taxmoney):$rateChgtotal);
 		$aftertax=$beforetax+$taxmoney;	
 		

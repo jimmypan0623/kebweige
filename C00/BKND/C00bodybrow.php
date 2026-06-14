@@ -23,7 +23,6 @@
           
 		  echo json_encode(array ('recdrow'=>$arr,'pgttl'=>12));
           
-/
 ?>  
 
  

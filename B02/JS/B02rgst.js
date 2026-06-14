@@ -319,8 +319,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    var oTd = oTr.insertCell(0);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
 	    oTd.innerHTML='發票號碼:';
-	    var oTd = oTr.insertCell(1);   
-	    
+	    var oTd = oTr.insertCell(1);   	    
 	    oTd.innerHTML="<input type='text' name='b02update' id='invoiceno' class='txt' style='width:50%;' maxlength='10'    />";  				  			 				  
 	     var oTd = oTr.insertCell(2);
 	    oTd.setAttribute('style','text-align:right;width:15%');	
