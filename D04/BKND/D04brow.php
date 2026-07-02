@@ -80,27 +80,8 @@ if ($stmt && mysqli_stmt_execute($stmt)) {
 }
 
 $wthary = fldwdthpre('D04', '1', $link);
-
-while ($list3 = mysqli_fetch_assoc($result)) {
-    $arr[] = array(
-        'rc_no' . ($wthary[0]??'')           => $list3['F00'],
-        'query_no' . ($wthary[1]??'')        => $list3['F01'],
-        'vendor_no' . ($wthary[2]??'')       => $list3['F03'],
-        'vendor_name' . ($wthary[3]??'')     => $list3['F0D'],
-        'vendor_fullname' . ($wthary[4]??'') => $list3['F0C'],
-        'query_date' . ($wthary[5]??'')      => $list3['F02'],
-        'sales_no' . ($wthary[6]??'')        => $list3['F07'],
-        'sales_name' . ($wthary[7]??'')      => $list3['F0G'],
-        'crncy_type' . ($wthary[8]??'')      => $list3['F12'],
-        'crncy_name' . ($wthary[9]??'')      => $list3['F0H'],
-        'vendor_po' . ($wthary[10]??'')      => $list3['F14'],
-        'shipplace' . ($wthary[11]??'')      => $list3['F06'],
-        'shipdirect' . ($wthary[12]??'')     => $list3['F13'],
-        'trns' . ($wthary[13]??'')           => $list3['F08'],
-        'shure' . ($wthary[14]??'')          => $list3['F04'],
-        'lastupdate' . ($wthary[15]??'')     => $list3['F10']
-    );
-}
+$afld=['F00','F01','F03','F0D','F0C','F02','F07','F0G','F12','F0H','F14','F06','F13','F08','F04','F10'];
+$arr=afldcont($result,$afld,$wthary);
 
 mysqli_stmt_close($stmt);
 mysqli_close($link);

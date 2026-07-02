@@ -20,13 +20,13 @@ function getProfile(str1,reccount,tbno) {
           
 	    }
 		var oTable = document.getElementById("maintbody1");
-		var fld=document.getElementById('recfield');
+		//var fld=document.getElementById('recfield');
 	}else if (tbno==1){
 	    var oTable = document.getElementById("maintbody2");
-		var fld=document.getElementById('recfield2');
+		//var fld=document.getElementById('recfield2');
 	}else {
 	    var oTable = document.getElementById("maintbody3");
-		var fld=document.getElementById('recfield3');	
+		//var fld=document.getElementById('recfield3');	
 	}		
 	var scndttl=document.getElementById('ttlmny');   //次頁表頭的總金額物件
 	var scndttl1=document.getElementById('ttlmny1');   //次頁表頭的總金額物件
@@ -54,10 +54,11 @@ function getProfile(str1,reccount,tbno) {
 		myCheck.type="checkbox";		  
 		if(tbno==0){
 			myCheck.setAttribute("name","chkbxmember1");   //讓使用者勾選的checkbox表頭
-			if(arr[i]['ntqty_IHR_000']*1>arr[i]['maxinv_DHR_000']*1 && arr[i]['maxinv']*1>0){  //庫存大於上限
+			if(arr[i]['總庫存量_IHC_000']*1>arr[i]['庫存上限_DHC_000']*1 && arr[i]['庫存上限_DHC_000']*1>0){  //庫存大於上限
+			  
 			   oTr.setAttribute("style","font-weight:bold;color:#E60000;");  //#704214
 			} 
-			if(arr[i]['ntqty_IHR_000']*1<arr[i]['minuminv_DHR_000']*1){  //庫存小於安全存量
+			if(arr[i]['總庫存量_IHC_000']*1<arr[i]['安全存量_DHC_000']*1){  //庫存小於安全存量
 			   oTr.setAttribute("style","font-weight:bold;color:#704214;");//#949100
 			} 
 		}else if(tbno==1){

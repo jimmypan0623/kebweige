@@ -75,38 +75,18 @@ mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 
 $wthary = fldwdthpre('B01', '1', $link);
-
-while ($list3 = mysqli_fetch_assoc($result)) {
-    // ... 保持您原有的 $atr 陣列組合邏輯 ...
-    $atr = array(
-        'rc_no'.$wthary[0] => $list3['F00'],
-        'stock_no'.$wthary[1] => $list3['F01'],
-        'stock_nameo'.$wthary[2]=>$list3['F02'],					                     
-                     'tpemng'.$wthary[3]=>$list3['F06'],  
-                     'tpblng'.$wthary[4]=>$list3['F98'],
-                     'eachprchs'.$wthary[5]=>$list3['F03'],
-                     'eachcount'.$wthary[6]=>$list3['F04'],  	
-                     'dividing'.$wthary[7]=>$list3['F05'],
-					 'dptno'.$wthary[8]=>$list3['F07'],					
-					 'dptname'.$wthary[9]=>$list3['F0B'],	
-                     'ntqty'.$wthary[10]=>round($list3['nTqty'],$rndnb),							 
-					 'dpqty'.$wthary[11]=>round($list3['F0D'],$rndnb),                    
-					 'maxinv'.$wthary[12]=>$list3['F10'],
-					 'minuminv'.$wthary[13]=>$list3['F11'],
-					 'location'.$wthary[14]=>$list3['F41'],
-					 'buildbom'.$wthary[15]=>$list3['F97'],
-					 'tpeofaply'.$wthary[16]=>$list3['F39'],
-					 'lotnomng'.$wthary[17]=>$list3['F30'],
-					 'prchsleadtime'.$wthary[18]=>$list3['F28'],
-					 'warehousereadytime'.$wthary[19]=>$list3['F31'],					 					 
-					 'salescost'.$wthary[20]=>$list3['F38'],
-					 'averagecost'.$wthary[21]=>$list3['F37'],
-					 'remark'.$wthary[22]=>$list3['F29'],	
-					 'mtrtype'.$wthary[23]=>$list3['F42'],	
-					 'orignplace'.$wthary[24]=>$list3['F49'],	
-        'lastupdate'.$wthary[25] => $list3['F21']
-    );
-    //array_push($arr, $atr);
+$afld=['F00','F01','F02','F06','F98','F03','F04','F05','F07','F0B','nTqty','F0D','F10','F11','F41','F97','F39','F30','F28',
+       'F31','F38','F37','F29','F42','F49','F21'];
+$length=count($afld);
+while ($list3 = mysqli_fetch_assoc($result)) {   
+    $atr = [];
+	for($i=0;$i<$length;$i++){
+	    if($afld[$i]=='nTqty' || $afld[$i]=='F0D'){  //庫存數量
+		  $atr[$wthary[$i]] =  round($list3[$afld[$i]],$rndnb) ?? ''; 
+		  continue;
+		}
+	    $atr[$wthary[$i]] = $list3[$afld[$i]] ?? '';
+	}
 	$arr[] = $atr;
 }
 

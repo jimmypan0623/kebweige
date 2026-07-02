@@ -39,14 +39,14 @@ function getProfile(str1,reccount) {
 				oTd.style.textAlign = meta.align;
 				if (meta.isHidden) oTd.style.display = "none";
 			}		
-			if(jk.substr(0,jk.lastIndexOf('_')-4)=='pay_way'){
+			if(jk.substr(0,jk.lastIndexOf('_')-4)=='收款方式代號'){
 				var oTd = oTr.insertCell(oTr.cells.length);
 				oTd.setAttribute("class","indirectdata");					 
 				oTd.setAttribute("style","width:10%;text-align:center;");	
 				oTd.innerHTML=howtopay(arr[i][jk]);
 			//	attachEventListener(oTd,'click',rowchoose,false);		//點選資料
 			}		 	
-			if(jk.substr(0,jk.lastIndexOf('_')-4)=='write_money'){
+			if(jk.substr(0,jk.lastIndexOf('_')-4)=='沖銷金額'){
 			   queryttl+=Number(oTd.innerHTML);
 			}
 			// 點擊事件綁定

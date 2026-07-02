@@ -20,11 +20,9 @@ function getProfile(str1,reccount,tbno) {
 		    cko[0](reccount);      //將筆數記起來	
           
 	       }
-		var oTable = document.getElementById("maintbody1");
-		var fld=document.getElementById('recfield');
+		var oTable = document.getElementById("maintbody1");		
 	}else{
-	    var oTable = document.getElementById("maintbody2");
-		var fld=document.getElementById('recfield2');
+	    var oTable = document.getElementById("maintbody2");		
 	}		
 	    var rnddgt=getCookie('INT_068');  //四捨五入到幾位
         var scndttl=document.getElementById('ttlmny');   //次頁表頭的總金額物件	
@@ -43,7 +41,7 @@ function getProfile(str1,reccount,tbno) {
 					oTd.style.textAlign = meta.align;
 					if (meta.isHidden) oTd.style.display = "none";
 				}			
-				if(jk.substr(0,jk.lastIndexOf('_')-4)=='query_price' && tbno==1){
+				if(jk.includes('單價') && tbno==1){
 					attachEventListener(oTd, 'click', rowchoose, false);  //點選資料
 					var oTd = oTr.insertCell(oTr.cells.length);
 					oTd.setAttribute("class","indirectdata");					 
@@ -52,7 +50,7 @@ function getProfile(str1,reccount,tbno) {
 					queryttl+=Number(oTd.innerHTML);			
 				}		 
 				   
-				if(jk.substr(0,jk.lastIndexOf('_')-4)=='notout' && tbno==1){
+				if(jk.includes('開單未進') && tbno==1){
 					attachEventListener(oTd, 'click', rowchoose, false);  //點選資料
 					var oTd = oTr.insertCell(oTr.cells.length);
 					oTd.setAttribute("class","indirectdata");					 
@@ -68,7 +66,7 @@ function getProfile(str1,reccount,tbno) {
 		   myCheck.type="checkbox";
 		   if(tbno==0){
 			  myCheck.setAttribute("name","chkbxmember1");   //讓使用者勾選的checkbox單頭
-			  if(arr[i]['shure_DHC_000']!='Y'){  //未確認
+			  if(arr[i]['是否確認_IHC_000']!='Y'){  //未確認
 			     oTr.setAttribute("style","font-weight:bold;color:#704214;"); 
 		      } 
 		   }else{

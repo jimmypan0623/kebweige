@@ -124,5 +124,3 @@ mysqli_close($link);
 if (ob_get_length()) ob_clean(); 
 echo json_encode($arr, JSON_UNESCAPED_UNICODE);
 ?>
- 
- 

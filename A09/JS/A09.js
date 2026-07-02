@@ -19,7 +19,7 @@ function getProfile(str1,reccount,tbno) {
 	  
 	}
 	var oTable = document.getElementById("maintbody1");
-	var fld=document.getElementById('recfield');
+	//var fld=document.getElementById('recfield');
 	for(var i=0;i<arr.length;i++){		
 		var oTr=oTable.insertRow(-1);	
 		oTr.setAttribute("name","mainrow");	      		
@@ -35,7 +35,7 @@ function getProfile(str1,reccount,tbno) {
 				oTd.style.textAlign = meta.align;
 				if (meta.isHidden) oTd.style.display = "none";
 			}			
-			if(jk.substr(0,jk.lastIndexOf('_')-4)=='who_incharge'){
+			if(jk.includes('自行或委外')){
 			   var oTd = oTr.insertCell(oTr.cells.length);
 			   oTd.setAttribute("class","indirectdata");	
 			   oTd.setAttribute("style","width:4%;text-align:center;");	

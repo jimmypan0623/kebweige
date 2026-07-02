@@ -70,31 +70,11 @@ if (substr($_POST['filename'], 0, 3) == "PGE") {
 // 執行並獲取結果
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
-
 // 獲取欄位寬度設定
 $wthary = fldwdthpre('C04', '1', $link);
-
-while ($list3 = mysqli_fetch_assoc($result)) {
-    $atr = array(
-        'rc_no' . $wthary[0]        => $list3['F00'],
-        'query_no' . $wthary[1]     => $list3['F01'],
-        'custom_no' . $wthary[2]    => $list3['F03'],
-        'custom_name' . $wthary[3]  => $list3['F0E'],
-        'custom_fullname' . $wthary[4] => $list3['F0D'],
-        'query_date' . $wthary[5]   => $list3['F02'],
-        'sales_no' . $wthary[6]     => $list3['F07'],
-        'sales_name' . $wthary[7]   => $list3['F0C'],
-        'crncy_type' . $wthary[8]   => $list3['F12'],
-		'crncy_name' . $wthary[9]   => $list3['F0H'],
-        'customer_po' . $wthary[10]  => $list3['F14'],
-        'shipplace' . $wthary[11]   => $list3['F06'],
-        'shipdirect' . $wthary[12]  => $list3['F13'],
-        'trns' . $wthary[13]        => $list3['F08'],
-        'shure' . $wthary[14]       => $list3['F04'],
-        'lastupdate' . $wthary[15]  => $list3['F10']
-    );
-    $arr[] = $atr;
-}
+ 
+$afld=['F00','F01','F03','F0E','F0D','F02','F07','F0C','F12','F0H','F14','F06','F13','F08','F04','F10'];
+$arr=afldcont($result,$afld,$wthary);
 
 mysqli_stmt_close($stmt);
 mysqli_close($link);

@@ -19,80 +19,56 @@ function getProfile(str1,reccount,tbno) {
 		    cko[0](reccount);      //將筆數記起來	          
 	    }
 		var oTable = document.getElementById("maintbody1");
-		var fld=document.getElementById('recfield'); 
+		//var fld=document.getElementById('recfield'); 
 	}else if(tbno==1){
 	    var oTable = document.getElementById("maintbody2");
-		var fld=document.getElementById('recfield2');
+		//var fld=document.getElementById('recfield2');
 	}else{
 	     var oTable = document.getElementById("maintbody3");
-		var fld=document.getElementById('recfield3');
+		//var fld=document.getElementById('recfield3');
 	}		
 	for(var i=0;i<arr.length;i++){		
 	    var oTr=oTable.insertRow(-1);	
         oTr.setAttribute("name","mainrow");	      		
         cnt++;		
-		var fildcnt=0;
-	    for(var jk in arr[i]){		   
-	    	var oTd = oTr.insertCell(oTr.cells.length);		     		  
-	    	oTd.innerHTML=arr[i][jk];	
-			fildcnt++;
-			var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
-			var ks=ara.split('');		
-			//ks[0]:直接或間接 D/I
-			//ks[1]:是否顯示   S/H
-			//ks[2]:靠左中或右 L/C/R	
-			if(ks[0]=="D"){
-				oTd.setAttribute("class","directdata");	
-			  	if(jk.indexOf('_auth_')>-1 && tbno==1){
-				    if(arr[i][jk]=='E'){
-						oTd.setAttribute("style","width:5%;;text-align:center;color:#BAF4D8;")  
-					}else{
-						oTd.setAttribute("style","width:5%;text-align:center;");
-					}				 
-				} 
-			}else{
-				oTd.setAttribute("class","indirectdata");	
-				if(jk.substr(5,7)=='_remark'){
-				    if(oTr.cells[fildcnt-6].innerHTML!='Y'){									  
-				    	oTd.setAttribute("style","width:11%;text-decoration: line-through;color:#7f8890;");
-				    }else{
-					    oTd.setAttribute("style","width:11%;");
-				    }
-				}
-			}				 
-			if(ks[1]=='H'){
-				oTd.setAttribute("style","display:none;");		
-			}else{
-			   oTd.style.textAlign=(ks[2]=="L"?"left":(ks[2]=="C"?"center":"right"));
-			   var wdthln=jk.substr(jk.lastIndexOf('_')+1,3);  	  	
-			   oTd.style.width=wdthln+"%";
-			   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
-			}				
-			
-			
-            if(jk.substr(0,jk.lastIndexOf('_')-4)=='isdirect'){
+		
+        var sn=0;
+		for (var jk in arr[i]) {
+			var meta = parseFieldMeta(jk);
+			var oTd = oTr.insertCell(-1);
+			oTd.innerHTML = arr[i][jk];
+
+			if (meta) {
+				oTd.className = meta.isDirect ? "directdata" : "indirectdata";
+				oTd.style.width = meta.width;
+				oTd.style.textAlign = meta.align;
+				if (meta.isHidden) oTd.style.display = "none";
+			}						
+			if(jk.includes('直接或間接')){
 			   var oTd = oTr.insertCell(oTr.cells.length);
 			   oTd.setAttribute("class","indirectdata");	
 			   oTd.setAttribute("style","width:6%;text-align:center;");	
 			   oTd.innerHTML=whichDIM(arr[i][jk]);
-			   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
-			}			
-			if(jk.substr(0,jk.lastIndexOf('_')-4)=='showornot'){
+			   
+			}			 
+			
+			if(jk.includes('顯示或隱藏')){
 			   var oTd = oTr.insertCell(oTr.cells.length);
 			   oTd.setAttribute("class","indirectdata");	
 			   oTd.setAttribute("style","width:6%;text-align:center;");	
-			   oTd.innerHTML=showOrNot(arr[i][jk]);
-			   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
+			   oTd.innerHTML=showOrNot(arr[i][jk]);			   
 			}			
-			if(jk.substr(0,jk.lastIndexOf('_')-4)=='location'){
+			if(jk.includes('文字靠向')){
 			   var oTd = oTr.insertCell(oTr.cells.length);
 			   oTd.setAttribute("class","indirectdata");	
 			   oTd.setAttribute("style","width:6%;text-align:center;");	
 			   oTd.innerHTML=locateLCR(arr[i][jk]);
-			   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
+			  
 			}			
-		} 	
-
+			// 點擊事件綁定
+			attachEventListener(oTd, 'click', rowchoose, false);
+			sn++;
+		}
         var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
 	    oTd.setAttribute("style","display:none");   //勾選不顯示
 	 	var myCheck=document.createElement('input'); 

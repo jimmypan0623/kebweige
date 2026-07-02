@@ -62,30 +62,16 @@ $result = $stmt->get_result();
 $wthary = fldwdthpre('B04', '2', $link);
 
 // 5. 整理回傳資料
-$arr = array();
+ 
 
 // 清理函式：移除換行符號防止撐開 Grid 高度
 $clean = function($val) {
     if ($val === null) return '';
     return str_replace(["\r", "\n", "\t"], '', trim($val));
 };
-
-while ($list = $result->fetch_assoc()) {
-    $arr[] = array(
-        'rc_no' . ($wthary[0] ?? '')          => $clean($list['F00']),
-        'stockno' . ($wthary[1] ?? '')        => $clean($list['F03']),
-        'stockname' . ($wthary[2] ?? '')      => $clean($list['F0B']), 
-        'order_no' . ($wthary[3] ?? '')       => $clean($list['F07']),
-        'query_qty' . ($wthary[4] ?? '')      => (float)$list['F04'],
-        'query_price' . ($wthary[5] ?? '')    => (float)$list['F15'],
-        'dept_no' . ($wthary[6] ?? '')        => $clean($list['F05']),
-        'dept_name' . ($wthary[7] ?? '')      => $clean($list['F0C']), 
-        'custom_partno' . ($wthary[8] ?? '')  => $clean($list['F08']),
-        'custom_po' . ($wthary[9] ?? '')      => $clean($list['F09']),
-        'remark' . ($wthary[10] ?? '')        => $clean($list['F25']),
-        'lastupdate' . ($wthary[11] ?? '')    => $clean($list['F11'])
-    );
-}
+$arr=array();
+$afld=['F00','F03','F0B','F07','F04','F15','F05','F0C','F08','F09','F25','F11'];
+$arr=afldcont($result,$afld,$wthary);
 
 // 6. 釋放資源並輸出 JSON
 $stmt->close();

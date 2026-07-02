@@ -100,23 +100,30 @@ if ($result) {
             $overDays = $interval->days;
         }
 
-        $arr[] = [
-            'rc_no' . ($wthary[0] ?? '')        => $list['F00'],
-            'shipday' . ($wthary[1] ?? '')      => $list['F90'] . '-' . $list['F02'],
-            'billno' . ($wthary[2] ?? '')       => $list['F15'],
-            'invoiceno' . ($wthary[3] ?? '')    => $list['F07'],
-            'amount' . ($wthary[4] ?? '')       => (float)$list['F12'],
-            'restmoney' . ($wthary[5] ?? '')    => (float)($list['F12'] - $list['F27']),
-            'objtno' . ($wthary[6] ?? '')       => $list['F03'],
-            'objtname' . ($wthary[7] ?? '')     => $list['F0E'], // 廠商簡稱
-            'unitedno' . ($wthary[8] ?? '')     => $list['F04'],
-            'inchargeno' . ($wthary[9] ?? '')   => $list['F19'],
-            'inchargename' . ($wthary[10] ?? '') => $list['F0C'],
-            'shouldpayday' . ($wthary[11] ?? '') => $list['F25'],
-            'over_days' . ($wthary[12] ?? '')   => $overDays,
-            'paymentway' . ($wthary[13] ?? '')  => $list['F26'],
-            'lastupdate' . ($wthary[14] ?? '')  => $list['F24']
+        $mapping = [
+            $list['F00'],
+            $list['F90'] . '-' . $list['F02'],
+            $list['F15'],
+            $list['F07'],
+            (float)$list['F12'],
+            (float)($list['F12'] - $list['F27']),
+             $list['F03'],
+            $list['F0E'], // 廠商簡稱
+            $list['F04'],
+            $list['F19'],
+            $list['F0C'],
+            $list['F25'],
+            $overDays,
+            $list['F26'],
+            $list['F24']
         ];
+		$atr = [];
+		$i = 0;
+		foreach ($mapping as  $db_col) { 
+			$atr[$wthary[$i]] = $db_col ?? '';
+			$i++;
+		}
+		$arr[] = $atr;			
     }
 }
 

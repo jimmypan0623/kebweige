@@ -70,7 +70,7 @@ function getProfile(arr, reccount) {
                 }
 
                 // 累計金額判斷
-                if (fieldName === 'rcd_total') {
+                if (fieldName === '小計') {
                     queryttl += (Number(cellValue) || 0);
                 }
             }

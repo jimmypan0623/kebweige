@@ -53,31 +53,13 @@ $pgttl = $list4['F07'] ?? '';
 $stmt3 = $link->prepare($sql3);
 $stmt3->bind_param($types, ...$params);
 $stmt3->execute();
-$result3 = $stmt3->get_result();
+$result = $stmt3->get_result();
 
 // 6. 整理回傳資料
 $wthary = fldwdthpre('B25', '1', $link);
-$arr = [];
+$afld=['F00','F02','F03','F04','F05','F06','F07','F08','F09','F10','F11','F14','F13','F15','F16'];
 
-while ($list3 = $result3->fetch_assoc()) {
-    $arr[] = [
-        'rc_no' . ($wthary[0] ?? '')      => $list3['F00'],
-        'stock_no' . ($wthary[1] ?? '')   => $list3['F02'],
-        'mth_init' . ($wthary[2] ?? '')   => $list3['F03'],
-        'shipIn' . ($wthary[3] ?? '')     => $list3['F04'],
-        'inReject' . ($wthary[4] ?? '')   => $list3['F05'],
-        'shipOut' . ($wthary[5] ?? '')    => $list3['F06'],
-        'outReject' . ($wthary[6] ?? '')  => $list3['F07'],
-        'turnIn' . ($wthary[7] ?? '')     => $list3['F08'],
-        'turnOut' . ($wthary[8] ?? '')    => $list3['F09'],
-        'product' . ($wthary[9] ?? '')    => $list3['F10'],
-        'consume' . ($wthary[10] ?? '')   => $list3['F11'],
-        'lose' . ($wthary[11] ?? '')      => $list3['F14'],
-        'wend' . ($wthary[12] ?? '')      => $list3['F13'],
-        'mth_end' . ($wthary[13] ?? '')   => $list3['F15'],
-        'lastupdate' . ($wthary[14] ?? '') => $list3['F16']
-    ];
-}
+$arr=afldcont($result,$afld,$wthary);
 
 // 7. 輸出 JSON
 echo json_encode(['recdrow' => $arr, 'pgttl' => $pgttl], JSON_UNESCAPED_UNICODE);

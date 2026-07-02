@@ -70,7 +70,7 @@ function getProfile(arr, reccount) {
                 }
 
                 // 累加金額邏輯
-                if (fieldName === 'rcd_total') {
+                if (fieldName === '小計') {
                     queryttl += (Number(cellValue) || 0);
                 }
             }

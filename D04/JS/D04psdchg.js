@@ -157,7 +157,7 @@ function tab2View(event) {
     const cells = Array.from(selectedRow.cells).map(c => c.innerHTML);
     const shrno = cells[cells.length - 3];
 
-    document.getElementById('crncy').innerHTML = cells[cells.length - 8] + '&nbsp;';
+    document.getElementById('crncy').innerHTML = cells[cells.length - 9] + '&nbsp;';
     document.getElementById('keydscrpt1').innerHTML = `${cells[2]}&nbsp;${cells[3]}`;
     document.getElementById("fatherkey1").innerHTML = cells[1];
     document.getElementById("serverResponse2").innerHTML = '&nbsp;';

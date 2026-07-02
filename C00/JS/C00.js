@@ -20,10 +20,10 @@
           
 	    }
 		var oTable = document.getElementById("maintbody1");
-		var fld=document.getElementById('recfield');
+		//var fld=document.getElementById('recfield');
 	}else{
 	    var oTable = document.getElementById("maintbody2");
-		var fld=document.getElementById('recfield2');
+		//var fld=document.getElementById('recfield2');
 	}			
 	for(var i=0;i<arr.length;i++){		
 	    var oTr=oTable.insertRow(-1);	

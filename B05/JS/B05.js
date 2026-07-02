@@ -32,11 +32,11 @@ function getProfile(str1,trncde,tbno) {
 			}			
 		 }		
 		var oTable = document.getElementById("maintbody1");
-		var fld=document.getElementById('recfield');		
+		//var fld=document.getElementById('recfield');		
 	}else{
 		var oMember = document.getElementById("member2");	 
 	    var oTable = document.getElementById("maintbody2");
-		var fld=document.getElementById('recfield2');
+		//var fld=document.getElementById('recfield2');
 	}			
 	var rnddgt=getCookie('INT_069');  //四捨五入到幾位
 	var scndttl=document.getElementById('ttlmny');   //次頁表頭的總金額物件	
@@ -46,7 +46,7 @@ function getProfile(str1,trncde,tbno) {
 		cnt++;		
 		
 		for (var jk in arr[i]) {
-			if(jk=='ship_date_DSC_010' && sourceAccount(20,0)*1>1){  //不補貨無補貨日期欄
+			if(jk.includes('補貨日期') && sourceAccount(20,0)*1>1){  //不補貨無補貨日期欄
 				continue;
 			}
 			var meta = parseFieldMeta(jk);
@@ -60,25 +60,25 @@ function getProfile(str1,trncde,tbno) {
 				if (meta.isHidden) oTd.style.display = "none";
 			}
 
-			if(jk.substr(0,jk.lastIndexOf('_')-4)=='invoice_type' && tbno==0){
+			if(jk.includes('發票類別代號') && tbno==0){
 				var oTd = oTr.insertCell(oTr.cells.length);
 				oTd.setAttribute("class","indirectdata");					 
 				oTd.setAttribute("style","width:5%;text-align:center;");	
 				oTd.innerHTML=whichinvoice(arr[i][jk]);			
 			}		 				   
-			if(jk.substr(0,jk.lastIndexOf('_')-4)=='tax_type' && tbno==0){
+			if(jk.includes('稅別代號') && tbno==0){
 				var oTd = oTr.insertCell(oTr.cells.length);
 				oTd.setAttribute("class","indirectdata");					 
 				oTd.setAttribute("style","width:4%;text-align:center;");	
 				oTd.innerHTML=whichtax(arr[i][jk]);					 			  
 			}		
-			if(jk.substr(0,jk.lastIndexOf('_')-4)=='discount_ship' && tbno==0){
+			if(jk.includes('退貨或折讓代號') && tbno==0){
 				var oTd = oTr.insertCell(oTr.cells.length);
 				oTd.setAttribute("class","indirectdata");					 
 				oTd.innerHTML=(arr[i][jk]=='1'?'退回後補':(arr[i][jk]=='2'?'退貨不補':'金額折讓'));
 				oTd.setAttribute("style","text-align:center;width:7%;");		 		  
 			}		
-			if(jk.substr(0,jk.lastIndexOf('_')-4)=='query_price' && tbno==1){
+			if(jk.includes('單價') && tbno==1){
 				attachEventListener(oTd, 'click', rowchoose, false);  //點選資料
 				var oTd = oTr.insertCell(oTr.cells.length);
 				oTd.setAttribute("class","indirectdata");					 
@@ -96,7 +96,7 @@ function getProfile(str1,trncde,tbno) {
 		myCheck.type="checkbox";
 		if(tbno==0){
 			myCheck.setAttribute("name","chkbxmember1");   //讓使用者勾選的checkbox單頭
-			if(arr[i]['shure_IHC_000']!='Y'){  //未確認
+			if(arr[i]['是否確認_IHC_000']!='Y'){  //未確認
 			    oTr.setAttribute("style","font-weight:bold;color:#704214;"); 
 		    } 
 		}else{

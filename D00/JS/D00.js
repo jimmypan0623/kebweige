@@ -20,10 +20,10 @@
           
 	    }
 		var oTable = document.getElementById("maintbody1");
-		var fld=document.getElementById('recfield');
+		
 	}else{
 	    var oTable = document.getElementById("maintbody2");
-		var fld=document.getElementById('recfield2');
+		
 	}			
 	for(var i=0;i<arr.length;i++){		
 	    var oTr=oTable.insertRow(-1);	
@@ -94,19 +94,4 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 }	
 function rowchoseSecond(targetRow){    //紀錄移動 表身
    return true;	
-}
-
-function fldsgsroup(fidx,tbno){
-	 var groups=[];
-	if(tbno==0){
-       var groups=[['directdata','block','center','25'],     
-	   ['directdata','block','center','25'],   
-	   ['directdata','block','center','25']    
-	   ]; 
-	}else{
-	    var groups=[['directdata','block','center','25'],    
-	   ['directdata','block','center','25']  
- 	   ]; 	
-	}		
-    return groups[fidx];			  
 }

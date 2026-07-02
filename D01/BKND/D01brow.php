@@ -68,38 +68,10 @@ $result = mysqli_stmt_get_result($stmt);
 
 // 獲取欄位配置 (Table: D01)
 $wthary = fldwdthpre('D01', '1', $link);
+$afld=['F00','F01','F03','F04','F12','F06','F11','F19','F05','F21','F08','F07','F09','F10','F22','F25','F0D','F15','F38','F13',
+      'F36','F39','F03A','F16','F14','F18'];
+$arr=afldcont($result,$afld,$wthary);
 
-while ($list3 = mysqli_fetch_assoc($result)) {
-    $atr = array(
-        'rc_no'.$wthary[0] => $list3['F00'],
-        'vender_no'.$wthary[1] => $list3['F01'],
-        'vender_name'.$wthary[2] => $list3['F03'],
-        'vender_abbrv'.$wthary[3] => $list3['F04'],
-        'level'.$wthary[4] => $list3['F12'],
-        'unitedno'.$wthary[5] => $list3['F06'],
-        'product'.$wthary[6] => $list3['F11'],
-        'wayofship'.$wthary[7] => $list3['F19'],
-        'address'.$wthary[8] => $list3['F05'],
-        'addressoffactory'.$wthary[9] => $list3['F21'],
-        'contact'.$wthary[10] => $list3['F08'],
-        'boss'.$wthary[11] => $list3['F07'],
-        'tel'.$wthary[12] => $list3['F09'],
-        'fax'.$wthary[13] => $list3['F10'],
-        'email'.$wthary[14] => $list3['F22'],
-        'moneycrnt'.$wthary[15] => $list3['F25'],
-        'crntname'.$wthary[16] => $list3['F0D'],
-        'dayofincount'.$wthary[17] => $list3['F15'],
-        'dayofcharge'.$wthary[18] => $list3['F38'],
-        'wayofpay'.$wthary[19] => $list3['F13'],
-        'paymentterm'.$wthary[20] => $list3['F36'],
-        'procureno'.$wthary[21] => $list3['F39'],
-        'procurename'.$wthary[22] => $list3['F03A'],
-        'remark'.$wthary[23] => $list3['F16'],
-        'lasttrade'.$wthary[24] => $list3['F14'],
-        'lastupdate'.$wthary[25] => $list3['F18']
-    );
-    $arr[] = $atr;
-}
 
 mysqli_stmt_close($stmt);
 mysqli_close($link);

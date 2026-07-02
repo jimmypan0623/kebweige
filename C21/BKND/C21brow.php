@@ -82,28 +82,8 @@ $result = mysqli_stmt_get_result($stmt);
 
 // 獲取欄位寬度設定 (對應 C21)
 $wthary = fldwdthpre('C21', '1', $link);
-
-while ($list3 = mysqli_fetch_assoc($result)) {
-    $arr[] = array(
-        'rc_no' . ($wthary[0] ?? '')          => $list3['F00'],
-        'query_no' . ($wthary[1] ?? '')       => $list3['F01'],
-        'custom_no' . ($wthary[2] ?? '')      => $list3['F03'],
-        'custom_name' . ($wthary[3] ?? '')    => $list3['F0E'],
-        'custom_fullname' . ($wthary[4] ?? '')=> $list3['F0D'],
-        'query_date' . ($wthary[5] ?? '')     => $list3['F02'],
-        'sales_no' . ($wthary[6] ?? '')       => $list3['F06'],
-        'sales_name' . ($wthary[7] ?? '')     => $list3['F0C'],
-        'crncy_type' . ($wthary[8] ?? '')     => $list3['F14'],
-		'crncy_name' . ($wthary[9] ?? '')     => $list3['F0H'],
-        'sourceman' . ($wthary[10] ?? '')      => $list3['F07'],
-        'shipway' . ($wthary[11] ?? '')       => $list3['F09'],
-        'payment' . ($wthary[12] ?? '')       => $list3['F10'],
-        'remark' . ($wthary[13] ?? '')        => $list3['F11'],
-        'trns' . ($wthary[14] ?? '')          => $list3['F15'],
-        'shure' . ($wthary[15] ?? '')         => $list3['F04'],
-        'lastupdate' . ($wthary[16] ?? '')    => $list3['F05']
-    );
-}
+$afld=['F01','F01','F03','F0E','F0D','F02','F06','F0C','F14','F0H','F07','F09','F10','F11','F15','F04','F05'];
+$arr=afldcont($result,$afld,$wthary);
 
 // --- 6. 釋放資源與輸出 ---
 mysqli_stmt_close($stmt);

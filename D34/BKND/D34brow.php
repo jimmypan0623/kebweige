@@ -68,18 +68,9 @@ $wthary = fldwdthpre('D34', '1', $link);
 
 // 5. 處理結果集
 if ($result) {
-    while ($list3 = mysqli_fetch_assoc($result)) {
-        $arr[] = [
-            'rc_no' . ($wthary[0] ?? '')          => $list3['F00'],
-            'stock_no' . ($wthary[1] ?? '')       => $list3['F02'],
-            'stock_name' . ($wthary[2] ?? '')     => $list3['F0B'],
-            'custom_no' . ($wthary[3] ?? '')      => $list3['F01'],
-            'custom_name' . ($wthary[4] ?? '')    => $list3['F0E'],
-            'custom_partno' . ($wthary[5] ?? '')  => $list3['F03'],
-            'origin_data' . ($wthary[6] ?? '')    => $list3['F04'],
-            'lastupdate' . ($wthary[7] ?? '')     => $list3['F05']
-        ];
-    }
+	$afld=['F00','F02','F0B','F01','F0E','F03','F04','F05'];
+    $arr=afldcont($result,$afld,$wthary);
+    
 }
 
 mysqli_close($link);

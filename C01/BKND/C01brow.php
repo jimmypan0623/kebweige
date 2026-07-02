@@ -79,52 +79,9 @@ $result = mysqli_stmt_get_result($stmt);
 $wthary = fldwdthpre('C01', '1', $link);
 
 // 4. 資料封裝
-while ($list3 = mysqli_fetch_assoc($result)) {
-    $atr = array(
-        'rc_no'.$wthary[0] => $list3['F00'],
-        'custom_no'.$wthary[1] => $list3['F01'],
-        'custom_name'.$wthary[2] => $list3['F04'],
-        'custom_abbrv'.$wthary[3] => $list3['F05'],
-        'level'.$wthary[4] => $list3['F03'],
-        'unitedno'.$wthary[5] => $list3['F10'],
-        'typeofbusiness'.$wthary[6] => $list3['F43'],
-        'product'.$wthary[7] => $list3['F21'],
-        'area'.$wthary[8] => $list3['F20'],
-        'invoicename'.$wthary[9] => $list3['F41'],
-        'invoicepartno'.$wthary[10] => $list3['F42'],
-        'typeofinvoice'.$wthary[11] => $list3['F29'],
-        'typeoftax'.$wthary[12] => $list3['F30'],
-        'englishname'.$wthary[13] => $list3['F09'],
-        'address'.$wthary[14] => $list3['F06'],
-        'addressforship'.$wthary[15] => $list3['F07'],
-        'englishaddress'.$wthary[16] => $list3['F08'],
-        'indicateforship'.$wthary[17] => $list3['F32'],
-        'contact'.$wthary[18] => $list3['F12'],
-        'boss'.$wthary[19] => $list3['F11'],
-        'tel'.$wthary[20] => $list3['F13'],
-        'fax'.$wthary[21] => $list3['F14'],
-        'email'.$wthary[22] => $list3['F22'],
-        'groupno'.$wthary[23] => $list3['F44'],
-        'moneycrnt'.$wthary[24] => $list3['F39'],
-        'crntname'.$wthary[25] => $list3['F0D'],
-        'dayofincount'.$wthary[26] => $list3['F17'],
-        'dayofcharge'.$wthary[27] => $list3['F38'],
-        'wayofpay'.$wthary[28] => $list3['F15'],
-        'paymentterm'.$wthary[29] => $list3['F36'],
-        'salesno'.$wthary[30] => $list3['F33'],
-        'salesname'.$wthary[31] => $list3['F03A'],
-        'assistantno'.$wthary[32] => $list3['F23'],
-        'assistantname'.$wthary[33] => $list3['F03B'],
-        'wayofship'.$wthary[34] => $list3['F31'],
-        'receiver'.$wthary[35] => $list3['F40'],
-        'remark'.$wthary[36] => $list3['F25'],
-        'lasttrade'.$wthary[37] => $list3['F16'],
-        'lastquot'.$wthary[38] => $list3['F19'],
-        'lastupdate'.$wthary[39] => $list3['F26']
-    );
-    $arr[] = $atr;
-}
-
+$afld=['F00','F01','F04','F05','F03','F10','F43','F21','F20','F41','F42','F29','F30','F09','F06','F07','F08','F32','F12','F11',
+       'F13','F14','F22','F44','F39','F0D','F17','F38','F15','F36','F33','F03A','F23','F03B','F31','F40','F25','F16','F19','F26'];
+$arr=afldcont($result,$afld,$wthary);
 // 5. 關閉資源並輸出
 mysqli_stmt_close($stmt);
 mysqli_close($link);

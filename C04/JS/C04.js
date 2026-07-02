@@ -1,122 +1,116 @@
-function getProfile(str1,reccount,tbno) {    
+function getProfile(arr,reccount,tbno) {    
     var cnt=0;
-	var queryttl=0;
-	var arr = str1;      
-    var pagecount=Math.ceil(reccount/parseInt(getAuth[2]()[0].INT_RCD));
-    var optdigts= (pagecount.toString()).length;
+	var queryttl=0;	    
+    var pagecount=Math.ceil(reccount/parseInt(getAuth[2]()[0].INT_RCD)); ///
+    var optdigts= (pagecount.toString()).length;                         ///
 	if (tbno==0){     //如果是表頭   
-        var slt2=document.getElementById('recmth');
-	    if (slt2.options.length<pagecount){
-    		for (var i=slt2.options.length+1;i<=pagecount;i++){
-			    var item_no=paddingLeft(i,optdigts);				
-		        var varItem=new Option(item_no,item_no);
-	    	    slt2.options.add(varItem);	 
-           }		  
+        var slt2=document.getElementById('recmth');   ///
+	    if (slt2.options.length<pagecount){   ///
+    		for (var i=slt2.options.length+1;i<=pagecount;i++){  ///
+			    var item_no=paddingLeft(i,optdigts);			 ///	
+		        var varItem=new Option(item_no,item_no);       ///
+	    	    slt2.options.add(varItem);	                ///
+           }		        ///   
 		   		   //第一個選項位數修正		   
-		   slt2.options[0].value=paddingLeft(1,optdigts);
-		   slt2.options[0].text=paddingLeft(1,optdigts);
+		   slt2.options[0].value=paddingLeft(1,optdigts);    ///
+		   slt2.options[0].text=paddingLeft(1,optdigts);     ///
 		    var bibau=cko[0](0);   //找出閉包筆數變數現值
 	        cko[0](bibau*(-1));    //將閉包變數歸零
 		    cko[0](reccount);      //將筆數記起來	
           
-	       }
-		var oTable = document.getElementById("maintbody1");
-		var fld=document.getElementById('recfield');
-	}else{
-	    var oTable = document.getElementById("maintbody2");
-		var fld=document.getElementById('recfield2');
-	}		
-	    var rnddgt=getCookie('INT_069');  //四捨五入到幾位
-        var scndttl=document.getElementById('ttlmny');   //次頁表頭的總金額物件	
-	    for(var i=0;i<arr.length;i++){		
-	    	var oTr=oTable.insertRow(-1);	
-            oTr.setAttribute("name","mainrow");	      		
-            cnt++;		
-			for (var jk in arr[i]) {
-				var meta = parseFieldMeta(jk);
-				var oTd = oTr.insertCell(-1);
-				oTd.innerHTML = arr[i][jk];
-				if (meta) {
-					oTd.className = meta.isDirect ? "directdata" : "indirectdata";
-					oTd.style.width = meta.width;
-					oTd.style.textAlign = meta.align;
-					if (meta.isHidden) oTd.style.display = "none";
-				}			
-				if(jk.substr(0,jk.lastIndexOf('_')-4)=='query_price' && tbno==1){
-					attachEventListener(oTd, 'click', rowchoose, false);
-					var oTd = oTr.insertCell(oTr.cells.length);
-					oTd.setAttribute("class","indirectdata");					 
-					oTd.setAttribute("style","width:8%;text-align:right;");	
-					oTd.innerHTML=Math.round((oTr.cells[3].innerHTML*oTr.cells[4].innerHTML + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);	
-					queryttl+=Number(oTd.innerHTML);
-				}		 
-				   
-				if(jk.substr(0,jk.lastIndexOf('_')-4)=='notout' && tbno==1){		
-				    attachEventListener(oTd, 'click', rowchoose, false);
-					var oTd = oTr.insertCell(oTr.cells.length);
-					oTd.setAttribute("class","indirectdata");					 
-					oTd.setAttribute("style","width:8%;text-align:right;");	
-					oTd.innerHTML=Number(oTr.cells[3].innerHTML)-(Number(oTr.cells[8].innerHTML)+Number(oTr.cells[9].innerHTML));					 				
-					  
-				}						
-				// 點擊事件綁定
-				attachEventListener(oTd, 'click', rowchoose, false);
-		    }
-		   var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
-	       oTd.setAttribute("style","width:40px;display:none");   
-	 	   var myCheck=document.createElement('input'); 
-		   myCheck.type="checkbox";
-		   if(tbno==0){
-			  myCheck.setAttribute("name","chkbxmember1");   //讓使用者勾選的checkbox單頭
-			  if(arr[i]['shure_DHC_000']!='Y'){  //未確認
-			     oTr.setAttribute("style","font-weight:bold;color:#704214;"); 
-		      } 
-		   }else{
-			  myCheck.setAttribute("name","chkbxmember2");   //讓使用者勾選的checkbox表身
-			  scndttl.innerHTML= (Math.round((queryttl + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt));             
-		   }
-		   attachEventListener(myCheck,'click',chooserc,false);		   
-		   oTd.appendChild(myCheck);  		   		  
 	    }
-	    if (tbno==0){       //如果是單頭
-		   var responseDiv=document.getElementById("serverResponse1");  
-	    }else{
+		var oTable = document.getElementById("maintbody1");		
+	}else{
+	    var oTable = document.getElementById("maintbody2");		
+	}		
+	var rnddgt=getCookie('INT_069');  //四捨五入到幾位
+	var scndttl=document.getElementById('ttlmny');   //次頁表頭的總金額物件	
+	for(var i=0;i<arr.length;i++){		
+		var oTr=oTable.insertRow(-1);	
+		oTr.setAttribute("name","mainrow");	      		
+		cnt++;		
+		for (var jk in arr[i]) {
+			var meta = parseFieldMeta(jk);
+			var oTd = oTr.insertCell(-1);
+			oTd.innerHTML = arr[i][jk];
+			if (meta) {
+				oTd.className = meta.isDirect ? "directdata" : "indirectdata";
+				oTd.style.width = meta.width;
+				oTd.style.textAlign = meta.align;
+				if (meta.isHidden) oTd.style.display = "none";
+			}			
+			//// 
+			if(jk.includes('單價') && tbno==1){	
+				attachEventListener(oTd, 'click', rowchoose, false);
+				var oTd = oTr.insertCell(oTr.cells.length);
+				oTd.setAttribute("class","indirectdata");					 
+				oTd.setAttribute("style","width:8%;text-align:right;");	
+				oTd.innerHTML=Math.round((oTr.cells[3].innerHTML*oTr.cells[4].innerHTML + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);	
+				queryttl+=Number(oTd.innerHTML);
+			}		 
+			if(jk.includes('開單未出') && tbno==1){	
+				attachEventListener(oTd, 'click', rowchoose, false);
+				var oTd = oTr.insertCell(oTr.cells.length);
+				oTd.setAttribute("class","indirectdata");					 
+				oTd.setAttribute("style","width:8%;text-align:right;");	
+				oTd.innerHTML=Number(oTr.cells[3].innerHTML)-(Number(oTr.cells[8].innerHTML)+Number(oTr.cells[9].innerHTML));					 				
+				  
+			}	
+			////
+			// 點擊事件綁定
+			attachEventListener(oTd, 'click', rowchoose, false);
+		}
+	   var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
+	   oTd.setAttribute("style","width:40px;display:none");   
+	   var myCheck=document.createElement('input'); 
+	   myCheck.type="checkbox";
+	   if(tbno==0){
+		  myCheck.setAttribute("name","chkbxmember1");   //讓使用者勾選的checkbox單頭
+		  if(arr[i]['是否確認_IHC_000']=='N'){  //未確認
+			  oTr.setAttribute("style","font-weight:bold;color:#704214;"); 
+		  }				  
+	   }else{ 
+		  myCheck.setAttribute("name","chkbxmember2");   //讓使用者勾選的checkbox表身
+		  scndttl.innerHTML= (Math.round((queryttl + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt));             
+	   }
+	   attachEventListener(myCheck,'click',chooserc,false);		   
+	   oTd.appendChild(myCheck);  		   		  
+	}
+	if (tbno==0){       //如果是單頭
+	   var responseDiv=document.getElementById("serverResponse1");  
+	}else{
 
-		  var responseDiv=document.getElementById("serverResponse2");  
-	    } 		
-	  
-	   if(responseDiv.innerHTML=='Searching......'){    
-		  if (cnt==0){
+	  var responseDiv=document.getElementById("serverResponse2");  
+	} 			  
+	if(responseDiv.innerHTML=='Searching......'){    
+		if (cnt==0){
 			 responseDiv.setAttribute("style","color:red;"); 
 	   	     responseDiv.innerHTML="無此資料！Not found!検索できません。";
 			 scndttl.innerHTML="0";
-	      }else{ 		 
+	    }else{ 		 
 		     responseDiv.setAttribute("style","color:#536a60;"); 
              responseDiv.innerHTML="搜尋到 "+String(cnt)+" 筆資料。" +String(cnt)+" record"+(cnt>1?"s":"")+" match your search. " +String(cnt)+" レコードを検索。";            		              
-		  }	
+		}	
 		  document.getElementById('ttltitle').innerHTML="本頁金額:";
-	  }else{
-		   if (tbno==1){       //如果是表身
-		      document.getElementById('ttltitle').innerHTML="本單總額:";
-		   }else{
-		       var btns=getElementsByAttribute('class','btn');			 
-		       for (var i=0;i<btns.length;i++){		
-		           if(btns[i].accessKey=='I' || btns[i].accessKey=='M' || btns[i].accessKey=='B'){
-		              btns[i].removeAttribute("accesskey");		
-			        } 
-			        /* if(right(btns[i].title,1)=='T' || right(btns[i].title,1)=='J' || right(btns[i].title,1)=='K' || right(btns[i].title,1)=='V'){
-		               btns[i].setAttribute("accesskey",right(btns[i].title,1));		
-			        }  */
-	            }		        
-		   }
-	  } 
-	  if(cnt>0){       //初始畫面呼叫
+	}else{
+		if (tbno==1){       //如果是表身
+		    document.getElementById('ttltitle').innerHTML="本單總額:";
+		}else{
+		    var btns=getElementsByAttribute('class','btn');			 
+		    for (var i=0;i<btns.length;i++){		
+		        if(btns[i].accessKey=='I' || btns[i].accessKey=='M' || btns[i].accessKey=='B'){
+		            btns[i].removeAttribute("accesskey");		
+			    } 			        
+	        }		        
+		}
+	} 
+	if(cnt>0){       //初始畫面呼叫
 		  chooserc(1); //跳到第一列		  
-	  }else{
-		  scndttl.innerHTML="0";
-		  var apprv=document.getElementById('APPRVE');
-		  apprv.innerHTML="&nbsp";
-	  }		  
+	}else{
+		scndttl.innerHTML="0";
+		var apprv=document.getElementById('APPRVE');
+		apprv.innerHTML="&nbsp";
+	}		  
 }
 
 function choseExtraDeal(targetTrChildren,targetTr){   //紀錄移動  

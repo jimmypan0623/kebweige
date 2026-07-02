@@ -1,37 +1,36 @@
 function selfTag(jsvsn,jsPth){
-	  var contentdiv=getElementsByAttribute('class','tab_content');	
-	  var svrSpns1=document.getElementById('serverResponse1'); 
-	  const frag1 = document.createDocumentFragment();
-      var dptspan=document.createElement("span");	  
-	  var text4 = document.createTextNode('\u{A0}\u{A0}發票類別:\u{A0}');
-	  dptspan.appendChild(text4);
-	   dptspan.setAttribute("style","font-size:120%;");
-	  var slt3=document.createElement("select");
-	    slt3.setAttribute("id","departNoOption");
-		slt3.add(new Option("銷項三聯式","31")); 
-		slt3.add(new Option("銷項二聯式","32")); 
-		slt3.add(new Option("銷退三聯式","33")); 
-		slt3.add(new Option("銷退二聯式","34")); 
-		slt3.add(new Option("進項三聯式","21")); 
-		slt3.add(new Option("進項二聯式","22")); 
-		slt3.add(new Option("進退三聯式","33")); 
-		slt3.add(new Option("進退二聯式","24")); 
-		attachEventListener(slt3,'change',choiceClick,false); 
-		frag1.appendChild(dptspan);
-		frag1.appendChild(slt3);
-	    var text5 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
-	    var invDetailButton=document.createElement("input");		   
-		invDetailButton.setAttribute("type","button");
-		invDetailButton.setAttribute("class","btn");
-		invDetailButton.setAttribute("value","\u{1F575}");      //U+1F5C7  \u{1F575}
-	    invDetailButton.setAttribute("style","font-size:130%;margin:0px");
-		invDetailButton.setAttribute("title","查看此發票之內容，快速鍵 Alt+B");	
-		invDetailButton.setAttribute('accesskey','B')
-		invDetailButton.id="HISTORY_BOTT";				
-		frag1.appendChild(text5);
-		frag1.appendChild(invDetailButton);
-		  /////
-	  
+	var contentdiv=getElementsByAttribute('class','tab_content');	
+	var svrSpns1=document.getElementById('serverResponse1'); 
+	const frag1 = document.createDocumentFragment();
+    var dptspan=document.createElement("span");	  
+	var text4 = document.createTextNode('\u{A0}\u{A0}發票類別:\u{A0}');
+	dptspan.appendChild(text4);
+	dptspan.setAttribute("style","font-size:120%;");
+	var slt3=document.createElement("select");
+	slt3.setAttribute("id","departNoOption");
+	slt3.add(new Option("銷項三聯式","31")); 
+	slt3.add(new Option("銷項二聯式","32")); 
+	slt3.add(new Option("銷退三聯式","33")); 
+	slt3.add(new Option("銷退二聯式","34")); 
+	slt3.add(new Option("進項三聯式","21")); 
+	slt3.add(new Option("進項二聯式","22")); 
+	slt3.add(new Option("進退三聯式","33")); 
+	slt3.add(new Option("進退二聯式","24")); 
+	attachEventListener(slt3,'change',choiceClick,false); 
+	frag1.appendChild(dptspan);
+	frag1.appendChild(slt3);
+	var text5 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
+	var invDetailButton=document.createElement("input");		   
+	invDetailButton.setAttribute("type","button");
+	invDetailButton.setAttribute("class","btn");
+	invDetailButton.setAttribute("value","\u{1F575}");      //U+1F5C7  \u{1F575}
+	invDetailButton.setAttribute("style","font-size:130%;margin:0px");
+	invDetailButton.setAttribute("title","查看此發票之內容，快速鍵 Alt+B");	
+	invDetailButton.setAttribute('accesskey','B')
+	invDetailButton.id="HISTORY_BOTT";				
+	frag1.appendChild(text5);
+	frag1.appendChild(invDetailButton);
+		  /////	  
 	var text01 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
 	frag1.appendChild(text01);
 	var spn1=document.createElement('span');

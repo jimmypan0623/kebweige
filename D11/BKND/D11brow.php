@@ -58,28 +58,36 @@ $wthary = fldwdthpre('D11', '1', $link);
 $arr = array();
 
 while ($list3 = $result3->fetch_assoc()) {
-    $atr = array(
-        'rc_no_DHL' . $wthary[0]    => $list3['F00'],
-        'stock_no' . $wthary[1]     => $list3['F03'],
-        'bill_no' . $wthary[2]      => $list3['F04'],
-        'ship_date' . $wthary[3]    => $list3['F01'],
-        'recipt_no' . $wthary[4]    => $list3['F05'],
-        'custom_no' . $wthary[5]    => $list3['F02'],
-        'custom_name' . $wthary[6]  => $list3['F0E'],
-        'ship_qty' . $wthary[7]     => $list3['F08'],
-        'unit_price' . $wthary[8]   => $list3['F07'],
-        'crncy_type' . $wthary[9]   => $list3['F06'],
-        'crncy_rate' . $wthary[10]  => $list3['F09'],
-        'rcd_total' . $wthary[11]   => round($list3['F08'] * $list3['F07'] * $list3['F09'], $rnddgt),
-        'depart_no' . $wthary[12]   => $list3['F15'],
-        'depart_name' . $wthary[13] => $list3['F0D'],
-        'sales_no' . $wthary[14]    => $list3['F10'],
-        'sales_name' . $wthary[15]  => $list3['F0C'],
-        'sending_bill' . $wthary[16] => $list3['F16'],
-        'vendor_partno' . $wthary[17] => $list3['F17'],
-        'lastupdate' . $wthary[18]  => $list3['F19']
-    );
-    $arr[] = $atr;
+	   
+    $mapping = [
+        $list3['F00'],
+        $list3['F03'],
+        $list3['F04'],
+        $list3['F01'],
+        $list3['F05'],
+        $list3['F02'],
+        $list3['F0E'],
+        $list3['F08'],
+        $list3['F07'],
+        $list3['F06'],
+        $list3['F09'],
+        round($list3['F08'] * $list3['F07'] * $list3['F09'], $rnddgt),
+        $list3['F15'],
+        $list3['F0D'],
+         $list3['F10'],
+        $list3['F0C'],
+        $list3['F16'],
+        $list3['F17'],
+        $list3['F19']
+    ];
+	$atr = [];
+	$i = 0;
+	foreach ($mapping as $db_col) {		
+		$atr[$wthary[$i]] = $db_col ?? '';
+		$i++;
+	}
+	$arr[] = $atr;			 
+    
 }
 
 // 6. 釋放資源並輸出

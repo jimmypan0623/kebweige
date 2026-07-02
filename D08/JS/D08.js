@@ -20,7 +20,7 @@ function getProfile(str1,reccount) {
 	  
 	}
 	var oTable = document.getElementById("maintbody1");
-	var fld=document.getElementById('recfield');
+	
 	for(var i=0;i<arr.length;i++){		
 		var oTr=oTable.insertRow(-1);	
 		oTr.setAttribute("name","mainrow");	      		
@@ -45,9 +45,9 @@ function getProfile(str1,reccount) {
 	   myCheck.setAttribute("name","chkbxmember1");   //讓使用者勾選的checkbox表頭			
 	   attachEventListener(myCheck,'click',chooserc,false);		   
 	   oTd.appendChild(myCheck);     		    
-		if(arr[i]['readyship_qty_IHC_000']*1>0){  //有開單未過帳量
+		if(arr[i]['開單未進_IHC_000']*1>0){  //有開單未過帳量
 			oTr.setAttribute("style","font-weight:bold;color:#704214;");//#949100
-		}else if(arr[i]['diffdate_IHC_000']>0 || arr[i]['avlqty_ISR_007']<0){  //預定交期超過今天紅字
+		}else if(arr[i]['預定交期_IHC_000']>0 || arr[i]['預期結餘_ISR_007']<0){  //預定交期超過今天紅字
 			oTr.setAttribute("style","font-weight:bold;color:#E60000;");
 		}		  
 	}
@@ -76,32 +76,7 @@ function getProfile(str1,reccount) {
 		  
 	  }		  
 }
-/* function choseExtraDeal(targetTrChildren){   //紀錄移動
-     var rdyship=document.getElementById("REDYSHIP_BOTT");
-	 
-	 if(targetTrChildren[6].innerHTML*1==0){
-		  rdyship.setAttribute("style","visibility:hidden;");				   
-		  detachEventListener(rdyship,"click",page1OtherButton1,false);
-	 }else{
-		 rdyship.setAttribute("style","visibility:visible;font-size:17px;");				   				   
-		 attachEventListener(rdyship,"click",page1OtherButton1,false);
-	 }
-	 
-    return true;			   
-}
-function rowchoseExtraDeal(targetRow){    //紀錄移動
-    var rdyship=document.getElementById("REDYSHIP_BOTT");
-	 
-	 if(targetRow.childNodes[6].innerHTML*1==0){
-		  rdyship.setAttribute("style","visibility:hidden;");				   
-		  detachEventListener(rdyship,"click",page1OtherButton1,false);
-	 }else{
-		 rdyship.setAttribute("style","visibility:visible;font-size:17px;");				   				   
-		 attachEventListener(rdyship,"click",page1OtherButton1,false);
-	 }
-	
-    return true;			   
-}	 */
+
 
 
 

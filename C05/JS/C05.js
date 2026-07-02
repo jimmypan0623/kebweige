@@ -20,33 +20,12 @@ function getProfile(str1,reccount) {
 	  
 	}
 	var oTable = document.getElementById("maintbody1");
-	var fld=document.getElementById('recfield');
+	
 	for(var i=0;i<arr.length;i++){		
 		var oTr=oTable.insertRow(-1);	
 		oTr.setAttribute("name","mainrow");	      		
 		cnt++;		
-		/* for(var jk in arr[i]){		   
-			var oTd = oTr.insertCell(oTr.cells.length);		     		  
-			oTd.innerHTML=arr[i][jk];		
-            var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
-			var ks=ara.split('');		
-			//ks[0]:直接或間接 D/I
-			//ks[1]:是否顯示   S/H
-			//ks[2]:靠左中或右 L/C/R	
-			if(ks[0]=="D"){
-				oTd.setAttribute("class","directdata");	
-			}else{
-				oTd.setAttribute("class","indirectdata");	
-			}				 
-			if(ks[1]=='H'){
-				oTd.setAttribute("style","display:none;");		
-			}else{
-			   oTd.style.textAlign=(ks[2]=="L"?"left":(ks[2]=="C"?"center":"right"));
-			   var wdthln=jk.substr(jk.lastIndexOf('_')+1,3);  	  	
-			   oTd.style.width=wdthln+"%";
-			   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
-			}			 			 
-	   } */
+		
        for (var jk in arr[i]) {
 			var meta = parseFieldMeta(jk);
 			var oTd = oTr.insertCell(-1);
@@ -67,9 +46,9 @@ function getProfile(str1,reccount) {
 	   myCheck.setAttribute("name","chkbxmember1");   //讓使用者勾選的checkbox表頭			
 	   attachEventListener(myCheck,'click',chooserc,false);		   
 	   oTd.appendChild(myCheck);     		    
-		if(arr[i]['readyship_qty_IHC_000']*1>0){  //有開單未過帳量
+		if(arr[i]['開單未出_IHC_000']*1>0){  //有開單未過帳量
 			oTr.setAttribute("style","font-weight:bold;color:#704214;");//#949100
-		}else if(arr[i]['diffdate_IHC_000']>0 || arr[i]['avlqty_ISR_007']<0){  //預定交期超過今天或預期數量小於零則紅字
+		}else if(arr[i]['預定交期_IHC_000']>0 || arr[i]['預期結餘_ISR_007']<0){  //預定交期超過今天或預期數量小於零則紅字
 			oTr.setAttribute("style","font-weight:bold;color:#E60000;");
 		}		  
 	}
@@ -98,32 +77,6 @@ function getProfile(str1,reccount) {
 		 
 	  }		    
 }
-/* function choseExtraDeal(targetTrChildren){   //紀錄移動
-     var rdyship=document.getElementById("REDYSHIP_BOTT");
-	 
-	 if(targetTrChildren[6].innerHTML*1==0){
-		  rdyship.setAttribute("style","visibility:hidden;");				   
-		  detachEventListener(rdyship,"click",page1OtherButton1,false);
-	 }else{
-		 rdyship.setAttribute("style","visibility:visible;font-size:17px;");				   				   
-		 attachEventListener(rdyship,"click",page1OtherButton1,false);
-	 }
-	 
-    return true;			   
-}
-function rowchoseExtraDeal(targetRow){    //紀錄移動
-    var rdyship=document.getElementById("REDYSHIP_BOTT");
-	 
-	 if(targetRow.childNodes[6].innerHTML*1==0){
-		  rdyship.setAttribute("style","visibility:hidden;");				   
-		  detachEventListener(rdyship,"click",page1OtherButton1,false);
-	 }else{
-		 rdyship.setAttribute("style","visibility:visible;font-size:17px;");				   				   
-		 attachEventListener(rdyship,"click",page1OtherButton1,false);
-	 }
-	 
-    return true;			   
-}	 */
 
 
 

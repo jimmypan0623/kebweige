@@ -78,12 +78,12 @@ function getProfile(str1, reccount, tbno) {
                 }
 
                 // 數值統計邏輯 (模糊匹配 Key 名稱)
-                if (fieldName.indexOf('over_days') !== -1) {
+                if (fieldName.indexOf('逾期天數') !== -1) {
                     rowOverDays = numValue;
-                } else if (fieldName.indexOf('restmoney') !== -1) {
+                } else if (fieldName.indexOf('未沖金額') !== -1) {
                     rowRestMoney = numValue;
                     querytt2 += numValue;
-                } else if (fieldName.indexOf('amount') !== -1) {
+                } else if (fieldName.indexOf('憑證總額') !== -1) {
                     querytt3 += numValue;
                 }
             }

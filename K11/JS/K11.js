@@ -32,11 +32,11 @@ function getProfile(str1,trncde,tbno) {
 			}			
 		 }		
 		var oTable = document.getElementById("maintbody1");
-		var fld=document.getElementById('recfield');		
+				
 	}else{
-		var oMember = document.getElementById("member2");	 
+		  
 	    var oTable = document.getElementById("maintbody2");
-		var fld=document.getElementById('recfield2');
+		
 	}			
 	var rnddgt=getCookie('INT_069');  //四捨五入到幾位
 	var scndtt2=document.getElementById('ttlmny2');   //次頁表頭的已沖金額
@@ -46,9 +46,7 @@ function getProfile(str1,trncde,tbno) {
 		oTr.setAttribute("name","mainrow");	      		
 		cnt++;		
 		for (var jk in arr[i]) {
-			if(jk=='ship_date_DSC_010' && sourceAccount(20,0)*1>1){  //不補貨無補貨日期欄
-				continue;
-			}
+			
 			var meta = parseFieldMeta(jk);
 			var oTd = oTr.insertCell(-1);
 			oTd.innerHTML = arr[i][jk];
@@ -59,13 +57,13 @@ function getProfile(str1,trncde,tbno) {
 				oTd.style.textAlign = meta.align;
 				if (meta.isHidden) oTd.style.display = "none";
 			}	
-			if(jk.substr(0,jk.lastIndexOf('_')-4)=='wayofpay' && tbno==0){
+			if(jk.includes('付款方式代號') && tbno==0){
 				var oTd = oTr.insertCell(oTr.cells.length);
 				oTd.setAttribute("class","indirectdata");					 
 				oTd.setAttribute("style","width:10%;text-align:center;");	
 				oTd.innerHTML=howtopay(arr[i][jk]);
 			}		 				   
-	        if(jk.substr(0,jk.lastIndexOf('_')-4)=='reduce_number' && tbno==1){
+	        if(jk.includes('未沖金額') && tbno==1){
 				queryttl+=Number(oTd.innerHTML);
 			}
 			// 點擊事件綁定
@@ -77,7 +75,7 @@ function getProfile(str1,trncde,tbno) {
 		myCheck.type="checkbox";
 		if(tbno==0){
 			myCheck.setAttribute("name","chkbxmember1");   //讓使用者勾選的checkbox單頭
-			if(arr[i]['shure_IHC_000']!='Y'){  //未確認
+			if(arr[i]['是否確認_IHC_000']!='Y'){  //未確認
 			    oTr.setAttribute("style","font-weight:bold;color:#704214;"); 
 		    } 
 		}else{

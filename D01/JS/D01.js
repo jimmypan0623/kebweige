@@ -18,11 +18,9 @@ function getProfile(str1,reccount,tbno) {
 	        cko[0](bibau*(-1));    //將閉包變數歸零
 		    cko[0](reccount);      //將筆數記起來	          
 	    }
-		var oTable = document.getElementById("maintbody1");
-		var fld=document.getElementById('recfield');
+		var oTable = document.getElementById("maintbody1");		
 	}else{
-	    var oTable = document.getElementById("maintbody2");
-		var fld=document.getElementById('recfield2');
+	    var oTable = document.getElementById("maintbody2");		
 	}		
 	var scndttl=document.getElementById('ttlmny');   //次頁表頭的總金額物件		
 	    for(var i=0;i<str1.length;i++){		

@@ -52,16 +52,9 @@ $result = $stmt->get_result();
 
 // 取得 UI 欄位寬度預設
 $wthary = fldwdthpre('D19', '1', $link);
-$arr = [];
-
-while ($list3 = $result->fetch_assoc()) {
-    $arr[] = [
-        'vendor_no' . ($wthary[0] ?? '')       => $list3['F01'],
-        'vendor_fullname' . ($wthary[1] ?? '') => $list3['F03'],
-        'vendor_name' . ($wthary[2] ?? '')     => $list3['F04']
-    ];
-}
-
+$afld=['F01','F03','F04'];
+$arr=afldcont($result,$afld,$wthary);
+mysqli_close($link);
 // 輸出 JSON
 echo json_encode([
     'recdrow' => $arr, 

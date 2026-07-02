@@ -7,34 +7,16 @@
 		$sql3="select a04.*  from a04 where a04.F01='".$str[0]."' and ".$str[1]." like '%".trim($str[2])."%' order by a04.F01,a04.F02"; 
 	$wthary=fldwdthpre('A01','3',$link);
 	$arr=array();	
-    $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_assoc($sql4)){
-		$atr = array('rc_no'.$wthary[0]=>$list3['F00'],		           
-					 'fieldorder'.$wthary[1]=>$list3['F02'], 
-					 'fieldname'.$wthary[2]=>$list3['F03'],
-					 'isdirect'.$wthary[3]=>$list3['F04'],  
-					 'showornot'.$wthary[4]=>$list3['F05'],	                     
-                     'location'.$wthary[5]=>$list3['F06'],     					
-                     'widthrate'.$wthary[6]=>$list3['F07'],  		
-                     'fieldcontent'.$wthary[7]=>$list3['F08'],  	
-					  'datarelative'.$wthary[8]=>$list3['F09'],					
-                     'lastupdate'.$wthary[9]=>$list3['F15']);                      						 
-		array_push($arr,$atr);
-	}
+    $result=@mysqli_query($link,$sql3); 
+	$afld=['F00','F02','F03','F04','F05','F06','F07','F08','F09','F15'];
+    $arr=afldcont($result,$afld,$wthary);
+	
 	mysqli_close($link);
-	 //最後使用usort來做排序
-        // usort(要排序的陣列,使用的函數) 
-      //usort($arr, 'score_sort');  //料號再排序一次        
+	
           $arr = array_values($arr);
-         //$json_string1 = json_encode($arr); 		
+         
 		echo json_encode(array ('recdrow'=>$arr,'pgttl'=>12));
-		   
-         //echo "getProfile($json_string1,$total_pages)";  	   //
-//接著建立一個排序的函數
-/*         function score_sort($a, $b){
-                if($a['stockno'] == $b['stockno']) return 0;
-                   return ($a['stockno'] > $b['stockno'])? 1 : -1;				 
-        }        */
+
 ?>  
 
  

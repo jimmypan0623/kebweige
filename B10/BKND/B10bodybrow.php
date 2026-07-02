@@ -11,16 +11,10 @@
 		$sql3.=" where b1z.F01='".$str[0]."' and ".$str[1]." like '%".trim($str[2])."%' order by b1z.F03"; 
 	 $wthary=fldwdthpre('B10','2',$link); 	 	 	                                                              
 	$arr=array();	
-    $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_assoc($sql4)){		
-		$atr = array('rc_no'.$wthary[0]=>$list3['F00'],		           
-					 'stockno'.$wthary[1]=>$list3['F03'], 
-					 'stockname'.$wthary[2]=>$list3['F0B'],					
-					 'query_qty'.$wthary[3]=>$list3['F04'],	                                         
-					 'remark'.$wthary[4]=>$list3['F25'],
-                     'lastupdate'.$wthary[5]=>$list3['F11']);                      						 
-		array_push($arr,$atr);
-	}
+    $result=@mysqli_query($link,$sql3); 
+	$afld=['F00','F03','F0B','F04','F25','F11'];
+    $arr=afldcont($result,$afld,$wthary);
+	
 	mysqli_close($link);
 	 //最後使用usort來做排序
         // usort(要排序的陣列,使用的函數) 

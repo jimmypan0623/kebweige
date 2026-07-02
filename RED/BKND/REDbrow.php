@@ -9,10 +9,7 @@ ob_start();
 header("Content-Type: application/json; charset=utf-8");
 header("Cache-Control: no-cache, must-revalidate");
 header("Pragma: no-cache");
-
 require_once("../../include/BKND/mysqli_server.php");           
-require_once "../../include/BKND/fieldpreset.php"; 
-
 // 1. 取得並解析輸入參數
 $filename = $_POST['filename'] ?? '';
 $str = explode('|', $filename);

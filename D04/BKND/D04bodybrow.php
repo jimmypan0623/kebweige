@@ -54,23 +54,8 @@ $result = mysqli_stmt_get_result($stmt);
 // 3. 取得欄位寬度設定 (D04 類型 2 代表表身)
 $wthary = fldwdthpre('D04', '2', $link);
 $arr = array();
-
-while ($list3 = mysqli_fetch_assoc($result)) {
-    $arr[] = array(
-        'rc_no' . $wthary[0]         => $list3['F00'],
-        'stockno' . $wthary[1]       => $list3['F02'],
-        'stockname' . $wthary[2]     => $list3['F0B'],
-        'query_qty' . $wthary[3]     => $list3['F03'],
-        'query_price' . $wthary[4]    => $list3['F04'],
-        'custom_partno' . $wthary[5] => $list3['F05'],
-        'hopedate' . $wthary[6]      => $list3['F06'],
-        'already' . $wthary[7]       => $list3['F09'], // 已入庫數量
-        'beencancel' . $wthary[8]    => $list3['F21'], // 取消數量
-        'notout' . $wthary[9]        => $list3['F23'], // 開單未入
-        'lastupdate' . $wthary[10]   => $list3['F12']
-    );
-}
-
+$afld=['F00','F02','F0B','F03','F04','F05','F06','F09','F21','F23','F12'];
+$arr=afldcont($result,$afld,$wthary);
 // 統計總筆數
 $rows_count = count($arr);
 

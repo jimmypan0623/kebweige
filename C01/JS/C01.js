@@ -20,38 +20,17 @@ function getProfile(str1,reccount,tbno) {
           
 	    }
 		var oTable = document.getElementById("maintbody1");
-		var fld=document.getElementById('recfield');
+		//var fld=document.getElementById('recfield');
 	}else{
 	    var oTable = document.getElementById("maintbody2");
-		var fld=document.getElementById('recfield2');
+		//var fld=document.getElementById('recfield2');
 	}		
 	var scndttl=document.getElementById('ttlmny');   //次頁表頭的總金額物件	
 	for(var i=0;i<arr.length;i++){		
 		var oTr=oTable.insertRow(-1);	
 		oTr.setAttribute("name","mainrow");	      		
 		cnt++;		
-		/* for(var jk in arr[i]){		   
-	    	    var oTd = oTr.insertCell(oTr.cells.length);		     		  
-	    		oTd.textContent=arr[i][jk];		
-				var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
-			    var ks=ara.split('');		
-			    //ks[0]:直接或間接 D/I
-			    //ks[1]:是否顯示   S/H
-			    //ks[2]:靠左中或右 L/C/R	
-			    if(ks[0]=="D"){
-			    	oTd.setAttribute("class","directdata");	
-			    }else{
-			    	oTd.setAttribute("class","indirectdata");	
-			    }				 
-			    if(ks[1]=='H'){
-			    	oTd.setAttribute("style","display:none;");		
-			    }else{
-			       oTd.style.textAlign=(ks[2]=="L"?"left":(ks[2]=="C"?"center":"right"));
-			       var wdthln=jk.substr(jk.lastIndexOf('_')+1,3);  	  	
-			       oTd.style.width=wdthln+"%";
-			       attachEventListener(oTd,'click',rowchoose,false);		//點選資料
-			    }		
-		   }			   */
+		
 		for (var jk in arr[i]) {
 			var meta = parseFieldMeta(jk);
 			var oTd = oTr.insertCell(-1);

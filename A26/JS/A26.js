@@ -37,7 +37,7 @@ function getProfile(str1,reccount,tbno) {
 				oTd.style.textAlign = meta.align;
 				if (meta.isHidden) oTd.style.display = "none";
 			}			
-			if(jk.substr(0,jk.lastIndexOf('_')-4)=='int_check'){
+			if(jk.includes('檢查字串')){
 			    if(!notOnlyEdit){	  						  
 				  oTd.setAttribute("style","display:none;");
 				}	

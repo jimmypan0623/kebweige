@@ -19,10 +19,10 @@ function getProfile(str1,reccount,tbno) {
 		    cko[0](reccount);      //將筆數記起來	          
 	    }
 		var oTable = document.getElementById("maintbody1");
-		var fld=document.getElementById('recfield');
+		//var fld=document.getElementById('recfield');
 	}else{
 	    var oTable = document.getElementById("maintbody2");
-		var fld=document.getElementById('recfield2');
+		//var fld=document.getElementById('recfield2');
 	}		
 	for(var i=0;i<arr.length;i++){		
 		var oTr=oTable.insertRow(-1);	
@@ -39,7 +39,7 @@ function getProfile(str1,reccount,tbno) {
 				oTd.style.textAlign = meta.align;
 				if (meta.isHidden) oTd.style.display = "none";
 			}			
-			if(jk.substr(0,jk.lastIndexOf('_')-4)=='table_type'){
+			if(jk.includes('表格類別代號')){
 			   var oTd = oTr.insertCell(oTr.cells.length);
 			   oTd.setAttribute("class","indirectdata");	
 			   oTd.setAttribute("style","width:20%;text-align:center;");	

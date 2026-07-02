@@ -76,34 +76,9 @@ $pgttl = $list4['F07'] ?? '';
 
 // 5. 取得欄位寬度並整理資料 (Table B02)
 $wthary = fldwdthpre('B02', '1', $link);
-
-while ($list3 = mysqli_fetch_assoc($result)) {
-    $arr[] = array(
-        'rc_no' . ($wthary[0] ?? '')           => $list3['F00'],
-        'query_no' . ($wthary[1] ?? '')        => $list3['F01'],
-        'custom_no' . ($wthary[2] ?? '')       => $list3['F06'],
-        'custom_name' . ($wthary[3] ?? '')     => $list3['F0D'], // 對應 d01.F04
-        'custom_fullname' . ($wthary[4] ?? '') => $list3['F0C'], // 對應 d01.F03
-        'unitedno' . ($wthary[5] ?? '')        => $list3['F1Z'], // 對應 d01.F06
-        'contact' . ($wthary[6] ?? '')         => $list3['F1B'], // 對應 d01.F08
-        'tel' . ($wthary[7] ?? '')             => $list3['F0I'], // 對應 d01.F09
-        'query_date' . ($wthary[8] ?? '')      => $list3['F02'],
-        'sales_no' . ($wthary[9] ?? '')        => $list3['F09'],
-        'sales_name' . ($wthary[10] ?? '')     => $list3['F0G'], // 對應 a01.F03
-        'crncy_type' . ($wthary[11] ?? '')     => $list3['F14'],
-		'crncy_name' . ($wthary[12] ?? '')     => $list3['F0H'],
-        'crncy_rate' . ($wthary[13] ?? '')     => $list3['F16'],
-        'invoice_no' . ($wthary[14] ?? '')     => $list3['F20'],
-        'invoice_type' . ($wthary[15] ?? '')   => $list3['F22'],
-        'tax_type' . ($wthary[16] ?? '')       => $list3['F23'],
-        'payment' . ($wthary[17] ?? '')        => $list3['F21'],
-        'ship_no' . ($wthary[18] ?? '')        => $list3['F12'], 
-        'ship_direct' . ($wthary[19] ?? '')    => $list3['F24'],
-		'ship_date' . ($wthary[20] ?? '')          => $list3['F90'],
-        'shure' . ($wthary[21] ?? '')          => $list3['F10'],
-        'lastupdate' . ($wthary[22] ?? '')     => $list3['F11']
-    );
-}
+$afld=['F00','F01','F06','F0D','F0C','F1Z','F1B','F0I','F02','F09','F0G','F14','F0H','F16','F20','F22','F23',
+       'F21','F12','F24','F90','F10','F11'];
+$arr=afldcont($result,$afld,$wthary);
 
 mysqli_stmt_close($stmt);
 mysqli_stmt_close($stmtStatus);

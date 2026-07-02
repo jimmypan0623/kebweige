@@ -52,25 +52,9 @@ $result = mysqli_stmt_get_result($stmt);
 
 // 取得欄位寬度設定 (C21 類型 2 代表表身)
 $wthary = fldwdthpre('C21', '2', $link);
-$arr = array();
+$afld=['F00','F02','F0B','F03','F04','F05','F06','F07','F15','F17','F99'];
+$arr=afldcont($result,$afld,$wthary);
 
-while ($list3 = mysqli_fetch_assoc($result)) {
-    // 映射對應欄位
-    $atr = array(
-        'rc_no' . ($wthary[0] ?? '')          => $list3['F00'],
-        'stockno' . ($wthary[1] ?? '')        => $list3['F02'],
-        'stockname' . ($wthary[2] ?? '')      => $list3['F0B'],
-        'query_qty' . ($wthary[3] ?? '')      => $list3['F03'],
-        'query_price' . ($wthary[4] ?? '')    => $list3['F04'],
-        'custom_partno' . ($wthary[5] ?? '')  => $list3['F05'],
-        'basic_pack' . ($wthary[6] ?? '')     => $list3['F06'],
-        'min_order' . ($wthary[7] ?? '')      => $list3['F07'],
-        'datestart' . ($wthary[8] ?? '')      => $list3['F15'],
-        'dateline' . ($wthary[9] ?? '')       => $list3['F17'],
-        'lastupdate' . ($wthary[10] ?? '')    => $list3['F99']
-    );
-    $arr[] = $atr;
-}
 
 // 取得總筆數
 $rows_count = count($arr);

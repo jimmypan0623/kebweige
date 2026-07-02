@@ -78,27 +78,15 @@ function searchHaveshiped(str1,ajTable) {       //搜尋相關料號
 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
 		cnt++;         
 		for(var jk in arr[i]){		   
-		   
-			var oTd = oTr.insertCell(-1);
-			
-			oTd.innerHTML=arr[i][jk];	
-			var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
-			var ks=ara.split('');		
-			//ks[0]:直接或間接 D/I
-			//ks[1]:是否顯示   S/H
-			//ks[2]:靠左中或右 L/C/R	
-			if(ks[0]=="D"){
-				oTd.setAttribute("class","directdata");	
-			}else{
-				oTd.setAttribute("class","indirectdata");	
-			}				 
-			if(ks[1]=='H'){
-				oTd.setAttribute("style","display:none;");		
-			}else{
-			   oTd.style.textAlign=(ks[2]=="L"?"left":(ks[2]=="C"?"center":"right"));
-			   var wdthln=jk.substr(jk.lastIndexOf('_')+1,3);  	  	
-			   oTd.style.width=wdthln+"%";		
-			}					
+		    var meta = parseFieldMeta(jk);
+			var oTd = oTr.insertCell(-1);			
+			oTd.innerHTML=arr[i][jk];
+			if (meta) {
+				oTd.className = meta.isDirect ? "directdata" : "indirectdata";
+				oTd.style.width = meta.width;
+				oTd.style.textAlign = meta.align;
+				if (meta.isHidden) oTd.style.display = "none";
+			}		
 	    }	    
 	}	
 	  

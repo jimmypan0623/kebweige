@@ -18,7 +18,7 @@ function getProfile(str1,reccount,tbno) {
 		cko[0](reccount);      //將筆數記起來	         
 	}
 	var oTable = document.getElementById("maintbody1");
-	var fld=document.getElementById('recfield');
+	
 	for(var i=0;i<arr.length;i++){		
 		var oTr=oTable.insertRow(-1);	
 		oTr.setAttribute("name","mainrow");	      		

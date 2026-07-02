@@ -1,6 +1,5 @@
-function getProfile(str1,reccount,tbno) {     
-    var cnt=0;
-	var arr = str1;      
+function getProfile(arr,reccount,tbno) {     
+    var cnt=0;	 
 	var pagecount=Math.ceil(reccount/parseInt(getAuth[2]()[0].INT_RCD));
 	var optdigts= (pagecount.toString()).length;	    
 	var slt2=document.getElementById('recmth');

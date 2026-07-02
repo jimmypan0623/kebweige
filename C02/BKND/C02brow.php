@@ -33,27 +33,9 @@
   
 	$wthary=fldwdthpre('C02','1',$link);  
 	$arr=array();	
-    $sql4=@mysqli_query($link,$sql3); 
-	
-	while ($list3=mysqli_fetch_assoc($sql4)){		 
-		$atr = array('rc_no'.$wthary[0]=>$list3['F00'],  		        //_DHL_000       	             
-		             'stock_no'.$wthary[1]=>$list3['F03'],                         //_DSL_015            				                     				                                       
-					 'custom_no'.$wthary[2]=>$list3['F01'],             //_DSL_007
-					 'custom_name'.$wthary[3]=>$list3['F0E'],               //_ISL_007
-					 'custom_partno'.$wthary[4]=>$list3['F04'],             //_DSL_012
-					 'current'.$wthary[5]=>$list3['F06'],             //_DSC_004
-					 'price'.$wthary[6]=>$list3['F07'],                           //_DSR_007
-					 'minorder'.$wthary[7]=>$list3['F08'],              //_DSR_007
-					 'basicpack'.$wthary[8]=>$list3['F13'],                  //_DSR_007
-					 'payment'.$wthary[9]=>$list3['F10'],            //_DSL_009
-					  'quotation'.$wthary[10]=>$list3['F11'],              //_DSL_009
-					 'origin_date'.$wthary[11]=>$list3['F02'],                //_DSL_008
-                     'invalid_date'.$wthary[12]=>$list3['F15'],		                   //_DSL_008
-					  'remark'.$wthary[13]=>$list3['F16'],              //_DSL_015
-					 'lastupdate'.$wthary[14]=>$list3['F99']                      			 //_DHL_000	 
-					 );                      			
-		array_push($arr,$atr);
-	}
+    $result=@mysqli_query($link,$sql3); 
+	$afld=['F00','F03','F01','F0E','F04','F06','F07','F08','F13','F10','F11','F02','F15','F16','F99'];  
+	$arr=afldcont($result,$afld,$wthary);	
 	mysqli_close($link);
 	  
           $arr = array_values($arr);

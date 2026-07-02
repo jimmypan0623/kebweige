@@ -57,19 +57,19 @@
 				if (meta.isHidden) oTd.style.display = "none";
 			}
 								
-			if(jk.substr(0,jk.lastIndexOf('_')-4)=='invoice_type' && tbno==0){
+			if(jk.includes('發票類別代號') && tbno==0){
 				var oTd = oTr.insertCell(oTr.cells.length);
 				oTd.setAttribute("class","indirectdata");					 
 				oTd.setAttribute("style","width:5%;text-align:center;");	
 				oTd.innerHTML=whichinvoice(arr[i][jk]);					 
 			}		 				   
-			if(jk.substr(0,jk.lastIndexOf('_')-4)=='tax_type' && tbno==0){
+			if(jk.includes('稅別代號') && tbno==0){
 				var oTd = oTr.insertCell(oTr.cells.length);
 				oTd.setAttribute("class","indirectdata");					 
 				oTd.setAttribute("style","width:4%;text-align:center;");	
 				oTd.innerHTML=whichtax(arr[i][jk]);					 					 				  
 			}		
-			if(jk.substr(0,jk.lastIndexOf('_')-4)=='query_price' && tbno==1){
+			if(jk.includes('單價') && tbno==1){
 				attachEventListener(oTd, 'click', rowchoose, false);  //點選資料
 				var oTd = oTr.insertCell(oTr.cells.length);
 				oTd.setAttribute("class","indirectdata");					 
@@ -88,7 +88,7 @@
 		myCheck.type="checkbox";
 		if(tbno==0){
 			myCheck.setAttribute("name","chkbxmember1");   //讓使用者勾選的checkbox單頭
-			if(arr[i]['shure_IHC_000']!='Y'){  //未確認
+			if(arr[i]['是否確認_IHC_000']!='Y'){  //未確認
 			    oTr.setAttribute("style","font-weight:bold;color:#704214;"); 
 		    } 
 		}else{

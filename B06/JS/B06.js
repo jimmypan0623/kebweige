@@ -32,10 +32,10 @@
 			}			
 		}
 		var oTable = document.getElementById("maintbody1");
-		var fld=document.getElementById('recfield');		
+		//var fld=document.getElementById('recfield');		
 	}else{	   
 	    var oTable = document.getElementById("maintbody2");
-		var fld=document.getElementById('recfield2');
+		//var fld=document.getElementById('recfield2');
 	}			 
 	 
 	for(var i=0;i<arr.length;i++){		
@@ -62,7 +62,7 @@
 		myCheck.type="checkbox";
 		if(tbno==0){
 			myCheck.setAttribute("name","chkbxmember1");   //讓使用者勾選的checkbox單頭			 
-			if(arr[i]['shure_IHC_000']!='Y'){  //未確認
+			if(arr[i]['是否確認_IHC_000']!='Y'){  //未確認
 			    oTr.setAttribute("style","font-weight:bold;color:#704214;"); 
 		    } 			 
 		}else{

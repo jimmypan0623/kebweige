@@ -71,12 +71,12 @@ function getProfile(str1, reccount, tbno) {
 
                 // 數值統計與樣式判定 (校對欄位名稱)
                 var val = Number(cellValue) || 0;
-                if (fieldName.indexOf('over_days') !== -1) rowOverDays = val;
-                if (fieldName.indexOf('restmoney') !== -1) {
+                if (fieldName.indexOf('逾期天數') !== -1) rowOverDays = val;
+                if (fieldName.indexOf('未沖金額') !== -1) {
                     rowRestMoney = val;
                     querytt2 += val;
                 }
-                if (fieldName.indexOf('amount') !== -1) querytt3 += val;
+                if (fieldName.indexOf('憑證總額') !== -1) querytt3 += val;
             }
             oTr.appendChild(oTd);
         }

@@ -655,8 +655,7 @@ function delConfirm(event){     //確定刪除
 	var mthjudge=getAuth[0]()[11];  //getCookie("MorP");   //是否為月份檔
 	var yesbill=getAuth[0]()[12];   //getCookie("kindofda");      //是否為單據檔
 	var urlfolder=document.getElementsByTagName('title');
-	var mainrightValue=urlfolder[0].textContent.slice(0, 3);
-	//var ttls=getElementsByAttribute('class','ttl');		//表頭或表身有無總計數字
+	var mainrightValue=urlfolder[0].textContent.slice(0, 3);	
 	var ttls=document.getElementsByClassName('ttl');		//表頭或表身有無總計數字
 	var tabs=document.getElementsByClassName('tab');	 	  
 	var tbno=0;

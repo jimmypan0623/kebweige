@@ -32,10 +32,10 @@
 			}			
 		}
 		var oTable = document.getElementById("maintbody1");
-		var fld=document.getElementById('recfield');		
+			
 	}else{	   
 	    var oTable = document.getElementById("maintbody2");
-		var fld=document.getElementById('recfield2');
+		
 	}			 
 	var rnddgt=getAuth[2]()[0].INT_069;  //四捨五入到幾位
 	var scndttl=document.getElementById('ttlmny');   //次頁表頭的總金額物件	
@@ -54,27 +54,30 @@
 				oTd.style.textAlign = meta.align;
 				if (meta.isHidden) oTd.style.display = "none";
 			}
-						
-			if(jk.substr(0,jk.lastIndexOf('_')-4)=='invoice_type' && tbno==0){
+			////////						
+			if(jk.includes('發票類別代號') && tbno==0){	
 				var oTd = oTr.insertCell(oTr.cells.length);
 				oTd.setAttribute("class","indirectdata");					 
 				oTd.setAttribute("style","width:5%;text-align:center;");	
 				oTd.textContent=whichinvoice(arr[i][jk]);
 			}		 				   
-			if(jk.substr(0,jk.lastIndexOf('_')-4)=='tax_type' && tbno==0){				
+			
+			if(jk.includes('稅別代號') && tbno==0){				    
 				var oTd = oTr.insertCell(oTr.cells.length);
 				oTd.setAttribute("class","indirectdata");					 
 				oTd.setAttribute("style","width:4%;text-align:center;");	
 				oTd.textContent=whichtax(arr[i][jk]);					 			  
 			}		
-			if(jk.substr(0,jk.lastIndexOf('_')-4)=='query_price' && tbno==1){
+			
+			if(jk.includes('單價') && tbno==1){	
 				attachEventListener(oTd, 'click', rowchoose, false);  //點選資料
 				var oTd = oTr.insertCell(oTr.cells.length);
 				oTd.setAttribute("class","indirectdata");					 
 				oTd.setAttribute("style","width:7%;text-align:right;");						
 				oTd.textContent=Math.round((oTr.cells[4].textContent*oTr.cells[5].textContent + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);					    
 				queryttl+=Number(oTd.textContent);	  
-			}				
+			}		
+			////////
 			// 點擊事件綁定
 			attachEventListener(oTd, 'click', rowchoose, false);
 		}
@@ -83,12 +86,11 @@
 	 	var myCheck=document.createElement('input'); 
 		myCheck.type="checkbox";
 		if(tbno==0){
-			myCheck.setAttribute("name","chkbxmember1");   //讓使用者勾選的checkbox單頭
-			//////////
-			if(arr[i]['shure_IHC_000']!='Y'){  //未確認
+			myCheck.setAttribute("name","chkbxmember1");   //讓使用者勾選的checkbox單頭			
+			if(arr[i]['是否確認_IHC_000']!='Y'){  //未確認
 			    oTr.setAttribute("style","font-weight:bold;color:#704214;"); 
 		    } 
-			//////////
+			
 		}else{
 			myCheck.setAttribute("name","chkbxmember2");   //讓使用者勾選的checkbox表身
 			//////////

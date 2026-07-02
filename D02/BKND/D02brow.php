@@ -28,41 +28,18 @@
 	    $sql.=" left outer join d01 on d01.F01=d02.F01"; 	  
 		$sql3=$sql." WHERE ".$fieldNo." like '%".trim($filterKey)."%' order by ".$fieldNo ; 
    }	   
-      $wthary=fldwdthpre('D02','1',$link); 
+    $wthary=fldwdthpre('D02','1',$link); 
 	$arr=array();	
-    $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_assoc($sql4)){
-		$atr = array('rc_no'.$wthary[0]=>$list3['F00'],  		            	             
-		             'stock_no'.$wthary[1]=>$list3['F03'],                                     				                     				                                       
-					 'vendor_no'.$wthary[2]=>$list3['F01'],
-					 'vendor_name'.$wthary[3]=>$list3['F0E'], 
-					 'vendor_partn'.$wthary[4]=>$list3['F04'], 
-					 'current'.$wthary[5]=>$list3['F06'], 
-					 'price'.$wthary[6]=>$list3['F07'],
-					 'minorder'.$wthary[7]=>$list3['F08'],
-					 'basicpack'.$wthary[8]=>$list3['F13'],
-					 'payment'.$wthary[9]=>$list3['F10'],
-					  'lead_time'.$wthary[10]=>$list3['F11'],
-					 'origin_date'.$wthary[11]=>$list3['F02'], 
-                     'invalid_date'.$wthary[12]=>$list3['F15'],		
-					  'remark'.$wthary[13]=>$list3['F16'],
-					 'lastupdate'.$wthary[14]=>$list3['F99']                      				 
-					 );                      			
-		array_push($arr,$atr);
-	}
+    $result=@mysqli_query($link,$sql3);
+	$afld=['F00','F03','F01','F0E','F04','F06','F07','F08','F13','F10','F11','F02','F15','F16','F99'];
+    $arr=afldcont($result,$afld,$wthary);
+	
 	mysqli_close($link);
-	 //最後使用usort來做排序
-        // usort(要排序的陣列,使用的函數) 
-      //usort($arr, 'score_sort');  //料號再排序一次        
+	
           $arr = array_values($arr);
-       //  $json_string1 = json_encode($arr); 	
+    
          echo json_encode(array ('recdrow'=>$arr,'pgttl'=>$rows));		 
-         //echo "getProfile($json_string1,$total_pages)";  	   //
-//接著建立一個排序的函數
-     /*    function score_sort($a, $b){
-                if($a['stockno'] == $b['stockno']) return 0;
-                   return ($a['stockno'] > $b['stockno'])? 1 : -1;				 
-        }        */
+        
 function getNeedBetween($kw1,$mark1,$mark2){  //抓取兩個字元間的字串函數
    $kw=$kw1; 
    $st =stripos($kw,$mark1);

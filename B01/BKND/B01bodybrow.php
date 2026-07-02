@@ -44,26 +44,9 @@ $result = mysqli_stmt_get_result($stmt);
 
 // 4. 取得寬度並處理資料
 $wthary = fldwdthpre('B01', '2', $link);
-$arr = array();
+$afld=['F00','F01','F0E','F04','F06','F07','F13','F08','F10','F11','F02','F15','F16','F99'];
+$arr=afldcont($result,$afld,$wthary);
 
-while ($list3 = mysqli_fetch_assoc($result)) {
-    $arr[] = array(
-        'rc_no' . ($wthary[0] ?? '')          => $list3['F00'],
-        'customno_' . ($wthary[1] ?? '')      => $list3['F01'],
-        'customname' . ($wthary[2] ?? '')     => $list3['F0E'],
-        'custom_partno' . ($wthary[3] ?? '')  => $list3['F04'],
-        'crncy_type' . ($wthary[4] ?? '')     => $list3['F06'],
-        'query_price' . ($wthary[5] ?? '')    => $list3['F07'],
-        'basic_pack' . ($wthary[6] ?? '')     => $list3['F13'],
-        'min_order' . ($wthary[7] ?? '')      => $list3['F08'],
-        'payment' . ($wthary[8] ?? '')        => $list3['F10'],
-        'query_no' . ($wthary[9] ?? '')       => $list3['F11'],
-        'datestart' . ($wthary[10] ?? '')     => $list3['F02'],
-        'dateline' . ($wthary[11] ?? '')      => $list3['F15'],
-        'remark' . ($wthary[12] ?? '')        => $list3['F16'],
-        'lastupdate' . ($wthary[13] ?? '')    => $list3['F99']
-    );
-}
 
 mysqli_close($link);
 

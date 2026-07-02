@@ -45,28 +45,8 @@ mysqli_stmt_bind_param($stmt, "ss", $f03_val, $like_val);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 
-$arr = array();
-while ($list3 = mysqli_fetch_assoc($result)) {
-    // 使用陣列映射來減少重複代碼，也避免 $wthary 索引遺失
-    $mapping = [
-        'rc_no'         => 'F00', 'vendorno'      => 'F01',
-        'vendorname'    => 'F0D', 'vendor_partno' => 'F04',
-        'crncy_type'    => 'F06', 'query_price'   => 'F07',
-        'basic_pack'    => 'F13', 'min_order'     => 'F08',
-        'payment'       => 'F10', 'lead_time'     => 'F11',
-        'datestart'     => 'F02', 'dateline'      => 'F15',
-        'remark'        => 'F16', 'lastupdate'    => 'F99'
-    ];
-
-    $atr = [];
-    $i = 0;
-    foreach ($mapping as $key => $db_col) {
-        $suffix = $wthary[$i] ?? '';
-        $atr[$key . $suffix] = $list3[$db_col] ?? '';
-        $i++;
-    }
-    $arr[] = $atr;
-}
+$afld=['F00','F01','F0D','F04','F06','F07','F13','F08','F10','F11','F02','F15','F16','F99'];
+$arr=afldcont($result,$afld,$wthary);
 
 mysqli_close($link);
 

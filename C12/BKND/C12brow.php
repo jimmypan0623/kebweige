@@ -43,21 +43,11 @@ if ($filterKey !== null) {
 } else {
     $stmt->bind_param("s", $pgeno);
 }
-
 $stmt->execute();
 $result = $stmt->get_result();
-
 $wthary = fldwdthpre('C12', '1', $link);
-$arr = [];
-
-while ($list3 = $result->fetch_assoc()) {
-    $arr[] = [
-        'custom_no' . ($wthary[0] ?? '')       => $list3['F01'],
-        'custom_fullname' . ($wthary[1] ?? '') => $list3['F04'],
-        'custom_name' . ($wthary[2] ?? '')     => $list3['F05']		 
-    ];
-}
-
+$afld=['F01','F04','F05'];
+$arr=afldcont($result,$afld,$wthary);
 echo json_encode(['recdrow' => $arr, 'transcode' => $trans_code]);
 
 function getNeedBetween($kw1, $mark1, $mark2) {

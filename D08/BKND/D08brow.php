@@ -102,26 +102,32 @@ $arr = array();
 while ($list3 = $mainResult->fetch_assoc()) {
     $key = substr($list3['F01'], 0, 2) . $list3['F00'];
     $avl_qty = (isset($amr[$key]) ? $amr[$key] : 0) + ($list3['nTqty'] ?? 0);
-
-    $arr[] = array(
-        'rc_no' . $wthary[0]        => $list3['F00'],
-        'stock_no' . $wthary[1]     => $list3['F02'],
-        'stock_name' . $wthary[2]   => $list3['F0B'],
-        'order_no' . $wthary[3]     => $list3['F01'],
-        'shipdate' . $wthary[4]     => $list3['F06'],
-        'order_qty' . $wthary[5]    => $list3['NSH'],
-        'readyship_qty' . $wthary[6] => $list3['F23'],
-        'avlqty' . $wthary[7]       => $avl_qty,
-        'invTotal' . $wthary[8]     => $list3['nTqty'],
-        'customer_no' . $wthary[9]  => $list3['F03'],
-        'customer_name' . $wthary[10] => $list3['F0D'],
-        'customer_partno' . $wthary[11] => $list3['F05'],
-        'customer_po' . $wthary[12] => $list3['F14'],
-        'sales_no' . $wthary[13]    => $list3['F07'],
-        'sales_name' . $wthary[14]  => $list3['F0C'],
-        'diffdate' . $wthary[15]    => $list3['diffdate'],
-        'lastupdate' . $wthary[16]  => $list3['F12']
-    );
+    $mapping = [
+        $list3['F00'],
+        $list3['F02'],
+        $list3['F0B'],
+        $list3['F01'],
+        $list3['F06'],
+        $list3['NSH'],
+        $list3['F23'],
+        $avl_qty,
+        $list3['nTqty'],
+        $list3['F03'],
+        $list3['F0D'],
+        $list3['F05'],
+        $list3['F14'],
+        $list3['F07'],
+        $list3['F0C'],
+        $list3['diffdate'],
+        $list3['F12']
+    ];
+	$atr = [];
+	$i = 0;
+	foreach ($mapping as  $db_col) { 
+		$atr[$wthary[$i]] = $db_col ?? '';
+		$i++;
+	}
+	$arr[] = $atr;			
 }
 
 $stmt->close();

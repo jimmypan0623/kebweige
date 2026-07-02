@@ -67,7 +67,7 @@ function getProfile(arr, reccount) {
                 }
 
                 // 額外處理：稅別名稱轉換
-                if (fieldName === 'tax_type') {
+                if (fieldName === '稅別代號') {
                     var oTdTax = document.createElement("td");
                     oTdTax.className = "indirectdata";
                     oTdTax.style.width = "4%";
@@ -81,9 +81,9 @@ function getProfile(arr, reccount) {
 
                 // 累計金額 (轉為數字避免字串相加)
                 var numVal = Number(cellValue) || 0;
-                if (fieldName === 'beforetax') queryttl += numVal;
-                if (fieldName === 'taxamt')    querytt2 += numVal;
-                if (fieldName === 'amount')    querytt3 += numVal;
+                if (fieldName === '銷售金額') queryttl += numVal;
+                if (fieldName === '稅額')    querytt2 += numVal;
+                if (fieldName === '發票總額')    querytt3 += numVal;
             }
             oTr.appendChild(oTd);
         }
