@@ -41,12 +41,12 @@ if ($stmt) {
             $running_total += $current_qty;
             
             $arr[] = [
-                'ship_date_DSC_010'  => $list3['F90'] . '-' . $list3['F03'],
-                'order_type_DSC_012' => $list3['F06'],
-                'ship_order_DSL_012' => $list3['F07'],
-                'ship_qty_DSR_014'   => $current_qty,
-                'calc_qty_DSR_014'   => $running_total,
-                'remark_DSL_038'     => $list3['F08']
+                '異動日期_ISC_010'  => $list3['F90'] . '-' . $list3['F03'],
+                '單據類別_ISC_012' => $list3['F06'],
+                '單據編號_ISL_012' => $list3['F07'],
+                '異動數量_ISR_014'   => $current_qty,
+                '累計數量_ISR_014'   => $running_total,
+                '備註說明_ISL_038'     => $list3['F08']
             ];
         }
     }

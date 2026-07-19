@@ -120,32 +120,29 @@ function  addNewRecordHint(tbno){
     return "修改密碼：";
 }
 
-function PasswordFromBackEnd(useraccount){	
-    
-	var getPassword="";
-	var sendSrcRec="filename="+useraccount;		
-		var rsp="";  	
-        if(window.ActiveXObject){
-		   var request = new ActiveXObject("Microsoft.XMLHttp");
-	    }	
-	       else if(window.XMLHttpRequest){
-	   	      var request = new XMLHttpRequest();
-        }			 
-		request.onreadystatechange = respond;	       
-		var url="RED/BKND/A01PassWord.php?timestamp="+new Date().getTime();			
-	    request.open("POST",url);	 
-	    request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-	    request.send(sendSrcRec);		
-	function respond(){           
-		  if (request.readyState == 4 && request.status == 200) {    
-             rsp=JSON.parse(request.responseText);			
-             if(rsp && rsp.length > 0){			 
-			    document.getElementById('oRiginpassword').value=rsp[0]['passWord'];	 
-			     document.getElementById('oRiginID').value=rsp[0]['userId'];	
-				 
-		    }				 
-		  }
-	}
-	
-	return ;
+
+async function PasswordFromBackEnd(useraccount) {	
+    const url = `RED/BKND/A01PassWord.php?timestamp=${Date.now()}`;
+    const payload = `filename=${encodeURIComponent(useraccount)}`;		
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: payload
+        });
+
+        if (!response.ok) throw new Error(`HTTP 錯誤: ${response.status}`);
+
+        const rsp = await response.json();			
+        
+        if (rsp?.[0]) {             
+            document.getElementById('oRiginpassword').value = rsp[0]['passWord'] ?? '';	 
+            document.getElementById('oRiginID').value = rsp[0]['userId'] ?? '';	
+        }
+    } catch (error) {
+        console.error("無法讀取驗證資料:", error);
+    }
 }

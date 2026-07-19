@@ -42,9 +42,6 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){  //在此
 	}			  
   return true;	
 }
-function searchOptionsKey(tbno,slt5){	
-	 slt5.options.add(new Option('料品編號','b25.F02'));	
-}
 
 function page1Detail01(ajTable){
 	ajTable.childNodes[0].childNodes[0].style.backgroundColor='white';
@@ -70,20 +67,25 @@ function page1Detail01(ajTable){
 		}			
 	 }	 
 }
-function searchHaveshiped(str1,ajTable) {       //搜尋相關料號
-    var cnt=0;
-	var arr = str1;     	 
+function searchHaveshiped(arr,ajTable) {       //搜尋相關料號
+    var cnt=0;	  
 	var initqty=sourceAccount(2,0);    //
+	array=[];
+	var array4=[];
 	for(var i=arr.length-1;i>-1;i--){				 
-	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
+	    var oTr=ajTable.insertRow(0);
 		cnt++;         
 		for(var jk in arr[i]){		   
 		    var meta = parseFieldMeta(jk);
 			var oTd = oTr.insertCell(-1);			
 			oTd.innerHTML=arr[i][jk];
 			if (meta) {
-				oTd.className = meta.isDirect ? "directdata" : "indirectdata";
+				oTd.className = meta.isDirect ? "directdata" : "indirectdata";				
 				oTd.style.width = meta.width;
+				if(i==0){   //最後一輪才塞進去
+				   array.push(meta.name);  //欄名
+				  array4.push(meta.width);                       //欄寬
+				}
 				oTd.style.textAlign = meta.align;
 				if (meta.isHidden) oTd.style.display = "none";
 			}		
@@ -93,11 +95,8 @@ function searchHaveshiped(str1,ajTable) {       //搜尋相關料號
     if(cnt==0){
 	  blkshow("無資料!");
 	  return false;
-	}else{
-	    var array = ['異動日期','單據類別','單據編號', '異動數量','累計數量','備註說明'];
-		var array4 = ['10%','12%','12%', '14%','14%','38%'];
-	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
-		
+	}else{	    
+	    var oTr=ajTable.insertRow(0);		
 	    for (var j = 0; j < array.length; j++) {
 		    var th = document.createElement('th'); //column		   
 		    var text = document.createTextNode(array[j]); //cell	

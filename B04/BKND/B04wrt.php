@@ -13,7 +13,10 @@ foreach($cart as $key=>$val){
 // 2. 引入必要的資料庫與設定檔
 require_once("../../include/BKND/mysqli_server.php");
 require_once "../../include/BKND/fieldDOMset.php";
-
+$sq20="select * from a26 where F01='INT_099' "; 
+$sql7=@mysqli_query($link,$sq20);                        
+$list8=mysqli_fetch_assoc($sql7);  //紀錄參數  	
+$INT_099=$list8["F06"];
 $regex = "/^[A-Z]{2}[0-9]{8}$/";
 $lastdate = date('Y-m-d');
 $userAccount = $_COOKIE['useraccount'] ?? '';
@@ -48,7 +51,7 @@ if ($flag == 0) {
 
 // 錯誤處理
 if ($rowsPlan == 0 || !$salesPerson) {
-    if (($_COOKIE["INT_099"] ?? '') == "Y") {
+    if (($INT_099  ?? '') == "Y") {
         $shortId = substr($data[0], 0, 5);
         $stmtLog = $link->prepare("INSERT INTO a0i (F01, F08) VALUES (?, ?)");
         $stmtLog->bind_param("ss", $shortId, $data[0]);

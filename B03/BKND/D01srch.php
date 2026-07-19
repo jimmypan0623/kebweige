@@ -2,35 +2,23 @@
    header("Content-Type:text/html; charset=utf-8");   
 
  require_once("../../include/BKND/mysqli_server.php");                              //引用檔   
+ require_once "../../include/BKND/fieldpreset.php";
         $fieldNo=substr($_POST['filename'],0,7);
 		$filterKey=substr(strrchr($_POST['filename'],'|'),1);
 	  $searchRecord =trim($filterKey);		
 	 $sql3="SELECT d01.F01,d01.F03,d01.F04,d01.F06,d01.F09,d01.F25,d01.F39,a01.F03 as F0C,d01.F08,d00.F02 as F0B FROM d01 ";	 
-	 $sql3=$sql3."LEFT OUTER join a01 ON d01.F39=a01.F01 ";
-	  $sql3=$sql3."LEFT OUTER join d00 ON d01.F25=d00.F01 ";
+	 $sql3=$sql3."LEFT OUTER join a01 ON a01.F01=d01.F39 ";
+	  $sql3=$sql3."LEFT OUTER join d00 ON d00.F01=d01.F25 ";
 	 if(strlen($searchRecord)==0) {	          
 		  $sql3=$sql3."WHERE d01.F14 <= CURDATE()";
 	 }else{
 	    $sql3=$sql3."WHERE ".$fieldNo." LIKE '%".trim($searchRecord)."%' and d01.F14  <= CURDATE()"; 
 	 }
-	 $sql3=$sql3."ORDER BY ".$fieldNo;
-    $arr=array();	
-    $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_assoc($sql4)){		 
-		$atr = array('cust_no_ISL_050'=>$list3['F01'],  		            	             
-		             'cust_name_ISL_050'=>$list3['F04'],
-					 'sales_no_IHL_000'=>$list3['F39'],
-					 'sales_name_IHL_000'=>$list3['F0C'],
-					 'crncy_type_IHL_000'=>$list3['F25'],
-					 'touch_person_IHL_000'=>$list3['F08'],				
-					 'curncy_rate_IHL_000'=>$list3['F0B'],    //6
-					  'vendorFullname_rate_IHL_000'=>$list3['F03'],    //7
-					  'vendor_uniteno_IHL_000'=>$list3['F06'],    //8
-					   'vendor_telno_IHL_000'=>$list3['F09']     //9			
-					 );    
-					                          
-		array_push($arr,$atr);
-	}
+	 $sql3=$sql3."ORDER BY ".$fieldNo;    
+    $result=@mysqli_query($link,$sql3); 	
+	$wthary = fldwdthpre('B03', 'V', $link);
+    $afld=['F01','F04','F39','F0C','F25','F08','F0B','F03','F06','F09'];
+    $arr=afldcont($result,$afld,$wthary);
 	mysqli_close($link);
 	     $arr = array_values($arr);
          $json_string1 = json_encode($arr); 

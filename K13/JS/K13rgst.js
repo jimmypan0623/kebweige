@@ -36,16 +36,7 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){  //在此
 	}			
     return true;	
 }
-function searchOptionsKey(tbno,slt5){	
-	slt5.options.add(new Option('沖銷單號','k09.F05'));
-	slt5.options.add(new Option('進貨單號','k09.F03'));	  
-	slt5.options.add(new Option('發票號碼','k09.F04'));
-	slt5.options.add(new Option('廠商編號','k09.F02'));
-	slt5.options.add(new Option('廠商簡稱','d01.F04'));	  
-	slt5.options.add(new Option('支票/單據號碼','k09.F09')); 
-	slt5.options.add(new Option('採購編號','k09.F11')); 
-    slt5.options.add(new Option('採購姓名','a01.F03')); 	  
-}
+
 function searchKeyHint(tbno){    //搜尋畫面出現提示
     return "搜尋進貨月報表對照欄位選擇";
 }

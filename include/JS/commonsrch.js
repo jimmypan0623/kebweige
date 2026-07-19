@@ -6,7 +6,7 @@ function srchshow(event)
 	}
 	var target=getEventTarget(event);		
     var presentNo=target.parentNode.childNodes[0];
-	//setCookie("presentNoID",presentNo.id);
+	
 	getAuth[1]()[2]=presentNo.id;
 	var orgArg=srcArgobj(presentNo.id);
 
@@ -70,26 +70,21 @@ function srchshow(event)
 	dialogButton3.setAttribute("accesskey","C");	
 	attachEventListener(dialogButton3,"click",srchblkclose,false);		  	      		  		  
 	var tblname=document.createElement("caption");
+	tblname.id="titlemsg";
 	tblname.innerHTML=headtitle;					 				 
 	var srchTable=document.createElement("table");				  
 	srchTable.id="stuffTable";						
 	srchTable.setAttribute("class","gridlist");                
-	var srchHead=document.createElement("thead");		
+	var srchHead=document.createElement("thead");	
+	srchHead.id='thdTop';
 	srchHead.setAttribute("style","display:table;width:100%;table-layout:fixed;");				  
 	srchHead.style.width=orgArg['mendwidth'];  //"calc( 100% - 1em )";
 	srchTable.appendChild(tblname);
 	srchTable.appendChild(srchHead);				 				
-	var oTr = document.createElement('tr');				 
+			 
 	var array1 = orgArg['thCntnt'];    //表頭欄名
 	var array2 = orgArg['thWidth'];    //表頭欄寬度
-	for (var j = 0; j < array1.length; j++) {
-		var th = document.createElement('th'); //column		   
-		var text = document.createTextNode(array1[j]); //cell	
-	    th.style.width=array2[j];
-		th.appendChild(text);
-		oTr.appendChild(th);		 
-	}				
-	srchHead.appendChild(oTr);	
+	
 	var srchTbody=document.createElement("tbody");			
 	srchTbody.id='stuffTbody';
 	srchTbody.style.display="block";
@@ -106,24 +101,19 @@ function srchshow(event)
 	formJason.appendChild(btnsdiv);
 	dialog.appendChild(formJason)  				  
 	dropsheet_content.appendChild(dialog);		
-	if(window.ActiveXObject){
-		var request = new ActiveXObject("Microsoft.XMLHttp");
-	}else if(window.XMLHttpRequest){
-		var request = new XMLHttpRequest();
-	}
-	request.onreadystatechange = respond;   		 
-	var url=srcArgobj(presentNo.id)['urlPth']+"?timestamp="+new Date().getTime();   //"A01/BKND/A01srch.php?timestamp="+new Date().getTime();                				
-	request.open("POST",url);	 
-	request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");		
+	
+				
+	var url=srcArgobj(presentNo.id)['urlPth'];   
     var queryString = "filename="+orgArg['qryString'];  //presentNo.value;          
-	request.send(queryString);
-	function respond(){
-		if (request.readyState == 4 && request.status == 200) {	       	     		            
-			 rsp=JSON.parse(request.responseText);						   
-			 srchStuffNo(rsp);				                            	  
-		}	  
-	}
-
+	
+    fetch(url, {
+     method: 'POST',
+	 cache: 'no-store', // 👈 關鍵：強制每次都向伺服器重新請求
+     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: queryString
+    })
+     .then(res => res.json())
+     .then(rsp => srchStuffNo(rsp,array1,array2));	 
     return true;
 }
 
@@ -145,34 +135,38 @@ function srchblkclose(event)  //關閉註冊彈出視窗
 		btns[i].setAttribute("accesskey",btns[i].title.substr(-1));				 
 	}	   
 	document.getElementById(getAuth[1]()[2]).focus();
-	//document.getElementById(getCookie("presentNoID")).focus();
-	//delCookie("presentNoID");	
+	
 	return true;
 }	
 
-function srchStuffNo(str1) {       //開窗顯示人員選項
-    var cnt=0;
-	var arr = str1; 
+function srchStuffNo(arr,array1,array2) {       //開窗顯示選項
+    let array3=[];	
+	let array4=[];	
+
+	var cnt=0;
     var oTable = document.getElementById("stuffTbody");		 
 	for(var i=0;i<arr.length;i++){				 
 		var oTr=oTable.insertRow(-1);		     
-		cnt++;        
-		for(var jk in arr[i]){		   				
-		    var oTd = oTr.insertCell(oTr.cells.length);
-			oTd.textContent=arr[i][jk];	
-		    var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
-			var ks=ara.split('');		
-			//ks[1]:是否顯示   S/H
-			//ks[2]:靠左中或右 L/C/R				
-			if(ks[1]=='H'){
-				oTd.setAttribute("style","display:none;");		
-			}else{
-			   oTd.style.textAlign=(ks[2]=="L"?"left":(ks[2]=="C"?"center":"right"));
-			   var wdthln=jk.substr(jk.lastIndexOf('_')+1,3);  	  	
-			   oTd.style.width=wdthln+"%";
-			   attachEventListener(oTd,'click',rowchoose,false);		//點選資料
-			}   
-		}  				 
+		cnt++;        		
+		for (let jk in arr[i]) {
+			var meta = parseFieldMeta(jk);
+			var oTd = oTr.insertCell(-1);
+			oTd.innerHTML = arr[i][jk];
+			if (meta) {
+				oTd.className = meta.isDirect ? "directdata" : "indirectdata";
+				oTd.style.width = meta.width;
+				if(i==0 && !meta.isHidden){   //第一輪就塞進去											  
+					array3.push(meta.name);  //表頭欄名
+				    array4.push(meta.width); //表頭欄寬
+				}
+				oTd.style.textAlign = meta.align;
+				if (meta.isHidden) oTd.style.display = "none";
+			}											
+			// 點擊事件綁定
+			attachEventListener(oTd, 'click', rowchoose, false);
+		}
+		
+		
 		var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
 	    oTd.setAttribute("style","display:none");   //勾選不顯示
 	 	var myCheck=document.createElement('input'); 
@@ -182,9 +176,26 @@ function srchStuffNo(str1) {       //開窗顯示人員選項
 		attachEventListener(myCheck,'click',chooserc,false);		   
 		oTd.appendChild(myCheck);   
 	}
+	
+	 if(array1 && array2){
+		array3=array1;
+		array4=array2;
+    }
+	var oTr = document.createElement('tr');	
+	for (let j = 0; j < array3.length; j++) {
+		var th = document.createElement('th'); //column		   
+		var text = document.createTextNode(array3[j]); //cell	
+	    th.style.width=array4[j];
+		th.appendChild(text);
+		oTr.appendChild(th);		 
+	}		
+    var oThead=	document.getElementById("thdTop");	
+	oThead.appendChild(oTr);
+	
 	if (cnt>0){
 		cko[1](1);
 	    chooserc(1);
-	}
-	   
+	}else{
+	  document.getElementById("titlemsg").innerHTML="無此搜尋的鍵值!";
+	}		
 }

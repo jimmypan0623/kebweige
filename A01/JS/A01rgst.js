@@ -135,40 +135,33 @@ function sendFilePrc(updflg){     //新增資料上傳檔案及修改程序
 
 }
 
+function removeAuthAll(event) {          //確定移除所有權限
+    var evt = event || window.event;
+    var sendDeleRec = "filename=" + encodeURIComponent(sourceAccount(1, 0)); 
+    var url = "A01/BKND/A01rmv.php?timestamp=" + Date.now();   
 
-
-function removeAuthAll(event){     //確定移除所有權限
-	if (typeof event=="undefined"){
-		event=window.event;
-    }	
-	var target=getEventTarget(event);	
-	//var tabs=getElementsByAttribute('class','tab');	 
-	var sendDeleRec="filename="+sourceAccount(1,0);  	 
-	var rsp="";  	
-    if(window.ActiveXObject){
-		var request = new ActiveXObject("Microsoft.XMLHttp");
-	}else if(window.XMLHttpRequest){
-	   	   var request = new XMLHttpRequest();
-    }			 
-	request.onreadystatechange = respond;		 
-	var url="A01/BKND/A01rmv.php?timestamp="+new Date().getTime();	     		 
-	request.open("POST",url);	 
-	request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-	request.send(sendDeleRec);		
-	function respond(){               	     
-	    if (request.readyState == 4 && request.status == 200) {     
-		    rsp=request.responseText;			     
-		    if(!isNaN(Number(rsp))){  //如果是數字				   
-			    var responseDiv=document.getElementById("serverResponse1");	 
-		   	    responseDiv.setAttribute("style","font-weight:bold;color:#536a60;"); 
-	            responseDiv.innerHTML="所勾選功能其所有人權限已全部移除完畢....."; 		
-			     blocksclose();  //關掉原視窗
-		    }else{
-		        blkshow(rsp);	
-		    }
-               		  
-	    }
-    }
+    var request = new XMLHttpRequest(); // 直接實例化，移除 IE 檢查
+    request.open("POST", url);   
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    
+    request.onreadystatechange = function() {
+        if (request.readyState === 4 && request.status === 200) {      
+            var rsp = request.responseText;             
+            var responseDiv = document.getElementById("serverResponse1");    
+            
+            if (rsp.trim() !== '' && !isNaN(Number(rsp))) {                   
+                if (responseDiv) {
+                    responseDiv.style.fontWeight = "bold";
+                    responseDiv.style.color = "#536a60";
+                    responseDiv.innerHTML = "所勾選功能其所有人權限已全部移除完畢.....";         
+                }
+                blocksclose();  
+            } else {
+                blkshow(rsp);   
+            }
+        }
+    };  
+    request.send(sendDeleRec);      
 }
 
 function modifyFields(tbno,txtword,ajTable){   //新增修改時出現之欄位
@@ -581,7 +574,7 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 	}		
 	var fldidx=0;
 	var argsNo=0;	
-	//while(fldsgsroup(fldidx,tbno)){			
+	 	
 	 while(rsp.fldsatrr[fldidx]){	
 		if(rsp.fldsatrr[fldidx][0]=='directdata'){
 			 maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=args[argsNo];				
@@ -589,40 +582,25 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 		}else{
 			
 			if(fldidx==3 && tbno==2){
-				    maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=whichDIM(args[2]);  //發票類別
+				    maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=whichDIM(args[2]);    
 			}
 			if(fldidx==5 && tbno==2){
-				    maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=showOrNot(args[3]);  //發票類別
+				    maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=showOrNot(args[3]);    
 			}
 			if(fldidx==7 && tbno==2){
-				    maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=locateLCR(args[4]);  //發票類別
+				    maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=locateLCR(args[4]);    
 			}
 			if(fldidx > 10 && tbno==1){
 			    if(args[fldidx-6]!='Y'){	
-				   	maintable.rows[args[arglth-1]].cells[fldidx+1].setAttribute("style","text-align:center;width:11%;text-decoration: line-through;color:#7f8890;");
+				   	maintable.rows[args[arglth-1]].cells[fldidx+1].setAttribute("style","text-align:left;width:11%;text-decoration: line-through;color:#7f8890;");
 				}else{
-					maintable.rows[args[arglth-1]].cells[fldidx+1].setAttribute("style","text-align:center;width:11%;");
+					maintable.rows[args[arglth-1]].cells[fldidx+1].setAttribute("style","text-align:left;width:11%;");
 				}				    				     			
 			}							 
 		}
 		fldidx++;
 	}
 	maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=rsp.lastupdate;	
-}
-
-function searchOptionsKey(tbno,slt5){	
-	if (tbno==0){
-		slt5.options.add(new Option('功能編號','a03.F01'));
-		slt5.options.add(new Option('功能名稱','a03.F02'));		
-		slt5.options.add(new Option('屬性','a03.F03'));		
-	}else if(tbno==1){
-		slt5.options.add(new Option('人員帳號','a02.F01'));
-		slt5.options.add(new Option('人員姓名','a01.F03')); 										  
-	}else{
-		 slt5.options.add(new Option('欄位順序','a04.F02'));
-	     slt5.options.add(new Option('欄位名稱','a04.F03'));
-		 slt5.options.add(new Option('欄位內容','a04.F08')); 		
-	}		
 }
 
 function bodyCopyList(ajTable){
@@ -679,8 +657,9 @@ function searchKeyHint(tbno){    //搜尋畫面出現提示
 function srcArgobj(srcId){
     if(srcId=='whono'){
 	   var qrystring=document.getElementById(srcId).value;
-      return {"headtitle":"請選取人員帳號姓名","drpshtWidth":"28%","thCntnt":['人員編號', '人員姓名'],"thWidth":['50%','50%'],"urlPth":"C01/BKND/A01srch.php","clickfunc":chseprg1,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
-    }
+      //return {"headtitle":"請選取人員帳號姓名","drpshtWidth":"28%","thCntnt":['人員編號', '人員姓名'],"thWidth":['50%','50%'],"urlPth":"C01/BKND/A01srch.php","clickfunc":chseprg1,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
+       return {"headtitle":"請選取人員帳號姓名","drpshtWidth":"28%","urlPth":"C01/BKND/A01srch.php","clickfunc":chseprg1,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
+	}
 }
 
 function chseprg1(event)  //選擇資料後填入目前form之textbox

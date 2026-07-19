@@ -35,9 +35,9 @@ $arr = array();
 while ($list3 = mysqli_fetch_assoc($result)) {
     // 輸出欄位與前端對應：ship_date 在進貨端通常指進貨日期
     $arr[] = array(
-        'ship_date' => $list3['F90'] . '-' . $list3['F01'],
-        'bill_no'   => $list3['F04'],
-        'ship_qty'  => $list3['F08']
+        '進貨日期_ISC_030' => $list3['F90'] . '-' . $list3['F01'],
+        '進貨單號_ISC_030'   => $list3['F04'],
+        '進貨數量_ISC_040'  => $list3['F08']
     );
 }
 

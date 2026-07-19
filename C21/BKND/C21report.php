@@ -18,7 +18,7 @@ class MYPDF extends TCPDF {
         $headerHtml = '
         <div style="text-align: center;">
             <span style="font-size: 18pt;">' . ($this->customData['ourCompany'] ?? '') . '</span><br />
-            <span style="font-size: 12pt;">TEL: ' . ($_COOKIE['INT_078'] ?? '') . '</span>
+            <span style="font-size: 12pt;">TEL: ' . ($this->customData['tel_no'] ?? '') . '</span>
         </div>
         <table border="0" width="100%">
             <tr>
@@ -114,12 +114,7 @@ $pdf->AddPage();
 
 // --- 4. 資料庫處理 ---
 require_once("../../include/BKND/db_forreport.php");
-
-$sql0="select * from a01 where F01="."'".$_COOKIE['useraccount']."'"; 
-     $sql1=@mysqli_query($link,$sql0);
-     $rows1=@mysqli_num_rows($sql1);                       
-     $list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名   
-	 
+ 
 $sql = "SELECT c27.*, b01.F02 as F0B, b01.F04 as F0D, (b01.F28 + b01.F31) as F2A 
         FROM c27 
         LEFT OUTER JOIN b01 ON c27.F02 = b01.F01 

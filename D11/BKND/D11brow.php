@@ -4,7 +4,11 @@ require_once("../../include/BKND/mysqli_server.php");
 require_once "../../include/BKND/fieldpreset.php";
 
 // 1. 取得並處理基礎參數
-$rnddgt = isset($_COOKIE["INT_069"]) ? intval($_COOKIE["INT_069"]) : 0;
+
+$sq20="select * from a26 where F01='INT_068' "; 
+$sql7=@mysqli_query($link,$sq20);                           
+$list8=mysqli_fetch_assoc($sql7);  //紀錄參數  	    
+$rnddgt = isset($list8['F06']) ? intval($list8['F06']) : 0;
 $filename = $_POST['filename'] ?? '';
 
 // 2. 初始化 SQL 邏輯

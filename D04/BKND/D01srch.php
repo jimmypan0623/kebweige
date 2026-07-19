@@ -4,7 +4,7 @@ header("Cache-Control: no-cache, must-revalidate");
 header("Pragma: no-cache");
 
 require_once("../../include/BKND/mysqli_server.php");
-
+require_once "../../include/BKND/fieldpreset.php";
 // --- 輔助函式：白名單檢查欄位名 (比照 B01 標準) ---
 function isValidField($field) {
     // 限制欄位格式為 d01.Fxx 或 Fxx
@@ -28,7 +28,7 @@ if (stripos($fieldNo, '.') === false) {
 }
 
 // 2. 構建 SQL 語句
-$columns = "d01.F01, d01.F04, d01.F25, d01.F16, d01.F39, d01.F03, 
+$columns = "d01.F01, d01.F04, d01.F25,  d01.F39, d01.F03, 
             a01.F03 AS F0C, d01.F08, d01.F19, d01.F13, d01.F36";
 
 $sql = "SELECT $columns FROM d01 
@@ -52,24 +52,10 @@ if (strlen($searchRecord) > 0) {
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 
-$arr = array();
-while ($list3 = mysqli_fetch_assoc($result)) {
-    // 輸出欄位名稱保持與前端對應
-    $arr[] = array(
-        'cust_no_ISL_050'         => $list3['F01'],
-        'cust_name_ISL_050'       => $list3['F04'],
-        'sales_no_IHL_000'        => $list3['F39'], // 採購人員編號
-        'sales_name_IHL_000'      => $list3['F0C'], // 採購人員姓名
-        'crncy_type_IHL_000'      => $list3['F25'],
-        'touch_person_IHL_000'    => $list3['F08'],
-        'ship_way_IHL_000'        => $list3['F16'],
-        'pay_way_IHL_000'         => $list3['F13'],
-        'pay_men_IHL_000'         => $list3['F36'], 
-        'direct_IHL_000'          => $list3['F19'],
-        'custom_fullname_IHL_000' => $list3['F03']
-    );
-}
 
+$wthary = fldwdthpre('D04', 'V', $link);
+$afld=['F01','F04','F39','F0C','F25','F08','F13','F36','F19','F03'];
+$arr=afldcont($result,$afld,$wthary);
 mysqli_stmt_close($stmt);
 mysqli_close($link);
 

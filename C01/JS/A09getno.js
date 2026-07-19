@@ -23,7 +23,8 @@ function objGetNo(idno,whichobj){
  	  			 
 }
 function discardNoRec(whichobj,crntNo)
-{	var recileObjNo="filename="+whichobj+"|"+crntNo;	
+{	
+        var recileObjNo="filename="+whichobj+"|"+crntNo;	
 	    if(window.ActiveXObject){
 		   var request = new ActiveXObject("Microsoft.XMLHttp");
 	    }	

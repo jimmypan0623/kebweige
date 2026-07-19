@@ -8,7 +8,7 @@ function blocksclose(event)  //關閉註冊彈出視窗
     for(var i=0;i<tabs.length;i++){
 		tabs[i].setAttribute("accesskey",(i+1).toString());
 	}	
-	if (target.value=="\u{274E}"  && getCookie('INT_003')=='Y'){	   //直接點結束按鈕(新增修改刪除共用)
+	if (target.value=="\u{274E}"  && getAuth[2]()[0].INT_003 =='Y'){	   //直接點結束按鈕(新增修改刪除共用)
 	   if(document.getElementById('customno')!=null){   //非於放棄刪除的狀態下
 	      var currentNo=document.getElementById('customno').value;	   
 	      if (currentNo.trim()!="" && currentNo.trim()!=document.getElementById('custom_no').innerHTML){ //如果非修改
@@ -365,13 +365,13 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		 oTd.innerHTML='課稅別:';
 		 var oTd = oTr.insertCell(3);
 		 oTd.colspan=2;
-		 var slt5=document.createElement("select");
-		 slt5.options.add(new Option('應稅','1'));
-		 slt5.options.add(new Option('零稅','2'));
-		 slt5.options.add(new Option('免稅','3'));
-		 slt5.setAttribute("id","taxtype");
-		 slt5.setAttribute("name","c01update");
-		 oTd.appendChild(slt5);	                        	         
+		 var slt6=document.createElement("select");
+		 slt6.options.add(new Option('應稅','1'));
+		 slt6.options.add(new Option('零稅','2'));
+		 slt6.options.add(new Option('免稅','3'));
+		 slt6.setAttribute("id","taxtype");
+		 slt6.setAttribute("name","c01update");
+		 oTd.appendChild(slt6);	                        	         
 		 var oTr=ajTable.insertRow(ajTable,ajTable.length);
 		 var oTd = oTr.insertCell(0);
 		 oTd.setAttribute('style','text-align:right;width:12%');	
@@ -428,7 +428,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		 oTd.setAttribute('style','text-align:right;width:12%');	
 		 oTd.innerHTML='統一編號:';
 		 var oTd = oTr.insertCell(5);
-		 oTd.innerHTML="<input type='text' name='c01update' id='unino' class='txt' maxlength='9' style='width:50%;text-align:left;'  />";                             				
+		 oTd.innerHTML="<input type='text' name='c01update' id='unino' class='txt' maxlength='8' style='width:50%;text-align:left;'  />";                             				
 		 var oTr=ajTable.insertRow(ajTable,ajTable.length);
 		 var oTd = oTr.insertCell(0);
 		 oTd.setAttribute('style','text-align:right;width:12%');	
@@ -440,7 +440,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		    optionitem(aWaitUpdate[24],slt4.id,4,"C01/BKND/C00srch.php");		//幣別欄位			 
 		 }else{
 			oTd.innerHTML="<input type='text' name='c01update' id='customno' class='txt' style='width:65%;' maxlength='6'/>"; 
-			optionitem(getCookie('INT_011'),slt4.id,4,"C01/BKND/C00srch.php");				//參數預設幣別
+			optionitem(getAuth[2]()[0].INT_011,slt4.id,4,"C01/BKND/C00srch.php");				//參數預設幣別
 		 }			 
 		 var oTd = oTr.insertCell(2);	   
 		 oTd.setAttribute('style','text-align:right;width:12%');					
@@ -517,8 +517,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 			   var srchButton12=document.createElement("input");				   
 			   srchButton12.setAttribute("type","button");	
 			   srchButton12.setAttribute("class","scopelook");				   
-			   srchButton12.style.background="url('digits/brows1.png')";   
-			  // attachEventListener(srchButton12,"click",stocknoshow,false);	
+			   srchButton12.style.background="url('digits/brows1.png')";   			 
                 attachEventListener(srchButton12,"click",srchshow,false);				  
 			   oTd.appendChild(srchButton12);			
 		}
@@ -538,8 +537,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 			  var srchButton8=document.createElement("input");				   
 			   srchButton8.setAttribute("type","button");	
 			   srchButton8.setAttribute("class","scopelook");				   
-			   srchButton8.style.background="url('digits/brows1.png')";   
-			  //attachEventListener(srchButton8,"click",stocknoshow,false);		
+			   srchButton8.style.background="url('digits/brows1.png')";   			 
 			  attachEventListener(srchButton8,"click",srchshow,false);	
 			  oTd.appendChild(srchButton8);			
 		   }				  				  			 
@@ -556,8 +554,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 			   var srchButton4=document.createElement("input");				   
 			srchButton4.setAttribute("type","button");	
 			srchButton4.setAttribute("class","scopelook");				   
-			srchButton4.style.background="url('digits/brows1.png')";   
-			//attachEventListener(srchButton4,"click",stocknoshow,false);	
+			srchButton4.style.background="url('digits/brows1.png')";   			
 			attachEventListener(srchButton4,"click",srchshow,false);
 			oTd.appendChild(srchButton4);						
 		 }  
@@ -596,7 +593,7 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
     switch (txtword) {
 		case 1:                                   //如果是新增
 			 if (tbno==0){	
-				if(getCookie('INT_003')=='Y'){       //如果參數設為系統自動編號
+				if(getAuth[2]()[0].INT_003 =='Y'){       //如果參數設為系統自動編號
 				    objGetNo('customno','C0000');
 				}	 
 				var cstNo=document.getElementById("customno");
@@ -611,7 +608,7 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 				 document.getElementById("validstart").value=thtdy;  //日期都設為今天
 				//以下這一串是在算往後推的日期
 				var today=new Date();
-				var endday=today.addDays(parseInt(getCookie('INT_126'))); //加上參數預設有效天數
+				var endday=today.addDays(parseInt(getAuth[2]()[0].INT_126)); //加上參數預設有效天數
 				var endaydash=endday.getFullYear()+'-'+MyMonth(endday.getMonth())+'-'+((endday.getDate()<10) ? "0" : "") + endday.getDate();	
 				document.getElementById("validend").value=endaydash;  //日期往後推			 
 			 }
@@ -735,24 +732,6 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 	maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=rsp.lastupdate;			   
 }
 
-function searchOptionsKey(tbno,slt5){	
-	if (tbno==0){
-		slt5.options.add(new Option('客戶編號','c01.F01'));
-		slt5.options.add(new Option('客戶簡稱','c01.F04'));
-		slt5.options.add(new Option('統一編號','c01.F10'));
-		slt5.options.add(new Option('地區別','c01.F20'));
-		slt5.options.add(new Option('業務編號','c01.F33'));
-		slt5.options.add(new Option('業務姓名','a0A.F03'));
-		slt5.options.add(new Option('業助編號','c01.F23'));		
-		slt5.options.add(new Option('業助姓名','a0B.F03'));
-		slt5.options.add(new Option('母公司編號','c01.F44'));		
-	} else{
-		slt5.options.add(new Option('料品編號','c02.F03'));
-		slt5.options.add(new Option('品名規格','b01.F02'));
-		slt5.options.add(new Option('客戶品號','c02.F04'));				   				      		 					  
-	}
-}
-
 function  addNewRecordHint(tbno){
    if (tbno==0){  //表頭資料
         return "請輸入客戶基本資料：";
@@ -779,7 +758,7 @@ function searchKeyHint(tbno){    //搜尋畫面出現提示
 function srcArgobj(srcId){
     if(srcId=='whono'){
 	   var qrystring=document.getElementById(srcId).value;
-      return {"headtitle":"請選取業務人員帳號姓名","drpshtWidth":"28%","thCntnt":['人員編號', '人員姓名'],"thWidth":['50%','50%'],"urlPth":"C01/BKND/A01srch.php","clickfunc":chseprg1,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
+       return {"headtitle":"請選取業務人員帳號姓名","drpshtWidth":"28%","thCntnt":['人員編號', '人員姓名'],"thWidth":['50%','50%'],"urlPth":"C01/BKND/A01srch.php","clickfunc":chseprg1,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};	  
     }else if(srcId=='assistno'){
 	    var qrystring=document.getElementById(srcId).value;
         return {"headtitle":"請選取助理人員帳號姓名","drpshtWidth":"28%","thCntnt":['人員編號', '人員姓名'],"thWidth":['50%','50%'],"urlPth":"C01/BKND/A01srch.php","clickfunc":chseprg2,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};

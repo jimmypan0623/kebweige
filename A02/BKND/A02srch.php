@@ -2,6 +2,7 @@
    header("Content-Type:text/html; charset=utf-8");   
 
     require_once("../../include/BKND/mysqli_server.php");         //引用檔   
+	require_once "../../include/BKND/fieldpreset.php";
 	$fieldNo=substr($_POST['filename'],0,7);                //程式欄位key		
 	$filterKey=trim(getNeedBetween($_POST['filename'],'|','_')); // 搜尋程式 
 	$accntno=trim(substr(strrchr($_POST['filename'],'_'),1));   //帳號		 
@@ -14,8 +15,8 @@
 	}
 	$sql3=$sql3."ORDER BY ".$fieldNo;
     $arr=array();	
-    $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_assoc($sql4)){
+    $result=@mysqli_query($link,$sql3); 
+	/* while ($list3=mysqli_fetch_assoc($sql4)){
 		 
 		$atr = array('prg_no_ISC_020'=>$list3['F01'],  		            	             
 		             'prg_name_ISL_080'=>$list3['F02'],					               
@@ -29,7 +30,10 @@
 					 'auth4_attch_IHC_000'=>$list3['F11'],
                      'attch5_attch_IHC_000'=>$list3['F12']);          
 		array_push($arr,$atr);
-	}
+	} */
+	$wthary = fldwdthpre('A02', 'F', $link);
+$afld=['F01','F02','F04','F05','F06','F07','F08','F09','F10','F11','F12'];
+$arr=afldcont($result,$afld,$wthary);
 	mysqli_close($link);
 	     $arr = array_values($arr);
          $json_string1 = json_encode($arr); 

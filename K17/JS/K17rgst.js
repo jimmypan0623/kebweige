@@ -42,83 +42,70 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){  //在此
 	}			  
   return true;	
 }
-function searchOptionsKey(tbno,slt5){	
-	 slt5.options.add(new Option('發票號碼','k25.F07'));	
-	 slt5.options.add(new Option('對象編號','k25.F03'));	
-	 slt5.options.add(new Option('統一編號','k25.F04'));	
-	 slt5.options.add(new Option('憑證單號','k25.F15'));	
-	 slt5.options.add(new Option('收發部門','a14.F02'));
-	 slt5.options.add(new Option('擔當人員','a01.F03'));	
-}
 
 function page1Detail01(ajTable){
 	ajTable.childNodes[0].childNodes[0].style.backgroundColor='white';
     ajTable.id="srchTable";	
 	ajTable.className="gridlist";                 	 			
-	 if(window.ActiveXObject){
-		var request = new ActiveXObject("Microsoft.XMLHttp");
-	 }else if(window.XMLHttpRequest){
-		  var request = new XMLHttpRequest();
-	 }
-	 request.onreadystatechange = respond;   	 	 
-	 var invoicetype=document.getElementById('departNoOption');
+	
+	 let invoicetype=document.getElementById('departNoOption');
 	 if(left(invoicetype.value,1)=='3'){
-	    var url="K17/BKND/C13srch.php?timestamp="+new Date().getTime();   	               		
+	    var url="K17/BKND/C13srch.php";   	      //用let會顯示不出來         		
 	 }else{
-	    var url="K17/BKND/D19srch.php?timestamp="+new Date().getTime();   	
+	    var url="K17/BKND/D19srch.php";   	
 	 }
-	 request.open("POST",url);	 
-	 request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");	
-	 
-	 var queryString ="filename="+sourceAccount(13,0);   
+	 let queryString ="filename="+sourceAccount(13,0);   
   
-	request.send(queryString);
-	 function respond(){
-		if (request.readyState == 4 && request.status == 200) {	       	     		
-			 rsp=JSON.parse(request.responseText);						   
-			 searchHaveshiped(rsp,ajTable);		  		
-		}			
-	 }	 
+	 fetch(url, {
+     method: 'POST',
+	 cache: 'no-store', // 👈 關鍵：強制每次都向伺服器重新請求
+     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: queryString
+    })
+     .then(res => res.json())
+     .then(rsp => searchHaveshiped(rsp,ajTable));  
 }
 
-function searchHaveshiped(str1,ajTable) {       //搜尋相關料號
-    var cnt=0;
-	var arr = str1;     	 
-	var initqty=sourceAccount(2,0);    //
-	for(var i=arr.length-1;i>-1;i--){				 
-	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
-		cnt++;         
-		for(var jk in arr[i]){		   
-		    var meta = parseFieldMeta(jk);
-		    var oTd = oTr.insertCell(oTr.cells.length); 
+function searchHaveshiped(arr,ajTable) {       //搜尋相關料號
+    let cnt=0;	   
+	let array3=[];	
+	let array4=[];
+	let initqty=sourceAccount(2,0);    //
+	for(let i=arr.length-1;i>-1;i--){				 
+	    let oTr=ajTable.insertRow(ajTable,ajTable.length);
+		cnt++;         		
+		for(let jk in arr[i]){		   
+		    let meta = parseFieldMeta(jk);
+		    let oTd = oTr.insertCell(oTr.cells.length); 
 			oTd.innerHTML=arr[i][jk];	
-
-			if (meta) {
-				oTd.className = meta.isDirect ? "directdata" : "indirectdata";
+            if (meta) {
+				oTd.className = meta.isDirect ? "directdata" : "indirectdata";				
 				oTd.style.width = meta.width;
+				if(i==0 && !meta.isHidden){   //第一輪就塞進去											  
+					array3.push(meta.name);  //欄名
+				    array4.push(meta.width); //欄寬
+				}
 				oTd.style.textAlign = meta.align;
 				if (meta.isHidden) oTd.style.display = "none";
 			}		
 			if(oTd.innerHTML=="稅額"){
 			   oTd.parentNode.style.color="#5B5B5B";
 			} 
-	    }	    
+	    }	
 	}	
 	  
     if(cnt==0){
 	    blkshow("無資料!");
 	    return false;
-	}else{
-	    var array = ['料號','憑證單號','異動數量','單價', '幣別','匯率','小計'];
-		var array4 = ['25%','12%','12%','12%', '5%','12%','12%'];
-	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
-	    for (var j = 0; j < array.length; j++) {
-		    var th = document.createElement('th'); //column		   
-		    var text = document.createTextNode(array[j]); //cell	
+	}else{	   
+	    let oTr=ajTable.insertRow(ajTable,ajTable.length);
+	    for (let j = 0; j < array3.length; j++) {
+		    let th = document.createElement('th'); //column		   
+		    let text = document.createTextNode(array3[j]); //cell	
 			th.style.width=array4[j];
 		    th.appendChild(text);
 		    oTr.appendChild(th);		
-	    }						
+	    }							
 	}		
 	
 }

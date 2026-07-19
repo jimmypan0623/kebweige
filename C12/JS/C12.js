@@ -99,7 +99,7 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 	 contenBkndAjax(sendSrcRec);
      
 }	 
-
+/* 
 function contenBkndAjax(sendSrcRec){
 	var rsp="";  	
 	if(window.ActiveXObject){
@@ -120,8 +120,37 @@ function contenBkndAjax(sendSrcRec){
 		}
 	}	 	 
     return;			   	
-}
+} */
+async function contenBkndAjax(sendSrcRec) {
+    //const url = `C12/BKND/C12Contentbrow.php?timestamp=${Date.now()}`;
+     const url = "C12/BKND/C12Contentbrow.php";
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+			cache: 'no-store', // 👈 關鍵：強制每次都向伺服器重新請求
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: sendSrcRec
+        });
 
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const rsp = await response.json();
+        
+        // 確保 rsp 與 rsp.recdrow 存在再進行呼叫
+        if (rsp && rsp.recdrow !== undefined) {
+            contentShow(rsp.recdrow);
+        } else {
+            console.warn("回傳的資料格式不符:", rsp);
+        }
+    } catch (error) {
+        console.error("請求失敗:", error);
+		alert("系統連線失敗，請稍後再試");
+    }
+}
 function contentShow(arr){
 	var oTable = document.getElementById("contentTbody");	
 	if (oTable.rows.length>0){
@@ -141,34 +170,7 @@ function contentShow(arr){
 		var oTr=oTable.insertRow(-1);	
 		//oTr.setAttribute("name","mainrow");	      		
 		cnt1++;		
-		/* for(var jk in arr[i]){		   
-			var oTd = oTr.insertCell(oTr.cells.length);		     		  
-			oTd.innerHTML=arr[i][jk];		 			
-			if(oTd.innerHTML=="稅額"){
-			   oTd.parentNode.style.color="#5B5B5B";
-			}
-			var ara=jk.substr(jk.lastIndexOf('_')-3,3);		
-			var ks=ara.split('');		
-			//ks[0]:直接或間接 D/I
-			//ks[1]:是否顯示   S/H
-			//ks[2]:靠左中或右 L/C/R	
-			if(ks[0]=="D"){
-				oTd.setAttribute("class","directdata");	
-			}else{
-				oTd.setAttribute("class","indirectdata");	
-			}				 
-			if(ks[1]=='H'){
-				oTd.setAttribute("style","display:none;");		
-			}else{
-			   oTd.style.textAlign=(ks[2]=="L"?"left":(ks[2]=="C"?"center":"right"));
-			   var wdthln=jk.substr(jk.lastIndexOf('_')+1,3);  	  	
-			   oTd.style.width=wdthln+"%";
 		
-			}		
-			if(jk.substr(0,jk.lastIndexOf('_')-4)=='rcd_total'){
-			   queryttl+=Number(oTd.innerHTML);
-			} 
-	    }  */
 		for (var jk in arr[i]) {
 			var meta = parseFieldMeta(jk);
 			var oTd = oTr.insertCell(-1);

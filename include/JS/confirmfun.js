@@ -187,8 +187,7 @@ function vrshrPrc(event){
 		} 		 
 		var responseDiv=document.getElementById("serverResponse2"); 
 	}
-	//responseDiv.style.textAlign='center';	 
-	//responseDiv.innerHTML='<img src="digits/Loading.gif" width="1.5%" height="1.5%" border="0">';	
+	
 	aprv.innerHTML="<img src='digits/Loading.gif' alt='svg' style='position: absolute;top: 47px;left: 50%;width: 50px;opacity: 0.45;'>"
 	if(window.ActiveXObject){
 	   var request = new ActiveXObject("Microsoft.XMLHttp");
@@ -229,16 +228,16 @@ function vrshrPrc(event){
 						 trnsbtt.setAttribute("style","visibility:hidden;");
 						detachEventListener(trnsbtt,"click",trnsproc,false);	
 					} 
-					if (getAuth[0]()[8]=='Y'){   //getCookie('auth08')=='Y'
+					if (getAuth[0]()[8]=='Y'){    
 						ansbtt.setAttribute("style","display:block;");
 						attachEventListener(ansbtt,"click",ansproc,false);  //確認按鈕程序  
 					}		
-					if (getAuth[0]()[2]=='Y'){			 //getCookie('auth02')=='Y'
+					if (getAuth[0]()[2]=='Y'){			  
 						editbtt.style.visibility="visible";
 						attachEventListener(editbtt,"click",edtrec,false);  //修改紀錄按鈕程序
 					}
 	  
-					if (getAuth[0]()[3]=='Y'){  //getCookie('auth03')=='Y'
+					if (getAuth[0]()[3]=='Y'){   
 					   delbtt.style.visibility="visible";
 					   attachEventListener(delbtt,"click",delrec,false);  //刪除紀錄按鈕程序
 					}

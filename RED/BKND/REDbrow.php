@@ -40,8 +40,7 @@ if ($fetchParam === 0) {
         while ($list4 = mysqli_fetch_assoc($res1)) {
             $arg[] = [
                 'paraNo' => $clean($list4['F01']),
-                'cngpra' => $clean($list4['F06']),
-                'gTYPE'  => $clean($list4['F04'])
+                'cngpra' => $clean($list4['F06'])               
             ];
         }
     }

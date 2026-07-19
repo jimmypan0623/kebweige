@@ -36,13 +36,7 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){  //在此
 	}			
     return true;	
 }
-function searchOptionsKey(tbno,slt5){	
-	 
-	 slt5.options.add(new Option('廠商編號','d01.F01'));
-	 slt5.options.add(new Option('廠商簡稱','d01.F04'));
-	 
-	 
-}
+
 function searchKeyHint(tbno){    //搜尋畫面出現提示
     return "搜尋應付帳款對帳單廠商選擇";
 }

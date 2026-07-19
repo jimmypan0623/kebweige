@@ -10,55 +10,16 @@
     <link href="include/loginstyle.css?v=0.0.3" rel="stylesheet">
     <link rel="shortcut icon" href="digits/kandm.gif">
     <script defer src="include/JS/add-load-listener.js?v=0.0.1"></script>
-    <script defer src="include/JS/start_function_events95.js?v=0.2.4"></script>
+    <script defer src="include/JS/start_function_events95.js?v=0.2.6"></script>
     <script defer src="include/JS/djntime.js?v=0.0.1"></script>
-    <script defer src="include/JS/cookie.js?v=0.0.1"></script>
+    <script defer src="include/JS/cookie.js?v=0.0.2"></script>
     <script defer src="include/JS/commonrgst.js?v=0.1.0"></script>
-    <script defer src="include/JS/initsetp.js?v=1.9.6"></script>
+    <script defer src="include/JS/initsetp.js?v=1.9.7"></script>
+	<script id='initLogin' src="include/JS/login.js?v=0.0.1"></script>
 </head>
-<body>
-    <form id="login" method="post" action="loginchk.php" autocomplete="on">
-        <h1>LOG IN</h1>
-        <fieldset id="inputs">         
-			<input id="account"
-			name="account"
-			type="text"
-			placeholder="Account"
-			autocomplete="username"
-			autofocus
-			required>
-			<input id="password"
-			name="password"
-			type="password"
-			placeholder="Password"
-			autocomplete="current-password"
-			required>
-		 	<input id="validcode"
-			name="validcode"
-			type="text"
-			placeholder="不分大小寫輸入右邊驗證碼"
-			maxlength="4"
-			required>			 
-		    <img id="img4" alt="">
-            <img id="img3" alt="">
-            <img id="img2" alt="">
-            <img id="img1" alt=""> 
-        </fieldset>
-        <fieldset id="actions">
-            <input type="submit" id="submit" value="Log in">
-        </fieldset>        
-        <script type="text/javascript">
-        function blocksclose(event) {
-            event = event || window.event;
-            var target = (typeof getEventTarget === 'function') ? getEventTarget(event) : (event.target || event.srcElement);
-            const modal = document.getElementById("myModal");
-            if(modal){
-               modal.remove();
-            }
-            return true;
-        }
-        </script>
-    </form>
+<body>    
+    <!-- 1. 用來承接 JS 動態產生表單的容器 -->
+    <div id="login-Form"></div>    
     <div id="footbottom">
         <span id="currentTime">更新時間 2026/03/16</span>
     </div>

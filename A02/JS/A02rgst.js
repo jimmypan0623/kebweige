@@ -516,24 +516,6 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 
 }
 
-function searchOptionsKey(tbno,slt5){	
-	if (tbno==0){
-		slt5.options.add(new Option('登入帳號','a01.F01'));
-		slt5.options.add(new Option('人員姓名','a01.F03'));
-	    slt5.options.add(new Option('部門編號','a01.F04'));
-		slt5.options.add(new Option('部門名稱','a14.F02'));
-		slt5.options.add(new Option('員工編號','a01.F12'));
-	} else{
-		slt5.options.add(new Option('功能代號','a02.F03'));
-		slt5.options.add(new Option('功能名稱','a03.F02')); 	
-		slt5.options.add(new Option('附加權限一','a03.F08')); 
-		slt5.options.add(new Option('附加權限二','a03.F09')); 
-		slt5.options.add(new Option('附加權限三','a03.F10')); 
-		slt5.options.add(new Option('附加權限四','a03.F11')); 
-		slt5.options.add(new Option('附加權限五','a03.F12')); 
-	}
-}
-
 function bodyCopyList(ajTable){
     var oTr=ajTable.insertRow(ajTable,ajTable.length);  
 	var oTd = oTr.insertCell(0);	

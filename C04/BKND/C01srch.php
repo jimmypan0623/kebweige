@@ -4,7 +4,7 @@ header("Cache-Control: no-cache, must-revalidate");
 header("Pragma: no-cache");
 
 require_once("../../include/BKND/mysqli_server.php");
-
+require_once "../../include/BKND/fieldpreset.php";
 // --- 輔助函式：白名單檢查欄位名 ---
 function isValidField($field) {
     // 限制欄位格式為 c01.Fxx 或 Fxx
@@ -52,23 +52,9 @@ if (strlen($searchRecord) > 0) {
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 
-$arr = array();
-while ($list3 = mysqli_fetch_assoc($result)) {
-    $arr[] = array(
-        'cust_no_ISL_050'         => $list3['F01'],
-        'cust_name_ISL_050'       => $list3['F05'],
-        'sales_no_IHL_000'        => $list3['F33'],
-        'sales_name_IHL_000'      => $list3['F0C'],
-        'crncy_type_IHL_000'      => $list3['F39'],
-        'touch_person_IHL_000'    => $list3['F12'],
-        'ship_way_IHL_000'        => $list3['F31'],
-        'pay_way_IHL_000'         => $list3['F15'],
-        'pay_men_IHL_000'         => $list3['F36'], // 修正原程式碼變數名拼錯 pay_men_IHL_000t
-        'dlvr_place_IHL_000'      => $list3['F07'],
-        'direct_IHL_000'          => $list3['F32'],
-        'custom_fullname_IHL_000' => $list3['F04']
-    );
-}
+$wthary = fldwdthpre('C04', 'C', $link);
+$afld=['F01','F05','F33','F0C','F39','F12','F31','F15','F36','F07','F32','F04'];
+$arr=afldcont($result,$afld,$wthary);
 
 mysqli_stmt_close($stmt);
 mysqli_close($link);

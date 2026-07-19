@@ -1,15 +1,25 @@
 <?php   
 $str_json = file_get_contents('php://input'); //($_POST doesn't work here)
 $response =json_decode($str_json); // decoding received JSON to array
-$rnddgt=intval($_COOKIE["INT_068"]);
-$taxrate=intval($_COOKIE["INT_002"]);
+
 $cart=json_decode($response);
 $brr=array();
 foreach($cart as $key=>$val){	   
     $brr[]=addslashes($val);		//要加入此函數避免中間有單引號錯亂
 }
  require_once("../../include/BKND/mysqli_server.php");                              //引用檔  
- require_once "../../include/BKND/paymentclc.php"; // 引入 
+ require_once "../../include/BKND/paymentclc.php"; // 引入
+$sq20 = "SELECT F01, F06 FROM a26 WHERE F01 IN ('INT_002', 'INT_068','INT_011')";
+$sql20 = @mysqli_query($link, $sq20);
+while ($list8 = mysqli_fetch_assoc($sql20)) {
+    if ($list8['F01'] == 'INT_002') {         //稅率      
+		$taxrate=intval($list8['F06']);
+    } elseif ($list8['F01'] == 'INT_068') {   //四捨五入      
+		$rnddgt=intval($list8['F06']);       
+    } elseif ($list8['F01'] == 'INT_011'){   //幣別
+	   $crnt=$list8['F06'];
+	}
+} 
  $sql7="SELECT F10 FROM b02 WHERE F01='".$brr[0]."'"; 
  $sql8=@mysqli_query($link,$sql7);                       
   $list2=mysqli_fetch_assoc($sql8);  //檢查是否已確認過
@@ -149,7 +159,7 @@ foreach($cart as $key=>$val){
 		  '',
 		 '".$v['check_way']."',
 		 '".$v['lastupdate']."',			
-		 '".$_COOKIE["INT_011"]."',
+		 '".$crnt."',
 		 1,
 		 '".$v['remark']."',		          
 		 '00', 			 

@@ -103,7 +103,7 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
      return;	 
 }	 
 
-function contenBkndAjax(sendSrcRec){
+/* function contenBkndAjax(sendSrcRec){
 	var rsp="";  	
 	if(window.ActiveXObject){
 	   var request = new ActiveXObject("Microsoft.XMLHttp");
@@ -123,6 +123,36 @@ function contenBkndAjax(sendSrcRec){
 		}
 	}	 	 
     return;			   	
+} */
+async function contenBkndAjax(sendSrcRec) {
+    
+     const url = "D19/BKND/D19Contentbrow.php";
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+			cache: 'no-store', // 👈 關鍵：強制每次都向伺服器重新請求
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: sendSrcRec
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const rsp = await response.json();
+        
+        // 確保 rsp 與 rsp.recdrow 存在再進行呼叫
+        if (rsp && rsp.recdrow !== undefined) {
+            contentShow(rsp.recdrow);
+        } else {
+            console.warn("回傳的資料格式不符:", rsp);
+        }
+    } catch (error) {
+        console.error("請求失敗:", error);
+		alert("系統連線失敗，請稍後再試");
+    }
 }
 
 function contentShow(arr){ 

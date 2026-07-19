@@ -1,7 +1,7 @@
 ﻿<?php
 header("Content-Type: application/json; charset=utf-8");
 require_once("../../include/BKND/mysqli_server.php");
-
+require_once "../../include/BKND/fieldpreset.php";
 // 1. 確保接收到資料且格式正確
 if (!isset($_POST['filename'])) {
     echo json_encode(["error" => "缺少參數"]);
@@ -33,29 +33,36 @@ mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 
 $data = array();
-
+$wthary = fldwdthpre('C05', 'B', $link);
 while ($row = mysqli_fetch_assoc($result)) {
     $change = (float)$row['RST'];
     $running_qty = round($running_qty + $change, 4); // 四捨五入處理，避免浮點數誤差
 
     $prefix = substr($row['F01'], 0, 2);
     
-    $data[] = [
-        'rc_no_IHC_000'      => $prefix . $row['F00'],
-        'order_no_ISC_010'   => $row['F01'],
-        'order_type_ISC_004' => ($prefix == 'CA') ? '出貨' : '進貨',
-        'ship_date_ISC_010'   => $row['F06'],
-        'change_qty_ISR_010' => $change,
-        'remain_qty_ISR_010' => $running_qty,
-        'obj_no_ISC_007'     => $row['F03'],
-        'obj_name_ISC_008'   => $row['ABR']
-    ];
+		$mapping = [
+				$prefix . $row['F00'],     //序號
+				$row['F01'],               //單據號碼
+				($prefix == 'CA') ? '出貨' : '進貨',   //異動
+				$row['F06'],               //異動日期
+				$change,                   //異動數量
+				$running_qty,              //預期結餘 
+				$row['F03'],               //對象編號
+				$row['ABR']                //對象簡稱
+		    ];
+		$atr = [];
+		$i = 0;
+		foreach ($mapping as  $db_col) { 
+			$atr[$wthary[$i]] = $db_col ?? '';
+			$i++;
+		}
+		$arr[] = $atr;		
 }
 
 mysqli_stmt_close($stmt);
 mysqli_close($link);
 
-echo json_encode($data);
+echo json_encode($arr);
 ?>
 
  

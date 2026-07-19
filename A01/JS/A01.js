@@ -27,6 +27,7 @@ function getProfile(str1,reccount,tbno) {
 	     var oTable = document.getElementById("maintbody3");
 		//var fld=document.getElementById('recfield3');
 	}		
+	var auth=['新增','修改','刪除','列印'];
 	for(var i=0;i<arr.length;i++){		
 	    var oTr=oTable.insertRow(-1);	
         oTr.setAttribute("name","mainrow");	      		
@@ -65,6 +66,21 @@ function getProfile(str1,reccount,tbno) {
 			   oTd.innerHTML=locateLCR(arr[i][jk]);
 			  
 			}			
+			if(auth.some(auth => jk.includes(auth)) &&  tbno==1){
+				 
+					if(arr[i][jk]=='E'){
+						oTd.setAttribute("style","width:5%;;text-align:center;color:#BAF4D8;")  
+					}else{
+						oTd.setAttribute("style","width:5%;text-align:center;");
+					}					 	
+			} 
+			if(jk.includes('附加權限') && tbno==1){					
+					if(oTr.cells[sn-5].innerHTML!='Y'){									  
+				    	oTd.setAttribute("style","width:11%;text-decoration: line-through;color:#7f8890;");
+				    }else{
+					    oTd.setAttribute("style","width:11%;");
+				    }	 
+			}		
 			// 點擊事件綁定
 			attachEventListener(oTd, 'click', rowchoose, false);
 			sn++;

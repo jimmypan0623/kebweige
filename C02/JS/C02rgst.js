@@ -84,7 +84,7 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 }
 
 
-function c01CustomName(event){	
+/* function c01CustomName(event){	
    if (typeof event=="undefined")
 	{
 		event=window.event;
@@ -118,8 +118,62 @@ function c01CustomName(event){
 		  }
 	}
 	return;
-}
+} */
 
+async function c01CustomName(event) {	
+    // 1. 取得事件目標（相容舊瀏覽器）
+    if (typeof event == "undefined") {
+        event = window.event;
+    }	
+    var targetCustomNo = getEventTarget(event);	
+    
+    // 如果找不到目標或沒有值，就不用發送請求
+    if (!targetCustomNo || !targetCustomNo.value) return;
+
+    // 2. 使用 URLSearchParams 安全包裝資料，自動處理特殊字元轉義
+    var sendSrcRec = new URLSearchParams();
+    sendSrcRec.append("filename", targetCustomNo.value);
+
+    // 加上時間戳記防止瀏覽器快取
+    var url = "B01/BKND/C01CustomName.php?timestamp=" + Date.now();			
+    
+    try {
+        // 3. 發送 fetch POST 請求
+        var response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: sendSrcRec.toString()
+        });
+
+        // 檢查網路回應是否成功
+        if (!response.ok) {
+            throw new Error("網路回應錯誤，狀態碼：" + response.status);
+        }
+
+        // 4. 解析後端回傳的 JSON 資料
+        var rsp = await response.json(); 	
+
+        // 5. 執行你的前端 UI 更新與檢查邏輯
+        if (rsp && rsp[0]) {
+            var cstnm = document.getElementById('customname');
+            
+            // 填入查詢到的客戶名稱（如果沒有資料，賦予空字串）
+            cstnm.value = rsp[0]['customname'] || '';
+            
+            // 【核心邏輯】如果欄位值為空（代表沒查到名稱）
+            if (!cstnm.value) {
+                targetCustomNo.value = '';             // 先清空原本輸入的錯誤編號
+                targetCustomNo.placeholder = '無此編號'; // 顯示提示字
+                targetCustomNo.focus();               // 強制聚焦，讓使用者直接重新輸入
+            }
+        }
+
+    } catch (error) {
+        console.error("查詢客戶名稱失敗:", error);
+    }
+}
 function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出現之欄位
     var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	  var oTd = oTr.insertCell(0);	   
@@ -329,13 +383,7 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
     //最後異動	 
 	maintable.rows[args[arglth-1]].cells[arglth].innerHTML=rsp.lastupdate;		
 }
-function searchOptionsKey(tbno,slt5){	
-	 slt5.options.add(new Option('料品編號','c02.F03'));
-	 slt5.options.add(new Option('客戶品號','c02.F04'));
-	 slt5.options.add(new Option('客戶編號','c02.F01'));
-	 slt5.options.add(new Option('客戶簡稱','c01.F04'));
-	 slt5.options.add(new Option('報價單號','c02.F11'));	
-}
+
 function  addNewRecordHint(tbno){
    return "請輸入相關料號：";		
 }

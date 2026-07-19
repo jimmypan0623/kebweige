@@ -123,49 +123,23 @@ function unescapeHTML(a){
 }
 //  SELECT選項
 function optionitem(adored,id_no,select_width,url_path){	
-	if(window.ActiveXObject)
-		var request = new ActiveXObject("Microsoft.XMLHttp");
-	 else if(window.XMLHttpRequest)
-		var request = new XMLHttpRequest();
-	request.onreadystatechange = respond;    
-	var url=url_path+"?timestamp="+new Date().getTime();   
-	var queryString=createQueryString();
-	request.open("POST",url);	 
-	request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-	request.send(queryString);	
-	function respond(){
-       if (request.readyState == 4 && request.status == 200) {	
-           
-		  var rsp=JSON.parse(request.responseText);	 
-		 
-		  optionadd(rsp.recdrow,rsp.crntkey,id_no,select_width);	   	
-	  }
-    }
-	function createQueryString(){	    		 			
+	
+	 //var url=url_path+"?timestamp="+new Date().getTime();   
+	 var url=url_path;  
 	     var queryString ="filename="+adored;
-	    return queryString;	 
-	}	
-	return
+	
+	 
+	fetch(url, {
+     method: 'POST',
+	 cache: 'no-store', // 👈 關鍵：強制每次都向伺服器重新請求
+     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: queryString
+    })
+     .then(res => res.json())
+     .then(rsp => optionadd(rsp.recdrow,rsp.crntkey,id_no,select_width));
 }
 
-/* function optionadd(opt3,crntslt,idNo,slctWdth){	
-	var slt4 = document.getElementById(idNo);	    	//crntopt
-	var item_no="";
-	var item_value="";	 
-	for(var i=0;i<opt3.length;i++){		
-		var item_no="";
-		var varItem="";
-		for(var jk in opt3[i]){		   
-			item_no+=opt3[i][jk]+"    ";	
-	       	varItem=new Option(item_no,item_no.substring(0,slctWdth).trim());	//4		     
-		}
-		slt4.options.add(varItem);  		 
- 	   if(slt4.options[i].value.trim()==crntslt){	
-	       slt4.options[i].selected=true;	        	   
-       }
-	}	
-}
- */
+
 function optionadd(optionsData, currentValue, selectId, sliceWidth) {
     const selectElement = document.getElementById(selectId);
     if (!selectElement) return; // 安全檢查
@@ -227,7 +201,11 @@ function outprocs(event){
 	   var bibau=cko[0](0);   //找出所有閉包首頁紀錄變數  
 	   cko[0](bibau*(-1));    //將閉包變數歸零
 	}
-	 getAuth[0]('Clear_All');
+	getAuth[0]('Clear_All');
+	  //記錄三個頁面搜尋選項的閉包變數清空
+	for(let k=4;k<7;k++){
+	   getAuth[k]('Clear_All');	
+	}
 	///// 
 	/* var scriptall=document.getElementsByTagName("script");
 	for(var j=0;j<scriptall.length;j++){
@@ -239,12 +217,8 @@ function outprocs(event){
 	document.querySelectorAll("script[id]").forEach(s=>s.remove());		
 	/////	 
      var urlfolder=document.getElementsByTagName('title');		 
- 
-	  
-	  
-     nowExcute='RED.知訊數位營運管理系統';		 
-	 urlfolder[0].innerHTML=nowExcute; 		
-    
+ 	
+    urlfolder[0].innerHTML='RED.知訊數位營運管理系統';
     initDialog();
     //history.back();	
 	
@@ -264,7 +238,7 @@ function DrawTable(){
 			 } 
 	     }		           
 	   var slt2=document.getElementById('recmth');	
-       var yesmth=getAuth[0]()[11];//getCookie("MorP");
+       var yesmth=getAuth[0]()[11];
 	    if (yesmth=='P'){  //如果非月份檔
 		   var item_no=paddingLeft(1,3);
 		   var varItem=new Option(item_no,item_no);
@@ -318,45 +292,33 @@ function commontemp(idn,stk){
 		
 		while(aTable.rows.length > 0) { aTable.deleteRow(0); }
 	}
-	if(window.ActiveXObject){
-		var request = new ActiveXObject("Microsoft.XMLHttp");
-	}else if(window.XMLHttpRequest){
-		var request = new XMLHttpRequest();
-	}
- 	request.onreadystatechange = respond;    
+	
 	    var urlfolder=document.getElementsByTagName('title');  //菜單主畫面程式還是抓取title前三碼
 	    var urlpath=(left(urlfolder[0].innerHTML,3));          //所以其他程式沿用 
 	    
-		if(!urlpath){    //此段甚為重要!!有時會抓不到title,一開始就使用getCookie("funNo")則菜單無法執行,更容易造成null值
-		    var nowExcute=left(getAuth[0]()[0],3);   //left(getCookie("funNo"),3);
+		if(!urlpath){    //此段甚為重要!!有時會抓不到title,
+		    var nowExcute=left(getAuth[0]()[0],3);    
 		    urlpath=nowExcute;
 		}
 
     if(urlpath!='RED'){		
-	    if (tbno==0){
-	        var url=urlpath+"/BKND/"+urlpath+"brow.php?timestamp="+new Date().getTime();	
+	    if (tbno==0){	       
+			var url=urlpath+"/BKND/"+urlpath+"brow.php";	
 	    }else if (tbno==1){
-		     var url=urlpath+"/BKND/"+urlpath+"bodybrow.php?timestamp="+new Date().getTime();
+			 var url=urlpath+"/BKND/"+urlpath+"bodybrow.php";
 	    }else if (tbno==2){
-		     var url=urlpath+"/BKND/"+urlpath+"hipsbrow.php?timestamp="+new Date().getTime();
+		     var url=urlpath+"/BKND/"+urlpath+"hipsbrow.php";
 	    }
 	}else{
-	    var url=urlpath+"/BKND/"+urlpath+"brow.php?timestamp="+new Date().getTime();	
+		var url=urlpath+"/BKND/"+urlpath+"brow.php";
 	}
+	
 	var queryString=createQueryString();
-	request.open("POST",url);	 
-	request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-	request.send(queryString);	
-	function respond(){
-        if (request.readyState == 4 && request.status == 200) {	   
-           rsp=JSON.parse(request.responseText);						   
-           getProfile(rsp.recdrow,rsp.pgttl,tbno);	   		 	           	  
-	    }
-    }
+	
 	function createQueryString(){		     
 		if(tabs.length>0 && urlpath!='RED'){	
-			var yesmth=getAuth[0]()[11];   //getCookie("MorP");
-			var yesdpt=getAuth[0]()[13]; //getCookie("adddpt");
+			var yesmth=getAuth[0]()[11];   
+			var yesdpt=getAuth[0]()[13]; 
 		    if (stk=="PGE"){	
 				if (yesmth=='P'){  //如果非月份檔
 	    		    var queryString ="filename="+stk+idn+'|'+cko[0](0)+'_'+(getAuth[2]()[0].INT_RCD);				
@@ -365,7 +327,7 @@ function commontemp(idn,stk){
 					if(yesdpt=='D'){   //如果為部門別檔
 					   var dptoption= document.getElementById('departNoOption').value;
 					 
-				       var queryString ="filename="+stk+idn+'|'+((dptoption)?dptoption:getCookie('INT_193'));   
+				       var queryString ="filename="+stk+idn+'|'+(dptoption?dptoption:getAuth[2]()[0].INT_193);   
 					   
 					}else{
 					   var queryString ="filename="+stk+idn+'|';
@@ -381,7 +343,7 @@ function commontemp(idn,stk){
 
 						if(yesdpt=='D'){   //如果為部門別檔
 						     var dptoption= document.getElementById('departNoOption').value;
-					         var queryString ="filename="+stk.substring(0,7)+"|"+idn+"_"+document.getElementById('recmth').value+"~"+((dptoption)?dptoption:getCookie("INT_193"));  
+					         var queryString ="filename="+stk.substring(0,7)+"|"+idn+"_"+document.getElementById('recmth').value+"~"+(dptoption?dptoption:getAuth[2]()[0].INT_193);  
 					    }else{  
 					 
 					        var queryString ="filename="+stk.substring(0,7)+"|"+idn+"_"+document.getElementById('recmth').value;
@@ -404,11 +366,18 @@ function commontemp(idn,stk){
 		}
 	    return queryString;
 	}  
-	 
+	fetch(url, {
+     method: 'POST',
+	 cache: 'no-store', // 👈 關鍵：強制每次都向伺服器重新請求
+     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: queryString
+    })
+     .then(res => res.json())
+     .then(rsp => getProfile(rsp.recdrow,rsp.pgttl,tbno)); 
  
 	if(urlpath!='RED'){ 
-			    var maintable=document.getElementById("member"+(tbno+1).toString());	
-				var responseDiv=document.getElementById("serverResponse"+(tbno+1).toString());		
+		var maintable=document.getElementById("member"+(tbno+1).toString());	
+		var responseDiv=document.getElementById("serverResponse"+(tbno+1).toString());		
     }
 	
 	return true; 
@@ -435,7 +404,7 @@ function addrec(event){
 	responseDiv.innerHTML='&nbsp';	
 	var Today=new Date();
    var nowday=Today.getFullYear()+ "-" + paddingLeft((Today.getMonth()+1).toString(),2) + "-" + paddingLeft((Today.getDate()).toString(),2) ;
-	var myAccount=getAuth[1]()[0]; //getCookie('useraccount');
+	var myAccount=getAuth[1]()[0]; 
 	var flg=0;
 
 	var targetTrs=targetTbody.getElementsByTagName("tr");   

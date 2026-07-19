@@ -9,7 +9,7 @@ function blocksclose(event)  //關閉註冊彈出視窗
 		tabs[i].setAttribute("accesskey",(i+1).toString());
 	}			
 	if (tabs[0].checked){
-	    if (target.value=="\u{274E}"  && getCookie('INT_127')=='Y'){    //
+	    if (target.value=="\u{274E}"  && getAuth[2]()[0].INT_127 =='Y'){    //
 		    var maintable=document.getElementById("maintbody1");		 		
 		    var tablerowindex=0;
 		    for(var i=0;i< maintable.rows.length; i++){			 
@@ -25,10 +25,13 @@ function blocksclose(event)  //關閉註冊彈出視窗
 			}
 	        if(document.getElementById('queryno')!=null){			  
 	            var currentNo=document.getElementById('queryno').value;	            	 
-	            if (currentNo.trim()!="" && currentNo.trim()!=query_no){ //如果非修改且自動編號		         
-		   	        var thtdy=document.getElementById('recmth').value;
-				    discardNoRec('KA'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase(),currentNo.trim());
-	            } 
+	            if (currentNo.trim()!="" && currentNo.trim()!=query_no){ //如果非修改且自動編號	
+				    const regexA = /^KA\d{2}[1-9A-C]\d{5}$/;
+		   	        if(regexA.test(currentNo.trim())){		
+		   	            var thtdy=document.getElementById('recmth').value;
+				        discardNoRec('KA'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase(),currentNo.trim());
+	                }
+				} 
 	        }
 	    }
     }
@@ -196,9 +199,12 @@ function calculateTtl(tbno,maintable,i){      //刪除確認(delConfirm)中挑�
 	return;
 }
  function billNoReCreate(currentNo){         //刪除確認(delConfirm)中挑出之個別程序
-    if (getCookie('INT_099')=='Y' && getCookie('INT_127')=='Y'){ //如果是系統參數設為自動編號且刪掉號碼重用			
-		var thtdy=document.getElementById('recmth').value;
-		discardNoRec('KA'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase(),currentNo.trim());
+    if (getAuth[2]()[0].INT_099 =='Y' && getAuth[2]()[0].INT_127 =='Y'){ //如果是系統參數設為自動編號且刪掉號碼重用			
+		 const regexA = /^KA\d{2}[1-9A-C]\d{5}$/;
+		 if(regexA.test(currentNo.trim())){	
+		    var thtdy=document.getElementById('recmth').value;
+		    discardNoRec('KA'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase(),currentNo.trim());
+		 }
 	} 
  return;
  }
@@ -608,22 +614,7 @@ function transConfirm(oTd){
     //oTd.innerHTML="<input type='text' name='c03update' id='newPono' class='txt' style='display:none;' maxlength='10'/>"; 		
     return true;
 }   
-function searchOptionsKey(tbno,slt5){	
-    if (tbno==0){
-		 
-		 slt5.options.add(new Option('沖銷單號','k08.F01'));
-		 slt5.options.add(new Option('客戶編號','k08.F06'));
-		 slt5.options.add(new Option('客戶簡稱','c01.F05'));		 
-		 slt5.options.add(new Option('業務編號','k08.F09'));
-		 slt5.options.add(new Option('業務姓名','a01.F03'));
-		  slt5.options.add(new Option('支票/收據號','k08.F04')); 		  
-		slt5.options.add(new Option('已確認?(Y/N)','k08.F10')); 			
-	}else{
-		 slt5.options.add(new Option('憑證單號','k0h.F03'));
-		 slt5.options.add(new Option('發票號碼','k0h.F02'));
-							  
-	}
-}
+
 
 function  addNewRecordHint(tbno){
     if (tbno==0){  //表頭資料

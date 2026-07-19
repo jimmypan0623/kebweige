@@ -118,12 +118,12 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	            oTd.setAttribute('style','text-align:right;width:15%');					
 	            oTd.innerHTML='管理單位:';
 	            var oTd = oTr.insertCell(1);               	              
-	            var slt5=document.createElement("select");
-	            slt5.options.add(new Option('內控','1'));
-	            slt5.options.add(new Option('托外','2'));	            
-	            slt5.setAttribute("id","whoincharge");
-	            slt5.setAttribute("name","a09update");
-	            oTd.appendChild(slt5);	    
+	            var slt6=document.createElement("select");
+	            slt6.options.add(new Option('內控','1'));
+	            slt6.options.add(new Option('托外','2'));	            
+	            slt6.setAttribute("id","whoincharge");
+	            slt6.setAttribute("name","a09update");
+	            oTd.appendChild(slt6);	    
                 var oTr=ajTable.insertRow(ajTable,ajTable.length);
 	            var oTd = oTr.insertCell(0);
 	            oTd.setAttribute('style','text-align:right;width:15%;');	
@@ -233,11 +233,6 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 
 	//最後異動
     maintable.rows[args[arglth-1]].cells[arglth].innerHTML=rsp.lastupdate;		
-}
-
-function searchOptionsKey(tbno,slt5){	
-	 slt5.options.add(new Option('部門編號','a14.F01'));
-	 slt5.options.add(new Option('部門名稱','a14.F02'));
 }
 
 

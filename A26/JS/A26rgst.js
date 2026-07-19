@@ -271,13 +271,6 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 					maintable.rows[args[arglth-1]].cells[arglth-1].innerHTML=rsp.lastupdate;
 }
 
-function searchOptionsKey(tbno,slt5){	
-	slt5.options.add(new Option('參數編號','a26.F01'));
-	slt5.options.add(new Option('參數說明','a26.F02'));
-	slt5.options.add(new Option('設定內容','a26.F06'));	    
-}
-
-
 
 function  addNewRecordHint(tbno){
 

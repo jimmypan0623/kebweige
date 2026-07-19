@@ -1,6 +1,5 @@
-function getProfile(str1,reccount) {      
+function getProfile(arr,reccount) {      
     var cnt=0;
-	var arr = str1; 
     var tabs=getElementsByAttribute("class","tab");
         var pagecount=Math.ceil(reccount/parseInt(getAuth[2]()[0].INT_RCD));
         var optdigts= (pagecount.toString()).length;	    
@@ -20,7 +19,9 @@ function getProfile(str1,reccount) {
 	  
 	}
 	var oTable = document.getElementById("maintbody1");
-	
+	var readyOut='';
+	var availQ='';
+	var overDue='';
 	for(var i=0;i<arr.length;i++){		
 		var oTr=oTable.insertRow(-1);	
 		oTr.setAttribute("name","mainrow");	      		
@@ -38,6 +39,12 @@ function getProfile(str1,reccount) {
 			}											
 			// 點擊事件綁定
 			attachEventListener(oTd, 'click', rowchoose, false);
+			if(i==0){
+			    if(jk.includes('預定交期')) overDue=jk;
+			    if(jk.includes('開單未出')) readyOut=jk;	
+			    if(jk.includes('預期結餘')) availQ=jk;	
+			}
+			 
 		}
 	   var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
 	   oTd.setAttribute("style","width:40px;display:none");   //勾選不顯示
@@ -46,9 +53,9 @@ function getProfile(str1,reccount) {
 	   myCheck.setAttribute("name","chkbxmember1");   //讓使用者勾選的checkbox表頭			
 	   attachEventListener(myCheck,'click',chooserc,false);		   
 	   oTd.appendChild(myCheck);     		    
-		if(arr[i]['開單未出_IHC_000']*1>0){  //有開單未過帳量
+		if(arr[i][readyOut]*1>0){  //有開單未過帳量
 			oTr.setAttribute("style","font-weight:bold;color:#704214;");//#949100
-		}else if(arr[i]['預定交期_IHC_000']>0 || arr[i]['預期結餘_ISR_007']<0){  //預定交期超過今天或預期數量小於零則紅字
+		}else if(arr[i][overDue]>0 || arr[i][availQ]<0){  //預定交期超過今天或預期數量小於零則紅字
 			oTr.setAttribute("style","font-weight:bold;color:#E60000;");
 		}		  
 	}
@@ -77,8 +84,6 @@ function getProfile(str1,reccount) {
 		 
 	  }		    
 }
-
-
 
 /**
  * 按鈕可用性檢查 (整合版)

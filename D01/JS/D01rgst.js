@@ -8,7 +8,7 @@ function blocksclose(event)  //關閉註冊彈出視窗
     for(var i=0;i<tabs.length;i++){
 		tabs[i].setAttribute("accesskey",(i+1).toString());
 	}	
-	if (target.value=="\u{274E}"  && getCookie('INT_004')=='Y'){
+	if (target.value=="\u{274E}"  && getAuth[2]()[0].INT_004 =='Y'){
 	   if(document.getElementById('venderno')!=null){
 	      var currentNo=document.getElementById('venderno').value;	   
 	      if (currentNo.trim()!="" && currentNo.trim()!=document.getElementById('vender_no').innerHTML){ //如果非修改且自動編號
@@ -324,7 +324,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		   optionitem(aWaitUpdate[15],slt4.id,4,"D01/BKND/D00srch.php");						   
 	    }else{
 	  	   oTd.innerHTML="<input type='text' name='d01update' id='venderno' class='txt' style='width:65%;' maxlength='6'/>"; 				    
-		   optionitem(getCookie('INT_011'),slt4.id,4,"D01/BKND/D00srch.php");				//參數預設幣別	
+		   optionitem(getAuth[2]()[0].INT_011,slt4.id,4,"D01/BKND/D00srch.php");				//參數預設幣別	
 	    }			 
 	    var oTd = oTr.insertCell(2);	   
  	    oTd.setAttribute('style','text-align:right;width:12%');					
@@ -486,7 +486,7 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
     switch (txtword) {
 		case 1:                                   //如果是新增
 			if (tbno==0){
-			   if(getCookie('INT_004')=='Y'){       //如果參數設為系統自動編號
+			   if(getAuth[2]()[0].INT_004 =='Y'){       //如果參數設為系統自動編號
 			      objGetNo('venderno','V0000');
 			   }
 			   document.getElementById("venderno").focus();	
@@ -498,7 +498,7 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 				 document.getElementById("validstart").value=thtdy;  //日期都設為今天
 				//以下這一串是在算往後推的日期
 				var today=new Date();
-				var endday=today.addDays(parseInt(getCookie('INT_126'))); //加上參數預設有效天數
+				var endday=today.addDays(parseInt(getAuth[2]()[0].INT_126)); //加上參數預設有效天數
 				var endaydash=endday.getFullYear()+'-'+MyMonth(endday.getMonth())+'-'+((endday.getDate()<10) ? "0" : "") + endday.getDate();	
 				document.getElementById("validend").value=endaydash;  //日期往後推 	
 			}
@@ -605,20 +605,7 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 	maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=rsp.lastupdate;		
  
 }
-function searchOptionsKey(tbno,slt5){	
-	if (tbno==0){
-		slt5.options.add(new Option('廠商編號','d01.F01'));
-		slt5.options.add(new Option('廠商名稱','d01.F04'));
-		slt5.options.add(new Option('採購編號','d01.F39'));
-		slt5.options.add(new Option('採購姓名','a01.F03'));
-		slt5.options.add(new Option('統一編號','d01.F06'));
-		slt5.options.add(new Option('廠商地址','d01.F05'));		 		 
-	} else{
-		slt5.options.add(new Option('料品編號','d02.F03'));
-		slt5.options.add(new Option('品名規格','b01.F02'));
-		slt5.options.add(new Option('廠商品號','d02.F04'));				   									  
-	}
-}
+
 function  addNewRecordHint(tbno){
     if (tbno==0){  //表頭資料
         return "請輸入廠商基本資料：";

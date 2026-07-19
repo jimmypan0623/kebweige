@@ -240,18 +240,24 @@ function blkshow(txtword)
 			var oTd = oTr.insertCell(0);	 
 			oTd.setAttribute('style','text-align:center;width:25%');					 
 			var slt5=document.createElement("select");
-			searchOptionsKey(tbno,slt5);  //搜尋畫面鍵值選項
+
+		    getAuth[4+tbno]().sort((a, b) => a.order.localeCompare(b.order));   //排序 
+			//   使用 forEach 迴圈動態加入選項
+			getAuth[4+tbno]().forEach(item => {  
+                    slt5.options.add(new Option(item.text, item.value));
+			});
 			slt5.setAttribute("id","filterField");
 			slt5.setAttribute("name","srchfld");
 			slt5.setAttribute("style","width:100%;");
 			attachEventListener(slt5,'change',notIceChg,false);   
 			oTd.appendChild(slt5);	
-			
-			if(slt5.options[cko[6](0)].text.indexOf('(Y/N)')>0){   //如果是過濾選項則歸零
+
+			if (slt5.options[cko[6](0)]?.text?.includes('(Y/N)')) {   //如果是過濾選項則歸零
 			    var baui=cko[6](0);
 				cko[6](baui*(-1));				  
 			}
-			  slt5.value=(slt5.options[cko[6](0)].value);
+		
+			  slt5.value=slt5.options[cko[6](0)].value;
 			   var oTd = oTr.insertCell(1);
 			   oTd.setAttribute('style','text-align:right;width:6%');	
 			   oTd.innerHTML="欄=";
@@ -309,22 +315,9 @@ function TableToJson(args,nongs,tbno){
 	}									
 	var json=order_head.slice(0,-1)+"}";   //去掉最後一個逗號再加上右大引號	 	 	
     var str_json=JSON.stringify(json);	
-	////
-	
-	
-	////
-	
+
     setCookie('useraccount',getAuth[1]()[0]);	
-	if(!getCookie('INT_HTM')){
-		 const myObject = getAuth[2]()[0];       //再呼叫第一次複製在閉包變數裡的再設一次cookie
-		 for (const key in myObject) {
-			 if (Object.hasOwnProperty.call(myObject, key)) {
-				if (getAuth[3]()[0][key]!='T'){
-					setCookie(key,getAuth[2]()[0][key]); 
-				}
-			}
-         } 	       
-	}  
+	
 	var mainright=document.getElementsByTagName('title'); 
 	if(window.ActiveXObject){
 	    var request = new ActiveXObject("Microsoft.XMLHttp");
@@ -401,7 +394,8 @@ function TableToJson(args,nongs,tbno){
                     }, 9000)
                      })(9000);                   //  pass the number of iterations as an argument
 					 
-		             document.location.href="logOut.php";
+		            document.location.href="logOut.php";
+					//setTimeout(initDialog, 2000);
 				} 
 				
             }										
@@ -409,8 +403,10 @@ function TableToJson(args,nongs,tbno){
     }      
 	return true; 
 }  
+ 
 
 
+ 
 function notIceChg(event){
     if (typeof event=="undefined"){
 		event=window.event;		

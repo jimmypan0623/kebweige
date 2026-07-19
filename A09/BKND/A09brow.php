@@ -5,9 +5,7 @@
    $rows=0;
    if (substr($_POST['filename'],0,3)=="PGE"){	  
 	   $pgeno=getNeedBetween($_POST['filename'],'E','|'); // 頁次 
-      // $rows=(int)substr(strrchr($_POST['filename'],'|'),1);	
 	   $rows=(int)getNeedBetween($_POST['filename'],'|','_') ;	
-	   //$pagerows=$_COOKIE['INT_RCD'] ;  //每頁筆數 
         $pagerows=(int)substr(strrchr($_POST['filename'],'_'),1);	   
 	   $total_pages=ceil($rows/$pagerows);   //如果非初始畫面則應有大於等於1的數字	   
 	  if($total_pages<=1){
@@ -24,7 +22,7 @@
    }else{
 	    $fieldNo=substr($_POST['filename'],0,7);
 		$filterKey=substr(strrchr($_POST['filename'],'|'),1);
-	    //$searchRecord =$_POST['filename'];
+	   
 		$sql="SELECT * FROM a14 "; 	   		 
 		$sql3=$sql." WHERE ".$fieldNo." like '%".trim($filterKey)."%' order by ".$fieldNo ; 
    }	   

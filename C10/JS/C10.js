@@ -115,8 +115,9 @@ function updateUIStatus(cnt, responseDiv, seekrcd, queryttl, rnddgt, scndttl) {
         chooserc(1);
         
         // 金額四捨五入與格式化
-        var finalAmount = queryttl.toFixed(rnddgt);
-        scndttl.innerHTML = typeof thousands === "function" ? thousands(finalAmount) : finalAmount;
+        //var finalAmount = queryttl.toFixed(rnddgt);
+        //scndttl.innerHTML = typeof thousands === "function" ? thousands(finalAmount) : finalAmount;
+		scndttl.innerHTML=thousands(Math.round((queryttl + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt));
     } else {
         if (isSearching) {
             responseDiv.style.color = "red";

@@ -1,7 +1,10 @@
 ﻿<?php
-   header("Content-Type:text/html; charset=utf-8");   
+    header("Content-Type: application/json; charset=utf-8");
+    header("Cache-Control: no-cache, must-revalidate");
+    header("Pragma: no-cache");
 
-  require_once("../../include/BKND/mysqli_server.php");                              //引用檔   
+  require_once("../../include/BKND/mysqli_server.php");                              //引用檔  
+  require_once "../../include/BKND/fieldpreset.php";
         $fieldNo=substr($_POST['filename'],0,7);
 		$filterKey=substr(strrchr($_POST['filename'],'|'),1);
 	  $searchRecord =trim($filterKey);		
@@ -15,27 +18,12 @@
 	 }
 	 $sql3=$sql3."ORDER BY ".$fieldNo;
     $arr=array();	
-    $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_assoc($sql4)){		 
-		$atr = array('cust_no_ISL_050'=>$list3['F01'],  		            	             
-		             'cust_name_ISL_050'=>$list3['F04'],
-					 'sales_no_IHL_000'=>$list3['F39'],
-					 'sales_name_IHL_000'=>$list3['F0C'],
-					 'crncy_type_IHL_000'=>$list3['F25'],
-					  'touch_person_IHL_000'=>$list3['F08'],
-					 
-					 'pay_way_IHL_000'=>$list3['F15'],   //6
-					 'pay_ment_IHL_000'=>$list3['F36'],  //7
-					
-					 'direct_IHL_000'=>$list3['F19'],         //8
-					 'curncy_rate_IHL_000'=>$list3['F0B'],    //9
-					  'vendorFullname_rate_IHL_000'=>$list3['F03'],    //10
-					  'vendor_uniteno_IHL_000'=>$list3['F06'],    //11
-					   'vendor_telno_IHL_000'=>$list3['F09']     //12
-					 );    
-					                          
-		array_push($arr,$atr);
-	}
+    $result=@mysqli_query($link,$sql3); 
+	
+	$wthary = fldwdthpre('B02', 'V', $link);
+    $afld=['F01','F04','F39','F0C','F25','F08','F15','F36','F19','F0B','F03','F06','F09'];
+    $arr=afldcont($result,$afld,$wthary);
+
 	mysqli_close($link);
 	     $arr = array_values($arr);
          $json_string1 = json_encode($arr); 

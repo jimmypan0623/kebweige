@@ -38,41 +38,39 @@ function getProfile(arr,reccount,tbno) {
 				oTd.style.width = meta.width;
 				oTd.style.textAlign = meta.align;
 				if (meta.isHidden) oTd.style.display = "none";
-			}			
-			//// 
-			if(jk.includes('單價') && tbno==1){	
+			}						
+			if(meta.name=='單價' && tbno==1){	
 				attachEventListener(oTd, 'click', rowchoose, false);
 				var oTd = oTr.insertCell(oTr.cells.length);
 				oTd.setAttribute("class","indirectdata");					 
 				oTd.setAttribute("style","width:8%;text-align:right;");	
 				oTd.innerHTML=Math.round((oTr.cells[3].innerHTML*oTr.cells[4].innerHTML + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);	
 				queryttl+=Number(oTd.innerHTML);
-			}		 
-			if(jk.includes('開單未出') && tbno==1){	
+			}		 			
+			if(meta.name=='開單未出' && tbno==1){	
 				attachEventListener(oTd, 'click', rowchoose, false);
 				var oTd = oTr.insertCell(oTr.cells.length);
 				oTd.setAttribute("class","indirectdata");					 
 				oTd.setAttribute("style","width:8%;text-align:right;");	
 				oTd.innerHTML=Number(oTr.cells[3].innerHTML)-(Number(oTr.cells[8].innerHTML)+Number(oTr.cells[9].innerHTML));					 				
 				  
-			}	
-			////
+			}				
 			// 點擊事件綁定
 			attachEventListener(oTd, 'click', rowchoose, false);
 		}
-	   var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
-	   oTd.setAttribute("style","width:40px;display:none");   
-	   var myCheck=document.createElement('input'); 
-	   myCheck.type="checkbox";
-	   if(tbno==0){
-		  myCheck.setAttribute("name","chkbxmember1");   //讓使用者勾選的checkbox單頭
-		  if(arr[i]['是否確認_IHC_000']=='N'){  //未確認
-			  oTr.setAttribute("style","font-weight:bold;color:#704214;"); 
-		  }				  
-	   }else{ 
-		  myCheck.setAttribute("name","chkbxmember2");   //讓使用者勾選的checkbox表身
-		  scndttl.innerHTML= (Math.round((queryttl + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt));             
-	   }
+	    var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
+	    oTd.setAttribute("style","width:40px;display:none");   
+	    var myCheck=document.createElement('input'); 
+	    myCheck.type="checkbox";
+	    if(tbno==0){
+		    myCheck.setAttribute("name","chkbxmember1");   //讓使用者勾選的checkbox單頭
+		    if(arr[i]['是否確認_IHC_000']=='N'){  //未確認
+			   oTr.setAttribute("style","font-weight:bold;color:#704214;"); 
+		    }				  
+	    }else{ 
+		    myCheck.setAttribute("name","chkbxmember2");   //讓使用者勾選的checkbox表身
+		    scndttl.innerHTML= (Math.round((queryttl + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt));             
+	    }
 	   attachEventListener(myCheck,'click',chooserc,false);		   
 	   oTd.appendChild(myCheck);  		   		  
 	}

@@ -11,11 +11,11 @@
 	$arr=array();	
     $sql4=@mysqli_query($link,$sql3); 
 	while ($list3=mysqli_fetch_assoc($sql4)){		 
-		$atr = array('ship_order'=>$list3['F01'],
-		             'ship_date'=>($list3['F90'].'-'.$list3['F02']),
-		             'dpt_no'=>$list3['F05'],  	
-                     'dpt_name'=>$list3['F0B'],						                                         
-					 'ship_qty'=>$list3['F04']);          
+		$atr = array('進貨單號_ISC_020'=>$list3['F01'],
+		             '預進貨日_ISC_020'=>($list3['F90'].'-'.$list3['F02']),
+		             '部門編號_ISC_020'=>$list3['F05'],  	
+                     '部門名稱_ISC_020'=>$list3['F0B'],						                                         
+					 '預進貨量_ISC_020'=>$list3['F04']);          
 		array_push($arr,$atr);
 	}
 	mysqli_close($link);

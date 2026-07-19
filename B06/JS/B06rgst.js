@@ -9,7 +9,7 @@ function blocksclose(event)  //關閉註冊彈出視窗
 		tabs[i].setAttribute("accesskey",(i+1).toString());
 	}			
 	if (tabs[0].checked){
-	   if (target.value=="\u{274E}"  && getCookie('INT_127')=='Y'){    
+	   if (target.value=="\u{274E}"  && getCookie('INT_013')=='Y'){    
 		   var maintable=document.getElementById("maintbody1");		 		
 		   var tablerowindex=0;
 		   for(var i=0;i< maintable.rows.length; i++){			 
@@ -26,10 +26,13 @@ function blocksclose(event)  //關閉註冊彈出視窗
 			}
 	      if(document.getElementById('queryno')!=null){			  
 	         var currentNo=document.getElementById('queryno').value;	            	 
-	         if (currentNo.trim()!="" && currentNo.trim()!=query_no){ //如果非修改且自動編號		         
-		   	     var thtdy=document.getElementById('recmth').value;
-				 discardNoRec('BE'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase(),currentNo.trim());
-	         } 
+	         if (currentNo.trim()!="" && currentNo.trim()!=query_no){ //如果非修改且自動編號
+                const regexA = /^BE\d{2}[1-9A-C]\d{5}$/;
+		   	    if(regexA.test(currentNo.trim())){			 
+		   	        var thtdy=document.getElementById('recmth').value;
+				    discardNoRec('BE'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase(),currentNo.trim());
+	            }
+			 } 
 	      }
 	   }
     }
@@ -163,9 +166,12 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 }
 
 function billNoReCreate(currentNo){         //刪除確認(delConfirm)中挑出之個別程序
-    if (getCookie('INT_099')=='Y' && getCookie('INT_127')=='Y'){ //如果是系統參數設為自動編號且刪掉號碼重用			
-		var thtdy=document.getElementById('recmth').value;
-		discardNoRec('BE'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase(),currentNo.trim());
+    if (getCookie('INT_099')=='Y' && getCookie('INT_013')=='Y'){ //如果是系統參數設為自動編號且刪掉號碼重用			
+		const regexA = /^BE\d{2}[1-9A-C]\d{5}$/;
+		if(regexA.test(currentNo.trim())){		
+		   var thtdy=document.getElementById('recmth').value;
+		   discardNoRec('BE'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase(),currentNo.trim());
+	    }
 	} 
     return;
 }
@@ -416,21 +422,6 @@ function transConfirm(oTd){
    
     return true;
 }   
-function searchOptionsKey(tbno,slt5){	
-    if (tbno==0){		 
-		 slt5.options.add(new Option('移轉單號','b06.F01'));		  		 
-		 slt5.options.add(new Option('移轉日期','b06.F02'));
-		 slt5.options.add(new Option('轉出部門編號','b06.F05')); 
-		 slt5.options.add(new Option('轉出部門名稱','a1A.F02')); 
-		 slt5.options.add(new Option('轉入部門編號','b06.F07')); 
-		 slt5.options.add(new Option('轉入部門名稱','a1B.F02')); 
-		 slt5.options.add(new Option('已確認?(Y/N)','b06.F10')); 			
-	}else{
-		 slt5.options.add(new Option('料品編號','b0f.F03'));
-		 slt5.options.add(new Option('品名規格','b01.F02'));
-							  
-	}
-}
 
 function  addNewRecordHint(tbno){
     if (tbno==0){  //表頭資料

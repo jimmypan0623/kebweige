@@ -9,7 +9,7 @@ function blocksclose(event)  //關閉註冊彈出視窗
 		tabs[i].setAttribute("accesskey",(i+1).toString());
 	}			
 	if (tabs[0].checked){
-	    if (target.value=="\u{274E}"  && getCookie('INT_127')=='Y'){    //
+	    if (target.value=="\u{274E}"  && getCookie('INT_013')=='Y'){    //
 		    var maintable=document.getElementById("maintbody1");		 		
 		    var tablerowindex=0;
 		    for(var i=0;i< maintable.rows.length; i++){			 
@@ -25,10 +25,13 @@ function blocksclose(event)  //關閉註冊彈出視窗
 			}
 	        if(document.getElementById('queryno')!=null){			  
 	            var currentNo=document.getElementById('queryno').value;	            	 
-	            if (currentNo.trim()!="" && currentNo.trim()!=query_no){ //如果非修改且自動編號		         
-		   	        var thtdy=document.getElementById('recmth').value;
-				    discardNoRec('BD'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase(),currentNo.trim());
-	            } 
+	            if (currentNo.trim()!="" && currentNo.trim()!=query_no){ //如果非修改且自動編號		
+				    const regexA = /^BD\d{2}[1-9A-C]\d{5}$/;
+		   	        if(regexA.test(currentNo.trim())){
+		   	            var thtdy=document.getElementById('recmth').value;
+				        discardNoRec('BD'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase(),currentNo.trim());
+	                }
+				} 
 	        }
 	    }
     }
@@ -180,9 +183,12 @@ function calculateTtl(tbno,maintable,i){      //刪除確認(delConfirm)中挑�
 	return;
 }
  function billNoReCreate(currentNo){         //刪除確認(delConfirm)中挑出之個別程序
-    if (getCookie('INT_099')=='Y' && getCookie('INT_127')=='Y'){ //如果是系統參數設為自動編號且刪掉號碼重用			
-		var thtdy=document.getElementById('recmth').value;
-		discardNoRec('BD'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase(),currentNo.trim());
+    if (getCookie('INT_099')=='Y' && getCookie('INT_013')=='Y'){ //如果是系統參數設為自動編號且刪掉號碼重用		
+	    const regexA = /^BD\d{2}[1-9A-C]\d{5}$/;
+		if(regexA.test(currentNo.trim())){
+		    var thtdy=document.getElementById('recmth').value;
+		    discardNoRec('BD'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase(),currentNo.trim());
+	    }
 	} 
  return;
  }
@@ -280,13 +286,13 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	    oTd.setAttribute('style','text-align:right;width:15%');					
 	    oTd.innerHTML='課稅別:';
 	    var oTd = oTr.insertCell(1);               	              
-	    var slt5=document.createElement("select");
-	    slt5.options.add(new Option('應稅','1'));
-	    slt5.options.add(new Option('零稅','2'));
-	    slt5.options.add(new Option('免稅','3'));
-	    slt5.setAttribute("id","taxtype");
-	    slt5.setAttribute("name","b05update");
-	    oTd.appendChild(slt5);	    
+	    var slt6=document.createElement("select");
+	    slt6.options.add(new Option('應稅','1'));
+	    slt6.options.add(new Option('零稅','2'));
+	    slt6.options.add(new Option('免稅','3'));
+	    slt6.setAttribute("id","taxtype");
+	    slt6.setAttribute("name","b05update");
+	    oTd.appendChild(slt6);	    
         var oTd = oTr.insertCell(2);	   
 	    oTd.setAttribute('style','text-align:right;width:15%');					
 	    oTd.innerHTML='幣別:';
@@ -746,26 +752,6 @@ function transConfirm(oTd){
     //oTd.innerHTML="<input type='text' name='c03update' id='newPono' class='txt' style='display:none;' maxlength='10'/>"; 		
     return true;
 }   
-function searchOptionsKey(tbno,slt5){	
-    if (tbno==0){
-		 
-		 slt5.options.add(new Option('出退單號','b05.F01'));
-		 slt5.options.add(new Option('客戶編號','b05.F06'));
-		 slt5.options.add(new Option('客戶簡稱','c01.F05'));
-		 //slt5.options.add(new Option('出貨日期','b05.F02'));
-		 slt5.options.add(new Option('業務編號','b05.F09'));
-		 slt5.options.add(new Option('業務姓名','a01.F03'));
-		  slt5.options.add(new Option('出貨單號','b05.F21')); 
-		 slt5.options.add(new Option('發票號碼','b05.F20')); 
-		slt5.options.add(new Option('已確認?(Y/N)','b05.F10')); 			
-	}else{
-		 slt5.options.add(new Option('料品編號','b0e.F03'));
-		 slt5.options.add(new Option('品名規格','b01.F02'));
-		 slt5.options.add(new Option('訂單號碼','b0e.F07'));
-		 slt5.options.add(new Option('客戶品號','b0e.F08'));	
-		 slt5.options.add(new Option('客戶PO','b0e.F09'));										  
-	}
-}
 
 function  addNewRecordHint(tbno){
     if (tbno==0){  //表頭資料
@@ -809,14 +795,13 @@ function srcArgobj(srcId){
 		    var qrystring ="c01.F05"+"|"+custno;			 
 			tttlt="請選取客戶簡稱";		
 		}
-		return {"headtitle":tttlt,"drpshtWidth":"28%","thCntnt":['客戶編號', '客戶簡稱'],
-		"thWidth":['50%','50%'],"urlPth":"B05/BKND/C01srch.php","clickfunc":chsecust,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
-    }else if(srcId=='whono'){
+        return {"headtitle":tttlt,"drpshtWidth":"28%","urlPth":"B05/BKND/C01srch.php","clickfunc":chsecust,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
+   }else if(srcId=='whono'){
 	   var qrystring=document.getElementById(srcId).value;
-       return {"headtitle":"請選取業務人員帳號姓名","drpshtWidth":"28%","thCntnt":['人員編號', '人員姓名'],"thWidth":['50%','50%'],"urlPth":"C01/BKND/A01srch.php","clickfunc":chseprg1,"qryString":qrystring,"mendwidth":"calc( 100%  )"};    
+	   return {"headtitle":"請選取業務人員帳號姓名","drpshtWidth":"28%","urlPth":"C01/BKND/A01srch.php","clickfunc":chseprg1,"qryString":qrystring,"mendwidth":"calc( 100%  )"};    
 	}else if(srcId=='deptno'){
-		var qrystring=document.getElementById(srcId).value;
-       return {"headtitle":"請選取出貨部門","drpshtWidth":"28%","thCntnt":['部門編號', '部門名稱'],"thWidth":['50%','50%'],"urlPth":"B02/BKND/A14srch.php","clickfunc":deptchoose,"qryString":qrystring,"mendwidth":"calc( 100% )"};    
+		var qrystring=document.getElementById(srcId).value+"|Y| | ";
+        return {"headtitle":"請選取出貨部門","drpshtWidth":"28%","urlPth":"B02/BKND/A14srch.php","clickfunc":deptchoose,"qryString":qrystring,"mendwidth":"calc( 100% )"};    	   
 	}else if(srcId=='billno' || srcId=='invoiceno'){
 		var billNo=document.getElementById(srcId).value;		
 		var tttlt='';
@@ -826,9 +811,8 @@ function srcArgobj(srcId){
 	    }else if(srcId=='invoiceno'){			 		    	
 			var qrystring ="b04.F20"+"|"+billNo+"|"+document.getElementById('orgmth').value+"|"+document.getElementById('customno').value;   
 			tttlt="請選取發票號碼";		
-		}
-		return {"headtitle":tttlt,"drpshtWidth":"28%","thCntnt":['出貨單號', '發票號碼'],
-		"thWidth":['50%','50%'],"urlPth":"B05/BKND/B04srch.php","clickfunc":bill_no,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
+		}		
+	    return {"headtitle":tttlt,"drpshtWidth":"28%","urlPth":"B05/BKND/B04srch.php","clickfunc":bill_no,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
 	}else{
 		var shp_no=sourceAccount(12,0);	
 		var stockNo=document.getElementById(srcId).value;		 
@@ -840,8 +824,7 @@ function srcArgobj(srcId){
 		    var qrystring ="b01.F02"+"|"+stockNo+"_"+shp_no;    		 
 			tttlt="請選取品名";		
 		}
-		return {"headtitle":tttlt,"drpshtWidth":"80%","thCntnt":['料品編號', '品名規格','訂單號碼','出貨數量','單價','客戶品號','客戶PO'],
-		"thWidth":['16%','15%','12%','10%','10%','15%','12%'],"urlPth":"B05/BKND/B01srch.php","clickfunc":stckchg,"qryString":qrystring,"mendwidth":"calc( 100%  )"};
+	    return {"headtitle":tttlt,"drpshtWidth":"80%","urlPth":"B05/BKND/B01srch.php","clickfunc":stckchg,"qryString":qrystring,"mendwidth":"calc( 100%  )"};
 	}
 }
 
@@ -888,28 +871,28 @@ if (typeof event=="undefined"){
 	 var maintable=document.getElementById("stuffTbody");  
 	for(var i=0;i< maintable.rows.length; i++){			 
 		  if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
-			 stockNo.value=maintable.rows[i].cells[1].innerHTML;								 
-			 stockName.value=maintable.rows[i].cells[2].innerHTML;	
+			 stockNo.value=maintable.rows[i].cells[0].innerHTML;								 
+			 stockName.value=maintable.rows[i].cells[1].innerHTML;	
 			 if(orderNo){
-				orderNo.value=maintable.rows[i].cells[3].innerHTML;
+				orderNo.value=maintable.rows[i].cells[2].innerHTML;
 			 }
 			 if(shipQty){
-				shipQty.value=maintable.rows[i].cells[4].innerHTML;
+				shipQty.value=maintable.rows[i].cells[3].innerHTML;
 			 }
 			 if(shipPrice){
-				shipPrice.value=maintable.rows[i].cells[5].innerHTML;
+				shipPrice.value=maintable.rows[i].cells[4].innerHTML;
 			 }
 			 if(custstockno){
-				custstockno.value=maintable.rows[i].cells[6].innerHTML;
+				custstockno.value=maintable.rows[i].cells[5].innerHTML;
 			 }  
 			 if(custpo){
-				custpo.value=maintable.rows[i].cells[7].innerHTML;
+				custpo.value=maintable.rows[i].cells[6].innerHTML;
 			 }   
 			 if(deptno){
-				deptno.value=maintable.rows[i].cells[8].innerHTML;
+				deptno.value=maintable.rows[i].cells[7].innerHTML;
 			 }  
 			 if(deptname){
-				deptname.innerHTML=maintable.rows[i].cells[9].innerHTML;
+				deptname.innerHTML=maintable.rows[i].cells[8].innerHTML;
 			 }  
 			 break;
 		   }				 

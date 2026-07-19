@@ -82,7 +82,7 @@ $result = mysqli_stmt_get_result($stmt);
 
 // 獲取欄位寬度設定 (對應 C21)
 $wthary = fldwdthpre('C21', '1', $link);
-$afld=['F01','F01','F03','F0E','F0D','F02','F06','F0C','F14','F0H','F07','F09','F10','F11','F15','F04','F05'];
+$afld=['F00','F01','F03','F0E','F0D','F02','F06','F0C','F14','F0H','F07','F09','F10','F11','F15','F04','F05'];
 $arr=afldcont($result,$afld,$wthary);
 
 // --- 6. 釋放資源與輸出 ---

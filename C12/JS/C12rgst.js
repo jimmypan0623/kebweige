@@ -36,13 +36,7 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){  //在此
 	}			
     return true;	
 }
-function searchOptionsKey(tbno,slt5){	
-	 
-	 slt5.options.add(new Option('客戶編號','c01.F01'));
-	 slt5.options.add(new Option('客戶簡稱','c01.F05'));
-	 
-	 
-}
+
 function searchKeyHint(tbno){    //搜尋畫面出現提示
     return "搜尋應收帳款對帳單客戶選擇";
 }

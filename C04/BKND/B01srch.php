@@ -5,7 +5,7 @@ header("Cache-Control: no-cache, must-revalidate");
 header("Pragma: no-cache");
 
 require_once("../../include/BKND/mysqli_server.php");
-
+require_once "../../include/BKND/fieldpreset.php";
 // --- 輔助函式：白名單檢查欄位名 (與 C04 風格一致) ---
 function isValidField($field) {
     // 限制欄位格式，防止 SQL 注入
@@ -96,25 +96,30 @@ if (strlen($searchRecord) > 0) {
 
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
-
+$wthary = fldwdthpre('C04', 'M', $link);
 $arr = array();
-$itemno = 0;
 
 while ($list3 = mysqli_fetch_assoc($result)) {
-    $itemno++;
-    $arr[] = array(
-        'item_no_IHC_000'      => $itemno,
-        'stock_no_ISL_026'     => $list3['F01'],
-        'stock_name_ISL_020'   => $list3['F02'],
-        'unit_name_IHL_000'    => $list3['F04'],
+   
+	$mapping=[
+	    $list3['F01'],
+        $list3['F02'],
+        $list3['F04'],
         // 價格與數量邏輯判斷 (特價檔優先)
-        'basic_qty_IHR_000'    => ($list3['F13'] > 0 ? $list3['F13'] : $list3['F0C']),
-        'minum_qty_ISR_010'    => ($list3['F08'] > 0 ? $list3['F08'] : $list3['F1E']),
-        'custom_part_ISL_018'  => $list3['F0D'],
-        'invalid_date_ISC_011' => $list3['F15'],
-        'order_price_ISR_010'  => ($list3['F07'] > 0 ? $list3['F07'] : $list3['F05']),
-        'leadtime_IHL_000'     => ((int)$list3['F28'] + (int)$list3['F31'])
-    );
+        $list3['F13'] > 0 ? $list3['F13'] : $list3['F0C'],
+        $list3['F08'] > 0 ? $list3['F08'] : $list3['F1E'],
+        $list3['F0D'],
+        $list3['F15'],
+        $list3['F07'] > 0 ? $list3['F07'] : $list3['F05'],
+        (int)$list3['F28'] + (int)$list3['F31']
+    ];
+	$atr = [];
+	$i = 0;
+	foreach ($mapping as  $db_col) { 
+		$atr[$wthary[$i]] = $db_col ?? '';
+		$i++;
+	}
+	$arr[] = $atr;			
 }
 
 mysqli_stmt_close($stmt);

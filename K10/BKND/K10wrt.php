@@ -8,7 +8,11 @@ foreach($cart as $key=>$val){
 }
  $mArlth=count($brr);  
  require_once("../../include/BKND/mysqli_server.php");             
-require_once "../../include/BKND/fieldDOMset.php"; // 引入     
+require_once "../../include/BKND/fieldDOMset.php"; // 引入   
+$sq20="select * from a26 where F01='INT_099' "; 
+$sql7=@mysqli_query($link,$sq20);                        
+$list8=mysqli_fetch_assoc($sql7);  //紀錄參數  	
+$INT_099=$list8["F06"];  
 $trnarray=fldafterwrite('K10','1',$link,true);   
      $sql5="SELECT * FROM a01 WHERE F01='".$brr[3]."'"; 
 		 $sql6=mysqli_query($link,$sql5) or die(mysqli_error($link));
@@ -21,7 +25,7 @@ $trnarray=fldafterwrite('K10','1',$link,true);
 		    $rows1=1;
 		 }
 if($rows1==0 || $rows2==0){
-    if($_COOKIE["INT_099"]=="Y" ){
+    if($INT_099=="Y" ){
 	   $sql7="INSERT INTO a0i(F01,F08) values ('".substr($brr[0],0,5)."','".$brr[0]."')"; 
 	   $sql8=mysqli_query($link,$sql7) or die(mysqli_error($link)); 
     }

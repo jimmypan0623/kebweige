@@ -4,11 +4,9 @@
     require_once "../../include/BKND/fieldpreset.php"; // 引入
    $rows=0;
    if (substr($_POST['filename'],0,3)=="PGE"){	  
-	   $pgeno=getNeedBetween($_POST['filename'],'E','|'); // 頁次 	   
-      // $rows=(int)substr(strrchr($_POST['filename'],'|'),1);	
-	   $rows=(int)getNeedBetween($_POST['filename'],'|','_') ;	 
-       //$pagerows=$_COOKIE['INT_RCD'] ; //每頁筆數	   
-	   $pagerows=(int)substr(strrchr($_POST['filename'],'_'),1);
+	   $pgeno=getNeedBetween($_POST['filename'],'E','|'); // 頁次 	        
+	   $rows=(int)getNeedBetween($_POST['filename'],'|','_') ;	        
+	   $pagerows=(int)substr(strrchr($_POST['filename'],'_'),1);  //每頁筆數
 	   $total_pages=ceil($rows/$pagerows);   //如果非初始畫面則應有大於等於1的數字	   
 	  if($total_pages<=1){                   //如果沒有那就是初次進來所以要計算$total_pages數字
 		  $sqlK="SELECT F01 FROM `a01` WHERE 1 "; 

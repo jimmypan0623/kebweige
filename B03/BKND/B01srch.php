@@ -1,11 +1,12 @@
 ﻿<?php
     header("Content-Type:text/html; charset=utf-8");   
     require_once("../../include/BKND/mysqli_server.php");                              //引用檔   
+	require_once "../../include/BKND/fieldpreset.php";
     $fieldNo=substr($_POST['filename'],0,7);                //料號欄位key		
 	$filterKey=trim(getNeedBetween($_POST['filename'],'|','_')); // 搜尋料號 
 	$shipno=trim(substr(strrchr($_POST['filename'],'_'),1));   //出貨單號		 
 	$searchRecord =trim($filterKey);			
-	$sql3="SELECT b0b.F03,b01.F02 AS F0B,b0b.F07,LEAST((d04.F09-d04.F24),b0b.F04) AS avlq,";   
+	$sql3="SELECT b0b.F03,b01.F02 AS F0B,b0b.F07,LEAST((d04.F09-d04.F24),b0b.F04) AS F0D,";   
 	$sql3.="b0b.F15,b0b.F08,b0b.F09,b01.F07 AS F0G,a14.F02 AS FZ2 FROM b0b ";
 	$sql3.="LEFT OUTER JOIN b01 ON b01.F01=b0b.F03 "; 
 	$sql3.="LEFT OUTER JOIN a14 ON a14.F01=b01.F07 ";	  
@@ -16,25 +17,12 @@
 		$sql3=$sql3."WHERE ".$fieldNo." LIKE '%".trim($searchRecord)."%' AND b0b.F01='".trim($shipno)."' AND d04.F09-d04.F24>0 "; 
 	}
 	$sql3=$sql3."ORDER BY ".$fieldNo;
-    $arr=array();	
-    $sql4=@mysqli_query($link,$sql3); 
-	$itemno=0;
-	while ($list3=mysqli_fetch_assoc($sql4)){
-		$itemno++; 
-		$atr = array('item_no_IHC_000'=>$itemno, 
-		             'stock_no_ISL_016'=>$list3['F03'],  		            	             
-		             'stock_name_ISL_015'=>$list3['F0B'],
-					 'order_no_ISL_012'=>$list3['F07'],					
-					 'order_qty_ISR_010'=>$list3['avlq'],
-					 'unit_price_ISR_010'=>$list3['F15'],
-					 'custom_part_ISL_015'=>$list3['F08'],
-					 'custom_po_ISL_012'=>$list3['F09'],
-					 'depart_no_IHC_000'=>$list3['F0G'],
-					 'depart_name_IHC_000'=>$list3['FZ2']
-					 );    
-					                          
-		array_push($arr,$atr);
-	}
+    
+    $result=@mysqli_query($link,$sql3); 
+	
+	$wthary = fldwdthpre('B03', 'M', $link);
+    $afld=['F03','F0B','F07','F0D','F15','F08','F09','F0G','FZ2'];
+    $arr=afldcont($result,$afld,$wthary);
 	mysqli_close($link);
 	     $arr = array_values($arr);
          $json_string1 = json_encode($arr); 

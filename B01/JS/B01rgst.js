@@ -303,177 +303,161 @@ function calculateTtl(tbno,maintable,i){  //刪除後計算總數量
 
 	return;
 }
-function c20PackQty(fatherkey){	
-	var sendSrcRec="filename="+fatherkey;	
-	var rsp="";  	
-	if(window.ActiveXObject){
-	    var request = new ActiveXObject("Microsoft.XMLHttp");
-	}	
-	    else if(window.XMLHttpRequest){
-		  var request = new XMLHttpRequest();
-	}			 
-	request.onreadystatechange = respond;	      
-	var url="B01/BKND/C20srch.php?timestamp="+new Date().getTime();			
-	request.open("POST",url);	 
-	request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-	request.send(sendSrcRec);		
-	function respond(){           
-		  if (request.readyState == 4 && request.status == 200) {    
-             rsp=JSON.parse(request.responseText);			 
-		     document.getElementById('basepack').value= rsp[0]['basic_qty'];
-	         document.getElementById('minumqty').value= rsp[0]['mini_qty'];   
-		  }
-	}
-	return;
+
+async function c20PackQty(fatherkey) {	
+    //const url = `B01/BKND/C20srch.php?timestamp=${Date.now()}`;
+	const url = "B01/BKND/C20srch.php";
+    const payload = `filename=${encodeURIComponent(fatherkey)}`;	
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+			cache: 'no-store', // 👈 關鍵：強制每次都向伺服器重新請求
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: payload
+        });
+        if (!response.ok) throw new Error(`HTTP 錯誤: ${response.status}`);
+        const rsp = await response.json();
+        if (rsp?.[0]) {
+            document.getElementById('basepack').value = rsp[0]['basic_qty'] ?? '';
+            document.getElementById('minumqty').value = rsp[0]['mini_qty'] ?? '';
+        }
+    } catch (error) {
+        console.error("無法讀取包裝數量:", error);
+    }
 }
 
-function c34CustomPartNo(event){	
-   if (typeof event=="undefined")
-	{
-		event=window.event;
-	}	
-	var targetPartNo=getEventTarget(event);		
-	var sendSrcRec="filename="+document.getElementById('customno').value+"|"+document.getElementById('fatherkey1').innerHTML;		
-	var rsp="";  	
-	if(window.ActiveXObject){
-	   var request = new ActiveXObject("Microsoft.XMLHttp");
-	}	
-	   else if(window.XMLHttpRequest){
-		  var request = new XMLHttpRequest();
-	}			 
-	request.onreadystatechange = respond;	       
-	var url="B01/BKND/C34srch.php?timestamp="+new Date().getTime();			
-	request.open("POST",url);	 
-	request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-	request.send(sendSrcRec);		
-	function respond(){           
-		if (request.readyState == 4 && request.status == 200) {    
-            rsp=JSON.parse(request.responseText);			 
-			targetPartNo.value=rsp[0]['custompartno']?rsp[0]['custompartno']:targetPartNo.value;	          
-		}
-	}
-	return;
-}
-function c01CustomName(event){	
-   if (typeof event=="undefined")
-	{
-		event=window.event;
-	}	
-	var targetCustomNo=getEventTarget(event);		
-	var sendSrcRec="filename="+targetCustomNo.value;		
-	var rsp="";  	
-	if(window.ActiveXObject){
-	   var request = new ActiveXObject("Microsoft.XMLHttp");
-	}	
-	   else if(window.XMLHttpRequest){
-		  var request = new XMLHttpRequest();
-	}			 
-	request.onreadystatechange = respond;	      
-	var url="B01/BKND/C01CustomName.php?timestamp="+new Date().getTime();			
-	request.open("POST",url);	 
-	request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-	request.send(sendSrcRec);		
-	function respond(){           
-		if (request.readyState == 4 && request.status == 200) {    
-            rsp=JSON.parse(request.responseText);			 
-			document.getElementById('customname').value=rsp[0]['customname'];			 	          
-		}
-	}
-	return;
+async function c34CustomPartNo(event) {	
+    const e = event || window.event;
+    const targetPartNo = e?.target || e?.srcElement;
+    if (!targetPartNo) return;
+
+    const customNo = document.getElementById('customno')?.value || '';
+    const fatherKey = document.getElementById('fatherkey1')?.innerHTML || '';
+    //const url = `B01/BKND/C34srch.php?timestamp=${Date.now()}`;
+	const url = "B01/BKND/C34srch.php";
+    const payload = `filename=${encodeURIComponent(customNo + '|' + fatherKey)}`;		
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+			cache: 'no-store', // 👈 關鍵：強制每次都向伺服器重新請求
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: payload
+        });
+        if (!response.ok) throw new Error(`HTTP 錯誤: ${response.status}`);
+        const rsp = await response.json();
+        if (rsp?.[0]?.custompartno) {
+            targetPartNo.value = rsp[0]['custompartno'];
+        }
+    } catch (error) {
+        console.error("無法讀取客戶料號:", error);
+    }
 }
 
-function b11InvHoldQty(dptno,stckno){
-	var sendSrcRec="filename="+dptno+"|"+stckno;
-		var rsp="";  	
-        if(window.ActiveXObject){
-		   var request = new ActiveXObject("Microsoft.XMLHttp");
-	    }	
-	       else if(window.XMLHttpRequest){
-	   	      var request = new XMLHttpRequest();
-        }			 
-		request.onreadystatechange = respond;	
-       
-		var url="B01/BKND/B11InvHldQty.php?timestamp="+new Date().getTime();
-			
-	    request.open("POST",url);	 
-	    request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-	    request.send(sendSrcRec);		
-	function respond(){           
-	 
-		  if (request.readyState == 4 && request.status == 200) {    
-             rsp=JSON.parse(request.responseText);
-			 
-			document.getElementById('qyt_on_hand').innerHTML=rsp[0]['QtyOnHand'];
-	         
-		  }
-		
-	}
-	return  ;
+async function c01CustomName(event) { 
+    const e = event || window.event;
+    const customNoElement = e?.target || e?.srcElement;
+    if (!customNoElement) return;
+
+    const customerNumber = customNoElement.value;
+    //const url = `B01/BKND/C01CustomName.php?timestamp=${Date.now()}`;
+	const url = "B01/BKND/C01CustomName.php?";
+    const payload = `filename=${encodeURIComponent(customerNumber)}`;
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+			cache: 'no-store', // 👈 關鍵：強制每次都向伺服器重新請求
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: payload
+        });
+        if (!response.ok) throw new Error(`HTTP 錯誤: ${response.status}`);
+        const rsp = await response.json();
+        if (rsp?.[0]?.customname !== undefined) {
+            document.getElementById('customname').value = rsp[0]['customname'];
+        }
+    } catch (error) {
+        console.error("無法讀取客戶名稱:", error);
+    }
 }
 
-function d01VendorName(event){	
-   if (typeof event=="undefined")
-	{
-		event=window.event;
-	}	
-	var targetVendorNo=getEventTarget(event);		
-	var sendSrcRec="filename="+targetVendorNo.value;		
-		var rsp="";  	
-        if(window.ActiveXObject){
-		   var request = new ActiveXObject("Microsoft.XMLHttp");
-	    }	
-	       else if(window.XMLHttpRequest){
-	   	      var request = new XMLHttpRequest();
-        }			 
-		request.onreadystatechange = respond;	
-       
-		var url="B01/BKND/D01VendorName.php?timestamp="+new Date().getTime();
-			
-	    request.open("POST",url);	 
-	    request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-	    request.send(sendSrcRec);		
-	function respond(){           
-		  if (request.readyState == 4 && request.status == 200) {    
-             rsp=JSON.parse(request.responseText);			 
-			 document.getElementById('vendorname').value=rsp[0]['vendorname'];			 	          
-		  }
-	}
-	return;
+async function b11InvHoldQty(dptno, stckno) {
+    //const url = `B01/BKND/B11InvHldQty.php?timestamp=${Date.now()}`;
+	const url = "B01/BKND/B11InvHldQty.php";
+    const payload = `filename=${encodeURIComponent(dptno + '|' + stckno)}`;
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+			cache: 'no-store', // 👈 關鍵：強制每次都向伺服器重新請求
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: payload
+        });
+        if (!response.ok) throw new Error(`HTTP 錯誤: ${response.status}`);
+        const rsp = await response.json();
+        if (rsp?.[0]) {
+            document.getElementById('qyt_on_hand').innerHTML = rsp[0]['QtyOnHand'];
+        }
+    } catch (error) {
+        console.error("無法讀取庫存數量:", error);
+    }
 }
 
-function d34VendorPartNo(event){	
-   if (typeof event=="undefined")
-	{
-		event=window.event;
-	}	
-	var targetPartNo=getEventTarget(event);	
-	
-	var sendSrcRec="filename="+document.getElementById('vendorno').value+"|"+document.getElementById('fatherkey2').innerHTML;		
-		var rsp="";  	
-        if(window.ActiveXObject){
-		   var request = new ActiveXObject("Microsoft.XMLHttp");
-	    }	
-	       else if(window.XMLHttpRequest){
-	   	      var request = new XMLHttpRequest();
-        }			 
-		request.onreadystatechange = respond;	
-       
-		var url="B01/BKND/D34srch.php?timestamp="+new Date().getTime();
-			
-	    request.open("POST",url);	 
-	    request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-	    request.send(sendSrcRec);		
-	function respond(){           
-		  if (request.readyState == 4 && request.status == 200) {    
-             rsp=JSON.parse(request.responseText);
-			 
-			 targetPartNo.value=rsp[0]['vendorpartno']?rsp[0]['vendorpartno']:targetPartNo.value;
-	          
-		  }
-	}
-	return;
+async function d01VendorName(event) {	
+    const e = event || window.event;
+    const vendorNoElement = e?.target || e?.srcElement;
+    if (!vendorNoElement) return;
+
+    const vendorNumber = vendorNoElement.value;
+    //const url = `B01/BKND/D01VendorName.php?timestamp=${Date.now()}`;
+	const url = "B01/BKND/D01VendorName.php?";
+    const payload = `filename=${encodeURIComponent(vendorNumber)}`;		
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+			cache: 'no-store', // 👈 關鍵：強制每次都向伺服器重新請求
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: payload
+        });
+        if (!response.ok) throw new Error(`HTTP 錯誤: ${response.status}`);
+        const rsp = await response.json();
+        if (rsp?.[0]?.vendorname !== undefined) {
+            document.getElementById('vendorname').value = rsp[0]['vendorname'];
+        }
+    } catch (error) {
+        console.error("無法讀取廠商名稱:", error);
+    }
 }
 
+async function d34VendorPartNo(event) {	
+    const e = event || window.event;
+    const targetPartNo = e?.target || e?.srcElement;	
+    if (!targetPartNo) return;
+    
+    const vendorNo = document.getElementById('vendorno')?.value || '';
+    const fatherKey = document.getElementById('fatherkey2')?.innerHTML || '';
+   // const url = `B01/BKND/D34srch.php?timestamp=${Date.now()}`;
+	const url = "B01/BKND/D34srch.php";
+    const payload = `filename=${encodeURIComponent(vendorNo + '|' + fatherKey)}`;		
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+			cache: 'no-store', // 👈 關鍵：強制每次都向伺服器重新請求
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: payload
+        });
+        if (!response.ok) throw new Error(`HTTP 錯誤: ${response.status}`);
+        const rsp = await response.json();
+        if (rsp?.[0]?.vendorpartno) {
+            targetPartNo.value = rsp[0]['vendorpartno'];
+        }
+    } catch (error) {
+        console.error("無法讀取廠商料號:", error);
+    }
+}
 function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出現之欄位
     if (tbno==0){   //如果異動表頭資料
         var oTr=ajTable.insertRow(ajTable,ajTable.length);
@@ -627,7 +611,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
  
 	   }else{
 		oTd.innerHTML="<input type='text' name='b01update' id='stockno' class='txt' style='width:90%;' maxlength='43' />"; 
-		optionitem(getCookie('INT_193'),slt3.id,6,"B01/BKND/A14srch.php");	
+		optionitem(getAuth[2]()[0].INT_193,slt3.id,6,"B01/BKND/A14srch.php");	
 		 
 	   }			 
 	   var oTd = oTr.insertCell(2);
@@ -734,7 +718,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 			optionitem(aWaitUpdate[3],slt4.id,4,"C01/BKND/C00srch.php");	   	   
 		}else{
 		   oTd.innerHTML="<input type='text' name='c02others' id='customname' class='txt' style='width:30%;' maxlength='8'    />";  				 					  
-		   optionitem(getCookie('INT_011'),slt4.id,4,"C01/BKND/C00srch.php");				//參數預設幣別
+		   optionitem(getAuth[2]()[0].INT_011,slt4.id,4,"C01/BKND/C00srch.php");				//參數預設幣別
 		   var srchButton8=document.createElement("input");				   
 		   srchButton8.setAttribute("type","button");	
 		   srchButton8.setAttribute("class","scopelook");				   
@@ -839,7 +823,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 			optionitem(aWaitUpdate[3],slt4.id,4,"D01/BKND/D00srch.php");				   				   
 		}else{
 		    oTd.innerHTML="<input type='text' name='d02others' id='vendorname' class='txt' style='width:30%;' maxlength='8'    />";  				 				    					  
-		    optionitem(getCookie('INT_011'),slt4.id,4,"D01/BKND/D00srch.php");				//參數預設幣別
+		    optionitem(getAuth[2]()[0].INT_011,slt4.id,4,"D01/BKND/D00srch.php");				//參數預設幣別
 		    var srchButton8=document.createElement("input");				   
 		    srchButton8.setAttribute("type","button");	
 		    srchButton8.setAttribute("class","scopelook");				   
@@ -877,12 +861,12 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 			 var thtdy=(showTime.innerHTML.substring(0,4)+'-'+showTime.innerHTML.substring(5,7)+'-'+showTime.innerHTML.substring(8,10)); //中間一定要用減號分隔年月日
 			 if (tbno==0){
 				document.getElementById("stockno").focus();	
-				document.getElementById("expiredays").value=getCookie('INT_009')*1;
+				document.getElementById("expiredays").value=getAuth[2]()[0].INT_009*1;
 			 }else if (tbno==1){						 
 				document.getElementById("c02validstart").value=thtdy;  //日期都設為今天
 				//以下這一串是在算往後推的日期
 				var today=new Date();
-				var endday=today.addDays(parseInt(getCookie('INT_126'))); //加上參數預設有效天數
+				var endday=today.addDays(parseInt(getAuth[2]()[0].INT_126)); //加上參數預設有效天數
 				var endaydash=endday.getFullYear()+'-'+MyMonth(endday.getMonth())+'-'+((endday.getDate()<10) ? "0" : "") + endday.getDate();	
 				document.getElementById("c02validend").value=endaydash;  //日期往後推
 				var cstNo=document.getElementById("customno");
@@ -894,7 +878,7 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 				 document.getElementById("d02validstart").value=thtdy;  //日期都設為今天
 				//以下這一串是在算往後推的日期
 				var today=new Date();
-				var endday=today.addDays(parseInt(getCookie('INT_126'))); //加上參數預設有效天數
+				var endday=today.addDays(parseInt(getAuth[2]()[0].INT_126)); //加上參數預設有效天數
 				var endaydash=endday.getFullYear()+'-'+MyMonth(endday.getMonth())+'-'+((endday.getDate()<10) ? "0" : "") + endday.getDate();	
 				document.getElementById("d02validend").value=endaydash;  //日期往後推
 				var vndNo=document.getElementById("vendorno");
@@ -1030,96 +1014,76 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 	maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=rsp.lastupdate;			
 }
 
-function searchOptionsKey(tbno,slt5){	
-	if (tbno==0){      //表頭資料
-		slt5.options.add(new Option('料品編號','b01.F01'));
-	    slt5.options.add(new Option('品名規格','b01.F02'));
-		slt5.options.add(new Option('部門編號','b01.F07'));
-		slt5.options.add(new Option('部門名稱','a14.F02'));
-		slt5.options.add(new Option('物料類別','b01.F42'));
-		slt5.options.add(new Option('產    地','b01.F49'));				     				     
-	} else if(tbno==1){
-		slt5.options.add(new Option('客戶編號','c02.F01'));
-		slt5.options.add(new Option('客戶簡稱','c01.F05'));
-		slt5.options.add(new Option('客戶品號','c02.F04'));		   				      		 					  
-	} else if(tbno==2){
-		slt5.options.add(new Option('廠商編號','d02.F01'));
-		slt5.options.add(new Option('廠商簡稱','d01.F04'));
-		slt5.options.add(new Option('廠商品號','d02.F04'));	
-	}
-}
-
 function page1Detail01(ajTable){
 	ajTable.childNodes[0].childNodes[0].style.backgroundColor='white';
     ajTable.id="srchTable";
-	ajTable.className="gridlist";                 	 		
-	 if(window.ActiveXObject){
-		var request = new ActiveXObject("Microsoft.XMLHttp");
-	 }else if(window.XMLHttpRequest){
-		  var request = new XMLHttpRequest();
-	 }
-	 request.onreadystatechange = respond;   
-	 var url="B01/BKND/B11srch.php?timestamp="+new Date().getTime();   	               				 
-	 request.open("POST",url);	 
-	 request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");		 			    
-	 var queryString ="filename="+document.getElementById("stock_no").innerHTML;
-	  
-	 request.send(queryString);
-	 function respond(){
-		if (request.readyState == 4 && request.status == 200) {	       	     		
-			 rsp=JSON.parse(request.responseText);						   
-			 srchStockNo(rsp,ajTable);		  
-		}	  
-	 }
+	ajTable.className="gridlist";                 	 			
+	 var url="B01/BKND/B11srch.php";   	               				 	 			    
+	 var queryString ="filename="+document.getElementById("stock_no").innerHTML;	
+	 fetch(url, {
+     method: 'POST',
+	 cache: 'no-store', // 👈 關鍵：強制每次都向伺服器重新請求
+     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: queryString
+    })
+     .then(res => res.json())
+     .then(rsp => srchStockNo(rsp, ajTable));
 	 
 }
 
-function srchStockNo(str1,ajTable) {       //搜尋相關料號
+function srchStockNo(arr,ajTable) {       //搜尋相關料號
     var cnt=0;
-	var arr = str1;     
+	var array1=[];
+	var array2=[];
 	for(var i=0;i<arr.length;i++){				 
         var oTr=ajTable.insertRow(ajTable,ajTable.length);		
 		cnt++;         
+		
 		for(var jk in arr[i]){		   
-		   var oTd = oTr.insertCell(oTr.cells.length); 
-			oTd.innerHTML=arr[i][jk];    		    		 
-		    if(jk=='dpt_no'){
-			     oTd.setAttribute("style","text-align:center;width:18%;");
-		    }else if(jk=='dpt_name'){			 
-		        oTd.setAttribute("style","text-align:center;");
-			
-		    }else if(jk=='stock_qty'){		  
-			    if(oTr.cells[2].innerHTML!='Y'){									  
-				    	oTd.setAttribute("style","text-align:right;text-decoration: line-through;color:#7f8890;");
-				    }else{
-					    oTd.setAttribute("style","text-align:right;");
+		    var meta = parseFieldMeta(jk);
+		    var oTd = oTr.insertCell(oTr.cells.length); 
+			oTd.innerHTML=arr[i][jk];	
+            if (meta) {
+				oTd.className = meta.isDirect ? "directdata" : "indirectdata";				
+				oTd.style.width = meta.width;
+				if(i==0 && !meta.isHidden){   //第一輪就塞進去											  
+					array1.push(meta.name);  //欄名
+				    array2.push(meta.width); //欄寬
 				}
-			
-		    }else if(jk=='last_update'){		  
-		        oTd.setAttribute("style","text-align:center;");
-		    }else if (jk=='apply'){		  
-		        oTd.setAttribute("style","text-align:left;"); 														  		
-		    }else if(jk=='diffdate' || jk=='avail'){
-				oTd.setAttribute("style","display:none;");
-			}				
+				oTd.style.textAlign = meta.align;
+				if (meta.isHidden) oTd.style.display = "none";
+			}
+			if(meta.name=='庫存數量'){
+				
+				if(arr[i]['列入計算_IHC_000']!='Y'){
+			     
+				    oTd.setAttribute("style",`width:${meta.width};text-align:right;text-decoration: line-through;color:#7f8890;`);
+				
+				}else{
+					oTd.setAttribute("style",`width:${meta.width};text-align:right;`);
+				}
+			}
 	    }	
-        if(arr[i]['diffdate']>210 ){  //最後異動日期距今超過210天紅字		   
+        if(arr[i]['呆滯天數_IHC_000']>210 ){  //最後異動日期距今超過210天紅字		   
 			oTr.setAttribute("style","font-weight:bold;color:#E60000;");			
-		}else if(arr[i]['diffdate']>90 ){//最後異動日期距今超過90天低於210天棕色字
+		}else if(arr[i]['呆滯天數_IHC_000']>90 ){//最後異動日期距今超過90天低於210天棕色字
 			oTr.setAttribute("style","font-weight:bold;color:#704214;");			
 		}
 	}	
-    var array = ['部門編號', '部門名稱','庫存數量','最後異動','預計用途'];
-	var oTr=ajTable.insertRow(ajTable,ajTable.length);
-	for (var j = 0; j < array.length; j++) {
-		var th = document.createElement('th'); //column		
-		var text = document.createTextNode(array[j]); //cell
-        if(j==0){
-		   th.style.width='18%';
-		}			
-		th.appendChild(text);
-		oTr.appendChild(th);
-	}				
+   
+    if(cnt==0){
+	  blkshow("無庫存資料!");
+	  //return false;
+	}else{
+	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
+	    for (var j = 0; j < array1.length; j++) {
+		    var th = document.createElement('th'); //column		   
+		    var text = document.createTextNode(array1[j]); //cell	
+			th.style.width=array2[j];
+		    th.appendChild(text);
+		    oTr.appendChild(th);		
+	    }						
+	}			
 }
 
 function  addNewRecordHint(tbno){
@@ -1166,10 +1130,10 @@ function srcArgobj(srcId){
 	   }else{		    
 		    var qrystring = "c01.F05"+"|"+custno;
 			tttlt='請選擇客戶簡稱';
-	    }					 
-        return {"headtitle":tttlt,"drpshtWidth":"28%","thCntnt":['客戶編號', '客戶簡稱'],"thWidth":['50%','50%'],"urlPth":"C21/BKND/C01srch.php","clickfunc":chsecust,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
+	    }					        
+		return {"headtitle":tttlt,"drpshtWidth":"28%","urlPth":"C04/BKND/C01srch.php","clickfunc":chsecust,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
 	}else{
-	   var vendno=document.getElementById(srcId).value; 
+	    var vendno=document.getElementById(srcId).value; 
 		var tttlt='';
 		if (srcId=='vendorno'){		 		    
 		    var qrystring = "d01.F01"+"|"+vendno;    	
@@ -1178,7 +1142,8 @@ function srcArgobj(srcId){
 		    var qrystring = "d01.F04"+"|"+vendno;   
 			tttlt='請選擇廠商簡稱';
 	    }					 
-        return {"headtitle":tttlt,"drpshtWidth":"28%","thCntnt":['廠商編號', '廠商簡稱'],"thWidth":['50%','50%'],"urlPth":"B01/BKND/D01srch.php","clickfunc":vndchse,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
+        
+	    return {"headtitle":tttlt,"drpshtWidth":"28%","urlPth":"D04/BKND/D01srch.php","clickfunc":vndchse,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
 	}
 }
 
@@ -1196,11 +1161,11 @@ function chsecust(event)  //選擇客戶
 	 var rprsntno=document.getElementById('whono');
 	 var rprsntname=document.getElementById('whonameEx');
 	 var crnttpe=document.getElementById('crntopt');
-	 var contactman=document.getElementById('winman');
-     var shipway=document.getElementById('howship');
+	 
+     
 	 var paymenttp=document.getElementById('howpay');
-	 var shipplace=document.getElementById('dlvrplace');
-	 var shipdirect=document.getElementById('shipdirect');
+	
+	  
 	 var maintable=document.getElementById("stuffTbody");  
 	for(var i=0;i< maintable.rows.length; i++){			 
 		if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
@@ -1215,15 +1180,9 @@ function chsecust(event)  //選擇客戶
 			 if(crnttpe){
 				crnttpe.value=maintable.rows[i].cells[4].innerHTML;
 			 }
-			 if(contactman){
-				contactman.value=maintable.rows[i].cells[5].innerHTML;
-			 }
-			 if(shipway){
-				shipway.value=maintable.rows[i].cells[6].innerHTML;
-			 }
-			 if(custFullName){
-				custFullName.value=maintable.rows[i].cells[11].innerHTML;
-			 }
+			 
+			 
+			 
 			 if(paymenttp){
 				var tpy=maintable.rows[i].cells[7].innerHTML;
 				switch (tpy){				        
@@ -1251,12 +1210,8 @@ function chsecust(event)  //選擇客戶
 				}	 
 				paymenttp.value=tpy+(maintable.rows[i].cells[8].innerHTML==0?'':maintable.rows[i].cells[8].innerHTML+'天');
 			 }	
-			 if(shipplace){
-				 shipplace.value=maintable.rows[i].cells[9].innerHTML;
-			 }
-			 if(shipdirect){
-				 shipdirect.value=maintable.rows[i].cells[10].innerHTML;
-			 }
+			
+			  
 			 break;
 		}		
 				   
@@ -1278,11 +1233,11 @@ function vndchse(event)  //選擇廠商
 	var rprsntno=document.getElementById('whono');
 	var rprsntname=document.getElementById('whonameEx');
 	var crnttpe=document.getElementById('crcyopt');
-	var contactman=document.getElementById('winman');
-    var shipway=document.getElementById('howship');
+	
+   
 	var paymenttp=document.getElementById('payment');
-	var shipplace=document.getElementById('dlvrplace');
-	var shipdirect=document.getElementById('shipdirect');
+	
+	
 	var maintable=document.getElementById("stuffTbody");  
 	for(var i=0;i< maintable.rows.length; i++){			 
 		if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
@@ -1297,14 +1252,11 @@ function vndchse(event)  //選擇廠商
 			if(crnttpe){
 			   crnttpe.value=maintable.rows[i].cells[4].innerHTML;
 			}
-			if(contactman){
-				contactman.value=maintable.rows[i].cells[5].innerHTML;
-			}
-			if(shipway){
-				shipway.value=maintable.rows[i].cells[6].innerHTML;
-			}				  
+			
+			
+					  
 			if(paymenttp){
-				var tpy=maintable.rows[i].cells[7].innerHTML;
+				var tpy=maintable.rows[i].cells[6].innerHTML;  //
 				switch (tpy){				        
 					case '0' :{
 						 tpy="現結";
@@ -1327,11 +1279,10 @@ function vndchse(event)  //選擇廠商
 					  break;
 				   }				
 				}	 
-				paymenttp.value=tpy+(maintable.rows[i].cells[8].innerHTML==0?'':maintable.rows[i].cells[8].innerHTML+'天');
+				paymenttp.value=tpy+(maintable.rows[i].cells[7].innerHTML==0?'':maintable.rows[i].cells[7].innerHTML+'天');
 			}			
-			if(shipdirect){
-				shipdirect.value=maintable.rows[i].cells[10].innerHTML;
-			}
+				
+			
 			break;
 		}					  		   
 	}             
@@ -1340,4 +1291,3 @@ function vndchse(event)  //選擇廠商
 	
 	return true;
 }	
-////////////////////////////

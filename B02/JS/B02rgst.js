@@ -1,3 +1,4 @@
+//B02rgst.js 進貨單新增修改與其他查詢畫面
 function blocksclose(event)  //關閉註冊彈出視窗
 {	
 	if (typeof event=="undefined"){
@@ -9,7 +10,7 @@ function blocksclose(event)  //關閉註冊彈出視窗
 		tabs[i].setAttribute("accesskey",(i+1).toString());
 	}			
 	if (tabs[0].checked){
-	    if (target.value=="\u{274E}"  && getAuth[2]()[0].INT_127=='Y'){    
+	    if (target.value=="\u{274E}"  && getAuth[2]()[0].INT_013=='Y'){    
 		    var maintable=document.getElementById("maintbody1");		 		
 		    var tablerowindex=0;
 		    for(var i=0;i< maintable.rows.length; i++){			 
@@ -26,11 +27,14 @@ function blocksclose(event)  //關閉註冊彈出視窗
 			}
 			
 	        if(document.getElementById('queryno')!=null){			  
-	            var currentNo=document.getElementById('queryno').value;	            	 
-	            if (currentNo.trim()!="" && currentNo.trim()!=query_no){ //如果非修改且自動編號		         
-		   	        var thtdy=document.getElementById('recmth').value;
-				    discardNoRec('BA'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase(),currentNo.trim());
-	            } 
+	            var currentNo=document.getElementById('queryno').value;	            	 				
+	            if (currentNo.trim()!="" && currentNo.trim()!=query_no ){ //如果非修改且自動編號
+				    const regexA = /^BA\d{2}[1-9A-C]\d{5}$/;
+		   	        if(regexA.test(currentNo.trim())){
+					   var thtdy=document.getElementById('recmth').value;					
+				       discardNoRec('BA'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase(),currentNo.trim());
+	                }
+				} 
 	        }
 	    }
     }
@@ -175,9 +179,12 @@ function calculateTtl(tbno,maintable,i){      //刪除確認(delConfirm)中挑�
 	return;
 }
  function billNoReCreate(currentNo){         //刪除確認(delConfirm)中挑出之個別程序
-    if (getAuth[2]()[0].INT_099=='Y' && getAuth[2]()[0].INT_127=='Y'){ //如果是系統參數設為自動編號且刪掉號碼重用			
-		var thtdy=document.getElementById('recmth').value;
-		discardNoRec('BA'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase(),currentNo.trim());
+    if (getAuth[2]()[0].INT_099=='Y' && getAuth[2]()[0].INT_013=='Y'){ //如果是系統參數設為自動編號且刪掉號碼重用
+	    const regexA = /^BA\d{2}[1-9A-C]\d{5}$/;
+		if(regexA.test(currentNo.trim())){
+		   var thtdy=document.getElementById('recmth').value;
+		   discardNoRec('BA'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase(),currentNo.trim());
+	    }
 	} 
  return;
  }
@@ -759,25 +766,7 @@ function transConfirm(oTd){
     //oTd.innerHTML="<input type='text' name='c03update' id='newPono' class='txt' style='display:none;' maxlength='10'/>"; 		
     return true;
 }   
-function searchOptionsKey(tbno,slt5){	
-    if (tbno==0){
-		 
-		 slt5.options.add(new Option('進貨單號','b02.F01'));
-		 slt5.options.add(new Option('廠商編號','b02.F06'));
-		 slt5.options.add(new Option('廠商簡稱','d01.F04'));
-		 slt5.options.add(new Option('進貨日期','b02.F02'));
-		 slt5.options.add(new Option('採購編號','b02.F09'));
-		 slt5.options.add(new Option('採購姓名','a01.F03'));
-		 slt5.options.add(new Option('發票號碼','b02.F20')); 
-		 slt5.options.add(new Option('已確認?(Y/N)','b02.F10')); 			
-	}else{
-		 slt5.options.add(new Option('料品編號','b0b.F03'));
-		 slt5.options.add(new Option('品名規格','b01.F02'));
-		 slt5.options.add(new Option('採購單號','b0b.F07'));
-		 slt5.options.add(new Option('廠商品號','b0b.F08'));	
-		 slt5.options.add(new Option('需求用途','b0b.F09'));										  
-	}
-}
+
 
 function  addNewRecordHint(tbno){
     if (tbno==0){  //表頭資料
@@ -820,15 +809,14 @@ function srcArgobj(srcId){
 	    }else if(srcId=='vendorname'){			 
 		    var qrystring ="d01.F04"+"|"+custno;			 
 			tttlt="請選取廠商簡稱";		
-		}
-		return {"headtitle":tttlt,"drpshtWidth":"28%","thCntnt":['廠商編號', '廠商簡稱'],
-		"thWidth":['50%','50%'],"urlPth":"B02/BKND/D01srch.php","clickfunc":chsecust,"qryString":qrystring,"mendwidth":"calc( 100%  )"};
+		}		
+		return {"headtitle":tttlt,"drpshtWidth":"28%","urlPth":"B02/BKND/D01srch.php","clickfunc":chsecust,"qryString":qrystring,"mendwidth":"calc( 100%  )"};
     }else if(srcId=='whono'){
-	   var qrystring=document.getElementById(srcId).value;
-       return {"headtitle":"請選取採購人員帳號姓名","drpshtWidth":"28%","thCntnt":['人員編號', '人員姓名'],"thWidth":['50%','50%'],"urlPth":"C01/BKND/A01srch.php","clickfunc":chseprg1,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};    
+	   var qrystring=document.getElementById(srcId).value;      
+	   return {"headtitle":"請選取採購人員帳號姓名","drpshtWidth":"28%","urlPth":"C01/BKND/A01srch.php","clickfunc":chseprg1,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};	   
 	}else if(srcId=='deptno'){
-		var qrystring=document.getElementById(srcId).value;
-       return {"headtitle":"請選取進貨部門","drpshtWidth":"28%","thCntnt":['部門編號', '部門名稱'],"thWidth":['50%','50%'],"urlPth":"B02/BKND/A14srch.php","clickfunc":deptchoose,"qryString":qrystring,"mendwidth":"calc( 100% )"};    
+		var qrystring=document.getElementById(srcId).value+"|Y|Y| ";      
+	   return {"headtitle":"請選取進貨部門","drpshtWidth":"28%","urlPth":"B02/BKND/A14srch.php","clickfunc":deptchoose,"qryString":qrystring,"mendwidth":"calc( 100% )"};    
 	}else{
 		var cstno=document.getElementById('keydscrpt1').innerHTML;
 		var stockNo=document.getElementById(srcId).value;		 
@@ -840,8 +828,7 @@ function srcArgobj(srcId){
 		    var qrystring ="b01.F02"+"|"+stockNo+"_"+cstno;			 
 			tttlt="請選取品名";		
 		}
-		return {"headtitle":tttlt,"drpshtWidth":"85%","thCntnt":['料品編號', '品名規格','訂單號碼','預定交期','進貨數量','單價','廠商品號','廠商PO'],
-		"thWidth":['16%','15%','12%','10%','10%','10%','15%','12%'],"urlPth":"B02/BKND/B01srch.php","clickfunc":stckchg,"qryString":qrystring,"mendwidth":"calc( 100%  )"};
+	    return {"headtitle":tttlt,"drpshtWidth":"85%","urlPth":"B02/BKND/B01srch.php","clickfunc":stckchg,"qryString":qrystring,"mendwidth":"calc( 100%  )"};
 	}
 }
 
@@ -889,28 +876,28 @@ function stckchg(event)  //選擇料號
 	var maintable=document.getElementById("stuffTbody");  
 	for(var i=0;i< maintable.rows.length; i++){			 
 		if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
-			 stockNo.value=maintable.rows[i].cells[1].innerHTML;								 
-			 stockName.value=maintable.rows[i].cells[2].innerHTML;	
+			 stockNo.value=maintable.rows[i].cells[0].innerHTML;								 
+			 stockName.value=maintable.rows[i].cells[1].innerHTML;	
 			 if(orderNo){
-				orderNo.value=maintable.rows[i].cells[3].innerHTML;
+				orderNo.value=maintable.rows[i].cells[2].innerHTML;
 			 }
 			 if(shipQty){
-				shipQty.value=maintable.rows[i].cells[5].innerHTML;
+				shipQty.value=maintable.rows[i].cells[4].innerHTML;
 			 }
 			 if(shipPrice){
-				shipPrice.value=maintable.rows[i].cells[6].innerHTML;
+				shipPrice.value=maintable.rows[i].cells[5].innerHTML;
 			 }
 			 if(custstockno){
-				custstockno.value=maintable.rows[i].cells[7].innerHTML;
+				custstockno.value=maintable.rows[i].cells[6].innerHTML;
 			 }  
 			 if(custpo){
-				custpo.value=maintable.rows[i].cells[8].innerHTML;
+				custpo.value=maintable.rows[i].cells[7].innerHTML;
 			 }   
 			 if(deptno){
-				deptno.value=maintable.rows[i].cells[9].innerHTML;
+				deptno.value=maintable.rows[i].cells[8].innerHTML;
 			 }  
 			 if(deptname){
-				deptname.innerHTML=maintable.rows[i].cells[10].innerHTML;
+				deptname.innerHTML=maintable.rows[i].cells[9].innerHTML;
 			 }  
 			 break;
 		}				 

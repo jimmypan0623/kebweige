@@ -234,7 +234,8 @@ function prntproc(event) {
         taxType: cells[17],
         payment: cells[19],
         isConfirm: cells[23],
-        username: username
+        username: username,
+		taxrate:getAuth[2]().INT_002
     };
 
     const searchParams = new URLSearchParams(params);

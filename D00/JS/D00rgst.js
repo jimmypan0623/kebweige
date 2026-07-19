@@ -237,14 +237,7 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 		}				
 	maintable.rows[args[arglth-1]].cells[arglth-1].innerHTML=rsp.lastupdate;	
 }
-function searchOptionsKey(tbno,slt5){	
-	if (tbno==0){
-        slt5.options.add(new Option('幣別代號','d00.F01'));
-		slt5.options.add(new Option('幣別名稱','d00.F04'));
-	}else{   
-		slt5.options.add(new Option('日    期','d0Z.F02'));
-	} 
-}
+
 function  addNewRecordHint(tbno){
     if (tbno==0){  //表頭資料
         return "請輸入幣別資料：";

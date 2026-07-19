@@ -8,13 +8,12 @@ function selfTag(jsvsn,jsPth)
                blkshow("請先從登入畫面登入帳號密碼"); //  your code here                
                if (--i) myLoop(i);   //  decrement i and call myLoop again if i > 0
                 }, 9000)
-          })(10);                   //  pass the number of iterations as an argument
-       
-		document.location.href="logOut.php";
+          })(10);                   //  pass the number of iterations as an argument       
+		document.location.href="logOut.php";	
+		//initDialog();
      }else{		 
 	    if(getAuth[1]().length<1){
-		   getAuth[1](myAccount); 
-          	   
+		   getAuth[1](myAccount);          	   
 		}
 		document.querySelectorAll("script[id]").forEach(s=>s.remove());			
      	let axtmpl1=jsPth+jsPth.substr(0,3)+'.js?v='+jsvsn;
@@ -31,8 +30,8 @@ function selfTag(jsvsn,jsPth)
 		var auth1 = getAuth[1]();
         if(auth1[1] && ['C','D','B','K'].includes(auth1[1].slice(0,1))){	
 			var htmfile='ROL/flowProcess'+getAuth[1]()[1].slice(0,1)+'.html?v=${jsvsn}';			
-		}else{	      
-		     var htmfile='ROL/'+(getCookie('INT_HTM')?getCookie('INT_HTM'):getAuth[2]()[0].INT_HTM);
+		}else{	      		     
+			  var htmfile='ROL/rollingtaichi.html';
 		}
 		iflm.id="frl";		 
 		iflm.src=htmfile;
@@ -76,13 +75,13 @@ function redmenuchange(e){    //畫面展開縮起來
                     var htmfile = 'ROL/flowProcess' +target.innerHTML.slice(0,1) + '.html';
                break;
 			   default :
-			      var htmfile='ROL/'+(getCookie('INT_HTM')?getCookie('INT_HTM'):getAuth[2]()[0].INT_HTM);
+			      
+				  var htmfile='ROL/rollingtaichi.html';
 				  break;			      
 			} 
              		
-	    }else{			 
-		    var htmfile='ROL/'+(getCookie('INT_HTM')?getCookie('INT_HTM'):getAuth[2]()[0].INT_HTM);
-            
+	    }else{			 		    
+            var htmfile='ROL/rollingtaichi.html';
 			oSecondDiv.setAttribute("class","myHide");
             target.style.backgroundImage="url('digits/add.gif')";				
 	    }
@@ -139,7 +138,7 @@ function blockPsdshow(event)    //變更密碼程序
 		}
 	}					
     var iflm=document.getElementById("frl");		 		    	
-	var htmfile='ROL/'+(getCookie('INT_HTM')?getCookie('INT_HTM'):getAuth[2]()[0].INT_HTM);
+	var htmfile='ROL/rollingtaichi.html';	 
     iflm.src=htmfile; 		
     blkshow(1);    
 }
@@ -149,8 +148,18 @@ function accountDele(event){    //刪除帳號cookie
 		event=window.event;
     }			
     var target=getEventTarget(event);
-	getAuth[1]('Clear_All');
-	getAuth[2]('Clear_All');	
+	
+	const cookiesToClear = ['userid', 'useraccount', 'CAPTCHA', 'svripmd5', 'stdmnu', 'tmpacnt', 'tmppswd', 'errmsg']; //刪除其他COOKIE
+	cookiesToClear.forEach(delCookie);
+	for (let key in getAuth[2]()[0]) {	   //刪除系統參數COOKIE
+       delCookie(key);
+    }
+
+	for(let i=0;i<7;i++){       //閉包變數清空
+	    getAuth[i]('Clear_All');
+	}
+	
+	
 	
 	var mainUl=document.getElementById("listUL");   
 	mainUl.remove();	
@@ -159,7 +168,12 @@ function accountDele(event){    //刪除帳號cookie
 	Array.from(document.querySelectorAll("script[id]")).forEach(s=>{
     s.remove();
     });
-      document.location.href="logOut.php";	
+	 
+      
+	
+	document.location.href='index.html';
+	//initDialog();
+    document.location.href="logOut.php";	 
     return;	 
 }
 

@@ -8,7 +8,23 @@ foreach($cart as $key=>$val){
 }
 require_once("../../include/BKND/mysqli_server.php");           //引用檔   
 require_once "../../include/BKND/fieldDOMset.php"; // 引入     
-     $trnarray=fldafterwrite('C21','1',$link,true);  	
+// 1. 合併成一筆 SQL，只查詢需要的欄位 (F01, F06)，避免用 select *
+$sq20 = "SELECT F01, F06 FROM a26 WHERE F01 IN ('INT_127', 'INT_099')";
+$sql20 = @mysqli_query($link, $sq20);
+
+// 2. 先預設變數初始值，避免資料庫查無資料時跳出 Warning
+$INT_127 = null;
+$INT_099 = null;
+
+// 3. 用迴圈動態指派變數
+while ($list8 = mysqli_fetch_assoc($sql20)) {
+    if ($list8['F01'] == 'INT_127') {
+        $INT_127 = $list8['F06'];
+    } elseif ($list8['F01'] == 'INT_099') {
+        $INT_099 = $list8['F06'];
+    }
+}
+     $trnarray=fldafterwrite('C21','1',$link,true);  		  
      $sql5="select * from a01 where F01="."'".$brr[3]."'"; 
 		 $sql6=mysqli_query($link,$sql5) or die(mysqli_error($link));
 		 $rows2=@mysqli_num_rows($sql6);
@@ -16,7 +32,8 @@ require_once "../../include/BKND/fieldDOMset.php"; // 引入
 		 $sql4=mysqli_query($link,$sql3) or die(mysqli_error($link)); 
 		 $rows1=@mysqli_num_rows($sql4);
 if($rows1==0 || $rows2==0){
-    if($_COOKIE["INT_127"]=="Y" && $_COOKIE["INT_099"]=="Y" ){
+    //if($_COOKIE["INT_127"]=="Y" && $_COOKIE["INT_099"]=="Y" ){
+	if($INT_127=="Y" && $INT_099=="Y" ){	
 	   $sql7="INSERT a0i(F01,F08) values ('".substr($brr[0],0,5)."','".$brr[0]."')"; 
 	   $sql8=mysqli_query($link,$sql7) or die(mysqli_error($link)); 
     }

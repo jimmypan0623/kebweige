@@ -153,8 +153,10 @@ for ($p = 0; $p < $pages; $p++) {
 
     // 如果是最後一頁，才加入總計列
     if ($p == ($pages - 1)) {
-		$taxrate=intval($_COOKIE["INT_002"]);
-		
+		$sq20="select * from a26 where F01='INT_002' "; 
+         $sql7=@mysqli_query($link,$sq20);                        
+        $list8=mysqli_fetch_assoc($sql7);  //紀錄參數  	
+         $taxrate=intval($list8["F06"]);				
 		$rateChgtotal=$total*$_GET['rate'];   //匯率換算
 		$taxmoney=round($tax_isinside=='02'?($rateChgtotal-$rateChgtotal/(1+$taxrate/100)):(($_GET['taxType']=='1' && $_GET['invoiceType']=='31')?$rateChgtotal*$taxrate/100:0),0);		 
 		$beforetax=($tax_isinside=='02'?($rateChgtotal-$taxmoney):$rateChgtotal);

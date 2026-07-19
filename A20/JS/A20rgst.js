@@ -281,15 +281,7 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 	}
 	maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=rsp.lastupdate;
 }
-function searchOptionsKey(tbno,slt5){	
-	if (tbno==0){
-		slt5.options.add(new Option('表格代號','a20.F01'));
-		slt5.options.add(new Option('表格名稱','a20.F07'));
-	} else{
-		slt5.options.add(new Option('欄位代號','a22.F01'));
-		slt5.options.add(new Option('欄位名稱','a22.F06')); 					  
-	}   
-}
+
 function  addNewRecordHint(tbno){
     if (tbno==0){  //表頭資料
         return "請輸入表格資料：";

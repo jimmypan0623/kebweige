@@ -2,7 +2,11 @@
    header("Content-Type: application/json; charset=utf-8");
    require_once("../../include/BKND/mysqli_server.php");                              //引用檔
     require_once "../../include/BKND/fieldpreset.php"; // 引入  
-   $rnddgt=$_COOKIE["INT_069"];
+   $sq20="select * from a26 where F01='INT_069' "; 
+     $sql7=@mysqli_query($link,$sq20);
+    // $rows7=@mysqli_num_rows($sql7);                       
+     $list8=mysqli_fetch_assoc($sql7);  //紀錄參數  	
+   $rnddgt=$list8['F06'];//$_COOKIE["INT_069"];
    if (substr($_POST['filename'],0,3)=="PGE"){	  
 	   $pgeno=getNeedBetween($_POST['filename'],'E','|'); // 月次 
 	   $dptno=substr(strrchr($_POST['filename'],'|'),1); // 月次

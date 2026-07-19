@@ -8,7 +8,10 @@ require_once "../../include/BKND/fieldpreset.php";
 
 $rows = 0;
 $arr = array();
-$rndnb = isset($_COOKIE['INT_001']) ? (int)$_COOKIE['INT_001'] : 0;
+$sq20="select * from a26 where F01='INT_001' "; 
+$sql7=@mysqli_query($link,$sq20);                      
+$list8=mysqli_fetch_assoc($sql7);  //紀錄參數  	    
+$rndnb = isset($list8['F06']) ? (int)$list8['F06'] : 0;
 $rndnb = max(0, min($rndnb, 6));
 // --- 輔助函式：白名單檢查欄位名 ---
 function isValidField($field) {

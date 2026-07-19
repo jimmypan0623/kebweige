@@ -344,12 +344,7 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 	            
 	maintable.rows[args[arglth-1]].cells[tbrlth-2].innerHTML=rsp.lastupdate; //最後異動			 */			   
 }
-function searchOptionsKey(tbno,slt5){	
-	slt5.options.add(new Option('料品編號','d02.F03'));
-	slt5.options.add(new Option('廠商品號','d02.F04'));
-	slt5.options.add(new Option('廠商編號','d02.F01'));
-	slt5.options.add(new Option('廠商簡稱','d01.F04'));
-}
+
 function  addNewRecordHint(tbno){
    return "請輸入相關料號：";		
 }

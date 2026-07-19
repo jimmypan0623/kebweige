@@ -41,14 +41,14 @@ while ($row = mysqli_fetch_assoc($result)) {
     $prefix = substr($row['F01'], 0, 2);
     
     $data[] = [
-        'rc_no_IHC_000'      => $prefix . $row['F00'],
-        'order_no_ISC_010'   => $row['F01'],
-        'order_type_ISC_004' => ($prefix == 'CA') ? '出貨' : '進貨',
-        'ship_date_ISC_010'   => $row['F06'],
-        'change_qty_ISR_010' => $change,
-        'remain_qty_ISR_010' => $running_qty,
-        'obj_no_ISC_007'     => $row['F03'],
-        'obj_name_ISC_008'   => $row['ABR']
+        '序號_IHC_000'      => $prefix . $row['F00'],
+        '單據號碼_ISC_010'   => $row['F01'],
+        '異動_ISC_004' => ($prefix == 'CA') ? '出貨' : '進貨',
+        '異動日期_ISC_010'   => $row['F06'],
+        '異動數量_ISR_010' => $change,
+        '預期結餘_ISR_010' => $running_qty,
+        '對象編號_ISC_007'     => $row['F03'],
+        '對象簡稱_ISC_008'   => $row['ABR']
     ];
 }
 

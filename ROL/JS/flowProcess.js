@@ -21,34 +21,39 @@ function setArg(arr){
         mermaid.initialize(config);
 		
 		
-	function FunDetailArg(arg){	
-         ;
-	    var sendSrcRec="filename="+arg.substr(0,3)+"|"+window.parent.getAuth[1]()[0];		
-		 
-	    var rsp="";  	
-        if(window.ActiveXObject){
-		   var request = new ActiveXObject("Microsoft.XMLHttp");
-	    }	
-	       else if(window.XMLHttpRequest){
-	   	      var request = new XMLHttpRequest();
-        }			 
-		request.onreadystatechange = respond;	       
-		var url="BKND/FunDetail.php?timestamp="+new Date().getTime();			
-	    request.open("POST",url);	 
-	    request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-	    request.send(sendSrcRec);		
-	    function respond(){           
-		    if (request.readyState == 4 && request.status == 200) {    
-                rsp=JSON.parse(request.responseText);					
-			    if(rsp=="NO"){
-				  
-				       window.parent.blkshow("您無"+arg+"操作權限");
-				     
-			    }else{
-			         
-					  setArg(rsp);  
-				}   
-		    }
-	    }
-	  return;
-    }	
+
+async function FunDetailArg(arg) {
+    // 1. 重構參數與 URL
+    const sendSrcRec = `filename=${arg.substr(0, 3)}|${window.parent.getAuth[1]()[0]}`;
+    //const url = `BKND/FunDetail.php?timestamp=${Date.now()}`;
+    const url = "BKND/FunDetail.php";
+    try {
+        // 2. 使用 fetch 發送 POST 請求
+        const response = await fetch(url, {
+            method: 'POST',
+			cache: 'no-store', // 👈 關鍵：強制每次都向伺服器重新請求
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: sendSrcRec
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        // 3. 解析 JSON 
+        const rsp = await response.json();
+
+        // 4. 權限與資料處理
+        if (rsp === "NO") {
+            window.parent.blkshow(`您無${arg}操作權限`);
+        } else {
+            setArg(rsp);
+        }
+    } catch (error) {
+        console.error("請求失敗:", error);
+        // 可依需求加入錯誤提示，例如：alert("系統連線失敗，請稍後再試");
+		alert("系統連線失敗，請稍後再試");
+    }
+}

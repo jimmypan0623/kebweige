@@ -10,9 +10,19 @@ for (let i=0;i<7;i++){
 //cko[3]    次頁選擇計數(gridlist)
 //cko[4]    第三頁選擇計數(gridlist)
 //cko[5]    第四頁選擇計數(gridlist)
-//cko[6]    畫面主搜尋(也只有一個)功能目前鍵值紀錄指向計數 
+//cko[6]    畫面主搜尋(也只有一個)功能目前鍵值紀錄指向計數(但是否確認選項會強制歸零)
+/* const state = {
+    recordCount: chkCount(),
+    popupMode: chkCount(),
+    mainSelected: chkCount(),
+    detailSelected: chkCount(),
+    thirdSelected: chkCount(),
+    fourthSelected: chkCount(),
+    searchIndex: chkCount()
+}; */
+///////
 var getAuth=[];  //利用閉包函數當計數器
-for (let j=0;j<4;j++){
+for (let j=0;j<7;j++){
     getAuth[j] = createArrayClosure();	 //帳號與上次執行功能
 }
 //var getAuth = Array.from({ length: 4 }, createArrayClosure);  //利用閉包函數當權限設定與其他系統參數紀錄器 var getAuth=[]; 
@@ -31,52 +41,55 @@ for (let j=0;j<4;j++){
 //getAuth[0]()[11] :   M首頁為月份分頁，P則為固定筆數(視參數INT_RCD設定)分頁,
 //getAuth[0]()[12] :   類別，M為主檔或首頁有左右TABLE，R為單據，B為基本資料，A為分析資料，S為系統檔
 //getAuth[0]()[13] :  首頁分頁為月份外判斷是否多加部門別或其他類別分頁->D:多加部門別或其他類別下拉選項	
-let pageNameIdx=14;//紀錄頁籤名起始陣列索引值
+let pageNameIdx=14;//紀錄頁籤名稱之起始陣列索引值
 //getAuth[0]()[14] :  第一頁頁籤名
 //getAuth[0]()[15] :  第二頁頁籤名
 //getAuth[0]()[16] :  第三頁頁籤名
 //getAuth[1]  //帳號與上次執行功能
-//getAuth[2] 	 //不列入COOKIE之系統參數
-//getAuth[3] 	 //各系統參數之屬性 
+//getAuth[2] 	 //存放從a26資料表中撈出的系統參數
+//getAuth[3] 	 //各系統參數之型態("T"表示參數內容為中文) =>可能會轉作其他用途
+//getAuth[4] 	 //第一頁搜尋選項
+//getAuth[5] 	 //第二頁搜尋選項
+//getAuth[6] 	 //第三頁搜尋選項
+/* const auth={
+    permission:createArrayClosure(),
+    user:createArrayClosure(),
+    system:createArrayClosure(),
+    property:createArrayClosure(),
+    search1:createArrayClosure(),
+    search2:createArrayClosure(),
+    search3:createArrayClosure()
+} */
+
 function initDialog()
-{       
+{        
     var btmshowtme=document.getElementById('currentTime'); 
 	var ftbtm=document.getElementById("footbottom");
 	var scnd=btmshowtme.textContent.substr(-2);
-	var mnte=btmshowtme.textContent.substr(-5,2); 
-    var loginform=document.getElementById('login');
+	var mnte=btmshowtme.textContent.substr(-5,2);    
+	var logincontainer=document.getElementById('login-Form');
     var divcontainer=document.getElementById('container');		
 	var tabcsses=document.getElementsByClassName("tab_css");
 	var links=document.getElementsByTagName('link');  	
 	var myAccount=(getCookie('useraccount')?getCookie('useraccount'):getAuth[1]()[0] );
-	if(!myAccount && getAuth[1]().length==0){    //如果沒有從登入畫面進來則必無登入帳號	   
-	    btmshowtme.style.display="none";
-		if(divcontainer){
+	if(!myAccount && getAuth[1]().length==0){    //如果沒有從登入畫面進來則必無登入帳號
+	   if(divcontainer){
 		   divcontainer.parentNode.removeChild(divcontainer);
 		}
 		for(let i=0;i<tabcsses.length;i++){
 			tabcsses[i].parentNode.removeChild(tabcsses[i]);			
-		}			
-		var img1=document.getElementById('img1');
-		var img2=document.getElementById('img2');
-		var img3=document.getElementById('img3');
-		var img4=document.getElementById('img4');
-		if (img1 && img2 && img3 && img4 ) {
-			
-			for (let i = 1; i <= 4; i++) {
-                 let img = document.getElementById('img' + i);
-                 if (img) {
-                     img.style.cursor = 'pointer'; // 讓滑鼠移上去顯示手型
-                     img.title = '看不清楚？可再點擊換一組'; // 增加提示文字
-                    
-					 attachEventListener(img,"click",refreshCaptcha,false);
-                }
-            }
-			
-           // 呼叫我們定義的刷新函式
-           refreshCaptcha();
-        }
-		
+		}		
+		 links[0].href="include/loginstyle.css?v=0.0.3" ;
+		if(!logincontainer){
+			var logincontainer = document.createElement("div");				 
+			logincontainer.id="login-Form";		
+			var footbtm=document.getElementById("footbottom");
+			document.body.insertBefore(logincontainer,footbtm);
+		}
+	   
+		btmshowtme.style.display="none";
+        loginInitForm();   //跳到登入畫面的產生函數
+      
 		var errMsg = getCookie('errmsg');
 		if (errMsg) {
 			// 1. 自動填回之前輸入的帳密
@@ -96,11 +109,13 @@ function initDialog()
 					let img = document.getElementById('img' + i);
 					if (img) img.remove();
 				}
-				
+				 
 				// 延遲跳轉至登出頁面清空狀態
 				setTimeout(function() {
 					document.location.href = "logOut.php";
-				}, 2000); 
+				}, 2000);  
+				//setTimeout(initDialog, 2000);
+				 
 			}
 
 			// 3. 重要：驗證失敗後，務必重新產生一組驗證碼圖片
@@ -111,8 +126,8 @@ function initDialog()
 			// 4. 清除錯誤記錄 Cookie
 			delCookie('errmsg');
 			delCookie('tmpacnt');
-			delCookie('tmppswd');
-		} else {
+			delCookie('tmppswd'); 
+		} else {			
 			// 正常載入：綁定提交按鈕事件
 			var sbmtclk = document.getElementById('submit');
 			if (sbmtclk) {
@@ -132,9 +147,12 @@ function initDialog()
 		    if(divcontainer){
 			   divcontainer.parentNode.removeChild(divcontainer);		
 		    }
-			if(loginform){
+			/* if(loginform){
 			   loginform.parentNode.removeChild(loginform);
-			}			 					
+			}	 */		 					
+			if(logincontainer){
+			   logincontainer.parentNode.removeChild(logincontainer);
+			}
 			 links[0].href="include/Operate.css?v=0.1.3" ;						 
 			 var gifarray=['ROL','puto','0','cell','1','birthdaycake','2','spec','3','stckgood','S02',
 			 '4','cddisk','5','smlbulb','6','myrndm','7','S03','openfile','8','penandrule','9','S04','calculator','foreignermoney']; 			
@@ -334,7 +352,7 @@ function initDialog()
 					attachEventListener(orpButton1,"click",seekrec,false); 
 					mainSpan1.appendChild(text1);
 					mainSpan1.appendChild(orpButton1);
-					var cokath1=getAuth[0]()[1]; //getCookie('auth01');					
+					var cokath1=getAuth[0]()[1]; 					
 					if (cokath1!='E'){                  //新增	'E'表示Empty		 
 						var orpButton2=document.createElement("input");		   
 						orpButton2.type="button";
@@ -351,7 +369,7 @@ function initDialog()
 							attachEventListener(orpButton2,"click",addrec,false);  //新增紀錄按鈕程序
 						}   
 					}						
-					var cokath2=getAuth[0]()[2]; //getCookie('auth02');				
+					var cokath2=getAuth[0]()[2]; 				
 					if (cokath2!=='E'){			 
 						var orpButton3=document.createElement("input");		   
 						orpButton3.type="button";
@@ -368,7 +386,7 @@ function initDialog()
 							attachEventListener(orpButton3,"click",edtrec,false);  //修改紀錄按鈕程序
 						}					
 					}				
-					var cokath3=getAuth[0]()[3];    //getCookie('auth03');
+					var cokath3=getAuth[0]()[3];    
 					if (cokath3!='E'){			
 						var orpButton4=document.createElement("input");		   
 						orpButton4.type="button";
@@ -463,9 +481,12 @@ function initDialog()
 				 }	
 		    }	 
 		}else{               	           
-			 if(loginform){
+			 /* if(loginform){
 			    loginform.parentNode.removeChild(loginform);
-		     }
+		     } */
+			 if(logincontainer){
+			   logincontainer.parentNode.removeChild(logincontainer);
+			}
 			 for(let i=0;i<tabcsses.length;i++){
 				tabcsses[i].parentNode.removeChild(tabcsses[i]);
 				
@@ -652,8 +673,8 @@ function delConfirm(event){     //確定刪除
 		event=window.event;
     }	
 	var target=getEventTarget(event);	  
-	var mthjudge=getAuth[0]()[11];  //getCookie("MorP");   //是否為月份檔
-	var yesbill=getAuth[0]()[12];   //getCookie("kindofda");      //是否為單據檔
+	var mthjudge=getAuth[0]()[11];     //是否為月份檔
+	var yesbill=getAuth[0]()[12];        //是否為單據檔
 	var urlfolder=document.getElementsByTagName('title');
 	var mainrightValue=urlfolder[0].textContent.slice(0, 3);	
 	var ttls=document.getElementsByClassName('ttl');		//表頭或表身有無總計數字
@@ -726,7 +747,7 @@ function delConfirm(event){     //確定刪除
 					 ////  非月份單據檔						
 					if (mthjudge!='M'){    //如果非月份檔 
 						cko[0](-1);    //閉包記錄變數減一筆
-						var ckrcd= parseInt(getCookie('INT_RCD'));
+						var ckrcd= parseInt(getAuth[2]()[0].INT_RCD);
 						var slt2=document.getElementById('recmth');	
 						var pagecount=Math.ceil(cko[0](0)/ckrcd);
 						if(slt2.options.length>pagecount){		//檢查頁數是否該減少.
@@ -865,35 +886,36 @@ function inptclr(){
 }
 
 
-function RecoverArg(arg){	
-
-	var sendSrcRec="filename="+arg+"|"+ getAuth[1]()[0];		
-	 
-	var rsp="";  	
-	if(window.ActiveXObject){
-	   var request = new ActiveXObject("Microsoft.XMLHttp");
-	}	
-	   else if(window.XMLHttpRequest){
-		  var request = new XMLHttpRequest();
-	}			 
-	request.onreadystatechange = respond;	       
-	var url="ROL/BKND/FunDetail.php?timestamp="+new Date().getTime();			
-	request.open("POST",url);	 
-	request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-	request.send(sendSrcRec);		
-	function respond(){           
-		if (request.readyState == 4 && request.status == 200) {    
-			rsp=JSON.parse(request.responseText);					
-			if(rsp=="NO"){			  
-				   blkshow("您無"+arg+"操作權限");				 
-			}else{
-				setArg(rsp);
-			}   
-		}
-	}
-  
-}	
-
+function RecoverArg(arg) {	
+    const authKey = getAuth[1]()[0];
+    const sendSrcRec = "filename=" + encodeURIComponent(arg) + "|" + encodeURIComponent(authKey);		
+    //const url = "ROL/BKND/FunDetail.php?timestamp=" + new Date().getTime();			
+    const url = "ROL/BKND/FunDetail.php" ;
+    fetch(url, {
+        method: 'POST',
+		cache: 'no-store', // 👈 關鍵：強制每次都向伺服器重新請求
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: sendSrcRec
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("網路回應失敗，狀態碼：" + response.status);
+        }
+        return response.json(); // 這會將結果傳給下一個 .then()
+    })
+    .then(rsp => {
+        if (rsp === "NO") {			  
+            blkshow("您無 " + arg + " 操作權限");				 
+        } else {
+            setArg(rsp);
+        }   
+    })
+    .catch(error => {
+        console.error("RecoverArg 執行發生錯誤:", error);
+    });
+}
 function setArg(arr){
            getAuth[0]('Clear_All');
 		 Object.values(arr[0]).forEach(value => {
@@ -906,70 +928,85 @@ function setArg(arr){
 	 
 }	
 
-function fieldsSet(exucPrgNo){	   //剛進操作畫面之欄位設定
-    var sendSrcRec="filename="+exucPrgNo.slice(0, 3); 	    
-	var rsp="";  	
-	
-	if(window.ActiveXObject){
-	   var request = new ActiveXObject("Microsoft.XMLHttp");
-	}	
-	   else if(window.XMLHttpRequest){
-		  var request = new XMLHttpRequest();
-	}			 
-	request.onreadystatechange = respond;	   
-	var url="include/BKND/pagesFieldsData.php?timestamp="+new Date().getTime();		
-	request.open("POST",url);	 
-	request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-	request.send(sendSrcRec);		
-	function respond(){           
-		if (request.readyState == 4 && request.status == 200){ 
-		   
-            rsp=JSON.parse(request.responseText);	
-			
-		     let widthttl=0;
-			 let m=0;
-			
-		    for(let i=0;i<rsp.length;i++){		
-			    
-			    for(let jk in rsp[i]){	 
-				    if(jk=='field_order' && parseInt(left(rsp[i][jk],1))!=m){
 
-						m=parseInt(left(rsp[i][jk], 1));			
-						
-					    var thr=document.getElementById('headrow'+m.toString());
-						 widthttl=0;						
-					}
-					if(jk=='field_name'){
-						var th = document.createElement('th'); //column	
-						var text = document.createTextNode(rsp[i][jk]);
-					    th.appendChild(text);
-				  
-					}else if(jk=='width_ratio'){					  
-					   th.style.width=rsp[i][jk]+'%';
-					   widthttl+=rsp[i][jk]*1;
-					}
-					if(widthttl>100){
-							
-						  var oMember=document.getElementById('member'+m.toString());
-						   oMember.style.width=widthttl.toString()+'%';
-					}
-			    }
-				thr.appendChild(th);
-				 
-		    }
-            if(m>1){
+function fieldsSet(exucPrgNo) {
+	  //記錄三個頁面搜尋選項的閉包變數清空
+    for(let k=4;k<7;k++){
+	   getAuth[k]('Clear_All');	
+	}  
+	 // 剛進操作畫面之欄位設定
+    const sendSrcRec = "filename=" + encodeURIComponent(exucPrgNo.slice(0, 3));
+    //const url = "include/BKND/pagesFieldsData.php?timestamp=" + new Date().getTime();
+    const url = "include/BKND/pagesFieldsData.php" ;
+    fetch(url, {
+        method: 'POST',
+		cache: 'no-store', // 👈 關鍵：強制每次都向伺服器重新請求
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: sendSrcRec
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('網路回應不成功: ' + response.status);
+        return response.json(); // fetch 的 response.json() 會自動將 JSON 字串轉成物件/陣列
+    })
+    .then(rsp => {
+        let widthttl = 0;
+        let m = 0;
+        let thr = null;
+
+        for (let i = 0; i < rsp.length; i++) {
+            let item = rsp[i];
+            
+            // 使用 .slice 取代原有的 left 函數
+            let currentM = item.field_order ? parseInt(item.field_order.toString().slice(0, 1)) : m;
+
+            if (currentM !== m) {
+                m = currentM;
+                thr = document.getElementById('headrow' + m.toString());
+                widthttl = 0;
+            }
+
+            if (item.field_name !== undefined && item.show_hide=='S') {
+                const th = document.createElement('th');
+                const text = document.createTextNode(item.field_name);
+                th.appendChild(text);
+
+                if (item.width_ratio !== undefined && item.show_hide=='S') {
+                    th.style.width = item.width_ratio + '%';
+                    widthttl += item.width_ratio * 1;
+                }
+
+                if (widthttl > 100) {
+                    const oMember = document.getElementById('member' + m.toString());
+                    if (oMember) oMember.style.width = widthttl.toString() + '%';
+                }
+
+                if (thr) thr.appendChild(th);
 				
-				var keynames=document.getElementsByName('keyname');	
-				for(let k=0;k<keynames.length;k++){
-	                   keynames[k].textContent=rsp[0]['field_name']+":";
-				}
-			}   
-			 
-		}
-		return;
-	}	
-	
-}	
+            }
+			var ptm={};
+			if (isLastCharLetter(item.field_order.trim())) {
+				ptm['text']=item.field_name.trim()=='日'?'日期':item.field_name;
+				ptm['value']=item.field_content;
+				ptm['order']=item.field_order.trim().at(-1);
+			    getAuth[3 + m ](ptm);
+			}
+        }
+
+        if (m > 1 && rsp[1] && rsp[1]['field_name']) {
+            const keynames = document.getElementsByName('keyname');
+            for (let k = 0; k < keynames.length; k++) {
+                keynames[k].textContent = rsp[1]['field_name'] + ":";
+            }
+        }
+    })
+    .catch(error => {
+        console.error("fieldsSet 發生錯誤:", error);
+    });
+}
+
+
 
 // 這是最穩定的版本，能徹底解決 Chrome/Edge 的差異
 function refreshCaptcha(event) {
@@ -999,13 +1036,20 @@ function parseFieldMeta(fieldName) {
     var parts = fieldName.split('_');
     var metaStr = parts[parts.length - 2]; // 取得如 "DSL"
     var widthStr = parts[parts.length - 1]; // 取得如 "010"
-    
+    var fldname=fieldName.substring(0, fieldName.indexOf('_'));
     if (!metaStr || metaStr.length !== 3) return null;
 
     return {
         isDirect: metaStr[0] === 'D',
         isHidden: metaStr[1] === 'H',
         align: { 'L': 'left', 'C': 'center', 'R': 'right' }[metaStr[2]] || 'left',
-        width: parseInt(widthStr, 10) + '%'
+        width: parseInt(widthStr, 10) + '%',
+		name:fldname
     };
+}
+//判斷字串最後一碼是否為英文字母
+function isLastCharLetter(str) {
+    if (!str) return false; // 檢查空字串
+    return /[a-z]$/.test(str);
+	//const regex = /^BC\d{2}[1-9A-C]\d{5}$/i;
 }

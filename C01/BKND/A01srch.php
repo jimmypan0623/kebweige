@@ -1,6 +1,7 @@
 ﻿<?php
    header("Content-Type:text/html; charset=utf-8");   
     require_once("../../include/BKND/mysqli_server.php");                             //引用檔   
+	require_once "../../include/BKND/fieldpreset.php";
 	$searchRecord =trim($_POST['filename']);		
 	 $sql3="SELECT `F01`,`F03` FROM `a01` ";
 	 if(strlen($searchRecord)==0) {
@@ -10,23 +11,17 @@
 		   $sql3=$sql3."WHERE `F01` like '%".$searchRecord."%' ";	 
 	 }
 	 $sql3=$sql3."ORDER BY `F01`";
-    $arr=array();	
-    $sql4=@mysqli_query($link,$sql3); 
-	while ($list3=mysqli_fetch_assoc($sql4)){
-		 
-		$atr = array('stuff_no_ISL_050'=>$list3['F01'],  		            	             
-		             'stuff_name_ISL_050'=>$list3['F03']);                              
-		array_push($arr,$atr);
-	}
+
+    $result=@mysqli_query($link,$sql3); 
+
+	$wthary = fldwdthpre('C01', 'S', $link);
+$afld=['F01','F03'];
+$arr=afldcont($result,$afld,$wthary);
 	mysqli_close($link);
 	     $arr = array_values($arr);
          $json_string1 = json_encode($arr); 
          echo $json_string1;	 
-       
-       
-		 
- 		 
-          
+ 
 ?>  
 
  
