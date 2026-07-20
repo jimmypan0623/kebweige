@@ -18,7 +18,7 @@ class MYPDF extends TCPDF {
         $headerHtml = '
         <div style="text-align: center;">
             <span style="font-size: 18pt;">' . ($this->customData['ourCompany'] ?? '') . '</span><br />
-            <span style="font-size: 12pt;">TEL: ' . ($this->customData['tel_no'] ?? '') . '</span>
+            <span style="font-size: 12pt;">TEL: ' . ($this->customData['telno'] ?? '') . '</span>
         </div>
         <table border="0" width="100%">
             <tr>
@@ -113,6 +113,7 @@ $pdf->SetAutoPageBreak(TRUE, 25);
 $pdf->AddPage();
 
 // --- 4. 資料庫處理 ---
+require_once("../../include/BKND/auth_check.php"); //驗證 
 require_once("../../include/BKND/db_forreport.php");
  
 $sql = "SELECT c27.*, b01.F02 as F0B, b01.F04 as F0D, (b01.F28 + b01.F31) as F2A 

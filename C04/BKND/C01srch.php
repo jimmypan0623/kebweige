@@ -1,4 +1,5 @@
 ﻿<?php
+require_once("../../include/BKND/auth_check.php"); //驗證
 header("Content-Type: application/json; charset=utf-8"); // 修正為 json 格式
 header("Cache-Control: no-cache, must-revalidate");
 header("Pragma: no-cache");

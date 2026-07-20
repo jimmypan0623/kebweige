@@ -1,4 +1,5 @@
 ﻿<?php
+require_once("../../include/BKND/auth_check.php"); //驗證
 header("Content-Type: application/json; charset=utf-8"); // 建議回傳 JSON 時正確設定 Header
 require_once("../../include/BKND/mysqli_server.php");
 require_once "../../include/BKND/fieldpreset.php";

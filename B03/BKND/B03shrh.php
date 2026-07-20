@@ -1,4 +1,5 @@
 <?php   
+require_once("../../include/BKND/auth_check.php"); //驗證
 $str_json = file_get_contents('php://input'); //($_POST doesn't work here)
 $response =json_decode($str_json); // decoding received JSON to array 
 $cart=json_decode($response);

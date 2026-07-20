@@ -1,4 +1,5 @@
 ﻿<?php
+require_once("../../include/BKND/auth_check.php"); //驗證
 // 開啟錯誤回報 (除錯完畢後請關閉)
 // ini_set('display_errors', 1); error_reporting(E_ALL);
 

@@ -1,40 +1,65 @@
 <?php
-// 1. 初始化環境
+// 1. 初始化環境  
 session_start();
 header("Content-Type:text/html; charset=utf-8");
+
 require_once("include/BKND/mysqli_server.php");
 
 /**
  * 輔助函式：發生錯誤時重定向並記錄安全 Cookie
  */
+
 function redirectWithError($errCode, $account, $password) {
-    // 清除舊驗證碼標記 (不限於 Cookie，Session 也一同清理)
-    unset($_SESSION['captcha_code']);
+    // 1. 徹底清空 Session 狀態，防止下一次請求被誤判為 A3
+    $_SESSION = array();
+    if (ini_get("session.use_cookies")) {
+        $params = session_get_cookie_params();
+        setcookie(session_name(), '', time() - 42000,
+            $params["path"], $params["domain"],
+            $params["secure"], $params["httponly"]
+        );
+    }
+    session_destroy();
     
-    // 設定錯誤與暫存資訊，啟用 HttpOnly 以增強安全性
+    // 2. 重新開啟一個乾淨的 Session 供下一次驗證碼使用
+    session_start();
+    
+    // 3. 設定錯誤與暫存資訊 (❌ 移除 httponly，否則前端 JS 無法讀取與刪除)
     setcookie('errmsg', $errCode, [
         'expires' => 0,
         'path' => '/',
-        'httponly' => true,
+        'secure' => false,
+        'httponly' => false, // 必須為 false
         'samesite' => 'Strict'
     ]);
     setcookie('tmpacnt', $account, [
         'expires' => 0,
         'path' => '/',
-        'httponly' => true,
+        'secure' => false,
+        'httponly' => false, // 必須為 false
         'samesite' => 'Strict'
     ]);
-    setcookie('tmppswd', $password, [
-        'expires' => 0,
-        'path' => '/',
-        'httponly' => true,
-        'samesite' => 'Strict'
-    ]);
+	
+	// 如果傳入的密碼是空的，直接讓該 Cookie 過期（清除它）
+    if (empty($password)) {
+        setcookie('tmppswd', '', time() - 3600, "/");
+    } else {
+        setcookie('tmppswd', $password, [
+            'expires' => 0,
+            'path' => '/',
+            'secure' => false,
+            'httponly' => false,
+            'samesite' => 'Strict'
+        ]);
+    }
+    
 
+    // 4. 強制瀏覽器不要快取這個重導向
+    header("Cache-Control: no-cache, must-revalidate");
+    header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
     header('Location: index.html');
     exit;
 }
-
 // 2. 檢查是否已經登入過 (修正原本檢查錯 Cookie 名稱的盲點，改以 Session 為核心判斷)
 if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) {
     redirectWithError('A3', '', ''); // A3 代表重複登入

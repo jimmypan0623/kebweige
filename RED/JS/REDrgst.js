@@ -19,8 +19,9 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 	var tbno=0;
 	var myPassword=document.getElementById('oRiginpassword').value;		     
     //----資料寫入資料庫前過濾程序區-----//
-	var REDelements=document.getElementsByName('REDupdate');	
-	if(REDelements[0].value!=myPassword ){
+	var REDelements=document.getElementsByName('REDupdate');
+	 
+	if(md5(REDelements[0].value)!=myPassword ){
 		 filtermsg(REDelements[0],"與原密碼不同");
 	     REDelements[0].focus();
 	    	return false ;
@@ -40,7 +41,7 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 		   REDelements[1].parentNode.removeChild(REDelements[1].nextSibling);
 		}
 	}	
-	if(myPassword==REDelements[1].value){
+	if(myPassword==md5(REDelements[1].value)){
 		filtermsg(REDelements[1],"與原密碼相同");
 		REDelements[1].focus();
 		return false ;
@@ -98,10 +99,10 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 	oTd.innerHTML="<input type='password' name='REDrecord' id='oRiginpassword' class='txt' style='width:50%;'  />";
 	var oTd = oTr.insertCell(2);
 	oTd.setAttribute('style','text-align:right;width:20%');	
-	oTd.innerHTML='使用者ID:';
+    oTd.innerHTML='使用者ID:';
 	var oTd = oTr.insertCell(3);				 
-	oTd.innerHTML="<input type='text' name='REDrecord' id='oRiginID' class='txt' style='width:50%;'  />";
-    oTr.setAttribute("style","display:none;");   	
+	oTd.innerHTML="<input type='text' name='REDrecord' id='oRiginID' class='txt' style='width:50%;'  />"; 
+    oTr.setAttribute("style","display:none;");   	 
 }
 
 function topAndWidthModify(dropsheet_content,dropsheet,txtword){
@@ -128,6 +129,7 @@ async function PasswordFromBackEnd(useraccount) {
     try {
         const response = await fetch(url, {
             method: 'POST',
+			
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
@@ -138,9 +140,9 @@ async function PasswordFromBackEnd(useraccount) {
 
         const rsp = await response.json();			
         
-        if (rsp?.[0]) {             
+        if (rsp[0]) {             
             document.getElementById('oRiginpassword').value = rsp[0]['passWord'] ?? '';	 
-            document.getElementById('oRiginID').value = rsp[0]['userId'] ?? '';	
+            document.getElementById('oRiginID').value = rsp[0]['userId'] ?? '';	 
         }
     } catch (error) {
         console.error("無法讀取驗證資料:", error);

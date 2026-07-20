@@ -215,7 +215,8 @@ function prntproc() {
         payMent: cells[12],
         reMark: cells[13],
         isConfirm: cells[15],
-        username: urlParams.get('username') || ""		
+        username: urlParams.get('username') || ""	,
+        telno:getAuth[2]()[0].INT_078		
     };
 
     const qs = new URLSearchParams(params).toString();

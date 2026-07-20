@@ -1,4 +1,5 @@
 ﻿<?php
+require_once("../../include/BKND/auth_check.php"); //驗證
 // 1. 設定回傳格式為 JSON 且避免亂碼
 header("Content-Type: application/json; charset=utf-8");
 

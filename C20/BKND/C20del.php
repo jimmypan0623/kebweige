@@ -1,4 +1,5 @@
 <?php
+require_once("../../include/BKND/auth_check.php"); //驗證
   header("Content-Type:text/html; charset=utf-8");   
    require_once("../../include/BKND/mysqli_server.php");      
    $delmsg=$_POST['filename'];

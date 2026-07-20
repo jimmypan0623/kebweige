@@ -1,6 +1,5 @@
 <?php 
 require_once('../../tcpdf/tcpdf.php');
-
 // --- 1. 安全性檢查與變數初始化 ---
 $queryNo = isset($_GET['queryNo']) ? $_GET['queryNo'] : '';
 

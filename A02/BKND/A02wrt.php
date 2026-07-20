@@ -1,4 +1,5 @@
 <?php
+require_once("../../include/BKND/auth_check.php"); //驗證
 $str_json = file_get_contents('php://input'); //($_POST doesn't work here)
 $response =json_decode($str_json); // decoding received JSON to array
 $cart=json_decode($response);
@@ -14,7 +15,7 @@ require_once("../../include/BKND/mysqli_server.php");         //引用檔
      $rows1=@mysqli_num_rows($sql1);                       
      $list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名      
 if ($rows1>0){
-	if(md5($list4['F00'])!=$_COOKIE['userid']){
+	if($list4['F00']!=$_SESSION['user_id']){
 		echo json_encode("請勿蓄意修改成他人帳號後，再來異動資料！");
 		return false;
 	}else{	 	 
@@ -27,11 +28,11 @@ if ($rows1>0){
 				if($rows>0){			 
 					echo json_encode("資料庫已有此帳號"); 
 				}else{
+				  $tmppwd=md5($brr[0]);
 			//以下處理MySQL記錄新增  
-				 $mscnt="INSERT INTO a01(F01,F02,F03,F04,F07,F10,F12,F13,F99) VALUES (";  //先把準備插入記錄的SQL 語法前半段先寫在字串中
-				 
-				 $mscnt.="'".$brr[0]."'".",";
-				 $mscnt.="'".$brr[0]."'".",";    //新增帳號時預設密碼與帳號相同
+				 $mscnt="INSERT INTO a01(F01,F02,F03,F04,F07,F10,F12,F13,F99) VALUES (";  //先把準備插入記錄的SQL 語法前半段先寫在字串中				
+				 $mscnt.="'".$brr[0]."',";
+				 $mscnt.="'".$tmppwd."',";    //新增帳號時預設密碼與帳號相同,只是轉碼成md5
 				 $mscnt.="'".$brr[1]."'".",";
 				 $mscnt.="'".$brr[2]."'".",";
 				 $mscnt.="'".$brr[3]."'".",";
@@ -44,8 +45,7 @@ if ($rows1>0){
 					   $last_id = mysqli_insert_id($link);     //找最後一個號碼	          					     
 					   $arr = array ('order_no'=>$last_id,'lastupdate'=>$lastdate.$list4['F03'],'fldsatrr'=>$trnarray);						 
 					   echo json_encode($arr);	     
-			 }
-			
+			 }			
 		}else {
 			   $mscnt="UPDATE a01 SET F03="."'".$brr[1]."'".",";
 			   $mscnt.="F04="."'".$brr[2]."'".",";

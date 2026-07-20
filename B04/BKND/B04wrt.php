@@ -1,4 +1,5 @@
 <?php
+require_once("../../include/BKND/auth_check.php"); //驗證
 header('Content-Type: application/json'); // 確保瀏覽器知道回傳的是 JSON
 
 // 1. 取得 JSON 並解碼

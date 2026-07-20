@@ -1,4 +1,5 @@
 <?php   
+require_once("../../include/BKND/auth_check.php"); //驗證
 require_once("../../include/BKND/mysqli_server.php");                              //引用檔      
     $delmsg=$_POST['filename'];
    $sql7="SELECT `F10` FROM `k08` where `F01`='".$delmsg."'"; 

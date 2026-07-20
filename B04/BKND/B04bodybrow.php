@@ -3,7 +3,7 @@
  * 單據明細查詢 API (b0d)
  * 功能：根據主單號與關鍵字過濾銷貨明細內容 (B04 模組)
  */
-
+require_once("../../include/BKND/auth_check.php"); //驗證
 header("Content-Type: application/json; charset=utf-8");
 header("Cache-Control: no-cache, must-revalidate");
 header("Pragma: no-cache");

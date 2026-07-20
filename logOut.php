@@ -16,20 +16,10 @@ if (isset($_COOKIE[session_name()])) {
 }
 
 // 4. 定義需要清除的固定 Cookie 清單
-$cookiesToClear = ['userid', 'useraccount', 'CAPTCHA', 'svripmd5', 'stdmnu', 'tmpacnt', 'tmppswd', 'errmsg'];
+$cookiesToClear = ['useraccount', 'CAPTCHA', 'tmpacnt', 'tmppswd', 'errmsg'];
 
 foreach ($cookiesToClear as $cookieName) {
     setcookie($cookieName, '', $past, '/');
-}
-
-// 5. 動態清除 a26 表定義的系統參數
-$sql3 = "SELECT F01 FROM a26"; 
-$sql4 = mysqli_query($link, $sql3);
-
-if ($sql4) {
-    while ($list3 = mysqli_fetch_array($sql4)) {
-        setcookie($list3['F01'], '', $past, '/');
-    }
 }
 
 // 6. 關閉資料庫連線

@@ -1,4 +1,5 @@
 ﻿<?php
+require_once("../../include/BKND/auth_check.php"); //驗證
 header("Content-Type: application/json; charset=utf-8");
 header("Cache-Control: no-cache, must-revalidate");
 require_once("../../include/BKND/mysqli_server.php");

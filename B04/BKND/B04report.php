@@ -1,6 +1,5 @@
 <?php 
 require_once('../../tcpdf/tcpdf.php');
-
 // --- 1. 安全性檢查與變數初始化 ---
 $queryNo = isset($_GET['queryNo']) ? $_GET['queryNo'] : '';
 
@@ -77,6 +76,7 @@ class MYPDF extends TCPDF {
 }
 
 // --- 3. 資料庫處理與初始化 ---
+
 require_once('../../include/BKND/db_forreport.php'); 
 $cleanQueryNo = mysqli_real_escape_string($link, $queryNo);
 

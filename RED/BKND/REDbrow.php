@@ -4,7 +4,7 @@
  * 功能：根據使用者代號查詢對應的程式權限與屬性
  */
 // 開啟輸出緩衝，攔截所有可能導致 JSON 損壞的空格、BOM 或警告
-ob_start();
+require_once("../../include/BKND/auth_check.php"); //驗證
 
 header("Content-Type: application/json; charset=utf-8");
 header("Cache-Control: no-cache, must-revalidate");

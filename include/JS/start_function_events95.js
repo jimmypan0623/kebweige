@@ -126,7 +126,7 @@ function optionitem(adored,id_no,select_width,url_path){
 	
 	 //var url=url_path+"?timestamp="+new Date().getTime();   
 	 var url=url_path;  
-	     var queryString ="filename="+adored;
+	 var queryString ="filename="+adored;
 	
 	 
 	fetch(url, {

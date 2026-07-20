@@ -1,4 +1,5 @@
 <?php
+require_once("../../include/BKND/auth_check.php"); //驗證
 header('Content-Type: application/json; charset=utf-8');
 
 // 1. 接收資料並解析

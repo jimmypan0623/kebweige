@@ -1,8 +1,12 @@
 ﻿<?php
+require_once("../../include/BKND/auth_check.php"); //驗證
    header("Content-Type:text/html; charset=utf-8");   
    require_once("../../include/BKND/mysqli_server.php");                              //引用檔   
      require_once "../../include/BKND/fieldpreset.php"; // 引入      
-   $rnddgt=intval($_COOKIE["INT_069"]);
+$sq20="select * from a26 where F01='INT_069' "; 
+$sql7=@mysqli_query($link,$sq20);                           
+$list8=mysqli_fetch_assoc($sql7);  //紀錄參數  	    
+$rnddgt = isset($list8['F06']) ? intval($list8['F06']) : 0;
     if (substr($_POST['filename'],0,3)=="PGE"){	  
 	   $pgeno=getNeedBetween($_POST['filename'],'E','|'); // 月次 
 		$sql3="SELECT k09.*,c01.F05 AS F0E,a01.F03 AS F0C FROM k09 		 

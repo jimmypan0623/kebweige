@@ -1,25 +1,17 @@
-function getProfile(str1,cmpnme) {  
+function getProfile(arr,cmpnme) {  
     //以下為儲存所有參數含現存於cookie的，到閉包變數裡 
 	if(getAuth[2]().length<1){
-		var paraObj={};
-		//var paraTpe={};
+		var paraObj={};		
 	    for(var j=0;j<cmpnme.length;j++){	       
 			paraObj[cmpnme[j]['paraNo']]=cmpnme[j]['cngpra'];
-			//paraTpe[cmpnme[j]['paraNo']]=cmpnme[j]['gTYPE'];
 	    }
-	//	paraObj['svripmd5']=getCookie('svripmd5');
-		 
-		paraObj['userid']=getCookie('userid');
-		 
-	    getAuth[2](paraObj);
-		//getAuth[3](paraTpe);
+	    getAuth[2](paraObj);	
     }
 	document.getElementById('company_name').innerHTML="\u{1F4FF}"+getAuth[2]()[0].INT_000;   //顯示公司名稱
     var authField='';    
 	var pageNames='';
     var tmpItemName='';
-	var mainPrgNo=' ';
-	var arr = str1; 	
+	var mainPrgNo=' ';	
 	var mainUl=document.getElementById("listUL");    	 
 	var LastFunc=getAuth[1]()[1]; //getCookie('lastFuncInt');
 	for(var i=0;i<arr.length;i++){		          

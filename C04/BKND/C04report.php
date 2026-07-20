@@ -96,6 +96,7 @@ $pdf->SetAutoPageBreak(TRUE, 25);
 $pdf->AddPage();
 
 // --- 4. 資料庫處理 ---
+require_once("../../include/BKND/auth_check.php"); //驗證 
 require_once("../../include/BKND/db_forreport.php");
 
 $sql = "SELECT c04.*, b01.F02 as F0B, b01.F04 as F0D 

@@ -149,11 +149,11 @@ function accountDele(event){    //刪除帳號cookie
     }			
     var target=getEventTarget(event);
 	
-	const cookiesToClear = ['userid', 'useraccount', 'CAPTCHA', 'svripmd5', 'stdmnu', 'tmpacnt', 'tmppswd', 'errmsg']; //刪除其他COOKIE
+	/*	const cookiesToClear = ['useraccount', 'CAPTCHA', 'tmpacnt', 'tmppswd', 'errmsg']; //刪除其他COOKIE
 	cookiesToClear.forEach(delCookie);
-	for (let key in getAuth[2]()[0]) {	   //刪除系統參數COOKIE
+     for (let key in getAuth[2]()[0]) {	   //刪除系統參數COOKIE
        delCookie(key);
-    }
+    } */
 
 	for(let i=0;i<7;i++){       //閉包變數清空
 	    getAuth[i]('Clear_All');
@@ -171,7 +171,7 @@ function accountDele(event){    //刪除帳號cookie
 	 
       
 	
-	document.location.href='index.html';
+	//document.location.href='index.html';
 	//initDialog();
     document.location.href="logOut.php";	 
     return;	 

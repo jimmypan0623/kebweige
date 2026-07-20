@@ -1,5 +1,5 @@
 ﻿<?php
-    
+ require_once("../../include/BKND/auth_check.php"); //驗證   
  header("Content-Type: application/json; charset=utf-8");
  require_once("../../include/BKND/mysqli_server.php");                      //引用檔 
 	$str=explode('|',$_POST['filename']);  //將上面字串以逗號分割成陣列
