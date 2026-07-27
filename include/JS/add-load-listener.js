@@ -15,7 +15,7 @@ function addLoadListener(fn)
     else
     {
         var old=window.onload;
-        if(window.onload !='function')
+        if(typeof window.onload != 'function')   //window.onload !='function'
         {
             window.onload=fn;
         }

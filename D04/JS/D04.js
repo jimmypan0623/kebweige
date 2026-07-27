@@ -185,7 +185,7 @@ function choseSecond(targetTrChildren,targetTr){  //紀錄移動表身
 	if(tabs[1].checked){
 	    var outhis=document.getElementById("OUTRCD_BOTT");	 
 	    if(targetTrChildren[8].innerHTML*1+targetTrChildren[9].innerHTML*1>0){
-		    outhis.setAttribute("style","visibility:visibility;"); 
+		    outhis.setAttribute("style","visibility:visible;"); 
 		    attachEventListener(outhis,"click",page2OtherButton1,false);
 	    }else{
 		    outhis.setAttribute("style","visibility:hidden;"); 
@@ -263,8 +263,8 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 }	
 function rowchoseSecond(targetRow){    //紀錄移動表身   
     var outhis=document.getElementById("OUTRCD_BOTT");
-	 if(targetRow.childNodes[8].innerHTML*1+targetRow.childNodes[8].innerHTML*1>0){
-		 outhis.setAttribute("style","visibility:visibility;"); 
+	 if(targetRow.childNodes[8].innerHTML*1+targetRow.childNodes[9].innerHTML*1>0){
+		 outhis.setAttribute("style","visibility:visible;"); 
 		 attachEventListener(outhis,"click",page2OtherButton1,false);
 	 }else{
 		outhis.setAttribute("style","visibility:hidden;"); 

@@ -1,4 +1,5 @@
 <?php 
+require_once("../../include/BKND/auth_checkforreport.php"); //驗證 
 // 啟動緩衝，防止非預期輸出導致 PDF 損壞
 ob_start(); 
 require_once('../../tcpdf/tcpdf.php');
@@ -95,8 +96,13 @@ $pdf->SetAutoPageBreak(TRUE, 25);
 $pdf->AddPage();
   
 // --- 4. 資料庫處理 (改用預編譯避免注入) ---
-require_once("../../include/BKND/auth_check.php"); //驗證 
-require_once('../../include/BKND/db_forreport.php'); 
+try {
+    require_once("../../include/BKND/mysqli_server.php"); // 引入設定檔
+} catch (Exception $e) {
+    ob_end_clean(); // 清除 PDF 緩衝區
+    header('Content-Type: text/html; charset=utf-8');
+    die("系統維護中，無法產生報表，請稍後再試。");
+}
 
 $sql = "SELECT d04.*, b01.F02 as F0B, b01.F04 as F0D 
         FROM d04 LEFT JOIN b01 ON d04.F02 = b01.F01 

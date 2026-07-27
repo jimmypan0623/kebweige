@@ -13,15 +13,18 @@ function blocksclose(event)  //關閉註冊彈出視窗
 	}   	 	
 	return true;
 }	
+
 function sendFilePrc(updflg){     //新增資料及修改程序       
 	var tbjsn=[];
 	var nonjsn=[];
 	var tbno=0;
-	var myPassword=document.getElementById('oRiginpassword').value;		     
+		     
     //----資料寫入資料庫前過濾程序區-----//
 	var REDelements=document.getElementsByName('REDupdate');
 	 
-	if(md5(REDelements[0].value)!=myPassword ){
+	
+	
+	if(md5(REDelements[0].value)!=getAuth[3]()[0].passWord){	
 		 filtermsg(REDelements[0],"與原密碼不同");
 	     REDelements[0].focus();
 	    	return false ;
@@ -41,7 +44,8 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 		   REDelements[1].parentNode.removeChild(REDelements[1].nextSibling);
 		}
 	}	
-	if(myPassword==md5(REDelements[1].value)){
+
+	if(	getAuth[3]()[0].passWord==md5(REDelements[1].value)){
 		filtermsg(REDelements[1],"與原密碼相同");
 		REDelements[1].focus();
 		return false ;
@@ -60,12 +64,13 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 		   REDelements[2].parentNode.removeChild(REDelements[2].nextSibling);
 		} 
 	}	
-	for(var q=0;q<REDelements.length;q++){  	    //開始堆疊待異動資料陣列 REDelements.length	
-		tbjsn.push(REDelements[q].value);	   
-	}	
+	
     //--------過濾區結束----------//	
-	var myCookieUser_id = document.getElementById('oRiginID').value; //取得目前使用者的記錄號碼
-	tbjsn.push(myCookieUser_id);		  	
+	//var myCookieUser_id = document.getElementById('oRiginID').value; //取得目前使用者的記錄號碼
+	var myCookieUser_id = getAuth[3]()[0].userId; //取得目前使用者的記錄號碼
+	var mdPassword=md5(document.getElementById('txt_password_chk').value);
+	tbjsn.push(myCookieUser_id);	
+    tbjsn.push(mdPassword);	
 	var rspns=TableToJson(tbjsn,nonjsn,tbno);       	 
     blocksclose();			//關掉原視窗  	
 	delCookie('useraccount');
@@ -73,36 +78,28 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 }
 
 function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出現之欄位            
-    var oTr=ajTable.insertRow(ajTable,ajTable.length);
+    var oTr=ajTable.insertRow(0);
+	
 	 var oTd = oTr.insertCell(0);
 	 oTd.setAttribute('style','text-align:right;width:20%');	
 	 oTd.innerHTML='再確認:';
 	 var oTd = oTr.insertCell(1);				 	            								   
 	 oTd.innerHTML="<input type='password' name='REDupdate' id='txt_password_chk' class='txt' style='width:50%;'  />";	   
-	 var oTr=ajTable.insertRow(ajTable,ajTable.length);
+	 var oTr=ajTable.insertRow(0);
+	 
 	 var oTd = oTr.insertCell(0);
 	 oTd.setAttribute('style','text-align:right;width:20%');	
 	oTd.innerHTML='新密碼:';
 	var oTd = oTr.insertCell(1);			
     oTd.innerHTML="<input type='password' name='REDupdate' id='txt_password' class='txt'  style='width:50%;'  />";                             				  
-	var oTr=ajTable.insertRow(ajTable,ajTable.length);	            
+	var oTr=ajTable.insertRow(0);	            
+	
 	var oTd = oTr.insertCell(0);
 	 oTd.setAttribute('style','text-align:right;width:20%');	
 	oTd.innerHTML='原密碼:';
 	var oTd = oTr.insertCell(1);				 
 	oTd.innerHTML="<input type='password' name='REDupdate' id='orgtxt_password' class='txt' style='width:50%;'  />";  
-    var oTr=ajTable.insertRow(ajTable,ajTable.length);	            
-	var oTd = oTr.insertCell(0);
-	oTd.setAttribute('style','text-align:right;width:20%');	
-	oTd.innerHTML='紀錄原密碼:';
-	var oTd = oTr.insertCell(1);				 
-	oTd.innerHTML="<input type='password' name='REDrecord' id='oRiginpassword' class='txt' style='width:50%;'  />";
-	var oTd = oTr.insertCell(2);
-	oTd.setAttribute('style','text-align:right;width:20%');	
-    oTd.innerHTML='使用者ID:';
-	var oTd = oTr.insertCell(3);				 
-	oTd.innerHTML="<input type='text' name='REDrecord' id='oRiginID' class='txt' style='width:50%;'  />"; 
-    oTr.setAttribute("style","display:none;");   	 
+ 
 }
 
 function topAndWidthModify(dropsheet_content,dropsheet,txtword){
@@ -125,7 +122,7 @@ function  addNewRecordHint(tbno){
 async function PasswordFromBackEnd(useraccount) {	
     const url = `RED/BKND/A01PassWord.php?timestamp=${Date.now()}`;
     const payload = `filename=${encodeURIComponent(useraccount)}`;		
-
+    getAuth[3]('Clear_All');		
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -140,9 +137,9 @@ async function PasswordFromBackEnd(useraccount) {
 
         const rsp = await response.json();			
         
-        if (rsp[0]) {             
-            document.getElementById('oRiginpassword').value = rsp[0]['passWord'] ?? '';	 
-            document.getElementById('oRiginID').value = rsp[0]['userId'] ?? '';	 
+        if (rsp[0]) {  
+ 
+		    getAuth[3](rsp[0]);			
         }
     } catch (error) {
         console.error("無法讀取驗證資料:", error);

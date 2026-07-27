@@ -1,1004 +1,1008 @@
-function blocksclose(event)  //關閉註冊彈出視窗
-{	
-	if (typeof event=="undefined"){
-		event=window.event;
-	}	
-	var target=getEventTarget(event);
-	var tabs=getElementsByAttribute('class','tab');
-    for(var i=0;i<tabs.length;i++){
-		tabs[i].setAttribute("accesskey",(i+1).toString());
-	}			
-	if (tabs[0].checked){
-	    if (target.value=="\u{274E}"  && getCookie('INT_013')=='Y'){    //
-		    var maintable=document.getElementById("maintbody1");		 		
-		    var tablerowindex=0;
-		    for(var i=0;i< maintable.rows.length; i++){			 
-		        if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){		 			 				 							
-			   	   tablerowindex=i;       //記住是目前table的哪一列			 
-				   break;
-			    }
-		    } 		
-		    if(maintable.rows.length>0){     //如果不為空檔
-		       var query_no=maintable.rows[tablerowindex].cells[1].innerHTML;
-		    }else{
-			   var query_no="BDxxxxxxxx";
-			}
-	        if(document.getElementById('queryno')!=null){			  
-	            var currentNo=document.getElementById('queryno').value;	            	 
-	            if (currentNo.trim()!="" && currentNo.trim()!=query_no){ //如果非修改且自動編號		
-				    const regexA = /^BD\d{2}[1-9A-C]\d{5}$/;
-		   	        if(regexA.test(currentNo.trim())){
-		   	            var thtdy=document.getElementById('recmth').value;
-				        discardNoRec('BD'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase(),currentNo.trim());
-	                }
-				} 
-	        }
-	    }
+/**
+ * 關閉註冊彈出視窗與快捷鍵重置
+ */
+function blocksclose(event) {
+    const evt = event || window.event;
+    const target = getEventTarget(evt);
+    const tabs = getElementsByAttribute('class', 'tab');
+
+    // 重設 Tab 快捷鍵
+    tabs.forEach((tab, index) => {
+        tab.setAttribute("accesskey", (index + 1).toString());
+    });
+
+    if (tabs[0]?.checked) {
+        // 當按下關閉圖示且啟用號碼重用參數
+        if (target?.value === "\u{274E}" && getCookie('INT_013') === 'Y') {
+            const maintable = document.getElementById("maintbody1");
+            let tablerowindex = 0;
+
+            if (maintable) {
+                for (let i = 0; i < maintable.rows.length; i++) {
+                    const lastCell = maintable.rows[i].cells[maintable.rows[i].cells.length - 1];
+                    if (lastCell?.childNodes[0]?.checked) {
+                        tablerowindex = i;
+                        break;
+                    }
+                }
+            }
+
+            const query_no = (maintable && maintable.rows.length > 0) 
+                ? maintable.rows[tablerowindex].cells[1].innerHTML 
+                : "BDxxxxxxxx";
+
+            const queryNoEl = document.getElementById('queryno');
+            if (queryNoEl) {
+                const currentNo = queryNoEl.value.trim();
+                const regexA = /^BD\d{2}[1-9A-C]\d{5}$/;
+
+                if (currentNo !== "" && currentNo !== query_no && regexA.test(currentNo)) {
+                    const thtdy = document.getElementById('recmth').value;
+                    const prefix = 'BD' + thtdy.substring(2, 4) + parseInt(thtdy.substring(5, 7), 10).toString(16).toUpperCase();
+                    discardNoRec(prefix, currentNo);
+                }
+            }
+        }
     }
-	var dropsheet=document.getElementById("myModal");
-	dropsheet.style.display="none";       //關閉視窗 	
-	if (dropsheet!=null){		
-        dropsheet.parentNode.removeChild(dropsheet);  //並將這些元素移除	 
-	}   	
-    var btns=getElementsByAttribute('class','btn');			 
-    for (var i=0;i<btns.length;i++){		
-        if (tabs[0].checked){
-			if(right(btns[i].title,1)=='M' || right(btns[i].title,1)=='I'){		      
-			     btns[i].removeAttribute("accesskey");
-			}else{
-			    btns[i].setAttribute("accesskey",right(btns[i].title,1));
-			}				
-		}else{
-		   if(right(btns[i].title,1)=='J' || right(btns[i].title,1)=='K' || right(btns[i].title,1)=='T' || right(btns[i].title,1)=='V'){		      
-			    btns[i].removeAttribute("accesskey");
-			}else{
-			    btns[i].setAttribute("accesskey",right(btns[i].title,1));
-			}				
-		}			
-	}		       	
-	return true;
-}	
 
-function sendFilePrc(updflg){     //新增資料及修改程序       
-	var tbjsn=[];
-	var nonjsn=[];
-	var recordNo=document.getElementById("rcrd_no");
-    //----資料寫入資料庫前過濾程序區-----//
-	var tabs=getElementsByAttribute('class','tab');		
-	var tbno=0;	
-	for(var i=0;i<tabs.length;i++){
-		if(tabs[i].checked){
-			tbno=i;
-			break;
-		}
-	}					 		
-    if (tbno==0){
-	    var b05elements=document.getElementsByName('b05update');
-        var b05athments=document.getElementsByName('b05others');			
-	}else{
-		 var b05elements=document.getElementsByName('b0eupdate');	
-		 var b05athments=document.getElementsByName('b0eothers');			 
-	}
-	for(var r=0;r<b05athments.length;r++){        //關聯資料
-		    nonjsn.push(b05athments[r].tagName.toUpperCase()=='SPAN'?b05athments[r].innerHTML:b05athments[r].value);		
-	}
-	for(var q=1;q<b05elements.length;q++){  	    //開始堆疊待異動資料陣列
-		 tbjsn.push(b05elements[q].value);	   
-	}
-	for(var j=1;j<b05elements.length-1;j++){
-		if(tbno==0 && j==3){
-			var oDate=new Date(document.getElementById('recmth').value+'-'+b05elements[j].value);
-		    var cYear = oDate.getFullYear();
-            var cMonth = oDate.getMonth() + 1;
-            var cDate = oDate.getDate();
-			var iYear=left(document.getElementById('recmth').value,4);
-			var iMonth=right(document.getElementById('recmth').value,2);
-			var iDate=paddingLeft(b05elements[j].value.trim(),2);
-			var result = (iYear == cYear) && (iMonth == cMonth) && (iDate == cDate);
-			if(!result){
-				filtermsg(b05elements[j],"日期格式不對");
-				return false ;
-			}else{
-	    	    if(b05elements[j].nextSibling){		      
-			       b05elements[j].parentNode.removeChild(b05elements[j].nextSibling);
-		        }		
-	        }
-	    }		
-        if(b05elements[j].value.trim()=="" && !((j==4 || j==6 ) && tbno==1) && !((j==7 || j==8 || j==9 ) && tbno==0)){		
-		     if (j==1 ){
-			    b05elements[j].placeholder="不得空白" ;
-			 }else{
-		        filtermsg(b05elements[j],"不得空白");
-			 }
-		     return false ;
-        }else{		     
-		    if(b05elements[j].nextSibling ){		
-                if(!((j==4 && tbno==0) || (j==1 && tbno==1))){		   //非人名與料號移除
-			      b05elements[j].parentNode.removeChild(b05elements[j].nextSibling);
-			    }			   
-		    }
-		    if((tbno==1 && (j==3 || j==4)) || (tbno==0 && j==11) ){			
-			   if(b05elements[j].value == 0){
-			      filtermsg(b05elements[j],"不得為 0");
-		          return false ;
-			   }
-		    }
-	    }	    
-	}
-    //--------過濾區結束----------//	
-	
-    if (updflg==1){     //如果是新增	 	   
-        if(b05elements[1].value!="" ){		 
-		    if(tbno==0){ //表頭新增
-                var blngmth=document.getElementById('recmth').value;
-		        tbjsn.push(blngmth);   //要多一個所屬年月參數
-		    }else{   //表身新增
-		        
-				//tbjsn.push(sourceAccount(2,0));  //記住表頭客戶編號 
-		    }			   
-		    tbjsn.push('0');
-		    tbjsn.push('0');	
-		    var rspns=TableToJson(tbjsn,nonjsn,tbno);        
-	    } 
-	    else{
-		    blkshow("欄位資料不齊全無法新增權限");
-        }		
-    }else{    //如果是修改
-        if (typeof updflg=="undefined"){
-		    updflg=window.event;
-        }			
-	    var target=getEventTarget(updflg);	
-		if(tbno==0){   //如果是表頭
-		   var x1=sourceAccount(20,0)*1-b05elements[12].value*1;
-		   var y1=sourceAccount(20,0)*1+b05elements[12].value*1;
-		   if(x1!=0 && y1>3){  //表示退改折或折改退		     
-		      if(x1<0){
-				tbjsn[11]=9;     //x1=(1=>3 || 2=>3) 
-			  }else if(x1==2){
-				tbjsn[11]=7;     //x1=(3=>1)
-			  }else{
-				tbjsn[11]=8;     //x1=(3=>2)
-			  }				  
-		   }
-		}		
-		if(tbno==1){   //如果是表身		   
-           tbjsn[2]=b05elements[3].value-sourceAccount(4,1);  //傳到後端為新數量減原出貨數之差
-		   //tbjsn.push(document.getElementById('keydscrpt1').innerHTML);    //記住表頭客戶編號
-		}  
-		var tablerowindex=sourceAccount(null,tbno);   //記住是目前table的哪一列	
-         tbjsn.push(recordNo.value);	
-         tbjsn.push(tablerowindex);			
-         var rspns=TableToJson(tbjsn,nonjsn,tbno); 	
-   }   
-   blocksclose();			//關掉原視窗   
-   return true;	 	
-}
+    // 關閉並移除 Modal
+    const dropsheet = document.getElementById("myModal");
+    if (dropsheet) {
+        dropsheet.style.display = "none";
+        dropsheet.parentNode?.removeChild(dropsheet);
+    }
 
-function calculateTtl(tbno,maintable,i){      //刪除確認(delConfirm)中挑出之個別程序 
-    if (tbno==1){	//計算本單總金額
-	    var ttlcnt=Number(document.getElementById('ttlmny').innerHTML);
-		var crntsum=Number(maintable.rows[i].cells[6].innerHTML);							
-		document.getElementById('ttlmny').innerHTML=ttlcnt-crntsum;
-	}
-	return;
-}
- function billNoReCreate(currentNo){         //刪除確認(delConfirm)中挑出之個別程序
-    if (getCookie('INT_099')=='Y' && getCookie('INT_013')=='Y'){ //如果是系統參數設為自動編號且刪掉號碼重用		
-	    const regexA = /^BD\d{2}[1-9A-C]\d{5}$/;
-		if(regexA.test(currentNo.trim())){
-		    var thtdy=document.getElementById('recmth').value;
-		    discardNoRec('BD'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase(),currentNo.trim());
-	    }
-	} 
- return;
- }
+    // 重新指派按鈕快捷鍵
+    const btns = getElementsByAttribute('class', 'btn');
+    const isFirstTab = tabs[0]?.checked;
 
-function ratechange(event){     //匯率更改異動
-	if (typeof event=="undefined"){
-		event=window.event;
-	}
-	var target=getEventTarget(event);	   
-	var sendDeleRec="filename="+target.value;				
-	if(window.ActiveXObject){
-	   var request = new ActiveXObject("Microsoft.XMLHttp");
-	}	
-	   else if(window.XMLHttpRequest){
-	   var request = new XMLHttpRequest();
-	}			 
-	request.onreadystatechange = respond;	        	
-	var url="B04/BKND/C00srch.php?timestamp="+new Date().getTime();        		
-	request.open("POST",url);	 
-	request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-	request.send(sendDeleRec);		
-	function respond(){           
-		if (request.readyState == 4 && request.status == 200) {  		     
-		   document.getElementById("curncy").value=request.responseText*1;   	              		   
-		}
-	} 	  	  
-}
+    btns.forEach(btn => {
+        const lastChar = right(btn.title, 1);
+        const disabledKeys = isFirstTab ? ['M', 'I'] : ['J', 'K', 'T', 'V'];
 
-function c01CustomName(event){	
-   if (typeof event=="undefined")
-	{
-		event=window.event;
-	}	
-	var targetCustomNo=getEventTarget(event);		
-	var sendSrcRec="filename="+targetCustomNo.value;	    
-	var rsp="";  	
-	if(window.ActiveXObject){
-	   var request = new ActiveXObject("Microsoft.XMLHttp");
-	}	
-	   else if(window.XMLHttpRequest){
-		  var request = new XMLHttpRequest();
-	}			 
-	request.onreadystatechange = respond;	   
-	var url="B05/BKND/C01CustomName.php?timestamp="+new Date().getTime();		
-	request.open("POST",url);	 
-	request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-	request.send(sendSrcRec);		
-	function respond(){           
-		if (request.readyState == 4 && request.status == 200){    
-            rsp=JSON.parse(request.responseText);			 
-			document.getElementById('customname').value=rsp[0]['customname'];
-	        document.getElementById('customfullname').value=rsp[0]['customfullname'];
-			document.getElementById('unitno').value=rsp[0]['unitno'];
-			document.getElementById('winname').value=rsp[0]['winname'];
-			document.getElementById('telNo').value=rsp[0]['telNo']; 
-			document.getElementById('whono').value=rsp[0]['whono']; 
-			document.getElementById('whonameEx').innerHTML=rsp[0]['whonameEx']; 
-			document.getElementById('crntopt').value=rsp[0]['crntopt'];
-			document.getElementById('curncy').value=rsp[0]['curncy'];
-			document.getElementById('invtype').value=rsp[0]['invtype'];
-			document.getElementById('taxtype').value=rsp[0]['taxtype'];						
-		}
-	}
-	return;
-}
+        if (disabledKeys.includes(lastChar)) {
+            btn.removeAttribute("accesskey");
+        } else {
+            btn.setAttribute("accesskey", lastChar);
+        }
+    });
 
-function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出現之欄位
-    if (tbno==0){   //如果異動表頭資料			 
-         var oTr=ajTable.insertRow(ajTable,ajTable.length);
-		var oTd = oTr.insertCell(0);	   
-	    oTd.setAttribute('style','text-align:right;width:15%');					
-	    oTd.innerHTML='備註:';
-	    var oTd = oTr.insertCell(1);      
-		oTd.colspan=3;
-	    oTd.innerHTML="<input type='text' name='b05update' id='remark' class='txt' maxlength='20' style='width:30%;' />";	
-	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
-		var oTd = oTr.insertCell(0);	   
-	    oTd.setAttribute('style','text-align:right;width:15%');					
-	    oTd.innerHTML='匯率:';
-	    var oTd = oTr.insertCell(1);      
-	    oTd.innerHTML="<input type='number' name='b05update' id='curncy' value=1 class='txt' style='width:35%;text-align:right;' />";
-	    var oTd = oTr.insertCell(2);	   
-	    oTd.setAttribute('style','text-align:right;width:15%');					
-	    oTd.innerHTML='退貨或折讓:';
-	    var oTd = oTr.insertCell(3);   	     	    
-	    var slt19=document.createElement("select");
-	    slt19.options.add(new Option('退回後補','1'));
-	    slt19.options.add(new Option('退貨不補','2'));	 
-		slt19.options.add(new Option('金額折讓','3'));	
-	    slt19.setAttribute("id","rjtOrds");
-	    slt19.setAttribute("name","b05update");
-	    oTd.appendChild(slt19);	                        	
-		var oTr=ajTable.insertRow(ajTable,ajTable.length);	   
-	    var oTd = oTr.insertCell(0);	   
-	    oTd.setAttribute('style','text-align:right;width:15%');					
-	    oTd.innerHTML='課稅別:';
-	    var oTd = oTr.insertCell(1);               	              
-	    var slt6=document.createElement("select");
-	    slt6.options.add(new Option('應稅','1'));
-	    slt6.options.add(new Option('零稅','2'));
-	    slt6.options.add(new Option('免稅','3'));
-	    slt6.setAttribute("id","taxtype");
-	    slt6.setAttribute("name","b05update");
-	    oTd.appendChild(slt6);	    
-        var oTd = oTr.insertCell(2);	   
-	    oTd.setAttribute('style','text-align:right;width:15%');					
-	    oTd.innerHTML='幣別:';
-	    var oTd = oTr.insertCell(3);  
-	    var slt4=document.createElement("select");
-		 attachEventListener(slt4,"change",ratechange,false);	
-	    slt4.setAttribute("id","crntopt");
-	    slt4.setAttribute("name","b05update");	  
-	    oTd.appendChild(slt4);							
-	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
-	    var oTd = oTr.insertCell(0);	   
-	    oTd.setAttribute('style','text-align:right;width:15%');					
-	    oTd.innerHTML='發票號碼:';
-	    var oTd = oTr.insertCell(1);   	 
-     	if(txtword==2){   //如果是修改		
-	        oTd.innerHTML="<input type='text' name='b05update' id='invoiceno' class='txt' style='background-color:#B9B9FF;width:55%;' maxlength='10' readOnly=true/>";  				  			 				  
-        }else{
-			oTd.innerHTML="<input type='text' name='b05update' id='invoiceno' class='txt' style='width:55%;' maxlength='10'/>";  		
-		    var srchButton5=document.createElement("input");				   
-		    srchButton5.setAttribute("type","button");	
-		    srchButton5.setAttribute("class","scopelook");				   
-		    srchButton5.style.background="url('digits/brows1.png')";   
-		    attachEventListener(srchButton5,"click",srchshow,false);				
-		    oTd.appendChild(srchButton5);			
-		}			
-	   var oTd = oTr.insertCell(2);		 
-	    oTd.setAttribute('style','text-align:right;width:15%');        
-	    oTd.innerHTML='發票種類:';
-	    var oTd = oTr.insertCell(3);				
-	    var slt8=document.createElement("select");
-	    slt8.options.add(new Option('三聯式','33'));
-	    slt8.options.add(new Option('二聯式','34'));
-  	    slt8.setAttribute("id","invtype");
-	    slt8.setAttribute("name","b05update");
-	    oTd.appendChild(slt8);	  	  
-	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
-	    var oTd = oTr.insertCell(0);	   
-	    oTd.setAttribute('style','text-align:right;width:15%');					
-	    oTd.innerHTML='原出貨月份:';
-	    var oTd = oTr.insertCell(1);    		
-        var showTime=document.getElementById('currentTime'); //利用djtime.js顯示畫面的預設日期日期輸入欄之值為今天
-		var thtdy=(showTime.innerHTML.substring(0,4)+'-'+showTime.innerHTML.substring(5,7)+'-'+showTime.innerHTML.substring(8,10)); //中間一定要用減號分隔年月日
-	    var slt11=document.createElement("select");
-		slt11.setAttribute("id","orgmth");
-	    slt11.setAttribute("name","b05update");
-		optionitem(left(thtdy,7),slt11.id,7,"B04/BKND/A23srch.php");
-	    oTd.appendChild(slt11);	      	 
-		var oTd = oTr.insertCell(2);	   
-	    oTd.setAttribute('style','text-align:right;width:15%');					
-	    oTd.innerHTML='出貨單號:';
-	    var oTd = oTr.insertCell(3);   
-		 if(txtword==2){   //如果是修改	
-		    oTd.innerHTML="<input type='text' name='b05update' id='billno' class='txt' style='background-color:#B9B9FF;width:55%;' maxlength='10'  readOnly=true  />";  					              
-	    }else{
-			oTd.innerHTML="<input type='text' name='b05update' id='billno' class='txt' style='width:55%;' maxlength='10'    />";  					   
-		    var srchButton4=document.createElement("input");				   
-		    srchButton4.setAttribute("type","button");	
-		    srchButton4.setAttribute("class","scopelook");				   
-		    srchButton4.style.background="url('digits/brows1.png')";   
-		    attachEventListener(srchButton4,"click",srchshow,false);				
-		    oTd.appendChild(srchButton4);			
-	    }	   	    
-	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
-	    var oTd = oTr.insertCell(0);	   
-	    oTd.setAttribute('style','text-align:right;width:15%');					
-	    oTd.innerHTML='退貨日:';
-	    var oTd = oTr.insertCell(1);            		
-	    oTd.innerHTML="<input type='text' name='b05update' id='shipdate' class='txt' style='width:18%;' maxlength='2'   />";  				  	   
-	    var oTd = oTr.insertCell(2);	   
-	    oTd.setAttribute('style','text-align:right;width:15%');					
-	    oTd.innerHTML='業務擔當:';
-	    var oTd = oTr.insertCell(3);               	              
-	    oTd.innerHTML="<input type='text' name='b05update' id='whono' class='txt' style='width:40%;' maxlength='8'    />";  				  
-	    oTd.innerHTML+="<span name='b05others' id='whonameEx'></span>&nbsp&nbsp";  
-	    var srchButton1=document.createElement("input");				   
-	    srchButton1.setAttribute("type","button");	
-	    srchButton1.setAttribute("class","scopelook");				   
-	    srchButton1.style.background="url('digits/brows1.png')";   
-	    attachEventListener(srchButton1,"click",srchshow,false);				
-	    oTd.appendChild(srchButton1);			
-		var oTr=ajTable.insertRow(ajTable,ajTable.length);
-	    var oTd = oTr.insertCell(0);	   
-	    oTd.setAttribute('style','text-align:right;width:15%');					
-	    oTd.innerHTML='聯絡人:';
-	    var oTd = oTr.insertCell(1);               
-	    oTd.innerHTML="<input type='text' name='b05others' id='winname' class='txt' style='width:50%;' maxlength='40'    />";  				
-	    var oTd = oTr.insertCell(2);	   
-	    oTd.setAttribute('style','text-align:right;width:15%');					
-	    oTd.innerHTML='電話:';
-	    var oTd = oTr.insertCell(3);      
-	    oTd.innerHTML="<input type='number' name='b05others' id='telNo'  class='txt' style='width:35%;' maxlength='8'  />";  				
-	    oTr.setAttribute("style","display:none;");   //整列隱藏		
-		var oTr=ajTable.insertRow(ajTable,ajTable.length);
-	    var oTd = oTr.insertCell(0);	   
-	    oTd.setAttribute('style','text-align:right;width:15%');					
-	    oTd.innerHTML='客戶全名:';
-	    var oTd = oTr.insertCell(1);               
-	    oTd.innerHTML="<input type='text' name='b05others' id='customfullname' class='txt' style='width:50%;' maxlength='40'    />";  				
-	    var oTd = oTr.insertCell(2);	   
-	    oTd.setAttribute('style','text-align:right;width:15%');					
-	    oTd.innerHTML='統一編號:';
-	    var oTd = oTr.insertCell(3);      
-	    oTd.innerHTML="<input type='number' name='b05others' id='unitno'  class='txt' style='width:35%;' maxlength='8'  />";  				
-	    oTr.setAttribute("style","display:none;");   //整列隱藏	   
-	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
-	    var oTd = oTr.insertCell(0);	   
-	    oTd.setAttribute('style','text-align:right;width:15%');					
-	    oTd.innerHTML='客戶代號:';
-   	    var oTd = oTr.insertCell(1);       
-	    if(txtword==2){   //如果是修改	
-		    oTd.innerHTML="<input type='text' name='b05update' id='customno' class='txt' style='background-color:#B9B9FF;width:35%;' maxlength='6' readOnly=true  />";  				              
-	    }else{
-		    oTd.innerHTML="<input type='text' name='b05update' id='customno' class='txt' style='width:35%;' maxlength='6'    />";  				
-		    var srchButton3=document.createElement("input");				   
-		    srchButton3.setAttribute("type","button");	
-		    srchButton3.setAttribute("class","scopelook");				   
-		    srchButton3.style.background="url('digits/brows1.png')";   
-		    attachEventListener(srchButton3,"click",srchshow,false);				
-		    oTd.appendChild(srchButton3);			
-	    }	   
-	    var oTd = oTr.insertCell(2);	   
-	    oTd.setAttribute('style','text-align:right;width:15%');					
-	    oTd.innerHTML='客戶簡稱:';
-	    var oTd = oTr.insertCell(3);   
-	    if(txtword==2){   //如果是修改	
-		    oTd.innerHTML="<input type='text' name='b05others' id='customname' class='txt' style='background-color:#B9B9FF;width:40%;' maxlength='8' readOnly=true  />";  					  
-	    }else{
-	   	   oTd.innerHTML="<input type='text' name='b05others' id='customname' class='txt' style='width:40%;' maxlength='8'    />";  				 
-		   var srchButton2=document.createElement("input");				   
-		   srchButton2.setAttribute("type","button");	
-	 	   srchButton2.setAttribute("class","scopelook");				   
-		   srchButton2.style.background="url('digits/brows1.png')";   
-		   attachEventListener(srchButton2,"click",srchshow,false);				
-		   oTd.appendChild(srchButton2);			
-	    }				  	 			
-	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
-	    var oTd = oTr.insertCell(0);
-	    oTd.setAttribute('style','text-align:right;width:15%');	
-	    oTd.innerHTML='出貨退回單號:';
-	    var oTd = oTr.insertCell(1);		
-	    oTd.colspan=3;				  
-	    if(txtword==2){   //如果是修改		                
-	 	   oTd.innerHTML="<input type='text' name='b05update' id='queryno' class='txt' style='background-color:#B9B9FF;width:25%;' maxlength='10' readOnly=true  />"; 					
-		   optionitem(aWaitUpdate[10],slt4.id,4,"C01/BKND/C00srch.php");		//幣別欄位					 
-	       optionitem(aWaitUpdate[5],slt11.id,7,"B04/BKND/A23srch.php");  
-		   slt11.style.backgroundColor="#B9B9FF";
-		   slt11.disabled=true;
-		}else{
-		   oTd.innerHTML="<input type='text' name='b05update' id='queryno' class='txt' style='width:25%;' maxlength='10'/>"; 
-		   optionitem(getCookie('INT_011'),slt4.id,4,"C01/BKND/C00srch.php");	 		 
-	    }			 	              
-	    var oTr=ajTable.insertRow(ajTable,ajTable.length);  //以下第一列都隱藏起來當變數
-	    var oTd = oTr.insertCell(0);	             
-	    oTd.innerHTML='紀錄號碼';
-	    var oTd = oTr.insertCell(1);	  
-	    oTd.innerHTML="<input type='text' name='b05update' id='rcrd_no' class='txt' maxlength='14' autosize  />";                 
-	    oTr.setAttribute("style","display:none;");	
-    }else{               //異動表身資料			  
-        var oTr=ajTable.insertRow(ajTable,ajTable.length);
-	    var oTd = oTr.insertCell(0);
-	    oTd.setAttribute('style','text-align:right;width:15%');	
-	    oTd.innerHTML='補貨日期:';
-	    var oTd = oTr.insertCell(1);		                						  		          				  
-	    oTd.innerHTML="<input type='Date' name='b0eupdate' id='reoutdate' class='txt' style='width:30%;' />"; 				 		
-	    if(sourceAccount(20,0)*1>1){  
-		   oTr.setAttribute("style","display:none;");   //整列隱藏
-		}
-		var oTr=ajTable.insertRow(ajTable,ajTable.length);
-	    var oTd = oTr.insertCell(0);
-	    oTd.setAttribute('style','text-align:right;width:15%');	
-	    oTd.innerHTML='客戶PO:';
-	    var oTd = oTr.insertCell(1);		                						  		          				  
-	    oTd.innerHTML="<input type='text' name='b0eupdate' id='customPO' class='txt' style='width:50%;' maxlength='30'/>"; 				 		 
-	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
-	    var oTd = oTr.insertCell(0);
-	    oTd.setAttribute('style','text-align:right;width:15%');	
-	    oTd.innerHTML='客戶品號:';
-	    var oTd = oTr.insertCell(1);		                						  		          				  
-	    oTd.innerHTML="<input type='text' name='b0eupdate' id='custompartno' class='txt' style='width:50%;' maxlength='30'/>"; 				 		 
-	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
-	    var oTd = oTr.insertCell(0);	   
-	    oTd.setAttribute('style','text-align:right;width:15%');					
-	    oTd.innerHTML='收貨部門:';
-	    var oTd = oTr.insertCell(1);               	              
-	    oTd.innerHTML="<input type='text' name='b0eupdate' id='deptno' class='txt' style='width:15%;' maxlength='6'    />";  				  
-	    oTd.innerHTML+="<span name='b0eothers' id='deptname'></span>&nbsp&nbsp";  
-	    var srchButton5=document.createElement("input");				   
-	    srchButton5.setAttribute("type","button");	
-	    srchButton5.setAttribute("class","scopelook");				   
-	    srchButton5.style.background="url('digits/brows1.png')";   
-	    attachEventListener(srchButton5,"click",srchshow,false);				
-	    oTd.appendChild(srchButton5);								  		
-	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
-	    var oTd = oTr.insertCell(0);	   
-	    oTd.setAttribute('style','text-align:right;width:15%');					
-	    oTd.innerHTML='單價:';
-	    var oTd = oTr.insertCell(1);               
-	    oTd.innerHTML="<input type='number' name='b0eupdate' id='price' value=0 class='txt' style='width:20%;text-align:right;' />";  				 
- 	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
-	    var oTd = oTr.insertCell(0);	   
-	    oTd.setAttribute('style','text-align:right;width:15%');					
-   	    oTd.innerHTML='數量:';
-	    var oTd = oTr.insertCell(1);      
-	    oTd.innerHTML="<input type='number' name='b0eupdate' id='queryqty' value=1 class='txt' style='width:20%;text-align:right;' />";  					  
-	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
-	    var oTd = oTr.insertCell(0);	   
-	    oTd.setAttribute('style','text-align:right;width:15%');					
-	    oTd.innerHTML='訂單號碼:';
-	    var oTd = oTr.insertCell(1);         
-	    if(txtword==2){   //如果是修改
-	  	   oTd.innerHTML="<input type='text' name='b0eupdate' id='origno' class='txt' style='background-color:#B9B9FF;width:30%;' maxlength='10' readOnly=true />";  				  
-	    }else{
-		   oTd.innerHTML="<input type='text' name='b0eupdate' id='origno' class='txt' style='width:30%;' maxlength='10'    />";  				  
-	    } 
-	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
-	    var oTd = oTr.insertCell(0);	   
-	    oTd.setAttribute('style','text-align:right;width:15%');					
-	    oTd.innerHTML='品名規格:';
-	    var oTd = oTr.insertCell(1);      
-	    if(txtword==2){   //如果是修改
-		   oTd.innerHTML="<input type='text' name='b05others' id='stockname' class='txt' style='background-color:#B9B9FF;width:70%;' maxlength='40' readOnly=true />";  				 
-	    }else{
-		   oTd.innerHTML="<input type='text' name='b0eothers' id='stockname' class='txt' style='width:70%;' maxlength='40'    />";  				 
-		   var srchButton8=document.createElement("input");				   
-		   srchButton8.setAttribute("type","button");	
-		   srchButton8.setAttribute("class","scopelook");				   
-		   srchButton8.style.background="url('digits/brows1.png')";   
-		   attachEventListener(srchButton8,"click",srchshow,false);				
-		   oTd.appendChild(srchButton8);			
-	    }				  				  			 
-	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
-	    var oTd = oTr.insertCell(0);	   
-	    oTd.setAttribute('style','text-align:right;width:15%');					
-	    oTd.innerHTML='料品編號:';
-	    var oTd = oTr.insertCell(1);     
-	    if(txtword==2){   //如果是修改	
-		    oTd.innerHTML="<input type='text' name='b0eupdate' id='stockno' class='txt' style='background-color:#B9B9FF;width:60%;' maxlength='43' readOnly=true  />";  				              
-	    }else{
-		    oTd.innerHTML="<input type='text' name='b0eupdate' id='stockno' class='txt' style='width:60%;' maxlength='43'    />";
-		    var srchButton4=document.createElement("input");				   
-		    srchButton4.setAttribute("type","button");	
-		    srchButton4.setAttribute("class","scopelook");				   
-		    srchButton4.style.background="url('digits/brows1.png')";   
-		    attachEventListener(srchButton4,"click",srchshow,false);				
-		    oTd.appendChild(srchButton4);						
-	    }  
-	    var oTr=ajTable.insertRow(ajTable,ajTable.length);  //以下第一列都隱藏起來當變數
-	    var oTd = oTr.insertCell(0);	             
-	    oTd.innerHTML='紀錄號碼';
-	    var oTd = oTr.insertCell(1);                 
-	    oTd.innerHTML="<input type='text' name='b0eupdate' id='rcrd_no' class='txt' maxlength='14' autosize  />";                 
-	    oTr.setAttribute("style","display:none;");	
-	}				  			             	
-}
-
-function topAndWidthModify(dropsheet_content,dropsheet,txtword,tbno){	 	 
-	dropsheet_content.style.width="75%";   //原訊息內框畫面寬度調整  
-		dropsheet.style.paddingTop="25px";      // 高度也往上提 
-		if(txtword!=7){
-		   if (tbno==0){				
-			   var sales_no=document.getElementById('whono');		
-			   var ship_date=document.getElementById('shipdate');		
-
-			}else{
-				var dept_no=document.getElementById('deptno');			
-				
-			}	
-		}else{				
-		    dropsheet_content.style.width="60%"; 			
-		}	 
     return true;
 }
 
-function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
-	switch (txtword) {
-		case 1:                                   //如果是新增
-		    var thtdy=document.getElementById('recmth').value;
-		    if (tbno==0){			      
-			    var nowDate=new Date();				   
-			    document.getElementById("shipdate").value=paddingLeft(nowDate.getDate(),2);  //
-					   //單號為系統自動編號
-				objGetNo('queryno','BD'+thtdy.substring(2,4)+parseInt(thtdy.substring(5,7)).toString(16).toUpperCase());				        	 			   
-			    var cstNo=document.getElementById("customno");
-				cstNo.focus();	
-				attachEventListener(cstNo,"change",c01CustomName,false);	//找客戶名稱
-				var acntNo1=document.getElementById("whono");				 
-			    attachEventListener(acntNo1,"change",a01AccountName,false);	//找帳號姓名
-		    }else{
-			    var showTime=document.getElementById('currentTime'); //利用djtime.js顯示畫面的預設日期日期輸入欄之值為今天
-		        var thtdy=(showTime.innerHTML.substring(0,4)+'-'+showTime.innerHTML.substring(5,7)+'-'+showTime.innerHTML.substring(8,10)); //中間一定要用減號分隔年月日			     
-				document.getElementById("reoutdate").value=thtdy;  //日期都設為今天												
-				document.getElementById("stockno").focus();
-				 var dptNo1=document.getElementById("deptno");				 			 
-				attachEventListener(dptNo1,"change",a14DepartName,false);	//找轉出部門名稱
-		    }
-		    break;
-		case 2:                                                     //如果是修改，要先顯示目前該筆資料
-		   document.getElementById("rcrd_no").value=aWaitUpdate[0];       //把紀錄號碼也存起來	
-		    if (tbno==0){
-			   document.getElementById("shipdate").focus();				  			 				  
-			   var editinit=document.getElementsByName('b05update');			  
-			   document.getElementById('customname').value=notWaitdata[0];
-			   document.getElementById('whonameEx').innerHTML=notWaitdata[5];
-			   var acntNo1=document.getElementById("whono");				 
-			   attachEventListener(acntNo1,"change",a01AccountName,false);	//找帳號姓名  
-		    }else{
-			   document.getElementById("queryqty").focus();				  			 				  
-			   var editinit=document.getElementsByName('b0eupdate');
-			   document.getElementById('stockname').value=notWaitdata[0];
-			   document.getElementById('deptname').innerHTML=notWaitdata[2];
-			    var dptNo1=document.getElementById("deptno");				 			 
-				attachEventListener(dptNo1,"change",a14DepartName,false);	//找轉出部門名稱
-		    }
-		   for(var k=0;k<editinit.length;k++){ 
-			   editinit[k].value=aWaitUpdate[k];				   
-		   }				    			
-		   break;	
-		case 7:   	   	//搜尋   		   
-			  var txtseek=document.getElementById('searchWords');
-			  txtseek.focus();
-			  attachEventListener(txtseek,'keypress',textKeypress,false);
-			 break;   
-	}	
-}
+/**
+ * 新增與修改資料處理程序
+ */
+function sendFilePrc(updflg) {
+    const tbjsn = [];
+    const nonjsn = [];
+    const recordNo = document.getElementById("rcrd_no");
 
-function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nongs,tbno)函數內新增紀錄後呼叫的畫面更動   
-    var rnddgt=getCookie('INT_069');  //四捨五入到幾位         
-	var ttlcnt=Number(document.getElementById('ttlmny').innerHTML);
-	var fldidx=0;
-	var argsNo=0;
-	while(rsp.fldsatrr[fldidx]){		
-		var oTd = oTr.insertCell(oTr.cells.length); 			
-		if(rsp.fldsatrr[fldidx][0]=='directdata'){
-			oTd.innerHTML=args[argsNo];
-			argsNo++;
-		}else{		               
-			if(tbno==0 && fldidx==2){   //客戶簡稱
-			   oTd.innerHTML=nongs[0];				   
-			}
-			if(tbno==0 && fldidx==3){   //客戶全稱
-			   oTd.innerHTML=nongs[1];				  
-			}
-			if(tbno==0 && fldidx==4){   //統一編號
-			   oTd.innerHTML=nongs[2];				  
-			}
-			if(tbno==0 && fldidx==5){   //聯絡人
-			   oTd.innerHTML=nongs[3];				  
-			}
-			if(tbno==0 && fldidx==6){   //電話
-			   oTd.innerHTML=nongs[4];				  
-			}
-			 if(tbno==0 && fldidx==9){   //業務名稱
-			   oTd.innerHTML=nongs[5];				  
-			}
-			if(tbno==0 && fldidx==14){   //發票別
-				oTd.innerHTML=whichinvoice(args[7]);	
-			}					
-			if(tbno==0 && fldidx==16){   //稅別
-				oTd.innerHTML=whichtax(args[8]);
-			}				
-			
-			if(tbno==0 && fldidx==20){   //退或折
-				oTd.innerHTML=(args[11]=='1'?'退回後補':(args[11]=='2'?'退貨不補':'金額折讓'));		
-			}				
-			if(tbno==0 && fldidx==22){   //確認				 
-			   oTd.innerHTML='N';				   
-			}				
-			if(tbno==1 && fldidx==1){   //品名
-			   oTd.innerHTML=nongs[0];				    
-			}
-			if(tbno==1 && fldidx==7){   //部門名稱
-			   oTd.innerHTML=nongs[1];				   
-			}
-			if(tbno==1 && fldidx==5){				   	//小計
-			   oTd.innerHTML=Math.round((args[2]*args[3]+ Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);			
-			   ttlcnt=ttlcnt+Math.round((args[2]*args[3]+ Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);	
-			   document.getElementById('ttlmny').innerHTML=ttlcnt;  //更新畫面上的總金額					  
-			}				
-		}
-		oTd.setAttribute("class",rsp.fldsatrr[fldidx][0]);
-		if(rsp.fldsatrr[fldidx][1]=='none'){
-				oTd.setAttribute("style","display:none;");		
-		}else{
-			   oTd.style.textAlign=rsp.fldsatrr[fldidx][2];				     	
-			   oTd.style.width=rsp.fldsatrr[fldidx][3]+"%";				  
-		}					 		
-		fldidx++;
-	}				
-	if (tbno==0){
-		oTr.setAttribute("style","font-weight:bold;color:#704214;");			 
-	}
- 
-	//最後異動
-    var oTd = oTr.insertCell(oTr.cells.length);	
-    oTd.setAttribute("class","directdata");					   
-    oTd.innerHTML=rsp.lastupdate;	
-    oTd.setAttribute("style","display:none;"); //最後異動要隱藏
-}
+    const tabs = getElementsByAttribute('class', 'tab');
+    let tbno = 0;
+    for (let i = 0; i < tabs.length; i++) {
+        if (tabs[i].checked) {
+            tbno = i;
+            break;
+        }
+    }
 
-function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,nongs,tbno)函數修改紀錄後呼叫的畫面更動
-    var rnddgt=getCookie('INT_069');  //四捨五入到幾位    
-	if (tbno==0){
-	    var maintable=document.getElementById("maintbody1");		
-	    var fldidx=4;
-		var argsNo=2;
-		var nongsNo=5;		   
-	}
-	else{
-	   var maintable=document.getElementById("maintbody2");
-	    var fldidx=3;
-		var argsNo=2;
-		var nongsNo=0;	
-		var ttlcnt=Number(document.getElementById('ttlmny').innerHTML)-Number(maintable.rows[args[arglth-1]].cells[6].innerHTML);					
-	} 
-	if(parseInt(args[11])>3){
-	   args[11]=(parseInt(args[11])-6).toString();
-	}
-		while(rsp.fldsatrr[fldidx]){			
-		    	
-			if(rsp.fldsatrr[fldidx][0]=='directdata'){
-				if(fldidx==3 && tbno==1){
-				    var orderQty=Number(maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML)*1+args[2]*1;						
-		            maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=orderQty;		
-				}else{				
-			   	   maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=args[argsNo];	
-				}  
-				argsNo++;
-			}else{				
-			    if(fldidx==9 && tbno==0){
-				    maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=nongs[5];	//業務姓名	
-				}
-				if(fldidx==14 && tbno==0){
-				    maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=whichinvoice(args[7]);  //發票類別
-				}
-				if(fldidx==16 && tbno==0){
-				    maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=whichtax(args[8]);	     //稅別
-				}
-				if(fldidx==20 && tbno==0){       				//退或折						  
-				   maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=(args[11]=='1'?'退回後補':(args[11]=='2'?'退貨不補':'金額折讓'));		
-				}
-		        if(fldidx==5 && tbno==1){   //小計
-				    var orderQty=maintable.rows[args[arglth-1]].cells[4].innerHTML*1		  
-			         ttlcnt=ttlcnt+Math.round((orderQty*args[3] + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);							
-		            document.getElementById('ttlmny').innerHTML=ttlcnt;  //更新畫面上的總金額				 
-				    maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=Math.round((orderQty*args[3] + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);				 								
-				}	
-				if(fldidx==7 && tbno==1){
-				    maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=nongs[0];
-				}							
-			}		 		
-			fldidx++;
-		}		
-		maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=rsp.lastupdate;
- 
-}
-function transConfirm(oTd){
-    //oTd.innerHTML="<input type='text' name='c03update' id='newPono' class='txt' style='display:none;' maxlength='10'/>"; 		
+    const b05elements = document.getElementsByName(tbno === 0 ? 'b05update' : 'b0eupdate');
+    const b05athments = document.getElementsByName(tbno === 0 ? 'b05others' : 'b0eothers');
+
+    // 收集關聯資料
+    Array.from(b05athments).forEach(el => {
+        nonjsn.push(el.tagName.toUpperCase() === 'SPAN' ? el.innerHTML : el.value);
+    });
+
+    // 收集待異動資料
+    for (let q = 1; q < b05elements.length; q++) {
+        tbjsn.push(b05elements[q].value);
+    }
+
+    // 欄位驗證
+    for (let j = 1; j < b05elements.length - 1; j++) {
+        const el = b05elements[j];
+
+        // 表頭日期驗證
+        if (tbno === 0 && j === 3) {
+            const recmthVal = document.getElementById('recmth').value;
+            const oDate = new Date(`${recmthVal}-${el.value}`);
+            const cYear = oDate.getFullYear();
+            const cMonth = oDate.getMonth() + 1;
+            const cDate = oDate.getDate();
+
+            const iYear = left(recmthVal, 4);
+            const iMonth = right(recmthVal, 2);
+            const iDate = paddingLeft(el.value.trim(), 2);
+
+            const isValidDate = (iYear == cYear) && (iMonth == cMonth) && (iDate == cDate);
+            if (!isValidDate) {
+                filtermsg(el, "日期格式不對");
+                return false;
+            } else if (el.nextSibling) {
+                el.parentNode.removeChild(el.nextSibling);
+            }
+        }
+
+        // 空值驗證排除條款
+        const isExemptEmpty = (tbno === 1 && (j === 4 || j === 6)) || (tbno === 0 && (j === 7 || j === 8 || j === 9));
+        if (el.value.trim() === "" && !isExemptEmpty) {
+            if (j === 1) {
+                el.placeholder = "不得空白";
+            } else {
+                filtermsg(el, "不得空白");
+            }
+            return false;
+        } else {
+            if (el.nextSibling && !((j === 4 && tbno === 0) || (j === 1 && tbno === 1))) {
+                el.parentNode.removeChild(el.nextSibling);
+            }
+            // 零值檢查
+            if (((tbno === 1 && (j === 3 || j === 4)) || (tbno === 0 && j === 11)) && Number(el.value) === 0) {
+                filtermsg(el, "不得為 0");
+                return false;
+            }
+        }
+    }
+
+    // 判斷新增或修改模式
+    if (updflg === 1) { // 新增
+        if (b05elements[1]?.value !== "") {
+            if (tbno === 0) {
+                tbjsn.push(document.getElementById('recmth').value); // 所屬年月
+            }
+            tbjsn.push('0', '0');
+            TableToJson(tbjsn, nonjsn, tbno);
+        } else {
+            blkshow("欄位資料不齊全無法新增權限");
+        }
+    } else { // 修改
+        if (tbno === 0) {
+            const src20 = Number(sourceAccount(20, 0));
+            const val12 = Number(b05elements[12].value);
+            const x1 = src20 - val12;
+            const y1 = src20 + val12;
+
+            if (x1 !== 0 && y1 > 3) {
+                if (x1 < 0) tbjsn[11] = 9;
+                else if (x1 === 2) tbjsn[11] = 7;
+                else tbjsn[11] = 8;
+            }
+        }
+
+        if (tbno === 1) {
+            tbjsn[2] = Number(b05elements[3].value) - Number(sourceAccount(4, 1));
+        }
+
+        const tablerowindex = sourceAccount(null, tbno);
+        tbjsn.push(recordNo.value, tablerowindex);
+        TableToJson(tbjsn, nonjsn, tbno);
+    }
+
+    blocksclose();
     return true;
-}   
-
-function  addNewRecordHint(tbno){
-    if (tbno==0){  //表頭資料
-	   return "請輸入出貨退回單表頭資料：";
-    }else{
-	   return "請輸入出貨退回單內容資料："; 
-    }		
 }
 
-function editRecordHint(tbno){
-    if (tbno==0){  
-		return "修改出貨退回單表頭資料："; 
-	}else{
-		return "修改出貨退回單內容資料："; 
-	}	 
-}
-/* function transRecordHint(tbno){
-	if (tbno==0){  //表頭資料	
-		return '出貨單號:'+sourceAccount(1,tbno)+",轉正式訂單?";
-	}else{
-		return '報價單號:'+document.getElementById('fatherkey1').value+",轉正式訂單?";
-	}  
-} */
-function searchKeyHint(tbno){    //搜尋畫面出現提示
-    if (tbno==0){  //表頭資料	
-		return "搜尋出貨退回單單頭欄位選擇";
-	}else{
-		return "搜尋出貨退回單單身欄位選擇";
-	}
+/**
+ * 計算總金額
+ */
+function calculateTtl(tbno, maintable, i) {
+    if (tbno === 1 && maintable?.rows[i]) {
+        const ttlcnt = Number(document.getElementById('ttlmny').innerHTML);
+        const crntsum = Number(maintable.rows[i].cells[6].innerHTML);
+        document.getElementById('ttlmny').innerHTML = ttlcnt - crntsum;
+    }
 }
 
-////以下處理回呼資料傳送給開窗選擇頁面
-function srcArgobj(srcId){
-	if (srcId=='customno' || srcId=='customname'){
-		var custno=document.getElementById(srcId).value;		 
-		var tttlt='';
-	    if(srcId=='customno'){			     
-		    var qrystring ="c01.F01"+"|"+custno;
-			tttlt="請選取客戶代號";          			
-	    }else if(srcId=='customname'){			 
-		    var qrystring ="c01.F05"+"|"+custno;			 
-			tttlt="請選取客戶簡稱";		
-		}
-        return {"headtitle":tttlt,"drpshtWidth":"28%","urlPth":"B05/BKND/C01srch.php","clickfunc":chsecust,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
-   }else if(srcId=='whono'){
-	   var qrystring=document.getElementById(srcId).value;
-	   return {"headtitle":"請選取業務人員帳號姓名","drpshtWidth":"28%","urlPth":"C01/BKND/A01srch.php","clickfunc":chseprg1,"qryString":qrystring,"mendwidth":"calc( 100%  )"};    
-	}else if(srcId=='deptno'){
-		var qrystring=document.getElementById(srcId).value+"|Y| | ";
-        return {"headtitle":"請選取出貨部門","drpshtWidth":"28%","urlPth":"B02/BKND/A14srch.php","clickfunc":deptchoose,"qryString":qrystring,"mendwidth":"calc( 100% )"};    	   
-	}else if(srcId=='billno' || srcId=='invoiceno'){
-		var billNo=document.getElementById(srcId).value;		
-		var tttlt='';
-	    if(srcId=='billno'){			     	     
-			var qrystring ="b04.F01"+"|"+billNo+"|"+document.getElementById('orgmth').value+"|"+document.getElementById('customno').value;   
-			tttlt="請選取出貨單號";          			
-	    }else if(srcId=='invoiceno'){			 		    	
-			var qrystring ="b04.F20"+"|"+billNo+"|"+document.getElementById('orgmth').value+"|"+document.getElementById('customno').value;   
-			tttlt="請選取發票號碼";		
-		}		
-	    return {"headtitle":tttlt,"drpshtWidth":"28%","urlPth":"B05/BKND/B04srch.php","clickfunc":bill_no,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
-	}else{
-		var shp_no=sourceAccount(12,0);	
-		var stockNo=document.getElementById(srcId).value;		 
-		var tttlt='';
-	    if(srcId=='stockno'){			     
-		    var qrystring ="b0d.F03"+"|"+stockNo+"_"+shp_no;    
-			tttlt="請選取料號";          			
-	    }else if(srcId=='stockname'){			 
-		    var qrystring ="b01.F02"+"|"+stockNo+"_"+shp_no;    		 
-			tttlt="請選取品名";		
-		}
-	    return {"headtitle":tttlt,"drpshtWidth":"80%","urlPth":"B05/BKND/B01srch.php","clickfunc":stckchg,"qryString":qrystring,"mendwidth":"calc( 100%  )"};
-	}
+/**
+ * 刪除重用單號處理
+ */
+function billNoReCreate(currentNo) {
+    if (getCookie('INT_099') === 'Y' && getCookie('INT_013') === 'Y') {
+        const regexA = /^BD\d{2}[1-9A-C]\d{5}$/;
+        if (regexA.test(currentNo.trim())) {
+            const thtdy = document.getElementById('recmth').value;
+            const prefix = 'BD' + thtdy.substring(2, 4) + parseInt(thtdy.substring(5, 7), 10).toString(16).toUpperCase();
+            discardNoRec(prefix, currentNo.trim());
+        }
+    }
 }
 
-function chseprg1(event)  //選擇業務
-{
-	if (typeof event=="undefined"){
-		event=window.event;
-	}
-	var target=getEventTarget(event);	 
-	var stuffNo=document.getElementById('whono');
-	stuffNo.value="";
-    var stuffName=document.getElementById('whonameEx');		
-    if(stuffName)	 
-	    stuffName.innerHTML="";
-	var maintable=document.getElementById("stuffTbody");  
-	for(var i=0;i< maintable.rows.length; i++){			 
-		if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
-			 stuffNo.value=maintable.rows[i].cells[0].innerHTML;								 
-			 stuffName.innerHTML=maintable.rows[i].cells[1].innerHTML;				
-			 break;
-		  }				 
-	}             
-	srchblkclose(event);	
-	return true;
-}	
+/**
+ * 匯率變動非同步查詢
+ */
+async function ratechange(event) {
+    const target = getEventTarget(event);
+    if (!target?.value) return;
 
-function stckchg(event)  //選擇料號
-{
-if (typeof event=="undefined"){
-		event=window.event;
-	}
-	var target=getEventTarget(event);	 
-	 var stockNo=document.getElementById('stockno');
-	 stockNo.value="";
-     var stockName=document.getElementById('stockname');			
-	 stockName.value="";  	
-	 var orderNo=document.getElementById('origno');
-	 var shipQty=document.getElementById('queryqty');
-	 var shipPrice=document.getElementById('price');
-	 var custstockno=document.getElementById('custompartno');
-	 var custpo=document.getElementById('customPO');
-	 var deptno=document.getElementById('deptno');
-	 var deptname=document.getElementById('deptname');
-	 var maintable=document.getElementById("stuffTbody");  
-	for(var i=0;i< maintable.rows.length; i++){			 
-		  if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
-			 stockNo.value=maintable.rows[i].cells[0].innerHTML;								 
-			 stockName.value=maintable.rows[i].cells[1].innerHTML;	
-			 if(orderNo){
-				orderNo.value=maintable.rows[i].cells[2].innerHTML;
-			 }
-			 if(shipQty){
-				shipQty.value=maintable.rows[i].cells[3].innerHTML;
-			 }
-			 if(shipPrice){
-				shipPrice.value=maintable.rows[i].cells[4].innerHTML;
-			 }
-			 if(custstockno){
-				custstockno.value=maintable.rows[i].cells[5].innerHTML;
-			 }  
-			 if(custpo){
-				custpo.value=maintable.rows[i].cells[6].innerHTML;
-			 }   
-			 if(deptno){
-				deptno.value=maintable.rows[i].cells[7].innerHTML;
-			 }  
-			 if(deptname){
-				deptname.innerHTML=maintable.rows[i].cells[8].innerHTML;
-			 }  
-			 break;
-		   }				 
-	}             
-	srchblkclose(event);	
-	return true;
-}	
+    try {
+        const response = await fetch(`B04/BKND/C00srch.php?timestamp=${Date.now()}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `filename=${encodeURIComponent(target.value)}`
+        });
 
-function chsecust(event)  //選擇客戶
-{
-		if (typeof event=="undefined"){
-		event=window.event;
-	}
-	var target=getEventTarget(event);	 
-	 var custNo=document.getElementById('customno');
-	 custNo.value="";
-     var custName=document.getElementById('customname');			
-	 custName.value="";
-	 var rprsntno=document.getElementById('whono');
-	 var rprsntname=document.getElementById('whonameEx');
-	 var crnttpe=document.getElementById('crntopt');
-	 var contactman=document.getElementById('winman'); 
-	 var crntrate=document.getElementById('curncy');
-	 var invoicetype=document.getElementById('invtype');
-	 var taxkind=document.getElementById('taxtype');	 
-	 var maintable=document.getElementById("stuffTbody");  	 
-	 var custFullName=document.getElementById('customfullname');
-	 var custUnitno=document.getElementById('unitno');	
-	 var custTelno=document.getElementById('telNo');
-	for(var i=0;i< maintable.rows.length; i++){			 
-		if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
-			custNo.value=maintable.rows[i].cells[0].innerHTML;								 
-			custName.value=maintable.rows[i].cells[1].innerHTML;
-			if(rprsntno){
-				rprsntno.value=maintable.rows[i].cells[2].innerHTML;
-			}
-			if(rprsntname){
-			   rprsntname.innerHTML=maintable.rows[i].cells[3].innerHTML;
-			}
-			if(crnttpe){
-				crnttpe.value=maintable.rows[i].cells[4].innerHTML;
-			}
-			if(contactman){
-				contactman.value=maintable.rows[i].cells[5].innerHTML;
-			}
-			if(crntrate){
-				crntrate.value=maintable.rows[i].cells[6].innerHTML;
-			}
-			if(invoicetype){
-				invoicetype.value=maintable.rows[i].cells[7].innerHTML*1+2;
-			}
-			if(taxkind){
-				taxkind.value=maintable.rows[i].cells[8].innerHTML;
-			}
-			  if(custFullName){
-				 custFullName.value=maintable.rows[i].cells[9].innerHTML;
-			 }
-			  if(custUnitno){
-				 custUnitno.value=maintable.rows[i].cells[10].innerHTML;
-			 }
-			 
-			 if(custTelno){
-				 custTelno.value=maintable.rows[i].cells[11].innerHTML;
-			 }			
-			break;
-		}					  		   
-	}             
-	srchblkclose(event);
-	return true;
-}	
+        if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+        const text = await response.text();
+        const curncyEl = document.getElementById("curncy");
+        if (curncyEl) curncyEl.value = parseFloat(text) || 1;
 
+    } catch (error) {
+        console.error("更新匯率失敗:", error);
+    }
+}
 
-function bill_no(event)  //出貨單號選取
-{
-	if (typeof event=="undefined"){
-		event=window.event;
-	}
-	var target=getEventTarget(event);	 
-	 var billNo=document.getElementById('billno');
-	 billNo.value="";
-     var invoiceNo=document.getElementById('invoiceno');			
-	 invoiceNo.value="";	 
-	 var crnttpe=document.getElementById('crntopt');
-	 var crntrate=document.getElementById('curncy');
-	 var invoicetype=document.getElementById('invtype');
-	 var taxkind=document.getElementById('taxtype');	 
-	 var maintable=document.getElementById("stuffTbody");  	 
-		for(var i=0;i< maintable.rows.length; i++){			 
-		    if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
-			     billNo.value=maintable.rows[i].cells[0].innerHTML;								 
-				 invoiceNo.value=maintable.rows[i].cells[1].innerHTML;			
-				 if(crnttpe){
-				    crnttpe.value=maintable.rows[i].cells[2].innerHTML;
-				 }				
-				 if(crntrate){
-					 crntrate.value=maintable.rows[i].cells[3].innerHTML;
-				 }
-				 if(invoicetype){
-					 invoicetype.value=maintable.rows[i].cells[4].innerHTML*1+2;
-				 }
-				 if(taxkind){
-					 taxkind.value=maintable.rows[i].cells[5].innerHTML;
-				 }
-				 break;
-			}					  		   
-		}             
-	srchblkclose(event);	
-	return true;
-}	
+/**
+ * 客戶名稱與相關設定帶入
+ */
+async function c01CustomName(event) {
+    const targetCustomNo = getEventTarget(event);
+    const customNoValue = targetCustomNo?.value?.trim() ?? '';
+
+    if (!customNoValue) {
+        clearCustomFields();
+        return;
+    }
+
+    try {
+        const response = await fetch(`B05/BKND/C01CustomName.php?timestamp=${Date.now()}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+            body: `filename=${encodeURIComponent(customNoValue)}`
+        });
+
+        if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+
+        const rsp = await response.json();
+
+        if (Array.isArray(rsp) && rsp.length > 0) {
+            const data = rsp[0];
+            const valueMapping = {
+                'customname': data.customname,
+                'customfullname': data.customfullname,
+                'unitno': data.unitno,
+                'winname': data.winname,
+                'telNo': data.telNo,
+                'whono': data.whono,
+                'crntopt': data.crntopt,
+                'curncy': data.curncy,
+                'invtype': data.invtype,
+                'taxtype': data.taxtype
+            };
+
+            Object.entries(valueMapping).forEach(([fieldId, val]) => {
+                const el = document.getElementById(fieldId);
+                if (el) el.value = val ?? '';
+            });
+
+            const whonameEx = document.getElementById('whonameEx');
+            if (whonameEx) whonameEx.innerHTML = data.whonameEx ?? '';
+        } else {
+            console.warn('查無此客戶資料');
+            clearCustomFields();
+        }
+
+    } catch (error) {
+        console.error('取得客戶名稱資料失敗:', error);
+    }
+}
+
+/**
+ * 清空客戶相關欄位
+ */
+function clearCustomFields() {
+    const fieldsToClear = [
+        'customname', 'customfullname', 'unitno', 'winname', 
+        'telNo', 'whono', 'crntopt', 'curncy', 'invtype', 'taxtype'
+    ];
+    
+    fieldsToClear.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+    });
+
+    const whonameEx = document.getElementById('whonameEx');
+    if (whonameEx) whonameEx.innerHTML = '';
+}
+
+/**
+ * 動態建立修改/新增 Modal 表單欄位
+ */
+function modifyFields(tbno, txtword, ajTable, aWaitUpdate) {
+    if (tbno === 0) { // 表頭
+        // 備註
+        //let oTr = ajTable.insertRow(-1);
+		let oTr = ajTable.insertRow(0);
+        oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>備註:</td>";
+        oTr.insertCell(1).outerHTML = "<td colspan='3'><input type='text' name='b05update' id='remark' class='txt' maxlength='20' style='width:30%;' /></td>";
+
+        // 匯率 & 退折
+        //oTr = ajTable.insertRow(-1);
+		let oTr = ajTable.insertRow(0);
+        oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>匯率:</td>";
+        oTr.insertCell(1).outerHTML = "<td><input type='number' name='b05update' id='curncy' value=1 class='txt' style='width:35%;text-align:right;' /></td>";
+        oTr.insertCell(2).outerHTML = "<td style='text-align:right;width:15%'>退貨或折讓:</td>";
+        const tdRjt = oTr.insertCell(3);
+        const slt19 = document.createElement("select");
+        slt19.id = "rjtOrds";
+        slt19.name = "b05update";
+        slt19.options.add(new Option('退回後補', '1'));
+        slt19.options.add(new Option('退貨不補', '2'));
+        slt19.options.add(new Option('金額折讓', '3'));
+        tdRjt.appendChild(slt19);
+
+        // 課稅別 & 幣別
+        //oTr = ajTable.insertRow(-1);
+		let oTr = ajTable.insertRow(-1);
+        oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>課稅別:</td>";
+        const tdTax = oTr.insertCell(1);
+        const slt6 = document.createElement("select");
+        slt6.id = "taxtype";
+        slt6.name = "b05update";
+        slt6.options.add(new Option('應稅', '1'));
+        slt6.options.add(new Option('零稅', '2'));
+        slt6.options.add(new Option('免稅', '3'));
+        tdTax.appendChild(slt6);
+
+        oTr.insertCell(2).outerHTML = "<td style='text-align:right;width:15%'>幣別:</td>";
+        const tdCrnt = oTr.insertCell(3);
+        const slt4 = document.createElement("select");
+        slt4.id = "crntopt";
+        slt4.name = "b05update";
+        attachEventListener(slt4, "change", ratechange, false);
+        tdCrnt.appendChild(slt4);
+
+        // 發票號碼 & 發票種類
+        //oTr = ajTable.insertRow(-1);
+		let oTr = ajTable.insertRow(0);
+        oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>發票號碼:</td>";
+        const tdInvNo = oTr.insertCell(1);
+        if (txtword === 2) {
+            tdInvNo.innerHTML = "<input type='text' name='b05update' id='invoiceno' class='txt' style='background-color:#B9B9FF;width:55%;' maxlength='10' readOnly=true/>";
+        } else {
+            tdInvNo.innerHTML = "<input type='text' name='b05update' id='invoiceno' class='txt' style='width:55%;' maxlength='10'/>";
+            const btn = createSearchButton();
+            tdInvNo.appendChild(btn);
+        }
+
+        oTr.insertCell(2).outerHTML = "<td style='text-align:right;width:15%'>發票種類:</td>";
+        const tdInvType = oTr.insertCell(3);
+        const slt8 = document.createElement("select");
+        slt8.id = "invtype";
+        slt8.name = "b05update";
+        slt8.options.add(new Option('三聯式', '33'));
+        slt8.options.add(new Option('二聯式', '34'));
+        tdInvType.appendChild(slt8);
+
+        // 原出貨月份 & 出貨單號
+        //oTr = ajTable.insertRow(-1);
+		let oTr = ajTable.insertRow(0);
+        oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>原出貨月份:</td>";
+        const tdOrgMth = oTr.insertCell(1);
+        const showTime = document.getElementById('currentTime');
+        const thtdy = showTime ? `${showTime.innerHTML.substring(0,4)}-${showTime.innerHTML.substring(5,7)}-${showTime.innerHTML.substring(8,10)}` : '';
+        const slt11 = document.createElement("select");
+        slt11.id = "orgmth";
+        slt11.name = "b05update";
+        optionitem(left(thtdy, 7), slt11.id, 7, "B04/BKND/A23srch.php");
+        tdOrgMth.appendChild(slt11);
+
+        oTr.insertCell(2).outerHTML = "<td style='text-align:right;width:15%'>出貨單號:</td>";
+        const tdBillNo = oTr.insertCell(3);
+        if (txtword === 2) {
+            tdBillNo.innerHTML = "<input type='text' name='b05update' id='billno' class='txt' style='background-color:#B9B9FF;width:55%;' maxlength='10' readOnly=true />";
+        } else {
+            tdBillNo.innerHTML = "<input type='text' name='b05update' id='billno' class='txt' style='width:55%;' maxlength='10' />";
+            tdBillNo.appendChild(createSearchButton());
+        }
+
+        // 退貨日 & 業務擔當
+        //oTr = ajTable.insertRow(-1);
+		let oTr = ajTable.insertRow(0);
+        oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>退貨日:</td>";
+        oTr.insertCell(1).innerHTML = "<input type='text' name='b05update' id='shipdate' class='txt' style='width:18%;' maxlength='2' />";
+        
+        oTr.insertCell(2).outerHTML = "<td style='text-align:right;width:15%'>業務擔當:</td>";
+        const tdWho = oTr.insertCell(3);
+        tdWho.innerHTML = "<input type='text' name='b05update' id='whono' class='txt' style='width:40%;' maxlength='8' /><span name='b05others' id='whonameEx'></span>&nbsp;&nbsp;";
+        tdWho.appendChild(createSearchButton());
+
+        // 聯絡人 & 電話 (隱藏)
+        //oTr = ajTable.insertRow(-1);
+		let oTr = ajTable.insertRow(0);
+        oTr.style.display = "none";
+        oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>聯絡人:</td>";
+        oTr.insertCell(1).innerHTML = "<input type='text' name='b05others' id='winname' class='txt' style='width:50%;' maxlength='40' />";
+        oTr.insertCell(2).outerHTML = "<td style='text-align:right;width:15%'>電話:</td>";
+        oTr.insertCell(3).innerHTML = "<input type='number' name='b05others' id='telNo' class='txt' style='width:35%;' maxlength='8' />";
+
+        // 客戶全名 & 統一編號 (隱藏)
+        oTr = ajTable.insertRow(-1);
+        oTr.style.display = "none";
+        oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>客戶全名:</td>";
+        oTr.insertCell(1).innerHTML = "<input type='text' name='b05others' id='customfullname' class='txt' style='width:50%;' maxlength='40' />";
+        oTr.insertCell(2).outerHTML = "<td style='text-align:right;width:15%'>統一編號:</td>";
+        oTr.insertCell(3).innerHTML = "<input type='number' name='b05others' id='unitno' class='txt' style='width:35%;' maxlength='8' />";
+
+        // 客戶代號 & 客戶簡稱
+        oTr = ajTable.insertRow(-1);
+        oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>客戶代號:</td>";
+        const tdCustNo = oTr.insertCell(1);
+        if (txtword === 2) {
+            tdCustNo.innerHTML = "<input type='text' name='b05update' id='customno' class='txt' style='background-color:#B9B9FF;width:35%;' maxlength='6' readOnly=true />";
+        } else {
+            tdCustNo.innerHTML = "<input type='text' name='b05update' id='customno' class='txt' style='width:35%;' maxlength='6' />";
+            tdCustNo.appendChild(createSearchButton());
+        }
+
+        oTr.insertCell(2).outerHTML = "<td style='text-align:right;width:15%'>客戶簡稱:</td>";
+        const tdCustName = oTr.insertCell(3);
+        if (txtword === 2) {
+            tdCustName.innerHTML = "<input type='text' name='b05others' id='customname' class='txt' style='background-color:#B9B9FF;width:40%;' maxlength='8' readOnly=true />";
+        } else {
+            tdCustName.innerHTML = "<input type='text' name='b05others' id='customname' class='txt' style='width:40%;' maxlength='8' />";
+            tdCustName.appendChild(createSearchButton());
+        }
+
+        // 出貨退回單號
+        //oTr = ajTable.insertRow(-1);
+		let oTr = ajTable.insertRow(0);
+        oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>出貨退回單號:</td>";
+        const tdQry = oTr.insertCell(1);
+        tdQry.colSpan = 3;
+        if (txtword === 2) {
+            tdQry.innerHTML = "<input type='text' name='b05update' id='queryno' class='txt' style='background-color:#B9B9FF;width:25%;' maxlength='10' readOnly=true />";
+            optionitem(aWaitUpdate[10], slt4.id, 4, "C01/BKND/C00srch.php");
+            optionitem(aWaitUpdate[5], slt11.id, 7, "B04/BKND/A23srch.php");
+            slt11.style.backgroundColor = "#B9B9FF";
+            slt11.disabled = true;
+        } else {
+            tdQry.innerHTML = "<input type='text' name='b05update' id='queryno' class='txt' style='width:25%;' maxlength='10'/>";
+            optionitem(getCookie('INT_011'), slt4.id, 4, "C01/BKND/C00srch.php");
+        }
+
+        // 隱藏變數 (紀錄號碼)
+        //oTr = ajTable.insertRow(-1);
+		let oTr = ajTable.insertRow(0);
+        oTr.style.display = "none";
+        oTr.insertCell(0).innerHTML = '紀錄號碼';
+        oTr.insertCell(1).innerHTML = "<input type='text' name='b05update' id='rcrd_no' class='txt' maxlength='14' autosize />";
+
+    } else { // 表身
+        // 補貨日期
+        //let oTr = ajTable.insertRow(-1);
+		let oTr = ajTable.insertRow(0);
+        oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>補貨日期:</td>";
+        oTr.insertCell(1).innerHTML = "<input type='Date' name='b0eupdate' id='reoutdate' class='txt' style='width:30%;' />";
+        if (Number(sourceAccount(20, 0)) > 1) {
+            oTr.style.display = "none";
+        }
+
+        // 客戶PO
+       // oTr = ajTable.insertRow(-1);
+	   let oTr = ajTable.insertRow(0);
+        oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>客戶PO:</td>";
+        oTr.insertCell(1).innerHTML = "<input type='text' name='b0eupdate' id='customPO' class='txt' style='width:50%;' maxlength='30'/>";
+
+        // 客戶品號
+        //oTr = ajTable.insertRow(-1);
+		let oTr = ajTable.insertRow(0);
+        oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>客戶品號:</td>";
+        oTr.insertCell(1).innerHTML = "<input type='text' name='b0eupdate' id='custompartno' class='txt' style='width:50%;' maxlength='30'/>";
+
+        // 收貨部門
+        //oTr = ajTable.insertRow(-1);
+		let oTr = ajTable.insertRow(0);
+        oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>收貨部門:</td>";
+        const tdDept = oTr.insertCell(1);
+        tdDept.innerHTML = "<input type='text' name='b0eupdate' id='deptno' class='txt' style='width:15%;' maxlength='6' /><span name='b0eothers' id='deptname'></span>&nbsp;&nbsp;";
+        tdDept.appendChild(createSearchButton());
+
+        // 單價
+        //oTr = ajTable.insertRow(-1);
+		let oTr = ajTable.insertRow(0);
+        oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>單價:</td>";
+        oTr.insertCell(1).innerHTML = "<input type='number' name='b0eupdate' id='price' value=0 class='txt' style='width:20%;text-align:right;' />";
+
+        // 數量
+        //oTr = ajTable.insertRow(-1);
+		let oTr = ajTable.insertRow(0);
+        oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>數量:</td>";
+        oTr.insertCell(1).innerHTML = "<input type='number' name='b0eupdate' id='queryqty' value=1 class='txt' style='width:20%;text-align:right;' />";
+
+        // 訂單號碼
+        //oTr = ajTable.insertRow(-1);
+		let oTr = ajTable.insertRow(0);
+        oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>訂單號碼:</td>";
+        const tdOrigNo = oTr.insertCell(1);
+        if (txtword === 2) {
+            tdOrigNo.innerHTML = "<input type='text' name='b0eupdate' id='origno' class='txt' style='background-color:#B9B9FF;width:30%;' maxlength='10' readOnly=true />";
+        } else {
+            tdOrigNo.innerHTML = "<input type='text' name='b0eupdate' id='origno' class='txt' style='width:30%;' maxlength='10' />";
+        }
+
+        // 品名規格
+       // oTr = ajTable.insertRow(-1);
+	   let oTr = ajTable.insertRow(0);
+        oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>品名規格:</td>";
+        const tdStockName = oTr.insertCell(1);
+        if (txtword === 2) {
+            tdStockName.innerHTML = "<input type='text' name='b05others' id='stockname' class='txt' style='background-color:#B9B9FF;width:70%;' maxlength='40' readOnly=true />";
+        } else {
+            tdStockName.innerHTML = "<input type='text' name='b0eothers' id='stockname' class='txt' style='width:70%;' maxlength='40' />";
+            tdStockName.appendChild(createSearchButton());
+        }
+
+        // 料品編號
+        //oTr = ajTable.insertRow(-1);
+		let oTr = ajTable.insertRow(0);
+        oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>料品編號:</td>";
+        const tdStockNo = oTr.insertCell(1);
+        if (txtword === 2) {
+            tdStockNo.innerHTML = "<input type='text' name='b0eupdate' id='stockno' class='txt' style='background-color:#B9B9FF;width:60%;' maxlength='43' readOnly=true />";
+        } else {
+            tdStockNo.innerHTML = "<input type='text' name='b0eupdate' id='stockno' class='txt' style='width:60%;' maxlength='43' />";
+            tdStockNo.appendChild(createSearchButton());
+        }
+
+        // 隱藏變數 (紀錄號碼)
+        //oTr = ajTable.insertRow(-1);
+		let oTr = ajTable.insertRow(0);
+        oTr.style.display = "none";
+        oTr.insertCell(0).innerHTML = '紀錄號碼';
+        oTr.insertCell(1).innerHTML = "<input type='text' name='b0eupdate' id='rcrd_no' class='txt' maxlength='14' autosize />";
+    }
+}
+
+/**
+ * 輔助建立搜尋按鈕DOM
+ */
+function createSearchButton() {
+    const btn = document.createElement("input");
+    btn.type = "button";
+    btn.className = "scopelook";
+    btn.style.background = "url('digits/brows1.png')";
+    attachEventListener(btn, "click", srchshow, false);
+    return btn;
+}
+
+/**
+ * 彈出視窗寬度調整
+ */
+function topAndWidthModify(dropsheet_content, dropsheet, txtword, tbno) {
+    dropsheet_content.style.width = "75%";
+    dropsheet.style.paddingTop = "25px";
+    if (txtword === 7) {
+        dropsheet_content.style.width = "60%";
+    }
+    return true;
+}
+
+/**
+ * 初始化焦點欄位與事件綁定
+ */
+function initFocusField(txtword, tbno, aWaitUpdate, notWaitdata, ajTable) {
+    switch (txtword) {
+        case 1: { // 新增
+            const thtdy = document.getElementById('recmth').value;
+            if (tbno === 0) {
+                const nowDate = new Date();
+                const shipdateEl = document.getElementById("shipdate");
+                if (shipdateEl) shipdateEl.value = paddingLeft(nowDate.getDate(), 2);
+
+                objGetNo('queryno', 'BD' + thtdy.substring(2, 4) + parseInt(thtdy.substring(5, 7), 10).toString(16).toUpperCase());
+                
+                const cstNo = document.getElementById("customno");
+                if (cstNo) {
+                    cstNo.focus();
+                    attachEventListener(cstNo, "change", c01CustomName, false);
+                }
+
+                const acntNo1 = document.getElementById("whono");
+                if (acntNo1) attachEventListener(acntNo1, "change", a01AccountName, false);
+
+            } else {
+                const showTime = document.getElementById('currentTime');
+                const thtdyStr = showTime ? `${showTime.innerHTML.substring(0,4)}-${showTime.innerHTML.substring(5,7)}-${showTime.innerHTML.substring(8,10)}` : '';
+                const reoutdateEl = document.getElementById("reoutdate");
+                if (reoutdateEl) reoutdateEl.value = thtdyStr;
+
+                const stocknoEl = document.getElementById("stockno");
+                if (stocknoEl) stocknoEl.focus();
+
+                const dptNo1 = document.getElementById("deptno");
+                if (dptNo1) attachEventListener(dptNo1, "change", a14DepartName, false);
+            }
+            break;
+        }
+        case 2: { // 修改
+            const rcrdNo = document.getElementById("rcrd_no");
+            if (rcrdNo) rcrdNo.value = aWaitUpdate[0];
+
+            if (tbno === 0) {
+                document.getElementById("shipdate")?.focus();
+                const editinit = document.getElementsByName('b05update');
+                
+                const customNameEl = document.getElementById('customname');
+                if (customNameEl) customNameEl.value = notWaitdata[0];
+
+                const whonameExEl = document.getElementById('whonameEx');
+                if (whonameExEl) whonameExEl.innerHTML = notWaitdata[5];
+
+                const acntNo1 = document.getElementById("whono");
+                if (acntNo1) attachEventListener(acntNo1, "change", a01AccountName, false);
+
+                for (let k = 0; k < editinit.length; k++) {
+                    editinit[k].value = aWaitUpdate[k];
+                }
+            } else {
+                document.getElementById("queryqty")?.focus();
+                const editinit = document.getElementsByName('b0eupdate');
+
+                const stockNameEl = document.getElementById('stockname');
+                if (stockNameEl) stockNameEl.value = notWaitdata[0];
+
+                const deptNameEl = document.getElementById('deptname');
+                if (deptNameEl) deptNameEl.innerHTML = notWaitdata[2];
+
+                const dptNo1 = document.getElementById("deptno");
+                if (dptNo1) attachEventListener(dptNo1, "change", a14DepartName, false);
+
+                for (let k = 0; k < editinit.length; k++) {
+                    editinit[k].value = aWaitUpdate[k];
+                }
+            }
+            break;
+        }
+        case 7: { // 搜尋
+            const txtseek = document.getElementById('searchWords');
+            if (txtseek) {
+                txtseek.focus();
+                attachEventListener(txtseek, 'keypress', textKeypress, false);
+            }
+            break;
+        }
+    }
+}
+
+/**
+ * 新增欄位後的 DOM 動態寫入
+ */
+function colomnAfterChange(tbno, oTr, args, nongs, rsp) {
+    const rnddgt = getCookie('INT_069');
+    let ttlcnt = Number(document.getElementById('ttlmny').innerHTML);
+    let fldidx = 0;
+    let argsNo = 0;
+
+    while (rsp.fldsatrr[fldidx]) {
+        const oTd = oTr.insertCell(oTr.cells.length);
+
+        if (rsp.fldsatrr[fldidx][0] === 'directdata') {
+            oTd.innerHTML = args[argsNo];
+            argsNo++;
+        } else {
+            if (tbno === 0) {
+                if (fldidx === 2) oTd.innerHTML = nongs[0];
+                if (fldidx === 3) oTd.innerHTML = nongs[1];
+                if (fldidx === 4) oTd.innerHTML = nongs[2];
+                if (fldidx === 5) oTd.innerHTML = nongs[3];
+                if (fldidx === 6) oTd.innerHTML = nongs[4];
+                if (fldidx === 9) oTd.innerHTML = nongs[5];
+                if (fldidx === 14) oTd.innerHTML = whichinvoice(args[7]);
+                if (fldidx === 16) oTd.innerHTML = whichtax(args[8]);
+                if (fldidx === 20) oTd.innerHTML = (args[11] === '1' ? '退回後補' : (args[11] === '2' ? '退貨不補' : '金額折讓'));
+                if (fldidx === 22) oTd.innerHTML = 'N';
+            } else {
+                if (fldidx === 1) oTd.innerHTML = nongs[0];
+                if (fldidx === 7) oTd.innerHTML = nongs[1];
+                if (fldidx === 5) {
+                    const subtotal = Math.round((args[2] * args[3] + Number.EPSILON) * Math.pow(10, rnddgt)) / Math.pow(10, rnddgt);
+                    oTd.innerHTML = subtotal;
+                    ttlcnt += subtotal;
+                    document.getElementById('ttlmny').innerHTML = ttlcnt;
+                }
+            }
+        }
+
+        oTd.className = rsp.fldsatrr[fldidx][0];
+        if (rsp.fldsatrr[fldidx][1] === 'none') {
+            oTd.style.display = "none";
+        } else {
+            oTd.style.textAlign = rsp.fldsatrr[fldidx][2];
+            oTd.style.width = rsp.fldsatrr[fldidx][3] + "%";
+        }
+        fldidx++;
+    }
+
+    if (tbno === 0) {
+        oTr.style.fontWeight = "bold";
+        oTr.style.color = "#704214";
+    }
+
+    const oTdLast = oTr.insertCell(oTr.cells.length);
+    oTdLast.className = "directdata";
+    oTdLast.innerHTML = rsp.lastupdate;
+    oTdLast.style.display = "none";
+}
+
+/**
+ * 修改欄位後的 DOM 動態更新
+ */
+function colomnContextChange(tbno, args, nongs, arglth, rsp) {
+    const rnddgt = getCookie('INT_069');
+    const maintable = document.getElementById(tbno === 0 ? "maintbody1" : "maintbody2");
+    if (!maintable) return;
+
+    let fldidx = tbno === 0 ? 4 : 3;
+    let argsNo = 2;
+    const targetRow = maintable.rows[args[arglth - 1]];
+    if (!targetRow) return;
+
+    let ttlcnt = 0;
+    if (tbno === 1) {
+        ttlcnt = Number(document.getElementById('ttlmny').innerHTML) - Number(targetRow.cells[6].innerHTML);
+    }
+
+    if (parseInt(args[11], 10) > 3) {
+        args[11] = (parseInt(args[11], 10) - 6).toString();
+    }
+
+    while (rsp.fldsatrr[fldidx]) {
+        if (rsp.fldsatrr[fldidx][0] === 'directdata') {
+            if (fldidx === 3 && tbno === 1) {
+                const orderQty = Number(targetRow.cells[fldidx + 1].innerHTML) + Number(args[2]);
+                targetRow.cells[fldidx + 1].innerHTML = orderQty;
+            } else {
+                targetRow.cells[fldidx + 1].innerHTML = args[argsNo];
+            }
+            argsNo++;
+        } else {
+            if (tbno === 0) {
+                if (fldidx === 9) targetRow.cells[fldidx + 1].innerHTML = nongs[5];
+                if (fldidx === 14) targetRow.cells[fldidx + 1].innerHTML = whichinvoice(args[7]);
+                if (fldidx === 16) targetRow.cells[fldidx + 1].innerHTML = whichtax(args[8]);
+                if (fldidx === 20) targetRow.cells[fldidx + 1].innerHTML = (args[11] === '1' ? '退回後補' : (args[11] === '2' ? '退貨不補' : '金額折讓'));
+            } else {
+                if (fldidx === 5) {
+                    const orderQty = Number(targetRow.cells[4].innerHTML);
+                    const subtotal = Math.round((orderQty * args[3] + Number.EPSILON) * Math.pow(10, rnddgt)) / Math.pow(10, rnddgt);
+                    ttlcnt += subtotal;
+                    document.getElementById('ttlmny').innerHTML = ttlcnt;
+                    targetRow.cells[fldidx + 1].innerHTML = subtotal;
+                }
+                if (fldidx === 7) targetRow.cells[fldidx + 1].innerHTML = nongs[0];
+            }
+        }
+        fldidx++;
+    }
+
+    targetRow.cells[fldidx + 1].innerHTML = rsp.lastupdate;
+}
+
+function transConfirm(oTd) {
+    return true;
+}
+
+function addNewRecordHint(tbno) {
+    return tbno === 0 ? "請輸入出貨退回單表頭資料：" : "請輸入出貨退回單內容資料：";
+}
+
+function editRecordHint(tbno) {
+    return tbno === 0 ? "修改出貨退回單表頭資料：" : "修改出貨退回單內容資料：";
+}
+
+function searchKeyHint(tbno) {
+    return tbno === 0 ? "搜尋出貨退回單單頭欄位選擇" : "搜尋出貨退回單單身欄位選擇";
+}
+
+/**
+ * 彈出開窗選擇畫面參數設置
+ */
+function srcArgobj(srcId) {
+    const val = document.getElementById(srcId)?.value ?? '';
+
+    if (srcId === 'customno' || srcId === 'customname') {
+        const isNo = srcId === 'customno';
+        return {
+            "headtitle": isNo ? "請選取客戶代號" : "請選取客戶簡稱",
+            "drpshtWidth": "28%",
+            "urlPth": "B05/BKND/C01srch.php",
+            "clickfunc": chsecust,
+            "qryString": `${isNo ? 'c01.F01' : 'c01.F05'}|${val}`,
+            "mendwidth": "calc( 100% - 1em )"
+        };
+    } else if (srcId === 'whono') {
+        return {
+            "headtitle": "請選取業務人員帳號姓名",
+            "drpshtWidth": "28%",
+            "urlPth": "C01/BKND/A01srch.php",
+            "clickfunc": chseprg1,
+            "qryString": val,
+            "mendwidth": "calc( 100% )"
+        };
+    } else if (srcId === 'deptno') {
+        return {
+            "headtitle": "請選取出貨部門",
+            "drpshtWidth": "28%",
+            "urlPth": "B02/BKND/A14srch.php",
+            "clickfunc": deptchoose,
+            "qryString": `${val}|Y| | `,
+            "mendwidth": "calc( 100% )"
+        };
+    } else if (srcId === 'billno' || srcId === 'invoiceno') {
+        const isBill = srcId === 'billno';
+        const orgmth = document.getElementById('orgmth')?.value ?? '';
+        const customno = document.getElementById('customno')?.value ?? '';
+        return {
+            "headtitle": isBill ? "請選取出貨單號" : "請選取發票號碼",
+            "drpshtWidth": "28%",
+            "urlPth": "B05/BKND/B04srch.php",
+            "clickfunc": bill_no,
+            "qryString": `${isBill ? 'b04.F01' : 'b04.F20'}|${val}|${orgmth}|${customno}`,
+            "mendwidth": "calc( 100% - 1em )"
+        };
+    } else {
+        const shp_no = sourceAccount(12, 0);
+        const isStockNo = srcId === 'stockno';
+        return {
+            "headtitle": isStockNo ? "請選取料號" : "請選取品名",
+            "drpshtWidth": "80%",
+            "urlPth": "B05/BKND/B01srch.php",
+            "clickfunc": stckchg,
+            "qryString": `${isStockNo ? 'b0d.F03' : 'b01.F02'}|${val}_${shp_no}`,
+            "mendwidth": "calc( 100% )"
+        };
+    }
+}
+
+/**
+ * 彈窗點選值帶回對應欄位 (選擇業務)
+ */
+function chseprg1(event) {
+    const stuffNo = document.getElementById('whono');
+    const stuffName = document.getElementById('whonameEx');
+    if (stuffNo) stuffNo.value = "";
+    if (stuffName) stuffName.innerHTML = "";
+
+    const maintable = document.getElementById("stuffTbody");
+    if (maintable) {
+        for (let i = 0; i < maintable.rows.length; i++) {
+            const row = maintable.rows[i];
+            const checkCell = row.cells[row.cells.length - 1];
+            if (checkCell?.childNodes[0]?.checked) {
+                if (stuffNo) stuffNo.value = row.cells[0].innerHTML;
+                if (stuffName) stuffName.innerHTML = row.cells[1].innerHTML;
+                break;
+            }
+        }
+    }
+    srchblkclose(event);
+    return true;
+}
+
+/**
+ * 彈窗點選值帶回對應欄位 (選擇料號)
+ */
+function stckchg(event) {
+    const elements = {
+        stockNo: document.getElementById('stockno'),
+        stockName: document.getElementById('stockname'),
+        orderNo: document.getElementById('origno'),
+        shipQty: document.getElementById('queryqty'),
+        shipPrice: document.getElementById('price'),
+        custstockno: document.getElementById('custompartno'),
+        custpo: document.getElementById('customPO'),
+        deptno: document.getElementById('deptno'),
+        deptname: document.getElementById('deptname')
+    };
+
+    if (elements.stockNo) elements.stockNo.value = "";
+    if (elements.stockName) elements.stockName.value = "";
+
+    const maintable = document.getElementById("stuffTbody");
+    if (maintable) {
+        for (let i = 0; i < maintable.rows.length; i++) {
+            const row = maintable.rows[i];
+            const checkCell = row.cells[row.cells.length - 1];
+            if (checkCell?.childNodes[0]?.checked) {
+                if (elements.stockNo) elements.stockNo.value = row.cells[0].innerHTML;
+                if (elements.stockName) elements.stockName.value = row.cells[1].innerHTML;
+                if (elements.orderNo) elements.orderNo.value = row.cells[2].innerHTML;
+                if (elements.shipQty) elements.shipQty.value = row.cells[3].innerHTML;
+                if (elements.shipPrice) elements.shipPrice.value = row.cells[4].innerHTML;
+                if (elements.custstockno) elements.custstockno.value = row.cells[5].innerHTML;
+                if (elements.custpo) elements.custpo.value = row.cells[6].innerHTML;
+                if (elements.deptno) elements.deptno.value = row.cells[7].innerHTML;
+                if (elements.deptname) elements.deptname.innerHTML = row.cells[8].innerHTML;
+                break;
+            }
+        }
+    }
+    srchblkclose(event);
+    return true;
+}
+
+/**
+ * 彈窗點選值帶回對應欄位 (選擇客戶)
+ */
+function chsecust(event) {
+    const elements = {
+        custNo: document.getElementById('customno'),
+        custName: document.getElementById('customname'),
+        rprsntno: document.getElementById('whono'),
+        rprsntname: document.getElementById('whonameEx'),
+        crnttpe: document.getElementById('crntopt'),
+        contactman: document.getElementById('winman'),
+        crntrate: document.getElementById('curncy'),
+        invoicetype: document.getElementById('invtype'),
+        taxkind: document.getElementById('taxtype'),
+        custFullName: document.getElementById('customfullname'),
+        custUnitno: document.getElementById('unitno'),
+        custTelno: document.getElementById('telNo')
+    };
+
+    if (elements.custNo) elements.custNo.value = "";
+    if (elements.custName) elements.custName.value = "";
+
+    const maintable = document.getElementById("stuffTbody");
+    if (maintable) {
+        for (let i = 0; i < maintable.rows.length; i++) {
+            const row = maintable.rows[i];
+            const checkCell = row.cells[row.cells.length - 1];
+            if (checkCell?.childNodes[0]?.checked) {
+                if (elements.custNo) elements.custNo.value = row.cells[0].innerHTML;
+                if (elements.custName) elements.custName.value = row.cells[1].innerHTML;
+                if (elements.rprsntno) elements.rprsntno.value = row.cells[2].innerHTML;
+                if (elements.rprsntname) elements.rprsntname.innerHTML = row.cells[3].innerHTML;
+                if (elements.crnttpe) elements.crnttpe.value = row.cells[4].innerHTML;
+                if (elements.contactman) elements.contactman.value = row.cells[5].innerHTML;
+                if (elements.crntrate) elements.crntrate.value = row.cells[6].innerHTML;
+                if (elements.invoicetype) elements.invoicetype.value = Number(row.cells[7].innerHTML) + 2;
+                if (elements.taxkind) elements.taxkind.value = row.cells[8].innerHTML;
+                if (elements.custFullName) elements.custFullName.value = row.cells[9].innerHTML;
+                if (elements.custUnitno) elements.custUnitno.value = row.cells[10].innerHTML;
+                if (elements.custTelno) elements.custTelno.value = row.cells[11].innerHTML;
+                break;
+            }
+        }
+    }
+    srchblkclose(event);
+    return true;
+}
+
+/**
+ * 彈窗點選值帶回對應欄位 (選擇出貨單號)
+ */
+function bill_no(event) {
+    const elements = {
+        billNo: document.getElementById('billno'),
+        invoiceNo: document.getElementById('invoiceno'),
+        crnttpe: document.getElementById('crntopt'),
+        crntrate: document.getElementById('curncy'),
+        invoicetype: document.getElementById('invtype'),
+        taxkind: document.getElementById('taxtype')
+    };
+
+    if (elements.billNo) elements.billNo.value = "";
+    if (elements.invoiceNo) elements.invoiceNo.value = "";
+
+    const maintable = document.getElementById("stuffTbody");
+    if (maintable) {
+        for (let i = 0; i < maintable.rows.length; i++) {
+            const row = maintable.rows[i];
+            const checkCell = row.cells[row.cells.length - 1];
+            if (checkCell?.childNodes[0]?.checked) {
+                if (elements.billNo) elements.billNo.value = row.cells[0].innerHTML;
+                if (elements.invoiceNo) elements.invoiceNo.value = row.cells[1].innerHTML;
+                if (elements.crnttpe) elements.crnttpe.value = row.cells[2].innerHTML;
+                if (elements.crntrate) elements.crntrate.value = row.cells[3].innerHTML;
+                if (elements.invoicetype) elements.invoicetype.value = Number(row.cells[4].innerHTML) + 2;
+                if (elements.taxkind) elements.taxkind.value = row.cells[5].innerHTML;
+                break;
+            }
+        }
+    }
+    srchblkclose(event);
+    return true;
+}

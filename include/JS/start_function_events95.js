@@ -598,7 +598,8 @@ function HeadPageChange(event){       //在表身按上下一張按鈕(正三角
 			break; 	 
 		}				  
 	}
-	var nowTabNo=(right(target.id,1)).toString();   //目前button的id的尾數與頁次對應
+	//var nowTabNo=(right(target.id,1)).toString();   //目前button的id的尾數與頁次對應
+	var nowTabNo = parseInt(target.id.replace(/^\D+/g, ''), 10);
 	 tabs[nowTabNo].checked=true;
      if(nowTabNo==1){
 	    tab2View(acskyflg);

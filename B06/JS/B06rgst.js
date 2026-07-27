@@ -486,11 +486,11 @@ function a14DepartName(event){
 function srcArgobj(srcId){
 	
 	if(srcId=='deptno1'){
-		var qrystring=document.getElementById(srcId).value;
-       return {"headtitle":"請選取轉出部門","drpshtWidth":"28%","thCntnt":['部門編號', '部門名稱'],"thWidth":['50%','50%'],"urlPth":"B06/BKND/A14srch.php","clickfunc":deptchoose1,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};    
+		var qrystring=document.getElementById(srcId).value+"|Y| | ";
+       return {"headtitle":"請選取轉出部門","drpshtWidth":"28%","urlPth":"B02/BKND/A14srch.php","clickfunc":deptchoose1,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};    
 	}else if(srcId=='deptno2'){
-		var qrystring=document.getElementById(srcId).value;
-       return {"headtitle":"請選取轉入部門","drpshtWidth":"28%","thCntnt":['部門編號', '部門名稱'],"thWidth":['50%','50%'],"urlPth":"B06/BKND/A14srch.php","clickfunc":deptchoose2,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};     
+		var qrystring=document.getElementById(srcId).value+"|Y| | ";;
+       return {"headtitle":"請選取轉入部門","drpshtWidth":"28%","urlPth":"B02/BKND/A14srch.php","clickfunc":deptchoose2,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};     
 	}else{
 		
 		var stockNo=document.getElementById(srcId).value;		 
@@ -502,8 +502,7 @@ function srcArgobj(srcId){
 		    var qrystring ="b01.F02"+"|"+stockNo;			 
 			tttlt="請選取品名";		
 		}
-		return {"headtitle":tttlt,"drpshtWidth":"45%","thCntnt":['料品編號', '品名規格'],
-		"thWidth":['50%','50%'],"urlPth":"B06/BKND/B01srch.php","clickfunc":stckchg,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
+		return {"headtitle":tttlt,"drpshtWidth":"45%","urlPth":"B06/BKND/B01srch.php","clickfunc":stckchg,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};
 	}
 }
 

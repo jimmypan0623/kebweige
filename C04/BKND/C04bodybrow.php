@@ -5,7 +5,7 @@ header("Cache-Control: no-cache, must-revalidate");
 header("Pragma: no-cache");
 
  
-require_once('../../include/BKND/db_forreport.php'); // 引入設定檔
+require_once('../../include/BKND/mysqli_server.php'); 
 require_once "../../include/BKND/fieldpreset.php";
 
 // --- 輔助函式：白名單檢查欄位名 ---

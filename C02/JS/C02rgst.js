@@ -277,7 +277,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		   optionitem(aWaitUpdate[4],slt4.id,4,"C01/BKND/C00srch.php");		//幣別欄位	
 	  }else{
 		  oTd.innerHTML="<input type='text' name='c02update' id='stockno' class='txt' style='width:60%;' maxlength='43'    />";
-		   optionitem(getCookie('INT_011'),slt4.id,4,"C01/BKND/C00srch.php");	
+		   optionitem(getAuth[2]()[0].INT_011,slt4.id,4,"C01/BKND/C00srch.php");	
 		   var srchButton4=document.createElement("input");				   
 		srchButton4.setAttribute("type","button");	
 		srchButton4.setAttribute("class","scopelook");				   
@@ -310,7 +310,7 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){
 		    document.getElementById("validstart").value=thtdy;  //日期都設為今天
 				//以下這一串是在算往後推的日期
 			var today=new Date();
-			var endday=today.addDays(parseInt(getCookie('INT_126'))); //加上參數預設有效天數
+			var endday=today.addDays(parseInt(getAuth[2]()[0].INT_126)); //加上參數預設有效天數
 			var endaydash=endday.getFullYear()+'-'+MyMonth(endday.getMonth())+'-'+((endday.getDate()<10) ? "0" : "") + endday.getDate();						
 			////////////////
 			document.getElementById("validend").value=endaydash;  //日期往後推

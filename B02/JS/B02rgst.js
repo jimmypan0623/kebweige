@@ -189,31 +189,27 @@ function calculateTtl(tbno,maintable,i){      //刪除確認(delConfirm)中挑�
  return;
  }
 
+// 範例：簡化後的 ratechange 函式
+async function ratechange(event) {
+    const e = event || window.event;
+    const target = getEventTarget(e);
+    const formData = new URLSearchParams({ filename: target.value });
 
-
-function ratechange(event){     //匯率更改異動
-	if (typeof event=="undefined"){
-		event=window.event;
-	}
-	var target=getEventTarget(event);	   
-	var sendDeleRec="filename="+target.value;				
-	if(window.ActiveXObject){
-	   var request = new ActiveXObject("Microsoft.XMLHttp");
-	}	
-	   else if(window.XMLHttpRequest){
-	   var request = new XMLHttpRequest();
-	}			 
-	request.onreadystatechange = respond;	        	
-	var url="B02/BKND/D00srch.php?timestamp="+new Date().getTime();        		
-	request.open("POST",url);	 
-	request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-	request.send(sendDeleRec);		
-	function respond(){           
-		if (request.readyState == 4 && request.status == 200) {  		     
-		   document.getElementById("curncy").value=request.responseText*1;   	              		   
-		}
-	} 	  	  
+    try {
+        const response = await fetch(`B02/BKND/D00srch.php?timestamp=${Date.now()}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: formData
+        });
+        if (response.ok) {
+            const text = await response.text();
+            document.getElementById("curncy").value = Number(text);
+        }
+    } catch (err) {
+        console.error("Rate change search failed:", err);
+    }
 }
+
 function rateSrch(event){   //進貨日期異動順便更動匯率
     if (typeof event=="undefined")
 	{
@@ -223,8 +219,8 @@ function rateSrch(event){   //進貨日期異動順便更動匯率
 	var crtNow=document.getElementById('crntopt').value;
 	var ckc=document.getElementById("recmth");
 	var rte=document.getElementById('curncy');
-    if(getAuth[2]()[0].INT_011=crtNow){	   
-	   var sendSrcRec="filename="+crtNow+"|"+ckc.value+"|"+target.value;	       
+    if(getAuth[2]()[0].INT_011!=crtNow){	//若非本幣別   
+	    var sendSrcRec="filename="+crtNow+"|"+ckc.value+"|"+target.value;	       
 		var rsp="";  	
         if(window.ActiveXObject){
 		   var request = new ActiveXObject("Microsoft.XMLHttp");
@@ -920,7 +916,7 @@ function chsecust(event)  //選擇廠商
 	 var rprsntno=document.getElementById('whono');
 	 var rprsntname=document.getElementById('whonameEx');
 	 var crnttpe=document.getElementById('crntopt');
-	 var contactman=document.getElementById('winman');
+	 var contactman=document.getElementById('winname');
  
 	 var paymenttp=document.getElementById('howpay');
  

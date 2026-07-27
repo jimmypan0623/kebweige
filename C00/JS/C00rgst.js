@@ -69,8 +69,7 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 			      c00elements[j].parentNode.removeChild(c00elements[j].nextSibling);
 		   }
 	    }
-		
-		 
+	 
 	}
 
     //--------過濾區結束----------//	
@@ -237,7 +236,6 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 		}				
 	maintable.rows[args[arglth-1]].cells[arglth-1].innerHTML=rsp.lastupdate;	
 }
-
 function  addNewRecordHint(tbno){
     if (tbno==0){  //表頭資料
         return "請輸入幣別資料：";

@@ -221,8 +221,8 @@ function billNoReCreate(currentNo) {
         var thtdy = _getUiDateStr();
         var crntmth = _getYearHexMonth(thtdy);			
         if (currentNo.substring(2, 5) == crntmth) {
-			if(regexA.test(currentNo.trim())){
-			   const regexA = /^CA\d{2}[1-9A-C]\d{5}$/;	
+			const regexA = /^CA\d{2}[1-9A-C]\d{5}$/;	
+			if(regexA.test(currentNo.trim())){			   
                discardNoRec('CA' + crntmth, currentNo.trim());
 			}
         } 							   
@@ -493,7 +493,7 @@ function colomnContextChange(tbno, args, nongs, arglth, rsp) { // TableToJson ä¿
     if (!targetRow) return;
     
     var ttlMnyEl = document.getElementById('ttlmny');
-    var ttlcnt = Math.notWaitdata ? 0 : Number(ttlMnyEl.innerHTML);
+    var ttlcnt = Number(ttlMnyEl.innerHTML);   //Math.notWaitdata ? 0 : 
     
     if (tbno == 1) {
         ttlcnt -= Number(targetRow.cells[5].innerHTML);

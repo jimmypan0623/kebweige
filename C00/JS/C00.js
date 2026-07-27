@@ -70,7 +70,7 @@
 
 function choseExtraDeal(targetTrChildren,targetTr){   //紀錄移動
     var delbtt=document.getElementById("DEL_BOTT");
-    if(getCookie('INT_011')==targetTrChildren[1].innerHTML || getAuth[0]()[3]!='Y'){
+    if(getAuth[2]()[0].INT_011==targetTrChildren[1].innerHTML || getAuth[0]()[3]!='Y'){
 	    delbtt.setAttribute("style","visibility:hidden;");
 	    detachEventListener(delbtt,"click",delrec,false);	    
     }else{
@@ -85,7 +85,7 @@ function choseSecond(targetTrChildren,targetTr){   //紀錄移動表身
 }
 function rowchoseExtraDeal(targetRow){    //紀錄移動
     var delbtt=document.getElementById("DEL_BOTT");
-    if(getCookie('INT_011')==targetRow.childNodes[1].innerHTML || getAuth[0]()[3]!='Y'){
+    if(getAuth[2]()[0].INT_011==targetRow.childNodes[1].innerHTML || getAuth[0]()[3]!='Y'){
 		delbtt.setAttribute("style","visibility:hidden;");
 	    detachEventListener(delbtt,"click",delrec,false);	  
 	}else{

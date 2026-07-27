@@ -1,4 +1,5 @@
 <?php 
+require_once("../../include/BKND/auth_checkforreport.php"); //驗證 
 require_once('../../tcpdf/tcpdf.php');
 // --- 1. 安全性檢查與變數初始化 ---
 $queryNo = isset($_GET['queryNo']) ? $_GET['queryNo'] : '';
@@ -76,8 +77,7 @@ class MYPDF extends TCPDF {
 }
 
 // --- 3. 資料庫處理與初始化 ---
-
-require_once('../../include/BKND/db_forreport.php'); 
+require_once("../../include/BKND/mysqli_server.php"); // 引入設定檔
 $cleanQueryNo = mysqli_real_escape_string($link, $queryNo);
 
 $sql = "SELECT b0d.*, b01.F02 as F0B, b01.F04 as F0D ,a14.F02 AS F02b
@@ -94,6 +94,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 }
 
 // 初始化 PDF
+
 $pageLayout = array(215.9, 139.7); 
 $pdf = new MYPDF('L', 'mm', $pageLayout, true, 'UTF-8', false); 
 $pdf->customData = $_GET; 

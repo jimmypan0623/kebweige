@@ -15,10 +15,7 @@ $sql1=@mysqli_query($link,$sql0);
 $rows1=@mysqli_num_rows($sql1);                       
 $list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名 
 if ($rows1>0){
-	if(md5($list4['F00'])!=$_COOKIE['userid']){
-		echo json_encode("請勿蓄意修改成他人帳號後，再來異動資料！");
-		return false;
-	}else{	 
+	 
 		$lastdate=date('Y'.'-'.'m'.'-'.'d');
 		$mArlth=count($brr);  
 		if($brr[$mArlth-2]==0){        //如果旗標指示為新增						   
@@ -85,7 +82,7 @@ if ($rows1>0){
 			$arr = array ('order_no'=>$brr[$mArlth-2],'lastupdate'=>$lastdate.$list4['F03'],'fldsatrr'=>$trnarray);
 			echo json_encode($arr);
 		} 
-	}
+	 
 }else{
    echo json_encode("請勿蓄意修改成他人帳號後，再來異動資料！");
 }

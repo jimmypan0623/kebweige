@@ -10,8 +10,8 @@ $brr=array();
 	//以下處理MySQL記錄異動
     require_once("../../include/BKND/mysqli_server.php");         //引用檔
 	// 增加安全轉義
-$newPsd = md5(mysqli_real_escape_string($link, $brr[1])); // 前端 REDelements[1] 是新密碼
-$userId = mysqli_real_escape_string($link, $brr[3]); // UserID
+$newPsd = mysqli_real_escape_string($link, $brr[1]); // 前端 REDelements[1] 是新密碼
+$userId = mysqli_real_escape_string($link, $brr[0]); // UserID
 if (empty($newPsd) || empty($userId)) {
     echo json_encode("更新失敗：資料不完整。");
     exit;

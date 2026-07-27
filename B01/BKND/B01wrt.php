@@ -1,10 +1,10 @@
 <?php
 require_once("../../include/BKND/auth_check.php"); //驗證
-$str_json = file_get_contents('php://input'); //($_POST doesn't work here)
+$str_json = file_get_contents('php://input');
 $response =json_decode($str_json); // decoding received JSON to array
 $cart=json_decode($response);
-
 $brr=array();
+
 
 
    foreach($cart as $key=>$val){	   
@@ -18,9 +18,7 @@ require_once "../../include/BKND/fieldDOMset.php"; // 引入
    $rows1=@mysqli_num_rows($sql1);                       
   $list4=mysqli_fetch_assoc($sql1);  //先把所有欄位記起來準備回傳可用的欄位 
 if ($rows1>0){  
-	if(md5($list4['F00'])!=$_COOKIE['userid']){
-		echo json_encode("請勿蓄意修改成他人帳號後，再來異動資料！"); 	 
-	}else{
+	 
 		$lastdate=date('Y'.'-'.'m'.'-'.'d');
 		$mArlth=count($brr);
 		if($brr[$mArlth-2]==0){        //如果旗標指示為新增						  		
@@ -95,7 +93,7 @@ if ($rows1>0){
 			echo json_encode($arr);
 		  //echo $brr[11];
 		}  
-	}  
+	   
 }else{
     echo json_encode("請勿蓄意修改成他人帳號後，再來異動資料！");
 }

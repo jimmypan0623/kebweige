@@ -9,7 +9,11 @@ $filename = isset($_POST['filename']) ? $_POST['filename'] : '';
 $arr = array();
 
 // 1. 使用 Prepared Statement 防止 SQL 注入
-$sql = "SELECT `F02`, `F00` FROM `a01` WHERE F00='".$_SESSION['user_id']."' AND binary `F01` = ?";
+if (!isset($_SESSION['is_logged_in']) || $_SESSION['is_logged_in'] !== true) {
+    $sql = "SELECT `F02`, `F00` FROM `a01` WHERE F00='".$_SESSION['user_id']."' AND binary `F01` = ?";
+}else{
+    $sql = "SELECT `F02`, `F00` FROM `a01` WHERE  binary `F01` = ?";
+}
 $stmt = mysqli_prepare($link, $sql);
 
 if ($stmt) {

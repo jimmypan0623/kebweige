@@ -38,23 +38,24 @@ function getProfile(arr,reccount,tbno) {
 				oTd.style.width = meta.width;
 				oTd.style.textAlign = meta.align;
 				if (meta.isHidden) oTd.style.display = "none";
-			}						
-			if(meta.name=='單價' && tbno==1){	
-				attachEventListener(oTd, 'click', rowchoose, false);
-				var oTd = oTr.insertCell(oTr.cells.length);
-				oTd.setAttribute("class","indirectdata");					 
-				oTd.setAttribute("style","width:8%;text-align:right;");	
-				oTd.innerHTML=Math.round((oTr.cells[3].innerHTML*oTr.cells[4].innerHTML + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);	
-				queryttl+=Number(oTd.innerHTML);
-			}		 			
-			if(meta.name=='開單未出' && tbno==1){	
-				attachEventListener(oTd, 'click', rowchoose, false);
-				var oTd = oTr.insertCell(oTr.cells.length);
-				oTd.setAttribute("class","indirectdata");					 
-				oTd.setAttribute("style","width:8%;text-align:right;");	
-				oTd.innerHTML=Number(oTr.cells[3].innerHTML)-(Number(oTr.cells[8].innerHTML)+Number(oTr.cells[9].innerHTML));					 				
-				  
-			}				
+									
+				if(meta.name=='單價' && tbno==1){	
+					attachEventListener(oTd, 'click', rowchoose, false);
+					var oTd = oTr.insertCell(oTr.cells.length);
+					oTd.setAttribute("class","indirectdata");					 
+					oTd.setAttribute("style","width:8%;text-align:right;");	
+					oTd.innerHTML=Math.round((oTr.cells[3].innerHTML*oTr.cells[4].innerHTML + Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);	
+					queryttl+=Number(oTd.innerHTML);
+				}		 			
+				if(meta.name=='開單未出' && tbno==1){	
+					attachEventListener(oTd, 'click', rowchoose, false);
+					var oTd = oTr.insertCell(oTr.cells.length);
+					oTd.setAttribute("class","indirectdata");					 
+					oTd.setAttribute("style","width:8%;text-align:right;");	
+					oTd.innerHTML=Number(oTr.cells[3].innerHTML)-(Number(oTr.cells[8].innerHTML)+Number(oTr.cells[9].innerHTML));					 				
+					  
+				}				
+			}
 			// 點擊事件綁定
 			attachEventListener(oTd, 'click', rowchoose, false);
 		}
@@ -78,7 +79,8 @@ function getProfile(arr,reccount,tbno) {
 	   var responseDiv=document.getElementById("serverResponse1");  
 	}else{
 
-	  var responseDiv=document.getElementById("serverResponse2");  
+	  var responseDiv=document.getElementById("serverResponse2"); 
+       
 	} 			  
 	if(responseDiv.innerHTML=='Searching......'){    
 		if (cnt==0){
@@ -182,8 +184,8 @@ function choseSecond(targetTrChildren,targetTr){  //紀錄移動表身
     var tabs=getElementsByAttribute('class','tab');		
 	if(tabs[1].checked){
 	    var outhis=document.getElementById("OUTRCD_BOTT");	 
-	    if(targetTrChildren[8].innerHTML*1+targetTrChildren[9].innerHTML*1>0){
-		    outhis.setAttribute("style","visibility:visibility;"); 
+	    if(targetTrChildren[8].innerHTML*1+targetTrChildren[9].innerHTML*1>0){			 
+		    outhis.setAttribute("style","visibility:visible;"); 
 		    attachEventListener(outhis,"click",page2OtherButton1,false);
 	    }else{
 		    outhis.setAttribute("style","visibility:hidden;"); 
@@ -261,8 +263,8 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 }	
 function rowchoseSecond(targetRow){    //紀錄移動表身   
     var outhis=document.getElementById("OUTRCD_BOTT");
-	 if(targetRow.childNodes[8].innerHTML*1+targetRow.childNodes[8].innerHTML*1>0){
-		 outhis.setAttribute("style","visibility:visibility;"); 
+	 if(targetRow.childNodes[8].innerHTML*1+targetRow.childNodes[9].innerHTML*1>0){
+		 outhis.setAttribute("style","visibility:visible;"); 
 		 attachEventListener(outhis,"click",page2OtherButton1,false);
 	 }else{
 		outhis.setAttribute("style","visibility:hidden;"); 

@@ -4,6 +4,7 @@ function loginInitForm(){
     <form id="login" method="post" action="loginchk.php" autocomplete="on" onsubmit="return encryptPassword()">
         <h1>LOG IN</h1>
         <fieldset id="inputs">         
+		        
                 <input id="account"
                 name="account"
                 type="text"
@@ -13,10 +14,8 @@ function loginInitForm(){
 				required>
 				<input id="rawPassword"				
 				type="password"
-				placeholder="Password" autocomplete="current-password" required>				
-				<input id="hiddenPassword" 
-				type="hidden" 
-				name="password">												
+				placeholder="Password" autocomplete="current-password" required>						
+				<input id="hiddenPassword" type="hidden" name="password">										
 				<input id="validcode"
 				name="validcode"
 				type="text"
@@ -31,6 +30,7 @@ function loginInitForm(){
 			<fieldset id="actions">
 				<input type="submit" id="submit" value="Log in">
 			</fieldset>        
+			
 		</form>
 	`;
 
@@ -67,7 +67,8 @@ function loginInitForm(){
 	var sbmtclk = document.getElementById('submit');
 	if (sbmtclk) {
 		// 先移除防止重複綁定，再重新綁定		
-	    attachEventListener(sbmtclk, "click", clrinpt, false);
+	    //attachEventListener(sbmtclk, "click", clrinpt, false);
+		attachEventListener(sbmtclk, "click", encryptPassword, false);
 	}
 	var errMsg = getCookie('errmsg');
 	if (errMsg) {
@@ -82,7 +83,7 @@ function loginInitForm(){
 			blkshow("驗證碼錯誤");
 		} else {
 			// A3: 重複登入處理
-			blkshow("同一帳號於同一瀏覽器重複登入系統");
+			blkshow("同一帳號於同一瀏覽器重複登入系統，或未正常登出系統，稍後請再次重新登入....");
 			
 			// 移除驗證碼圖片
 			for (let i = 1; i <= 4; i++) {
@@ -125,26 +126,22 @@ function blocksclose(event) {
 }  
 
 function encryptPassword() {
+	
     const rawPasswordInput = document.getElementById('rawPassword');
     const hiddenPasswordInput = document.getElementById('hiddenPassword');
-
     // 確保密碼不為空才加密
     if (rawPasswordInput.value) {
         // 使用 CryptoJS 轉成 MD5
         //const hashedPassword = CryptoJS.MD5(rawPasswordInput.value).toString();
         const hashedPassword = md5(rawPasswordInput.value) ;
-        // 將加密結果賦值給隱藏欄位
+        // 將加密結果賦值給隱藏欄位		
         hiddenPasswordInput.value = hashedPassword;
-        
-        // 清空明碼欄位（保護使用者隱私）
-        rawPasswordInput.value = '';
-    }
-    
+    }    
     return true; // 允許表單繼續送出
-}
+}  
+
 function clrinpt(event){    //登入畫面初始
-  
-    
+ 
 	if (typeof event=="undefined"){
 		   event=window.event;
     }
@@ -167,29 +164,27 @@ function inptclr(){
 	document.getElementById('validcode').value='';
 }
 
-/* async function PasswordFromBackEnd(useraccount) {	
-    const url = `RED/BKND/A01PassWord.php?timestamp=${Date.now()}`;
-    const payload = `filename=${encodeURIComponent(useraccount)}`;		
 
-    try {
-        const response = await fetch(url, {
-            method: 'POST',
-			
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: payload
-        });
+// 這是最穩定的版本，能徹底解決 Chrome/Edge 的差異
+function refreshCaptcha(event) {
+    let ts = new Date().getTime();
+    let i1 = document.getElementById('img1');
+    let i2 = document.getElementById('img2');
+    let i3 = document.getElementById('img3');
+    let i4 = document.getElementById('img4');
 
-        if (!response.ok) throw new Error(`HTTP 錯誤: ${response.status}`);
-
-        const rsp = await response.json();			
+    if (i1) {
+        // 1. 先載入第一張，啟動伺服器 Session 更新
+        i1.src = '/kebweige/include/BKND/captcha.php?id=1&t=' + ts;
         
-        if (rsp[0]) {             
-            document.getElementById('oRiginpassword').value = rsp[0]['passWord'] ?? '';	 
-            document.getElementById('oRiginID').value = rsp[0]['userId'] ?? '';	 
-        }
-    } catch (error) {
-        console.error("無法讀取驗證資料:", error);
+        // 2. 當第一張圖確定「抓到了」，伺服器的答案也就定案了
+        i1.onload = function() {
+            i1.onload = null; // 避免重複觸發
+            if(i2) i2.src = '/kebweige/include/BKND/captcha.php?id=2&t=' + ts;
+            if(i3) i3.src = '/kebweige/include/BKND/captcha.php?id=3&t=' + ts;
+            if(i4) i4.src = '/kebweige/include/BKND/captcha.php?id=4&t=' + ts;
+           
+        };
     }
-} */
+
+}

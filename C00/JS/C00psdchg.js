@@ -99,7 +99,7 @@ function tab2View(event){
 	  	  
 	   keydescription.textContent=aWaitUpdate[2]; 
 	   fthkey.innerHTML=aWaitUpdate[1];
-	    if(getCookie('INT_011')==fthkey.innerHTML){	
+	    if(getAuth[2]()[0].INT_011==fthkey.innerHTML){	
             srchbtt.setAttribute("style","visibility:hidden;");	
 	     	detachEventListener(srchbtt,'click',seekrec,false);    			
 		    newrcath.setAttribute("style","visibility:hidden;");

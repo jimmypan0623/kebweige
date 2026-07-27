@@ -43,7 +43,7 @@ let pageNameIdx=14;//紀錄頁籤名稱之起始陣列索引值
 //getAuth[0]()[16] :  第三頁頁籤名
 //getAuth[1]  //帳號與上次執行功能
 //getAuth[2] 	 //存放從a26資料表中撈出的系統參數
-//getAuth[3] 	 //各系統參數之型態("T"表示參數內容為中文) =>可能會轉作其他用途
+//getAuth[3]()[0] 	 //修改密碼時記錄登入者原密碼與ID 
 //getAuth[4] 	 //第一頁搜尋選項
 //getAuth[5] 	 //第二頁搜尋選項
 //getAuth[6] 	 //第三頁搜尋選項
@@ -190,26 +190,13 @@ function initDialog()
 				tabCss.appendChild(text26);
 				var text27=document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}'); 
 				document.body.insertBefore(tabCss,ftbtm);
-				 tabCss.insertBefore(text27,lclBtnBk);		
-							 
+				tabCss.insertBefore(text27,lclBtnBk);									 
 				document.querySelectorAll("script[id]").forEach(s=>s.remove());	
-				var mthjudge=getAuth[0]()[11];//判斷是否為月份檔
-				
+				var mthjudge=getAuth[0]()[11];//判斷是否為月份檔				
 				var contentdiv=document.getElementsByClassName("tab_content");			
-				if(!(contentdiv[0])){   //如果同時觸發兩隻程式引發記憶體錯亂,強制中斷以第一隻程式為準,重來一次			    							
-					/* tabCss.parentNode.removeChild(tabCss);				        
-					RecoverArg(left(nowExcute,3));	 */
-					////
-					// 如果 DOM 狀態異常，清空並透過 Promise 鏈條重新初始化，不再盲目呼叫全域函式
-					tabCss.parentNode.removeChild(tabCss);                        
-					RecoverArg(left(nowExcute, 3)).then(status => {
-						if (status === "OK") {
-							// 在確保權限拿到了，且前一次初始化完全結束後，才安全地重啟
-							isInitializing = false; 
-							initDialog();
-						}
-					});					
-					////
+				if(!(contentdiv[0])){   //如果同時觸發兩隻程式引發記憶體錯亂,強制中斷,以第一隻程式為準,重來一次			    																					
+					tabCss.parentNode.removeChild(tabCss);                        										
+					RecoverArg(left(nowExcute,3)).then(success => success && initDialog());				
 				}else{
 					var initFirstNode=(contentdiv[0].firstChild);
 					const frag = document.createDocumentFragment();
@@ -254,8 +241,7 @@ function initDialog()
 							pageBottomButton.title="到末頁，快速鍵 Alt+V";
 							pageBottomButton.accessKey="V";					
 							pageBottomButton.id="BottomPage";	   
-							attachEventListener(pageBottomButton,"click",rollChange,false);  //在第一頁點 >> 形按鈕(最後一張)						
-							
+							attachEventListener(pageBottomButton,"click",rollChange,false);  //在第一頁點 >> 形按鈕(最後一張)													
 							frag.appendChild(pageTopButton);
 							frag.appendChild(text3);
 							frag.appendChild(pageLastButton);
@@ -379,83 +365,20 @@ function initDialog()
 						orpButton5.id="lgt";		
 						attachEventListener(orpButton5,"click",outprocs,false);  //登出按鈕程序
 						maindiv[0].appendChild(orpButton5);			
-					}
-					var tab2Click=document.getElementById("tab2");
-					if(tab2Click){			 
-						var initTab2FirstNode=(contentdiv[1].firstChild);
-						var pageUpButton=document.createElement("input");		   
-						pageUpButton.type="button";
-						pageUpButton.className="btn";
-						pageUpButton.value="\u{25B2}";     
-						pageUpButton.title="表頭上一筆，表身上一頁，快速鍵 Alt+I";
-						pageUpButton.accessKey="I";					
-						pageUpButton.id="previousPage1";		
-						attachEventListener(pageUpButton,"click",HeadPageChange,false);
-						var text6 = document.createTextNode('\u{A0}');					
-						var pageDownButton=document.createElement("input");		   
-						pageDownButton.type="button";
-						pageDownButton.className="btn";
-						pageDownButton.value="\u{25BC}";     					
-						pageDownButton.title="表頭下一筆，表身下一頁，快速鍵 Alt+M";
-						pageDownButton.accessKey="M";					
-						pageDownButton.id="nextPage1";		
-						attachEventListener(pageDownButton,"click",HeadPageChange,false);
-						var text8 = document.createTextNode('\u{A0}');	
-						const frag2 = document.createDocumentFragment();
-						frag2.appendChild(pageUpButton);
-						frag2.appendChild(text6);
-						frag2.appendChild(pageDownButton);
-						frag2.appendChild(text8); 
-						contentdiv[1].insertBefore(frag2, initTab2FirstNode); 					
-					} 
-					var tab3Click=document.getElementById("tab3");
-					if(tab3Click){	     
-						var initTab3FirstNode=(contentdiv[2].firstChild);
-						var pageUpButton2=document.createElement("input");		   
-						pageUpButton2.type="button";
-						pageUpButton2.className="btn";
-						pageUpButton2.value="\u{25B2}";    
-						pageUpButton2.title="表頭上一筆，表身上一頁，快速鍵 Alt+I";
-						pageUpButton2.accessKey="I";					
-						pageUpButton2.id="previousPage2";		
-						attachEventListener(pageUpButton2,"click",HeadPageChange,false);
-						const frag3 = document.createDocumentFragment();
-						var text7 = document.createTextNode('\u{A0}');
-						var pageDownButton2=document.createElement("input");		   
-						pageDownButton2.type="button";
-						pageDownButton2.className="btn";
-						pageDownButton2.value="\u{25BC}";    
-						pageDownButton2.title="表頭下一筆，表身下一頁，快速鍵 Alt+M";
-						pageDownButton2.accessKey="M";					
-						pageDownButton2.id="nextPage2";		
-						attachEventListener(pageDownButton2,"click",HeadPageChange,false);
-						var text10 = document.createTextNode('\u{A0}');	
-						frag3.appendChild(pageUpButton2);
-						frag3.appendChild(text7);
-						frag3.appendChild(pageDownButton2);
-						frag3.appendChild(text10);
-						contentdiv[2].insertBefore(frag3, initTab3FirstNode);
-					} 			
-					 var seekrcd=document.getElementById("SEEK_BOTT");
-					 if(seekrcd){
-						attachEventListener(seekrcd,"click",seekrec,false);  //搜尋按鈕
-					 }	
+					}					
+					 addHeadPageButtons(2);  // 原本 tab2Click 那一整段
+					 addHeadPageButtons(3);  // 原本 tab3Click 那一整段 
 				}	 
-			}else{               	           
-				 /* if(loginform){
-					loginform.parentNode.removeChild(loginform);
-				 } */
+			}else{               	           				 
 				 if(logincontainer){
 				   logincontainer.parentNode.removeChild(logincontainer);
 				}
-				 for(let i=0;i<tabcsses.length;i++){
-					tabcsses[i].parentNode.removeChild(tabcsses[i]);
-					
-				 }	
-				  btmshowtme.style.display="none";
-				 var ftchlds=ftbtm.childNodes;
-				 for(let i=ftchlds.length-3;i>0;i--){
-				
+				for(let i=0;i<tabcsses.length;i++){
+					tabcsses[i].parentNode.removeChild(tabcsses[i]);					
+				}	
+				btmshowtme.style.display="none";
+				var ftchlds=ftbtm.childNodes;
+				for(let i=ftchlds.length-3;i>0;i--){				
 					 ftbtm.removeChild(ftchlds[i]);
 				}
 				 var conTainer=document.createElement("div");
@@ -475,7 +398,7 @@ function initDialog()
 				 btnimg.src = 'digits/widget_closed.gif';           
 				 extenbtn.appendChild(btnimg);						 
 				 menucoverdiv.appendChild(extenbtn);
-				  heaDer.appendChild(menucoverdiv);
+				 heaDer.appendChild(menucoverdiv);
 				 var compAnyName=document.createElement("span");
 				 compAnyName.id="company_name";			
 				 heaDer.appendChild(compAnyName);
@@ -488,12 +411,12 @@ function initDialog()
 				 getoutbtn.title="登出系統，快速鍵 Alt+Q";
 				 getoutbtn.accessKey="Q";		
 				 var btnoutimg = document.createElement('img');
-				  btnoutimg.id='btnoutimg';
-				  btnoutimg.style.width='27px';
-				  btnoutimg.src = 'digits/backexit.gif';
-				  getoutbtn.appendChild(btnoutimg);
-				  logoutdiv.appendChild(getoutbtn);
-				  heaDer.appendChild(logoutdiv);
+				 btnoutimg.id='btnoutimg';
+				 btnoutimg.style.width='27px';
+				 btnoutimg.src = 'digits/backexit.gif';
+				 getoutbtn.appendChild(btnoutimg);
+				 logoutdiv.appendChild(getoutbtn);
+				 heaDer.appendChild(logoutdiv);
 				 var navIgatIon=document.createElement("nav");
 				 navIgatIon.id="navigation";
 				 navIgatIon.className="vertical";			 
@@ -503,7 +426,8 @@ function initDialog()
 				 conTainer.appendChild(heaDer);
 				 conTainer.appendChild(navIgatIon);			 
 				 document.body.appendChild(conTainer);
-				 links[0].href="RED/REDmenu.css?v="+jsvsn;		 			 
+				 //links[0].href="RED/REDmenuBAKNEW.css?v="+jsvsn;	
+	 			 links[0].href="RED/REDmenu.css?v="+jsvsn;	
 				 links[1].href="digits/CYC25.gif";
 				 nowExcute='RED.知訊數位營運管理系統';			
 				 var urlfolder=document.getElementsByTagName('title');
@@ -515,127 +439,126 @@ function initDialog()
 		}	
 //****************************//		
 	}finally{
-
         isInitializing=false;
-
     }	
 //****************************//	
 }
+////// 
+function addHeadPageButtons(tabIndex) {
+    var tabClick = document.getElementById("tab" + tabIndex);
+    if (!tabClick) return;
 
-function chooserc(event){   //初始或直接跳該筆	   從 1 開始計數!!!
-    
-    if(!isNaN(event)){  //初始畫面呼叫            
-	    var recNo=event;	  
-	    if(cko[1](0)>0){   //如果為開窗畫面選擇紀錄		     
-	        var maintable=document.getElementById("stuffTbody"); //開窗選取資料			  		     
-	    }else{		   	
-			var tabs=document.getElementsByClassName("tab");
-	        if (tabs[0].checked){
-	            var maintable=document.getElementById("maintbody1");	        	  
-	        }else if(tabs[1].checked){
-			    var maintable=document.getElementById("maintbody2");
-		    }else if(tabs[2].checked){
-			    var maintable=document.getElementById("maintbody3");
-		    }				
-	    }	  
-	    if(recNo>0){  		               
-	       var targetA=maintable.rows[recNo-1].cells[maintable.rows[recNo-1].cells.length-1].childNodes[0];	  	  
-	       targetA.checked=true;	  
-		}	 		    
-    }else{
-        if (typeof event=="undefined")
-	   {
-		  event=window.event;
-	   }	 
-   	   var targetA=getEventTarget(event);
-    } 
-	var chsntail=0;		 	
-	var tables=document.getElementsByClassName("gridlist");
-    var targetG=targetA.parentNode.parentNode.parentNode.parentNode;       
-	for(let i=0;i<tables.length;i++){		
-		 if(targetG.id==tables[i].id){
-		   chsntail=i;			
-		   break;
-		}
-	}   	 
-	var targetTd=targetA.parentNode;	
-	var targetTr=targetTd.parentNode;
-	var targetTrChildren=targetTr.getElementsByTagName("td"); 		 	
-	if (targetA.checked){			
-		var recChecked=document.getElementsByName("chkbx"+targetG.id );    //尋找 
-		for(let i=0;i<recChecked.length;i++){
-			if(recChecked[i].parentNode.parentNode.firstChild.textContent!=targetTrChildren[0].textContent){
-				 if (recChecked[i].checked){						
-					recChecked[i].checked=false;					 
-					  cko[chsntail+2](-1);					     						
-					recChecked[i].parentNode.parentNode.style.backgroundColor="";					 
-				 }
-			 }
-		}	 	 
-		 targetTr.style.backgroundColor="#B9B9FF";	 
-		 cko[chsntail+2](1);		 
-		if(chsntail==0){			   
-		    choseExtraDeal(targetTrChildren,targetTr);  //跳回所屬子程式處理特有程序(表頭)			   
-		}else{			 
-			choseSecond(targetTrChildren,targetTr);
-			 
-		}
-		var responseDiv=document.getElementById("serverResponse"+String(chsntail+1));			 
-		if (isNaN(event)){
-		   responseDiv.innerHTML='&nbsp'; 
-		}		
-	}else{
-		targetTr.style.backgroundColor="";	 
-		cko[chsntail+2](-1);	       			
-	}
-   return true;
-}
-function rowchoose(event){   //點選列ROW就可以選擇該筆資料
-    if (typeof event=="undefined")
-	{
-		event=window.event;
-	}	
- 	var target=getEventTarget(event);
-	 
-    var chsntail=0;
-	var targetRow=target.parentNode;
-	var targetG=targetRow.parentNode.parentNode;	 
-    
-	var tables=document.getElementsByClassName("gridlist");
-	for(let i=0;i<tables.length;i++){		
-		if(targetG.id==tables[i].id){
-			 chsntail=i;
-		     break;
-		}
-	}
-	if(targetRow.lastChild.firstChild.checked==false){		     
-	    var recChecked=document.getElementsByName("chkbx"+targetG.id );    //尋找表頭
-		for(let i=0;i<recChecked.length;i++){
-		    if(recChecked[i].parentNode.parentNode.firstChild.textContent!=targetRow.firstChild.textContent){
-			    if (recChecked[i].checked){
-				    recChecked[i].checked=false;				
-				    cko[chsntail+2](-1);				
-				    recChecked[i].parentNode.parentNode.style.backgroundColor="";				
-			    }
-		    }
-	    }		
-		targetRow.style.backgroundColor="#B9B9FF";
-		targetRow.lastChild.lastChild.checked=true;		
-		if(chsntail==0){		   
-		   rowchoseExtraDeal(targetRow);    //跳回所屬子程式處理例外程序(表頭)		
-		}else{
-			
-			rowchoseSecond(targetRow);
-		}			
-        var responseDiv=document.getElementById("serverResponse"+String(chsntail+1));
-		if(responseDiv){
-		   responseDiv.innerHTML='&nbsp'; 	 
-		}		 
-		cko[chsntail+2](1);         
-	} 	   	
-	return true;
+    var idSuffix = tabIndex - 1;   // ← 修正重點:對齊原本命名規則
+
+    var contentdiv = document.getElementsByClassName("tab_content");
+    var initFirstNode = contentdiv[tabIndex - 1].firstChild;
+
+    var pageUpButton = document.createElement("input");
+    pageUpButton.type = "button";
+    pageUpButton.className = "btn";
+    pageUpButton.value = "\u{25B2}";
+    pageUpButton.title = "表頭上一筆，表身上一頁，快速鍵 Alt+I";
+    pageUpButton.accessKey = "I";
+    pageUpButton.id = "previousPage" + idSuffix;      // ← previousPage1, previousPage2
+    attachEventListener(pageUpButton, "click", HeadPageChange, false);
+
+    var text1 = document.createTextNode('\u{A0}');
+
+    var pageDownButton = document.createElement("input");
+    pageDownButton.type = "button";
+    pageDownButton.className = "btn";
+    pageDownButton.value = "\u{25BC}";
+    pageDownButton.title = "表頭下一筆，表身下一頁，快速鍵 Alt+M";
+    pageDownButton.accessKey = "M";
+    pageDownButton.id = "nextPage" + idSuffix;        // ← nextPage1, nextPage2
+    attachEventListener(pageDownButton, "click", HeadPageChange, false);
+
+    var text2 = document.createTextNode('\u{A0}');
+
+    var frag = document.createDocumentFragment();
+    frag.appendChild(pageUpButton);
+    frag.appendChild(text1);
+    frag.appendChild(pageDownButton);
+    frag.appendChild(text2);
+
+    contentdiv[tabIndex - 1].insertBefore(frag, initFirstNode);
 }
 
+function chooserc(event) {
+    var targetA;
+
+    if (!isNaN(event)) {
+        var recNo = event;
+        var maintable;
+        if (cko[1](0) > 0) {
+            maintable = document.getElementById("stuffTbody");
+        } else {
+            var tabs = document.getElementsByClassName("tab");
+            if (tabs[0].checked) {
+                maintable = document.getElementById("maintbody1");
+            } else if (tabs[1].checked) {
+                maintable = document.getElementById("maintbody2");
+            } else if (tabs[2].checked) {
+                maintable = document.getElementById("maintbody3");
+            }
+        }
+        if (recNo > 0) {
+            var row = maintable.rows[recNo - 1];
+            targetA = row.cells[row.cells.length - 1].childNodes[0];
+            targetA.checked = true;
+        }
+    } else {
+        event = (typeof event === "undefined") ? window.event : event;
+        targetA = getEventTarget(event);
+    }
+
+    var targetTr = targetA.parentNode.parentNode;
+    var targetG = targetTr.parentNode.parentNode;
+    var chsntail = getTableIndex(targetG);
+
+    if (targetA.checked) {
+        applySingleSelect(targetTr, targetG, chsntail);
+    } else {
+        targetTr.style.backgroundColor = "";
+        cko[chsntail + 2](-1);
+    }
+    return true;
+}
+
+function rowchoose(event) {
+    event = (typeof event === "undefined") ? window.event : event;
+    var target = getEventTarget(event);
+
+    var targetTr = target.parentNode;
+    var targetG = targetTr.parentNode.parentNode;
+    var chsntail = getTableIndex(targetG);
+
+    var checkbox = targetTr.lastChild.lastChild;
+    if (!checkbox.checked) {
+        checkbox.checked = true;
+        applySingleSelect(targetTr, targetG, chsntail);
+
+        // rowchoose 特有的例外處理,與 chooserc 的 choseExtraDeal/choseSecond 不同
+        if (chsntail === 0) {
+            rowchoseExtraDeal(targetTr);
+        } else {
+            rowchoseSecond(targetTr);
+        }
+    }
+    return true;
+}
+
+// 共用邏輯:依表格 DOM id 反查是第幾頁(0-based)
+function getTableIndex(targetG) {
+    var tables = document.getElementsByClassName("gridlist");
+    for (let i = 0; i < tables.length; i++) {
+        if (targetG.id === tables[i].id) {
+            return i;
+        }
+    }
+    return 0;
+}
+ 
 function delConfirm(event){     //確定刪除
 	if (typeof event=="undefined"){
 		event=window.event;
@@ -787,7 +710,6 @@ function delConfirm(event){     //確定刪除
 			     detachEventListener(editbtt,"click",edtrec,false);
 				 delbtt.style.visibility="hidden";
 				 detachEventListener(delbtt,"click",delrec,false);
-
 				 document.getElementById("serverResponse1").innerHTML="\u{A0}";
 				 document.getElementById("serverResponse2").innerHTML="\u{A0}";
 				 document.getElementById("serverResponse3").innerHTML="\u{A0}";
@@ -800,18 +722,19 @@ function rollChange(event){    //按鈕翻頁
 	 if (typeof event=="undefined"){
 		event=window.event;		
      }
-	 target=getEventTarget(event);	 
+	 var target=getEventTarget(event);	 
      var crntrec=0;	 
 	 var slt2=document.getElementById('recmth');	
-	 switch (target.id){
+	 
+	switch (target.id){
 		 case 'TopPage':
 		      crntrec=0;
 		      break;
 		 case 'BottomPage':		      
-			   crntrec=slt2.length-1;
+			   crntrec=slt2.length*1-1;
 		      break;
 		 case 'LastPage':
-		       crntrec=slt2.value-2;
+		       crntrec=slt2.value*1-2;
 				if(crntrec<0){
 					blkshow('已到第一頁');					    
 				   crntrec=0;
@@ -828,86 +751,64 @@ function rollChange(event){    //按鈕翻頁
 			   break;
 	     default:
 			   crntrec=0;
-	 }	   
-	      slt2.options[crntrec].selected=true;
-		  choiceClick(slt2.value);	
+	 }	  
+	  slt2.options[crntrec].selected=true;
+	  choiceClick(slt2.value);	   
 }
 
-
-
-function RecoverArg(arg){
+function RecoverArg(arg){    
 
     if (isRecovering){
         blkshow("RecoverArg 已在執行中");
-        return;
+        return Promise.resolve(false);
     }
 
     isRecovering = true;
 
     const authKey = getAuth[1]()[0];
-
     const sendSrcRec =
         "filename=" + encodeURIComponent(arg) +
         "|" + encodeURIComponent(authKey);
-
     return fetch("ROL/BKND/FunDetail.php",{
-
         method:"POST",
-
         cache:"no-store",
-
         headers:{
             "Content-Type":"application/x-www-form-urlencoded"
         },
-
         body:sendSrcRec
-
     })
     .then(response=>{
-
         if(!response.ok){
             throw new Error(response.status);
         }
-
         return response.json();
-
     })
     .then(rsp=>{
-
         if(rsp==="NO"){
-
             blkshow("您無 " + arg + " 操作權限");
-            return;
+            return false;
         }
-
         setArg(rsp);
-
-        initDialog();
-
+        return true;
     })
     .catch(err=>{
 
         console.error(err);
+        return false;
 
     })
     .finally(()=>{
-
         isRecovering = false;
-
     });
-
 }
 
 function setArg(arr){
-           getAuth[0]('Clear_All');
-		 Object.values(arr[0]).forEach(value => {
-            
-			 getAuth[0](value);   //從這邊加入登入者在arg參數功能權限
+        getAuth[0]('Clear_All');
+		Object.values(arr[0]).forEach(value => {            
+		getAuth[0](value);   //從這邊加入登入者在arg參數功能權限
 			 
         }); 
      getAuth[1]()[1]= getAuth[0]()[0];
-	 //initDialog();
-	 
 }	
 
 
@@ -918,7 +819,6 @@ function fieldsSet(exucPrgNo) {
 	}  
 	 // 剛進操作畫面之欄位設定
     const sendSrcRec = "filename=" + encodeURIComponent(exucPrgNo.slice(0, 3));
-    //const url = "include/BKND/pagesFieldsData.php?timestamp=" + new Date().getTime();
     const url = "include/BKND/pagesFieldsData.php" ;
     fetch(url, {
         method: 'POST',
@@ -988,50 +888,62 @@ function fieldsSet(exucPrgNo) {
     });
 }
 
-
-
-// 這是最穩定的版本，能徹底解決 Chrome/Edge 的差異
-function refreshCaptcha(event) {
-    let ts = new Date().getTime();
-    let i1 = document.getElementById('img1');
-    let i2 = document.getElementById('img2');
-    let i3 = document.getElementById('img3');
-    let i4 = document.getElementById('img4');
-
-    if (i1) {
-        // 1. 先載入第一張，啟動伺服器 Session 更新
-        i1.src = '/kebweige/include/BKND/captcha.php?id=1&t=' + ts;
-        
-        // 2. 當第一張圖確定「抓到了」，伺服器的答案也就定案了
-        i1.onload = function() {
-            i1.onload = null; // 避免重複觸發
-            if(i2) i2.src = '/kebweige/include/BKND/captcha.php?id=2&t=' + ts;
-            if(i3) i3.src = '/kebweige/include/BKND/captcha.php?id=3&t=' + ts;
-            if(i4) i4.src = '/kebweige/include/BKND/captcha.php?id=4&t=' + ts;
-           
-        };
-    }
-
-}
 	// 優化欄位解析邏輯
 function parseFieldMeta(fieldName) {
     var parts = fieldName.split('_');
-    var metaStr = parts[parts.length - 2]; // 取得如 "DSL"
-    var widthStr = parts[parts.length - 1]; // 取得如 "010"
-    var fldname=fieldName.substring(0, fieldName.indexOf('_'));
-    if (!metaStr || metaStr.length !== 3) return null;
+    var metaStr = parts[parts.length - 2];     // 取得如 "DSL"
+    var widthStr = parts[parts.length - 1];    // 取得如 "010"
+
+    if (!metaStr || metaStr.length !== 3) return null;   // 先驗證
+
+    var widthNum = parseInt(widthStr, 10);
+    if (isNaN(widthNum)) return null;                      // 補上寬度驗證
+
+    var fldname = fieldName.substring(0, fieldName.indexOf('_'));  // 再算 name
 
     return {
         isDirect: metaStr[0] === 'D',
         isHidden: metaStr[1] === 'H',
         align: { 'L': 'left', 'C': 'center', 'R': 'right' }[metaStr[2]] || 'left',
-        width: parseInt(widthStr, 10) + '%',
-		name:fldname
+        width: widthNum + '%',
+        name: fldname
     };
 }
-//判斷字串最後一碼是否為英文字母
+
+//判斷字串最後一碼是否為小寫英文字母
 function isLastCharLetter(str) {
     if (!str) return false; // 檢查空字串
     return /[a-z]$/.test(str);
-	//const regex = /^BC\d{2}[1-9A-C]\d{5}$/i;
+}
+
+// 共用邏輯:清除同表格其他選取,標記目前列為選取狀態
+function applySingleSelect(targetTr, targetG, chsntail) {
+    var recChecked = document.getElementsByName("chkbx" + targetG.id);
+    var targetFirstCellText = targetTr.firstChild.textContent;
+
+    for (let i = 0; i < recChecked.length; i++) {
+        var otherTr = recChecked[i].parentNode.parentNode;
+        if (otherTr.firstChild.textContent !== targetFirstCellText) {
+            if (recChecked[i].checked) {
+                recChecked[i].checked = false;
+                cko[chsntail + 2](-1);
+                otherTr.style.backgroundColor = "";
+            }
+        }
+    }
+    targetTr.style.backgroundColor = "#B9B9FF";
+    cko[chsntail + 2](1);
+
+    // 依所屬頁籤分派後續處理(表頭 or 表身)
+    var targetTrChildren = targetTr.getElementsByTagName("td");
+    if (chsntail === 0) {
+        choseExtraDeal(targetTrChildren, targetTr);
+    } else {
+        choseSecond(targetTrChildren, targetTr);
+    }
+
+    var responseDiv = document.getElementById("serverResponse" + String(chsntail + 1));
+    if (responseDiv) {
+        responseDiv.innerHTML = '&nbsp';
+    }
 }

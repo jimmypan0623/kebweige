@@ -18,7 +18,7 @@
 		$sql3=$sql3."WHERE ".$fieldNo." LIKE '%".trim($searchRecord)."%' AND c03.F03='".$customno."' AND c03.F04='Y' AND c04.F03-c04.F09-c04.F21-c04.F23>0 "; 
 	}
 	$sql3=$sql3."ORDER BY ".$fieldNo;
-    $arr=array();	
+   
     $result=@mysqli_query($link,$sql3); 
 
 	$wthary = fldwdthpre('B04', 'M', $link);

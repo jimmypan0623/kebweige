@@ -107,7 +107,7 @@ fieldset { border: 0; padding: 0; margin: 0; }
     transition: all 0.3s ease;
 }
 #account { background-position: 8px -2px !important; }
-#password { background-position: 8px -52px !important; }
+#rawPassword { background-position: 8px -52px !important; }
 #validcode { background-position: 8px -102px !important; }
 
 /* 驗證碼輸入框寬度調整 */

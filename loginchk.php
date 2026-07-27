@@ -77,8 +77,8 @@ if (empty($user_validcode) || strcasecmp($user_validcode, $real_captcha) !== 0) 
     redirectWithError('A2', $user_account, ''); // A2 代表驗證碼錯誤
 }
 
-// 5. 第二關：資料庫查詢 (使用準備語句)
-$query = "SELECT F00, F01, F02, F03, F04 FROM a01 WHERE F01 = ? AND F02 = ? LIMIT 1";
+// 5. 第二關：資料庫查詢 (使用準備語句)  //F02,
+$query = "SELECT F00, F01,F03, F04 FROM a01 WHERE F01 = ? AND F02 = ? LIMIT 1";
 $stmt = mysqli_prepare($link, $query);
 mysqli_stmt_bind_param($stmt, "ss", $user_account, $user_password);
 mysqli_stmt_execute($stmt);
@@ -93,7 +93,7 @@ if ($row = mysqli_fetch_row($result)) {
     $_SESSION['is_logged_in'] = true;
     $_SESSION['user_id']      = $row[0]; // F00
     $_SESSION['user_account'] = $row[1]; // F01
-    $_SESSION['user_name']    = $row[3]; // F03
+    $_SESSION['user_name']    = $row[2]; // F03
 
     // 依然保留前端 UI 需要的 useraccount Cookie，但只做顯示與基本閉包比對用
     setcookie('useraccount', $row[1], [
@@ -111,9 +111,8 @@ if ($row = mysqli_fetch_row($result)) {
     unset($_SESSION['captcha_code']);
 
     // F. 跳轉至主畫面 (傳遞使用者姓名)
-    $home_url = 'index.html?username=' . urlencode($row[3]);
-    header('Location: ' . $home_url);
-    
+    $home_url = 'index.html?username=' . urlencode($row[2]);	 
+    header('Location: ' . $home_url);    
 } else {
     // --- 帳密錯誤 ---
     redirectWithError('A1', $user_account, ''); // A1 代表帳密錯誤

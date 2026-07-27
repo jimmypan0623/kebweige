@@ -219,9 +219,9 @@ function calculateTtl(tbno, maintable, i) {
 function billNoReCreate(currentNo) {
     if (getAuth[2]()[0].INT_099 == 'Y' && getAuth[2]()[0].INT_111 == 'Y') { // 如果是系統參數設為自動編號且刪掉號碼重用						       
         var thtdy = _getUiDateStr();
-        var crntmth = _getYearHexMonth(thtdy);			
-        if (currentNo.substring(2, 5) == crntmth) {
-			const regexA = /^DA\d{2}[1-9A-C]\d{5}$/;
+        var crntmth = _getYearHexMonth(thtdy);	
+		const regexA = /^DA\d{2}[1-9A-C]\d{5}$/;
+        if (currentNo.substring(2, 5) == crntmth) {			
 		    if(regexA.test(currentNo.trim())){
                discardNoRec('DA' + crntmth, currentNo.trim());
 		    }

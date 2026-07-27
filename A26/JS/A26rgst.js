@@ -50,8 +50,11 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 		   }			
 	    }
 	}
-	var tmpfoumula=decodeHTMLText(a26elements[8].value);	
+	/* var tmpfoumula=decodeHTMLText(a26elements[8].value);
+  
+	
 	if(!eval(tmpfoumula.trim())){		//instead
+	
 		   if(!a26elements[6].nextSibling){
 		      var errorSpan1=document.createElement("span");		
 			  errorSpan1.style.color="red";
@@ -67,7 +70,41 @@ function sendFilePrc(updflg){     //新增資料及修改程序
 		   if(a26elements[6].nextSibling){		      
 			  a26elements[6].parentNode.removeChild(a26elements[6].nextSibling);
 		   }			
-	 }
+	 } */
+	 var tmpfoumula = decodeHTMLText(a26elements[8].value);
+
+	// === 1. 建立一個安全的動態驗證函式 ===
+	// 將 tmpfoumula 的內容加上 return，並強制傳入 a26elements 變數
+	var runValidation = new Function('a26elements', 'return (' + tmpfoumula.trim() + ');');
+
+	// === 2. 執行驗證（傳入當前的 a26elements 物件） ===
+	var isValid = false;
+	try {
+		isValid = runValidation(a26elements); 
+	} catch (e) {
+		console.error("驗證公式語法錯誤:", e);
+		isValid = false; // 如果公式解析出錯，預設為驗證不通過
+	}
+
+	// === 3. 原本的 DOM 錯誤訊息處理邏輯 ===
+	if (!isValid) { // 替代原本的 !eval(...)
+		if (!a26elements[6].nextSibling) {
+			var errorSpan1 = document.createElement("span");		
+			errorSpan1.style.color = "red";
+			errorSpan1.style.fontFamily = "標楷體";
+			var errorMessage1 = document.createTextNode("設定內容不符");
+			errorSpan1.appendChild(errorMessage1);
+			errorSpan1.classId = "errorMsg";
+			a26elements[6].parentNode.appendChild(errorSpan1);				 
+		}	 
+		a26elements[6].focus();
+		return false;
+	} else {		     
+		if (a26elements[6].nextSibling) {		      
+			a26elements[6].parentNode.removeChild(a26elements[6].nextSibling);
+		}			
+	}
+
     //--------過濾區結束----------//	
 	
     if (updflg==1){     //如果是新增	 

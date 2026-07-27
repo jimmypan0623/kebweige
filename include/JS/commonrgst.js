@@ -40,12 +40,12 @@ function blkshow(txtword)
  	    closeButton.setAttribute("class","close");
 		closeButton.setAttribute("title","按此關閉提示視窗，快速鍵Alt+X");
 		closeButton.setAttribute("accesskey","X");
-        closeButton.innerHTML = '\u{274E}';           //'\u{274E}'//'&times';  
+        closeButton.textContent = '\u{274E}';           //'\u{274E}'//'&times';  
         attachEventListener(closeButton,"click",blocksclose,false);	//按叉叉關視窗
 	   	dropsheet_content.appendChild(closeButton);        //加進內容框		
 	    var p_tx=document.createElement('p');            //主畫面登入錯誤訊息顯示內容
 		p_tx.style.color="blue";
-	    p_tx.innerHTML=txtword;	                         //將傳來的這一段文字加入準備顯示
+	    p_tx.innerHTML=txtword;	                         //將傳來的這一段文字加入準備顯示,絕對不能改成textContent
 		dropsheet_content.appendChild(p_tx);				
 		dropsheet_content.style.width="28%";		
 		dropsheet_content.style.boxShadow = "5px 5px 5px 5px #2F0000";  //#424200       		    
@@ -87,7 +87,7 @@ function blkshow(txtword)
 							   return false;
 							}
 						}else{				 
-							var headtitle='單號:'+document.getElementById('fatherkey1').innerHTML+",之所有資料核准確認?";					 
+							var headtitle='單號:'+document.getElementById('fatherkey1').textContent+",之所有資料核准確認?";					 
 						}
 					}else{
 					    var headtitle="是否結轉期末庫存?";
@@ -103,7 +103,7 @@ function blkshow(txtword)
 							   return false;
 							}
 						}else{
-							var headtitle='單號:'+document.getElementById('fatherkey1').innerHTML+",之所有資料反確認修正?";
+							var headtitle='單號:'+document.getElementById('fatherkey1').textContent+",之所有資料反確認修正?";
 						}	
 					}else{
 					    var headtitle="本月是否反結轉期末庫存?";
@@ -142,9 +142,9 @@ function blkshow(txtword)
 					    if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
 					  	    for (j=0;j<maintable.rows[i].cells.length-1;j++){
 						   	    if(maintable.rows[i].cells[j].className=='directdata'){							
-								   aWaitUpdate.push(maintable.rows[i].cells[j].innerHTML);  //將待修改欄位資料存入陣列
+								   aWaitUpdate.push(maintable.rows[i].cells[j].textContent);  //將待修改欄位資料存入陣列
 							    }else if(maintable.rows[i].cells[j].className=='indirectdata'){
-							      notWaitdata.push(maintable.rows[i].cells[j].innerHTML);  // 直接傳入後端的資料也先收集起來
+							      notWaitdata.push(maintable.rows[i].cells[j].textContent);  // 直接傳入後端的資料也先收集起來
 							    }
 						    }					   			   	   
 						    break;					   
@@ -260,7 +260,7 @@ function blkshow(txtword)
 			  slt5.value=slt5.options[cko[6](0)].value;
 			   var oTd = oTr.insertCell(1);
 			   oTd.setAttribute('style','text-align:right;width:6%');	
-			   oTd.innerHTML="欄=";
+			   oTd.innerHTML="欄\u{003D}";
 			  var oTd = oTr.insertCell(2);	         
             	  
 			 oTd.innerHTML="<input type='search' id='searchWords' class='txt' placeholder='輸入搜尋關鍵字' size='43' tabindex='1' style='width:80%;' />";                   
@@ -373,40 +373,19 @@ function TableToJson(args,nongs,tbno){
 					        tabs[1].checked=true;			//表頭新增完畢立即跳到表身處理單據內容新增			
 	                        tab2View(event);
 					     }	 
-
 					 }	
 					  blkshow(1);	
-			   }else{            //如果是修改則原列更改內容	
-			                   
+			   }else{            //如果是修改則原列更改內容				                   
 					colomnContextChange(tbno,args,nongs,arglth,rsp);   //修改確認後表格欄位處理					 
 			   }			   
-			}else{
-				
+			}else{				
 				blkshow(rsp);   //新增不成功才顯示訊息
-				 
-			 
-	            if(rsp=="請勿蓄意修改成他人帳號後，再來異動資料！" ){ 
-					var i;	
-                       (function myLoop(i) {
-                       setTimeout(function() {
-                       blkshow(rsp+"即將登出系統...."); //  your code here                
-                       if (--i) myLoop(i);   //  decrement i and call myLoop again if i > 0
-                    }, 9000)
-                     })(9000);                   //  pass the number of iterations as an argument
-					 
-		            document.location.href="logOut.php";
-					//setTimeout(initDialog, 2000);
-				} 
-				
             }										
         }
     }      
 	return true; 
 }  
- 
 
-
- 
 function notIceChg(event){
     if (typeof event=="undefined"){
 		event=window.event;		
