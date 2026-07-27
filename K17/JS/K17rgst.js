@@ -49,11 +49,12 @@ function page1Detail01(ajTable){
 	ajTable.className="gridlist";                 	 			
 	
 	 let invoicetype=document.getElementById('departNoOption');
-	 if(left(invoicetype.value,1)=='3'){
+/* 	 if(left(invoicetype.value,1)=='3'){
 	    var url="K17/BKND/C13srch.php";   	      //用let會顯示不出來         		
 	 }else{
 	    var url="K17/BKND/D19srch.php";   	
-	 }
+	 } */
+	 var url="K17/BKND/K17srch.php";   
 	 let queryString ="filename="+sourceAccount(13,0);   
   
 	 fetch(url, {
@@ -67,6 +68,7 @@ function page1Detail01(ajTable){
 }
 
 function searchHaveshiped(arr,ajTable) {       //搜尋相關料號
+    let rnddgt=getAuth[2]()[0].INT_069;
     let cnt=0;	   
 	let array3=[];	
 	let array4=[];
@@ -76,18 +78,22 @@ function searchHaveshiped(arr,ajTable) {       //搜尋相關料號
 		cnt++;         		
 		for(let jk in arr[i]){		   
 		    let meta = parseFieldMeta(jk);
-		    let oTd = oTr.insertCell(oTr.cells.length); 
+		    var oTd = oTr.insertCell(oTr.cells.length); 
 			oTd.innerHTML=arr[i][jk];	
             if (meta) {
 				oTd.className = meta.isDirect ? "directdata" : "indirectdata";				
 				oTd.style.width = meta.width;
-				if(i==0 && !meta.isHidden){   //第一輪就塞進去											  
+				if(i==0 && !meta.isHidden){   //第一輪就塞進去	 //										  
 					array3.push(meta.name);  //欄名
 				    array4.push(meta.width); //欄寬
 				}
 				oTd.style.textAlign = meta.align;
 				if (meta.isHidden) oTd.style.display = "none";
 			}		
+			if(jk.includes("小計")){
+									
+				oTd.innerHTML=Math.round((oTr.cells[2].innerHTML*oTr.cells[3].innerHTML *oTr.cells[5].innerHTML+ Number.EPSILON) * Math.pow(10,rnddgt) )/Math.pow(10,rnddgt);				
+			}
 			if(oTd.innerHTML=="稅額"){
 			   oTd.parentNode.style.color="#5B5B5B";
 			} 
@@ -105,7 +111,7 @@ function searchHaveshiped(arr,ajTable) {       //搜尋相關料號
 			th.style.width=array4[j];
 		    th.appendChild(text);
 		    oTr.appendChild(th);		
-	    }							
+	    }
 	}		
 	
 }
