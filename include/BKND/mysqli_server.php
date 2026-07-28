@@ -8,7 +8,7 @@ $db_name = 'tkdata';
 $link = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
 
 if (!$link) {
-    die("報表資料庫連線失敗: " . mysqli_connect_error());
+    die("資料庫連線失敗: " . mysqli_connect_error());
 }
 
 // 強制設定編碼

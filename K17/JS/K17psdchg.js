@@ -97,17 +97,11 @@ function selfTag(jsvsn,jsPth){
 function tab1View(event){	  
        if (typeof event=="undefined"){
 		   event=window.event;
-    	}
-	
+    	}	
 		 var bibau=cko[2](0);   //找出閉包變數現值
 	     cko[2](bibau*(-1));    //將表身閉包變數歸零	
 		  bibau=cko[6](0);   //找出閉包變數現值
 	     cko[6](bibau*(-1));    //將表身閉包變數歸零 
-		var crntpge=document.getElementById('recmth').value ;
-		
-		 
-		  choiceClick(crntpge);
-		 
-	
-
+		var crntpge=document.getElementById('recmth').value ;		 
+	    choiceClick(crntpge);
 }

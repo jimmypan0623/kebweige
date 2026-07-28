@@ -46,17 +46,11 @@ function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){  //在此
 function page1Detail01(ajTable){
 	ajTable.childNodes[0].childNodes[0].style.backgroundColor='white';
     ajTable.id="srchTable";	
-	ajTable.className="gridlist";                 	 			
-	
+	ajTable.className="gridlist";                 	 				
 	 let invoicetype=document.getElementById('departNoOption');
-/* 	 if(left(invoicetype.value,1)=='3'){
-	    var url="K17/BKND/C13srch.php";   	      //用let會顯示不出來         		
-	 }else{
-	    var url="K17/BKND/D19srch.php";   	
-	 } */
-	 var url="K17/BKND/K17srch.php";   
+	 let url="K17/BKND/K17srch.php";   
 	 let queryString ="filename="+sourceAccount(13,0);   
-  
+     
 	 fetch(url, {
      method: 'POST',
 	 cache: 'no-store', // 👈 關鍵：強制每次都向伺服器重新請求
@@ -68,7 +62,8 @@ function page1Detail01(ajTable){
 }
 
 function searchHaveshiped(arr,ajTable) {       //搜尋相關料號
-    let rnddgt=getAuth[2]()[0].INT_069;
+    let tptp=document.getElementById('departNoOption').value.substr(0,1);
+    let rnddgt =(tptp=='3'? getAuth[2]()[0].INT_069:getAuth[2]()[0].INT_068); // 四捨五入位數 判斷銷項或進項    
     let cnt=0;	   
 	let array3=[];	
 	let array4=[];

@@ -1,6 +1,6 @@
 function getProfile(arr, reccount) {
     var cnt = 0;
-    var rnddgt = getCookie('INT_069'); // 四捨五入位數
+   
     var queryttl = 0, querytt2 = 0, querytt3 = 0;
 
     // 取得總值顯示物件
@@ -9,7 +9,7 @@ function getProfile(arr, reccount) {
     var scndtt3 = document.getElementById('ttlmny3');
 
     // 1. 分頁邏輯優化
-    var intRcd = parseInt(getCookie('INT_RCD')) || 10;
+    var intRcd = parseInt(getAuth[2]()[0].INT_RCD) || 10;
     var pagecount = Math.ceil(reccount / intRcd);
     var optdigts = (pagecount.toString()).length;
     var slt2 = document.getElementById('recmth');
@@ -120,6 +120,8 @@ function getProfile(arr, reccount) {
 
     // 5. 更新總計金額
     if (cnt > 0) {
+		var tptp=document.getElementById('departNoOption').value.substr(0,1);
+		 var rnddgt =(tptp=='3'? getAuth[2]()[0].INT_069:getAuth[2]()[0].INT_068); // 四捨五入位數 判斷銷項或進項    
         chooserc(1);
         scndttl.innerHTML = typeof thousands === "function" ? thousands(queryttl.toFixed(rnddgt)) : queryttl;
         scndtt2.innerHTML = typeof thousands === "function" ? thousands(querytt2.toFixed(rnddgt)) : querytt2;

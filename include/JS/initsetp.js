@@ -944,6 +944,8 @@ function applySingleSelect(targetTr, targetG, chsntail) {
 
     var responseDiv = document.getElementById("serverResponse" + String(chsntail + 1));
     if (responseDiv) {
-        responseDiv.innerHTML = '&nbsp';
+		if(!responseDiv.innerHTML =='Searching......'){
+          responseDiv.innerHTML = '&nbsp';
+		}
     }
 }

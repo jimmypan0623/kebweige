@@ -317,8 +317,8 @@ function commontemp(idn,stk){
 	
 	function createQueryString(){		     
 		if(tabs.length>0 && urlpath!='RED'){	
-			var yesmth=getAuth[0]()[11];   
-			var yesdpt=getAuth[0]()[13]; 
+			var yesmth=getAuth[0]()[11];   //判斷是否為月份檔
+			var yesdpt=getAuth[0]()[13];   //判斷表頭是否有兩個下拉式選項
 		    if (stk=="PGE"){	
 				if (yesmth=='P'){  //如果非月份檔
 	    		    var queryString ="filename="+stk+idn+'|'+cko[0](0)+'_'+(getAuth[2]()[0].INT_RCD);				
