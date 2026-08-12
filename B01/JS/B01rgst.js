@@ -1030,6 +1030,46 @@ function page1Detail01(ajTable){
      .then(rsp => srchStockNo(rsp, ajTable));
 	 
 }
+async function page1Detail02(ajTable) {    // 查看預期結餘
+    ajTable.childNodes[0].childNodes[0].style.backgroundColor = 'white';
+    ajTable.id = "srchTable";   
+    ajTable.className = "gridlist";                         
+                        
+    const account = sourceAccount(1, 0);
+
+    try {
+        // 1. 呼叫後端 API 查詢 INVENTORY (假設後端有提供相應的查詢接口，如 C05/BKND/getInventory.php)
+        const invRes = await fetch("C05/BKND/getInventory.php", {
+            method: 'POST',
+            cache: 'no-store',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `account=${encodeURIComponent(account)}`
+        });
+
+        const invData = await invRes.json();
+        // 取得計算後的 SUM(b11.F04) 數值，若無資料則預設為 0
+        const INVENTORY = invData.inventory || 0; 
+        let qtyElem = document.getElementById('runningQtyVal');
+	if (qtyElem) {
+		qtyElem.textContent = INVENTORY;
+	}
+        // 2. 帶入 INVENTORY 數值後發送主請求
+        const queryString = `filename=${encodeURIComponent(account)}|${INVENTORY}`;    
+
+        const mainRes = await fetch("C05/BKND/E07srch.php", {
+            method: 'POST',
+            cache: 'no-store',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: queryString
+        });
+
+        const rsp = await mainRes.json();
+        searchHaveshiped(rsp,ajTable);
+
+    } catch (error) {
+        console.error("查詢過程發生錯誤:", error);
+    }
+}
 
 function srchStockNo(arr,ajTable) {       //搜尋相關料號
     var cnt=0;
@@ -1085,6 +1125,55 @@ function srchStockNo(arr,ajTable) {       //搜尋相關料號
 	    }						
 	}			
 }
+function searchHaveshiped(arr,ajTable) {       //搜尋相關料號預期異動
+    let cnt=0;
+	let array3=[];
+	let array4=[];	 
+	let initqty=sourceAccount(2,0);    //
+	for(var i=arr.length-1;i>-1;i--){				 
+	    var oTr=ajTable.insertRow(0);
+		cnt++;         
+		
+		for(let jk in arr[i]){		   
+		    var meta = parseFieldMeta(jk);
+		    var oTd = oTr.insertCell(oTr.cells.length); 
+			oTd.innerHTML=arr[i][jk];	
+            if (meta) {
+				oTd.className = meta.isDirect ? "directdata" : "indirectdata";				
+				oTd.style.width = meta.width;
+				if(i==0 && !meta.isHidden){   //第一輪就塞進去											  
+					array3.push(meta.name);  //欄名
+				    array4.push(meta.width); //欄寬
+				}
+				oTd.style.textAlign = meta.align;
+				if (meta.isHidden) oTd.style.display = "none";
+			}		
+			
+	    }	
+		if( arr[i]['預期結餘_ISR_010']<0){  //預期結餘超過今天紅字
+			oTr.setAttribute("style","font-weight:bold;color:#E60000;");				 
+		}	 
+		
+		if(arr[i]['序號_IHC_000'].slice(0, -10)== sourceAccount(1,0).substring(0, 2) +sourceAccount('0',1)){  //如果與訂單同筆則變色
+	
+			 oTr.style.background = "linear-gradient(to bottom, #C2C2FF 0%, #8E8EFF 100%)";
+		} 
+	}	
+	
+    if(cnt==0){
+	  blkshow("無資料!");
+	  return false;
+	}else{
+	    var oTr=ajTable.insertRow(0);		
+	    for (let j = 0; j < array3.length; j++) {
+		    var th = document.createElement('th'); //column		   
+		    var text = document.createTextNode(array3[j]); //cell	
+			th.style.width=array4[j];
+		    th.appendChild(text);
+		    oTr.appendChild(th);		
+	    }						
+	}
+}
 
 function  addNewRecordHint(tbno){
     if (tbno==0){  //表頭資料	
@@ -1118,6 +1207,9 @@ function searchKeyHint(tbno){    //搜尋畫面出現提示
 
 function page1OtherWindow1(){
    return "品號:\u{300E}"+document.getElementById("stock_no").innerHTML+"\u{300F}庫存明細";
+}
+function page1OtherWindow2() {
+    return "\u{A0}\u{1F4E6}:\u{300C}" + document.getElementById("stock_no").innerHTML + "\u{300D}預期庫存異動明細\u{A0}\u{A0}\u{1F4C4}目前庫存:<span id='runningQtyVal'></span>";
 }
 ////以下處理回呼資料傳送給開窗選擇頁面
 function srcArgobj(srcId){

@@ -116,11 +116,14 @@ function selfTag(jsvsn, jsPth) {
     const svrSpns1 = document.getElementById('serverResponse1');
     if (contentdiv[0] && svrSpns1) {
         const invDetailButton = btnManager.createBtn("INVDTL_BOTT", "\u{1F4E6}", "各庫別明細，快速鍵 Alt+B", "B", page1OtherButton1);
-        //"\u{1F3E1}"
+        
+		//"\u{1F3E1}"
+		const mrpListButton = btnManager.createBtn("IFUTURE_BOTT", "\u{1F453}", "預期庫存異動明細，快速鍵 Alt+R", "R", page1OtherButton2);
+	    mrpListButton.setAttribute("style","font-size:120%;margin:0px;");
 		 contentdiv[0].insertBefore(document.createTextNode('\u{00A0}'.repeat(5)), svrSpns1);
 		 contentdiv[0].insertBefore(invDetailButton, svrSpns1);
-		
-       
+		  contentdiv[0].insertBefore(document.createTextNode('\u{00A0}'.repeat(2)), svrSpns1);
+        contentdiv[0].insertBefore(mrpListButton, svrSpns1);
     }
 
     // --- 5. 腳本清理與動態載入 ---
