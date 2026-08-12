@@ -706,7 +706,7 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		   srchButton4.setAttribute("type","button");	
 		   srchButton4.setAttribute("class","scopelook");				   
 		   srchButton4.style.background="url('digits/brows1.png')";   
-		   attachEventListener(srchButton4,"click",srchshow,false);				
+		   attachEventListener(srchButton4,"click",srchshow,false);						   
 		   oTd.appendChild(srchButton4);						
 		}  
 		var oTd = oTr.insertCell(2);	   

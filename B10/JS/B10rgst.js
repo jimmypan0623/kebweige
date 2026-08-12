@@ -438,7 +438,7 @@ function a14DepartName(event){
 	}	
 	var targetDepartNo=getEventTarget(event);	
     
-	var sendSrcRec="filename="+targetDepartNo.value;		
+	var sendSrcRec="filename="+targetDepartNo.value+"|"+getAuth[2]()[0].INT_086;		
 		var rsp="";  	
         if(window.ActiveXObject){
 		   var request = new ActiveXObject("Microsoft.XMLHttp");
@@ -468,7 +468,7 @@ function srcArgobj(srcId){
 	
 	if(srcId=='deptno1'){
 		var qrystring=document.getElementById(srcId).value+"|Y| | ";
-       return {"headtitle":"請選取報廢部門","drpshtWidth":"28%","urlPth":"B06/BKND/A14srch.php","clickfunc":deptchoose1,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};    	
+       return {"headtitle":"請選取報廢部門","drpshtWidth":"28%","urlPth":"B02/BKND/A14srch.php","clickfunc":deptchoose1,"qryString":qrystring,"mendwidth":"calc( 100% - 1em )"};    	
 	}else{
 		
 		var stockNo=document.getElementById(srcId).value;		 

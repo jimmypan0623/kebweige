@@ -23,9 +23,8 @@ function setArg(arr){
 		
 
 async function FunDetailArg(arg) {
-    // 1. 重構參數與 URL
-    const sendSrcRec = `filename=${arg.substr(0, 3)}|${window.parent.getAuth[1]()[0]}`;
-    //const url = `BKND/FunDetail.php?timestamp=${Date.now()}`;
+    // 1. 重構參數與 URL   
+    const sendSrcRec = `filename=${arg}`    
     const url = "BKND/FunDetail.php";
     try {
         // 2. 使用 fetch 發送 POST 請求

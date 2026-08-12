@@ -218,7 +218,8 @@ function  colomnAfterChange(tbno,oTr,args,nongs,rsp){    //TableToJson(args,nong
 	oTd.innerHTML=rsp.lastupdate;	
 	oTd.setAttribute("style","width:25%;text-align:center;");
 }
-function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,nongs,tbno)函數修改紀錄後呼叫的畫面更動	  		 							                
+function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,nongs,tbno)函數修改紀錄後呼叫的畫面更動	  	
+							                
 	if (tbno==0){		   								
 	   var maintable=document.getElementById("maintbody1");	 
 	}else{
@@ -229,13 +230,19 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 		 
 		while(rsp.fldsatrr[fldidx]){			
 			if(rsp.fldsatrr[fldidx][0]=='directdata'){				
+			      
 				 maintable.rows[args[arglth-1]].cells[fldidx+1].innerHTML=args[argsNo];				
 				argsNo++;			
 			}
 			fldidx++;
-		}				
+		}			
+   /*  if (tbno==0){			
+	   maintable.rows[args[arglth-1]].cells[arglth-2].innerHTML=args[argsNo];
+	}	    */
 	maintable.rows[args[arglth-1]].cells[arglth-1].innerHTML=rsp.lastupdate;	
+	 
 }
+
 function  addNewRecordHint(tbno){
     if (tbno==0){  //表頭資料
         return "請輸入幣別資料：";

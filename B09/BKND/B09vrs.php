@@ -7,12 +7,7 @@ header("Content-Type:text/html; charset=utf-8");
    $sql8=@mysqli_query($link,$sql7);                       
    $list2=mysqli_fetch_assoc($sql8);  //檢查是否已反確認過
 if(trim($list2['F10'])=="Y"){   
-   
-		
-			$sql0="SELECT * FROM `a01` WHERE F01="."'".$_COOKIE['useraccount']."'"; 
-			$sql1=@mysqli_query($link,$sql0);
-			$rows1=@mysqli_num_rows($sql1);                       
-			$list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名   
+
 			$lastdate=date('Y'.'-'.'m'.'-'.'d');
 			
 			$mscnt[]="DELETE FROM `b26` WHERE `F07`='".$delmsg."'";	                        		
@@ -28,7 +23,7 @@ if(trim($list2['F10'])=="Y"){
 				                'deliveryday'=>$list3['F02'],	
 								'stockno'=>$list3['F03'],		
 								'orderqty'=>$list3['F04'],
-								'lastupdate'=>$lastdate.$list4['F03'],
+								'lastupdate'=>$lastdate.$_SESSION['user_name'],
 								'departno'=>$list3['F05'],												  	
 								'month_no'=>$list3['F90'] 
 							 );   		     
@@ -66,9 +61,9 @@ if(trim($list2['F10'])=="Y"){
 			foreach ($insertSql as  $values){
 				@mysqli_query($link,$values);
 			}
-			$mscnt="UPDATE `b09` SET `F10`='N',`F11`='".$lastdate.$list4['F03']."' WHERE `F01`='".$delmsg."'";								   
+			$mscnt="UPDATE `b09` SET `F10`='N',`F11`='".$lastdate.$_SESSION['user_name']."' WHERE `F01`='".$delmsg."'";								   
 			mysqli_query($link ,$mscnt) or die(mysqli_error($link)); 
-			$arr = array ('order_no'=>1,'lastupdate'=>$lastdate.$list4['F03']);
+			$arr = array ('order_no'=>1,'lastupdate'=>$lastdate.$_SESSION['user_name']);
 			echo json_encode($arr);
 		 	
 	

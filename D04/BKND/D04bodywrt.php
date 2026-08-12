@@ -1,69 +1,91 @@
 <?php
-require_once("../../include/BKND/auth_check.php"); //驗證
-$str_json = file_get_contents('php://input'); //($_POST doesn't work here)
-$response =json_decode($str_json); // decoding received JSON to array
-$cart=json_decode($response);
-$brr=array();
+// D04bodywrt.php 採購訂單表身寫入
+require_once("../../include/BKND/auth_check.php"); // 驗證
 
-foreach($cart as $key=>$val){	   
-    $brr[]=addslashes($val);		//要加入此函數避免中間有單引號錯亂
+$str_json = file_get_contents('php://input');
+$response = json_decode($str_json, true); // 前端已修正為單次 stringify(真實物件)，直接一次解碼
+
+if ($response === null) {
+    echo json_encode("payload 解碼失敗");
+    exit;
 }
-require_once("../../include/BKND/mysqli_server.php");       //引用檔  
-require_once "../../include/BKND/fieldDOMset.php"; // 引入     
-$trnarray=fldafterwrite('D04','2',$link,true);   
-$sql5="select * from b01 where BINARY F01="."'".$brr[1]."'"; 
-		 $sql6=mysqli_query($link,$sql5) or die(mysqli_error($link));
-		 $rows2=@mysqli_num_rows($sql6);
-if($rows2==0){
-    echo json_encode("料品編號錯誤"); 
-}else{	
-     $sql0="select * from a01 where F01="."'".$_COOKIE['useraccount']."'"; 
-     $sql1=@mysqli_query($link,$sql0);
-     $rows1=@mysqli_num_rows($sql1);                       
-     $list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名       
-	 $lastdate=date('Y'.'-'.'m'.'-'.'d');
-     $mArlth=count($brr);  
-     if($brr[$mArlth-2]==0){        //如果旗標指示為新增						   
-	    $sql="select * from d04 where F01="."'".$brr[0]."' and F02='".$brr[1]."'"; 
-        $sql2=mysqli_query($link,$sql);
-        $rows=@mysqli_num_rows($sql2);
-		if($rows>0){			 
-			echo json_encode("資料庫已有此紀錄"); 
-		}else{
-              //$order_no=date(Y).date(m).date(d).date(H).date(i).date(s);
-			  
-            //寫入json檔(其實就是文字檔只是每一筆以json格式存放)
- 
-        	//以下處理MySQL記錄新增  	        
-	           $mscnt="INSERT INTO d04(F01,F02,F03,F04,F05,F06,F12)  VALUES (";  //先把準備插入記錄的SQL 語法前半段先寫在字串中	 			   
-	           $mscnt.="'".$brr[0]."',";
-	           $mscnt.="'".$brr[1]."',";
-   	           $mscnt.="'".$brr[2]."',";	 
-               $mscnt.="'".$brr[3]."',";	
-               $mscnt.="'".$brr[4]."',"; 		
-               $mscnt.="'".$brr[5]."',"; 				  	                 
-	           $mscnt.="'".$lastdate.$list4['F03']."')";		      
-	           $sql=$mscnt;                                               //寫入MySQL 	 
-               mysqli_query($link ,$sql) or die(mysqli_error($link));  
-			   $last_id = mysqli_insert_id($link);     //找最後一個號碼	          					     
-			   $arr = array ('order_no'=>$last_id,'lastupdate'=>$lastdate.$list4['F03'],'fldsatrr'=>$trnarray);						 
-	           echo json_encode($arr);
-		 } //新增判斷或執行結束   	     
-     }else{	   //修改
-	   $mscnt="UPDATE d04 SET F03="."'".$brr[2]."',";	    
-	   $mscnt.="F04="."'".$brr[3]."',";	   
-	   $mscnt.="F05="."'".$brr[4]."',";	 
-	   $mscnt.="F06="."'".$brr[5]."',";	 	       	   
-	   $mscnt.="F12="."'".$lastdate.$list4['F03']."'";
-	   $mscnt.=" WHERE F00="."'".$brr[$mArlth-2]."'";
-	   $sql=$mscnt;                                                 //寫入MySQL 	 
-       mysqli_query($link ,$sql) or die(mysqli_error($link));  	  
-       $arr = array ('order_no'=>$brr[$mArlth-2],'lastupdate'=>$lastdate.$list4['F03'],'fldsatrr'=>$trnarray);
-	    echo json_encode($arr);
-      //echo $brr[11];
-    }  
-}  
-mysqli_close($link);	
- 	
+
+$brr = array();
+foreach ($response as $key => $val) {
+    $brr[] = addslashes($val);
+}
+
+require_once("../../include/BKND/mysqli_server.php");
+require_once("../../include/BKND/fieldDOMset.php");
+
+// 取得寫入後的欄位屬性/DOM設定 (D04 類型 2 代表表身)
+$trnarray = fldafterwrite('D04', '2', $link, true);
+
+// 驗證料品編號 (b01)
+$sql5 = "SELECT * FROM b01 WHERE BINARY F01='" . $brr[1] . "'";
+$sql6 = mysqli_query($link, $sql5) or die(mysqli_error($link));
+$rows2 = @mysqli_num_rows($sql6);
+
+if ($rows2 == 0) {
+    echo json_encode("料品編號錯誤");
+} else {
+    
+    $lastdate = date('Y-m-d');
+    $mArlth = count($brr);
+
+    // F07 是 JSON 欄位（分批進貨明細），來源是 elem5；做一次格式驗證再存入
+    $f07_raw = isset($response['elem5']) ? $response['elem5'] : '';
+    if (json_decode($f07_raw) === null) {
+        echo json_encode("分批進貨資料格式錯誤");
+        exit;
+    }
+    $f07_json = addslashes($f07_raw);
+
+    if ($brr[$mArlth - 2] == 0) { // 新增
+        $sql = "SELECT * FROM d04 WHERE F01='" . $brr[0] . "' AND F02='" . $brr[1] . "'";
+        $sql2 = mysqli_query($link, $sql);
+        $rows = @mysqli_num_rows($sql2);
+
+        if ($rows > 0) {
+            echo json_encode("資料庫已有此紀錄");
+        } else {
+            $mscnt = "INSERT INTO d04(F01, F02, F03, F04, F05, F06, F07, F12) VALUES (";
+            $mscnt .= "'" . $brr[0] . "',";
+            $mscnt .= "'" . $brr[1] . "',";
+            $mscnt .= "'" . $brr[2] . "',";
+            $mscnt .= "'" . $brr[3] . "',";
+            $mscnt .= "'" . $brr[4] . "',";
+            $mscnt .= "'" . $brr[5] . "',";
+            $mscnt .= "'" . $f07_json . "',";
+            $mscnt .= "'" . $lastdate . $_SESSION['user_name'] . "')";
+
+            mysqli_query($link, $mscnt) or die(mysqli_error($link));
+            $last_id = mysqli_insert_id($link);
+
+            echo json_encode(array(
+                'order_no' => $last_id,
+                'lastupdate' => $lastdate . $_SESSION['user_name'],
+                'fldsatrr' => $trnarray
+            ));
+        }
+    } else { // 修改
+        $mscnt  = "UPDATE d04 SET F03='" . $brr[2] . "',";
+        $mscnt .= "F04='" . $brr[3] . "',";
+        $mscnt .= "F05='" . $brr[4] . "',";
+        $mscnt .= "F06='" . $brr[5] . "',";
+        $mscnt .= "F07='" . $f07_json . "',";
+        $mscnt .= "F12='" . $lastdate . $_SESSION['user_name'] . "'";
+        $mscnt .= " WHERE F00='" . $brr[$mArlth - 2] . "'";
+
+        mysqli_query($link, $mscnt) or die(mysqli_error($link));
+
+        echo json_encode(array(
+            'order_no' => $brr[$mArlth - 2],
+            'lastupdate' => $lastdate . $_SESSION['user_name'],
+            'fldsatrr' => $trnarray
+        ));
+    }
+}
+
+mysqli_close($link);
 ?>
- 

@@ -1,226 +1,249 @@
-function selfTag(jsvsn,jsPth){	
-	 var cntdiv=getElementsByAttribute('class','tab_content');  	
-	  var firstCover=getElementsByAttribute('class','table_cover');	
-	 firstCover[0].style.width="32%";	
-	 var secondCover=document.createElement('div');
-	secondCover.setAttribute("class","table_cover");
-	secondCover.style.width="68%";
-    righttbl1=document.createElement("table");
-	righttbl1.id="rightMember1";			
-	var arrayRgt1=["客戶編號:","客戶名稱:","客戶簡稱:","重要等級:","統一編號:","客戶類型:",
-	"主要產品:","地區別:","發票抬頭:","發票品號:","發票種類:","課稅別:",
-	"英文名稱:","公司地址:","送貨地址:","英文地址:","出貨指示:","聯絡人:",
-	"負責人:","電話:","傳真:","E-mail:","母公司編號:","交易幣別:","結帳日期:","請款日:",
-	"付款方式:","票期(T/T)天數:","業務擔當:","業務助理:","交貨方式:","收件人:","其他備註:","最後交易:",
-	"最後報價:","最後更新:"];
-     var arrayRgt2=["<span name='c01value' id='custom_no' ></span>","<span name='c01value' id='custom_name'></span>",
-	 "<span name='c01value' id='custom_name_abbrv'></span>","<span name='c01value' id='level_of_impt'></span>",
-	 "<span name='c01value' id='unite_no'></span>","<span name='c01value' id='business_type'>",
-	 "<span name='c01value' id='main_product'></span>","<span name='c01value' id='area_domain'></span>",
-	 "<span name='c01value' id='title_invoice'></span>","<span name='c01value' id='partno_invoice'>",
-	 "<span name='c01value' id='typeofincoice'></span>","<span name='c01value' id='typeoftax'></span>",
-	 "<span name='c01value' id='englishname'></span>","<span name='c01value' id='addrss'></span>",
-	 "<span name='c01value' id='shipaddrss'></span>","<span name='c01value' id='englishaddrss'></span>",
-	 "<span name='c01value' id='guide_ship'>","<span name='c01value' id='window_man'></span>",
-	 "<span name='c01value' id='representive'></span>","<span name='c01value' id='tel_no'></span>",
-	 "<span name='c01value' id='fax_no'></span>","<span name='c01value' id='emailaddrss'></span>",  
-	 "<span name='c01value' id='gtoupno'></span>","<span name='c01value' id='typeofcrnt'></span>&nbsp&nbsp<span name='c01value' id='crnt_name'></span>",
-	  "<span name='c01value' id='dayofincount'></span>","<span name='c01value' id='dayofcharge'></span>",
-	 "<span name='c01value' id='typeofpay'></span>","<span name='c01value' id='paymentterm'></span>",
-	 "<span name='c01value' id='sales_no'></span>&nbsp&nbsp<span name='c01value' id='sales_name'></span>","<span name='c01value' id='assistant_no'></span>&nbsp&nbsp<span name='c01value' id='assistant_name'></span>",
-	 "<span name='c01value' id='wayofship'></span>","<span name='c01value' id='receiver'></span>",
-	 "<span name='c01value' id='otherremark'></span>","<span name='c01value' id='lasttrade'></span>",
-	 "<span name='c01value' id='lastquot'></span","<span name='c01value' id='lastchange'></span>"];  
-	 var rowPop=[34,32,30,28,26,23,21,19,17,16,15,14,13,12,10,8,5,2,0]; //算好哪一欄要重新一列丟到陣列(逆排序)
-	for(var i=0;i<arrayRgt1.length;i++){  //一陣列指示產生一列,完畢後pop掉
-		if(i==rowPop[rowPop.length-1]){	
-		    var oTr=righttbl1.insertRow(-1);		
-			rowPop.pop();
-		}
-		 var oTd = oTr.insertCell(oTr.cells.length);			
-		oTd.setAttribute("class","Rgtkey"); 
-		oTd.innerHTML=arrayRgt1[i];
-		 var oTd = oTr.insertCell(oTr.cells.length);
-		 if (i==0 || i==22 ){
-		     oTd.style.width='15%';		 
-		 }
-		  if (i==3){
-		      oTd.style.width='5%';	
-		  }
-		 if(i==9 || i==33){
-		     oTd.style.width='15%';		 
-		 }
-         oTd.innerHTML=arrayRgt2[i];
-	}		
-	secondCover.appendChild(righttbl1); 
-	cntdiv[0].appendChild(secondCover); 	
-    var tabnames=getElementsByAttribute('name','tablbl');	
- 
-		
-    if(getAuth[0]()[5]=='Y'){	 //有查看報價紀錄權限時
-	
-	 
-		var rspn2=document.getElementById('serverResponse2'); 
-	    var text01 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
-	    cntdiv[1].insertBefore(text01,rspn2);
-	   var spn1=document.createElement('span');
-	   spn1.id="ttltitle";
-       spn1.innerHTML="報價筆數:";
-	   cntdiv[1].insertBefore(spn1,rspn2);
-	   var spn3=document.createElement('span');
-	   spn3.id="ttlmny";
-	   spn3.className="ttl";
-	   spn3.innerHTML='0';
-	   cntdiv[1].insertBefore(spn3,rspn2);	 
-	}else{
-	    cntdiv[1].style.display='none';
-	    tabnames[1].style.display='none';        
-	}
-	////
-    document.querySelectorAll("script[id]").forEach(s=>s.remove());			
-	///		
-	let axtmpl1=jsPth+jsPth.substr(0,3)+'.js?v='+jsvsn;
-	let axtmpl2=jsPth+jsPth.substr(0,3)+'rgst.js?v='+jsvsn;
-	loadScript(`${axtmpl1}`,function(){DrawTable();});
-	loadScript(`${axtmpl2}`);
-	loadScript(`include/JS/commonsrch.js?v=${jsvsn}`);
-	loadScript(`C01/JS/A09getno.js?v=${jsvsn}`);	
-	loadScript(`C01/JS/A01Name.js?v=${jsvsn}`);	
-	var tab1Click=document.getElementById("tab1");
-	if(tab1Click){
-	    attachEventListener(tab1Click,"click",tab1View,false);		
-	}	
-	var tab2Click=document.getElementById("tab2");	
-	if(tab2Click){		
-	    attachEventListener(tab2Click,"click",tab2View,false);		
-	}
+/**
+ * C01psdchg.js 重構優化版本
+ * 1. 採用 ES6+ 現代化 JavaScript 語法 (const/let, Array API, DOM 標準 API)。
+ * 2. 抽離與重用輔助函式（resetCko 閉包歸零、setupButtons 按鈕顯隱與事件繫結、updateAccessKeys 等）。
+ * 3. 使用 DocumentFragment 最佳化 DOM 節點插入，提升渲染效能與維護性。
+ */
+
+function selfTag(jsvsn, jsPth) {
+    const cntdiv = document.querySelectorAll('.tab_content');
+    const tabnames = document.getElementsByName('tablbl');
+
+    // --- 1. 建立右側資料欄位結構 ---
+    const firstCover = document.querySelector('.table_cover');
+    if (firstCover) {
+        firstCover.style.width = "32%";
+    }
+
+    const secondCover = document.createElement('div');
+    secondCover.className = "table_cover";
+    secondCover.style.width = "68%";
+
+    const righttbl1 = document.createElement("table");
+    righttbl1.id = "rightMember1";
+
+    const arrayRgt1 = [
+        "客戶編號:", "客戶名稱:", "客戶簡稱:", "重要等級:", "統一編號:", "客戶類型:",
+        "主要產品:", "地區別:", "發票抬頭:", "發票品號:", "發票種類:", "課稅別:",
+        "英文名稱:", "公司地址:", "送貨地址:", "英文地址:", "出貨指示:", "聯絡人:",
+        "負責人:", "電話:", "傳真:", "E-mail:", "母公司編號:", "交易幣別:", "結帳日期:", "請款日:",
+        "付款方式:", "票期(T/T)天數:", "業務擔當:", "業務助理:", "交貨方式:", "收件人:", "其他備註:", "最後交易:",
+        "最後報價:", "最後更新:"
+    ];
+
+    const arrayRgt2 = [
+        "<span name='c01value' id='custom_no'></span>", "<span name='c01value' id='custom_name'></span>",
+        "<span name='c01value' id='custom_name_abbrv'></span>", "<span name='c01value' id='level_of_impt'></span>",
+        "<span name='c01value' id='unite_no'></span>", "<span name='c01value' id='business_type'></span>",
+        "<span name='c01value' id='main_product'></span>", "<span name='c01value' id='area_domain'></span>",
+        "<span name='c01value' id='title_invoice'></span>", "<span name='c01value' id='partno_invoice'></span>",
+        "<span name='c01value' id='typeofincoice'></span>", "<span name='c01value' id='typeoftax'></span>",
+        "<span name='c01value' id='englishname'></span>", "<span name='c01value' id='addrss'></span>",
+        "<span name='c01value' id='shipaddrss'></span>", "<span name='c01value' id='englishaddrss'></span>",
+        "<span name='c01value' id='guide_ship'></span>", "<span name='c01value' id='window_man'></span>",
+        "<span name='c01value' id='representive'></span>", "<span name='c01value' id='tel_no'></span>",
+        "<span name='c01value' id='fax_no'></span>", "<span name='c01value' id='emailaddrss'></span>",
+        "<span name='c01value' id='gtoupno'></span>", "<span name='c01value' id='typeofcrnt'></span>&nbsp;&nbsp;<span name='c01value' id='crnt_name'></span>",
+        "<span name='c01value' id='dayofincount'></span>", "<span name='c01value' id='dayofcharge'></span>",
+        "<span name='c01value' id='typeofpay'></span>", "<span name='c01value' id='paymentterm'></span>",
+        "<span name='c01value' id='sales_no'></span>&nbsp;&nbsp;<span name='c01value' id='sales_name'></span>", "<span name='c01value' id='assistant_no'></span>&nbsp;&nbsp;<span name='c01value' id='assistant_name'></span>",
+        "<span name='c01value' id='wayofship'></span>", "<span name='c01value' id='receiver'></span>",
+        "<span name='c01value' id='otherremark'></span>", "<span name='c01value' id='lasttrade'></span>",
+        "<span name='c01value' id='lastquot'></span>", "<span name='c01value' id='lastchange'></span>"
+    ];
+
+    // 換列索引集合 (Set 查詢時間複雜度為 O(1))
+    const rowBreaks = new Set([0, 2, 5, 8, 10, 12, 13, 14, 15, 16, 17, 19, 21, 23, 26, 28, 30, 32, 34]);
+
+    let currentTr = null;
+    arrayRgt1.forEach((label, i) => {
+        if (rowBreaks.has(i)) {
+            currentTr = righttbl1.insertRow(-1);
+        }
+
+        const tdLabel = currentTr.insertCell(-1);
+        tdLabel.className = "Rgtkey";
+        tdLabel.innerHTML = label;
+
+        const tdVal = currentTr.insertCell(-1);
+        if (i === 0 || i === 22 || i === 9 || i === 33) {
+            tdVal.style.width = '15%';
+        } else if (i === 3) {
+            tdVal.style.width = '5%';
+        }
+        tdVal.innerHTML = arrayRgt2[i];
+    });
+
+    secondCover.appendChild(righttbl1);
+    if (cntdiv[0]) {
+        cntdiv[0].appendChild(secondCover);
+    }
+
+    // --- 2. 報價筆數權限判斷 (Tab 2) ---
+    if (getAuth[0]()[5] === 'Y') {
+        const rspn2 = document.getElementById('serverResponse2');
+        if (cntdiv[1] && rspn2) {
+            const frag1 = document.createDocumentFragment();
+            const spn1 = document.createElement('span');
+            spn1.id = "ttltitle";
+            spn1.textContent = "報價筆數:";
+
+            const spn3 = document.createElement('span');
+            spn3.id = "ttlmny";
+            spn3.className = "ttl";
+            spn3.textContent = '0';
+
+            frag1.append(document.createTextNode('\u00A0'.repeat(6)), spn1, spn3);
+            cntdiv[1].insertBefore(frag1, rspn2);
+        }
+    } else {
+        if (cntdiv[1]) cntdiv[1].style.display = 'none';
+        if (tabnames[1]) tabnames[1].style.display = 'none';
+    }
+
+    // --- 3. 腳本清理與動態載入 ---
+    document.querySelectorAll("script[id]").forEach(s => s.remove());
+
+    const prefix = jsPth + jsPth.substr(0, 3);
+    loadScript(`${prefix}.js?v=${jsvsn}`, () => { if (window.DrawTable) DrawTable(); });
+    loadScript(`${prefix}rgst.js?v=${jsvsn}`);
+    loadScript(`include/JS/commonsrch.js?v=${jsvsn}`);
+    loadScript(`C01/JS/A09getno.js?v=${jsvsn}`);
+    loadScript(`C01/JS/A01Name.js?v=${jsvsn}`);
+
+    // --- 4. 事件監聽綁定 ---
+    const tabMap = { tab1: tab1View, tab2: tab2View };
+    Object.keys(tabMap).forEach(id => {
+        const tab = document.getElementById(id);
+        if (tab) attachEventListener(tab, "click", tabMap[id], false);
+    });
 }
 
-function tab1View(event){	  
- 
-	   if (typeof event=="undefined"){
-		   event=window.event;
-    	}
-		var target=getEventTarget(event);
-	/* 	var srchbtt=document.getElementById('SEEK_BOTT');		
-		srchbtt.style.visibility="visible";	 */
-		var newrcath=document.getElementById('NEW_BOTT');       //新增按鈕
-		 if (getAuth[0]()[1]=='Y'){
-             newrcath.style.visibility="visible";	
-			 attachEventListener(newrcath,"click",addrec,false);  //新增紀錄按鈕程序
-         }else{
-			 newrcath.style.visibility="hidden";
-			 detachEventListener(newrcath,"click",addrec,false);
-         }			 
-
-		 var localbottoncl=document.getElementById('lclbtnbk');       //按鈕背景
-		 localbottoncl.style.backgroundColor="#FCFCFC";
-		 localbottoncl.style.border=" 2px solid #FCFCFC";
-		 localbottoncl.style.boxShadow ="sandybrown 5px 10px 10px 7px";
-		 var bibau=cko[3](0);   //找出閉包變數現值
-	     cko[3](bibau*(-1));    //將表身閉包變數歸零		 
-		  bibau=cko[6](0);   //找出閉包變數現值
-	     cko[6](bibau*(-1));    //將表身閉包變數歸零 
-		  var btns=getElementsByAttribute('class','btn');			 
-		 for (var i=0;i<btns.length;i++){		
-		     if(btns[i].accessKey=='I' || btns[i].accessKey=='M'){
-		        btns[i].removeAttribute("accesskey");		
-			 } 
-			 if(right(btns[i].title,1)=='T' || right(btns[i].title,1)=='J' || right(btns[i].title,1)=='K' || right(btns[i].title,1)=='V'){
-		        btns[i].setAttribute("accesskey",right(btns[i].title,1));		
-			 } 
-	     }		     
-
+// 輔助函式：閉包數值歸零
+function resetCko(indices) {
+    indices.forEach(idx => {
+        if (cko[idx]) {
+            const current = cko[idx](0);
+            cko[idx](current * -1);
+        }
+    });
 }
-function tab2View(event){	  
-       if (typeof event=="undefined"){
-		   event=window.event;
-    	}
-		var localbottoncl=document.getElementById('lclbtnbk');       //按鈕背景
-		 localbottoncl.style.backgroundColor="#F9FAD9";
-		 localbottoncl.style.border=" 2px solid #F9FAD9";
-		 localbottoncl.style.boxShadow="olivedrab 5px 10px 10px 7px";
-      if(getAuth[0]()[5]!='Y'){		     
-		 blkshow("你無查看報價紀錄權限");		 
-	     document.getElementById("tab1").checked=true;	
-		 return false;	 
-	  } 		  
-	   if (cko[2](0)==0){
-		  blkshow("未勾選任何紀錄，請勾選一筆再編輯表身內容");	
-	  	  document.getElementById("tab1").checked="checked";		
-		  return false;	
-       }
-	   var keydescription=document.getElementById('keydscrpt1');   
-	    var srchbtt=document.getElementById('SEEK_BOTT');
-	   var newrcath=document.getElementById('NEW_BOTT');       //新增按鈕		
-	    var editbtt=document.getElementById("EDIT_BOTT");
-		var delbtt=document.getElementById("DEL_BOTT");
-       var fthkey=document.getElementById("fatherkey1");
-	   var aWaitUpdate=[];	//準備記錄修改時欄位的內容資料
 
-       var maintable=document.getElementById("maintbody1");		//所指向的單頭紀錄		 				 	 
-	   for(var i=0;i< maintable.rows.length; i++){			 		            
-		   if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
-			   for (j=0;j<maintable.rows[i].cells.length-1;j++){				  
-				   aWaitUpdate.push(maintable.rows[i].cells[j].textContent);  //將待修改欄位資料存入陣列				 
-			   }				                           
-               break;					   
-		   }
-	   } 
-	   keydescription.textContent=aWaitUpdate[3];  //aWaitUpdate[2]+'&nbsp'+
-	   fthkey.innerHTML=aWaitUpdate[1];
-	    
-	   if(aWaitUpdate[23]==fthkey.innerHTML){	   //群組編號等於自己編號
-           if (getAuth[0]()[1]=='Y'){
-               newrcath.setAttribute("style","visibility:visible;");
-			   attachEventListener(newrcath,"click",addrec,false);  //新增紀錄按鈕程序
-			}else{
-			   newrcath.setAttribute("style","visibility:hidden;");
-			   detachEventListener(newrcath,"click",addrec,false);  //取消新增按鈕程序
-			}
-			if(getAuth[0]()[2]=='Y'){
-				    editbtt.setAttribute("style","visibility:visible;");
-				    attachEventListener(editbtt,"click",edtrec,false);
-			}else{
-			    editbtt.setAttribute("style","visibility:hidden;");
-			    detachEventListener(editbtt,"click",edtrec,false);
-			}
-			if(getAuth[0]()[3]=='Y'){
-				    delbtt.setAttribute("style","visibility:visible;");
-				    attachEventListener(delbtt,"click",delrec,false);
-			}else{
-			    delbtt.setAttribute("style","visibility:hidden;");
-			    detachEventListener(delbtt,"click",delrec,false);
-			}
-			srchbtt.setAttribute("style","visibility:visible;");	
-		    attachEventListener(srchbtt,'click',seekrec,false);  
-	    }else{
-			 srchbtt.setAttribute("style","visibility:hidden;");	
-	     	detachEventListener(srchbtt,'click',seekrec,false);    			
-		    newrcath.setAttribute("style","visibility:hidden;");
-			detachEventListener(newrcath,"click",addrec,false);  //取消新增按鈕程序
-			editbtt.setAttribute("style","visibility:hidden;");
-			detachEventListener(editbtt,"click",edtrec,false);
-			delbtt.setAttribute("style","visibility:hidden;");
-			detachEventListener(delbtt,"click",delrec,false);
-			
-		}			  
-	   
-	   
-	   var responseDiv=document.getElementById("serverResponse2"); 
-	   responseDiv.innerHTML='&nbsp';
-	   var bibau=cko[3](0);   //找出閉包變數現值
-	   cko[3](bibau*(-1));    //將表身閉包變數歸零			
-	    bibau=cko[6](0);   //找出閉包變數現值
-	     cko[6](bibau*(-1));    //將表身閉包變數歸零 
-		var btns=getElementsByAttribute('class','btn');			 
-		 for (var i=0;i<btns.length;i++){		
-		     if(btns[i].accessKey=='T' || btns[i].accessKey=='J' || btns[i].accessKey=='K' || btns[i].accessKey=='V'){		    
-		        btns[i].removeAttribute("accesskey");		
-			 } 
-			  if(right(btns[i].title,1)=='I' ||right(btns[i].title,1)=='M'){
-		        btns[i].setAttribute("accesskey",right(btns[i].title,1));		
-			 } 
-	     }		    
-	   commontemp(fthkey.innerHTML,"c02.F01");
+// 輔助函式：控制按鈕顯隱與事件綁定
+function setupButtons(btnConfigs) {
+    btnConfigs.forEach(({ id, visible, handler }) => {
+        const btn = document.getElementById(id);
+        if (!btn) return;
+
+        btn.style.visibility = visible ? "visible" : "hidden";
+        if (handler) {
+            if (visible) {
+                attachEventListener(btn, "click", handler, false);
+            } else {
+                detachEventListener(btn, "click", handler, false);
+            }
+        }
+    });
+}
+
+// 輔助函式：切換 AccessKey
+function updateAccessKeys(activeKeys, removeKeys) {
+    document.querySelectorAll('.btn').forEach(btn => {
+        const lastChar = btn.title.slice(-1);
+        if (removeKeys.includes(btn.accessKey)) {
+            btn.removeAttribute("accesskey");
+        }
+        if (activeKeys.includes(lastChar)) {
+            btn.accessKey = lastChar;
+        }
+    });
+}
+
+// 輔助函式：取得表格中已勾選的 row 資料列
+function getSelectedRowData() {
+    const maintable = document.getElementById("maintbody1");
+    if (!maintable) return null;
+
+    const selectedRow = Array.from(maintable.rows).find(row => {
+        const cb = row.cells[row.cells.length - 1]?.querySelector('input') || row.cells[row.cells.length - 1]?.childNodes[0];
+        return cb && cb.checked;
+    });
+
+    if (!selectedRow) return null;
+
+    return Array.from(selectedRow.cells)
+        .slice(0, -1)
+        .map(cell => cell.textContent);
+}
+
+function tab1View() {
+    const auth = getAuth[0]();
+
+    setupButtons([
+        { id: 'NEW_BOTT', visible: auth[1] === 'Y', handler: addrec }
+    ]);
+
+    const localbottoncl = document.getElementById('lclbtnbk');
+    if (localbottoncl) {
+        Object.assign(localbottoncl.style, {
+            backgroundColor: "#FCFCFC",
+            border: "2px solid #FCFCFC",
+            boxShadow: "sandybrown 5px 10px 10px 7px"
+        });
+    }
+
+    resetCko([3, 6]);
+    updateAccessKeys(['T', 'J', 'K', 'V'], ['I', 'M']);
+}
+
+function tab2View() {
+    const localbottoncl = document.getElementById('lclbtnbk');
+    if (localbottoncl) {
+        Object.assign(localbottoncl.style, {
+            backgroundColor: "#F9FAD9",
+            border: "2px solid #F9FAD9",
+            boxShadow: "olivedrab 5px 10px 10px 7px"
+        });
+    }
+
+    if (getAuth[0]()[5] !== 'Y') {
+        if (window.blkshow) blkshow("你無查看報價紀錄權限");
+        const t1 = document.getElementById("tab1");
+        if (t1) t1.checked = true;
+        return false;
+    }
+
+    if (cko[2](0) === 0) {
+        if (window.blkshow) blkshow("未勾選任何紀錄，請勾選一筆再編輯表身內容");
+        const t1 = document.getElementById("tab1");
+        if (t1) t1.checked = true;
+        return false;
+    }
+
+    const aWaitUpdate = getSelectedRowData();
+    if (aWaitUpdate) {
+        const keydescription = document.getElementById('keydscrpt1');
+        const fthkey = document.getElementById("fatherkey1");
+
+        if (keydescription) keydescription.textContent = aWaitUpdate[3];
+        if (fthkey) fthkey.innerHTML = aWaitUpdate[1];
+
+        const isMatchGroup = aWaitUpdate[23] === fthkey.innerHTML;
+        const auth = getAuth[0]();
+
+        setupButtons([
+            { id: 'NEW_BOTT', visible: isMatchGroup && auth[1] === 'Y', handler: addrec },
+            { id: 'EDIT_BOTT', visible: isMatchGroup && auth[2] === 'Y', handler: edtrec },
+            { id: 'DEL_BOTT', visible: isMatchGroup && auth[3] === 'Y', handler: delrec },
+            { id: 'SEEK_BOTT', visible: isMatchGroup, handler: seekrec }
+        ]);
+
+        const responseDiv = document.getElementById("serverResponse2");
+        if (responseDiv) responseDiv.innerHTML = '&nbsp;';
+
+        resetCko([3, 6]);
+        updateAccessKeys(['I', 'M'], ['T', 'J', 'K', 'V']);
+
+        if (window.commontemp && fthkey) commontemp(fthkey.innerHTML, "c02.F01");
+    }
 }

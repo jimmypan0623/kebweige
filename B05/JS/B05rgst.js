@@ -311,15 +311,12 @@ function clearCustomFields() {
  */
 function modifyFields(tbno, txtword, ajTable, aWaitUpdate) {
     if (tbno === 0) { // 表頭
-        // 備註
-        //let oTr = ajTable.insertRow(-1);
-		let oTr = ajTable.insertRow(0);
+        // 備註       
+		var oTr = ajTable.insertRow(0);
         oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>備註:</td>";
         oTr.insertCell(1).outerHTML = "<td colspan='3'><input type='text' name='b05update' id='remark' class='txt' maxlength='20' style='width:30%;' /></td>";
-
-        // 匯率 & 退折
-        //oTr = ajTable.insertRow(-1);
-		let oTr = ajTable.insertRow(0);
+        // 匯率 & 退折       
+		var oTr = ajTable.insertRow(0);
         oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>匯率:</td>";
         oTr.insertCell(1).outerHTML = "<td><input type='number' name='b05update' id='curncy' value=1 class='txt' style='width:35%;text-align:right;' /></td>";
         oTr.insertCell(2).outerHTML = "<td style='text-align:right;width:15%'>退貨或折讓:</td>";
@@ -331,10 +328,8 @@ function modifyFields(tbno, txtword, ajTable, aWaitUpdate) {
         slt19.options.add(new Option('退貨不補', '2'));
         slt19.options.add(new Option('金額折讓', '3'));
         tdRjt.appendChild(slt19);
-
-        // 課稅別 & 幣別
-        //oTr = ajTable.insertRow(-1);
-		let oTr = ajTable.insertRow(-1);
+        // 課稅別 & 幣別     
+		var oTr = ajTable.insertRow(0);
         oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>課稅別:</td>";
         const tdTax = oTr.insertCell(1);
         const slt6 = document.createElement("select");
@@ -344,7 +339,6 @@ function modifyFields(tbno, txtword, ajTable, aWaitUpdate) {
         slt6.options.add(new Option('零稅', '2'));
         slt6.options.add(new Option('免稅', '3'));
         tdTax.appendChild(slt6);
-
         oTr.insertCell(2).outerHTML = "<td style='text-align:right;width:15%'>幣別:</td>";
         const tdCrnt = oTr.insertCell(3);
         const slt4 = document.createElement("select");
@@ -352,10 +346,8 @@ function modifyFields(tbno, txtword, ajTable, aWaitUpdate) {
         slt4.name = "b05update";
         attachEventListener(slt4, "change", ratechange, false);
         tdCrnt.appendChild(slt4);
-
-        // 發票號碼 & 發票種類
-        //oTr = ajTable.insertRow(-1);
-		let oTr = ajTable.insertRow(0);
+        // 發票號碼 & 發票種類       
+		var oTr = ajTable.insertRow(0);
         oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>發票號碼:</td>";
         const tdInvNo = oTr.insertCell(1);
         if (txtword === 2) {
@@ -374,10 +366,8 @@ function modifyFields(tbno, txtword, ajTable, aWaitUpdate) {
         slt8.options.add(new Option('三聯式', '33'));
         slt8.options.add(new Option('二聯式', '34'));
         tdInvType.appendChild(slt8);
-
-        // 原出貨月份 & 出貨單號
-        //oTr = ajTable.insertRow(-1);
-		let oTr = ajTable.insertRow(0);
+        // 原出貨月份 & 出貨單號        
+		var oTr = ajTable.insertRow(0);
         oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>原出貨月份:</td>";
         const tdOrgMth = oTr.insertCell(1);
         const showTime = document.getElementById('currentTime');
@@ -387,7 +377,6 @@ function modifyFields(tbno, txtword, ajTable, aWaitUpdate) {
         slt11.name = "b05update";
         optionitem(left(thtdy, 7), slt11.id, 7, "B04/BKND/A23srch.php");
         tdOrgMth.appendChild(slt11);
-
         oTr.insertCell(2).outerHTML = "<td style='text-align:right;width:15%'>出貨單號:</td>";
         const tdBillNo = oTr.insertCell(3);
         if (txtword === 2) {
@@ -396,29 +385,23 @@ function modifyFields(tbno, txtword, ajTable, aWaitUpdate) {
             tdBillNo.innerHTML = "<input type='text' name='b05update' id='billno' class='txt' style='width:55%;' maxlength='10' />";
             tdBillNo.appendChild(createSearchButton());
         }
-
-        // 退貨日 & 業務擔當
-        //oTr = ajTable.insertRow(-1);
-		let oTr = ajTable.insertRow(0);
+        // 退貨日 & 業務擔當      
+		var oTr = ajTable.insertRow(0);
         oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>退貨日:</td>";
-        oTr.insertCell(1).innerHTML = "<input type='text' name='b05update' id='shipdate' class='txt' style='width:18%;' maxlength='2' />";
-        
+        oTr.insertCell(1).innerHTML = "<input type='text' name='b05update' id='shipdate' class='txt' style='width:18%;' maxlength='2' />";       
         oTr.insertCell(2).outerHTML = "<td style='text-align:right;width:15%'>業務擔當:</td>";
         const tdWho = oTr.insertCell(3);
         tdWho.innerHTML = "<input type='text' name='b05update' id='whono' class='txt' style='width:40%;' maxlength='8' /><span name='b05others' id='whonameEx'></span>&nbsp;&nbsp;";
         tdWho.appendChild(createSearchButton());
-
-        // 聯絡人 & 電話 (隱藏)
-        //oTr = ajTable.insertRow(-1);
-		let oTr = ajTable.insertRow(0);
+        // 聯絡人 & 電話 (隱藏)       
+		var oTr = ajTable.insertRow(0);
         oTr.style.display = "none";
         oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>聯絡人:</td>";
         oTr.insertCell(1).innerHTML = "<input type='text' name='b05others' id='winname' class='txt' style='width:50%;' maxlength='40' />";
         oTr.insertCell(2).outerHTML = "<td style='text-align:right;width:15%'>電話:</td>";
         oTr.insertCell(3).innerHTML = "<input type='number' name='b05others' id='telNo' class='txt' style='width:35%;' maxlength='8' />";
-
         // 客戶全名 & 統一編號 (隱藏)
-        oTr = ajTable.insertRow(-1);
+        oTr = ajTable.insertRow(0);
         oTr.style.display = "none";
         oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>客戶全名:</td>";
         oTr.insertCell(1).innerHTML = "<input type='text' name='b05others' id='customfullname' class='txt' style='width:50%;' maxlength='40' />";
@@ -426,7 +409,7 @@ function modifyFields(tbno, txtword, ajTable, aWaitUpdate) {
         oTr.insertCell(3).innerHTML = "<input type='number' name='b05others' id='unitno' class='txt' style='width:35%;' maxlength='8' />";
 
         // 客戶代號 & 客戶簡稱
-        oTr = ajTable.insertRow(-1);
+        oTr = ajTable.insertRow(0);
         oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>客戶代號:</td>";
         const tdCustNo = oTr.insertCell(1);
         if (txtword === 2) {
@@ -444,10 +427,8 @@ function modifyFields(tbno, txtword, ajTable, aWaitUpdate) {
             tdCustName.innerHTML = "<input type='text' name='b05others' id='customname' class='txt' style='width:40%;' maxlength='8' />";
             tdCustName.appendChild(createSearchButton());
         }
-
-        // 出貨退回單號
-        //oTr = ajTable.insertRow(-1);
-		let oTr = ajTable.insertRow(0);
+        // 出貨退回單號       
+		var oTr = ajTable.insertRow(0);
         oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>出貨退回單號:</td>";
         const tdQry = oTr.insertCell(1);
         tdQry.colSpan = 3;
@@ -463,57 +444,48 @@ function modifyFields(tbno, txtword, ajTable, aWaitUpdate) {
         }
 
         // 隱藏變數 (紀錄號碼)
-        //oTr = ajTable.insertRow(-1);
-		let oTr = ajTable.insertRow(0);
+        
+		var oTr = ajTable.insertRow(0);
         oTr.style.display = "none";
         oTr.insertCell(0).innerHTML = '紀錄號碼';
         oTr.insertCell(1).innerHTML = "<input type='text' name='b05update' id='rcrd_no' class='txt' maxlength='14' autosize />";
 
     } else { // 表身
         // 補貨日期
-        //let oTr = ajTable.insertRow(-1);
-		let oTr = ajTable.insertRow(0);
+       
+		var oTr = ajTable.insertRow(0);
         oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>補貨日期:</td>";
         oTr.insertCell(1).innerHTML = "<input type='Date' name='b0eupdate' id='reoutdate' class='txt' style='width:30%;' />";
         if (Number(sourceAccount(20, 0)) > 1) {
             oTr.style.display = "none";
         }
 
-        // 客戶PO
-       // oTr = ajTable.insertRow(-1);
-	   let oTr = ajTable.insertRow(0);
+        // 客戶PO       
+	   var oTr = ajTable.insertRow(0);
         oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>客戶PO:</td>";
         oTr.insertCell(1).innerHTML = "<input type='text' name='b0eupdate' id='customPO' class='txt' style='width:50%;' maxlength='30'/>";
-
-        // 客戶品號
-        //oTr = ajTable.insertRow(-1);
-		let oTr = ajTable.insertRow(0);
+        // 客戶品號        
+		var oTr = ajTable.insertRow(0);
         oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>客戶品號:</td>";
         oTr.insertCell(1).innerHTML = "<input type='text' name='b0eupdate' id='custompartno' class='txt' style='width:50%;' maxlength='30'/>";
 
         // 收貨部門
-        //oTr = ajTable.insertRow(-1);
-		let oTr = ajTable.insertRow(0);
+        
+		var oTr = ajTable.insertRow(0);
         oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>收貨部門:</td>";
         const tdDept = oTr.insertCell(1);
         tdDept.innerHTML = "<input type='text' name='b0eupdate' id='deptno' class='txt' style='width:15%;' maxlength='6' /><span name='b0eothers' id='deptname'></span>&nbsp;&nbsp;";
         tdDept.appendChild(createSearchButton());
-
-        // 單價
-        //oTr = ajTable.insertRow(-1);
-		let oTr = ajTable.insertRow(0);
+        // 單價      
+		var oTr = ajTable.insertRow(0);
         oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>單價:</td>";
         oTr.insertCell(1).innerHTML = "<input type='number' name='b0eupdate' id='price' value=0 class='txt' style='width:20%;text-align:right;' />";
-
-        // 數量
-        //oTr = ajTable.insertRow(-1);
-		let oTr = ajTable.insertRow(0);
+        // 數量        
+		var oTr = ajTable.insertRow(0);
         oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>數量:</td>";
         oTr.insertCell(1).innerHTML = "<input type='number' name='b0eupdate' id='queryqty' value=1 class='txt' style='width:20%;text-align:right;' />";
-
-        // 訂單號碼
-        //oTr = ajTable.insertRow(-1);
-		let oTr = ajTable.insertRow(0);
+        // 訂單號碼       
+		var oTr = ajTable.insertRow(0);
         oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>訂單號碼:</td>";
         const tdOrigNo = oTr.insertCell(1);
         if (txtword === 2) {
@@ -521,10 +493,8 @@ function modifyFields(tbno, txtword, ajTable, aWaitUpdate) {
         } else {
             tdOrigNo.innerHTML = "<input type='text' name='b0eupdate' id='origno' class='txt' style='width:30%;' maxlength='10' />";
         }
-
-        // 品名規格
-       // oTr = ajTable.insertRow(-1);
-	   let oTr = ajTable.insertRow(0);
+        // 品名規格      
+	   var oTr = ajTable.insertRow(0);
         oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>品名規格:</td>";
         const tdStockName = oTr.insertCell(1);
         if (txtword === 2) {
@@ -533,10 +503,8 @@ function modifyFields(tbno, txtword, ajTable, aWaitUpdate) {
             tdStockName.innerHTML = "<input type='text' name='b0eothers' id='stockname' class='txt' style='width:70%;' maxlength='40' />";
             tdStockName.appendChild(createSearchButton());
         }
-
-        // 料品編號
-        //oTr = ajTable.insertRow(-1);
-		let oTr = ajTable.insertRow(0);
+        // 料品編號       
+		var oTr = ajTable.insertRow(0);
         oTr.insertCell(0).outerHTML = "<td style='text-align:right;width:15%'>料品編號:</td>";
         const tdStockNo = oTr.insertCell(1);
         if (txtword === 2) {
@@ -545,10 +513,8 @@ function modifyFields(tbno, txtword, ajTable, aWaitUpdate) {
             tdStockNo.innerHTML = "<input type='text' name='b0eupdate' id='stockno' class='txt' style='width:60%;' maxlength='43' />";
             tdStockNo.appendChild(createSearchButton());
         }
-
-        // 隱藏變數 (紀錄號碼)
-        //oTr = ajTable.insertRow(-1);
-		let oTr = ajTable.insertRow(0);
+        // 隱藏變數 (紀錄號碼)        
+		var oTr = ajTable.insertRow(0);
         oTr.style.display = "none";
         oTr.insertCell(0).innerHTML = '紀錄號碼';
         oTr.insertCell(1).innerHTML = "<input type='text' name='b0eupdate' id='rcrd_no' class='txt' maxlength='14' autosize />";

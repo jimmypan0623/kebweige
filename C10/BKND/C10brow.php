@@ -9,6 +9,7 @@ $sq20="select * from a26 where F01='INT_069' ";
 $sql7=@mysqli_query($link,$sq20);                           
 $list8=mysqli_fetch_assoc($sql7);  //紀錄參數  	    
 $rnddgt = isset($list8['F06']) ? intval($list8['F06']) : 0;
+
 $filename = $_POST['filename'] ?? '';
 // 2. 判斷邏輯並提取變數
 if (substr($filename, 0, 3) == "PGE") {

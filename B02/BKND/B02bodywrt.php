@@ -1,84 +1,133 @@
 <?php
 require_once("../../include/BKND/auth_check.php"); //驗證
+header('Content-Type: application/json; charset=utf-8');
+
+// 1. 接收資料並解析
 $str_json = file_get_contents('php://input'); //($_POST doesn't work here)
-$response =json_decode($str_json); // decoding received JSON to array
-$cart=json_decode($response);
-$brr=array();
-foreach($cart as $key=>$val){	   
-    $brr[]=addslashes($val);		//要加入此函數避免中間有單引號錯亂
+
+// 【修正】原本這裡是「雙重 json_decode」：
+//   $response = json_decode($str_json);
+//   $cart = json_decode($response);
+// 對齊 B04bodywrt.php 的修法：前端已改為單次 stringify(真實物件)，
+// 這裡直接一次解碼即可，不需要也不能再 decode 第二次。
+$cart = json_decode($str_json, true);   // 前端已改為單次 stringify(真實物件)，這裡直接一次解碼
+if ($cart === null) {
+    echo json_encode("payload 解碼失敗");
+    exit;
 }
- require_once("../../include/BKND/mysqli_server.php");                              //引用檔    
- require_once "../../include/BKND/fieldDOMset.php"; // 引入     
- $trnarray=fldafterwrite('B02','2',$link,true); 
-        $sql5="SELECT * FROM a14 WHERE F04='Y' AND F12='Y' AND F01="."'".$brr[5]."'"; 
-		 $sql6=mysqli_query($link,$sql5) or die(mysqli_error($link));
-		 $rows2=@mysqli_num_rows($sql6);
-	    $sql3="SELECT d04.*,d03.F01 AS F0A FROM d04,d03 WHERE d04.F02='".$brr[1]."' AND d04.F01='".$brr[2]."' AND d04.F03-d04.F09-d04.F21-d04.F23>=0 AND d03.F01=d04.F01 AND d03.F04='Y' AND d03.F03='".$brr[9]."'"; 		
-		$sql4=mysqli_query($link,$sql3) or die(mysqli_error($link)); 
-		 $rows1=@mysqli_num_rows($sql4);		
-		 $list1=mysqli_fetch_assoc($sql4);  //抓取目前資料之出貨計劃內容 
-if($rows2==0){
-    echo json_encode("無此出貨部門"); 		 
-}else if($rows1==0){
-    echo json_encode("無此出貨計劃"); 
-}else if($list1['F23']+$list1['F21']+$list1['F09']+$brr[3]>$list1['F03']){
-	echo json_encode("出貨單數量超出本訂單可出數量:".strval($list1['F23']+$list1['F21']+$list1['F09']+$brr[3]-$list1['F03'])); 
-}else{	     
-     $sql0="SELECT * FROM a01 WHERE F01="."'".$_COOKIE['useraccount']."'"; 
-     $sql1=@mysqli_query($link,$sql0);
-     $rows1=@mysqli_num_rows($sql1);                       
-     $list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名   
-	 $lastdate=date('Y'.'-'.'m'.'-'.'d');
-     $mArlth=count($brr);  
-     if($brr[$mArlth-2]==0){        //如果旗標指示為新增		 
-	    $sql="SELECT * FROM b0b WHERE F01='".$brr[0]."' AND F03='".$brr[1]."' AND F07='".$brr[2]."' "; 
-        $sql2=mysqli_query($link,$sql);
-        $rows=@mysqli_num_rows($sql2);
-		if($rows>0){			 
-			echo json_encode("品號及訂單號碼重複，請至該筆修改數量"); 
-		}else{
-            //寫入json檔(其實就是文字檔只是每一筆以json格式存放) 
-        	//以下處理MySQL記錄新增  	        
-	           $mscnt="INSERT INTO b0b(F01,F03,F07,F04,F15,F05,F08,F09,F25,F11)  VALUES (";  //先把準備插入記錄的SQL 語法前半段先寫在字串中	 			   
-	           $mscnt.="'".$brr[0]."',";
-	           $mscnt.="'".$brr[1]."',";
-   	           $mscnt.="'".$brr[2]."',";	 
-               $mscnt.="'".$brr[3]."',";	
-               $mscnt.="'".$brr[4]."',"; 		
-               $mscnt.="'".$brr[5]."',"; 
-			   $mscnt.="'".$brr[6]."',"; 		
-               $mscnt.="'".$brr[7]."',"; 
-			   $mscnt.="'".$brr[8]."',"; 
-	           $mscnt.="'".$lastdate.$list4['F03']."')";		      
-	           $sql=$mscnt;                                               //寫入MySQL 	 
-               mysqli_query($link ,$sql) or die(mysqli_error($link));  
-			   $last_id = mysqli_insert_id($link);     //找最後一個號碼	          					     
-			   $arr = array ('order_no'=>$last_id,'lastupdate'=>$lastdate.$list4['F03'],'fldsatrr'=>$trnarray);
-			   $armstd03="UPDATE d03 SET F08='Y' where F01='".$brr[2]."' ";  	                                               
-               mysqli_query($link ,$armstd03) or die(mysqli_error($link));    //寫入MySQL 	 
-	           echo json_encode($arr);
-			   $armstd04="UPDATE d04 SET F23=F23+".$brr[3]." where F02='".$brr[1]."' AND F01='".$brr[2]."' ";  	                                               
-               mysqli_query($link ,$armstd04) or die(mysqli_error($link));    //寫入MySQL 	
-		 } //新增判斷或執行結束   	     
-     }else{	   //修改
-	   $mscnt="UPDATE b0b SET F04=F04+".$brr[3].",";	    
-	   $mscnt.="F15="."'".$brr[4]."',";	   
-	   $mscnt.="F05="."'".$brr[5]."',";	 
-	   $mscnt.="F08="."'".$brr[6]."',";	 
-	   $mscnt.="F09="."'".$brr[7]."',";	
-	   $mscnt.="F25="."'".$brr[8]."',";	
-	   $mscnt.="F11="."'".$lastdate.$list4['F03']."'";
-	   $mscnt.=" WHERE F00="."'".$brr[$mArlth-2]."'";
-	   $sql=$mscnt;                                                 //寫入MySQL 	 
-       mysqli_query($link ,$sql) or die(mysqli_error($link));  	  
-       $arr = array ('order_no'=>$brr[$mArlth-2],'lastupdate'=>$lastdate.$list4['F03'],'fldsatrr'=>$trnarray);
-	    echo json_encode($arr);  
-	    $armstd04="UPDATE d04 SET F23=F23+".$brr[3]." where F02='".$brr[1]."' AND F01='".$brr[2]."' ";  	                                               
-        mysqli_query($link ,$armstd04) or die(mysqli_error($link));    //寫入MySQL 	
-    }  
+
+$brr = array();
+foreach ($cart as $key => $val) {
+    $brr[] = addslashes($val);		//要加入此函數避免中間有單引號錯亂
+}
+
+require_once("../../include/BKND/mysqli_server.php");
+require_once "../../include/BKND/fieldDOMset.php";
+
+// 2. 基礎資訊獲取
+
+$lastdate = date('Y-m-d');
+$trnarray = fldafterwrite('B02', '2', $link, true);
+
+// 【新增防呆】陣列長度檢查，避免 $brr[$mArlth - 2] 在資料不足時出現 Warning
+if (count($brr) < 10) {
+    echo json_encode("傳入資料筆數不足");
+    exit;
+}
+
+try {
+    // 開啟事務處理
+    $link->begin_transaction();
+
+    // --- 驗證區 ---
+
+    // A. 檢查出貨部門
+    $stmt5 = $link->prepare("SELECT F01 FROM a14 WHERE F04='Y' AND F12='Y' AND F01 = ?");
+    $stmt5->bind_param("s", $brr[5]);
+    $stmt5->execute();
+    if ($stmt5->get_result()->num_rows === 0) {
+        throw new Exception("無此出貨部門");
+    }
+
+    // B. 檢查計畫與庫存餘額
+    $sql_plan = "SELECT d04.*, d03.F01 AS F0A 
+                 FROM d04 
+                 JOIN d03 ON d04.F01 = d03.F01 
+                 WHERE d04.F02 = ? AND d04.F01 = ? AND d03.F03 = ? AND d03.F04 = 'Y' 
+                 FOR UPDATE"; // 鎖定行，防止併發扣帳錯誤
+    $stmt_plan = $link->prepare($sql_plan);
+    $stmt_plan->bind_param("sss", $brr[1], $brr[2], $brr[9]);
+    $stmt_plan->execute();
+    $list1 = $stmt_plan->get_result()->fetch_assoc();
+
+    if (!$list1) {
+        throw new Exception("無此出貨計劃");
+    }
+
+    // 數量檢查
+    if ($list1['F23'] + $list1['F21'] + $list1['F09'] + $brr[3] > $list1['F03']) {
+        $over = ($list1['F23'] + $list1['F21'] + $list1['F09'] + $brr[3]) - $list1['F03'];
+        throw new Exception("出貨單數量超出本訂單可出數量: " . $over);
+    }
+
+    // C. 獲取使用者名稱
     
-}  
-mysqli_close($link);	
- 	
+    $update_tag = $lastdate . ($_SESSION['user_name'] ?? '');
+
+    // --- 執行區 ---
+
+    $mArlth = count($brr);
+    $mode_id = $brr[$mArlth - 2]; // 判斷新增或修改的 Flag
+
+    if ($mode_id == 0) {
+        // 新增模式：檢查重複
+        $stmt_check = $link->prepare("SELECT F00 FROM b0b WHERE F01=? AND F03=? AND F07=?");
+        $stmt_check->bind_param("sss", $brr[0], $brr[1], $brr[2]);
+        $stmt_check->execute();
+        if ($stmt_check->get_result()->num_rows > 0) {
+            throw new Exception("品號及訂單號碼重複，請至該筆修改數量");
+        }
+
+        // 寫入 b0b
+        $sql_ins = "INSERT INTO b0b (F01, F03, F07, F04, F15, F05, F08, F09, F25, F11) VALUES (?,?,?,?,?,?,?,?,?,?)";
+        $stmt_ins = $link->prepare($sql_ins);
+        $stmt_ins->bind_param("ssssssssss", $brr[0], $brr[1], $brr[2], $brr[3], $brr[4], $brr[5], $brr[6], $brr[7], $brr[8], $update_tag);
+        $stmt_ins->execute();
+        $target_id = $link->insert_id;
+
+        // 更新 d03
+        $stmt_upd_d03 = $link->prepare("UPDATE d03 SET F08='Y' WHERE F01=?");
+        $stmt_upd_d03->bind_param("s", $brr[2]);
+        $stmt_upd_d03->execute();
+
+    } else {
+        // 修改模式
+        $sql_upd = "UPDATE b0b SET F04=F04+?, F15=?, F05=?, F08=?, F09=?, F25=?, F11=? WHERE F00=?";
+        $stmt_upd = $link->prepare($sql_upd);
+        $stmt_upd->bind_param("dssssssi", $brr[3], $brr[4], $brr[5], $brr[6], $brr[7], $brr[8], $update_tag, $mode_id);
+        $stmt_upd->execute();
+        $target_id = $mode_id;
+    }
+
+    // 統一更新 d04 數量 (無論新增或修改)
+    $stmt_upd_d04 = $link->prepare("UPDATE d04 SET F23 = F23 + ? WHERE F02 = ? AND F01 = ?");
+    $stmt_upd_d04->bind_param("dss", $brr[3], $brr[1], $brr[2]);
+    $stmt_upd_d04->execute();
+
+    // 提交事務
+    $link->commit();
+
+    echo json_encode([
+        'order_no' => $target_id, 
+        'lastupdate' => $update_tag, 
+        'fldsatrr' => $trnarray
+    ]);
+
+} catch (Exception $e) {
+    // 發生錯誤，撤回所有更動
+    $link->rollback();
+    echo json_encode($e->getMessage());
+}
+
+$link->close();
 ?>
- 

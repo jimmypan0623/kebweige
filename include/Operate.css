@@ -25,17 +25,33 @@
 	word-break:break-all; 
 }
 .gridlist tr{
-	background-color:#BAF4D8;	/* 表格背景色 */
+	background-color:#E4FAEF;	/*極淺蘋果綠 表格背景色 #BAF4D8   */
 	cursor:pointer;
 }
 .gridlist tr:hover, .gridlist tr.altrow{
 	 /*background-color:#dca06b;	動態變色 */
 
 }
-#rightContent1 tr{
-	background-color:#FFFFAA;	/* 表格背景色 */
+
+/*#dca06b  ;#FFFFAA; 	#B9B9FF表格背景色 */
+/* #rightContent1 tr{
+	background-color:#B9B9FF; 
 	cursor:pointer;
+} */
+
+ #rightContent1 tr {
+	background: linear-gradient(to bottom, #B9B9FF 0%, #8E8EFF 100%); /* 立體感藍色漸層 */
+	/* cursor: pointer; */
 }
+
+/* 2. 補充：為 tr 裡面的每個 td 加上光影邊框，立體感會更精緻 */
+#rightContent1 tr td {
+	border-top: 1px solid #D6D6FF;    /* 上方亮色邊框（模擬反射光）*/
+	border-bottom: 1px solid #6E6EFF;   /* 下方深色邊框（模擬陰影） */
+	/* cursor: pointer;*/
+} 
+
+
 input {padding:5px 15px; background:#ccc; border:0 none;
 cursor:pointer;
 -webkit-border-radius: 5px;
@@ -181,9 +197,26 @@ body{
 	font-weight:bold;
  }
  
-#srchTable tr:hover, #srchTable tr.altrow,#rightContent1 tr:hover,#rightContent1 tr.altrow{
+/* #srchTable tr:hover, #srchTable tr.altrow,#rightContent1 tr:hover,#rightContent1 tr.altrow{
 	background-color:#dca06b;	  
-} 
+}  */
+
+
+/* 1. 確保 hover 與選取時，連同內部的 td 一起變色 */
+#srchTable tr:hover td, 
+#srchTable tr.altrow td, 
+#rightContent1 tr:hover td, 
+#rightContent1 tr.altrow td {
+	background: #dca06b !important;
+	/* cursor: pointer !important; */
+}
+
+/* 2. 確保滑鼠游標在 tr 上一定呈現手型 #rightContent1 tr */
+/* #srchTable tr, 
+ {
+	cursor: pointer;
+}
+ */
 
 #rightMember1 {
     background-color:#F0F0F0;

@@ -4,8 +4,8 @@ header('Content-Type: application/json; charset=utf-8');
 require_once("../../include/BKND/mysqli_server.php");
 
 // 檢查 POST 參數是否存在
-$filename = isset($_POST['filename']) ? $_POST['filename'] : '';
-
+//$filename = isset($_POST['filename']) ? $_POST['filename'] : '';
+$filename =$_SESSION['user_account'];
 $arr = array();
 
 // 1. 使用 Prepared Statement 防止 SQL 注入

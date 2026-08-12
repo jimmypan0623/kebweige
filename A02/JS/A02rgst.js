@@ -166,15 +166,7 @@ function authEnter(event){  //權限複製小視窗TEXTBOX ENTER
     return;    			
 }
 
-function athcpy(event){        //權限複製
-	if (typeof event=="undefined"){
-		event=window.event;
-	}
-	var target=getEventTarget(event);	  
-	var rsp=atjtb(sourceAccount(1,0),document.getElementById('authcopy_no').value);
-	blocksclose();			//關掉原視窗   
-    return true;	 		
-}
+
 
 function atjtb(sourceaccount,objaccount){
 	var args=arguments; //記錄傳進了的參數	 
@@ -211,40 +203,7 @@ function atjtb(sourceaccount,objaccount){
 	return true; 	
 }
 
-function removeAuthAll(event){     //確定移除所有權限
-	if (typeof event=="undefined"){
-		event=window.event;
-    }	
-	var target=getEventTarget(event);		
-	var tabs=getElementsByAttribute('class','tab');	 
-	var sendDeleRec="filename="+sourceAccount(1,0);  	 
-	var rsp="";  	        	
-	if(window.ActiveXObject){
-	   var request = new ActiveXObject("Microsoft.XMLHttp");
-	}	
-	   else if(window.XMLHttpRequest){
-	   var request = new XMLHttpRequest();
-	}			 
-	request.onreadystatechange = respond;		 
-	var url="A02/BKND/A02rmv.php?timestamp="+new Date().getTime();	     		 
-	request.open("POST",url);	 
-	request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-	request.send(sendDeleRec);		
-	function respond(){               	     
-		if (request.readyState == 4 && request.status == 200) {     
-		    rsp=request.responseText;			 
-		    if(!isNaN(Number(rsp))){  //如果是數字									   
-				var responseDiv=document.getElementById("serverResponse1");	 
-				responseDiv.setAttribute("style","font-weight:bold;color:#536a60;"); 
-				responseDiv.innerHTML="所勾選帳號其權限已全部移除完畢....."; 					  			  
-			    blocksclose();  //關掉原視窗
-		    }else{
-			  blkshow(rsp);	
-		    }				  
-		}
-    }
 
-}
 
 function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出現之欄位
     if (tbno==0){   //如果異動表頭資料
@@ -361,10 +320,10 @@ function modifyFields(tbno,txtword,ajTable,aWaitUpdate){   //新增修改時出�
 		}else{
 			oTd.innerHTML="<input type='text' name='a0bupdate' id='prg_no' class='txt' style='width:25%;' maxlength='3'/>"; 				   
 			var srchButton4=document.createElement("input");				   
-            srchButton4.setAttribute("type","button");	
-            srchButton4.setAttribute("class","scopelook");				   
-			srchButton4.style.background="url('digits/brows1.png')";   
-			attachEventListener(srchButton4,"click",srchshow,false);				
+            srchButton4.setAttribute("type","button");	             
+			srchButton4.setAttribute("class","scopelook");				   
+			srchButton4.style.background="url('digits/brows1.png')"; 
+			attachEventListener(srchButton4,"click",srchshow,false);		
 			oTd.appendChild(srchButton4);										  
 		}			 
 	    var oTd = oTr.insertCell(2);	   
@@ -606,3 +565,47 @@ function chseprg(event)
 	srchblkclose(event);	
 	return true;
 }	
+
+function athcpy(event){        //權限複製
+	if (typeof event=="undefined"){
+		event=window.event;
+	}
+	var target=getEventTarget(event);	  
+	var rsp=atjtb(sourceAccount(1,0),document.getElementById('authcopy_no').value);
+	blocksclose();			//關掉原視窗   
+    return true;	 		
+}
+function removeAuthAll(event){     //確定移除所有權限
+	if (typeof event=="undefined"){
+		event=window.event;
+    }	
+	var target=getEventTarget(event);		
+	var tabs=getElementsByAttribute('class','tab');	 
+	var sendDeleRec="filename="+sourceAccount(1,0);  	 
+	var rsp="";  	        	
+	if(window.ActiveXObject){
+	   var request = new ActiveXObject("Microsoft.XMLHttp");
+	}	
+	   else if(window.XMLHttpRequest){
+	   var request = new XMLHttpRequest();
+	}			 
+	request.onreadystatechange = respond;		 
+	var url="A02/BKND/A02rmv.php?timestamp="+new Date().getTime();	     		 
+	request.open("POST",url);	 
+	request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	request.send(sendDeleRec);		
+	function respond(){               	     
+		if (request.readyState == 4 && request.status == 200) {     
+		    rsp=request.responseText;			 
+		    if(!isNaN(Number(rsp))){  //如果是數字									   
+				var responseDiv=document.getElementById("serverResponse1");	 
+				responseDiv.setAttribute("style","font-weight:bold;color:#536a60;"); 
+				responseDiv.innerHTML="所勾選帳號其權限已全部移除完畢....."; 					  			  
+			    blocksclose();  //關掉原視窗
+		    }else{
+			  blkshow(rsp);	
+		    }				  
+		}
+    }
+
+}

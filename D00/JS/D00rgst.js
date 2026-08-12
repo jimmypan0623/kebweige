@@ -235,6 +235,7 @@ function colomnContextChange(tbno,args,nongs,arglth,rsp){    //TableToJson(args,
 			}
 			fldidx++;
 		}				
+		
 	maintable.rows[args[arglth-1]].cells[arglth-1].innerHTML=rsp.lastupdate;	
 }
 

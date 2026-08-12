@@ -4,20 +4,36 @@ header('Content-Type: application/json; charset=utf-8');
 
 // 1. 接收資料並解析
 $str_json = file_get_contents('php://input'); //($_POST doesn't work here)
-$response =json_decode($str_json); // decoding received JSON to array
-$cart=json_decode($response);
-$brr=array();
-foreach($cart as $key=>$val){	   
-    $brr[]=addslashes($val);		//要加入此函數避免中間有單引號錯亂
+
+// 【修正】原本這裡是「雙重 json_decode」：
+//   $response = json_decode($str_json);
+//   $cart = json_decode($response);
+// 對齊 C04wrt.php / B04wrt.php 的修法：前端已改為單次 stringify(真實物件)，
+// 這裡直接一次解碼即可，不需要也不能再 decode 第二次。
+$cart = json_decode($str_json, true);   // 前端已改為單次 stringify(真實物件)，這裡直接一次解碼
+if ($cart === null) {
+    echo json_encode("payload 解碼失敗");
+    exit;
+}
+
+$brr = array();
+foreach ($cart as $key => $val) {
+    $brr[] = addslashes($val);		//要加入此函數避免中間有單引號錯亂
 }
 
 require_once("../../include/BKND/mysqli_server.php");
 require_once "../../include/BKND/fieldDOMset.php";
 
 // 2. 基礎資訊獲取
-$user_account = $_COOKIE['useraccount'] ?? 'system';
+
 $lastdate = date('Y-m-d');
 $trnarray = fldafterwrite('B04', '2', $link, true);
+
+// 【新增防呆】陣列長度檢查，避免 $brr[$mArlth - 2] 在資料不足時出現 Warning
+if (count($brr) < 10) {
+    echo json_encode("傳入資料筆數不足");
+    exit;
+}
 
 try {
     // 開啟事務處理
@@ -55,11 +71,8 @@ try {
     }
 
     // C. 獲取使用者名稱
-    $stmt_user = $link->prepare("SELECT F03 FROM a01 WHERE F01 = ?");
-    $stmt_user->bind_param("s", $user_account);
-    $stmt_user->execute();
-    $user_res = $stmt_user->get_result()->fetch_assoc();
-    $update_tag = $lastdate . ($user_res['F03'] ?? '');
+   
+    $update_tag = $lastdate . ($_SESSION['user_name'] ?? '');
 
     // --- 執行區 ---
 
@@ -118,4 +131,3 @@ try {
 
 $link->close();
 ?>
- 

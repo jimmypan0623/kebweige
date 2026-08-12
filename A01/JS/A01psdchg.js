@@ -1,216 +1,197 @@
-function selfTag(jsvsn,jsPth){
-	 var contentdiv=getElementsByAttribute('class','tab_content');	
-	 var tabnames=getElementsByAttribute('name','tablbl');			
-	var svrSpns1=document.getElementById('serverResponse1'); 
-    var svrSpns2=document.getElementById('serverResponse2');	 
-	var svrSpns3=document.getElementById('serverResponse3');	 
-    
-    for (var i=0;i<9;i++){
-        var hintSpan=document.createElement('span');
-        hintSpan.setAttribute("style","display:none;");
-		if(i<4){
-		   hintSpan.setAttribute("name","authBase");
-		}else{
-		  hintSpan.setAttribute("name","authExtra");
-		}
-		contentdiv[1].insertBefore(hintSpan,svrSpns2);		
-    }		 
-	
-	if (getAuth[0]()[7]=='Y' ){	 
-	    
-		if(getAuth[0]()[8]=='Y'){
-			 var text1 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
-			 var text2 = document.createTextNode('\u{A0}');
-			var cpyAuthButton=document.createElement("input");		   
-			cpyAuthButton.type="button";
-			cpyAuthButton.className="btn";
-			cpyAuthButton.value="\u{1F4BE}";    
-			cpyAuthButton.style.fontSize="17px";
-			cpyAuthButton.title="複製此功能畫面欄位屬性予以其他功能";							
-			cpyAuthButton.id="COPY_BOTT";		
-			attachEventListener(cpyAuthButton,"click",authCopy,false);  //複製權限按鈕程序
-			const frag1 = document.createDocumentFragment();			
-			frag1.appendChild(text1);
-			frag1.appendChild(cpyAuthButton);
-			frag1.appendChild(text2); 
-			contentdiv[2].insertBefore(frag1,svrSpns3); 
-		}
-	}else{
-	    contentdiv[2].style.display='none';
-	    tabnames[2].style.display='none';
-	}
-	
-	if (getAuth[0]()[6]=='Y'){	 
-	     var text5 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
-	    var reMoveButton=document.createElement("input");		   
-		reMoveButton.type="button";
-		reMoveButton.className="btn";
-		reMoveButton.value="\u{1F512}";    
-	    reMoveButton.style.fontSize="17px";
-		reMoveButton.title="移除此功能所有帳號權限";							
-		reMoveButton.id="REMOVE_BOTT";		
-		attachEventListener(reMoveButton,"click",authRemove,false);  //移除權限按鈕程序
-		const frag2 = document.createDocumentFragment();
-		/* contentdiv[0].insertBefore(text5,svrSpns1);
-	    contentdiv[0].insertBefore(reMoveButton,svrSpns1); */
-		frag2.appendChild(text5);
-		frag2.appendChild(reMoveButton);
-		contentdiv[0].insertBefore(frag2,svrSpns1);
-		
-	}
+/**
+ * A01psdchg.js 重構優化版本
+ * 1. 簡化 span 提示元素與按鈕的 DocumentFragment 建立。
+ * 2. 統一使用 btnManager 工廠與標準 DOM API，替換傳統 getElementsByAttribute。
+ * 3. 抽取閉包歸零（resetCko）與 AccessKey 切換邏輯，減少重複程式碼。
+ * 4. 採用現代化 JS 語法（Array.from、querySelectorAll、Object.assign）。
+ */
 
-    document.querySelectorAll("script[id]").forEach(s=>s.remove());		
-	var axtmpl1=jsPth+jsPth.substr(0,3)+'.js?v='+jsvsn;
-	var axtmpl2=jsPth+jsPth.substr(0,3)+'rgst.js?v='+jsvsn;
-	loadScript(`${axtmpl1}`,function(){DrawTable();});
-	loadScript(`${axtmpl2}`);
-	loadScript(`include/JS/commonsrch.js?v=${jsvsn}`);
-	loadScript(`C01/JS/A01Name.js?v=${jsvsn}`);	
-	
-	var tab1Click=document.getElementById("tab1");
-	if(tab1Click){
-		
-	    attachEventListener(tab1Click,"click",tab1View,false);		
-	}	
-	var tab2Click=document.getElementById("tab2");	
-	if(tab2Click){		
-		
-	    attachEventListener(tab2Click,"click",tab2View,false);		
-	}
-	var tab3Click=document.getElementById("tab3");	
-	if(tab3Click){		
-		
-	    attachEventListener(tab3Click,"click",tab3View,false);		
-	}
-	
+function selfTag(jsvsn, jsPth) {
+    const contentdiv = document.querySelectorAll('.tab_content');
+    const tabnames = document.getElementsByName('tablbl');
+    const svrSpns1 = document.getElementById('serverResponse1');
+    const svrSpns2 = document.getElementById('serverResponse2');
+    const svrSpns3 = document.getElementById('serverResponse3');
+
+    // --- 1. 建立 9 個隱藏的權限提示 span 元素 ---
+    if (contentdiv[1] && svrSpns2) {
+        const fragSpans = document.createDocumentFragment();
+        for (let i = 0; i < 9; i++) {
+            const hintSpan = document.createElement('span');
+            hintSpan.style.display = 'none';
+            hintSpan.setAttribute('name', i < 4 ? 'authBase' : 'authExtra');
+            fragSpans.appendChild(hintSpan);
+        }
+        contentdiv[1].insertBefore(fragSpans, svrSpns2);
+    }
+
+    // --- 2. 複製權限按鈕判斷 ---
+    if (getAuth[0]()[7] === 'Y') {
+        if (getAuth[0]()[8] === 'Y' && contentdiv[2] && svrSpns3) {
+            const btnCopy = btnManager.createBtn("COPY_BOTT", "\u{1F4BE}", "複製此功能畫面欄位屬性予以其他功能", null, authCopy);
+            btnCopy.style.fontSize = "17px";
+
+            const frag1 = document.createDocumentFragment();
+            frag1.append(
+                document.createTextNode('\u00A0'.repeat(5)),
+                btnCopy,
+                document.createTextNode('\u00A0')
+            );
+            contentdiv[2].insertBefore(frag1, svrSpns3);
+        }
+    } else {
+        if (contentdiv[2]) contentdiv[2].style.display = 'none';
+        if (tabnames[2]) tabnames[2].style.display = 'none';
+    }
+
+    // --- 3. 移除權限按鈕判斷 ---
+    if (getAuth[0]()[6] === 'Y' && contentdiv[0] && svrSpns1) {
+        const btnRemove = btnManager.createBtn("REMOVE_BOTT", "\u{1F512}", "移除此功能所有帳號權限", null, authRemove);
+        btnRemove.style.fontSize = "17px";
+
+        const frag2 = document.createDocumentFragment();
+        frag2.append(
+            document.createTextNode('\u00A0'.repeat(5)),
+            btnRemove
+        );
+        contentdiv[0].insertBefore(frag2, svrSpns1);
+    }
+
+    // --- 4. 腳本清理與動態載入 ---
+    document.querySelectorAll("script[id]").forEach(s => s.remove());
+
+    const prefix = jsPth + jsPth.substr(0, 3);
+    const scriptList = [
+        [`${prefix}.js?v=${jsvsn}`, () => { if (window.DrawTable) DrawTable(); }],
+        [`${prefix}rgst.js?v=${jsvsn}`],
+        [`include/JS/commonsrch.js?v=${jsvsn}`],
+        [`C01/JS/A01Name.js?v=${jsvsn}`]
+    ];
+
+    scriptList.forEach(cfg => loadScript(cfg[0], cfg[1] || null));
+
+    // --- 5. 事件監聽綁定 ---
+    const tabMap = { tab1: tab1View, tab2: tab2View, tab3: tab3View };
+    Object.keys(tabMap).forEach(id => {
+        const tab = document.getElementById(id);
+        if (tab) attachEventListener(tab, "click", tabMap[id], false);
+    });
 }
 
-function tab1View(event){	  
-       if (typeof event=="undefined"){
-		   event=window.event;
-    	}
-		var maintable=document.getElementById("maintbody1");	  		
-		var tablerowindex=0;
-		for(var i=0;i< maintable.rows.length; i++){			 
-		    if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){		 			 				 							
-				tablerowindex=i;       //記住是目前table的哪一列			 
-				break;
-			}
-		} 			
-		var localbottoncl=document.getElementById('lclbtnbk');       //按鈕背景
-		 localbottoncl.style.backgroundColor="#FCFCFC";
-		 localbottoncl.style.border=" 2px solid ##FCFCFC";
-		 localbottoncl.style.boxShadow ="sandybrown 5px 10px 10px 7px";
-		 var bibau=cko[3](0);   //找出閉包變數現值
-	     cko[3](bibau*(-1));    //將表身閉包變數歸零
-		 bibau=cko[6](0);   //找出閉包變數現值
-	     cko[6](bibau*(-1));    //將表身閉包變數歸零 
-		 var btns=getElementsByAttribute('class','btn');			 
-		 for (var i=0;i<btns.length;i++){		
-		     if(btns[i].accessKey=='I' || btns[i].accessKey=='M'){
-		        btns[i].removeAttribute("accesskey");		
-			 } 
-			 if(right(btns[i].title,1)=='T' || right(btns[i].title,1)=='J' || right(btns[i].title,1)=='K' || right(btns[i].title,1)=='V'){
-		        btns[i].setAttribute("accesskey",right(btns[i].title,1));		
-			 } 
-	     }		     
-}
-function tab2View(event){	  
-       if (typeof event=="undefined"){
-		   event=window.event;
-    	}
-
-	    var localbottoncl=document.getElementById('lclbtnbk');       //按鈕背景
-		 localbottoncl.style.backgroundColor="#F9FAD9";
-		 localbottoncl.style.border=" 2px solid #F9FAD9";
-		 localbottoncl.style.boxShadow="olivedrab 5px 10px 10px 7px";
-	   if (cko[2](0)==0){
-		  blkshow("未勾選任何紀錄，請勾選一筆再編輯表身內容");	
-	  	  document.getElementById("tab1").checked="checked";		
-		  return false;	
-       }
-       var keydescription=document.getElementById('keydscrpt1');    
-       var fthkey=document.getElementById("fatherkey1");
-	   var aWaitUpdate=[];	//準備記錄修改時欄位的內容資料
-       var maintable=document.getElementById("maintbody1");		//所指向的表頭紀錄	
-	   var topvth=0;
-	   for(var i=0;i< maintable.rows.length; i++){			 		            
-		   if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
-			   for (j=0;j<maintable.rows[i].cells.length-1;j++){
-				  if(maintable.rows[i].cells[j].className=='directdata'){
-					aWaitUpdate.push(maintable.rows[i].cells[j].innerHTML);  //將待修改欄位資料存入陣列
-				  }
-			   }				  
-               break;					   
-		   }
-	   }   
-	  
-	    keydescription.innerHTML=aWaitUpdate[2];	 
-	    fthkey.innerHTML=aWaitUpdate[1];
-	   var responseDiv=document.getElementById("serverResponse2"); 
-	   responseDiv.innerHTML='&nbsp';
-	   var bibau=cko[3](0);   //找出閉包變數現值
-	   cko[3](bibau*(-1));    //將表身閉包變數歸零	
-	    bibau=cko[6](0);   //找出閉包變數現值
-	    cko[6](bibau*(-1));    //將表身閉包變數歸零 
-		 var btns=getElementsByAttribute('class','btn');			 
-		 for (var i=0;i<btns.length;i++){		
-		     if(btns[i].accessKey=='T' || btns[i].accessKey=='J' || btns[i].accessKey=='K' || btns[i].accessKey=='V'){		    
-		        btns[i].removeAttribute("accesskey");		
-			 } 
-			  if(right(btns[i].title,1)=='I' ||right(btns[i].title,1)=='M'){
-		        btns[i].setAttribute("accesskey",right(btns[i].title,1));		
-			 } 
-	     }		  
-	   commontemp(fthkey.innerHTML,"a02.F03");						  
+// 輔助函式：閉包數值重置
+function resetCko(indices) {
+    indices.forEach(idx => {
+        if (cko[idx]) {
+            const current = cko[idx](0);
+            cko[idx](current * -1);
+        }
+    });
 }
 
-function tab3View(event){	  
-       if (typeof event=="undefined"){
-		   event=window.event;
-    	}
-		var localbottoncl=document.getElementById('lclbtnbk');       //按鈕背景
-		 localbottoncl.style.backgroundColor="#F3F3FA";
-		 localbottoncl.style.border=" 2px solid #F3F3FA";
-		 localbottoncl.style.boxShadow="skyblue 5px 10px 10px 7px";
-   
-	   if (cko[2](0)==0){
-		  blkshow("未勾選任何紀錄，請勾選一筆再編輯表身內容");	
-	  	  document.getElementById("tab1").checked="checked";		
-		  return false;	
-       }
-	
-	   var keydescription=document.getElementById('keydscrpt2');    
-       var fthkey=document.getElementById("fatherkey2");
-	   var aWaitUpdate=[];	//準備記錄修改時欄位的內容資料
-       var maintable=document.getElementById("maintbody1");		//所指向的表頭紀錄	
-	   var topvth=0;
-	   for(var i=0;i< maintable.rows.length; i++){			 		            
-		   if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
-			   for (j=0;j<maintable.rows[i].cells.length-1;j++){
-				  if(maintable.rows[i].cells[j].className=='directdata'){
-					aWaitUpdate.push(maintable.rows[i].cells[j].innerHTML);  //將待修改欄位資料存入陣列
-				  }
-			   }				  
-               break;					   
-		   }
-	   }   
-	   keydescription.textContent=aWaitUpdate[2];   
-	   fthkey.innerHTML=aWaitUpdate[1];	 
-	   var responseDiv=document.getElementById("serverResponse3"); 
-	   responseDiv.innerHTML='&nbsp';
-	   var bibau=cko[4](0);   //找出閉包變數現值
-	   cko[4](bibau*(-1));    //將表身閉包變數歸零			
-	    bibau=cko[6](0);   //找出閉包變數現值
-	    cko[6](bibau*(-1));    //將表身閉包變數歸零 
-		var btns=getElementsByAttribute('class','btn');			 
-		 for (var i=0;i<btns.length;i++){		
-		     if(btns[i].accessKey=='T' || btns[i].accessKey=='J' || btns[i].accessKey=='K' || btns[i].accessKey=='V'){		    
-		        btns[i].removeAttribute("accesskey");		
-			 } 
-			  if(right(btns[i].title,1)=='I' ||right(btns[i].title,1)=='M'){
-		        btns[i].setAttribute("accesskey",right(btns[i].title,1));		
-			 } 
-	     }		  
-	   commontemp(fthkey.innerHTML,"a04.F01");
+// 輔助函式：切換 AccessKey
+function updateAccessKeys(activeKeys, removeKeys) {
+    document.querySelectorAll('.btn').forEach(btn => {
+        const lastChar = btn.title.slice(-1);
+        if (removeKeys.includes(btn.accessKey)) btn.removeAttribute("accesskey");
+        if (activeKeys.includes(lastChar)) btn.accessKey = lastChar;
+    });
+}
+
+// 輔助函式：取得表格中已勾選的 row 資料列
+function getSelectedRowData() {
+    const maintable = document.getElementById("maintbody1");
+    if (!maintable) return null;
+
+    const selectedRow = Array.from(maintable.rows).find(row => {
+        const cb = row.cells[row.cells.length - 1].querySelector('input');
+        return cb && cb.checked;
+    });
+
+    if (!selectedRow) return null;
+
+    return Array.from(selectedRow.cells)
+        .filter(c => c.className === 'directdata')
+        .map(c => c.innerHTML);
+}
+
+function tab1View() {
+    const lclbk = document.getElementById('lclbtnbk');
+    if (lclbk) {
+        Object.assign(lclbk.style, {
+            backgroundColor: "#FCFCFC",
+            border: "2px solid #FCFCFC",
+            boxShadow: "sandybrown 5px 10px 10px 7px"
+        });
+    }
+
+    resetCko([3, 6]);
+    updateAccessKeys(['T', 'J', 'K', 'V'], ['I', 'M']);
+}
+
+function tab2View() {
+    const lclbk = document.getElementById('lclbtnbk');
+    if (lclbk) {
+        Object.assign(lclbk.style, {
+            backgroundColor: "#F9FAD9",
+            border: "2px solid #F9FAD9",
+            boxShadow: "olivedrab 5px 10px 10px 7px"
+        });
+    }
+
+    if (cko[2](0) === 0) {
+        if (window.blkshow) blkshow("未勾選任何紀錄，請勾選一筆再編輯表身內容");
+        const t1 = document.getElementById("tab1");
+        if (t1) t1.checked = true;
+        return false;
+    }
+
+    const aWaitUpdate = getSelectedRowData();
+    if (aWaitUpdate) {
+        const keydescription = document.getElementById('keydscrpt1');
+        const fthkey = document.getElementById("fatherkey1");
+        const responseDiv = document.getElementById("serverResponse2");
+
+        if (keydescription) keydescription.innerHTML = aWaitUpdate[2];
+        if (fthkey) fthkey.innerHTML = aWaitUpdate[1];
+        if (responseDiv) responseDiv.innerHTML = '&nbsp;';
+
+        resetCko([3, 6]);
+        updateAccessKeys(['I', 'M'], ['T', 'J', 'K', 'V']);
+
+        if (window.commontemp && fthkey) commontemp(fthkey.innerHTML, "a02.F03");
+    }
+}
+
+function tab3View() {
+    const lclbk = document.getElementById('lclbtnbk');
+    if (lclbk) {
+        Object.assign(lclbk.style, {
+            backgroundColor: "#F3F3FA",
+            border: "2px solid #F3F3FA",
+            boxShadow: "skyblue 5px 10px 10px 7px"
+        });
+    }
+
+    if (cko[2](0) === 0) {
+        if (window.blkshow) blkshow("未勾選任何紀錄，請勾選一筆再編輯表身內容");
+        const t1 = document.getElementById("tab1");
+        if (t1) t1.checked = true;
+        return false;
+    }
+
+    const aWaitUpdate = getSelectedRowData();
+    if (aWaitUpdate) {
+        const keydescription = document.getElementById('keydscrpt2');
+        const fthkey = document.getElementById("fatherkey2");
+        const responseDiv = document.getElementById("serverResponse3");
+
+        if (keydescription) keydescription.textContent = aWaitUpdate[2];
+        if (fthkey) fthkey.innerHTML = aWaitUpdate[1];
+        if (responseDiv) responseDiv.innerHTML = '&nbsp;';
+
+        resetCko([4, 6]);
+        updateAccessKeys(['I', 'M'], ['T', 'J', 'K', 'V']);
+
+        if (window.commontemp && fthkey) commontemp(fthkey.innerHTML, "a04.F01");
+    }
 }

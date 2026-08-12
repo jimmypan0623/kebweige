@@ -96,12 +96,15 @@ if ($row = mysqli_fetch_row($result)) {
     $_SESSION['user_name']    = $row[2]; // F03
 
     // 依然保留前端 UI 需要的 useraccount Cookie，但只做顯示與基本閉包比對用
-    setcookie('useraccount', $row[1], [
+    
+    $salt = 'YourSecretKey123!@#'; // 設為您自訂的隨機亂碼
+    $hashed_account = md5($row[1] . $real_captcha.$salt);
+
+    setcookie('useraccount', $hashed_account, [
         'expires' => 0,
         'path' => '/',
         'samesite' => 'Strict'
     ]);
-    
     // B. 清除暫存與錯誤資訊 Cookie (設定過期時間為過去)
     setcookie('tmpacnt', '', time() - 3600, "/");
     setcookie('tmppswd', '', time() - 3600, "/");

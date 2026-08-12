@@ -110,7 +110,8 @@ function topAndWidthModify(dropsheet_content,dropsheet,txtword){
 }
 
 function initFocusField(txtword,tbno,aWaitUpdate,notWaitdata,ajTable){		
-	PasswordFromBackEnd(getCookie('useraccount')?getCookie('useraccount'):getAuth[1]()[0]);  //紀錄原始密碼   //PasswordFromBackEnd(getCookie('useraccount'));  //紀錄原始密碼   
+	//PasswordFromBackEnd(getCookie('useraccount')?getCookie('useraccount'):getAuth[1]()[0]);  //紀錄原始密碼   //PasswordFromBackEnd(getCookie('useraccount'));  //紀錄原始密碼   
+	PasswordFromBackEnd();
 	document.getElementById("orgtxt_password").focus();	
 }
 
@@ -119,9 +120,10 @@ function  addNewRecordHint(tbno){
 }
 
 
-async function PasswordFromBackEnd(useraccount) {	
+//async function PasswordFromBackEnd(useraccount) {	
+async function PasswordFromBackEnd() {	
     const url = `RED/BKND/A01PassWord.php?timestamp=${Date.now()}`;
-    const payload = `filename=${encodeURIComponent(useraccount)}`;		
+    const payload ="";  //`filename=${encodeURIComponent(useraccount)}`;		
     getAuth[3]('Clear_All');		
     try {
         const response = await fetch(url, {

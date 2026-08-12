@@ -3,8 +3,9 @@ require_once("../../include/BKND/auth_check.php"); //驗證
    header("Content-Type:text/html; charset=utf-8");   
 
  require_once("../../include/BKND/mysqli_server.php");                              //引用檔   
-	
-	 $sql3="SELECT `F02` FROM `a14` WHERE binary `F01` ='".$_POST['filename']."' AND `F04`='Y' ";	 	 
+	 $str = explode('|', $_POST['filename']);  //$_POST['filename']
+
+	 $sql3="SELECT `F02` FROM `a14` WHERE binary `F01` ='".trim($str[0])."' AND `F04`='Y' AND `F01`<>'".trim($str[1])."'";	 	 
 
     $arr=array();	
     $sql4=@mysqli_query($link,$sql3); 

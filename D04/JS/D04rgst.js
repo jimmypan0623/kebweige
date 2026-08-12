@@ -1,4 +1,4 @@
-// ==========================================
+// D04rgst.js==========================================
 // 檔案內部共用輔助工具 (Helper Functions)
 // ==========================================
 
@@ -135,7 +135,13 @@ function sendFilePrc(updflg) { // 新增資料及修改程序
             break;
         }
     }					 				
-    
+    // 如果是單身 (tbno == 1)，檢查並打包分批出貨明細
+    if (tbno == 1) {
+        var shipmentList = getShipmentDetailData();
+        if (!shipmentList) {
+            return false; // 驗證不通過，阻擋送出
+        }
+    }
     var isTab0 = (tbno == 0);
     var d04elements = document.getElementsByName(isTab0 ? 'd03update' : 'd04update');
     var d04athments = document.getElementsByName(isTab0 ? 'd03others' : 'd04others');	
@@ -185,6 +191,10 @@ function sendFilePrc(updflg) { // 新增資料及修改程序
             var slicelth = selectElement.value.length;		
             nonjsn.splice(3, 0, selectElement.options[selectElement.selectedIndex].text.slice(slicelth)); // 取得幣別名稱內容		
         }
+    } else {	    
+        // 將分批出貨資料轉成 JSON 字串，放入送出陣列中
+        nonjsn.push(JSON.stringify(shipmentList));		
+        tbjsn.push(JSON.stringify(shipmentList));   //分批出貨陣列資料推入堆疊	
     }
     
     if (updflg == 1) { // 如果是新增     
@@ -327,10 +337,13 @@ function modifyFields(tbno, txtword, ajTable, aWaitUpdate) { // 新增修改時�
         _createFormRow(ajTable, '紀錄號碼', "<input type='text' name='d03update' id='rcrd_no1' class='txt' maxlength='14' autosize />", true);
         
     } else { // 異動表身資料			       		 
-        _createFormRow(ajTable, '預定交期:', "<input type='date' name='d04update' id='deliverydate' class='txt' style='width:30%;' maxlength='10' />");
-        _createFormRow(ajTable, '廠商品號:', "<input type='text' name='d04update' id='vendorpartno' class='txt' style='width:50%;' maxlength='30'/>");
+       
+	    _createFormRow(ajTable, '預定交期:', "<input type='date' name='d04update' id='deliverydate' class='txt' style='width:30%;display:none;' maxlength='10' />", true);
+		_createFormRow(ajTable, '分批進貨:', "<div id='shipmentContainer'></div>"); // 放置分批出貨控制元件
+       
+	    _createFormRow(ajTable, '廠商品號:', "<input type='text' name='d04update' id='vendorpartno' class='txt' style='width:50%;' maxlength='30'/>");
         _createFormRow(ajTable, '單價:', "<input type='number' name='d04update' value=0 id='price' class='txt' style='text-align:right;width:20%;' />");
-        _createFormRow(ajTable, '數量:', "<input type='number' name='d04update' id='queryqty' value=1 class='txt' style='text-align:right;width:20%;' />");
+        _createFormRow(ajTable, '採購數量:', "<input type='number' name='d04update' id='queryqty' value=1 class='txt' style='text-align:right;width:20%;' />");
         
         // 品名規格
         var specHtml = (txtword == 2)
@@ -366,7 +379,7 @@ function modifyFields(tbno, txtword, ajTable, aWaitUpdate) { // 新增修改時�
 }
 
 function topAndWidthModify(dropsheet_content, dropsheet, txtword, tbno) {	 	 
-    if (dropsheet_content) dropsheet_content.style.width = "50%"; 
+    if (dropsheet_content) dropsheet_content.style.width = "60%"; 
     if (dropsheet) dropsheet.style.paddingTop = "25px";     
     return true;
 }
@@ -396,6 +409,8 @@ function initFocusField(txtword, tbno, aWaitUpdate, notWaitdata, ajTable) {
             } else {
                 if (document.getElementById("deliverydate")) document.getElementById("deliverydate").value = thtdy; 												
                 if (document.getElementById("stockno")) document.getElementById("stockno").focus();
+				// 【新增】：初始化分批出貨元件
+                if (typeof initShipmentContainer === 'function') initShipmentContainer(1, 1);
             }
             break;
         case 2: // 修改
@@ -412,6 +427,9 @@ function initFocusField(txtword, tbno, aWaitUpdate, notWaitdata, ajTable) {
             } else {
                 if (document.getElementById("queryqty")) document.getElementById("queryqty").focus();				 			 				  
                 if (document.getElementById('stockname')) document.getElementById('stockname').value = notWaitdata[0];
+				// 【新增】：修改時載入分批出貨元件
+                var initQty = (aWaitUpdate && aWaitUpdate[2]) ? aWaitUpdate[2] : 1;
+                if (typeof initShipmentContainer === 'function') initShipmentContainer(initQty, 2);
             }
             
             var editinit = document.getElementsByName(tbno == 0 ? 'd03update' : 'd04update');
@@ -464,6 +482,7 @@ function colomnAfterChange(tbno, oTr, args, nongs, rsp) { // TableToJson 新增�
                 }
                 if (fldidx == 7 || fldidx == 8 || fldidx == 9) oTd.innerHTML = 0; 
                 if (fldidx == 10) oTd.innerHTML = args[1] * 1; // 未出數量
+				if (fldidx == 11) oTd.innerHTML = nongs[1]; // 分批出貨
             }
         }
         oTd.setAttribute("class", rsp.fldsatrr[fldidx][0]);
@@ -490,7 +509,7 @@ function colomnContextChange(tbno, args, nongs, arglth, rsp) { // TableToJson �
     
     var fldidx = (tbno == 0) ? 4 : 2;
     var argsNo = (tbno == 0) ? 2 : 1;
-    var nongsNo = (tbno == 0) ? 2 : 1;	
+    var nongsNo = (tbno == 0) ? 2 : 0; // 修改：tbno == 1 時 nongsNo 從 0 開始 (nongs[0] 是品名)	
     var targetRow = maintable.rows[args[arglth - 1]];
     if (!targetRow) return;
     
@@ -498,7 +517,7 @@ function colomnContextChange(tbno, args, nongs, arglth, rsp) { // TableToJson �
     var ttlcnt = !ttlMnyEl ? 0 : Number(ttlMnyEl.innerHTML);
     
     if (tbno == 1) {
-        ttlcnt -= Number(targetRow.cells[5].innerHTML);
+        ttlcnt -= Number(targetRow.cells[5].innerHTML); // 扣除舊的小計
     }
     
     while (rsp.fldsatrr[fldidx]) {			
@@ -508,22 +527,32 @@ function colomnContextChange(tbno, args, nongs, arglth, rsp) { // TableToJson �
         } else {				
             if (tbno == 0) {
                 targetRow.cells[fldidx + 1].innerHTML = nongs[nongsNo];
+                nongsNo++;
             }
-            if (fldidx == 4 && tbno == 1) {
+            if (fldidx == 4 && tbno == 1) { // 小計
                 var subTotal = _roundTo(args[1] * args[2], rnddgt);
                 ttlcnt += subTotal;					
-                if (ttlMnyEl) ttlMnyEl.innerHTML = ttlcnt; 
-                nongs[nongsNo] = subTotal;
+                if (ttlMnyEl) ttlMnyEl.innerHTML = ttlcnt;                
                 targetRow.cells[fldidx + 1].innerHTML = subTotal;	
             }	
-            if (fldidx == 10 && tbno == 1) {	
+            if (fldidx == 10 && tbno == 1) { // 未進數量	
                 targetRow.cells[fldidx + 1].innerHTML = args[1] * 1 - targetRow.cells[fldidx - 2].innerHTML * 1 - targetRow.cells[fldidx - 1].innerHTML * 1;	  
             }
-            nongsNo++;
+            if (fldidx == 11 && tbno == 1) { // 分批進貨 JSON
+                // ✅ 動態判斷：如果 nongs 有傳 JSON 則更新，確保拿最後一個元素
+                var jsonVal = Array.isArray(nongs) ? nongs[nongs.length - 1] : nongs;
+                targetRow.cells[fldidx + 1].innerHTML = jsonVal;
+            }		
         }         
         fldidx++;
     }		
+    
     targetRow.cells[fldidx + 1].innerHTML = rsp.lastupdate;
+
+    if (tbno == 1) {		
+        // 修改完後，立即更新右側畫面！
+        if (typeof rowchoseSecond === 'function') rowchoseSecond(targetRow); 
+    }
 }
 
 function transConfirm(oTd) { 			 
@@ -549,6 +578,64 @@ function page2Detail01(ajTable) {
     })
     .then(res => res.json())
     .then(rsp => srchOutRcd(rsp, ajTable)); 
+}
+
+function page2Detail02(ajTable){
+	ajTable.childNodes[0].childNodes[0].style.backgroundColor='white';
+    ajTable.id="srchTable";
+	ajTable.className="gridlist";                 	 		          				 
+	 var url="B01/BKND/B11srch.php";   	    		    
+	 var queryString ="filename="+sourceAccount(1,1);
+	  
+	 
+	fetch(url, {
+     method: 'POST',
+	 cache: 'no-store', // 👈 關鍵：強制每次都向伺服器重新請求
+     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: queryString
+    })
+     .then(res => res.json())
+     .then(rsp => srchStockNo(rsp, ajTable));
+}
+async function page2Detail03(ajTable) {    // 查看預期結餘
+    ajTable.childNodes[0].childNodes[0].style.backgroundColor = 'white';
+    ajTable.id = "srchTable";   
+    ajTable.className = "gridlist";                         
+                        
+    const account = sourceAccount(1, 1);
+
+    try {
+        // 1. 呼叫後端 API 查詢 INVENTORY (假設後端有提供相應的查詢接口，如 C05/BKND/getInventory.php)
+        const invRes = await fetch("C05/BKND/getInventory.php", {
+            method: 'POST',
+            cache: 'no-store',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `account=${encodeURIComponent(account)}`
+        });
+
+        const invData = await invRes.json();
+        // 取得計算後的 SUM(b11.F04) 數值，若無資料則預設為 0
+        const INVENTORY = invData.inventory || 0; 
+        let qtyElem = document.getElementById('runningQtyVal');
+	if (qtyElem) {
+		qtyElem.textContent = INVENTORY;
+	}
+        // 2. 帶入 INVENTORY 數值後發送主請求
+        const queryString = `filename=${encodeURIComponent(account)}|${INVENTORY}`;    
+
+        const mainRes = await fetch("C05/BKND/E07srch.php", {
+            method: 'POST',
+            cache: 'no-store',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: queryString
+        });
+
+        const rsp = await mainRes.json();
+        searchHaveshiped(rsp,ajTable);
+
+    } catch (error) {
+        console.error("查詢過程發生錯誤:", error);
+    }
 }
 
 function srchOutRcd(arr, ajTable) { // 搜尋相關料號
@@ -603,18 +690,39 @@ function page2OtherWindow1() {
     var fatherKey = document.getElementById("fatherkey1") ? document.getElementById("fatherkey1").innerHTML : "";
     return "\u{1F4E4}" + fatherKey + "\u{A0}\u{1F4E6}:\u{300C}" + sourceAccount(1, 1) + "\u{300D}的進貨紀錄";
 }
-
+function page2OtherWindow2() {
+    return "\u{1F4E6}:\u{300E}"+sourceAccount(1,1)+"\u{300F}\u{26A1}:\u{300E}"+sourceAccount(2,1)+"\u{300F}\u{A0}\u{A0}之庫存明細";
+}
+function page2OtherWindow3() {
+    return "\u{A0}\u{1F4E6}:\u{300C}" + sourceAccount(1, 1) + "\u{300D}預期庫存異動明細\u{A0}\u{A0}\u{1F4C4}目前庫存:<span id='runningQtyVal'></span>";
+}
 function srcArgobj(srcId) {
     var srcEl = document.getElementById(srcId);
-    var val = srcEl ? srcEl.value : "";
+    var val = srcEl ? srcEl.value.trim() : "";
     
     if (srcId == 'vendorno' || srcId == 'vendorname') {
-        var qrystring = (srcId == 'vendorno' ? "d01.F01" : "d01.F05") + "|" + val; 
+        // 修正：當輸入值為空時，預設搜尋 '%' (全部廠商)，避免後端報「無此搜尋的鍵值！」
+        var searchVal = (val === "") ? "%" : val;
+        var qrystring = (srcId == 'vendorno' ? "d01.F01" : "d01.F05") + "|" + searchVal; 
         var tttlt = (srcId == 'vendorno' ? '請選擇廠商編號' : '請選擇廠商簡稱');
-        return { "headtitle": tttlt, "drpshtWidth": "28%", "urlPth": "D04/BKND/D01srch.php", "clickfunc": chsecust, "qryString": qrystring, "mendwidth": "calc( 100% - 1em )" };
+        return { 
+            "headtitle": tttlt, 
+            "drpshtWidth": "28%", 
+            "urlPth": "D04/BKND/D01srch.php", 
+            "clickfunc": chsecust, 
+            "qryString": qrystring, 
+            "mendwidth": "calc( 100% - 1em )" 
+        };
     } 
     if (srcId == 'whono') {
-        return { "headtitle": "請選取採購人員帳號姓名", "drpshtWidth": "28%", "urlPth": "C01/BKND/A01srch.php", "clickfunc": chseprg1, "qryString": val, "mendwidth": "calc( 100% - 1em )" };
+        return { 
+            "headtitle": "請選取採購人員帳號姓名", 
+            "drpshtWidth": "28%", 
+            "urlPth": "C01/BKND/A01srch.php", 
+            "clickfunc": chseprg1, 
+            "qryString": val, 
+            "mendwidth": "calc( 100% - 1em )" 
+        };
     } 
     
     var keyDscrpt = document.getElementById('keydscrpt1') ? document.getElementById('keydscrpt1').innerHTML : "";
@@ -623,7 +731,14 @@ function srcArgobj(srcId) {
     var tttlt = (srcId == 'stockno') ? "請選取料號" : "請選取品名";
     
     var qrystring = qryField + "," + val + "," + left(keyDscrpt, 6) + "," + crncy; 			 
-    return { "headtitle": tttlt, "drpshtWidth": "80%", "urlPth": "D04/BKND/B01srch.php", "clickfunc": stckchg, "qryString": qrystring, "mendwidth": "calc( 100% - 1em )" };
+    return { 
+        "headtitle": tttlt, 
+        "drpshtWidth": "80%", 
+        "urlPth": "D04/BKND/B01srch.php", 
+        "clickfunc": stckchg, 
+        "qryString": qrystring, 
+        "mendwidth": "calc( 100% - 1em )" 
+    };
 }
 
 function chseprg1(event) { // 選擇採購
@@ -632,17 +747,19 @@ function chseprg1(event) { // 選擇採購
     }
     var target = getEventTarget(event);	 
     var stuffNo = document.getElementById('whono');
-    stuffNo.value = "";
+    if (stuffNo) stuffNo.value = "";
     var stuffName = document.getElementById('whonameEx');		
     if (stuffName) stuffName.innerHTML = "";
     
     var maintable = document.getElementById("stuffTbody");  
-    for (var i = 0; i < maintable.rows.length; i++) {			 
-        if (maintable.rows[i].cells[maintable.rows[i].cells.length - 1].childNodes[0].checked) {
-             stuffNo.value = maintable.rows[i].cells[0].innerHTML;								 
-             stuffName.innerHTML = maintable.rows[i].cells[1].innerHTML;				
-             break;
-        }				 
+    if (maintable) {
+        for (var i = 0; i < maintable.rows.length; i++) {			 
+            if (maintable.rows[i].cells[maintable.rows[i].cells.length - 1].childNodes[0].checked) {
+                 if (stuffNo) stuffNo.value = maintable.rows[i].cells[0].innerHTML;								 
+                 if (stuffName) stuffName.innerHTML = maintable.rows[i].cells[1].innerHTML;				
+                 break;
+            }				 
+        }
     }             
     srchblkclose(event);	
     return true;
@@ -654,9 +771,9 @@ function stckchg(event) { // 選擇料號
     }
     var target = getEventTarget(event);	 
     var stockNo = document.getElementById('stockno');
-    stockNo.value = "";
+    if (stockNo) stockNo.value = "";
     var stockName = document.getElementById('stockname');			
-    stockName.value = "";  	
+    if (stockName) stockName.value = "";  	
     var unitName = document.getElementById('unitname');
     var orderPrice = document.getElementById('price');
     var orderQty = document.getElementById('queryqty');
@@ -664,22 +781,34 @@ function stckchg(event) { // 選擇料號
     var dlvdate = document.getElementById('deliverydate');		
     
     var maintable = document.getElementById("stuffTbody");  
-    for (var i = 0; i < maintable.rows.length; i++) {			 
-        if (maintable.rows[i].cells[maintable.rows[i].cells.length - 1].childNodes[0].checked) {
-             stockNo.value = maintable.rows[i].cells[0].innerHTML;								 
-             stockName.value = maintable.rows[i].cells[1].innerHTML;	
-             if (unitName) unitName.innerHTML = maintable.rows[i].cells[2].innerHTML;
-             if (orderQty) orderQty.value = maintable.rows[i].cells[4].innerHTML;
-             if (custstockno) custstockno.value = maintable.rows[i].cells[5].innerHTML;  
-             if (orderPrice) orderPrice.value = maintable.rows[i].cells[7].innerHTML;
-            
-             if (dlvdate) {
-                 var outdate = new Date(sourceAccount(5, 0)); // 接單日
-                 var endday = outdate.addDays(parseInt(maintable.rows[i].cells[8].innerHTML, 10));
-                 dlvdate.value = endday.getFullYear() + '-' + MyMonth(endday.getMonth()) + '-' + ((endday.getDate() < 10) ? "0" : "") + endday.getDate();	
-             }
-             break;
-        }				 
+    if (maintable) {
+        for (var i = 0; i < maintable.rows.length; i++) {			 
+            if (maintable.rows[i].cells[maintable.rows[i].cells.length - 1].childNodes[0].checked) {
+                 if (stockNo) stockNo.value = maintable.rows[i].cells[0].innerHTML;								 
+                 if (stockName) stockName.value = maintable.rows[i].cells[1].innerHTML;	
+                 if (unitName) unitName.innerHTML = maintable.rows[i].cells[2].innerHTML;
+                 if (orderQty) {
+                     orderQty.value = maintable.rows[i].cells[4].innerHTML;
+                     var shipQtyEls = document.getElementsByClassName('shipment-qty');
+                     if (shipQtyEls && shipQtyEls.length > 0) {
+                         shipQtyEls[0].value = orderQty.value > 0 ? orderQty.value : 1;
+                     }
+                 }
+                 if (custstockno) custstockno.value = maintable.rows[i].cells[5].innerHTML;  
+                 if (orderPrice) orderPrice.value = maintable.rows[i].cells[7].innerHTML;
+                
+                 if (dlvdate) {
+                     var outdate = new Date(sourceAccount(5, 0)); // 接單日
+                     var endday = outdate.addDays(parseInt(maintable.rows[i].cells[8].innerHTML, 10));
+                     dlvdate.value = endday.getFullYear() + '-' + MyMonth(endday.getMonth()) + '-' + ((endday.getDate() < 10) ? "0" : "") + endday.getDate();	
+                     var shipDateEls = document.getElementsByClassName('shipment-date');
+                     if (shipDateEls && shipDateEls.length > 0) {
+                         shipDateEls[0].value = dlvdate.value;
+                     }
+                 }
+                 break;
+            }				 
+        }
     }             
     srchblkclose(event);	
     return true;
@@ -691,9 +820,9 @@ function chsecust(event) { // 選擇廠商
     }
     var target = getEventTarget(event);	 
     var custNo = document.getElementById('vendorno');
-    custNo.value = "";
+    if (custNo) custNo.value = "";
     var custName = document.getElementById('vendorname');			
-    custName.value = "";
+    if (custName) custName.value = "";
     var custFullName = document.getElementById('vendorfullname');
     var rprsntno = document.getElementById('whono');
     var rprsntname = document.getElementById('whonameEx');
@@ -703,31 +832,138 @@ function chsecust(event) { // 選擇廠商
     var paymenttp = document.getElementById('howpay');
     
     var maintable = document.getElementById("stuffTbody");  
-    for (var i = 0; i < maintable.rows.length; i++) {			 
-        if (maintable.rows[i].cells[maintable.rows[i].cells.length - 1].childNodes[0].checked) {
-            custNo.value = maintable.rows[i].cells[0].innerHTML;								 
-            custName.value = maintable.rows[i].cells[1].innerHTML;
-            if (rprsntno) rprsntno.value = maintable.rows[i].cells[2].innerHTML;
-            if (rprsntname) rprsntname.innerHTML = maintable.rows[i].cells[3].innerHTML;
-            if (crnttpe) crnttpe.value = maintable.rows[i].cells[4].innerHTML;
-            if (contactman) contactman.value = maintable.rows[i].cells[5].innerHTML;
+    if (maintable) {
+        for (var i = 0; i < maintable.rows.length; i++) {			 
+            if (maintable.rows[i].cells[maintable.rows[i].cells.length - 1].childNodes[0].checked) {
+                if (custNo) custNo.value = maintable.rows[i].cells[0].innerHTML;								 
+                if (custName) custName.value = maintable.rows[i].cells[1].innerHTML;
+                if (rprsntno) rprsntno.value = maintable.rows[i].cells[2].innerHTML;
+                if (rprsntname) rprsntname.innerHTML = maintable.rows[i].cells[3].innerHTML;
+                if (crnttpe) crnttpe.value = maintable.rows[i].cells[4].innerHTML;
+                if (contactman) contactman.value = maintable.rows[i].cells[5].innerHTML;
 
-            if (paymenttp) {
-                var tpy = maintable.rows[i].cells[6].innerHTML;   
-                switch (tpy) {				        
-                    case '0': tpy = "現結"; break;
-                    case '1': tpy = "月結"; break;
-                    case '2': tpy = "次月結"; break;
-                    case '3': tpy = "T/T"; break;
-                    default: tpy = '現結'; break;
-                }	 
-                paymenttp.value = tpy + (maintable.rows[i].cells[7].innerHTML == 0 ? '' : maintable.rows[i].cells[7].innerHTML + '天');
-            }	
-            if (shipway) shipway.value = maintable.rows[i].cells[8].innerHTML;   
-            if (custFullName) custFullName.value = maintable.rows[i].cells[9].innerHTML;  
-            break;
-        }						   
+                if (paymenttp) {
+                    var tpy = maintable.rows[i].cells[6].innerHTML;   
+                    switch (tpy) {				        
+                        case '0': tpy = "現結"; break;
+                        case '1': tpy = "月結"; break;
+                        case '2': tpy = "次月結"; break;
+                        case '3': tpy = "T/T"; break;
+                        default: tpy = '現結'; break;
+                    }	 
+                    paymenttp.value = tpy + (maintable.rows[i].cells[7].innerHTML == 0 ? '' : maintable.rows[i].cells[7].innerHTML + '天');
+                }	
+                if (shipway) shipway.value = maintable.rows[i].cells[8].innerHTML;   
+                if (custFullName) custFullName.value = maintable.rows[i].cells[9].innerHTML;  
+                break;
+            }						   
+        }
     }             
     srchblkclose(event);	
     return true;
+}
+
+function srchStockNo(arr,ajTable) {       //搜尋相關料號庫存明細
+    let cnt=0;
+	let array1=[];
+	let array2=[];
+	for(let i=0;i<arr.length;i++){				 
+        var oTr=ajTable.insertRow(0);		
+		cnt++;         
+		
+		for(let jk in arr[i]){		   
+		    let meta = parseFieldMeta(jk);
+		    var oTd = oTr.insertCell(oTr.cells.length); 
+			oTd.innerHTML=arr[i][jk];	
+            if (meta) {
+				oTd.className = meta.isDirect ? "directdata" : "indirectdata";				
+				oTd.style.width = meta.width;
+				if(i==0 && !meta.isHidden){   //第一輪就塞進去											  
+					array1.push(meta.name);  //欄名
+				    array2.push(meta.width); //欄寬
+				}
+				oTd.style.textAlign = meta.align;
+				if (meta.isHidden) oTd.style.display = "none";
+			}
+			if(meta.name=='庫存數量'){
+				
+				if(arr[i]['列入計算_IHC_000']!='Y'){
+			     
+				    oTd.setAttribute("style",`width:${meta.width};text-align:right;text-decoration: line-through;color:#7f8890;`);
+				
+				}else{
+					oTd.setAttribute("style",`width:${meta.width};text-align:right;`);
+				}
+			}
+	    }	
+        if(arr[i]['呆滯天數_IHC_000']>210 ){  //最後異動日期距今超過210天紅字		   
+			oTr.setAttribute("style","font-weight:bold;color:#E60000;");			
+		}else if(arr[i]['呆滯天數_IHC_000']>90 ){//最後異動日期距今超過90天低於210天棕色字
+			oTr.setAttribute("style","font-weight:bold;color:#704214;");			
+		}
+	}	
+   
+    if(cnt==0){
+	  blkshow("無庫存資料!");
+	  //return false;
+	}else{
+	    var oTr=ajTable.insertRow(0);
+	    for (let j = 0; j < array1.length; j++) {
+		    var th = document.createElement('th'); //column		   
+		    var text = document.createTextNode(array1[j]); //cell	
+			th.style.width=array2[j];
+		    th.appendChild(text);
+		    oTr.appendChild(th);		
+	    }						
+	}			
+}
+
+function searchHaveshiped(arr,ajTable) {       //搜尋相關料號預期異動
+    let cnt=0;
+	let array3=[];
+	let array4=[];	 
+	let initqty=sourceAccount(2,0);    //
+	for(var i=arr.length-1;i>-1;i--){				 
+	    var oTr=ajTable.insertRow(0);
+		cnt++;         
+		
+		for(let jk in arr[i]){		   
+		    var meta = parseFieldMeta(jk);
+		    var oTd = oTr.insertCell(oTr.cells.length); 
+			oTd.innerHTML=arr[i][jk];	
+            if (meta) {
+				oTd.className = meta.isDirect ? "directdata" : "indirectdata";				
+				oTd.style.width = meta.width;
+				if(i==0 && !meta.isHidden){   //第一輪就塞進去											  
+					array3.push(meta.name);  //欄名
+				    array4.push(meta.width); //欄寬
+				}
+				oTd.style.textAlign = meta.align;
+				if (meta.isHidden) oTd.style.display = "none";
+			}		
+			
+	    }	
+		if( arr[i]['預期結餘_ISR_010']<0){  //預期結餘超過今天紅字
+			oTr.setAttribute("style","font-weight:bold;color:#E60000;");				 
+		}	 
+		
+		if(arr[i]['序號_IHC_000'].slice(0, -10)== sourceAccount(1,0).substring(0, 2) +sourceAccount('0',1)){  //如果與訂單同筆則變色
+	
+			 oTr.style.background = "linear-gradient(to bottom, #C2C2FF 0%, #8E8EFF 100%)";
+		} 
+	}	
+	
+    if(cnt==0){
+	  blkshow("無資料!");
+	  return false;
+	}else{
+	    var oTr=ajTable.insertRow(0);		
+	    for (let j = 0; j < array3.length; j++) {
+		    var th = document.createElement('th'); //column		   
+		    var text = document.createTextNode(array3[j]); //cell	
+			th.style.width=array4[j];
+		    th.appendChild(text);
+		    oTr.appendChild(th);		
+	    }						
+	}
 }

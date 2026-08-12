@@ -1,11 +1,21 @@
 <?php
 require_once("../../include/BKND/auth_check.php"); //驗證
 $str_json = file_get_contents('php://input'); //($_POST doesn't work here)
-$response =json_decode($str_json); // decoding received JSON to array
-$cart=json_decode($response);
-$brr=array();
-foreach($cart as $key=>$val){	   
-    $brr[]=addslashes($val);		//要加入此函數避免中間有單引號錯亂
+
+// 【修正】原本這裡是「雙重 json_decode」：
+//   $response = json_decode($str_json);
+//   $cart = json_decode($response);
+// 對齊 C04wrt.php / B04wrt.php / B04bodywrt.php 的修法：
+// 前端已改為單次 stringify(真實物件)，這裡直接一次解碼即可。
+$cart = json_decode($str_json, true);   // 前端已改為單次 stringify(真實物件)，這裡直接一次解碼
+if ($cart === null) {
+    echo json_encode("payload 解碼失敗");
+    exit;
+}
+
+$brr = array();
+foreach ($cart as $key => $val) {
+    $brr[] = addslashes($val);		//要加入此函數避免中間有單引號錯亂
 }
  
  $mArlth=count($brr);  
@@ -33,11 +43,7 @@ if($rows1==0 || $rows2==0){
     }
 	if($rows1==0) echo json_encode("無此轉入部門編號"); 	   
 	if($rows2==0) echo json_encode("無此轉出部門編號");  
-}else{
-     $sql0="select * from a01 where F01="."'".$_COOKIE['useraccount']."'"; 
-     $sql1=@mysqli_query($link,$sql0);
-     $rows1=@mysqli_num_rows($sql1);                       
-     $list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名        
+}else{          
 	 $lastdate=date('Y'.'-'.'m'.'-'.'d');
     
      if($brr[$mArlth-2]==0){        //如果旗標指示為新增		
@@ -61,11 +67,11 @@ if($rows1==0 || $rows2==0){
    	           $mscnt.="'".$brr[4]."',";	               
                $mscnt.="'".$brr[5]."',";	  	
 			   $mscnt.="'N',";	
-	           $mscnt.="'".$lastdate.$list4['F03']."')";		      
+	           $mscnt.="'".$lastdate.$_SESSION['user_name']."')";		      
 	           $sql=$mscnt;                                               //寫入MySQL 	 
                mysqli_query($link ,$sql) or die(mysqli_error($link));  
 			   $last_id = mysqli_insert_id($link);     //找最後一個號碼	          					     
-			   $arr = array ('order_no'=>$last_id,'lastupdate'=>$lastdate.$list4['F03'],'fldsatrr'=>$trnarray);						 
+			   $arr = array ('order_no'=>$last_id,'lastupdate'=>$lastdate.$_SESSION['user_name'],'fldsatrr'=>$trnarray);						 
 	           echo json_encode($arr);
 		 } //新增判斷或執行結束   	     
      }else{	   //修改
@@ -73,11 +79,11 @@ if($rows1==0 || $rows2==0){
 	   $mscnt.="F05="."'".$brr[2]."',";	   	    
 	   $mscnt.="F07="."'".$brr[3]."',";	 
 	   $mscnt.="F08="."'".$brr[4]."',";	 	   
-	   $mscnt.="F11="."'".$lastdate.$list4['F03']."'";
+	   $mscnt.="F11="."'".$lastdate.$_SESSION['user_name']."'";
 	   $mscnt.=" WHERE F00="."'".$brr[$mArlth-2]."'";
 	   $sql=$mscnt;                                                 //寫入MySQL 	 
        mysqli_query($link ,$sql) or die(mysqli_error($link));  	  
-       $arr = array ('order_no'=>$brr[$mArlth-2],'lastupdate'=>$lastdate.$list4['F03'],'fldsatrr'=>$trnarray);
+       $arr = array ('order_no'=>$brr[$mArlth-2],'lastupdate'=>$lastdate.$_SESSION['user_name'],'fldsatrr'=>$trnarray);
 	    echo json_encode($arr);
       //echo $brr[11];
     }  

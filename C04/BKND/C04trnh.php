@@ -12,10 +12,7 @@ require_once("../../include/BKND/mysqli_server.php");    //引用檔
  $sql8=@mysqli_query($link,$sql7);                       
   $list9=mysqli_fetch_assoc($sql8);  //檢查是否已轉單
 if($list9['F08']!='Y'){    //已有出貨行為
-     $sql0="select * from a01 where F01="."'".$_COOKIE['useraccount']."'"; 
-     $sql1=@mysqli_query($link,$sql0);
-     $rows1=@mysqli_num_rows($sql1);                       
-     $list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名   
+    
       $lastdate=date('Y'.'-'.'m'.'-'.'d');
    ////先轉表頭b04
       $sql5="select F29,F30,F15,F36 from `c01` where `F01`='".trim($brr[1])."'"; 
@@ -25,7 +22,7 @@ if($list9['F08']!='Y'){    //已有出貨行為
       $sql18=@mysqli_query($link,$sql17);                       
       $list2=mysqli_fetch_assoc($sql18);  //先抓c00匯率
        $sql2="insert into b04 (F01,F02,F06,F09,F11,F14,F16,F22,F23,F21,F12,F24,F90) values ('".$brr[9]."','".date('d')."', 
-	   '".$brr[1]."','".$brr[3]."','".$lastdate.$list4['F03']."','".$brr[4]."','".$list2['F02']."','".$list1['F29']."', 
+	   '".$brr[1]."','".$brr[3]."','".$lastdate.$_SESSION['user_name']."','".$brr[4]."','".$list2['F02']."','".$list1['F29']."', 
 	   '".$list1['F30']."','".howpay($list1['F15']).($list1['F36']>0?$list1['F36']."天":"")."','".$brr[6]."','".$brr[7]."','".date('Y')."-".date('m')."')";         
 	  @mysqli_query($link,$sql2) ;  	  	  
    ////轉表身b0d
@@ -40,7 +37,7 @@ if($list9['F08']!='Y'){    //已有出貨行為
 					  'origin_no'=>$brr[0],
 					  'custom_partno'=>$list3['F05'],	
 					  'custom_po'=>$brr[5],
-					  'whoupdate'=>$lastdate.$list4['F03'],
+					  'whoupdate'=>$lastdate.$_SESSION['user_name'],
 					  'query_price'=>$list3['F04'],
 					  'remark'=>$brr[0].'轉入');  					  									  
 			array_push($arr,$my_array);		  
@@ -58,11 +55,11 @@ if($list9['F08']!='Y'){    //已有出貨行為
 	  $c04update="UPDATE c04 SET F23=F03 WHERE F01='".$brr[0]."'";	
         mysqli_query($link , $c04update) or die(mysqli_error($link));		
 	   $mscnt="UPDATE c03 SET F08='".$brr[8]."',";	    	  
-	   $mscnt.=" F10='".$lastdate.$list4['F03']."'";
+	   $mscnt.=" F10='".$lastdate.$_SESSION['user_name']."'";
 	   $mscnt.=" WHERE F01="."'".$brr[0]."'";
 	   $sql=$mscnt;                                                 //寫入MySQL 	 
        mysqli_query($link ,$sql) or die(mysqli_error($link));  	 	   
-       $arr = array ('order_no'=>$brr[0],'lastupdate'=>$lastdate.$list4['F03']);
+       $arr = array ('order_no'=>$brr[0],'lastupdate'=>$lastdate.$_SESSION['user_name']);
 	    echo json_encode($arr);
 }
 mysqli_close($link);	

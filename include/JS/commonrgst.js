@@ -36,12 +36,12 @@ function blkshow(txtword)
 	dropsheet_content.style.fontSize="18px";	  	  
 	dropsheet.appendChild(dropsheet_content);  //訊息內框加入	
     if (isNaN(Number(txtword))){         //如果傳進來的參數是字串	   	   	
-	    var closeButton = document.createElement('button')
- 	    closeButton.setAttribute("class","close");
+	    var closeButton = document.createElement('button') 	   
 		closeButton.setAttribute("title","按此關閉提示視窗，快速鍵Alt+X");
 		closeButton.setAttribute("accesskey","X");
         closeButton.textContent = '\u{274E}';           //'\u{274E}'//'&times';  
-        attachEventListener(closeButton,"click",blocksclose,false);	//按叉叉關視窗
+        attachEventListener(closeButton,"click",blocksclose,false);	//按叉叉關視窗		
+		closeButton.setAttribute("class","close");
 	   	dropsheet_content.appendChild(closeButton);        //加進內容框		
 	    var p_tx=document.createElement('p');            //主畫面登入錯誤訊息顯示內容
 		p_tx.style.color="blue";
@@ -62,85 +62,93 @@ function blkshow(txtword)
 			tabs[i].removeAttribute("accesskey");
 		}
 		//新增修改畫面提示訊息
+		let headtitle = "";
+		const isAuthA = getAuth[0]()[12] === 'A'; // 預先快取權限判斷
 		switch(txtword){
 			case 1:	 			    //新增
 				    if(addNewRecordHint(tbno)=="修改密碼："){
-				        var headtitle= addNewRecordHint(tbno);
+				        headtitle= addNewRecordHint(tbno);
 				    }else{
-					  var headtitle= addNewRecordHint(tbno)+"(新增完畢請按下面\u{274E}結束鈕)"; 
+					   headtitle= addNewRecordHint(tbno)+"(新增完畢請按下面\u{274E}結束鈕)"; 
 				    }
 				    break;					  
 			case 4:				                //刪除
-			        if(tbno==0 && getAuth[0]()[12]=="R"){   //getCookie("kindofda")=="R"
-					    var headtitle="所選為單頭紀錄，連帶會刪除其單身所有內容，請確定？";
+			        if(tbno==0 && isAuthA=="R"){   //getCookie("kindofda")=="R"
+					    headtitle="所選為單頭紀錄，連帶會刪除其單身所有內容，請確定？";
 					}else{
-				        var headtitle="確定刪除所點選紀錄?";
+				        headtitle="確定刪除所點選紀錄?";
 					}
 				    break;	   
 			case 3:				 	      //確認或過帳
-			        if (getAuth[0]()[12]!='A'){
+			        if (isAuthA!='A'){
 						if (tbno==0){  //表頭資料	
 							if(sourceAccount(1,0)){
-							   var headtitle='單號:'+sourceAccount(1,0)+",之所有資料核准確認?";
+							   headtitle='單號:'+sourceAccount(1,0)+",之所有資料核准確認?";
 							}else{
 							   blkshow("無資料可確認!");
 							   return false;
 							}
 						}else{				 
-							var headtitle='單號:'+document.getElementById('fatherkey1').textContent+",之所有資料核准確認?";					 
+							headtitle='單號:'+document.getElementById('fatherkey1').textContent+",之所有資料核准確認?";					 
 						}
 					}else{
-					    var headtitle="是否結轉期末庫存?";
+					    headtitle="是否結轉期末庫存?";
 					}
 				    break;
 			case 5:                             //反確認或反過帳
-			        if (getAuth[0]()[12]!='A'){
+			        if (isAuthA!='A'){
 						if (tbno==0){  //表頭資料	
 							if(sourceAccount(1,0)){
-								var headtitle='單號:'+sourceAccount(1,0)+",之所有資料反確認修正?";
+								headtitle='單號:'+sourceAccount(1,0)+",之所有資料反確認修正?";
 							}else{
 							   blkshow("無資料可反確認!");
 							   return false;
 							}
 						}else{
-							var headtitle='單號:'+document.getElementById('fatherkey1').textContent+",之所有資料反確認修正?";
+							headtitle='單號:'+document.getElementById('fatherkey1').textContent+",之所有資料反確認修正?";
 						}	
 					}else{
-					    var headtitle="本月是否反結轉期末庫存?";
+					    headtitle="本月是否反結轉期末庫存?";
 					    
 					}						
 				    break;
 			case 6:                                    //轉單				 
-				    var headtitle=transRecordHint(tbno);
+				    headtitle=transRecordHint(tbno);
 				    break;	  
 			case 7:                                  //搜尋				      
-				    var headtitle=searchKeyHint(tbno);
+				    headtitle=searchKeyHint(tbno);
 				    break;		   	  
 			case 8:	              //複製該表頭之表身所有紀錄到另一個表頭下
-				   var headtitle=copyToOtherList(tbno);
+				   headtitle=copyToOtherList(tbno);
 				   break;
 			case 9:                            //表頭保留但移除該表頭的表身所有紀錄
-				   var headtitle=removeAllList(tbno);
+				   headtitle=removeAllList(tbno);
 				   break;	   					 
 			case 101:                                  //第一頁其他第一按鈕功能開窗			 			       
-				    var headtitle=page1OtherWindow1();					
+				    headtitle=page1OtherWindow1();					
 				   break;		
 			case 102:                                  //第一頁其他第二按鈕功能開窗			 			       
-				    var headtitle=page1OtherWindow2();					
+				    headtitle=page1OtherWindow2();					
 				   break;		  	   	   
 			case 103:                                  //第一頁其他第三按鈕功能開窗			 			       
-				    var headtitle=page1OtherWindow3();					
+				    headtitle=page1OtherWindow3();					
 				   break;		  	   
 			case 201:                                  //第二頁其他第一按鈕功能開窗			      
-				   var headtitle=page2OtherWindow1();
+				   headtitle=page2OtherWindow1();
 				   break;		 	   
+			case 202:                                  //第二頁其他第二按鈕功能開窗			      
+				   headtitle=page2OtherWindow2();
+				   break;		 	   	   
+			case 203:                                  //第二頁其他第三按鈕功能開窗			      
+				   headtitle=page2OtherWindow3();
+				   break;	          
 			case 2:                             //修改
 				    var aWaitUpdate=[];	//準備記錄修改時欄位的內容資料
 				    var notWaitdata=[];    //不直接異動的資料	 											  
 				    var maintable=document.getElementById("maintbody"+(tbno+1).toString());							  
-				    for(var i=0;i< maintable.rows.length; i++){			 		            
+				    for(let i=0;i< maintable.rows.length; i++){			 		            
 					    if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
-					  	    for (j=0;j<maintable.rows[i].cells.length-1;j++){
+					  	    for (let j=0;j<maintable.rows[i].cells.length-1;j++){
 						   	    if(maintable.rows[i].cells[j].className=='directdata'){							
 								   aWaitUpdate.push(maintable.rows[i].cells[j].textContent);  //將待修改欄位資料存入陣列
 							    }else if(maintable.rows[i].cells[j].className=='indirectdata'){
@@ -150,22 +158,25 @@ function blkshow(txtword)
 						    break;					   
 					    }
 				    } 				 			
-				    var headtitle=editRecordHint(tbno);
-				    break;					  
+				    headtitle=editRecordHint(tbno);
+				    break;					
+				
 		} 		    
+		
 		var dialog=document.createElement("div");		//開始從畫面產生新增紀錄欄位
 		dialog.setAttribute("class","crncyDialog");	 
 		dialog.style.position="relative";		  		    
 		var dialogTitle=document.createElement("div");		
-		dialogTitle.setAttribute("style","font-size:medium;font-family:Arial;font-weight:bold; color:#336666;");
-		dialogTitle.appendChild(document.createTextNode(headtitle));	
+		dialogTitle.setAttribute("style","font-size:medium;font-family:Arial;font-weight:bold; color:#336666;");		
+		dialogTitle.innerHTML=headtitle;  //一定要使用innerHTML,不能用dialogTitle.appendChild(document.createTextNode(headtitle));
 		dialog.appendChild(dialogTitle);		  
 		var ajTable=document.createElement("table");	
 		ajTable.setAttribute("id","aplyform2");
 		ajTable.style.width='100%';						
 		var oTr=ajTable.insertRow(ajTable,ajTable.length);
 		if(txtword==2 || txtword==4 || txtword==3 || txtword==5 || txtword==6 || txtword==7 || txtword==8 || txtword==9 || txtword>100){
-			var dialogButton1=document.createElement("input");		   
+			var dialogButton1=document.createElement("input");	
+			dialogButton1.id="opersh";
 			dialogButton1.setAttribute("type","button");
 			dialogButton1.setAttribute("class","btn");
 			if(txtword==5 || txtword==6 || txtword==3){
@@ -202,6 +213,8 @@ function blkshow(txtword)
 				   break;		
 			}								
 		}
+		
+	
 		var dialogButton3=document.createElement("input");
 		dialogButton3.setAttribute("type","button");
 		dialogButton3.setAttribute("class","btn");
@@ -209,6 +222,7 @@ function blkshow(txtword)
 		dialogButton3.setAttribute("title","放棄或結束並離開，快速鍵Alt+X");
 		dialogButton3.setAttribute("accesskey","X");					
 		attachEventListener(dialogButton3,"click",blocksclose,false);			
+		
 		var oTd = oTr.insertCell(0);	   		      
 		if (txtword==2 || txtword==4 || txtword==3 || txtword==5 || txtword==6 || txtword==7 || txtword==8 || txtword==9){			
 		   oTd.appendChild(dialogButton1);	         //修改刪除	確認  反確認
@@ -281,6 +295,12 @@ function blkshow(txtword)
 		if(txtword==201){  
 		    page2Detail01(ajTable);
 		}
+		if(txtword==202){  
+		    page2Detail02(ajTable);
+		}
+		if(txtword==203){  
+		    page2Detail03(ajTable);
+		}
 		var formJason=document.createElement('form');		   
 		formJason.id="formdata";
 		formJason.appendChild(ajTable);	             		 
@@ -296,95 +316,104 @@ function blkshow(txtword)
 	return true;
 }
 
-/////  將table內容資料轉為jason
-	//以下為新增內容
-function TableToJson(args,nongs,tbno){		    
-	var yesbill=getAuth[0]()[12];  //getCookie("kindofda");  //	判斷是否為單據
-	var rsp="";      
-	if (tbno==0){		
-		var order_head="{";
-	}else if(tbno==1){
-		var fthkey=document.getElementById('fatherkey1');  
-		var order_head="{"+"\""+"elema"+"\""+":"+"\""+fthkey.innerHTML.trim()+"\""+",";
-	}else if(tbno==2){
-		  var fthkey=document.getElementById('fatherkey2');  
-		var order_head="{"+"\""+"elema"+"\""+":"+"\""+fthkey.innerHTML.trim()+"\""+",";
-	}
-	for (var n=0;n<args.length;n++){
-		order_head+="\""+"elem"+String(n)+"\""+":"+"\""+args[n]+"\""+",";
-	}									
-	var json=order_head.slice(0,-1)+"}";   //去掉最後一個逗號再加上右大引號	 	 	
-    var str_json=JSON.stringify(json);	
+async function TableToJson(args, nongs, tbno) {	
+    var yesbill = getAuth[0]()[12]; // 判斷是否為單據
+    var order_head = {};   // 改用真正的物件
 
-    setCookie('useraccount',getAuth[1]()[0]);	
-	
-	var mainright=document.getElementsByTagName('title'); 
-	if(window.ActiveXObject){
-	    var request = new ActiveXObject("Microsoft.XMLHttp");
-	}	
-	else if(window.XMLHttpRequest){
-		var request = new XMLHttpRequest();
-    }		
-	request.onreadystatechange = respondUpdate;
-	var mainrightValue=(left(mainright[0].innerHTML,3)).toUpperCase();
-	
-	if (tbno==0){	
-	    var url=mainrightValue+"/BKND/"+mainrightValue+"wrt.php?timestamp="+new Date().getTime();	          
-	}else if(tbno==1){
-		  var url=mainrightValue+"/BKND/"+mainrightValue+"bodywrt.php?timestamp="+new Date().getTime();		       
-	}else if (tbno==2){
-		var url=mainrightValue+"/BKND/"+mainrightValue+"hipswrt.php?timestamp="+new Date().getTime();		  
-	}	 
-	request.open("POST",url);	
-   request.setRequestHeader("Content-type", "application/json");
-	//request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-	
-    request.send(str_json);
-    function respondUpdate() {		
-        if (request.readyState == 4 && request.status == 200) {              		
-			rsp=JSON.parse(request.responseText);	
-			var lastmodifydate=rsp.lastupdate;    //最後異動先丟入變數,否則丟入之函數無法呼叫					  
-            var arglth=	args.length;		
-			if(!isNaN(Number(rsp.order_no))){     			   
-			   if(args[arglth-2]==0){     //如果回傳為新增記錄號碼且旗標值為0表示新增成功就做表格插入一列		
-				  var oTable = document.getElementById("maintbody"+(tbno+1).toString());
-				  var oTr=oTable.insertRow(0);	
-                  oTr.setAttribute("name","mainrow");
-				  var oTd = oTr.insertCell(oTr.cells.length);				
-				  oTd.innerHTML=rsp.order_no;
-				  oTd.setAttribute("class","directdata");
-				  oTd.setAttribute("style","display:none;");				  			
-				  colomnAfterChange(tbno,oTr,args,nongs,rsp);   //新增確認後表格欄位處理					   
-				  for (var i=1;i<oTr.cells.length;i++){					 
-					  attachEventListener(oTr.cells[i],'click',rowchoose,false);		//點選資料   
-				  }				    				   				 			  	
-		             var oTd = oTr.insertCell(oTr.cells.length);		//再新增一欄 	
-	                 oTd.setAttribute("style","display:none");   
-	 	             var myCheck=document.createElement('input'); 
-		             myCheck.type="checkbox";
-				     myCheck.setAttribute("name","chkbxmember"+(tbno+1).toString());
-					 attachEventListener(myCheck,'click',chooserc,false);
-                     oTd.appendChild(myCheck); 			
-                   	 chooserc(1);        
-                     oTable.scrollTo(0,0)	;	//滾動到此表格第一筆
-                     if (tbno==0){			//表頭才需要		                         						  
-						 if(yesbill=='R'){   //如果為單據檔	 
-						   var tabs=getElementsByAttribute('class','tab');	
-					        tabs[1].checked=true;			//表頭新增完畢立即跳到表身處理單據內容新增			
-	                        tab2View(event);
-					     }	 
-					 }	
-					  blkshow(1);	
-			   }else{            //如果是修改則原列更改內容				                   
-					colomnContextChange(tbno,args,nongs,arglth,rsp);   //修改確認後表格欄位處理					 
-			   }			   
-			}else{				
-				blkshow(rsp);   //新增不成功才顯示訊息
-            }										
+    if (tbno == 1) {
+        var fthkey = document.getElementById('fatherkey1');  
+        order_head.elema = fthkey.innerHTML.trim();
+    } else if (tbno == 2) {
+        var fthkey = document.getElementById('fatherkey2');  
+        order_head.elema = fthkey.innerHTML.trim();
+    }    
+    for (var n = 0; n < args.length; n++) {
+        order_head["elem" + n] = args[n];
+    }									
+    var str_json = JSON.stringify(order_head);
+
+   // setCookie('useraccount', getAuth[1]()[0]);	
+
+    var mainright = document.getElementsByTagName('title'); 
+    var mainrightValue = (left(mainright[0].innerHTML, 3)).toUpperCase();
+
+    var url = "";
+    if (tbno == 0) {	
+        url = mainrightValue + "/BKND/" + mainrightValue + "wrt.php"; //?timestamp=" + new Date().getTime();	          
+    } else if (tbno == 1) {
+        url = mainrightValue + "/BKND/" + mainrightValue + "bodywrt.php" ;		       
+    } else if (tbno == 2) {
+        url = mainrightValue + "/BKND/" + mainrightValue + "hipswrt.php" ;		  
+    }	 
+
+    try {
+        // 使用 fetch 發送非同步 POST 請求
+        const response = await fetch(url, {
+            method: 'POST',
+			cache: 'no-store', // 👈 關鍵：強制每次都向伺服器重新請求
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: str_json
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP 錯誤！狀態碼: ${response.status}`);
         }
-    }      
-	return true; 
-}  
+
+        const rsp = await response.json();
+        var lastmodifydate = rsp.lastupdate; // 最後異動時間
+        var arglth = args.length;		
+
+        if (!isNaN(Number(rsp.order_no))) {     			   
+            if (args[arglth - 2] == 0) { // 如果回傳為新增記錄號碼且旗標值為 0 表示新增成功，插入一列	
+                var oTable = document.getElementById("maintbody" + (tbno + 1).toString());
+                var oTr = oTable.insertRow(0);	
+                oTr.setAttribute("name", "mainrow");
+
+                var oTd = oTr.insertCell(oTr.cells.length);				
+                oTd.innerHTML = rsp.order_no;
+                oTd.setAttribute("class", "directdata");
+                oTd.setAttribute("style", "display:none;");				  			
+
+                colomnAfterChange(tbno, oTr, args, nongs, rsp); // 新增確認後表格欄位處理					   
+
+                for (var i = 1; i < oTr.cells.length; i++) {					 
+                    attachEventListener(oTr.cells[i], 'click', rowchoose, false); // 點選資料   
+                }				    				   				 			  	
+
+                var oTdCheck = oTr.insertCell(oTr.cells.length); // 新增 Checkbox 欄位 	
+                oTdCheck.setAttribute("style", "display:none");   
+                var myCheck = document.createElement('input'); 
+                myCheck.type = "checkbox";
+                myCheck.setAttribute("name", "chkbxmember" + (tbno + 1).toString());
+                attachEventListener(myCheck, 'click', chooserc, false);
+                oTdCheck.appendChild(myCheck); 			
+
+                chooserc(1);        
+                oTable.scrollTo(0, 0); // 滾動到表格第一筆
+
+                if (tbno == 0) { // 表頭才需要		                         						  
+                    if (yesbill == 'R') { // 如果為單據檔	 
+                        var tabs = getElementsByAttribute('class', 'tab');	
+                        tabs[1].checked = true; // 表頭新增完畢跳到表身
+                        tab2View(event);
+                    }	 
+                }	
+                blkshow(1);	
+            } else { // 如果是修改則原列更改內容				                   
+                colomnContextChange(tbno, args, nongs, arglth, rsp); // 修改確認後表格欄位處理					 
+            }			   
+        } else {				
+            blkshow(rsp); // 新增不成功顯示訊息
+        }
+    } catch (error) {
+        console.error("Fetch 請求失敗:", error);
+         blkshow("異動處理連線結束！");
+    }
+
+    return true; 
+}
 
 function notIceChg(event){
     if (typeof event=="undefined"){

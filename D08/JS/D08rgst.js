@@ -84,7 +84,7 @@ function page1Detail03(ajTable){
 	ajTable.childNodes[0].childNodes[0].style.backgroundColor='white';
     ajTable.id="srchTable";	
 	ajTable.className="gridlist";                 	 			             				 
-	 var url="D08/BKND/E07srch.php";
+	 var url="C05/BKND/E07srch.php";
 	 var queryString ="filename="+sourceAccount(1,0)+'|'+sourceAccount(8,0)*1;	 
   
 	fetch(url, {

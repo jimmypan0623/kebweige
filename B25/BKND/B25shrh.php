@@ -30,7 +30,7 @@ foreach($cart as $key=>$val){
 	if(count($nairr)>0){
 	    echo json_encode($nairr[0]." ".$nairr[1]."，尚有單號：<mark>".$list9['F01']."</mark>未確認!"); 
 	}else{
-		 $sql0="select * from a01 where F01="."'".$_COOKIE['useraccount']."'"; 
+		 $sql0="select * from a01 where F01="."'".$_SESSION['user_account']."'"; 
 		 $sql1=@mysqli_query($link,$sql0);
 					   
 		 $list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名   

@@ -617,7 +617,7 @@ function  addNewRecordHint(tbno){
     }else{
 	   if(document.getElementById('ttlmny3').innerHTML*1>0){
 	      return "請輸入應付沖銷單內容資料[剩餘未沖="+document.getElementById('ttlmny3').innerHTML+"]\u{A0}\u{A0}";
-	   }else{
+	   }else{		   
 	      blocksclose();
 	   }
     }		

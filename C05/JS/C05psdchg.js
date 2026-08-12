@@ -3,38 +3,21 @@ function selfTag(jsvsn,jsPth){
 	var svrSpns1=document.getElementById('serverResponse1'); 
 	 const frag2 = document.createDocumentFragment();
 	var text5 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
-	var notOutButton=document.createElement("input");		   
-	notOutButton.setAttribute("type","button");
-	notOutButton.setAttribute("class","btn");
-	notOutButton.setAttribute("value","\u{1F6D2}");     //u{1F3E1}
+	
+	const notOutButton = btnManager.createBtn("REDYSHIP_BOTT", "\u{1F6D2}", "開單未過帳明細，快速鍵 Alt+G", "G", page1OtherButton1);
 	notOutButton.setAttribute("style","font-size:130%;margin:0px");
-	notOutButton.setAttribute("title","開單未過帳明細，快速鍵 Alt+G");	
-	notOutButton.setAttribute('accesskey','G');
-	notOutButton.id="REDYSHIP_BOTT";		
 	frag2.appendChild(text5);  
 	frag2.appendChild(notOutButton);
 	var text6 = document.createTextNode('\u{A0}\u{A0}\u{A0}');
-	var invDetailButton=document.createElement("input");		   
-	invDetailButton.setAttribute("type","button");
-	invDetailButton.setAttribute("class","btn");
-	invDetailButton.setAttribute("value","\u{1F3EC}");     //u{1F3E1} 
+	
+	const invDetailButton = btnManager.createBtn("INVDTL_BOTT", "\u{1F4E6}", "各庫別明細，快速鍵 Alt+B", "B", page1OtherButton2);
 	invDetailButton.setAttribute("style","font-size:130%;margin:0px;");
-	invDetailButton.setAttribute("title","各庫別明細，快速鍵 Alt+B");	
-	invDetailButton.setAttribute('accesskey','B')
-	invDetailButton.id="INVDTL_BOTT";		
-	attachEventListener(invDetailButton,"click",page1OtherButton2,false);
 	frag2.appendChild(text6);
 	frag2.appendChild(invDetailButton);
 	var text7 = document.createTextNode('\u{A0}\u{A0}\u{A0}');
-	var mrpListButton=document.createElement("input");		   
-	mrpListButton.setAttribute("type","button");
-	mrpListButton.setAttribute("class","btn");
-	mrpListButton.setAttribute("value","\u{1F453}");     //u{1F3E1}
+	
+	const mrpListButton = btnManager.createBtn("IFUTURE_BOTT", "\u{1F453}", "預期庫存異動明細，快速鍵 Alt+R", "R", page1OtherButton3);
 	mrpListButton.setAttribute("style","font-size:130%;margin:0px;");
-	mrpListButton.setAttribute("title","預期庫存異動明細，快速鍵 Alt+R");	
-	mrpListButton.setAttribute('accesskey','R')
-	mrpListButton.id="FUTURE_BOTT";		
-	attachEventListener(mrpListButton,"click",page1OtherButton3,false);
 	frag2.appendChild(text7);
 	frag2.appendChild(mrpListButton);
 	contentdiv[0].insertBefore(frag2,svrSpns1);
@@ -69,6 +52,5 @@ function tab1View(event){
 		var crntpge=document.getElementById('recmth') ;
 		if (crntpge.value*1>=1) {
 		  choiceClick(crntpge.value);
-		}
-		 
+		}		 
 } 

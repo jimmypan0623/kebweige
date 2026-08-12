@@ -1,97 +1,64 @@
-   function attachEventListener(target,eventType,functionRef,capture)
-   {
-	   if (typeof target.addEventListener!="undefined")
-	   {
-		   target.addEventListener(eventType,functionRef,capture);
-	   }
-	   else if (typeof target.addachEvent!="undefined")
-	   {
-		   var functionString=eventType+functionRef;
-		   target["e"+functionString]=functionRef;
-	       target[functionString]=function(event)
-		   {
-			   if (typeof event=="undefined")
-			   {
-				   event=window.event;
-			   }
-			   target["e"+functionString](event);
-		   };		   
-		   target.attachEvent("on"+eventType,target[functionString]);
-	   }
-	   else
-	   {
-		   eventType="on"+eventType;
-		   if (typeof target[eventType]=="function")
-		   {
-			   var oldListener=target[eventType];
-			   target[eventType]=function()
-			   {
-				   oldListener();
-				   return functionRef();
-			   };
-		   }
-		   else
-		   {
-			   target[eventType]=functionRef;
-		   }
-	   }
-   }
-   function detachEventListener(target,eventType,functionRef,capture)
-   {
-	   if (target.removeEventListener !="undefined")
-	   {
-		   target.removeEventListener(eventType,functionRef,capture);
-	   }
-	   else if (typeof target.detachEvent!="undefined")
-	   {
-		   var functionString=eventType+functionRef;
-		   target.detachEvent("on"+eventType,target[functionString]);
-		   target["e"+functionString]=null;
-		   target[functionString]=null;
-	   }
-	   else
-	   {
-		   target["on"+eventType]=null;
-	   }
-   }
-   function stopEvent(event)
-   {
-	   if (typeof event.stopPropagation!="undefined")
-	   {
-		   event.stopPropagation();
-	   }
-	   else
-	   {
-		   event.cancleBubble=true;
-	   }
-   }
-function getEventTarget(event)
-{
-   var targetElement=null;
-   if (typeof event.target!=="undefined")
-   {
-	   targetElement=event.target;
-   }
-   else
-   {
-	   targetElement=event.srcElement;
-   }
-   while (targetElement.nodeType==3 && targetElement.parentNode!=null)
-   {
-	   targetElement=targetElement.parentNode;
-   }
-   return targetElement;
-}
-function stopDefaultAction(event)
-{ 
-   event.returnValue=false; 
-   if (typeof event.preventDefault!="undefined")
-   {
-      event.preventDefault();
-   }
-   return false;
-}   
+ /**
+ * 事件處理工具函式（現代瀏覽器版）
+ * 已移除 IE8 及更早版本的相容性程式碼，統一使用標準 DOM Event API
+ */
 
+/**
+ * 綁定事件監聽器
+ * @param {Element} target - 要綁定事件的目標元素
+ * @param {string} eventType - 事件類型（例如 "click"，不需加 "on" 前綴）
+ * @param {Function} functionRef - 事件觸發時要執行的函式
+ * @param {boolean} capture - 是否使用捕獲階段（true）或冒泡階段（false）
+ */
+function attachEventListener(target, eventType, functionRef, capture) {
+    target.addEventListener(eventType, functionRef, capture);
+}
+
+/**
+ * 移除事件監聽器
+ * @param {Element} target - 要移除事件的目標元素
+ * @param {string} eventType - 事件類型
+ * @param {Function} functionRef - 先前綁定的函式參照（必須與綁定時相同）
+ * @param {boolean} capture - 需與綁定時的設定一致，才能正確移除
+ */
+function detachEventListener(target, eventType, functionRef, capture) {
+    target.removeEventListener(eventType, functionRef, capture);
+}
+
+/**
+ * 阻止事件繼續向上冒泡（不再傳遞給父層元素）
+ * @param {Event} event - 事件物件
+ */
+function stopEvent(event) {
+    event.stopPropagation();
+}
+
+/**
+ * 取得實際觸發事件的元素
+ * 若事件目標是文字節點（nodeType === 3），會自動向上找到其父元素
+ * @param {Event} event - 事件物件
+ * @returns {Element} 實際的目標元素
+ */
+function getEventTarget(event) {
+    var targetElement = event.target;
+    // 若目標為文字節點，則往上尋找父節點，直到取得元素節點為止
+    while (targetElement.nodeType === 3 && targetElement.parentNode != null) {
+        targetElement = targetElement.parentNode;
+    }
+    return targetElement;
+}
+
+/**
+ * 阻止瀏覽器的預設行為（例如表單送出、連結跳轉等）
+ * @param {Event} event - 事件物件
+ * @returns {boolean} 固定回傳 false，方便搭配舊式 onclick="return stopDefaultAction(event)" 寫法使用
+ */
+function stopDefaultAction(event) {
+    event.preventDefault();
+    return false;
+}
+
+////
 function paddingLeft(str,lenght){  //左邊補0字串
 	if(str.length >= lenght)
 	return str;
@@ -191,38 +158,6 @@ Date.prototype.addDays = function(days) {
   return this;
 }
 
-function outprocs(event){	  
-    if (typeof event=="undefined"){
-		event=window.event;
-	}    		
-    var baui=cko[6](0);
-	cko[6](baui*(-1));	  //搜尋鍵選項指標要歸零
-    if(getAuth[0]()[11]!='M'){
-	   var bibau=cko[0](0);   //找出所有閉包首頁紀錄變數  
-	   cko[0](bibau*(-1));    //將閉包變數歸零
-	}
-	getAuth[0]('Clear_All');
-	  //記錄三個頁面搜尋選項的閉包變數清空
-	for(let k=4;k<7;k++){
-	   getAuth[k]('Clear_All');	
-	}
-	///// 
-	/* var scriptall=document.getElementsByTagName("script");
-	for(var j=0;j<scriptall.length;j++){
-	    if(scriptall[j].id){
-	       
-		   scriptall[j].remove();
-		}
-	}		  */	
-	document.querySelectorAll("script[id]").forEach(s=>s.remove());		
-	/////	 
-     var urlfolder=document.getElementsByTagName('title');		 
- 	
-    urlfolder[0].innerHTML='RED.知訊數位營運管理系統';
-    initDialog();
-    //history.back();	
-	
-}
 
 //起始畫面
 function DrawTable(){
@@ -300,7 +235,6 @@ function commontemp(idn,stk){
 		    var nowExcute=left(getAuth[0]()[0],3);    
 		    urlpath=nowExcute;
 		}
-
     if(urlpath!='RED'){		
 	    if (tbno==0){	       
 			var url=urlpath+"/BKND/"+urlpath+"brow.php";	
@@ -311,10 +245,8 @@ function commontemp(idn,stk){
 	    }
 	}else{
 		var url=urlpath+"/BKND/"+urlpath+"brow.php";
-	}
-	
-	var queryString=createQueryString();
-	
+	}	
+	var queryString=createQueryString();	
 	function createQueryString(){		     
 		if(tabs.length>0 && urlpath!='RED'){	
 			var yesmth=getAuth[0]()[11];   //判斷是否為月份檔
@@ -359,9 +291,8 @@ function commontemp(idn,stk){
 			    }				 				 
 		    }		
         }else{
-			if(urlpath=='RED'){  //如果是主目錄			  
-              var myAccount=(getCookie('useraccount')?getCookie('useraccount'):getAuth[1]()[0]); 			 
-	          var queryString ="filename="+myAccount+"|"+getAuth[2]().length;
+			if(urlpath=='RED'){  //如果是主目錄			               
+			   var queryString="";   //根本不需要傳任何參數
 			}  
 		}
 	    return queryString;
@@ -519,7 +450,7 @@ function authRemove(event){
     } 
 	blkshow(9);
 }
-//第一頁面其他按鈕功能
+/* //第一頁面其他按鈕功能
 function page1OtherButton1(event){
 	if (typeof event=="undefined")
 	{
@@ -565,6 +496,49 @@ function page2OtherButton1(event){
     } 
 	blkshow(201);
 }
+function page2OtherButton2(event){
+	if (typeof event=="undefined")
+	{
+		event=window.event;
+	}
+	if (cko[3](0)==0){
+		blkshow("未勾選任何紀錄，請勾選一筆再按此鈕執行複製權限");	
+		return false;	
+    } 
+	blkshow(202);
+}
+function page2OtherButton3(event){
+	if (typeof event=="undefined")
+	{
+		event=window.event;
+	}
+	if (cko[3](0)==0){
+		blkshow("未勾選任何紀錄，請勾選一筆再按此鈕執行複製權限");	
+		return false;	
+    } 
+	blkshow(203);
+} */
+// 通用處理函式
+function handleOtherButton(event, pageIndex, showCode) {
+	if (typeof event === "undefined") {
+		event = window.event;
+	}	
+	if (cko[pageIndex](0) == 0) {
+		blkshow("未勾選任何紀錄，請勾選一筆再按此鈕執行複製權限");	
+		return false;	
+	} 
+	blkshow(showCode);
+}
+
+// 第一頁面其他按鈕功能
+function page1OtherButton1(event) { handleOtherButton(event, 2, 101); }
+function page1OtherButton2(event) { handleOtherButton(event, 2, 102); }
+function page1OtherButton3(event) { handleOtherButton(event, 2, 103); }
+
+// 第二頁面其他按鈕功能
+function page2OtherButton1(event) { handleOtherButton(event, 3, 201); }
+function page2OtherButton2(event) { handleOtherButton(event, 3, 202); }
+function page2OtherButton3(event) { handleOtherButton(event, 3, 203); }
 
 function HeadPageChange(event){       //在表身按上下一張按鈕(正三角形與倒三角形)翻表頭頁面隨即連動表身資料
 	 if (typeof event=="undefined"){
@@ -598,8 +572,8 @@ function HeadPageChange(event){       //在表身按上下一張按鈕(正三角
 			break; 	 
 		}				  
 	}
-	//var nowTabNo=(right(target.id,1)).toString();   //目前button的id的尾數與頁次對應
-	var nowTabNo = parseInt(target.id.replace(/^\D+/g, ''), 10);
+	
+	var nowTabNo = parseInt(target.id.replace(/^\D+/g, ''), 10);   //目前button的id的尾數與頁次對應
 	 tabs[nowTabNo].checked=true;
      if(nowTabNo==1){
 	    tab2View(acskyflg);

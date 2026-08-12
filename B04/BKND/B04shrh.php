@@ -29,10 +29,7 @@ while ($list8 = mysqli_fetch_assoc($sql20)) {
  $sql8=@mysqli_query($link,$sql7);                       
   $list2=mysqli_fetch_assoc($sql8);  //檢查是否已確認過
  if($list2['F10']!='Y'){
-     $sql0="select * from a01 where F01="."'".$_COOKIE['useraccount']."'"; 
-     $sql1=@mysqli_query($link,$sql0);
-     $rows1=@mysqli_num_rows($sql1);                       
-     $list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名   
+     
      $lastdate=date('Y'.'-'.'m'.'-'.'d'); 
 	 $sql3="SELECT b0d.*,c01.F23,c01.F05 AS F0E,c01.F10 AS F1Z,c01.F15 AS F1E,c01.F17,c01.F36,b01.F98 FROM b0d,c01,b01 WHERE b0d.F01='".$brr[0]."' AND c01.F01='".$brr[1]."' AND b01.F01=b0d.F03 ORDER BY b0d.F03"; 
 	 $sql4=@mysqli_query($link,$sql3); 
@@ -55,7 +52,7 @@ while ($list8 = mysqli_fetch_assoc($sql20)) {
 							'crncy_no'=>$brr[4],
 							'unit_price'=>$list3['F15'],
 							'crncy_rate'=>$brr[5],
-							'lastupdate'=>$lastdate.$list4['F03'],
+							'lastupdate'=>$lastdate.$_SESSION['user_name'],
 							'departno'=>$list3['F05'],
 							'salesno'=>$brr[3],					
 							'assistno'=>$list3['F23'],	
@@ -212,13 +209,13 @@ while ($list8 = mysqli_fetch_assoc($sql20)) {
 		mysqli_query($link ,$sql) or die(mysqli_error($link));  
 		   
 		$mscnt="UPDATE b04 SET F10='".$brr[12]."',";	    	  
-		$mscnt.=" F11='".$lastdate.$list4['F03']."',";
+		$mscnt.=" F11='".$lastdate.$_SESSION['user_name']."',";
 		$mscnt.=" F22='".$v['invoice_type']."',";
 		$mscnt.=" F23='".$v['tax_type']."'";
 		$mscnt.=" WHERE F01="."'".$brr[0]."'";
 		$sql=$mscnt;                                                 //寫入MySQL 	 
 		mysqli_query($link ,$sql) or die(mysqli_error($link));  	  
-		$arr = array ('order_no'=>$brr[0],'lastupdate'=>$lastdate.$list4['F03']);
+		$arr = array ('order_no'=>$brr[0],'lastupdate'=>$lastdate.$_SESSION['user_name']);
 		echo json_encode($arr); 
 	}else{	
     	echo json_encode("此出貨單已被刪除"); 	 

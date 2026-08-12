@@ -1,255 +1,262 @@
 /**
- * 採購訂單初始畫面優化版
+ * 採購訂單初始畫面與 DOM 結構調整 (D04psdchg.js)
  */
 function selfTag(jsvsn, jsPth) {
-    const maindiv = document.querySelector('.tab_css');
+    const contentdiv = getElementsByAttribute('class', 'tab_content');
+    const maindiv = document.getElementsByClassName('tab_css')[0];
     const beinsertedid = document.getElementById('tab1');
-    const cntdiv = document.querySelectorAll('.tab_content');
+    const cntdiv1 = document.querySelectorAll('.tab_content')[1];
     const rspn2 = document.getElementById('serverResponse2');
     const orpButton5 = document.getElementById("lgt"); // 離開按鈕
 
-    // 1. 建立審核標籤
-    const spn = document.createElement('span');
-    spn.id = "APPRVE";
-    maindiv.insertBefore(spn, beinsertedid);
+    // --- 區塊 0: 建立右側預計進貨明細面板 ---
+    const firstCover = getElementsByAttribute('class', 'table_cover');
+    if (firstCover && firstCover[1]) {
+        firstCover[1].style.width = "83%";
+    }
 
-    // 2. 建立頁次二的功能按鈕 (出貨紀錄與金額統計)
-    const frag1 = document.createDocumentFragment();
-    const orpButton10 = createButton({
-        id: "OUTRCD_BOTT",
-        value: "\u{1F4DC}",
-        title: "查看出貨紀錄，快速鍵 Alt+B",
-        accessKey: "B",
-        style: "font-size:17px;",
-        onClick: page2OtherButton1
-    });
+    const secondCover = document.createElement('div');
+    secondCover.setAttribute("class", "table_cover");
+    secondCover.style.width = "17%";
 
-    // 組合頁次二工具列
-    frag1.append(
-        document.createTextNode('\u{A0}\u{A0}'),
-        orpButton10,
-        document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}'),
+    const righttbl1 = document.createElement("table");
+    righttbl1.id = "rightContent1";
+    righttbl1.className = "gridlist";
+    righttbl1.setAttribute("style", "width:100%;");
+
+    const thr2 = document.createElement("thead");
+    const array3 = ['預進日期', '數量'];
+    const array4 = ['50%', '50%'];
+
+    for (let i = 0; i < array3.length; i++) {
+        const th2 = document.createElement('th');
+        const text2 = document.createTextNode(array3[i]);
+        th2.style.backgroundColor = "#D6D6AD";
+        th2.style.color = "#000000";
+        th2.style.width = array4[i];
+        th2.appendChild(text2);
+        thr2.appendChild(th2);
+    }
+
+    const tbdy2 = document.createElement("tbody");
+    tbdy2.id = "contentTbody";
+    righttbl1.appendChild(thr2);
+    righttbl1.appendChild(tbdy2);
+    secondCover.appendChild(righttbl1);
+
+    if (contentdiv && contentdiv[1]) {
+        contentdiv[1].appendChild(secondCover);
+    }
+
+    if (!maindiv || !beinsertedid) return;
+
+    // --- 區塊 1: 狀態標籤與金額欄位 ---
+    const spnApprove = document.createElement('span');
+    spnApprove.id = "APPRVE";
+    maindiv.insertBefore(spnApprove, beinsertedid);
+
+    const fragInfo = document.createDocumentFragment();
+
+    // 查看進貨紀錄按鈕
+    const btnOutRcd = btnManager.createBtn("OUTRCD_BOTT", "\u{1F4DC}", "查看出貨紀錄，快速鍵 Alt+G", "G", page2OtherButton1);
+    btnOutRcd.setAttribute("style","font-size:120%;margin:0px;");
+    const invDetailButton = btnManager.createBtn("INVDTL_BOTT", "\u{1F4E6}", "各庫別明細，快速鍵 Alt+B", "B", page2OtherButton2);
+	invDetailButton.setAttribute("style","font-size:130%;margin:0px;");
+	const mrpListButton = btnManager.createBtn("IFUTURE_BOTT", "\u{1F453}", "預期庫存異動明細，快速鍵 Alt+R", "R", page2OtherButton3);
+	mrpListButton.setAttribute("style","font-size:120%;margin:0px;");
+    const createSpan = (id, text, className) => {
+        const s = document.createElement('span');
+        s.id = id;
+        if (text) s.innerHTML = text;
+        if (className) s.className = className;
+        return s;
+    };
+
+    fragInfo.append(
+        document.createTextNode('\u00A0\u00A0'),
+        btnOutRcd,
+		document.createTextNode('\u00A0'.repeat(2)), // 合併空白
+		invDetailButton,
+        document.createTextNode('\u00A0'.repeat(2)), // 合併空白
+		mrpListButton,
+		document.createTextNode('\u00A0'.repeat(7)), // 合併空白
         createSpan("ttltitle", "總金額:"),
         createSpan("crncy", ""),
         createSpan("ttlmny", "0", "ttl")
     );
-    cntdiv[1].insertBefore(frag1, rspn2);
+    if (cntdiv1) cntdiv1.insertBefore(fragInfo, rspn2);
 
-    // 3. 建立通用功能按鈕 (確認、反確認、轉單、列印)
-    const frag2 = document.createDocumentFragment();
+    // --- 區塊 2: 通用功能按鈕 (確認/反確/轉單/列印) ---
+    const fragButtons = document.createDocumentFragment();
     const btnStyle = "visibility:visible; font-size:130%; margin:0; color:black;";
 
-    const buttons = [
-        { id: "ANS_BOTT", val: "\u{2714}", title: "確認本訂單所有紀錄，快速鍵Alt+A", key: "A", fn: ansproc },
-        { id: "VRS_BOTT", val: "\u{1F504}", title: "反確認本訂單所有紀錄，快速鍵Alt+Z", key: "Z", fn: vrsproc },
-        { id: "TRN_BOTT", val: "\u{1F516}", title: "直接轉出貨單，快速鍵Alt+G", key: "G", fn: null }
-    ];
+    const btnAns = btnManager.createBtn("ANS_BOTT", "\u{2714}", "確認本訂單所有紀錄，快速鍵Alt+A", "A", ansproc);
+    const btnVrs = btnManager.createBtn("VRS_BOTT", "\u{1F504}", "反確認本訂單所有紀錄，快速鍵Alt+Z", "Z", vrsproc);
+    const btnTrn = btnManager.createBtn("TRN_BOTT", "\u{1F516}", "直接轉進貨單，快速鍵Alt+G", "G", null);
 
-    buttons.forEach(b => {
-        const btn = createButton({ id: b.id, value: b.val, title: b.title, accessKey: b.key, style: btnStyle, onClick: b.fn });
-        frag2.append(btn, document.createTextNode('\u{A0}'));
-    });
+    [btnAns, btnVrs, btnTrn].forEach(btn => btn.style.cssText = btnStyle);
+    fragButtons.append(btnAns, btnVrs, btnTrn, document.createTextNode('\u00A0'));
 
-    // 權限檢查：列印按鈕
+    // 權限判斷：列印按鈕
     if (getAuth[0]()[4] === 'Y') {
-        const prnBtn = createButton({
-            id: "PRNT_BOTT",
-            value: "\u{1F5A8}",
-            title: "列印所選紀錄，快速鍵Alt+P",
-            accessKey: "P",
-            style: btnStyle,
-            onClick: prntproc
-        });
-        frag2.append(prnBtn, document.createTextNode('\u{A0}\u{A0}'));
+        const btnPrnt = btnManager.createBtn("PRNT_BOTT", "\u{1F5A8}", "列印所選紀錄，快速鍵Alt+P", "P", prntproc);
+        btnPrnt.style.cssText = btnStyle;
+        fragButtons.append(btnPrnt, document.createTextNode('\u00A0\u00A0'));
     }
-    maindiv.insertBefore(frag2, orpButton5);
 
-    // 4. 清理與加載腳本
+    maindiv.insertBefore(fragButtons, orpButton5);
+
+    // --- 區塊 3: 腳本清理與載入 ---
     document.querySelectorAll("script[id]").forEach(s => s.remove());
-    const prefix = jsPth.substr(0, 3);
-    const scripts = [
-        `${jsPth}${prefix}.js?v=${jsvsn}`,
-        `${jsPth}${prefix}rgst.js?v=${jsvsn}`,
-        `include/JS/commonsrch.js?v=${jsvsn}`,
-        `C01/JS/A09getno.js?v=${jsvsn}`,
-        `include/JS/confirmfun.js?v=${jsvsn}`,
-        `C01/JS/A01Name.js?v=${jsvsn}`
+
+    const prefix = jsPth + jsPth.substr(0, 3);
+    const scriptList = [
+        [`${prefix}.js?v=${jsvsn}`, () => { if (window.DrawTable) DrawTable(); }],
+        [`C04/JS/C04dlvdte.js?v=${jsvsn}`], // 補上進貨排程 JS與C04共用
+        [`${prefix}rgst.js?v=${jsvsn}`],
+        [`include/JS/commonsrch.js?v=${jsvsn}`],
+        [`C01/JS/A09getno.js?v=${jsvsn}`],
+        [`include/JS/confirmfun.js?v=${jsvsn}`],
+        [`C01/JS/A01Name.js?v=${jsvsn}`]
     ];
-    
-    // 只有主程式需要回調 DrawTable
-    loadScript(scripts[0], () => DrawTable());
-    scripts.slice(1).forEach(src => loadScript(src));
 
-    // 5. 綁定 Tab 事件
-    document.getElementById("tab1")?.addEventListener("click", tab1View);
-    document.getElementById("tab2")?.addEventListener("click", tab2View);
+    scriptList.forEach(cfg => loadScript(cfg[0], cfg[1] || null));
+
+    // 事件監聽
+    ['tab1', 'tab2'].forEach(id => {
+        const tab = document.getElementById(id);
+        if (tab) attachEventListener(tab, "click", (id === 'tab1' ? tab1View : tab2View), false);
+    });
 }
 
-/** 輔助函式：快速建立按鈕 **/
-function createButton({ id, value, title, accessKey, style, onClick }) {
-    const btn = document.createElement("input");
-    btn.type = "button";
-    btn.className = "btn";
-    btn.id = id;
-    btn.value = value;
-    btn.title = title;
-    if (accessKey) btn.accessKey = accessKey;
-    if (style) btn.style.cssText = style;
-    if (onClick) btn.addEventListener("click", onClick);
-    return btn;
-}
-
-/** 輔助函式：快速建立 Span **/
-function createSpan(id, text, className = "") {
-    const s = document.createElement('span');
-    s.id = id;
-    if (className) s.className = className;
-    s.innerHTML = text;
-    return s;
+/** 輔助工具：閉包歸零 **/
+function resetCko() {
+    [3, 6].forEach(idx => {
+        if (cko[idx]) {
+            const current = cko[idx](0);
+            cko[idx](current * -1);
+        }
+    });
 }
 
 function tab1View() {
-    const auth = getAuth[0]();
     const newBtn = document.getElementById('NEW_BOTT');
-    const isAuth = auth[1] === 'Y';
+    const hasAuth = getAuth[0]()[1] === 'Y';
 
-    newBtn.style.visibility = isAuth ? "visible" : "hidden";
-    if (isAuth) {
-        newBtn.onclick = addrec; // 使用簡化的事件綁定
-    } else {
-        newBtn.onclick = null;
+    if (newBtn) {
+        newBtn.style.visibility = hasAuth ? "visible" : "hidden";
+        if (hasAuth) attachEventListener(newBtn, "click", addrec, false);
+        else detachEventListener(newBtn, "click", addrec, false);
     }
 
-    // 更新背景樣式
-    const bg = document.getElementById('lclbtnbk');
-    Object.assign(bg.style, {
-        backgroundColor: "#FCFCFC",
-        border: "2px solid #FCFCFC",
-        boxShadow: "sandybrown 5px 10px 10px 7px"
+    const lclbk = document.getElementById('lclbtnbk');
+    if (lclbk) {
+        Object.assign(lclbk.style, {
+            backgroundColor: "#FCFCFC",
+            border: "2px solid #FCFCFC",
+            boxShadow: "sandybrown 5px 10px 10px 7px"
+        });
+    }
+
+    resetCko();
+
+    // 切換 AccessKey: tab1 啟動 T, J, K, V
+    document.querySelectorAll('.btn').forEach(btn => {
+        const lastChar = btn.title.slice(-1);
+        if (['I', 'M', 'B'].includes(btn.accessKey)) btn.removeAttribute("accesskey");
+        if (['T', 'J', 'K', 'V'].includes(lastChar)) btn.accessKey = lastChar;
     });
-
-    // 重置閉包變數 (歸零)
-    cko[3](cko[3](0) * -1);
-    cko[6](cko[6](0) * -1);
-
-    // 切換快速鍵邏輯
-    updateAccessKeys(['I', 'M', 'B'], ['T', 'J', 'K', 'V']);
 }
 
 function tab2View(event) {
+    const lclbk = document.getElementById('lclbtnbk');
+    if (lclbk) {
+        Object.assign(lclbk.style, {
+            backgroundColor: "#F9FAD9",
+            border: "2px solid #F9FAD9",
+            boxShadow: "olivedrab 5px 10px 10px 7px"
+        });
+    }
+
     if (cko[2](0) === 0) {
-        blkshow("未勾選任何紀錄，請勾選一筆再編輯表身內容");
-        document.getElementById("tab1").checked = true;
+        if (window.blkshow) blkshow("未勾選任何紀錄，請勾選一筆再編輯表身內容");
+        const t1 = document.getElementById("tab1");
+        if (t1) t1.checked = true;
         return false;
     }
 
-    const bg = document.getElementById('lclbtnbk');
-    Object.assign(bg.style, {
-        backgroundColor: "#F9FAD9",
-        border: "2px solid #F9FAD9",
-        boxShadow: "olivedrab 5px 10px 10px 7px"
-    });
-
-    // 取得選中行的資料
-    const selectedRow = document.querySelector("#maintbody1 input[type='checkbox']:checked")?.closest('tr');
-    if (!selectedRow) return;
-
-    const cells = Array.from(selectedRow.cells).map(c => c.innerHTML);
-    const shrno = cells[cells.length - 3];
-
-    document.getElementById('crncy').innerHTML = cells[cells.length - 9] + '&nbsp;';
-    document.getElementById('keydscrpt1').innerHTML = `${cells[2]}&nbsp;${cells[3]}`;
-    document.getElementById("fatherkey1").innerHTML = cells[1];
-    document.getElementById("serverResponse2").innerHTML = '&nbsp;';
-
-    // 重置閉包
-    cko[3](cko[3](0) * -1);
-    cko[6](cko[6](0) * -1);
-
-    // 新增按鈕權限控管
-    const newBtn = document.getElementById('NEW_BOTT');
-    const canAdd = shrno !== 'Y' && getAuth[0]()[1] === 'Y';
-    newBtn.style.visibility = canAdd ? "visible" : "hidden";
-    newBtn.onclick = canAdd ? addrec : null;
-
-    if (event !== 'GY') {
-        updateAccessKeys(['T', 'J', 'K', 'V'], ['I', 'M', 'B']);
+    if (typeof contentShow === 'function') {
+        contentShow([]); // 清空右側預排資料
     }
-
-    commontemp(cells[1], "d04.F01");
-}
-
-/** 輔助函式：統一處理 AccessKey 切換 **/
-function updateAccessKeys(toRemove, toAdd) {
-    document.querySelectorAll('.btn').forEach(btn => {
-        if (toRemove.includes(btn.accessKey)) {
-            btn.removeAttribute("accesskey");
-        }
-        const lastChar = btn.title.slice(-1);
-        if (toAdd.includes(lastChar)) {
-            btn.accessKey = lastChar;
-        }
-    });
-}
-
-function prntproc(event){
-	
-
-    const e = event || window.event;
-
-    // 1. 取得表格並精確定位選中的行 (Checkbox 勾選的那一行)
+     
     const maintable = document.getElementById("maintbody1");
     if (!maintable) return;
 
-    const checkedInput = maintable.querySelector('input[type="checkbox"]:checked');
-    if (!checkedInput) {
+    // 尋找選中的行
+    const selectedRow = Array.from(maintable.rows).find(row => {
+        const cb = row.cells[row.cells.length - 1].querySelector('input');
+        return cb && cb.checked;
+    });
+
+    if (selectedRow) {
+        const cells = Array.from(selectedRow.cells).map(c => c.innerHTML);
+        const shrno = cells[cells.length - 3];
+
+        document.getElementById('crncy').innerHTML = cells[cells.length - 9] + '&nbsp;';
+        document.getElementById('keydscrpt1').innerHTML = `${cells[2]}&nbsp;${cells[3]}`;
+        document.getElementById("fatherkey1").innerHTML = cells[1];
+        document.getElementById("serverResponse2").innerHTML = '&nbsp;';
+
+        resetCko();
+
+        // 新增按鈕權限
+        const newBtn = document.getElementById('NEW_BOTT');
+        if (newBtn) {
+            const canAdd = (shrno !== 'Y' && getAuth[0]()[1] === 'Y');
+            newBtn.style.visibility = canAdd ? "visible" : "hidden";
+            if (canAdd) attachEventListener(newBtn, "click", addrec, false);
+            else detachEventListener(newBtn, "click", addrec, false);
+        }
+
+        // 切換 AccessKey: tab2 啟動 I, M, B
+        if (event !== 'GY') {
+            document.querySelectorAll('.btn').forEach(btn => {
+                const lastChar = btn.title.slice(-1);
+                if (['T', 'J', 'K', 'V'].includes(btn.accessKey)) btn.removeAttribute("accesskey");
+                if (['I', 'M', 'B'].includes(lastChar)) btn.accessKey = lastChar;
+            });
+        }
+        if (window.commontemp) commontemp(cells[1], "d04.F01");
+    }
+}
+
+function prntproc() {
+    const maintable = document.getElementById("maintbody1");
+    const checked = maintable ? maintable.querySelector('input:checked') : null;
+
+    if (!checked) {
         alert("請先選擇一筆採購單據");
         return;
     }
 
-    // 將該行單元格轉為陣列，並清理前後空白
-    const row = checkedInput.closest('tr');
-    const cells = Array.from(row.cells).map(cell => cell.innerText.trim());
+    const row = checked.closest('tr');
+    const cells = Array.from(row.cells).map(c => c.textContent.trim());
 
-    // 2. 取得環境與權限參數
     const urlParams = new URLSearchParams(window.location.search);
-    const username = urlParams.get('username') || "";
-    
-    let ourcmp = "";
-    try {
-        // 確保 getAuth 存在，避免腳本中斷
-        ourcmp = (typeof getAuth !== 'undefined') ? getAuth[2]()[0].INT_000 : "";
-    } catch (err) {
-        console.warn("無法取得公司名稱 (ourCompany)");
-    }
-
-    // 3. 封裝採購單專用參數 (依照 headdata 索引對應)
-    // 原 headdata[0] = cells[1], headdata[1] = cells[2] ... 依此類推
     const params = {
-        ourCompany:  ourcmp,
-        queryNo:     cells[1], // 採購單號
-        // 供應商編號 + 空格 + 供應商簡稱
-        customNo:    `${cells[2]}\u00A0${cells[4]}`, 
-        // 採購人員 + 空格 + 姓名 + 填充空格
-        salesMan:    `${cells[6]}\u00A0${cells[7]}\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0`,
-        curNcy:      cells[8],  // 幣別
-		curName:      cells[9],  // 幣別名稱
-        shipAddress: cells[11], // 交貨地點 (地址常有 # 號，此處已安全化)
-        shipDirect:  cells[12], // 運輸方式
-        customerPo:  cells[10],  // 對方單號
-        isConfirm:   cells[14], // 確認狀態 (Y/N)
-        username:    username   // 登入者
+        ourCompany: (typeof getAuth !== 'undefined') ? getAuth[2]()[0].INT_000 : "",
+        queryNo: cells[1],
+        customNo: `${cells[2]}\u00A0${cells[4]}`,
+        salesMan: `${cells[6]}\u00A0${cells[7]}\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0`,
+        curNcy: cells[8],
+        curName: cells[9],
+        shipAddress: cells[11],
+        shipDirect: cells[12],
+        customerPo: cells[10],
+        isConfirm: cells[14],
+        username: urlParams.get('username') || ""
     };
 
-    // 4. 使用物件導向方式建立查詢字串
-    const searchParams = new URLSearchParams();
-    Object.keys(params).forEach(key => {
-        if (params[key] !== undefined) {
-            searchParams.append(key, params[key]);
-        }
-    });
-
-    // 5. 組合最終 URL 並開啟
-    const urlphp = `D04/BKND/D04report.php?${searchParams.toString()}`;
-    window.open(urlphp, "_blank");	
+    const qs = new URLSearchParams(params).toString();
+    window.open(`D04/BKND/D04report.php?${qs}`, "_blank");
 }

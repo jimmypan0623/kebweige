@@ -1,31 +1,21 @@
-function addLoadListener(fn)
+
+/*function addLoadListener(fn)
 {
-    if(typeof window.addEventListener !='undefined')
-    {
-        window.addEventListener('load',fn,false);
+    window.addEventListener('load', fn);
+} */
+function addLoadListener(fn) {
+    if (window.addEventListener) {
+        window.addEventListener('load', fn, false);
+    } else if (window.attachEvent) {
+        window.attachEvent('onload', fn);
+    } else {
+        const old = window.onload;
+
+        window.onload = (typeof old === 'function')
+            ? function () {
+                  old();
+                  fn();
+              }
+            : fn;
     }
-    else if(typeof document.addEventListener !='undefined')
-    {
-        document.addEventListener('load',fn,false);
-    }
-    else if(typeof window.attachEvent !='undefined')
-    {
-        window.attachEvent('onload',fn);
-    }
-    else
-    {
-        var old=window.onload;
-        if(typeof window.onload != 'function')   //window.onload !='function'
-        {
-            window.onload=fn;
-        }
-        else
-        {
-            window.onload=function()
-            {
-                old();
-                fn();
-            }
-        }
-    }
-} 
+}

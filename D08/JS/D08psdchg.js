@@ -2,40 +2,21 @@ function selfTag(jsvsn,jsPth){
 	var contentdiv=getElementsByAttribute('class','tab_content');	
 	var svrSpns1=document.getElementById('serverResponse1');    	 
 	var text5 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
-	var invDetailButton=document.createElement("input");		   
-	invDetailButton.setAttribute("type","button");
-	invDetailButton.setAttribute("class","btn");
-	invDetailButton.setAttribute("value","\u{1F6D2}");     //u{1F3E1}  \u{1F6D2}
-	invDetailButton.setAttribute("style","font-size:130%;margin:0px");
-	invDetailButton.setAttribute("title","開單未過帳明細，快速鍵 Alt+G");	
-	invDetailButton.setAttribute('accesskey','G')
-	invDetailButton.id="REDYSHIP_BOTT";		
+	
+	const notOutButton = btnManager.createBtn("REDYSHIP_BOTT", "\u{1F6D2}", "開單未過帳明細，快速鍵 Alt+G", "G", page1OtherButton1);
+	notOutButton.setAttribute("style","font-size:130%;margin:0px");
 	contentdiv[0].insertBefore(text5,svrSpns1);
-	contentdiv[0].insertBefore(invDetailButton,svrSpns1);	
+	contentdiv[0].insertBefore(notOutButton,svrSpns1);	
 	////
 	var text6 = document.createTextNode('\u{A0}\u{A0}\u{A0}');
-	var invDetailButton=document.createElement("input");		   
-	invDetailButton.setAttribute("type","button");
-	invDetailButton.setAttribute("class","btn");
-	invDetailButton.setAttribute("value","\u{1F3EC}");     //u{1F3E1} 
+	const invDetailButton = btnManager.createBtn("INVDTL_BOTT", "\u{1F4E6}", "各庫別明細，快速鍵 Alt+B", "B", page1OtherButton2);
 	invDetailButton.setAttribute("style","font-size:130%;margin:0px;");
-	invDetailButton.setAttribute("title","各庫別明細，快速鍵 Alt+B");	
-	invDetailButton.setAttribute('accesskey','B')
-	invDetailButton.id="INVDTL_BOTT";		
-	attachEventListener(invDetailButton,"click",page1OtherButton2,false);
 	contentdiv[0].insertBefore(text6,svrSpns1);
 	contentdiv[0].insertBefore(invDetailButton,svrSpns1);
 	////
 	var text7 = document.createTextNode('\u{A0}\u{A0}\u{A0}');
-	var mrpListButton=document.createElement("input");		   
-	mrpListButton.setAttribute("type","button");
-	mrpListButton.setAttribute("class","btn");
-	mrpListButton.setAttribute("value","\u{1F453}");     //u{1F3E1}
+	const mrpListButton = btnManager.createBtn("IFUTURE_BOTT", "\u{1F453}", "預期庫存異動明細，快速鍵 Alt+R", "R", page1OtherButton3);
 	mrpListButton.setAttribute("style","font-size:130%;margin:0px;");
-	mrpListButton.setAttribute("title","預期庫存異動明細，快速鍵 Alt+R");	
-	mrpListButton.setAttribute('accesskey','R')
-	mrpListButton.id="FUTURE_BOTT";		
-	attachEventListener(mrpListButton,"click",page1OtherButton3,false);
 	contentdiv[0].insertBefore(text7,svrSpns1);
 	contentdiv[0].insertBefore(mrpListButton,svrSpns1);
 	///

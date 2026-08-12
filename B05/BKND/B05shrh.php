@@ -30,11 +30,7 @@ while ($list8 = mysqli_fetch_assoc($sql20)) {
 	if($rowsA>0){
         $arr = array ('order_no'=>0,'lastupdate'=>'');
 		echo json_encode($arr);  
-	}else{ 
-		 $sql0="SELECT * FROM a01 WHERE F01="."'".$_COOKIE['useraccount']."'"; 
-		 $sql1=@mysqli_query($link,$sql0);
-		 $rows1=@mysqli_num_rows($sql1);                       
-		 $list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名   
+	}else{ 		
 		 $lastdate=date('Y'.'-'.'m'.'-'.'d');
 		 $mArlth=count($brr);  
 		 $sql3="SELECT b0e.*,c01.F23,c01.F05 AS F0E,c01.F10 AS F1Z,c01.F15 AS F1E,c01.F17,c01.F36,b01.F98 FROM b0e,c01,b01 WHERE b0e.F01='".$brr[0]."' AND c01.F01='".$brr[1]."' AND b01.F01=b0e.F03 ORDER BY b0e.F03"; 	 
@@ -56,7 +52,7 @@ while ($list8 = mysqli_fetch_assoc($sql20)) {
 							'crncy_no'=>$brr[9],
 							'unit_price'=>$list3['F15'],
 							'crncy_rate'=>$brr[10],
-							'lastupdate'=>$lastdate.$list4['F03'],
+							'lastupdate'=>$lastdate.$_SESSION['user_name'],
 							'departno'=>$list3['F05'],
 							'salesno'=>$brr[3],					
 							'assistno'=>$list3['F23'],	
@@ -214,12 +210,12 @@ while ($list8 = mysqli_fetch_assoc($sql20)) {
 		$mscnt.="WHERE F01='".$brr[1]."' AND (F16<'".$brr[14]."-".$brr[2]."' OR F16 IS NULL)" ;	                                                      
 		mysqli_query($link ,$mscnt) or die(mysqli_error($link));    //寫入MySQL 		   
 		$mscnt="UPDATE b05 SET F10='".$brr[13]."',";	    	  
-		$mscnt.=" F13='".$lastdate.$list4['F03']."',";
+		$mscnt.=" F13='".$lastdate.$_SESSION['user_name']."',";
 		$mscnt.=" F22='".$v['invoice_type']."',";
 	    $mscnt.=" F23='".$v['tax_type']."'";
 		$mscnt.=" WHERE F01="."'".$brr[0]."'";	                                                 	 
 		mysqli_query($link ,$mscnt) or die(mysqli_error($link));  	  //寫入MySQL 
-		$arr = array ('order_no'=>$brr[0],'lastupdate'=>$lastdate.$list4['F03']);
+		$arr = array ('order_no'=>$brr[0],'lastupdate'=>$lastdate.$_SESSION['user_name']);
 		echo json_encode($arr); 
 	}
 }else{

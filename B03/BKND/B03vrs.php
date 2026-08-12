@@ -6,11 +6,7 @@ require_once("../../include/BKND/auth_check.php"); //驗證
 $sql7="SELECT `F10`,`F24` FROM `b03` where `F01`='".$delmsg."'"; 
  $sql8=@mysqli_query($link,$sql7);                       
   $list2=mysqli_fetch_assoc($sql8);  //檢查是否已反確認過
-if(trim($list2['F10'])=="Y"){      
-    $sql0="SELECT * FROM `a01` WHERE F01="."'".$_COOKIE['useraccount']."'"; 
-     $sql1=@mysqli_query($link,$sql0);
-     $rows1=@mysqli_num_rows($sql1);                       
-     $list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名   
+if(trim($list2['F10'])=="Y"){          
      $lastdate=date('Y'.'-'.'m'.'-'.'d');   
 	  $mscnt="DELETE FROM `d19` WHERE `F02`='".$delmsg."'";	   	    	  	  
       mysqli_query($link ,$mscnt) or die(mysqli_error($link)); 
@@ -28,7 +24,7 @@ if(trim($list2['F10'])=="Y"){
 						'cancelqty'=>($list3['F24']=='2'?$list3['F04']:0),  //退回不補取消量
 					    'oring_no'=>$list3['F07'],   //訂單編號				
 					    'unit_price'=>$list3['F15'],  //單價					    
-					    'lastupdate'=>$lastdate.$list4['F03'],
+					    'lastupdate'=>$lastdate.$_SESSION['user_name'],
 					    'departno'=>$list3['F05'],					
 					    'vendor_partno'=>$list3['F08'],			
 						'mrt_type'=>$list3['F98'],
@@ -89,9 +85,9 @@ if(trim($list2['F10'])=="Y"){
 		   @mysqli_query($link,$values);
 		}
 	}
-    $mscnt="UPDATE `b03` SET `F10`='N',`F13`='".$lastdate.$list4['F03']."' WHERE `F01`='".$delmsg."'";                  
+    $mscnt="UPDATE `b03` SET `F10`='N',`F13`='".$lastdate.$_SESSION['user_name']."' WHERE `F01`='".$delmsg."'";                  
     mysqli_query($link ,$mscnt) or die(mysqli_error($link)); 
-	$arr = array ('order_no'=>1,'lastupdate'=>$lastdate.$list4['F03']);
+	$arr = array ('order_no'=>1,'lastupdate'=>$lastdate.$_SESSION['user_name']);
 	echo json_encode($arr);
 }else{
      echo json_encode("此進貨退出單已被反確認過(.|.)"); 

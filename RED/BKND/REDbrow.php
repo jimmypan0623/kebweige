@@ -1,52 +1,48 @@
 ﻿<?php
-/**
- * 權限明細查詢 API (a02/a03)
- * 功能：根據使用者代號查詢對應的程式權限與屬性
- */
-// 開啟輸出緩衝，攔截所有可能導致 JSON 損壞的空格、BOM 或警告
-require_once("../../include/BKND/auth_check.php"); //驗證
+ob_start();
+
+require_once("../../include/BKND/auth_check.php");
+require_once("../../include/BKND/mysqli_server.php");
 
 header("Content-Type: application/json; charset=utf-8");
 header("Cache-Control: no-cache, must-revalidate");
 header("Pragma: no-cache");
-require_once("../../include/BKND/mysqli_server.php");           
-// 1. 取得並解析輸入參數
-$filename = $_POST['filename'] ?? '';
-$str = explode('|', $filename);
 
-if (count($str) < 2) {
+// 1. 直接讀取 Session 中的使用者帳號
+$searchRecord = $_SESSION['user_account'] ?? '';
+
+// 若 Session 無效或未登入，直接中斷回傳 error
+if (empty($searchRecord)) {
+    ob_end_clean();
     die(json_encode([
         'recdrow' => [], 
-        'pgttl' => [], 
-        'error' => 'Invalid parameters'
-    ]));
+        'pgttl'   => [], 
+        'error'   => 'Unauthenticated'
+    ], JSON_UNESCAPED_UNICODE));
 }
 
-$searchRecord = trim($str[0]); // 使用者代號或群組代號
-$fetchParam   = (int)$str[1];   // 是否抓取 a26 參數 (0: 是)
-
-// 定義清理函式：移除不可見字元與換行
+// 2. 清理與容器宣告
 $clean = function($val) {
     if ($val === null) return '';
     return str_replace(["\r", "\n", "\t"], '', trim($val));
 };
 
-// 2. 抓取參數表 a26 (選用)
 $arg = array(); 
-if ($fetchParam === 0) {
-    $sql0 = "SELECT F01, F06, F04 FROM a26 ORDER BY F01";         
-    $res1 = mysqli_query($link, $sql0);     
-    if ($res1) {
-        while ($list4 = mysqli_fetch_assoc($res1)) {
-            $arg[] = [
-                'paraNo' => $clean($list4['F01']),
-                'cngpra' => $clean($list4['F06'])               
-            ];
-        }
+$arr = array();
+
+// 3. 抓取系統參數 (a26)
+$sql0 = "SELECT F01, F06, F04 FROM a26 ORDER BY F01";         
+$res1 = mysqli_query($link, $sql0);     
+if ($res1) {
+    while ($list4 = mysqli_fetch_assoc($res1)) {
+        $arg[] = [
+            'paraNo' => $clean($list4['F01']),
+            'cngpra' => $clean($list4['F06'])               
+        ];
     }
 }
 
-// 3. 查詢權限明細 (a02 關聯 a03)
+// 4. 查詢該使用者的權限明細 (a02/a03)
 $sql3 = "SELECT 
             a02.F03, a03.F02, a02.F04, a02.F05, a02.F06, a02.F07, 
             a02.F08, a02.F09, a02.F10, a02.F11, a02.F12, 
@@ -56,7 +52,6 @@ $sql3 = "SELECT
          WHERE a02.F01 = ? 
          ORDER BY a02.F03";
 
-$arr = array(); 
 $stmt = $link->prepare($sql3);
 if ($stmt) {
     $stmt->bind_param("s", $searchRecord);
@@ -64,9 +59,8 @@ if ($stmt) {
     $res3 = $stmt->get_result();
 
     while ($list3 = $res3->fetch_assoc()) {
-        // 處理 Ftb (屬性字串)，確保為 4 位長度以供拆解
         $ftbStr = str_pad($list3['Ftb'] ?? '', 4, " "); 
-        $FTB = mb_str_split($ftbStr); // 使用 mb_str_split 處理多位元組字元安全性更好
+        $FTB    = mb_str_split($ftbStr);
         
         $arr[] = [
             'prg_no'     => $clean($list3['F03']),
@@ -94,8 +88,7 @@ if ($stmt) {
 
 mysqli_close($link);
 
-// 4. 回傳結果
-// 清除緩衝區內的所有內容（如 BOM 或任何 Warning）
+// 5. 回傳 JSON
 ob_end_clean(); 
 echo json_encode([
     'recdrow' => $arr, 

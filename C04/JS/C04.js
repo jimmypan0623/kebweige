@@ -21,6 +21,7 @@ function getProfile(arr,reccount,tbno) {
 	    }
 		var oTable = document.getElementById("maintbody1");		
 	}else{
+		contentShow([]);  //清空右側資料
 	    var oTable = document.getElementById("maintbody2");		
 	}		
 	var rnddgt=getCookie('INT_069');  //四捨五入到幾位
@@ -89,7 +90,7 @@ function getProfile(arr,reccount,tbno) {
 			 scndttl.innerHTML="0";
 	    }else{ 		 
 		     responseDiv.setAttribute("style","color:#536a60;"); 
-             responseDiv.innerHTML="搜尋到 "+String(cnt)+" 筆資料。" +String(cnt)+" record"+(cnt>1?"s":"")+" match your search. " +String(cnt)+" レコードを検索。";            		              
+             responseDiv.innerHTML="搜尋到 "+String(cnt)+" 筆資料。" +String(cnt)+" record"+(cnt>1?"s":"")+" match your search. " +String(cnt)+" レコードを検索。";      //為何沒顯示
 		}	
 		  document.getElementById('ttltitle').innerHTML="本頁金額:";
 	}else{
@@ -181,18 +182,36 @@ function choseExtraDeal(targetTrChildren,targetTr){   //紀錄移動
     return true;			   
 }
 function choseSecond(targetTrChildren,targetTr){  //紀錄移動表身
-    var tabs=getElementsByAttribute('class','tab');		
-	if(tabs[1].checked){
+   
 	    var outhis=document.getElementById("OUTRCD_BOTT");	 
-	    if(targetTrChildren[8].innerHTML*1+targetTrChildren[9].innerHTML*1>0){			 
-		    outhis.setAttribute("style","visibility:visible;"); 
+		var invthis=document.getElementById("INVDTL_BOTT");	 
+		var futurethis=document.getElementById("IFUTURE_BOTT");	 
+		var nvlqty=targetTrChildren[8].innerHTML*1+targetTrChildren[9].innerHTML*1;
+	    if(nvlqty>0){			 
+		    outhis.setAttribute("style","font-size:120%;visibility:visible;"); 
 		    attachEventListener(outhis,"click",page2OtherButton1,false);
 	    }else{
 		    outhis.setAttribute("style","visibility:hidden;"); 
 	      detachEventListener(outhis,"click",page2OtherButton1,false);
 	    }
-	}
-   return true;	
+		if(targetTrChildren[3].innerHTML*1-nvlqty>0){
+		   var sendSrcRec="keyfield="+document.getElementById("fatherkey1").innerHTML+"|"+targetTrChildren[1].innerHTML;	//右側出貨計劃	      
+		   contentShow(JSON.parse(targetTrChildren[12].innerHTML));  		
+		   invthis.setAttribute("style","font-size:120%;visibility:visible;"); 
+		   attachEventListener(invthis,"click",page2OtherButton2,false)
+		   futurethis.setAttribute("style","font-size:120%;visibility:visible;"); 
+		   attachEventListener(futurethis,"click",page2OtherButton3,false)
+	    }else{
+		   contentShow([]);    //若已經出光則不用再跑後端資料
+		    invthis.setAttribute("style","visibility:hidden;"); 
+	        detachEventListener(invthis,"click",page2OtherButton2,false);
+			futurethis.setAttribute("style","visibility:hidden;"); 
+	        detachEventListener(futurethis,"click",page2OtherButton3,false);
+		   
+		}
+	
+	    		
+    return true;	
 }
 function rowchoseExtraDeal(targetRow){    //紀錄移動  
     var shrno=targetRow.cells[targetRow.cells.length-3].innerHTML;
@@ -257,20 +276,39 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 		   delbtt.setAttribute("style","visibility:hidden;");
 		   detachEventListener(delbtt,"click",delrec,false);
 		}
-
 	}  	
     return true;			   
 }	
 function rowchoseSecond(targetRow){    //紀錄移動表身   
-    var outhis=document.getElementById("OUTRCD_BOTT");
-	 if(targetRow.childNodes[8].innerHTML*1+targetRow.childNodes[9].innerHTML*1>0){
-		 outhis.setAttribute("style","visibility:visible;"); 
-		 attachEventListener(outhis,"click",page2OtherButton1,false);
-	 }else{
-		outhis.setAttribute("style","visibility:hidden;"); 
-		detachEventListener(outhis,"click",page2OtherButton1,false); 
-	 }
-   return true;	
+    
+		var outhis=document.getElementById("OUTRCD_BOTT");
+		var invthis=document.getElementById("INVDTL_BOTT");	 
+		var futurethis=document.getElementById("IFUTURE_BOTT");	 
+		var nvlqty=targetRow.childNodes[8].innerHTML*1+targetRow.childNodes[9].innerHTML*1;
+		 if(nvlqty>0){
+			 outhis.setAttribute("style","visibility:visible;"); 
+			 attachEventListener(outhis,"click",page2OtherButton1,false);
+		 }else{
+			outhis.setAttribute("style","visibility:hidden;"); 
+			detachEventListener(outhis,"click",page2OtherButton1,false); 
+		 }	
+		  
+		 if(targetRow.childNodes[3].innerHTML*1-nvlqty>0){
+		    var sendSrcRec="keyfield="+document.getElementById("fatherkey1").innerHTML+"|"+targetRow.childNodes[1].innerHTML;	//右側出貨計劃	 
+			contentShow(JSON.parse(targetRow.cells[12].innerHTML));
+			invthis.setAttribute("style","font-size:120%;visibility:visible;"); 
+		    attachEventListener(invthis,"click",page2OtherButton2,false)
+		    futurethis.setAttribute("style","font-size:120%;visibility:visible;"); 
+		    attachEventListener(futurethis,"click",page2OtherButton3,false)
+		 }else{
+		    contentShow([]);  //若已經出光則不用再跑後端資料
+			invthis.setAttribute("style","visibility:hidden;"); 
+	        detachEventListener(invthis,"click",page2OtherButton2,false);
+			futurethis.setAttribute("style","visibility:hidden;"); 
+	        detachEventListener(futurethis,"click",page2OtherButton3,false);
+		 }			 
+		
+    return true;	
 }
 
 function getUrlParams2(url){  //解析url成物件
@@ -280,3 +318,118 @@ function getUrlParams2(url){  //解析url成物件
    return result;
 
 }
+
+function contentShow(arr) {   // 右側分批出貨表格
+    var oTable = document.getElementById("contentTbody");	
+    
+    // ✅ 直接高效清空舊表格內容
+    oTable.innerHTML = ""; 
+
+    if (!arr || arr.length === 0) return;
+
+    // 明確指定欄位順序：date 在前、qty 在後
+    var fieldOrder = ['date', 'qty'];
+
+    for (var i = 0; i < arr.length; i++) {		
+        var oTr = oTable.insertRow(-1);			  
+        for (var idx = 0; idx < fieldOrder.length; idx++) {
+            var jk = fieldOrder[idx];     
+            var oTd = oTr.insertCell(-1);
+            oTd.innerHTML = arr[i][jk] !== undefined ? arr[i][jk] : ''; 				 
+            
+            if (jk === 'qty') {
+               oTd.style.textAlign = 'right';  // 數量靠右
+            } else {
+               oTd.style.textAlign = 'center'; // 日期置中
+            }
+        }
+    }
+}
+
+/*
+//瀏覽//
+SELECT 
+    c04.F01, c04.F02, c04.F03,
+    jt.json_date, jt.json_qty            
+FROM 
+    c04,
+    JSON_TABLE(
+        c04.F07,
+        '$[*]' COLUMNS (
+            json_date VARCHAR(50) PATH '$.date',  -- 明確指定抓 date 欄位
+            json_qty  INT         PATH '$.qty'   -- 明確指定抓 qty 欄位
+        )
+    ) AS jt 
+WHERE c04.F01='CA26700044';     
+			
+//新增//
+UPDATE c04 
+SET F07 = JSON_ARRAY_APPEND(
+    F07, 
+    '$', 
+    JSON_OBJECT('date', '2026-07-03', 'qty', 30) -- 明確定義 Key 名稱
+) 
+WHERE F01 = 'CA26700044';
+
+//修改//
+UPDATE c04 
+SET F07 = JSON_SET(
+    F07, 
+    -- 尋找日期為 '2026-07-02' 的位置，並將其欄位路徑指向 qty
+    REPLACE(JSON_UNQUOTE(JSON_SEARCH(F07, 'one', '2026-07-02')), '.date', '.qty'), 
+    99 -- 要修改的新數量
+) 
+WHERE F01 = 'CA26700044' 
+  AND JSON_SEARCH(F07, 'one', '2026-07-02') IS NOT NULL;
+//刪除//
+UPDATE c04 
+SET F07 = JSON_REMOVE(
+    F07, 
+    -- 尋找日期為 '2026-07-02' 的物件路徑（將 .date 拿掉即為物件本身）
+    REPLACE(JSON_UNQUOTE(JSON_SEARCH(F07, 'one', '2026-07-02')), '.date', '')
+) 
+WHERE F01 = 'CA26700044' 
+  AND JSON_SEARCH(F07, 'one', '2026-07-02') IS NOT NULL;  
+  
+//整組替換//
+UPDATE c04 
+SET F07 = :傳入的JSON字串 
+WHERE F01 = 'CA26700044';  
+//複寫或寫入初始資料//
+UPDATE c04 SET F07 = '[{"date":"2026-08-01","qty":1000}, {"date":"2026-09-12","qty":1000}]' WHERE F01 = 'CA26700045';
+
+
+UPDATE c04 SET F07 = JSON_ARRAY( JSON_OBJECT( 'date', F06, 'qty', F03 - F09 - F21 ) ) WHERE F03 - F09 - F21 > 0;
+
+*/
+
+/* async function contenBkndAjax(sendSrcRec) {
+    
+     const url = "C04/BKND/C05Contentbrow.php";
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+			cache: 'no-store', // 👈 關鍵：強制每次都向伺服器重新請求
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: sendSrcRec
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const rsp = await response.json();
+        
+        // 確保 rsp 與 rsp.recdrow 存在再進行呼叫
+        if (rsp && rsp.recdrow !== undefined) {
+            contentShow(rsp.recdrow);
+        } else {
+            console.warn("回傳的資料格式不符:", rsp);
+        }
+    } catch (error) {
+        console.error("請求失敗:", error);
+		alert("系統連線失敗，請稍後再試");
+    }
+} */

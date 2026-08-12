@@ -1,4 +1,5 @@
 ﻿<?php
+//C04bodybrow.php客戶訂單表身讀取
 require_once("../../include/BKND/auth_check.php"); //驗證
 header("Content-Type: application/json; charset=utf-8");
 header("Cache-Control: no-cache, must-revalidate");
@@ -56,7 +57,7 @@ $result = mysqli_stmt_get_result($stmt);
 // 取得欄位寬度設定 (C04 類型 2 代表表身)
 $wthary = fldwdthpre('C04', '2', $link);
 $arr = array();
-$afld=['F00','F02','F0B','F03','F04','F05','F06','F09','F21','F23','F12'];
+$afld=['F00','F02','F0B','F03','F04','F05','F06','F09','F21','F23','F07','F12'];
 $arr=afldcont($result,$afld,$wthary);
 
 // 統計總筆數

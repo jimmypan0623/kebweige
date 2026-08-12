@@ -22,6 +22,7 @@ function getProfile(str1,reccount,tbno) {
 	       }
 		var oTable = document.getElementById("maintbody1");		
 	}else{
+		contentShow([]);  //清空右側資料
 	    var oTable = document.getElementById("maintbody2");		
 	}		
 	    var rnddgt=getCookie('INT_068');  //四捨五入到幾位
@@ -181,17 +182,33 @@ function choseExtraDeal(targetTrChildren,targetTr){   //紀錄移動
     return true;			   
 }
 function choseSecond(targetTrChildren,targetTr){  //紀錄移動表身
-    var tabs=getElementsByAttribute('class','tab');		
-	if(tabs[1].checked){
+    
 	    var outhis=document.getElementById("OUTRCD_BOTT");	 
-	    if(targetTrChildren[8].innerHTML*1+targetTrChildren[9].innerHTML*1>0){
+		var invthis=document.getElementById("INVDTL_BOTT");	 
+		var futurethis=document.getElementById("IFUTURE_BOTT");	 
+		var nvlqty=targetTrChildren[8].innerHTML*1+targetTrChildren[9].innerHTML*1;
+	    if(nvlqty>0){
 		    outhis.setAttribute("style","visibility:visible;"); 
 		    attachEventListener(outhis,"click",page2OtherButton1,false);
 	    }else{
 		    outhis.setAttribute("style","visibility:hidden;"); 
 	      detachEventListener(outhis,"click",page2OtherButton1,false);
 	    }
-	}
+		if(targetTrChildren[3].innerHTML*1-nvlqty>0){
+		   var sendSrcRec="keyfield="+document.getElementById("fatherkey1").innerHTML+"|"+targetTrChildren[1].innerHTML;	//右側出貨計劃	      
+		   contentShow(JSON.parse(targetTrChildren[12].innerHTML));  		
+		   invthis.setAttribute("style","font-size:120%;visibility:visible;"); 
+		   attachEventListener(invthis,"click",page2OtherButton2,false)
+		   futurethis.setAttribute("style","font-size:120%;visibility:visible;"); 
+		   attachEventListener(futurethis,"click",page2OtherButton3,false)
+	    }else{
+		   contentShow([]);    //若已經出光則不用再跑後端資料
+		   invthis.setAttribute("style","visibility:hidden;"); 
+	        detachEventListener(invthis,"click",page2OtherButton2,false);
+			futurethis.setAttribute("style","visibility:hidden;"); 
+	        detachEventListener(futurethis,"click",page2OtherButton3,false);
+		}
+	
    return true;	
 }
 function rowchoseExtraDeal(targetRow){    //紀錄移動  
@@ -263,13 +280,30 @@ function rowchoseExtraDeal(targetRow){    //紀錄移動
 }	
 function rowchoseSecond(targetRow){    //紀錄移動表身   
     var outhis=document.getElementById("OUTRCD_BOTT");
-	 if(targetRow.childNodes[8].innerHTML*1+targetRow.childNodes[9].innerHTML*1>0){
+	var invthis=document.getElementById("INVDTL_BOTT");	 
+	var futurethis=document.getElementById("IFUTURE_BOTT");	 
+	var nvlqty=targetRow.childNodes[8].innerHTML*1+targetRow.childNodes[9].innerHTML*1;
+	 if(nvlqty>0){
 		 outhis.setAttribute("style","visibility:visible;"); 
 		 attachEventListener(outhis,"click",page2OtherButton1,false);
 	 }else{
 		outhis.setAttribute("style","visibility:hidden;"); 
 		detachEventListener(outhis,"click",page2OtherButton1,false); 
 	 }
+	 if(targetRow.childNodes[3].innerHTML*1-nvlqty>0){
+		var sendSrcRec="keyfield="+document.getElementById("fatherkey1").innerHTML+"|"+targetRow.childNodes[1].innerHTML;	//右側出貨計劃	 	
+		contentShow(JSON.parse(targetRow.childNodes[12].innerHTML));
+		invthis.setAttribute("style","font-size:120%;visibility:visible;"); 
+		attachEventListener(invthis,"click",page2OtherButton2,false)
+		futurethis.setAttribute("style","font-size:120%;visibility:visible;"); 
+		attachEventListener(futurethis,"click",page2OtherButton3,false)
+	 }else{
+		contentShow([]);  //若已經出光則不用再跑後端資料
+		invthis.setAttribute("style","visibility:hidden;"); 
+	    detachEventListener(invthis,"click",page2OtherButton2,false);
+		futurethis.setAttribute("style","visibility:hidden;"); 
+	    detachEventListener(futurethis,"click",page2OtherButton3,false);
+	 }			 
    return true;	
 }
 
@@ -279,4 +313,31 @@ function getUrlParams2(url){  //解析url成物件
    const result=Object.fromEntries(urlSearchParams.entries());
    return result;
 
+}
+
+function contentShow(arr) {   // 右側分批出貨表格
+    var oTable = document.getElementById("contentTbody");	
+    
+    // ✅ 直接高效清空舊表格內容
+    oTable.innerHTML = ""; 
+
+    if (!arr || arr.length === 0) return;
+
+    // 明確指定欄位順序：date 在前、qty 在後
+    var fieldOrder = ['date', 'qty'];
+
+    for (var i = 0; i < arr.length; i++) {		
+        var oTr = oTable.insertRow(-1);			  
+        for (var idx = 0; idx < fieldOrder.length; idx++) {
+            var jk = fieldOrder[idx];     
+            var oTd = oTr.insertCell(-1);
+            oTd.innerHTML = arr[i][jk] !== undefined ? arr[i][jk] : ''; 				 
+            
+            if (jk === 'qty') {
+               oTd.style.textAlign = 'right';  // 數量靠右
+            } else {
+               oTd.style.textAlign = 'center'; // 日期置中
+            }
+        }
+    }
 }

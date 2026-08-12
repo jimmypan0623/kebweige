@@ -1,366 +1,354 @@
-function selfTag(jsvsn,jsPth){	
-    var contentdiv=getElementsByAttribute('class','tab_content');	
-	var tabnames=getElementsByAttribute('name','tablbl');			
-    var firstCover=getElementsByAttribute('class','table_cover');	
-	firstCover[0].style.width="37%";
-	var secondCover=document.createElement('div');	 
-	secondCover.setAttribute("class","table_cover");
-	secondCover.style.width="63%";
-    var righttbl1=document.createElement("table");
-	righttbl1.id="rightMember1";	 
-    var arrayRgt1=["料品編號","品名規格","管理類別","歸屬類別","保存期限:","計料單位:",
-	"標準售價:","保管部門:","總庫存量:","在庫數量:","庫存上限:","安全存量:",
-	"料架位置:","建立料表:","領料類別:","領用批量:","採購前置:","收發料前置:",
-	"標準進價:","平均成本:","備註說明:","物料類別:","產    地:","最後更新:"];
-     var arrayRgt2=["<span name='b01value' id='stock_no' ></span>","<span name='b01value' id='stock_name'></span>",
-	 "<span name='b01value' id='type_of_mnge' ></span>","<span name='b01value' id='kind_of_belong_to'></span>",
-	 "<span name='b01value' id='keepdays' ></span>","<span name='b01value' id='each_count'></span>",
-	 "<span name='b01value' id='dividing' ></span>","<span name='b01value' id='who_hold'></span>&nbsp&nbsp&nbsp<span name='b01value' id='depart_name'></span>",
-	 "<mark><span name='b01value' id='totalqty' ></span></mark>","<mark><span name='b01value' id='qyt_on_hand'></span></mark>",
-	 "<span name='b01value' id='maxlimit_of_inv' ></span>","<span name='b01value' id='qty_of_safe'></span>",
-	 "<span name='b01value' id='where_is' ></span>","<span name='b01value' id='bom_should_be'></span>",
-	 "<span name='b01value' id='type_of_apply' ></span>","<span name='b01value' id='lotQty'></span>",
-	 "<span name='b01value' id='leadtm_prchs' ></span>","<span name='b01value' id='leadtm_ready'></span>",
-	 "<span name='b01value' id='sales_cost' ></span>","<span name='b01value' id='avg_cost'></span>",
-	 "<span name='b01value' id='remark1' ></span>","<span name='b01value' id='mtr_type'></span>",
-	 "<span name='b01value' id='rorgin_from' ></span>","<span name='b01value' id='who_and_when'></span>"];  
-	for(var i=0;i<arrayRgt1.length;i++){
-	    if(i%2==0){
-		    var oTr=righttbl1.insertRow(-1);
-			if(i==18){
-				 oTr.setAttribute("class","costauth");
-				 if(getAuth[0]()[7]!='Y'){
-				     oTr.setAttribute("style","display:none;");				
-				 }
-			}
-		}
-		 var oTd = oTr.insertCell(oTr.cells.length);			
-		oTd.setAttribute("class","Rgtkey"); 
-		oTd.innerHTML=arrayRgt1[i];
-		 var oTd = oTr.insertCell(oTr.cells.length);	 
-         oTd.innerHTML=arrayRgt2[i];
-	}		
-	secondCover.appendChild(righttbl1); 
-    contentdiv[0].appendChild(secondCover);   //畫面右邊欄位
-	if(getAuth[0]()[5]=='Y'){	 //有查看報價紀錄權限時	   
-		var rspn2=document.getElementById('serverResponse2'); 
-		const frag1 = document.createDocumentFragment();			
-	    var text01 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');	    
-		frag1.appendChild(text01);
-	    var spn1=document.createElement('span');
-	    spn1.id="ttltitle";
-        spn1.innerHTML="報價筆數:";	   
-		frag1.appendChild(spn1);
-	    var spn3=document.createElement('span');
-	    spn3.id="ttlmny"; 
-		spn3.className="ttl";
-	    spn3.innerHTML='0';	    
-	  	frag1.appendChild(spn3);
-		contentdiv[1].insertBefore(frag1,rspn2);
-    }else{
-        contentdiv[1].style.display='none';
-	    tabnames[1].style.display='none';        
-    }	   
-    if(getAuth[0]()[6]=='Y'){	        //有查看詢價紀錄權限時      
-        var rspn3=document.getElementById('serverResponse3'); 
-		const frag2 = document.createDocumentFragment();			
-	    var text02 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');	    
-		frag2.appendChild(text02);
-	    var spn4=document.createElement('span');
-	    spn4.id="ttltitle1";
-        spn4.innerHTML="詢價筆數:";	   
-		frag2.appendChild(spn4);
-	    var spn5=document.createElement('span');
-	    spn5.id="ttlmny1";
-		spn5.className="ttl";
-	    spn5.innerHTML='0';
-		frag2.appendChild(spn5);
-		contentdiv[2].insertBefore(frag2,rspn3);
-    }else{
-		contentdiv[2].style.display='none';
-	    tabnames[2].style.display='none';
-	}
+/**
+ * B01psdchg.js 重構優化版本
+ * 1. 使用現代 JavaScript 語法 (const/let, Array API, DOM 標準 API)。
+ * 2. 抽離重複邏輯（閉包歸零 resetCko、按鈕控制 setupButtons、AccessKey 切換、選取資料列解析）。
+ * 3. 採用 DocumentFragment 與 Object.assign 提升 DOM 操作效能與可讀性。
+ */
 
-	var svrSpns1=document.getElementById('serverResponse1');    	 
-	var text5 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
-	var invDetailButton=document.createElement("input");		   
-	invDetailButton.type="button";
-	invDetailButton.className="btn";
-	invDetailButton.value="\u{1F3E1}";     //u{1F3E1}
-	invDetailButton.setAttribute("style","font-size:130%;margin:0px;");
-	invDetailButton.title="各庫別明細，快速鍵 Alt+B";	
-	invDetailButton.accessKey='B';
-	invDetailButton.id="INVDTL_BOTT";		
-	contentdiv[0].insertBefore(text5,svrSpns1);
-	contentdiv[0].insertBefore(invDetailButton,svrSpns1);
-    ///
-    document.querySelectorAll("script[id]").forEach(s=>s.remove());		
-	///			
-	let axtmpl1=jsPth+jsPth.substr(0,3)+'.js?v='+jsvsn;
-	let axtmpl2=jsPth+jsPth.substr(0,3)+'rgst.js?v='+jsvsn;
-	loadScript(`${axtmpl1}`,function(){DrawTable();});
-	loadScript(`${axtmpl2}`);
-	loadScript(`include/JS/commonsrch.js?v=${jsvsn}`);
-	var tab1Click=document.getElementById("tab1");
-	if(tab1Click){	
-	    attachEventListener(tab1Click,"click",tab1View,false);
-	}	
-	var tab2Click=document.getElementById("tab2");
-	if(tab2Click){	
-	    attachEventListener(tab2Click,"click",tab2View,false);
-	}
-	var tab3Click=document.getElementById("tab3");
-	if(tab3Click){
-	    attachEventListener(tab3Click,"click",tab3View,false);
-	}
-}
+function selfTag(jsvsn, jsPth) {
+    const contentdiv = document.querySelectorAll('.tab_content');
+    const tabnames = document.getElementsByName('tablbl');
 
-function tab1View(event){	       
-		if (typeof event=="undefined"){
-		   event=window.event;
-    	}
-		 var newrcath=document.getElementById('NEW_BOTT');       //新增按鈕
-		 if (getAuth[0]()[1]=='Y'){
-             newrcath.style.visibility="visible";	
-			 attachEventListener(newrcath,"click",addrec,false);  //新增紀錄按鈕程序
-         }else{
-			 newrcath.style.visibility="hidden";			
-         }			 		 
-		var srchbtt=document.getElementById('SEEK_BOTT');		
-		srchbtt.style.visibility="visible";	
-		attachEventListener(srchbtt,'click',seekrec,false);  
-		var editbtt=document.getElementById('EDIT_BOTT');       //新增按鈕
-		if (getAuth[0]()[2]=='Y'){
-             editbtt.style.visibility="visible";	
-			 attachEventListener(editbtt,"click",edtrec,false);  //新增紀錄按鈕程序
-        }else{
-			editbtt.style.visibility="hidden";
-			
-        }			 
-		var delbtt=document.getElementById('DEL_BOTT');       //刪除按鈕		 
-		if (getAuth[0]()[3]=='Y'){
-			if(document.getElementById('totalqty').textContent*1==0 && document.getElementById('qyt_on_hand').textContent*1==0){
-				delbtt.setAttribute("style","visibility:visible;");
-				attachEventListener(delbtt,"click",delrec,false);
-			}else{
-				 delbtt.setAttribute("style","visibility:hidden;");
-				detachEventListener(delbtt,"click",delrec,false);
-			}
-		}else{
-			delbtt.setAttribute("style","visibility:hidden;");
-			detachEventListener(delbtt,"click",delrec,false);		
-		}			 
-
-		 var localbottoncl=document.getElementById('lclbtnbk');       //按鈕背景
-		 localbottoncl.style.backgroundColor="#FCFCFC";
-		 localbottoncl.style.border=" 2px solid #FCFCFC";
-		 localbottoncl.style.boxShadow ="sandybrown 5px 10px 10px 7px";
-		 var bibau=cko[3](0);   //找出閉包變數現值
-	     cko[3](bibau*(-1));    //將表身閉包變數歸零	
-		  bibau=cko[6](0);   //找出閉包變數現值
-	     cko[6](bibau*(-1));    //將表身閉包變數歸零 
-		////
-		 var btns=getElementsByAttribute('class','btn');			 
-		 for (var i=0;i<btns.length;i++){		
-		     if(btns[i].accessKey=='I' || btns[i].accessKey=='M'){
-		        btns[i].removeAttribute("accesskey");		
-			 } 
-			 if(right(btns[i].title,1)=='T' || right(btns[i].title,1)=='J' || right(btns[i].title,1)=='K' || right(btns[i].title,1)=='V' ||right(btns[i].title,1)=='B'){
-		        btns[i].setAttribute("accesskey",right(btns[i].title,1));		
-			 } 
-	     }		           
-}
-
-function tab2View(event){	  
-    if (typeof event=="undefined"){
-		event=window.event;
+    // --- 1. 建立右側資料欄位結構 ---
+    const firstCover = document.querySelector('.table_cover');
+    if (firstCover) {
+        firstCover.style.width = "37%";
     }
-	var localbottoncl=document.getElementById('lclbtnbk');       //按鈕背景
-	localbottoncl.style.backgroundColor="#F9FAD9";
-	localbottoncl.style.border=" 2px solid #F9FAD9";
-	localbottoncl.style.boxShadow="olivedrab 5px 10px 10px 7px";
-    if(getAuth[0]()[5]!='Y'){		     
-		blkshow("你無查看報價紀錄權限");		 
-	    document.getElementById("tab1").checked=true;	
-		return false;	 
-	} 		  
-	if (cko[2](0)==0){
-		blkshow("未勾選任何紀錄，請勾選一筆再編輯表身內容");	
-	  	document.getElementById("tab1").checked="checked";		
-		return false;	
+
+    const secondCover = document.createElement('div');
+    secondCover.className = "table_cover";
+    secondCover.style.width = "63%";
+
+    const righttbl1 = document.createElement("table");
+    righttbl1.id = "rightMember1";
+
+    const arrayRgt1 = [
+        "料品編號", "品名規格", "管理類別", "歸屬類別", "保存期限:", "計料單位:",
+        "標準售價:", "保管部門:", "總庫存量:", "在庫數量:", "庫存上限:", "安全存量:",
+        "料架位置:", "建立料表:", "領料類別:", "領用批量:", "採購前置:", "收發料前置:",
+        "標準進價:", "平均成本:", "備註說明:", "物料類別:", "產    地:", "最後更新:"
+    ];
+
+    const arrayRgt2 = [
+        "<span name='b01value' id='stock_no'></span>", "<span name='b01value' id='stock_name'></span>",
+        "<span name='b01value' id='type_of_mnge'></span>", "<span name='b01value' id='kind_of_belong_to'></span>",
+        "<span name='b01value' id='keepdays'></span>", "<span name='b01value' id='each_count'></span>",
+        "<span name='b01value' id='dividing'></span>", "<span name='b01value' id='who_hold'></span>&nbsp;&nbsp;&nbsp;<span name='b01value' id='depart_name'></span>",
+        "<mark><span name='b01value' id='totalqty'></span></mark>", "<mark><span name='b01value' id='qyt_on_hand'></span></mark>",
+        "<span name='b01value' id='maxlimit_of_inv'></span>", "<span name='b01value' id='qty_of_safe'></span>",
+        "<span name='b01value' id='where_is'></span>", "<span name='b01value' id='bom_should_be'></span>",
+        "<span name='b01value' id='type_of_apply'></span>", "<span name='b01value' id='lotQty'></span>",
+        "<span name='b01value' id='leadtm_prchs'></span>", "<span name='b01value' id='leadtm_ready'></span>",
+        "<span name='b01value' id='sales_cost'></span>", "<span name='b01value' id='avg_cost'></span>",
+        "<span name='b01value' id='remark1'></span>", "<span name='b01value' id='mtr_type'></span>",
+        "<span name='b01value' id='rorgin_from'></span>", "<span name='b01value' id='who_and_when'></span>"
+    ];
+
+    let currentTr = null;
+    arrayRgt1.forEach((label, i) => {
+        if (i % 2 === 0) {
+            currentTr = righttbl1.insertRow(-1);
+            if (i === 18) {
+                currentTr.className = "costauth";
+                if (getAuth[0]()[7] !== 'Y') {
+                    currentTr.style.display = "none";
+                }
+            }
+        }
+        const tdLabel = currentTr.insertCell(-1);
+        tdLabel.className = "Rgtkey";
+        tdLabel.innerHTML = label;
+
+        const tdVal = currentTr.insertCell(-1);
+        tdVal.innerHTML = arrayRgt2[i];
+    });
+
+    secondCover.appendChild(righttbl1);
+    if (contentdiv[0]) {
+        contentdiv[0].appendChild(secondCover);
     }
-	var srchbtt=document.getElementById('SEEK_BOTT');
-	var newrcath=document.getElementById('NEW_BOTT');       //新增按鈕		
-	var editbtt=document.getElementById("EDIT_BOTT");
-	var delbtt=document.getElementById("DEL_BOTT");
-	var keydescription=document.getElementById('keydscrpt1');    
-    var fthkey=document.getElementById("fatherkey1");
-	var aWaitUpdate=[];	//準備記錄修改時欄位的內容資料
-    var maintable=document.getElementById("maintbody1");		//所指向的單頭紀錄		 				 	 
-	for(var i=0;i< maintable.rows.length; i++){			 		            
-		if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
-			for (j=0;j<maintable.rows[i].cells.length-1;j++){				  
-				aWaitUpdate.push(maintable.rows[i].cells[j].textContent);  //將待修改欄位資料存入陣列				 
-			}				                          
-            break;					   
-		}
-	} 	 
-	keydescription.textContent=aWaitUpdate[2];   
-	fthkey.innerHTML=aWaitUpdate[1];   
-	if(right(aWaitUpdate[4],1).trim()=='Y'){	
-        if (getAuth[0]()[1]=='Y'){
-            newrcath.style.visibility="visible";	
-			attachEventListener(newrcath,"click",addrec,false);  //新增紀錄按鈕程序
-		}
-		if(getAuth[0]()[2]=='Y'){
-			editbtt.setAttribute("style","visibility:visible;");
-			attachEventListener(editbtt,"click",edtrec,false);
-		}
-		if(getAuth[0]()[3]=='Y'){
-			delbtt.setAttribute("style","visibility:visible;");
-			attachEventListener(delbtt,"click",delrec,false);
-		}
-		srchbtt.setAttribute("style","visibility:visible;");	
-		attachEventListener(srchbtt,'click',seekrec,false);  			
-	}else{			
-		srchbtt.setAttribute("style","visibility:hidden;");	
-	    detachEventListener(srchbtt,'click',seekrec,false);    			
-		newrcath.setAttribute("style","visibility:hidden;");
-		detachEventListener(newrcath,"click",addrec,false);  //取消新增按鈕程序
-		editbtt.setAttribute("style","visibility:hidden;");
-		detachEventListener(editbtt,"click",edtrec,false); 
-		delbtt.setAttribute("style","visibility:hidden;");
-		detachEventListener(delbtt,"click",delrec,false); 									
-	}			  	   
-	var responseDiv=document.getElementById("serverResponse2"); 
-	responseDiv.innerHTML='&nbsp';
-	var bibau=cko[3](0);   //找出閉包變數現值
-	cko[3](bibau*(-1));    //將表身閉包變數歸零			
-	bibau=cko[6](0);   //找出閉包變數現值
-	cko[6](bibau*(-1));    //將表身閉包變數歸零 
-	if(event!='GY'){  	
-		var btns=getElementsByAttribute('class','btn');		
-		var M1=0;
-		var I1=0;
-		for (var i=0;i<btns.length;i++){		
-		    if(btns[i].accessKey=='T' || btns[i].accessKey=='J' || btns[i].accessKey=='K' || btns[i].accessKey=='V' || btns[i].accessKey=='B'){		    
-		        btns[i].removeAttribute("accesskey");		
-			} 
-			if(right(btns[i].title,1)=='I'){
-				I1++;
-				if(I1==1){
-		            btns[i].setAttribute("accesskey",right(btns[i].title,1));
-				}else{
-					btns[i].removeAttribute("accesskey");
-				}  
-			} 
-			if(right(btns[i].title,1)=='M'){
-				M1++;
-				if(M1==1){
-		            btns[i].setAttribute("accesskey",right(btns[i].title,1));	
-				}else{
-					btns[i].removeAttribute("accesskey");
-				}  
-			} 
-	    }
-	}			
-	commontemp(fthkey.innerHTML,"c02.F03");
+
+    // --- 2. 報價筆數權限判斷 (Tab 2) ---
+    if (getAuth[0]()[5] === 'Y') {
+        const rspn2 = document.getElementById('serverResponse2');
+        if (contentdiv[1] && rspn2) {
+            const frag1 = document.createDocumentFragment();
+            const spn1 = document.createElement('span');
+            spn1.id = "ttltitle";
+            spn1.textContent = "報價筆數:";
+
+            const spn3 = document.createElement('span');
+            spn3.id = "ttlmny";
+            spn3.className = "ttl";
+            spn3.textContent = '0';
+
+            frag1.append(document.createTextNode('\u00A0'.repeat(6)), spn1, spn3);
+            contentdiv[1].insertBefore(frag1, rspn2);
+        }
+    } else {
+        if (contentdiv[1]) contentdiv[1].style.display = 'none';
+        if (tabnames[1]) tabnames[1].style.display = 'none';
+    }
+
+    // --- 3. 詢價筆數權限判斷 (Tab 3) ---
+    if (getAuth[0]()[6] === 'Y') {
+        const rspn3 = document.getElementById('serverResponse3');
+        if (contentdiv[2] && rspn3) {
+            const frag2 = document.createDocumentFragment();
+            const spn4 = document.createElement('span');
+            spn4.id = "ttltitle1";
+            spn4.textContent = "詢價筆數:";
+
+            const spn5 = document.createElement('span');
+            spn5.id = "ttlmny1";
+            spn5.className = "ttl";
+            spn5.textContent = '0';
+
+            frag2.append(document.createTextNode('\u00A0'.repeat(6)), spn4, spn5);
+            contentdiv[2].insertBefore(frag2, rspn3);
+        }
+    } else {
+        if (contentdiv[2]) contentdiv[2].style.display = 'none';
+        if (tabnames[2]) tabnames[2].style.display = 'none';
+    }
+
+    // --- 4. 插入各庫別明細按鈕 ---
+    const svrSpns1 = document.getElementById('serverResponse1');
+    if (contentdiv[0] && svrSpns1) {
+        const invDetailButton = btnManager.createBtn("INVDTL_BOTT", "\u{1F4E6}", "各庫別明細，快速鍵 Alt+B", "B", page1OtherButton1);
+        //"\u{1F3E1}"
+		 contentdiv[0].insertBefore(document.createTextNode('\u{00A0}'.repeat(5)), svrSpns1);
+		 contentdiv[0].insertBefore(invDetailButton, svrSpns1);
+		
+       
+    }
+
+    // --- 5. 腳本清理與動態載入 ---
+    document.querySelectorAll("script[id]").forEach(s => s.remove());
+
+    const prefix = jsPth + jsPth.substr(0, 3);
+    loadScript(`${prefix}.js?v=${jsvsn}`, () => { if (window.DrawTable) DrawTable(); });
+    loadScript(`${prefix}rgst.js?v=${jsvsn}`);
+    loadScript(`include/JS/commonsrch.js?v=${jsvsn}`);
+
+    // --- 6. 事件監聽綁定 ---
+    const tabMap = { tab1: tab1View, tab2: tab2View, tab3: tab3View };
+    Object.keys(tabMap).forEach(id => {
+        const tab = document.getElementById(id);
+        if (tab) attachEventListener(tab, "click", tabMap[id], false);
+    });
 }
 
-function tab3View(event){	  
-       if (typeof event=="undefined"){
-		   event=window.event;
-    	}
-		var localbottoncl=document.getElementById('lclbtnbk');       //按鈕背景
-		 localbottoncl.style.backgroundColor="#F3F3FA";
-		 localbottoncl.style.border=" 2px solid #F3F3FA";
-		 localbottoncl.style.boxShadow="skyblue 5px 10px 10px 7px";
-      if(getAuth[0]()[6]!='Y'){		     
-		 blkshow("你無查看詢價紀錄權限");		 
-	     document.getElementById("tab1").checked=true;	
-		 return false;	 
-	  } 		  
+// 輔助函式：閉包數值歸零
+function resetCko(indices) {
+    indices.forEach(idx => {
+        if (cko[idx]) {
+            const current = cko[idx](0);
+            cko[idx](current * -1);
+        }
+    });
+}
 
-	   if (cko[2](0)==0){
-		  blkshow("未勾選任何紀錄，請勾選一筆再編輯表身內容");	
-	  	  document.getElementById("tab1").checked="checked";		
-		  return false;	
-       }
-	   var srchbtt=document.getElementById('SEEK_BOTT');
-	   var newrcath=document.getElementById('NEW_BOTT');       //新增按鈕		
-	   var editbtt=document.getElementById("EDIT_BOTT");
-	   var delbtt=document.getElementById("DEL_BOTT");
-	   var keydescription=document.getElementById('keydscrpt2');    
-       var fthkey=document.getElementById("fatherkey2");
-	   var aWaitUpdate=[];	//準備記錄修改時欄位的內容資料
+// 輔助函式：控制按鈕顯隱與事件綁定
+function setupButtons(btnConfigs) {
+    btnConfigs.forEach(({ id, visible, handler }) => {
+        const btn = document.getElementById(id);
+        if (!btn) return;
 
-       var maintable=document.getElementById("maintbody1");		//所指向的單頭紀錄		 				 	 
-	   for(var i=0;i< maintable.rows.length; i++){			 		            
-		   if(maintable.rows[i].cells[maintable.rows[i].cells.length-1].childNodes[0].checked){
-			   for (j=0;j<maintable.rows[i].cells.length-1;j++){				  
-				   aWaitUpdate.push(maintable.rows[i].cells[j].textContent);  //將待修改欄位資料存入陣列				 
-			   }				                 
-               break;					   
-		   }
-	   } 	 
-	   keydescription.textContent=aWaitUpdate[2];   
-	   fthkey.innerHTML=aWaitUpdate[1];	   
-	   if(left(aWaitUpdate[4],1).trim()=='Y'){	
-           if (getAuth[0]()[1]=='Y'){
-               newrcath.style.visibility="visible";	
-			   attachEventListener(newrcath,"click",addrec,false);  //新增紀錄按鈕程序
-			}
-			if(getAuth[0]()[2]=='Y'){
-				    editbtt.setAttribute("style","visibility:visible;");
-				    attachEventListener(editbtt,"click",edtrec,false);
-			}
-			if(getAuth[0]()[3]=='Y'){
-				    delbtt.setAttribute("style","visibility:visible;");
-				    attachEventListener(delbtt,"click",delrec,false);
-			}
-			srchbtt.setAttribute("style","visibility:visible;");	
-		    attachEventListener(srchbtt,'click',seekrec,false);  			
-	    }else{			
-			srchbtt.setAttribute("style","visibility:hidden;");	
-	     	detachEventListener(srchbtt,'click',seekrec,false);    			
-		    newrcath.setAttribute("style","visibility:hidden;");
-			detachEventListener(newrcath,"click",addrec,false);  //取消新增按鈕程序
-			editbtt.setAttribute("style","visibility:hidden;");
-			detachEventListener(editbtt,"click",edtrec,false); 
-			delbtt.setAttribute("style","visibility:hidden;");
-			detachEventListener(delbtt,"click",delrec,false); 
-		}			  	   
-	   var responseDiv=document.getElementById("serverResponse3"); 
-	   responseDiv.innerHTML='&nbsp';
-	   var bibau=cko[4](0);   //找出閉包變數現值
-	   cko[4](bibau*(-1));    //將表身閉包變數歸零			
-	    bibau=cko[6](0);   //找出閉包變數現值
-	    cko[6](bibau*(-1));    //將表身閉包變數歸零 
-		if(event!='GY'){  	
-		    var btns=getElementsByAttribute('class','btn');		
-			var M1=0;
-			var I1=0;
-		    for (var i=0;i<btns.length;i++){		
-		        if(btns[i].accessKey=='T' || btns[i].accessKey=='J' || btns[i].accessKey=='K' || btns[i].accessKey=='V' || btns[i].accessKey=='B'){		    
-		           btns[i].removeAttribute("accesskey");		
-			    } 
-			    if(right(btns[i].title,1)=='I'){
-				    I1++;
-				    if(I1==2){
-		               btns[i].setAttribute("accesskey",right(btns[i].title,1));		
-				    }else{
-					   btns[i].removeAttribute("accesskey");
-					}
-			    } 
-				if(right(btns[i].title,1)=='M'){
-				    M1++;
-					if(M1==2){
-		                btns[i].setAttribute("accesskey",right(btns[i].title,1));	
-					}else{
-					   btns[i].removeAttribute("accesskey");
-					}						
-			    } 
-	        }
-		}			
-	   commontemp(fthkey.innerHTML,"d02.F03");
+        btn.style.visibility = visible ? "visible" : "hidden";
+        if (handler) {
+            if (visible) {
+                attachEventListener(btn, "click", handler, false);
+            } else {
+                detachEventListener(btn, "click", handler, false);
+            }
+        }
+    });
+}
+
+// 輔助函式：設定按鈕 AccessKey (支援目標 index 選擇)
+function updateAccessKeys(removeKeys, targetIMIndex = null) {
+    let countI = 0;
+    let countM = 0;
+
+    document.querySelectorAll('.btn').forEach(btn => {
+        const lastChar = btn.title.slice(-1);
+
+        if (removeKeys.includes(btn.accessKey)) {
+            btn.removeAttribute("accesskey");
+        }
+
+        if (['T', 'J', 'K', 'V', 'B'].includes(lastChar)) {
+            btn.accessKey = lastChar;
+        }
+
+        if (targetIMIndex !== null) {
+            if (lastChar === 'I') {
+                countI++;
+                if (countI === targetIMIndex) btn.accessKey = 'I';
+                else if (btn.accessKey === 'I') btn.removeAttribute("accesskey");
+            }
+            if (lastChar === 'M') {
+                countM++;
+                if (countM === targetIMIndex) btn.accessKey = 'M';
+                else if (btn.accessKey === 'M') btn.removeAttribute("accesskey");
+            }
+        }
+    });
+}
+
+// 輔助函式：取得表格中已勾選的 row 資料列
+function getSelectedRowData() {
+    const maintable = document.getElementById("maintbody1");
+    if (!maintable) return null;
+
+    const selectedRow = Array.from(maintable.rows).find(row => {
+        const cb = row.cells[row.cells.length - 1]?.querySelector('input') || row.cells[row.cells.length - 1]?.childNodes[0];
+        return cb && cb.checked;
+    });
+
+    if (!selectedRow) return null;
+
+    return Array.from(selectedRow.cells)
+        .slice(0, -1)
+        .map(cell => cell.textContent);
+}
+
+function tab1View() {
+    const auth = getAuth[0]();
+    const totalQty = (document.getElementById('totalqty')?.textContent || 0) * 1;
+    const qtyOnHand = (document.getElementById('qyt_on_hand')?.textContent || 0) * 1;
+
+    setupButtons([
+        { id: 'NEW_BOTT', visible: auth[1] === 'Y', handler: addrec },
+        { id: 'SEEK_BOTT', visible: true, handler: seekrec },
+        { id: 'EDIT_BOTT', visible: auth[2] === 'Y', handler: edtrec },
+        { id: 'DEL_BOTT', visible: auth[3] === 'Y' && totalQty === 0 && qtyOnHand === 0, handler: delrec }
+    ]);
+
+    const localbottoncl = document.getElementById('lclbtnbk');
+    if (localbottoncl) {
+        Object.assign(localbottoncl.style, {
+            backgroundColor: "#FCFCFC",
+            border: "2px solid #FCFCFC",
+            boxShadow: "sandybrown 5px 10px 10px 7px"
+        });
+    }
+
+    resetCko([3, 6]);
+    updateAccessKeys(['I', 'M']);
+}
+
+function tab2View(event) {
+    const e = event || window.event;
+
+    const localbottoncl = document.getElementById('lclbtnbk');
+    if (localbottoncl) {
+        Object.assign(localbottoncl.style, {
+            backgroundColor: "#F9FAD9",
+            border: "2px solid #F9FAD9",
+            boxShadow: "olivedrab 5px 10px 10px 7px"
+        });
+    }
+
+    if (getAuth[0]()[5] !== 'Y') {
+        if (window.blkshow) blkshow("你無查看報價紀錄權限");
+        const t1 = document.getElementById("tab1");
+        if (t1) t1.checked = true;
+        return false;
+    }
+
+    if (cko[2](0) === 0) {
+        if (window.blkshow) blkshow("未勾選任何紀錄，請勾選一筆再編輯表身內容");
+        const t1 = document.getElementById("tab1");
+        if (t1) t1.checked = true;
+        return false;
+    }
+
+    const aWaitUpdate = getSelectedRowData();
+    if (aWaitUpdate) {
+        const keydescription = document.getElementById('keydscrpt1');
+        const fthkey = document.getElementById("fatherkey1");
+
+        if (keydescription) keydescription.textContent = aWaitUpdate[2];
+        if (fthkey) fthkey.innerHTML = aWaitUpdate[1];
+
+        const isAllowUpdate = aWaitUpdate[4]?.trim().endsWith('Y');
+        const auth = getAuth[0]();
+
+        setupButtons([
+            { id: 'NEW_BOTT', visible: isAllowUpdate && auth[1] === 'Y', handler: addrec },
+            { id: 'EDIT_BOTT', visible: isAllowUpdate && auth[2] === 'Y', handler: edtrec },
+            { id: 'DEL_BOTT', visible: isAllowUpdate && auth[3] === 'Y', handler: delrec },
+            { id: 'SEEK_BOTT', visible: isAllowUpdate, handler: seekrec }
+        ]);
+
+        const responseDiv = document.getElementById("serverResponse2");
+        if (responseDiv) responseDiv.innerHTML = '&nbsp;';
+
+        resetCko([3, 6]);
+
+        if (e !== 'GY') {
+            updateAccessKeys(['T', 'J', 'K', 'V', 'B'], 1);
+        }
+
+        if (window.commontemp && fthkey) commontemp(fthkey.innerHTML, "c02.F03");
+    }
+}
+
+function tab3View(event) {
+    const e = event || window.event;
+
+    const localbottoncl = document.getElementById('lclbtnbk');
+    if (localbottoncl) {
+        Object.assign(localbottoncl.style, {
+            backgroundColor: "#F3F3FA",
+            border: "2px solid #F3F3FA",
+            boxShadow: "skyblue 5px 10px 10px 7px"
+        });
+    }
+
+    if (getAuth[0]()[6] !== 'Y') {
+        if (window.blkshow) blkshow("你無查看詢價紀錄權限");
+        const t1 = document.getElementById("tab1");
+        if (t1) t1.checked = true;
+        return false;
+    }
+
+    if (cko[2](0) === 0) {
+        if (window.blkshow) blkshow("未勾選任何紀錄，請勾選一筆再編輯表身內容");
+        const t1 = document.getElementById("tab1");
+        if (t1) t1.checked = true;
+        return false;
+    }
+
+    const aWaitUpdate = getSelectedRowData();
+    if (aWaitUpdate) {
+        const keydescription = document.getElementById('keydscrpt2');
+        const fthkey = document.getElementById("fatherkey2");
+
+        if (keydescription) keydescription.textContent = aWaitUpdate[2];
+        if (fthkey) fthkey.innerHTML = aWaitUpdate[1];
+
+        const isAllowUpdate = aWaitUpdate[4]?.trim().startsWith('Y');
+        const auth = getAuth[0]();
+
+        setupButtons([
+            { id: 'NEW_BOTT', visible: isAllowUpdate && auth[1] === 'Y', handler: addrec },
+            { id: 'EDIT_BOTT', visible: isAllowUpdate && auth[2] === 'Y', handler: edtrec },
+            { id: 'DEL_BOTT', visible: isAllowUpdate && auth[3] === 'Y', handler: delrec },
+            { id: 'SEEK_BOTT', visible: isAllowUpdate, handler: seekrec }
+        ]);
+
+        const responseDiv = document.getElementById("serverResponse3");
+        if (responseDiv) responseDiv.innerHTML = '&nbsp;';
+
+        resetCko([4, 6]);
+
+        if (e !== 'GY') {
+            updateAccessKeys(['T', 'J', 'K', 'V', 'B'], 2);
+        }
+
+        if (window.commontemp && fthkey) commontemp(fthkey.innerHTML, "d02.F03");
+    }
 }

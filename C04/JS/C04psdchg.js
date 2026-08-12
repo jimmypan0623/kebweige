@@ -6,12 +6,48 @@
  * 4. 強化分頁切換時 AccessKey 的自動分配邏輯。
  */
 function selfTag(jsvsn, jsPth) {
+	 var contentdiv=getElementsByAttribute('class','tab_content');	
     const maindiv = document.getElementsByClassName('tab_css')[0];
     const beinsertedid = document.getElementById('tab1');
     const cntdiv1 = document.querySelectorAll('.tab_content')[1];
     const rspn2 = document.getElementById('serverResponse2');
     const orpButton5 = document.getElementById("lgt"); // 離開按鈕
-
+	////
+    var firstCover=getElementsByAttribute('class','table_cover');
+	firstCover[1].style.width="83%";	
+	 var secondCover=document.createElement('div');
+	secondCover.setAttribute("class","table_cover");
+	secondCover.style.width="17%";
+    righttbl1=document.createElement("table");
+	righttbl1.id="rightContent1";	
+	righttbl1.className="gridlist";
+	righttbl1.setAttribute("style","width:100%;");
+	 var thr2=document.createElement("thead"); 
+	 var array3 = ['預出日期','數量'];
+	 var array4 = ['50','50'];
+	for (var i = 0; i < array3.length; i++) {
+		var th2 = document.createElement('th'); //column	
+		
+		var text2 = document.createTextNode(array3[i]); //cell	
+      
+		th2.style.backgroundColor="#D6D6AD";
+		th2.style.color="#000000";	
+		 
+		th2.style.width=array4[i];
+		th2.appendChild(text2);
+		
+		thr2.appendChild(th2);		
+	}	
+	var tbdy2=document.createElement("tbody"); 
+	tbdy2.id="contentTbody";
+	righttbl1.appendChild(thr2);
+	righttbl1.appendChild(tbdy2);    
+	secondCover.appendChild(righttbl1); 	 
+	contentdiv[1].appendChild(secondCover); 	
+	
+	////
+	
+	
     if (!maindiv || !beinsertedid) return;
 
     // --- 區塊 1: 狀態標籤與金額欄位 ---
@@ -22,9 +58,12 @@ function selfTag(jsvsn, jsPth) {
     const fragInfo = document.createDocumentFragment();
     
     // 按鈕：查看出貨紀錄 (訂單特有)
-    const btnOutRcd = createBtn("OUTRCD_BOTT", "\u{1F4DC}", "查看出貨紀錄，快速鍵 Alt+B", "B", page2OtherButton1);
-    btnOutRcd.style.fontSize = "17px";
-    
+    const btnOutRcd = btnManager.createBtn("OUTRCD_BOTT", "\u{1F4DC}", "查看出貨紀錄，快速鍵 Alt+G", "G", page2OtherButton1);
+    btnOutRcd.setAttribute("style","font-size:120%;margin:0px;");
+    const invDetailButton = btnManager.createBtn("INVDTL_BOTT", "\u{1F4E6}", "各庫別明細，快速鍵 Alt+B", "B", page2OtherButton2);
+	invDetailButton.setAttribute("style","font-size:130%;margin:0px;");
+	const mrpListButton = btnManager.createBtn("IFUTURE_BOTT", "\u{1F453}", "預期庫存異動明細，快速鍵 Alt+R", "R", page2OtherButton3);
+	mrpListButton.setAttribute("style","font-size:120%;margin:0px;");
     const createSpan = (id, text, className) => {
         const s = document.createElement('span');
         s.id = id;
@@ -36,7 +75,11 @@ function selfTag(jsvsn, jsPth) {
     fragInfo.append(
         document.createTextNode('\u00A0\u00A0'),
         btnOutRcd,
-        document.createTextNode('\u00A0'.repeat(7)), // 合併空白
+		document.createTextNode('\u00A0'.repeat(2)), // 合併空白
+		invDetailButton,
+        document.createTextNode('\u00A0'.repeat(2)), // 合併空白
+		mrpListButton,
+		document.createTextNode('\u00A0'.repeat(7)), // 合併空白
         createSpan("ttltitle", "總金額:"),
         createSpan("crncy", ""),
         createSpan("ttlmny", "0", "ttl")
@@ -47,9 +90,9 @@ function selfTag(jsvsn, jsPth) {
     const fragButtons = document.createDocumentFragment();
     const btnStyle = "visibility:visible; font-size:130%; margin:0; color:black;";
 
-    const btnAns = createBtn("ANS_BOTT", "\u{2714}", "確認本訂單所有紀錄，快速鍵Alt+A", "A", ansproc);
-    const btnVrs = createBtn("VRS_BOTT", "\u{1F504}", "反確認本訂單所有紀錄，快速鍵Alt+Z", "Z", vrsproc);
-    const btnTrn = createBtn("TRN_BOTT", "\u{1F516}", "直接轉出貨單，快速鍵Alt+G", "G", null); // 轉單
+    const btnAns = btnManager.createBtn("ANS_BOTT", "\u{2714}", "確認本訂單所有紀錄，快速鍵Alt+A", "A", ansproc);
+    const btnVrs = btnManager.createBtn("VRS_BOTT", "\u{1F504}", "反確認本訂單所有紀錄，快速鍵Alt+Z", "Z", vrsproc);
+    const btnTrn = btnManager.createBtn("TRN_BOTT", "\u{1F516}", "直接轉出貨單，快速鍵Alt+G", "G", null); // 轉單
 
     [btnAns, btnVrs, btnTrn].forEach(btn => btn.style.cssText = btnStyle);
 
@@ -57,7 +100,7 @@ function selfTag(jsvsn, jsPth) {
 
     // 權限判斷：列印按鈕
     if (getAuth[0]()[4] === 'Y') {
-        const btnPrnt = createBtn("PRNT_BOTT", "\u{1F5A8}", "列印所選紀錄，快速鍵Alt+P", "P", prntproc);
+        const btnPrnt = btnManager.createBtn("PRNT_BOTT", "\u{1F5A8}", "列印所選紀錄，快速鍵Alt+P", "P", prntproc);
         btnPrnt.style.cssText = btnStyle;
         fragButtons.append(btnPrnt, document.createTextNode('\u00A0\u00A0'));
     }
@@ -70,7 +113,8 @@ function selfTag(jsvsn, jsPth) {
     const prefix = jsPth + jsPth.substr(0, 3);
     const scriptList = [
         [`${prefix}.js?v=${jsvsn}`, () => { if(window.DrawTable) DrawTable(); }],
-        [`${prefix}rgst.js?v=${jsvsn}`],
+		[`${prefix}dlvdte.js?v=${jsvsn}`],
+        [`${prefix}rgst.js?v=${jsvsn}`],		
         [`include/JS/commonsrch.js?v=${jsvsn}`],
         [`C01/JS/A09getno.js?v=${jsvsn}`],
         [`include/JS/confirmfun.js?v=${jsvsn}`],
@@ -84,19 +128,6 @@ function selfTag(jsvsn, jsPth) {
         const tab = document.getElementById(id);
         if (tab) attachEventListener(tab, "click", (id === 'tab1' ? tab1View : tab2View), false);
     });
-}
-
-// 輔助工具：按鈕工廠
-function createBtn(id, val, title, key, clickFn) {
-    const btn = document.createElement("input");
-    btn.type = "button";
-    btn.className = "btn";
-    btn.id = id;
-    btn.value = val;
-    btn.title = title;
-    btn.accessKey = key;
-    if (clickFn) attachEventListener(btn, "click", clickFn, false);
-    return btn;
 }
 
 // 輔助工具：閉包歸零
@@ -153,8 +184,10 @@ function tab2View(event) {
         const t1 = document.getElementById("tab1");
         if (t1) t1.checked = true;
         return false;
+    }   
+	if (typeof contentShow === 'function') {
+        contentShow([]); // 清空右側預排資料
     }
-
     const maintable = document.getElementById("maintbody1");
     if (!maintable) return;
 

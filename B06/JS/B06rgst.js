@@ -454,7 +454,7 @@ function a14DepartName(event){
 	}	
 	var targetDepartNo=getEventTarget(event);	
     
-	var sendSrcRec="filename="+targetDepartNo.value;		
+	var sendSrcRec="filename="+targetDepartNo.value+"|"+getAuth[2]()[0].INT_086;		
 		var rsp="";  	
         if(window.ActiveXObject){
 		   var request = new ActiveXObject("Microsoft.XMLHttp");

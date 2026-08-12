@@ -11,7 +11,14 @@ header("Pragma: no-cache");
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // 讓過期時間設定在過去
 
  require_once("../../include/BKND/mysqli_server.php");                              //引用檔   
- require_once "../../include/BKND/fieldpreset.php";	
+ require_once "../../include/BKND/fieldpreset.php";	 
+ // 1. 取得並過濾基本參數
+	$sq20="select * from a26 where F01='INT_086' "; 
+	$sql7=@mysqli_query($link,$sq20);                           
+	$list8=mysqli_fetch_assoc($sql7);  //紀錄參數(借出入倉) 	    
+	$brwdpt = isset($list8['F06']) ? $list8['F06'] : "XXXXXX";
+ 
+ 
      $str = explode('|', $_POST['filename']);
 	 
     $searchRecord=trim($str[0]);
@@ -31,7 +38,7 @@ header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // 讓過期時間設定在過
 	 if($str[3]=="Y"){
 		 $sql3=$sql3."AND `F05`='Y' ";   //生產部門
 	 }
-	 $sql3=$sql3."ORDER BY `F01`";
+	 $sql3=$sql3." AND F01 <>'".trim($brwdpt)."' ORDER BY `F01`";
     $arr=array();	
     $result=@mysqli_query($link,$sql3); 
 	

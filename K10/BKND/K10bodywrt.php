@@ -1,11 +1,17 @@
 <?php
 require_once("../../include/BKND/auth_check.php"); //驗證
-$str_json = file_get_contents('php://input'); //($_POST doesn't work here)
-$response =json_decode($str_json); // decoding received JSON to array
-$cart=json_decode($response);
-$brr=array();
-foreach($cart as $key=>$val){	   
-    $brr[]=addslashes($val);		//要加入此函數避免中間有單引號錯亂
+
+$str_json = file_get_contents('php://input');
+$response = json_decode($str_json, true);   // 前端已修正為單次 stringify(真實物件)，這裡可以直接一次解碼
+
+if ($response === null) {
+    echo json_encode("payload 解碼失敗");
+    exit;
+}
+
+$brr = array();
+foreach ($response as $key => $val) {
+    $brr[] = addslashes($val);
 }
 require_once("../../include/BKND/mysqli_server.php");                              //引用檔         
 require_once "../../include/BKND/fieldDOMset.php"; // 引入     
@@ -17,11 +23,7 @@ $trnarray=fldafterwrite('K10','2',$link,true);
 if($rows1==0){
     echo json_encode("此客戶無應收帳款待沖銷，或沖銷金額大於可沖金額");  
 }else{	
-     
-     $sql0="SELECT * FROM a01 WHERE F01="."'".$_COOKIE['useraccount']."'"; 
-     $sql1=@mysqli_query($link,$sql0);
-     $rows1=@mysqli_num_rows($sql1);                       
-     $list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名   
+    
 	 $lastdate=date('Y'.'-'.'m'.'-'.'d');
      $mArlth=count($brr);  
 
@@ -42,11 +44,11 @@ if($rows1==0){
                 $mscnt.="'".$brr[4]."',"; 		
                 $mscnt.="'".$brr[5]."',"; 
 			    $mscnt.="'".$brr[6]."',"; 		             
-	            $mscnt.="'".$lastdate.$list4['F03']."')";		      
+	            $mscnt.="'".$lastdate.$_SESSION['user_name']."')";		      
 	            $sql=$mscnt;                                               //寫入MySQL 	 
                 mysqli_query($link ,$sql) or die(mysqli_error($link));  
 			   $last_id = mysqli_insert_id($link);     //找最後一個號碼	          					     
-		       $arr = array ('order_no'=>$last_id,'lastupdate'=>$lastdate.$list4['F03'],'fldsatrr'=>$trnarray);						 
+		       $arr = array ('order_no'=>$last_id,'lastupdate'=>$lastdate.$_SESSION['user_name'],'fldsatrr'=>$trnarray);						 
 		       echo json_encode($arr);
 			    $armstk25="UPDATE k25 SET F28=F28+".$brr[5]." where F15='".$brr[1]."' AND F03='".$brr[7]."' ";  	                                               
                mysqli_query($link ,$armstk25) or die(mysqli_error($link));    //寫入MySQL 	
@@ -54,11 +56,11 @@ if($rows1==0){
     }else{	   //修改	    
 	    $mscnt="UPDATE k0h SET F05=F05+".$brr[5].",";	    
 	    $mscnt.="F12="."'".$brr[6]."',";	   
-	    $mscnt.="F11="."'".$lastdate.$list4['F03']."'";
+	    $mscnt.="F11="."'".$lastdate.$_SESSION['user_name']."'";
 	    $mscnt.=" WHERE F00="."'".$brr[$mArlth-2]."'";
 	    $sql=$mscnt;                                                 //寫入MySQL 	 
         mysqli_query($link ,$sql) or die(mysqli_error($link));  	  
-        $arr = array ('order_no'=>$brr[$mArlth-2],'lastupdate'=>$lastdate.$list4['F03'],'fldsatrr'=>$trnarray);
+        $arr = array ('order_no'=>$brr[$mArlth-2],'lastupdate'=>$lastdate.$_SESSION['user_name'],'fldsatrr'=>$trnarray);
 	    echo json_encode($arr);
 	   
 		 $armstk25="UPDATE k25 SET F28=F28+".$brr[5]." where F15='".$brr[1]."' AND F03='".$brr[7]."' ";  	                                               

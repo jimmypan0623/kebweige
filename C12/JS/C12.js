@@ -122,7 +122,7 @@ function contenBkndAjax(sendSrcRec){
     return;			   	
 } */
 async function contenBkndAjax(sendSrcRec) {
-    //const url = `C12/BKND/C12Contentbrow.php?timestamp=${Date.now()}`;
+    
      const url = "C12/BKND/C12Contentbrow.php";
     try {
         const response = await fetch(url, {

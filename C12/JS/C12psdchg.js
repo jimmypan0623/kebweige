@@ -14,12 +14,12 @@ function selfTag(jsvsn,jsPth){
 	var spn3=document.createElement('span');
 	spn3.id="ttlmny";  
 	spn3.innerHTML='0';
-	 cntdiv[0].insertBefore(spn3,rspn1);		
+	cntdiv[0].insertBefore(spn3,rspn1);		
 
 	var firstCover=getElementsByAttribute('class','table_cover');	
 	firstCover[0].style.width="16%";
 
-     var secondCover=document.createElement('div');
+    var secondCover=document.createElement('div');
 	secondCover.setAttribute("class","table_cover");
 	secondCover.style.width="84%";
     righttbl1=document.createElement("table");
@@ -36,6 +36,7 @@ function selfTag(jsvsn,jsPth){
       
 		th2.style.backgroundColor="#D6D6AD";	
 		th2.style.color="#000000";	
+		
 		th2.style.width=array4[i];
 		th2.appendChild(text2);
 		

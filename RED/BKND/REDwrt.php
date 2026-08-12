@@ -1,12 +1,17 @@
 <?php
 require_once("../../include/BKND/auth_check.php"); //驗證
- $str_json = file_get_contents('php://input'); //($_POST doesn't work here)
-$response =json_decode($str_json); // decoding received JSON to array
-$cart=json_decode($response);
-$brr=array();
- foreach($cart as $key=>$val){	
-    $brr[]=$val;
-} 
+$str_json = file_get_contents('php://input'); 
+$response = json_decode($str_json, true);   // 一次解碼
+
+if ($response === null) {
+    echo json_encode("payload 解碼失敗");
+    exit;
+}
+
+$brr = array();
+foreach ($response as $key => $val) {	   
+    $brr[] = addslashes($val); // 避免單引號跳脫問題
+}
 	//以下處理MySQL記錄異動
     require_once("../../include/BKND/mysqli_server.php");         //引用檔
 	// 增加安全轉義

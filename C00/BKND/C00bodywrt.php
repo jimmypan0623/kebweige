@@ -1,21 +1,34 @@
 <?php
 require_once("../../include/BKND/auth_check.php"); //驗證
 $str_json = file_get_contents('php://input'); //($_POST doesn't work here)
-$response =json_decode($str_json); // decoding received JSON to array
-$cart=json_decode($response);
-$brr=array();
-foreach($cart as $key=>$val){	   
-    $brr[]=addslashes($val);		//要加入此函數避免中間有單引號錯亂
+
+// 【修正】原本這裡是「雙重 json_decode」：
+//   $response = json_decode($str_json);
+//   $cart = json_decode($response);
+// 對齊 C04wrt.php / B04wrt.php / B04bodywrt.php 的修法：
+// 前端已改為單次 stringify(真實物件)，這裡直接一次解碼即可。
+$cart = json_decode($str_json, true);   // 前端已改為單次 stringify(真實物件)，這裡直接一次解碼
+if ($cart === null) {
+    echo json_encode("payload 解碼失敗");
+    exit;
+}
+
+$brr = array();
+foreach ($cart as $key => $val) {
+    $brr[] = addslashes($val);		//要加入此函數避免中間有單引號錯亂
 }
 require_once("../../include/BKND/mysqli_server.php");                      //引用檔
  require_once "../../include/BKND/fieldDOMset.php"; // 引入     
  $trnarray=fldafterwrite('C00','2',$link,true);
-     $sql0="select * from a01 where F01="."'".$_COOKIE['useraccount']."'"; 
-     $sql1=@mysqli_query($link,$sql0);
-     $rows1=@mysqli_num_rows($sql1);                       
-     $list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名   
 	 $lastdate=date('Y'.'-'.'m'.'-'.'d');
      $mArlth=count($brr);  
+
+// 【新增防呆】陣列長度檢查，避免 $brr[$mArlth-2] 在資料不足時出現 Warning
+if ($mArlth < 2) {
+    echo json_encode("傳入資料筆數不足");
+    exit;
+}
+
 	 $sql3="SELECT F03 FROM c00 WHERE F01='".$brr[0]."' AND LEFT(F03,7)<='".$brr[1]."'";  //查看c00有無未更新的匯率
 	 $sql4=mysqli_query($link,$sql3);
      $rows1=@mysqli_num_rows($sql4);
@@ -34,7 +47,7 @@ require_once("../../include/BKND/mysqli_server.php");                      //引
 			
 			if($rows1>0){
 			    $sql5="UPDATE c00 SET F02="."'".$brr[2]."',";	    
-	             $sql5.="F03="."'".$lastdate.$list4['F03']."'";	  
+	             $sql5.="F03="."'".$lastdate.$_SESSION['user_name']."'";	  
 				 $sql5.=" WHERE F01="."'".$brr[0]."'";
 				 mysqli_query($link ,$sql5) or die(mysqli_error($link));  	 
 			}
@@ -48,18 +61,18 @@ require_once("../../include/BKND/mysqli_server.php");                      //引
 		   $mscnt.="'".$brr[0]."',";
 		   $mscnt.="'".$brr[1]."',";
 		   $mscnt.="'".$brr[2]."',";	    
-		   $mscnt.="'".$lastdate.$list4['F03']."')";		      
+		   $mscnt.="'".$lastdate.$_SESSION['user_name']."')";		      
 		   $sql=$mscnt;                                               //寫入MySQL 	 
 		   mysqli_query($link ,$sql) or die(mysqli_error($link));  
 		   $last_id = mysqli_insert_id($link);     //找最後一個號碼	          					     
-		   $arr = array ('order_no'=>$last_id,'lastupdate'=>$lastdate.$list4['F03'],'fldsatrr'=>$trnarray);						 
+		   $arr = array ('order_no'=>$last_id,'lastupdate'=>$lastdate.$_SESSION['user_name'],'fldsatrr'=>$trnarray);						 
 		   echo json_encode($arr);
 		} //新增判斷或執行結束   	     
     }else{	   //修改
 	 
 	    if($rows1>0){
 			$sql5="UPDATE c00 SET F02="."'".$brr[2]."',";	    
-	        $sql5.="F03="."'".$lastdate.$list4['F03']."'";	  
+	        $sql5.="F03="."'".$lastdate.$_SESSION['user_name']."'";	  
 			$sql5.=" WHERE F01="."'".$brr[0]."'";
 			mysqli_query($link ,$sql5) or die(mysqli_error($link));  	 
 		}
@@ -71,11 +84,11 @@ require_once("../../include/BKND/mysqli_server.php");                      //引
 	    
 		$mscnt="UPDATE c0Z SET F02="."'".$brr[1]."',";	    
 	    $mscnt.="F03="."'".$brr[2]."',";	   	  
-	    $mscnt.="F04="."'".$lastdate.$list4['F03']."'";
+	    $mscnt.="F04="."'".$lastdate.$_SESSION['user_name']."'";
 	    $mscnt.=" WHERE F00="."'".$brr[$mArlth-2]."'";
 	    $sql=$mscnt;                                                 //寫入MySQL 	 
         mysqli_query($link ,$sql) or die(mysqli_error($link));  	  
-        $arr = array ('order_no'=>$brr[$mArlth-2],'lastupdate'=>$lastdate.$list4['F03'],'fldsatrr'=>$trnarray);
+        $arr = array ('order_no'=>$brr[$mArlth-2],'lastupdate'=>$lastdate.$_SESSION['user_name'],'fldsatrr'=>$trnarray);
 	    echo json_encode($arr);
      
     }  
@@ -83,4 +96,3 @@ require_once("../../include/BKND/mysqli_server.php");                      //引
 mysqli_close($link);	
 
 ?>
- 

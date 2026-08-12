@@ -64,11 +64,11 @@ function srchshow(event)
 	var dialogButton3=document.createElement("input");
 	dialogButton3.setAttribute("type","button");
 	dialogButton3.setAttribute("class","btn");
-	dialogButton3.setAttribute("value","\u{2715}"); //關閉
+	dialogButton3.setAttribute("value","\u{2715}"); //關閉	
 	dialogButton3.setAttribute("style","color:red;font-size:17px;");
 	dialogButton3.setAttribute("title","關閉此視窗，快速鍵 Alt+C");	
 	dialogButton3.setAttribute("accesskey","C");	
-	attachEventListener(dialogButton3,"click",srchblkclose,false);		  	      		  		  
+	attachEventListener(dialogButton3,"click",srchblkclose,false);		  	
 	var tblname=document.createElement("caption");
 	tblname.id="titlemsg";
 	tblname.innerHTML=headtitle;					 				 

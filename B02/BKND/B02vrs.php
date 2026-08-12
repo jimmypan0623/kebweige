@@ -19,11 +19,7 @@ if(trim($list2['F10'])=="Y"){
 		$rowsB=@mysqli_num_rows($sqlE);    
 		if($rowsB>0){
 			 echo json_encode("此進貨單應付帳款已沖銷，無法反確認(反過帳)!"); 
-		}else{	
-			$sql0="SELECT * FROM `a01` WHERE F01="."'".$_COOKIE['useraccount']."'"; 
-			$sql1=@mysqli_query($link,$sql0);
-			$rows1=@mysqli_num_rows($sql1);                       
-			$list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名   
+		}else{				
 			$lastdate=date('Y'.'-'.'m'.'-'.'d');
 			$mscnt[]="DELETE FROM `d11` WHERE `F04`='".$delmsg."'";	     
 			$mscnt[]="DELETE FROM `b26` WHERE `F07`='".$delmsg."'";	                        		
@@ -42,7 +38,7 @@ if(trim($list2['F10'])=="Y"){
 								'orderqty'=>$list3['F04'],				
 								'oring_no'=>$list3['F07'],   //訂單編號				
 								'unit_price'=>$list3['F15'],  //單價					    
-								'lastupdate'=>$lastdate.$list4['F03'],
+								'lastupdate'=>$lastdate.$_SESSION['user_name'],
 								'departno'=>$list3['F05'],					
 								'vendor_partno'=>$list3['F08'],		
 								'mrt_type'=>$list3['F98'],		
@@ -92,9 +88,9 @@ if(trim($list2['F10'])=="Y"){
 			 foreach ($insertSql as  $values){
 				@mysqli_query($link,$values);
 			}
-			$mscnt="UPDATE `b02` SET `F10`='N',`F11`='".$lastdate.$list4['F03']."' WHERE `F01`='".$delmsg."'";								   
+			$mscnt="UPDATE `b02` SET `F10`='N',`F11`='".$lastdate.$_SESSION['user_name']."' WHERE `F01`='".$delmsg."'";								   
 			mysqli_query($link ,$mscnt) or die(mysqli_error($link)); 
-			$arr = array ('order_no'=>1,'lastupdate'=>$lastdate.$list4['F03']);
+			$arr = array ('order_no'=>1,'lastupdate'=>$lastdate.$_SESSION['user_name']);
 			echo json_encode($arr);
 		}			
 	}

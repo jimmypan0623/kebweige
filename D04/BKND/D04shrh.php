@@ -12,19 +12,16 @@ require_once("../../include/BKND/mysqli_server.php");      //引用檔
  $sql8=@mysqli_query($link,$sql7);                       
   $list2=mysqli_fetch_assoc($sql8);  //檢查是否已確認過
 if($list2['F04']!='Y'){
-     $sql0="select * from a01 where F01="."'".$_COOKIE['useraccount']."'"; 
-     $sql1=@mysqli_query($link,$sql0);
-     $rows1=@mysqli_num_rows($sql1);                       
-     $list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名   
+     
      $lastdate=date('Y'.'-'.'m'.'-'.'d');
      $mArlth=count($brr);  
 
 	   $mscnt="UPDATE d03 SET F04='".$brr[8]."',";	    	  
-	   $mscnt.=" F10='".$lastdate.$list4['F03']."'";
+	   $mscnt.=" F10='".$lastdate.$_SESSION['user_name']."'";
 	   $mscnt.=" WHERE F01="."'".$brr[0]."'";
 	   $sql=$mscnt;                                                 //寫入MySQL 	 
        mysqli_query($link ,$sql) or die(mysqli_error($link));  	  
-       $arr = array ('order_no'=>$brr[0],'lastupdate'=>$lastdate.$list4['F03']);
+       $arr = array ('order_no'=>$brr[0],'lastupdate'=>$lastdate.$_SESSION['user_name']);
 	    echo json_encode($arr);
 }else{
 	echo json_encode("此採購單已被確認過(.|.)"); 

@@ -1,11 +1,12 @@
 ﻿<?php
-require_once("../../include/BKND/auth_check.php"); //驗證
-header("Content-Type: application/json; charset=utf-8"); // 修正為 JSON 格式
+// D04bodybrow.php 採購訂單表身讀取
+require_once("../../include/BKND/auth_check.php"); // 驗證
+header("Content-Type: application/json; charset=utf-8");
 header("Cache-Control: no-cache, must-revalidate");
 header("Pragma: no-cache");
 
 require_once("../../include/BKND/mysqli_server.php");
-require_once "../../include/BKND/fieldpreset.php";
+require_once("../../include/BKND/fieldpreset.php");
 
 // --- 輔助函式：白名單檢查欄位名 (與 C04/D04 主檔一致) ---
 function isValidField($field) {
@@ -17,21 +18,21 @@ function isValidField($field) {
 $filename = isset($_POST['filename']) ? $_POST['filename'] : '';
 $str = explode('|', $filename);
 
-// 基本檢查
+// 基本檢查：確保至少有主鍵值
 if (count($str) < 1 || empty($str[0])) {
     echo json_encode(array('recdrow' => array(), 'pgttl' => 0));
     exit;
 }
 
 // 變數初始化
-$parentKey = trim($str[0]);                    // 採購單號 (d04.F01)
+$parentKey = trim($str[0]);                            // 採購單號 (d04.F01)
 $searchField = isset($str[1]) ? trim($str[1]) : 'F02'; // 搜尋欄位，預設為料號
 $searchValue = isset($str[2]) ? trim($str[2]) : '';    // 搜尋值
 $filterKey = "%$searchValue%";
 
 // 安全檢查：欄位名白名單
 if (!isValidField($searchField)) {
-    $searchField = "d04.F02"; // 非法欄位時強制設回預設值
+    $searchField = "F02"; // 非法欄位時強制設回預設值
 }
 
 // 補全資料表前綴防止 Ambiguous error
@@ -55,8 +56,10 @@ $result = mysqli_stmt_get_result($stmt);
 // 3. 取得欄位寬度設定 (D04 類型 2 代表表身)
 $wthary = fldwdthpre('D04', '2', $link);
 $arr = array();
-$afld=['F00','F02','F0B','F03','F04','F05','F06','F09','F21','F23','F12'];
-$arr=afldcont($result,$afld,$wthary);
+// 補全對應欄位 (包含 F07 分批進貨，對齊 C04 表身對應結構)
+$afld = ['F00', 'F02', 'F0B', 'F03', 'F04', 'F05', 'F06', 'F09', 'F21', 'F23', 'F07', 'F12'];
+$arr = afldcont($result, $afld, $wthary);
+
 // 統計總筆數
 $rows_count = count($arr);
 

@@ -1,101 +1,143 @@
 <?php
 require_once("../../include/BKND/auth_check.php"); //驗證
-$str_json = file_get_contents('php://input'); //($_POST doesn't work here)
-$response =json_decode($str_json); // decoding received JSON to array
-$cart=json_decode($response);
-$brr=array();
-foreach($cart as $key=>$val){	   
-    $brr[]=addslashes($val);		//要加入此函數避免中間有單引號錯亂
+header('Content-Type: application/json'); // 確保瀏覽器知道回傳的是 JSON
+
+// 1. 取得 JSON 並解碼
+$str_json = file_get_contents('php://input');
+
+// 【修正】原本這裡是「雙重 json_decode」：
+//   $response = json_decode($str_json);
+//   $cart = json_decode($response);
+// 比照 B04wrt.php 的修法：前端已改為單次 stringify(真實物件)，
+// 這裡直接一次解碼即可，不需要也不能再 decode 第二次。
+$cart = json_decode($str_json, true);   // 前端已改為單次 stringify(真實物件)，這裡直接一次解碼
+if ($cart === null) {
+    echo json_encode("payload 解碼失敗");
+    exit;
 }
- $regex = "/^[A-Z]{2}[0-9]{8}$/";       //判斷是否有正確的發票號碼的正規式
- $mArlth=count($brr);  
- require_once("../../include/BKND/mysqli_server.php");                              //引用檔  
-require_once "../../include/BKND/fieldDOMset.php"; // 引入   
-$sq20="select * from a26 where F01='INT_099' "; 
-$sql7=@mysqli_query($link,$sq20);                        
-$list8=mysqli_fetch_assoc($sql7);  //紀錄參數  	
-$INT_099=$list8["F06"];  
- $trnarray=fldafterwrite('B02','1',$link,true);   
-     $sql5="select * from a01 where F01="."'".$brr[3]."'"; 
-		 $sql6=mysqli_query($link,$sql5) or die(mysqli_error($link));
-		 $rows2=@mysqli_num_rows($sql6);
-		 if($brr[$mArlth-2]==0){
-	        $sql3="select * from d03 where F03="."'".$brr[1]."' AND F04='Y' AND F01 IN (SELECT F01 FROM d04 WHERE F03-F09-F21-F23>0)"; 
-		    $sql4=mysqli_query($link,$sql3) or die(mysqli_error($link)); 
-		    $rows1=@mysqli_num_rows($sql4);
-		 }else{
-		    $rows1=1;
-		 }
-if($rows1==0 || $rows2==0){
-    if($INT_099=="Y" ){
-	   $sql7="INSERT INTO a0i(F01,F08) values ('".substr($brr[0],0,5)."','".$brr[0]."')"; 
-	   $sql8=mysqli_query($link,$sql7) or die(mysqli_error($link)); 
+
+$data = array();
+foreach ($cart as $key => $val) {
+    // 說明：因為已改用 Prepared Statements (bind_param)，
+    // addslashes() 在此屬多餘處理，且會造成資料庫實際存入
+    // 多餘的跳脫字元（例如客戶名稱中的單引號被存成 \'）。
+    // 若確定不需要，可直接移除 addslashes()，改成：
+    // $data[] = $val;
+    $data[] = addslashes($val);
+}
+
+// 2. 引入必要的資料庫與設定檔
+require_once("../../include/BKND/mysqli_server.php");
+require_once "../../include/BKND/fieldDOMset.php";
+$sq20 = "select * from a26 where F01='INT_099' ";
+$sql7 = @mysqli_query($link, $sq20);
+$list8 = mysqli_fetch_assoc($sql7);  //紀錄參數
+$INT_099 = $list8["F06"];
+$regex = "/^[A-Z]{2}[0-9]{8}$/";     //判斷是否有正確的發票號碼的正規式
+$lastdate = date('Y-m-d');
+
+// 取得陣列最後倒數第二個值作為標記 (Flag)
+$mArlth = count($data);
+if ($mArlth < 2) {
+    echo json_encode(["error" => "傳入資料筆數不足，無法判斷新增/修改模式"]);
+    exit;
+}
+$flag = $data[$mArlth - 2];
+
+// ---------------------------------------------------------
+// 3. 驗證資料合法性 (使用預處理語句 Prepared Statements)
+// ---------------------------------------------------------
+
+// 檢查業務人員 (a01)
+$stmtSales = $link->prepare("SELECT F03 FROM a01 WHERE F01 = ?");
+$stmtSales->bind_param("s", $data[3]);
+$stmtSales->execute();
+$resSales = $stmtSales->get_result();
+$salesPerson = $resSales->fetch_assoc();
+
+// 檢查進貨計劃/客戶編號 (d03/d04)
+$rowsPlan = 0;
+if ($flag == 0) {
+    $sqlPlan = "SELECT F03 FROM d03 WHERE F03 = ? AND F04 = 'Y' 
+                AND F01 IN (SELECT F01 FROM d04 WHERE F03-F09-F21-F23 > 0)";
+    $stmtP = $link->prepare($sqlPlan);
+    $stmtP->bind_param("s", $data[1]);
+    $stmtP->execute();
+    $rowsPlan = $stmtP->get_result()->num_rows;
+} else {
+    $rowsPlan = 1; // 修改模式下預設為 1
+}
+
+// 錯誤處理
+if ($rowsPlan == 0 || !$salesPerson) {
+    if (($INT_099 ?? '') == "Y") {
+        $shortId = substr($data[0], 0, 5);
+        $stmtLog = $link->prepare("INSERT INTO a0i (F01, F08) VALUES (?, ?)");
+        $stmtLog->bind_param("ss", $shortId, $data[0]);
+        $stmtLog->execute();
     }
-	if($rows1==0) echo json_encode("出貨計劃無此客戶編號"); 	   
-	if($rows2==0) echo json_encode("業務人員資料錯誤");  
-}else{
-     $sql0="select * from a01 where F01="."'".$_COOKIE['useraccount']."'"; 
-     $sql1=@mysqli_query($link,$sql0);
-     $rows1=@mysqli_num_rows($sql1);                       
-     $list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名        
-	 $lastdate=date('Y'.'-'.'m'.'-'.'d');
-    
-     if($brr[$mArlth-2]==0){        //如果旗標指示為新增		
-	     
-	    $sql="select * from b02 where F01="."'".$brr[0]."'"; 
-        $sql2=mysqli_query($link,$sql);
-        $rows=@mysqli_num_rows($sql2);
-		if($rows>0){			 
-			echo json_encode("資料庫已有此編號"); 		
-		}else{
-             
-			  
-            //寫入json檔(其實就是文字檔只是每一筆以json格式存放)
- 
-        	//以下處理MySQL記錄新增  	        
-	           $mscnt="INSERT INTO b02(F01,F06,F02,F09,F14,F16,F20,F22,F23,F21,F12,F24,F90,F10,F11)  VALUES (";  //先把準備插入記錄的SQL 語法前半段先寫在字串中	 			   
-	           $mscnt.="'".$brr[0]."',";
-	           $mscnt.="'".$brr[1]."',";
-   	           $mscnt.="'".str_pad(trim($brr[2]),2,"0",STR_PAD_LEFT)."',";	 
-               $mscnt.="'".$brr[3]."',";	 	
-               $mscnt.="'".$brr[4]."',";
-   	           $mscnt.="'".$brr[5]."',";	 
-               $mscnt.="'".$brr[6]."',";	
-			   $mscnt.="'".(preg_match($regex, $brr[6])?$brr[7]:'20')."',";
-   	           $mscnt.="'".(preg_match($regex, $brr[6])?$brr[8]:'0')."',";
-			   $mscnt.="'".$brr[9]."',";
-               $mscnt.="'".$brr[10]."',";	
-               $mscnt.="'".$brr[11]."',";	 
-               $mscnt.="'".$brr[12]."',";	  	
-			   $mscnt.="'N',";	
-	           $mscnt.="'".$lastdate.$list4['F03']."')";		      
-	           $sql=$mscnt;                                               //寫入MySQL 	 
-               mysqli_query($link ,$sql) or die(mysqli_error($link));  
-			   $last_id = mysqli_insert_id($link);     //找最後一個號碼	          					     
-			   $arr = array ('order_no'=>$last_id,'lastupdate'=>$lastdate.$list4['F03'],'fldsatrr'=>$trnarray);						 
-	           echo json_encode($arr);
-		 } //新增判斷或執行結束   	     
-     }else{	   //修改
-	   $mscnt="UPDATE b02 SET F02="."'".str_pad(trim($brr[2]),2,"0",STR_PAD_LEFT)."',";	    
-	   $mscnt.="F09="."'".$brr[3]."',";	   	    
-	   $mscnt.="F14="."'".$brr[4]."',";	 
-	   $mscnt.="F16="."'".$brr[5]."',";	 
-	   $mscnt.="F20="."'".$brr[6]."',";	 
-	   $mscnt.="F22="."'".(preg_match($regex, $brr[6])?$brr[7]:'20')."',";	 
-	   $mscnt.="F23="."'".(preg_match($regex, $brr[6])?$brr[8]:'0')."',";	 
-	   $mscnt.="F21="."'".$brr[9]."',";	 
-	   $mscnt.="F12="."'".$brr[10]."',";	 
-	   $mscnt.="F24="."'".$brr[11]."',";	         	  	   
-	   $mscnt.="F11="."'".$lastdate.$list4['F03']."'";
-	   $mscnt.=" WHERE F00="."'".$brr[$mArlth-2]."'";
-	   $sql=$mscnt;                                                 //寫入MySQL 	 
-       mysqli_query($link ,$sql) or die(mysqli_error($link));  	  
-       $arr = array ('order_no'=>$brr[$mArlth-2],'lastupdate'=>$lastdate.$list4['F03'],'fldsatrr'=>$trnarray);
-	    echo json_encode($arr);
-      //echo $brr[11];
-    }  
-}  
-mysqli_close($link);	
- 	
+
+    if ($rowsPlan == 0) echo json_encode("出貨計劃無此客戶編號");
+    if (!$salesPerson) echo json_encode("業務人員資料錯誤");
+    exit;
+}
+
+// 取得當前操作者姓名
+
+$opName = $lastdate . ($_SESSION['user_name'] ?? '');
+
+$trnarray = fldafterwrite('B02', '1', $link, true);
+
+// ---------------------------------------------------------
+// 4. 執行 新增 或 修改
+// ---------------------------------------------------------
+
+// 先處理共同的變數邏輯
+$f02 = str_pad(trim($data[2]), 2, "0", STR_PAD_LEFT);
+$isInvoice = preg_match($regex, $data[6]);
+$f22 = $isInvoice ? $data[7] : '20';   // 進貨單預設值為 '20'（B04出貨單為 '30'）
+$f23 = $isInvoice ? $data[8] : '0';
+
+if ($flag == 0) {
+    // 新增前檢查編號是否重複
+    $stmtCheck = $link->prepare("SELECT F01 FROM b02 WHERE F01 = ?");
+    $stmtCheck->bind_param("s", $data[0]);
+    $stmtCheck->execute();
+    if ($stmtCheck->get_result()->num_rows > 0) {
+        echo json_encode("資料庫已有此編號");
+    } else {
+        // 執行 INSERT
+        $sqlIns = "INSERT INTO b02 (F01, F06, F02, F09, F14, F16, F20, F22, F23, F21, F12, F24, F90, F10, F11) 
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'N', ?)";
+        $stmtIns = $link->prepare($sqlIns);
+        $stmtIns->bind_param("ssssssssssssss",
+            $data[0], $data[1], $f02, $data[3], $data[4], $data[5],
+            $data[6], $f22, $f23, $data[9], $data[10], $data[11], $data[12], $opName
+        );
+        $stmtIns->execute();
+
+        echo json_encode([
+            'order_no' => $link->insert_id,
+            'lastupdate' => $opName,
+            'fldsatrr' => $trnarray
+        ]);
+    }
+} else {
+    // 執行 UPDATE
+    $sqlUpd = "UPDATE b02 SET F02=?, F09=?, F14=?, F16=?, F20=?, F22=?, F23=?, F21=?, F12=?, F24=?, F11=? WHERE F00=?";
+    $stmtUpd = $link->prepare($sqlUpd);
+    $stmtUpd->bind_param("ssssssssssss",
+        $f02, $data[3], $data[4], $data[5], $data[6], $f22, $f23,
+        $data[9], $data[10], $data[11], $opName, $flag
+    );
+    $stmtUpd->execute();
+
+    echo json_encode([
+        'order_no' => $flag,
+        'lastupdate' => $opName,
+        'fldsatrr' => $trnarray
+    ]);
+}
+
+$link->close();
 ?>
- 

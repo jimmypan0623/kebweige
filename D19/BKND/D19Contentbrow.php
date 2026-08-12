@@ -3,8 +3,11 @@ require_once("../../include/BKND/auth_check.php"); //驗證
 header("Content-Type: application/json; charset=utf-8");
 require_once("../../include/BKND/mysqli_server.php");
 
-// 取得小數點位數設定 (應付帳款通常使用 INT_068)
-$rnddgt = isset($_COOKIE["INT_068"]) ? intval($_COOKIE["INT_068"]) : 0;
+// 1. 取得並過濾基本參數
+$sq20="select * from a26 where F01='INT_068' "; 
+$sql7=@mysqli_query($link,$sq20);                           
+$list8=mysqli_fetch_assoc($sql7);  //紀錄參數  	    
+$rnddgt = isset($list8['F06']) ? intval($list8['F06']) : 0;
 $keyfield = $_POST['keyfield'] ?? '';
 
 if (empty($keyfield)) {

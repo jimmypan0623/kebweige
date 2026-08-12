@@ -17,11 +17,7 @@ if($list2['F10']!='Y'){
 	 $sqlfd="SELECT ".$brr[7]." - (SELECT SUM(k0h.F05) FROM k0h GROUP BY k0h.F01 HAVING k0h.F01='".$brr[0]."') AS FDI ";
 	 $sqldi=@mysqli_query($link,$sqlfd);                       
      $fdi=mysqli_fetch_assoc($sqldi);  //檢查是否收款金額與沖帳不符
-    if($fdi['FDI']==0){				 
-		 $sql0="select * from a01 where F01="."'".$_COOKIE['useraccount']."' ";
-		 $sql1=@mysqli_query($link,$sql0);
-		 $rows1=@mysqli_num_rows($sql1);                       
-		 $list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名   
+    if($fdi['FDI']==0){				 		
 		 $lastdate=date('Y'.'-'.'m'.'-'.'d');
 		 
 		 $sql3="SELECT k0h.* FROM k0h WHERE k0h.F01='".$brr[0]."' ORDER BY k0h.F03"; 
@@ -43,7 +39,7 @@ if($list2['F10']!='Y'){
 						'checkno'=>$brr[5],
 					    'cashday'=>$brr[6],
 					    'month_no'=>$brr[10],					    
-						'lastupdate'=>$lastdate.$list4['F03']
+						'lastupdate'=>$lastdate.$_SESSION['user_name']
                      );   		     
 			      array_push($arr,$my_array);		           
 	        }
@@ -81,13 +77,13 @@ if($list2['F10']!='Y'){
 		   mysqli_query($link ,$k25update2) or die(mysqli_error($link));    
 		   
 		$mscnt="UPDATE k08 SET F10='Y',";	    	  
-		$mscnt.=" F13='".$lastdate.$list4['F03']."'";
+		$mscnt.=" F13='".$lastdate.$_SESSION['user_name']."'";
 		
 		$mscnt.=" WHERE F01='".$brr[0]."'";
 														//寫入MySQL 	 
 		mysqli_query($link ,$mscnt) or die(mysqli_error($link));  	  
 
-		$arr = array ('order_no'=>$brr[0],'lastupdate'=>$lastdate.$list4['F03']);
+		$arr = array ('order_no'=>$brr[0],'lastupdate'=>$lastdate.$_SESSION['user_name']);
 		echo json_encode($arr); 
 	}else{
 		echo json_encode("付款總金額與沖帳總金額不符，請修改內容後再確認！");  

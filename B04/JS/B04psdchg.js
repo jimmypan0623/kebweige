@@ -40,22 +40,10 @@ function selfTag(jsvsn, jsPth) {
     // --- 區塊 3: 插入按鈕 ---
     const fragButtons = document.createDocumentFragment();
     
-    // 按鈕工廠
-    const createBtn = (id, val, title, key, clickFn) => {
-        const btn = document.createElement("input");
-        btn.type = "button";
-        btn.className = "btn";
-        btn.id = id;
-        btn.value = val;
-        btn.title = title;
-        btn.accessKey = key;
-        if (clickFn) attachEventListener(btn, "click", clickFn, false);
-        return btn;
-    };
-
-    const btnAns = createBtn("ANS_BOTT", "\u{2714}", "確認本張出貨單所有紀錄，快速鍵Alt+A", "A", ansproc);
-    const btnVrs = createBtn("VRS_BOTT", "\u{1F504}", "反確認本張出貨單所有紀錄，快速鍵Alt+Z", "Z", vrsproc);
-    const btnPrnt = createBtn("PRNT_BOTT", "\u{1F5A8}", "列印所選紀錄，快速鍵Alt+P", "P", prntproc);
+   
+    const btnAns = btnManager.createBtn("ANS_BOTT", "\u{2714}", "確認本張出貨單所有紀錄，快速鍵Alt+A", "A", ansproc);
+    const btnVrs = btnManager.createBtn("VRS_BOTT", "\u{1F504}", "反確認本張出貨單所有紀錄，快速鍵Alt+Z", "Z", vrsproc);
+    const btnPrnt = btnManager.createBtn("PRNT_BOTT", "\u{1F5A8}", "列印所選紀錄，快速鍵Alt+P", "P", prntproc);
 
     // 針對特殊樣式的按鈕進行調整
     btnVrs.style.cssText = "visibility:visible; font-size:130%; margin:0; color:black;";

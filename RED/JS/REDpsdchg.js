@@ -18,7 +18,11 @@ function selfTag(jsvsn,jsPth)
 		document.querySelectorAll("script[id]").forEach(s=>s.remove());			
      	let axtmpl1=jsPth+jsPth.substr(0,3)+'.js?v='+jsvsn;
 	    let axtmpl2=jsPth+jsPth.substr(0,3)+'rgst.js?v='+jsvsn;
-	    loadScript(`${axtmpl1}`,function(){commontemp();});
+		if(getAuth[2]().length<1){  //如果尚未登入系統
+	       loadScript(`${axtmpl1}`,function(){commontemp();});
+		}else{      
+		   loadScript(`${axtmpl1}`,function(){getProfile([],[]);});//已登入則依照閉包變數直接渲染主選單,無須再傳入參數(所以傳入空陣列即可)
+		}
 	    loadScript(`${axtmpl2}`);	 
 	    var plsElmnts=document.getElementById('company_name').parentNode;
 		var menubarcover=document.getElementById('menudivbtn');
@@ -156,10 +160,10 @@ function accountDele(event){    //刪除帳號cookie
     } */
 
 	for(let i=0;i<7;i++){       //閉包變數清空
-	    getAuth[i]('Clear_All');
+	    getAuth[i]('Clear_All');		
 	}
 	
-	
+	getAuth[7]=[];
 	
 	var mainUl=document.getElementById("listUL");   
 	mainUl.remove();	
@@ -193,4 +197,81 @@ function toggleMenu() {   //主選單隱藏或顯示
 		frlm.style.left='0%';
 	}
 	
+}
+
+
+function fieldsSet(exucPrgNo) {
+	  //記錄三個頁面搜尋選項的閉包變數清空
+    for(let k=3;k<7;k++){
+	   getAuth[k]('Clear_All');	
+	}  
+	 // 剛進操作畫面之欄位設定
+    const sendSrcRec = "filename=" + encodeURIComponent(exucPrgNo.slice(0, 3));
+    const url = "include/BKND/pagesFieldsData.php" ;
+    fetch(url, {
+        method: 'POST',
+		cache: 'no-store', // 👈 關鍵：強制每次都向伺服器重新請求
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: sendSrcRec
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('網路回應不成功: ' + response.status);
+        return response.json(); // fetch 的 response.json() 會自動將 JSON 字串轉成物件/陣列
+    })
+    .then(rsp => {
+        let widthttl = 0;
+        let m = 0;
+        let thr = null;
+
+        for (let i = 0; i < rsp.length; i++) {
+            let item = rsp[i];
+            
+            // 使用 .slice 取代原有的 left 函數
+            let currentM = item.field_order ? parseInt(item.field_order.toString().slice(0, 1)) : m;
+
+            if (currentM !== m) {
+                m = currentM;
+                thr = document.getElementById('headrow' + m.toString());
+                widthttl = 0;
+            }
+
+            if (item.field_name !== undefined && item.show_hide=='S') {
+                const th = document.createElement('th');
+                const text = document.createTextNode(item.field_name);
+                th.appendChild(text);
+
+                if (item.width_ratio !== undefined && item.show_hide=='S') {
+                    th.style.width = item.width_ratio + '%';
+                    widthttl += item.width_ratio * 1;
+                }
+
+                if (widthttl > 100) {
+                    const oMember = document.getElementById('member' + m.toString());
+                    if (oMember) oMember.style.width = widthttl.toString() + '%';
+                }
+
+                if (thr) thr.appendChild(th);
+				
+            }
+			var ptm={};
+			if (isLastCharLetter(item.field_order.trim())) {
+				ptm['text']=item.field_name.trim()=='日'?'日期':item.field_name;
+				ptm['value']=item.field_content;
+				ptm['order']=item.field_order.trim().at(-1);
+			    getAuth[3 + m ](ptm);
+			}
+        }
+
+        if (m > 1 && rsp[1] && rsp[1]['field_name']) {
+            const keynames = document.getElementsByName('keyname');
+            for (let k = 0; k < keynames.length; k++) {
+                keynames[k].textContent = rsp[1]['field_name'] + ":";
+            }
+        }
+    })
+    .catch(error => {
+        console.error("fieldsSet 發生錯誤:", error);
+    });
 }

@@ -85,10 +85,10 @@ function page1Detail03(ajTable){    //查看預期結餘
 	
 	 //var url="C05/BKND/E07srch.php?timestamp="+new Date().getTime();   	               				 
 	 let url="C05/BKND/E07srch.php";
-	  
+	 
 	 let queryString ="filename="+sourceAccount(1,0)+'|'+sourceAccount(8,0)*1;	 
-  
-	
+    
+		
 	fetch(url, {
      method: 'POST',
 	 cache: 'no-store', // 👈 關鍵：強制每次都向伺服器重新請求
@@ -96,7 +96,7 @@ function page1Detail03(ajTable){    //查看預期結餘
     body: queryString
     })
      .then(res => res.json())
-     .then(rsp => searchHaveshiped(rsp, ajTable)); 
+     .then(rsp => searchHaveshiped(rsp, ajTable)); //rsp.recdrow,rsp.pgttl,tbno))
 	 
 }
 
@@ -227,7 +227,8 @@ function searchHaveshiped(arr,ajTable) {       //搜尋相關料號
 		if(arr[i]['序號_IHC_000']==left(sourceAccount(3,0),2)+sourceAccount('0',0)){
 			
 		   //oTr.setAttribute("style","font-weight:bold;color:#704214;");
-			 oTr.style.backgroundColor='#B9B9FF';
+			//oTr.style.backgroundColor='#B9B9FF'; 
+			 oTr.style.background = "linear-gradient(to bottom, #C2C2FF 0%, #8E8EFF 100%)";
 		} 
 	}	
 	

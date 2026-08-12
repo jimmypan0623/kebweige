@@ -12,11 +12,7 @@ foreach($cart as $key=>$val){
  $sql7="select F10 from b10 where F01='".$brr[0]."'"; 
  $sql8=@mysqli_query($link,$sql7);                       
   $list2=mysqli_fetch_assoc($sql8);  //檢查是否已確認過
- if($list2['F10']!='Y'){
-     $sql0="select * from a01 where F01="."'".$_COOKIE['useraccount']."'"; 
-     $sql1=@mysqli_query($link,$sql0);
-     $rows1=@mysqli_num_rows($sql1);                       
-     $list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名   
+ if($list2['F10']!='Y'){    
      $lastdate=date('Y'.'-'.'m'.'-'.'d'); 
 	 $sql3="SELECT b1z.*, a14.F02 as F0B FROM b1z  	 
 	 LEFT OUTER JOIN `a14` ON a14.F01='".$brr[2]."' WHERE b1z.F01='".$brr[0]."' ORDER BY b1z.F03"; 
@@ -27,7 +23,7 @@ foreach($cart as $key=>$val){
 					    'stockno'=>$list3['F03'],
 					    'deliveryday'=>$brr[1],
 					    'orderqty'=>$list3['F04'],					   
-					    'lastupdate'=>$lastdate.$list4['F03'],
+					    'lastupdate'=>$lastdate.$_SESSION['user_name'],
 					    'departno'=>$brr[2],
 						'departname'=>$list3['F0B'],					    	
 					    'remark'=>$brr[3],					    
@@ -89,11 +85,11 @@ foreach($cart as $key=>$val){
 	}
 
 	$mscnt="UPDATE b10 SET F10='".$brr[4]."',";	    	  
-	$mscnt.=" F11='".$lastdate.$list4['F03']."'";	
+	$mscnt.=" F11='".$lastdate.$_SESSION['user_name']."'";	
 	$mscnt.=" WHERE F01="."'".$brr[0]."'";
 	$sql=$mscnt;                                                 //寫入MySQL 	 
     mysqli_query($link ,$sql) or die(mysqli_error($link));  	  
-    $arr = array ('order_no'=>$brr[0],'lastupdate'=>$lastdate.$list4['F03']);     
+    $arr = array ('order_no'=>$brr[0],'lastupdate'=>$lastdate.$_SESSION['user_name']);     
 	echo json_encode($arr); 
 }else{
 	   echo json_encode("此移轉單已被確認過(.|.)"); 

@@ -401,3 +401,36 @@ function whichrspns3(tpe){
     }
     return tpemsg;
 }
+
+function processShipment(orderItem, shipQty) {
+  // 1. 更新已出數量與未出數量
+  orderItem.shippedQty += shipQty;
+  orderItem.openQty = orderItem.orderQty - orderItem.shippedQty - orderItem.canceledQty;
+
+  // 2. 解析分批出貨 JSON (確保按日期由小到大排序)
+  let schedule = JSON.parse(orderItem.scheduleJson);
+  schedule.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+  let remainingToDeduct = shipQty;
+  let updatedSchedule = [];
+
+  for (let batch of schedule) {
+    if (remainingToDeduct <= 0) {
+      // 若已扣完，保留後續批次
+      updatedSchedule.push(batch);
+    } else if (batch.qty <= remainingToDeduct) {
+      // 本批次數量不足或剛好扣完 -> 消耗此批次，不加入新陣列
+      remainingToDeduct -= batch.qty;
+    } else {
+      // 本批次數量足夠扣除 -> 扣減後保留剩餘數量
+      batch.qty -= remainingToDeduct;
+      remainingToDeduct = 0;
+      updatedSchedule.push(batch);
+    }
+  }
+
+  // 3. 轉回 JSON 字串以更新資料庫/畫面
+  orderItem.scheduleJson = JSON.stringify(updatedSchedule);
+
+  return orderItem;
+}

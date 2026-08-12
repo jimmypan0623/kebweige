@@ -4,11 +4,26 @@ header('Content-Type: application/json'); // 確保瀏覽器知道回傳的是 J
 
 // 1. 取得 JSON 並解碼
 $str_json = file_get_contents('php://input');
- $response =json_decode($str_json); // decoding received JSON to array
-$cart=json_decode($response);
-$data=array();
-foreach($cart as $key=>$val){	   
-    $data[]=addslashes($val);		//要加入此函數避免中間有單引號錯亂
+
+// 【修正】原本這裡是「雙重 json_decode」：
+//   $response = json_decode($str_json);
+//   $cart = json_decode($response);
+// 對齊 C04wrt.php 昨日的修法：前端已改為單次 stringify(真實物件)，
+// 這裡直接一次解碼即可，不需要也不能再 decode 第二次。
+$cart = json_decode($str_json, true);   // 前端已改為單次 stringify(真實物件)，這裡直接一次解碼
+if ($cart === null) {
+    echo json_encode("payload 解碼失敗");
+    exit;
+}
+
+$data = array();
+foreach ($cart as $key => $val) {
+    // 說明：因為已改用 Prepared Statements (bind_param)，
+    // addslashes() 在此屬多餘處理，且會造成資料庫實際存入
+    // 多餘的跳脫字元（例如客戶名稱中的單引號被存成 \'）。
+    // 若確定不需要，可直接移除 addslashes()，改成：
+    // $data[] = $val;
+    $data[] = addslashes($val);
 }
 
 // 2. 引入必要的資料庫與設定檔
@@ -18,12 +33,16 @@ $sq20="select * from a26 where F01='INT_099' ";
 $sql7=@mysqli_query($link,$sq20);                        
 $list8=mysqli_fetch_assoc($sql7);  //紀錄參數  	
 $INT_099=$list8["F06"];
-$regex = "/^[A-Z]{2}[0-9]{8}$/";
+$regex = "/^[A-Z]{2}[0-9]{8}$/";     //判斷是否有正確的發票號碼的正規式
 $lastdate = date('Y-m-d');
-$userAccount = $_COOKIE['useraccount'] ?? '';
+
 
 // 取得陣列最後倒數第二個值作為標記 (Flag)
 $mArlth = count($data);
+if ($mArlth < 2) {
+    echo json_encode(["error" => "傳入資料筆數不足，無法判斷新增/修改模式"]);
+    exit;
+}
 $flag = $data[$mArlth - 2];
 
 // ---------------------------------------------------------
@@ -65,11 +84,8 @@ if ($rowsPlan == 0 || !$salesPerson) {
 }
 
 // 取得當前操作者姓名
-$stmtOp = $link->prepare("SELECT F03 FROM a01 WHERE F01 = ?");
-$stmtOp->bind_param("s", $userAccount);
-$stmtOp->execute();
-$opData = $stmtOp->get_result()->fetch_assoc();
-$opName = $lastdate . ($opData['F03'] ?? '');
+
+$opName = $lastdate . ($_SESSION['user_name'] ?? '');
 
 $trnarray = fldafterwrite('B04', '1', $link, true);
 

@@ -14,11 +14,11 @@ for (let i=0;i<7;i++){
 //cko[3]    次頁選擇計數(gridlist)
 //cko[4]    第三頁選擇計數(gridlist)
 //cko[5]    第四頁選擇計數(gridlist)
-//cko[6]    畫面主搜尋(也只有一個)功能目前鍵值紀錄指向計數(但是否確認選項會強制歸零)
+//cko[6]    紀錄上次搜尋選項的值(上面放大鏡按下去開窗搜尋鍵值),但選項內容如果為是否確?則強制歸零
 
 ///////
 var getAuth=[];  //利用閉包函數當計數器
-for (let j=0;j<7;j++){
+for (let j=0;j<8;j++){
     getAuth[j] = createArrayClosure();	 //帳號與上次執行功能
 }
 //var getAuth = Array.from({ length: 4 }, createArrayClosure);  //利用閉包函數當權限設定與其他系統參數紀錄器 var getAuth=[]; 
@@ -47,7 +47,7 @@ let pageNameIdx=14;//紀錄頁籤名稱之起始陣列索引值
 //getAuth[4] 	 //第一頁搜尋選項
 //getAuth[5] 	 //第二頁搜尋選項
 //getAuth[6] 	 //第三頁搜尋選項
-
+//getAuth[7]     //紀錄主目錄選項畫面
 function initDialog()
 {    
 //****************************//
@@ -69,6 +69,7 @@ function initDialog()
 		var links=document.getElementsByTagName('link');  	
 		var myAccount=(getCookie('useraccount')?getCookie('useraccount'):getAuth[1]()[0] );
 		if(!myAccount && getAuth[1]().length==0){    //如果沒有從登入畫面進來則必無登入帳號
+		//if(getAuth[2]().length==0){    //如果沒有從登入畫面進來則必無登入帳號
 		   if(divcontainer){
 			   divcontainer.parentNode.removeChild(divcontainer);
 			}
@@ -103,17 +104,14 @@ function initDialog()
 				if(logincontainer){
 				   logincontainer.parentNode.removeChild(logincontainer);
 				}
-				 links[0].href="include/Operate.css?v=0.1.3" ;						 
+				 links[0].href="include/Operate.css?v=0.1.5" ;						 
 				 var gifarray=['ROL','puto','0','cell','1','birthdaycake','2','spec','3','stckgood','S02',
 				 '4','cddisk','5','smlbulb','6','myrndm','7','S03','openfile','8','penandrule','9','S04','calculator','foreignermoney']; 			
 				 links[1].href="digits/"+gifarray[nwsd]+".gif";			
-				 
-				 
 				var urlfolder=document.getElementsByTagName('title');
 				urlfolder[0].textContent=nowExcute; 				     
-				 btmshowtme.style.display="inline-block";		
-				
-				var pages=getAuth[0]()[10];
+				btmshowtme.style.display="inline-block";		
+  				var pages=getAuth[0]()[10];
 				var tabCss=document.createElement("div");						 
 				tabCss.className="tab_css";
 				var bckgdColor=["background-color:#FCFCFC;","background-color:#F9FAD9;","background-color:#F3F3FA;"];
@@ -161,7 +159,7 @@ function initDialog()
 					   keyName.setAttribute("name","keyname");
 					   keyName.setAttribute("class","tabCntntSpan");				   
 					   var marklight=document.createElement("mark");
-					   marklight.setAttribute("style","background-color:#BAF4D8;");
+					   marklight.setAttribute("style","background:linear-gradient(to bottom, #B9B9FF 0%, #8E8EFF 100%);");  //8 #E4FAEF linear-gradient(to bottom, #B9B9FF 0%, #8E8EFF 100%)
 					   var father=document.createElement("span");
 					   father.setAttribute("name","fatherkey");
 					   father.setAttribute("class","tabCntntSpan");
@@ -203,22 +201,11 @@ function initDialog()
 					if (mthjudge!='M'){    //如果非月份檔	 
 						if(contentdiv){
 							var initFirstNode=(contentdiv[0].firstChild);						 
-							var pageTopButton=document.createElement("input");		   
-							pageTopButton.type="button";
-							pageTopButton.className="btn";
-							pageTopButton.value="\u{23EE}";   
-							pageTopButton.title="到首頁，快速鍵 Alt+T";
-							pageTopButton.accessKey="T";					
-							pageTopButton.id="TopPage";		
-							attachEventListener(pageTopButton,"click",rollChange,false);  //在第一頁點 << 形按鈕(第一張)
-							var pageLastButton=document.createElement("input");		   
-							pageLastButton.type="button";
-							pageLastButton.className="btn";
-							pageLastButton.value="\u{25C0}";  
-							pageLastButton.title="到到上頁，快速鍵 Alt+J"; 
-							pageLastButton.accessKey="J";					
-							pageLastButton.id="LastPage";	
-							attachEventListener(pageLastButton,"click",rollChange,false);  //在第一頁點 < 形按鈕(上一張)
+
+							var pageTopButton = btnManager.createBtn("TopPage", "\u{23EE}", "到首頁，快速鍵 Alt+T", "T", rollChange);
+                            var pageLastButton = btnManager.createBtn("LastPage", "\u{25C0}", "到到上頁，快速鍵 Alt+J", "J", rollChange);
+                            var pageNextButton = btnManager.createBtn("AfterPage", "\u{25B6}", "到下頁，快速鍵 Alt+K", "K", rollChange);
+                            var pageBottomButton = btnManager.createBtn("BottomPage", "\u{23ED}", "到末頁，快速鍵 Alt+V", "V", rollChange); 
 							var text1 = document.createTextNode('\u{A0}\u{00A0}第\u{A0}');				
 							var sltPage=document.createElement("select");
 							sltPage.id="recmth";
@@ -226,22 +213,7 @@ function initDialog()
 							var text3 = document.createTextNode('\u{A0}');
 							var text4 = document.createTextNode('\u{A0}');
 							var text5 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
-							var pageNextButton=document.createElement("input");		   
-							pageNextButton.type="button";
-							pageNextButton.className="btn";
-							pageNextButton.value="\u{25B6}";    
-							pageNextButton.title="到下頁，快速鍵 Alt+K";   
-							pageNextButton.accessKey="K";					
-							pageNextButton.id="AfterPage";	   
-							attachEventListener(pageNextButton,"click",rollChange,false);  //在第一頁點 > 形按鈕(下一張)
-							var pageBottomButton=document.createElement("input");		   
-							pageBottomButton.type="button";
-							pageBottomButton.className="btn";
-							pageBottomButton.value="\u{23ED}";   
-							pageBottomButton.title="到末頁，快速鍵 Alt+V";
-							pageBottomButton.accessKey="V";					
-							pageBottomButton.id="BottomPage";	   
-							attachEventListener(pageBottomButton,"click",rollChange,false);  //在第一頁點 >> 形按鈕(最後一張)													
+							
 							frag.appendChild(pageTopButton);
 							frag.appendChild(text3);
 							frag.appendChild(pageLastButton);
@@ -289,86 +261,48 @@ function initDialog()
 						var text3 = document.createTextNode('\u{A0}');
 						var text4 = document.createTextNode('\u{A0}');
 						var text5 = document.createTextNode('\u{A0}');
-						var orpButton1=document.createElement("input");		   //搜尋
-						orpButton1.type="button";
-						orpButton1.className="btn";
-						orpButton1.value="\u{1F50E}";  
-						orpButton1.title="搜尋紀錄，快速鍵Alt+L";
-						orpButton1.accessKey="L";					
-						orpButton1.id="SEEK_BOTT";		 
-						attachEventListener(orpButton1,"click",seekrec,false); 
+						
+						var orpButton1 = btnManager.createBtn("SEEK_BOTT", "\u{1F50E}", "搜尋紀錄，快速鍵Alt+L", "L", seekrec);
 						mainSpan1.appendChild(text1);
 						mainSpan1.appendChild(orpButton1);
-						var cokath1=getAuth[0]()[1]; 					
-						if (cokath1!='E'){                  //新增	'E'表示Empty		 
-							var orpButton2=document.createElement("input");		   
-							orpButton2.type="button";
-							orpButton2.className="btn";
-							orpButton2.value="\u{1F4DD}";   
-							orpButton2.title="新增一筆紀錄，快速鍵Alt+N";
-							orpButton2.accessKey="N";	              			
-							orpButton2.id="NEW_BOTT";						                 				    
-							mainSpan1.appendChild(text2);
-							mainSpan1.appendChild(orpButton2);
-							if(cokath1=='N'){
-							   orpButton2.style.display="none";
-							}else{
-								attachEventListener(orpButton2,"click",addrec,false);  //新增紀錄按鈕程序
-							}   
-						}						
-						var cokath2=getAuth[0]()[2]; 				
-						if (cokath2!=='E'){			 
-							var orpButton3=document.createElement("input");		   
-							orpButton3.type="button";
-							orpButton3.className="btn";
-							orpButton3.value="\u{270D}";    		//1F58E	   270D
-							orpButton3.title="修改所選紀錄，快速鍵Alt+U";
-							orpButton3.accessKey="U";					
-							orpButton3.id="EDIT_BOTT";											    
-							mainSpan1.appendChild(text3);
-							mainSpan1.appendChild(orpButton3);
-							if(cokath2=='N'){
-							   orpButton3.style.display="none";
-							}else{
-								attachEventListener(orpButton3,"click",edtrec,false);  //修改紀錄按鈕程序
-							}					
-						}				
-						var cokath3=getAuth[0]()[3];    
-						if (cokath3!='E'){			
-							var orpButton4=document.createElement("input");		   
-							orpButton4.type="button";
-							orpButton4.className="btn";
-							orpButton4.value="\u{274C}";      
-							orpButton4.title="刪除所選紀錄，快速鍵Alt+R";  
-							orpButton4.accessKey="R";					
-							orpButton4.id="DEL_BOTT";											   					
+						
+                        var cokath1 = getAuth[0]()[1];
+                        if (cokath1 !== 'E') {
+                           var orpButton2 = btnManager.createBtn("NEW_BOTT", "\u{1F4DD}", "新增一筆紀錄，快速鍵Alt+N", "N", cokath1 === 'N' ? null : addrec);
+                           if (cokath1 === 'N') orpButton2.style.display = "none";
+                           mainSpan1.appendChild(text2);
+                           mainSpan1.appendChild(orpButton2);
+                        }
+						
+						
+						var cokath2 = getAuth[0]()[2];
+                        if (cokath2 !== 'E') {
+                            var orpButton3 = btnManager.createBtn("EDIT_BOTT", "\u{270D}", "修改所選紀錄，快速鍵Alt+U", "U", cokath2 === 'N' ? null : edtrec);
+                            if (cokath2 === 'N') orpButton3.style.display = "none";
+                            mainSpan1.appendChild(text3);
+                            mainSpan1.appendChild(orpButton3);
+                        }
+						
+						var cokath3 = getAuth[0]()[3];
+						if (cokath3 !== 'E') {
+							var orpButton4 = btnManager.createBtn("DEL_BOTT", "\u{274C}", "刪除所選紀錄，快速鍵Alt+R", "R", cokath3 === 'N' ? null : delrec);
+							if (cokath3 === 'N') orpButton4.style.display = "none";
 							mainSpan1.appendChild(text4);
 							mainSpan1.appendChild(orpButton4);
-							mainSpan1.appendChild(text5);			
-							if(cokath3=='N'){
-							   orpButton4.style.display="none";
-							}else{
-								attachEventListener(orpButton4,"click",delrec,false);  //刪除紀錄按鈕程序
-							}
-						}			
+							mainSpan1.appendChild(text5);
+						}
 					}
 					
 					var maindiv=document.getElementsByClassName("tab_css");
 					if(maindiv){
-						var orpButton5=document.createElement("input");		   
-						orpButton5.type="button";
-						orpButton5.className="btn";		       
-						orpButton5.value="\u{1F519}";		 //\u{1F3C3} \u{1F519} \u{1F6AA} \u{241B}
-						orpButton5.setAttribute("style","font-size:130%;margin:0px;");		                	
-						orpButton5.title="離開本作業，快速鍵Alt+Q";
-						orpButton5.accessKey="Q";					        			
-						orpButton5.id="lgt";		
-						attachEventListener(orpButton5,"click",outprocs,false);  //登出按鈕程序
+					
+						//const orpButton5 = btnManager.createBtn("lgt", "\u{1F519}", "離開本作業，快速鍵Alt+Q", "Q", outprocs);
+						const orpButton5 = btnManager.createBtn("lgt", "\u{1F3E1}", "離開本作業，快速鍵Alt+Q", "Q", outprocs);
 						maindiv[0].appendChild(orpButton5);			
 					}					
 					 addHeadPageButtons(2);  // 原本 tab2Click 那一整段
 					 addHeadPageButtons(3);  // 原本 tab3Click 那一整段 
-				}	 
+				}	 							
 			}else{               	           				 
 				 if(logincontainer){
 				   logincontainer.parentNode.removeChild(logincontainer);
@@ -431,11 +365,12 @@ function initDialog()
 				 links[1].href="digits/CYC25.gif";
 				 nowExcute='RED.知訊數位營運管理系統';			
 				 var urlfolder=document.getElementsByTagName('title');
-				 urlfolder[0].textContent=nowExcute; 				 			   
+				 urlfolder[0].textContent=nowExcute; 
+				
 			}		
 			document.querySelectorAll("script[id]").forEach(s=>s.remove());	
 			var urljsname=nowExcute.substr(0,3)+'/JS/'+nowExcute.substr(0,3)+'psdchg.js?v='+jsvsn;		 	
-			loadScript(urljsname,function(){selfTag(jsvsn,nowExcute.substr(0,3)+'/JS/');});  		
+			loadScript(urljsname,function(){selfTag(jsvsn,nowExcute.substr(0,3)+'/JS/');});  	
 		}	
 //****************************//		
 	}finally{
@@ -444,46 +379,39 @@ function initDialog()
 //****************************//	
 }
 ////// 
+
 function addHeadPageButtons(tabIndex) {
     var tabClick = document.getElementById("tab" + tabIndex);
     if (!tabClick) return;
 
-    var idSuffix = tabIndex - 1;   // ← 修正重點:對齊原本命名規則
-
+    var idSuffix = tabIndex - 1;
     var contentdiv = document.getElementsByClassName("tab_content");
     var initFirstNode = contentdiv[tabIndex - 1].firstChild;
 
-    var pageUpButton = document.createElement("input");
-    pageUpButton.type = "button";
-    pageUpButton.className = "btn";
-    pageUpButton.value = "\u{25B2}";
-    pageUpButton.title = "表頭上一筆，表身上一頁，快速鍵 Alt+I";
-    pageUpButton.accessKey = "I";
-    pageUpButton.id = "previousPage" + idSuffix;      // ← previousPage1, previousPage2
-    attachEventListener(pageUpButton, "click", HeadPageChange, false);
+    var pageUpButton = btnManager.createBtn(
+        "previousPage" + idSuffix,
+        "\u{25B2}",
+        "表頭上一筆，表身上一頁，快速鍵 Alt+I",
+        "I",
+        HeadPageChange
+    );
 
-    var text1 = document.createTextNode('\u{A0}');
-
-    var pageDownButton = document.createElement("input");
-    pageDownButton.type = "button";
-    pageDownButton.className = "btn";
-    pageDownButton.value = "\u{25BC}";
-    pageDownButton.title = "表頭下一筆，表身下一頁，快速鍵 Alt+M";
-    pageDownButton.accessKey = "M";
-    pageDownButton.id = "nextPage" + idSuffix;        // ← nextPage1, nextPage2
-    attachEventListener(pageDownButton, "click", HeadPageChange, false);
-
-    var text2 = document.createTextNode('\u{A0}');
+    var pageDownButton = btnManager.createBtn(
+        "nextPage" + idSuffix,
+        "\u{25BC}",
+        "表頭下一筆，表身下一頁，快速鍵 Alt+M",
+        "M",
+        HeadPageChange
+    );
 
     var frag = document.createDocumentFragment();
     frag.appendChild(pageUpButton);
-    frag.appendChild(text1);
+    frag.appendChild(document.createTextNode('\u{A0}'));
     frag.appendChild(pageDownButton);
-    frag.appendChild(text2);
+    frag.appendChild(document.createTextNode('\u{A0}'));
 
     contentdiv[tabIndex - 1].insertBefore(frag, initFirstNode);
 }
-
 function chooserc(event) {
     var targetA;
 
@@ -558,6 +486,31 @@ function getTableIndex(targetG) {
     }
     return 0;
 }
+
+//退回主選單
+
+function outprocs(event){	  
+    try {
+        destroySubPage();
+        // ... 其餘清理邏輯
+		var baui=cko[6](0);
+		cko[6](baui*(-1));	  //搜尋鍵選項指標要歸零
+		if(getAuth[0]()[11]!='M'){
+		   var bibau=cko[0](0);   //找出所有閉包首頁紀錄變數  
+		   cko[0](bibau*(-1));    //將閉包變數歸零
+		}
+    } catch(err) {
+        console.error('outprocs 清理階段發生錯誤:', err);
+    } finally {
+        // 確保不管清理過程是否出錯，都能回到主選單，不會卡死畫面
+        getAuth[0]('Clear_All');
+        for(let k=3;k<7;k++){ getAuth[k]('Clear_All'); }
+        document.querySelectorAll("script[id]").forEach(s=>s.remove());
+        var urlfolder = document.getElementsByTagName('title');
+        if (urlfolder[0]) urlfolder[0].textContent = 'RED.知訊數位營運管理系統';
+        initDialog();
+    }
+} 
  
 function delConfirm(event){     //確定刪除
 	if (typeof event=="undefined"){
@@ -765,10 +718,10 @@ function RecoverArg(arg){
 
     isRecovering = true;
 
-    const authKey = getAuth[1]()[0];
+    //const authKey = getAuth[1]()[0];
     const sendSrcRec =
-        "filename=" + encodeURIComponent(arg) +
-        "|" + encodeURIComponent(authKey);
+        "filename=" + encodeURIComponent(arg);// +
+        //"|" + encodeURIComponent(authKey);
     return fetch("ROL/BKND/FunDetail.php",{
         method:"POST",
         cache:"no-store",
@@ -811,83 +764,6 @@ function setArg(arr){
      getAuth[1]()[1]= getAuth[0]()[0];
 }	
 
-
-function fieldsSet(exucPrgNo) {
-	  //記錄三個頁面搜尋選項的閉包變數清空
-    for(let k=4;k<7;k++){
-	   getAuth[k]('Clear_All');	
-	}  
-	 // 剛進操作畫面之欄位設定
-    const sendSrcRec = "filename=" + encodeURIComponent(exucPrgNo.slice(0, 3));
-    const url = "include/BKND/pagesFieldsData.php" ;
-    fetch(url, {
-        method: 'POST',
-		cache: 'no-store', // 👈 關鍵：強制每次都向伺服器重新請求
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: sendSrcRec
-    })
-    .then(response => {
-        if (!response.ok) throw new Error('網路回應不成功: ' + response.status);
-        return response.json(); // fetch 的 response.json() 會自動將 JSON 字串轉成物件/陣列
-    })
-    .then(rsp => {
-        let widthttl = 0;
-        let m = 0;
-        let thr = null;
-
-        for (let i = 0; i < rsp.length; i++) {
-            let item = rsp[i];
-            
-            // 使用 .slice 取代原有的 left 函數
-            let currentM = item.field_order ? parseInt(item.field_order.toString().slice(0, 1)) : m;
-
-            if (currentM !== m) {
-                m = currentM;
-                thr = document.getElementById('headrow' + m.toString());
-                widthttl = 0;
-            }
-
-            if (item.field_name !== undefined && item.show_hide=='S') {
-                const th = document.createElement('th');
-                const text = document.createTextNode(item.field_name);
-                th.appendChild(text);
-
-                if (item.width_ratio !== undefined && item.show_hide=='S') {
-                    th.style.width = item.width_ratio + '%';
-                    widthttl += item.width_ratio * 1;
-                }
-
-                if (widthttl > 100) {
-                    const oMember = document.getElementById('member' + m.toString());
-                    if (oMember) oMember.style.width = widthttl.toString() + '%';
-                }
-
-                if (thr) thr.appendChild(th);
-				
-            }
-			var ptm={};
-			if (isLastCharLetter(item.field_order.trim())) {
-				ptm['text']=item.field_name.trim()=='日'?'日期':item.field_name;
-				ptm['value']=item.field_content;
-				ptm['order']=item.field_order.trim().at(-1);
-			    getAuth[3 + m ](ptm);
-			}
-        }
-
-        if (m > 1 && rsp[1] && rsp[1]['field_name']) {
-            const keynames = document.getElementsByName('keyname');
-            for (let k = 0; k < keynames.length; k++) {
-                keynames[k].textContent = rsp[1]['field_name'] + ":";
-            }
-        }
-    })
-    .catch(error => {
-        console.error("fieldsSet 發生錯誤:", error);
-    });
-}
-
 	// 優化欄位解析邏輯
 function parseFieldMeta(fieldName) {
     var parts = fieldName.split('_');
@@ -927,13 +803,14 @@ function applySingleSelect(targetTr, targetG, chsntail) {
             if (recChecked[i].checked) {
                 recChecked[i].checked = false;
                 cko[chsntail + 2](-1);
-                otherTr.style.backgroundColor = "";
+                //otherTr.style.backgroundColor = "";
+				otherTr.style.background = "";
             }
         }
     }
-    targetTr.style.backgroundColor = "#B9B9FF";
+    //targetTr.style.backgroundColor ="#B9B9FF"; 
+	targetTr.style.background = "linear-gradient(to bottom, #C2C2FF 0%, #8E8EFF 100%)";
     cko[chsntail + 2](1);
-
     // 依所屬頁籤分派後續處理(表頭 or 表身)
     var targetTrChildren = targetTr.getElementsByTagName("td");
     if (chsntail === 0) {
@@ -942,10 +819,38 @@ function applySingleSelect(targetTr, targetG, chsntail) {
         choseSecond(targetTrChildren, targetTr);
     }
 
-    var responseDiv = document.getElementById("serverResponse" + String(chsntail + 1));
-    if (responseDiv) {
-		if(!responseDiv.innerHTML =='Searching......'){
-          responseDiv.innerHTML = '&nbsp';
-		}
+    /* var responseDiv = document.getElementById("serverResponse" + String(chsntail + 1));
+    
+	if (responseDiv && responseDiv.innerHTML !== 'Searching......') {
+       responseDiv.innerHTML = '&nbsp;';
+    } */
+}
+
+// 輔助工具：按鈕工廠
+
+const btnManager = {
+    createBtn(id, val, title, key, clickFn) {
+        const btn = document.createElement("input");
+        btn.type = "button";
+        btn.className = "btn";
+        btn.id = id;
+        btn.value = val;
+        btn.title = title;
+        btn.accessKey = key;
+
+        if (clickFn) {
+            attachEventListener(btn, "click", clickFn, false);
+        }
+        return btn;
     }
+};
+
+function destroySubPage() {
+    const mainSpan = document.getElementById('lclbtnbk');
+    if (mainSpan) mainSpan.innerHTML = '';
+
+    const tabcsses = document.getElementsByClassName("tab_css");
+    Array.from(tabcsses).forEach(el => {
+        if (el.parentNode) el.parentNode.removeChild(el);
+    });
 }

@@ -1,12 +1,29 @@
 <?php
 require_once("../../include/BKND/auth_check.php"); //驗證
 $str_json = file_get_contents('php://input'); //($_POST doesn't work here)
-$response =json_decode($str_json); // decoding received JSON to array
-$cart=json_decode($response);
-$brr=array();
-foreach($cart as $key=>$val){	   
-    $brr[]=addslashes(trim($val));		//要加入此函數避免中間有單引號錯亂
+
+// 【修正】原本這裡是「雙重 json_decode」：
+//   $response = json_decode($str_json);
+//   $cart = json_decode($response);
+// 對齊 C04wrt.php / B04wrt.php / B04bodywrt.php / C00wrt.php / C00bodywrt.php 的修法：
+// 前端已改為單次 stringify(真實物件)，這裡直接一次解碼即可。
+$cart = json_decode($str_json, true);   // 前端已改為單次 stringify(真實物件)，這裡直接一次解碼
+if ($cart === null) {
+    echo json_encode("payload 解碼失敗");
+    exit;
 }
+
+$brr = array();
+foreach ($cart as $key => $val) {
+    $brr[] = addslashes(trim($val));		//要加入此函數避免中間有單引號錯亂
+}
+
+// 【新增防呆】陣列長度檢查，本檔案最深使用到 $brr[32]，故至少需要 33 筆
+if (count($brr) < 33) {
+    echo json_encode("傳入資料筆數不足");
+    exit;
+}
+
 require_once("../../include/BKND/mysqli_server.php");        //引用檔   
 require_once "../../include/BKND/fieldDOMset.php"; // 引入     
 $trnarray=fldafterwrite('C01','1',$link,true);  
@@ -19,10 +36,7 @@ if( trim($brr[0])!=trim($brr[22])){  //如果群組編號不等於客戶編號
 			$brr[22]=$brr[0];  //強制相同
 		}
 }
-     $sql0="select * from a01 where F01="."'".$_COOKIE['useraccount']."'"; 
-     $sql1=@mysqli_query($link,$sql0);
-     $rows1=@mysqli_num_rows($sql1);                       
-     $list4=mysqli_fetch_assoc($sql1);  //紀錄當前操作者姓名        
+     
 	 $lastdate=date('Y'.'-'.'m'.'-'.'d');
      $mArlth=count($brr);  
      if($brr[$mArlth-2]==0){        //如果旗標指示為新增						   
@@ -72,11 +86,11 @@ if( trim($brr[0])!=trim($brr[22])){  //如果群組編號不等於客戶編號
                $mscnt.="'".$brr[30]."',";	//32	
                $mscnt.="'".$brr[31]."',";	//33	
                $mscnt.="'".$brr[32]."',";	//34			  
-	           $mscnt.="'".$lastdate.$list4['F03']."')";		      
+	           $mscnt.="'".$lastdate.$_SESSION['user_name']."')";		      
 	           $sql=$mscnt;                                               //寫入MySQL 	 
                mysqli_query($link ,$sql) or die(mysqli_error($link));  
 			   $last_id = mysqli_insert_id($link);     //找最後一個號碼	          					     
-			   $arr = array ('order_no'=>$last_id,'group_no'=>$brr[22],'lastupdate'=>$lastdate.$list4['F03'],'fldsatrr'=>$trnarray);						 
+			   $arr = array ('order_no'=>$last_id,'group_no'=>$brr[22],'lastupdate'=>$lastdate.$_SESSION['user_name'],'fldsatrr'=>$trnarray);						 
 	           echo json_encode($arr);
 		 } //新增判斷或執行結束   	     
      }else{	   //修改
@@ -112,11 +126,11 @@ if( trim($brr[0])!=trim($brr[22])){  //如果群組編號不等於客戶編號
 		$mscnt.="F31="."'".$brr[30]."',";
 		$mscnt.="F40="."'".$brr[31]."',";
 		$mscnt.="F25="."'".$brr[32]."',";
-	   $mscnt.="F26="."'".$lastdate.$list4['F03']."'";
+	   $mscnt.="F26="."'".$lastdate.$_SESSION['user_name']."'";
 	   $mscnt.=" WHERE F00="."'".$brr[$mArlth-2]."'";
 	   $sql=$mscnt;                                                 //寫入MySQL 	 
        mysqli_query($link ,$sql) or die(mysqli_error($link));  	  
-       $arr = array ('order_no'=>$brr[$mArlth-2],'group_no'=>$brr[22],'lastupdate'=>$lastdate.$list4['F03'],'fldsatrr'=>$trnarray);
+       $arr = array ('order_no'=>$brr[$mArlth-2],'group_no'=>$brr[22],'lastupdate'=>$lastdate.$_SESSION['user_name'],'fldsatrr'=>$trnarray);
 	    echo json_encode($arr);
       //echo $brr[11];
     }  
@@ -124,4 +138,3 @@ if( trim($brr[0])!=trim($brr[22])){  //如果群組編號不等於客戶編號
 mysqli_close($link);	
  	
 ?>
- 
