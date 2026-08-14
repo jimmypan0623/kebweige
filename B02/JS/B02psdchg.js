@@ -53,7 +53,7 @@ function selfTag(jsvsn, jsPth) {
     };
 	
 	const btnAns = createBtn("ANS_BOTT", "\u{2714}", "確認本張進貨單所有紀錄，快速鍵Alt+A", "A", ansproc);
-    const btnVrs = createBtn("VRS_BOTT", "\u{1F504}", "反確認本張進貨單所有紀錄，快速鍵Alt+Z", "Z", vrsproc);
+    const btnVrs = createBtn("VRS_BOTT", "\u{21A9}", "反確認本張進貨單所有紀錄，快速鍵Alt+Z", "Z", vrsproc);
     const btnPrnt = createBtn("PRNT_BOTT", "\u{1F5A8}", "列印所選紀錄，快速鍵Alt+P", "P", prntproc);
 
     // 修正拼字並設定樣式

@@ -3,7 +3,7 @@ function selfTag(jsvsn,jsPth){
 	var svrSpns1=document.getElementById('serverResponse1');    	 
 	var text5 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
 	
-	const notOutButton = btnManager.createBtn("REDYSHIP_BOTT", "\u{1F6D2}", "開單未過帳明細，快速鍵 Alt+G", "G", page1OtherButton1);
+	const notOutButton = btnManager.createBtn("REDYSHIP_BOTT", "\u{1F6D2}", "開單未過帳明細，快速鍵 Alt+W", "W", page1OtherButton1);
 	notOutButton.setAttribute("style","font-size:130%;margin:0px");
 	contentdiv[0].insertBefore(text5,svrSpns1);
 	contentdiv[0].insertBefore(notOutButton,svrSpns1);	
@@ -15,7 +15,7 @@ function selfTag(jsvsn,jsPth){
 	contentdiv[0].insertBefore(invDetailButton,svrSpns1);
 	////
 	var text7 = document.createTextNode('\u{A0}\u{A0}\u{A0}');
-	const mrpListButton = btnManager.createBtn("IFUTURE_BOTT", "\u{1F453}", "預期庫存異動明細，快速鍵 Alt+R", "R", page1OtherButton3);
+	const mrpListButton = btnManager.createBtn("IFUTURE_BOTT", "\u{1F453}", "預期庫存異動明細，快速鍵 Alt+H", "H", page1OtherButton3);
 	mrpListButton.setAttribute("style","font-size:130%;margin:0px;");
 	contentdiv[0].insertBefore(text7,svrSpns1);
 	contentdiv[0].insertBefore(mrpListButton,svrSpns1);
@@ -27,6 +27,7 @@ function selfTag(jsvsn,jsPth){
 	let axtmpl2=jsPth+jsPth.substr(0,3)+'rgst.js?v='+jsvsn;
 	loadScript(`${axtmpl1}`,function(){DrawTable();});
 	loadScript(`${axtmpl2}`);
+	loadScript(`B01/JS/B01mrp.js?v=${jsvsn}`);
 	var tab1Click=document.getElementById("tab1");
 	if(tab1Click){
 	  attachEventListener(tab1Click,"click",tab1View,false);

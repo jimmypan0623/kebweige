@@ -118,7 +118,7 @@ function selfTag(jsvsn, jsPth) {
         const invDetailButton = btnManager.createBtn("INVDTL_BOTT", "\u{1F4E6}", "各庫別明細，快速鍵 Alt+B", "B", page1OtherButton1);
         
 		//"\u{1F3E1}"
-		const mrpListButton = btnManager.createBtn("IFUTURE_BOTT", "\u{1F453}", "預期庫存異動明細，快速鍵 Alt+R", "R", page1OtherButton2);
+		const mrpListButton = btnManager.createBtn("IFUTURE_BOTT", "\u{1F453}", "預期庫存異動明細，快速鍵 Alt+H", "H", page1OtherButton2);
 	    mrpListButton.setAttribute("style","font-size:120%;margin:0px;");
 		 contentdiv[0].insertBefore(document.createTextNode('\u{00A0}'.repeat(5)), svrSpns1);
 		 contentdiv[0].insertBefore(invDetailButton, svrSpns1);
@@ -133,7 +133,7 @@ function selfTag(jsvsn, jsPth) {
     loadScript(`${prefix}.js?v=${jsvsn}`, () => { if (window.DrawTable) DrawTable(); });
     loadScript(`${prefix}rgst.js?v=${jsvsn}`);
     loadScript(`include/JS/commonsrch.js?v=${jsvsn}`);
-
+	loadScript(`${prefix}mrp.js?v=${jsvsn}`);
     // --- 6. 事件監聽綁定 ---
     const tabMap = { tab1: tab1View, tab2: tab2View, tab3: tab3View };
     Object.keys(tabMap).forEach(id => {

@@ -40,9 +40,9 @@ function selfTag(jsvsn, jsPth) {
     const fragButtons = document.createDocumentFragment();
     const btnStyle = "visibility:visible; font-size:130%; margin:0; color:black;";
 
-    const btnAns = createBtn("ANS_BOTT", "\u{2714}", "確認本報價單所有紀錄，快速鍵Alt+A", "A", ansproc);
-    const btnVrs = createBtn("VRS_BOTT", "\u{1F504}", "反確認本報價單所有紀錄，快速鍵Alt+Z", "Z", vrsproc);
-    const btnTrn = createBtn("TRN_BOTT", "\u{1F516}", "直接轉客戶訂單，快速鍵Alt+G", "G", null);
+    const btnAns = btnManager.createBtn("ANS_BOTT", "\u{2714}", "確認本報價單所有紀錄，快速鍵Alt+A", "A", ansproc);
+    const btnVrs = btnManager.createBtn("VRS_BOTT", "\u{21A9}", "反確認本報價單所有紀錄，快速鍵Alt+Z", "Z", vrsproc);
+    const btnTrn = btnManager.createBtn("TRN_BOTT", "\u{1F4E4}", "直接轉客戶訂單，快速鍵Alt+G", "G", null);  //"\u{1F516}"
 
     [btnAns, btnVrs, btnTrn].forEach(btn => btn.style.cssText = btnStyle);
     

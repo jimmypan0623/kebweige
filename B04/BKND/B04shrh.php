@@ -1,17 +1,14 @@
 <?php   
 require_once("../../include/BKND/auth_check.php"); //驗證
 $str_json = file_get_contents('php://input'); //($_POST doesn't work here)
-$response =json_decode($str_json); // decoding received JSON to array
+$cart = json_decode($str_json);   // 單次解碼，與前端單次 stringify 對應
 
-$cart=json_decode($response);
-$brr=array();
-foreach($cart as $key=>$val){	   
-    $brr[]=addslashes($val);		//要加入此函數避免中間有單引號錯亂
+$brr = array();
+foreach ($cart as $key => $val) {	   
+    $brr[] = addslashes($val);		//要加入此函數避免中間有單引號錯亂
 }
-
- require_once("../../include/BKND/mysqli_server.php");                              //引用檔    
- require_once "../../include/BKND/paymentclc.php"; // 引入 
-
+require_once("../../include/BKND/mysqli_server.php");                              //引用檔    
+require_once "../../include/BKND/paymentclc.php"; // 引入 
 $sq20 = "SELECT F01, F06 FROM a26 WHERE F01 IN ('INT_002', 'INT_069','INT_011')";
 $sql20 = @mysqli_query($link, $sq20);
 

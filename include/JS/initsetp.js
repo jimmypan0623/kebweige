@@ -268,7 +268,7 @@ function initDialog()
 						
                         var cokath1 = getAuth[0]()[1];
                         if (cokath1 !== 'E') {
-                           var orpButton2 = btnManager.createBtn("NEW_BOTT", "\u{1F4DD}", "新增一筆紀錄，快速鍵Alt+N", "N", cokath1 === 'N' ? null : addrec);
+                           var orpButton2 = btnManager.createBtn("NEW_BOTT", "\u{2795}", "新增一筆紀錄，快速鍵Alt+N", "N", cokath1 === 'N' ? null : addrec); //"\u{1F4DD}"
                            if (cokath1 === 'N') orpButton2.style.display = "none";
                            mainSpan1.appendChild(text2);
                            mainSpan1.appendChild(orpButton2);

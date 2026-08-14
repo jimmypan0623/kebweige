@@ -89,5 +89,4 @@ mysqli_close($link);
 
 // 5. 輸出 JSON 結果
 echo json_encode($arr);
-//echo json_encode(['recdrow' => $arr, 'pgttl' => (int)$running_qty], JSON_UNESCAPED_UNICODE);
 ?>

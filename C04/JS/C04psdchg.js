@@ -58,11 +58,11 @@ function selfTag(jsvsn, jsPth) {
     const fragInfo = document.createDocumentFragment();
     
     // 按鈕：查看出貨紀錄 (訂單特有)
-    const btnOutRcd = btnManager.createBtn("OUTRCD_BOTT", "\u{1F4DC}", "查看出貨紀錄，快速鍵 Alt+G", "G", page2OtherButton1);
+    const btnOutRcd = btnManager.createBtn("OUTRCD_BOTT", "\u{1F4DC}", "查看出貨紀錄，快速鍵 Alt+W", "W", page2OtherButton1);
     btnOutRcd.setAttribute("style","font-size:120%;margin:0px;");
     const invDetailButton = btnManager.createBtn("INVDTL_BOTT", "\u{1F4E6}", "各庫別明細，快速鍵 Alt+B", "B", page2OtherButton2);
 	invDetailButton.setAttribute("style","font-size:130%;margin:0px;");
-	const mrpListButton = btnManager.createBtn("IFUTURE_BOTT", "\u{1F453}", "預期庫存異動明細，快速鍵 Alt+R", "R", page2OtherButton3);
+	const mrpListButton = btnManager.createBtn("IFUTURE_BOTT", "\u{1F453}", "預期庫存異動明細，快速鍵 Alt+H", "H", page2OtherButton3);
 	mrpListButton.setAttribute("style","font-size:120%;margin:0px;");
     const createSpan = (id, text, className) => {
         const s = document.createElement('span');
@@ -91,8 +91,8 @@ function selfTag(jsvsn, jsPth) {
     const btnStyle = "visibility:visible; font-size:130%; margin:0; color:black;";
 
     const btnAns = btnManager.createBtn("ANS_BOTT", "\u{2714}", "確認本訂單所有紀錄，快速鍵Alt+A", "A", ansproc);
-    const btnVrs = btnManager.createBtn("VRS_BOTT", "\u{1F504}", "反確認本訂單所有紀錄，快速鍵Alt+Z", "Z", vrsproc);
-    const btnTrn = btnManager.createBtn("TRN_BOTT", "\u{1F516}", "直接轉出貨單，快速鍵Alt+G", "G", null); // 轉單
+    const btnVrs = btnManager.createBtn("VRS_BOTT", "\u{21A9}", "反確認本訂單所有紀錄，快速鍵Alt+Z", "Z", vrsproc);  //"\u{1F504}"
+    const btnTrn = btnManager.createBtn("TRN_BOTT", "\u{1F4E4}", "直接轉出貨單，快速鍵Alt+G", "G", null); // 轉單
 
     [btnAns, btnVrs, btnTrn].forEach(btn => btn.style.cssText = btnStyle);
 
@@ -118,7 +118,9 @@ function selfTag(jsvsn, jsPth) {
         [`include/JS/commonsrch.js?v=${jsvsn}`],
         [`C01/JS/A09getno.js?v=${jsvsn}`],
         [`include/JS/confirmfun.js?v=${jsvsn}`],
-        [`C01/JS/A01Name.js?v=${jsvsn}`]
+        [`C01/JS/A01Name.js?v=${jsvsn}`],
+		[`B01/JS/B01mrp.js?v=${jsvsn}`]
+		 
     ];
 
     scriptList.forEach(cfg => loadScript(cfg[0], cfg[1] || null));

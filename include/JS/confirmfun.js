@@ -14,38 +14,43 @@ function shurePrc(event){        //單據確認程序
 	var rcdindex=0;
 	rcdindex=sourceAccount(null,0);	
 	var fieldlast=(document.getElementById("TRN_BOTT"))?4:3;
-	var shr_head="{";
-	if(getAuth[0]()[12]!='A'){  //非分析資料檔
-		for (var i=1;i<headtable.rows[rcdindex].cells.length-fieldlast;i++){  //要從編號開始計
-			if(headtable.rows[rcdindex].cells[i].className=='directdata'){			
-				shr_head+="\""+"elemh"+String(i)+"\""+":"+"\""+headtable.rows[rcdindex].cells[i].textContent+"\""+",";
+	//////////
+	var order_head = {};   // 改用真正的物件，取代字串拼接
+
+	if (getAuth[0]()[12] != 'A') {  // 非分析資料檔
+		for (var i = 1; i < headtable.rows[rcdindex].cells.length - fieldlast; i++) {  // 要從編號開始計
+			if (headtable.rows[rcdindex].cells[i].className == 'directdata') {
+				order_head["elemh" + i] = headtable.rows[rcdindex].cells[i].textContent;
 			}
 		}
-		if(target.value=='\u{2705}'){			
-			headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-3].textContent='Y';
-			shr_head+="\""+"elemh"+String(headtable.rows[rcdindex].cells.length-3)+"\""+":"+"\""+'Y'+"\""+",";
-		}else{     
-			headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length-4].textContent='Y';
-			shr_head+="\""+"elemh"+String(headtable.rows[rcdindex].cells.length-4)+"\""+":"+"\""+'Y'+"\""+",";	
-			shr_head+="\""+"elemhP"+"\""+":"+"\""+document.getElementById('newPono').value+"\""+",";		 
-			var NewNumber=document.getElementById('newPono').value;
+		if (target.value == '\u{2705}') {
+			headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length - 3].textContent = 'Y';
+			order_head["elemh" + (headtable.rows[rcdindex].cells.length - 3)] = 'Y';
+		} else {
+			headtable.rows[rcdindex].cells[headtable.rows[rcdindex].cells.length - 4].textContent = 'Y';
+			order_head["elemh" + (headtable.rows[rcdindex].cells.length - 4)] = 'Y';
+			order_head["elemhP"] = document.getElementById('newPono').value;
+			var NewNumber = document.getElementById('newPono').value;
 		}
 	}
-	if(document.getElementById('recmth').value.search('-')>-1){
-		shr_head+="\""+"elemh"+String(headtable.rows[rcdindex].cells.length)+"\""+":"+"\""+document.getElementById('recmth').value+"\""+",";
+	if (document.getElementById('recmth').value.search('-') > -1) {
+		order_head["elemh" + headtable.rows[rcdindex].cells.length] = document.getElementById('recmth').value;
 	}
-	var urlphp='';
-	var str_json='';
-	var urlfolder=document.getElementsByTagName('title');
-	var urlpath=(left(urlfolder[0].innerHTML,3));   
-	var json=shr_head.slice(0,-1)+"}";   //去掉最後一個逗號再加上右大引號	 	      
-    str_json=JSON.stringify(json);   	 
-    setCookie('useraccount',getAuth[1]()[0]);	
-	if(target.value=="\u{2705}"){   //確認		   	
-	    urlphp=urlpath+"/BKND/"+urlpath+"shrh.php";	
-	}else{			
-		urlphp=urlpath+"/BKND/"+urlpath+"trnh.php";		   		   
-	}			
+
+	var urlphp = '';
+	var urlfolder = document.getElementsByTagName('title');
+	var urlpath = (left(urlfolder[0].innerHTML, 3));
+
+	var str_json = JSON.stringify(order_head);   // 單次編碼，與 TableToJson 一致
+
+	setCookie('useraccount', getAuth[1]()[0]);	
+	if (target.value == "\u{2705}") {   //確認		   	
+		urlphp = urlpath + "/BKND/" + urlpath + "shrh.php";	
+	} else {			
+		urlphp = urlpath + "/BKND/" + urlpath + "trnh.php";		   		   
+	}
+	
+	//////////
 	if (tabs[0].checked){          //如果頁面為表頭	
 	    var responseDiv=document.getElementById("serverResponse1"); 				 
     }else{                     //如果是在表身畫面確認
@@ -54,8 +59,7 @@ function shurePrc(event){        //單據確認程序
 	    detachEventListener(newrcath,"click",addrec,false);		
 	    var responseDiv=document.getElementById("serverResponse2"); 
 	}		
-	/* responseDiv.style.textAlign='center';	 
-	responseDiv.innerHTML='<img src="digits/Loading.gif" width="1.5%" height="1.5%" border="0">'; */	
+	
 	aprv.innerHTML="<img src='digits/Loading.gif' alt='svg' style='position: absolute;top: 47px;left: 50%;width: 50px;opacity: 0.45;'>"
 	if(window.ActiveXObject){
 		var request = new ActiveXObject("Microsoft.XMLHttp");

@@ -1,8 +1,7 @@
 <?php
 require_once("../../include/BKND/auth_check.php"); //驗證
 $str_json = file_get_contents('php://input'); //($_POST doesn't work here)
-$response =json_decode($str_json); // decoding received JSON to array
-$cart=json_decode($response);
+$cart=json_decode($rstr_json);       // 單次解碼，與前端單次 stringify 對應
 $brr=array();
 foreach($cart as $key=>$val){	   
     $brr[]=addslashes($val);		//要加入此函數避免中間有單引號錯亂

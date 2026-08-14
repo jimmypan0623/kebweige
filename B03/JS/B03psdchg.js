@@ -44,7 +44,7 @@ function selfTag(jsvsn,jsPth){
 	var orpButton8=document.createElement("input");		   
 	orpButton8.setAttribute("type","button");
 	orpButton8.setAttribute("class","btn");
-	orpButton8.setAttribute("value","\u{1F504}");       	      
+	orpButton8.setAttribute("value","\u{21A9}");       	      
 	orpButton8.setAttribute("title","反確認本張出貨退回單所有紀錄，快速鍵Alt+Z");  
 	orpButton8.setAttribute("accesskey","Z");					
 	orpButton8.id="VRS_BOTT";				

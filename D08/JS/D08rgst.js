@@ -94,7 +94,7 @@ function page1Detail03(ajTable){
     body: queryString
     })
      .then(res => res.json())
-     .then(rsp => searchHaveshiped(rsp, ajTable));  
+     .then(rsp => searchHaveshiped(rsp, ajTable,'PLAN'));  
 }
 
 function searchReadyship(arr,ajTable) {       //搜尋相關料號
@@ -138,111 +138,6 @@ function searchReadyship(arr,ajTable) {       //搜尋相關料號
 	}							
 }
 
-function srchStockNo(arr,ajTable) {       //搜尋相關料號
-    let cnt=0;
-	let array1=[];
-	let array2=[];
-	for(let i=0;i<arr.length;i++){				 
-        var oTr=ajTable.insertRow(0);		
-		cnt++;         
-		
-		for(let jk in arr[i]){		   
-		    var meta = parseFieldMeta(jk);
-		    var oTd = oTr.insertCell(oTr.cells.length); 
-			oTd.innerHTML=arr[i][jk];	
-            if (meta) {
-				oTd.className = meta.isDirect ? "directdata" : "indirectdata";				
-				oTd.style.width = meta.width;
-				if(i==0 && !meta.isHidden){   //第一輪就塞進去											  
-					array1.push(meta.name);  //欄名
-				    array2.push(meta.width); //欄寬
-				}
-				oTd.style.textAlign = meta.align;
-				if (meta.isHidden) oTd.style.display = "none";
-			}
-			if(meta.name=='庫存數量'){
-				
-				if(arr[i]['列入計算_IHC_000']!='Y'){
-			     
-				    oTd.setAttribute("style",`width:${meta.width};text-align:right;text-decoration: line-through;color:#7f8890;`);
-				
-				}else{
-					oTd.setAttribute("style",`width:${meta.width};text-align:right;`);
-				}
-			}
-	    }	
-        if(arr[i]['呆滯天數_IHC_000']>210 ){  //最後異動日期距今超過210天紅字		   
-			oTr.setAttribute("style","font-weight:bold;color:#E60000;");			
-		}else if(arr[i]['呆滯天數_IHC_000']>90 ){//最後異動日期距今超過90天低於210天棕色字
-			oTr.setAttribute("style","font-weight:bold;color:#704214;");			
-		}
-	}	
-   
-    if(cnt==0){
-	  blkshow("無庫存資料!");
-	  //return false;
-	}else{
-	    var oTr=ajTable.insertRow(0);
-	    for (let j = 0; j < array1.length; j++) {
-		    var th = document.createElement('th'); //column		   
-		    var text = document.createTextNode(array1[j]); //cell	
-			th.style.width=array2[j];
-		    th.appendChild(text);
-		    oTr.appendChild(th);		
-	    }						
-	}			
-}
-
-function searchHaveshiped(arr,ajTable) {       //搜尋相關料號
-    let cnt=0;
-	let array3=[];
-	let array4=[];	 
-	let initqty=sourceAccount(2,0);    //
-	for(let i=arr.length-1;i>-1;i--){				 
-	    var oTr=ajTable.insertRow(0);
-		cnt++;         
-		
-		for(let jk in arr[i]){		   
-		    var meta = parseFieldMeta(jk);
-		    var oTd = oTr.insertCell(oTr.cells.length); 
-			oTd.innerHTML=arr[i][jk];	
-            if (meta) {
-				oTd.className = meta.isDirect ? "directdata" : "indirectdata";				
-				oTd.style.width = meta.width;
-				if(i==0 && !meta.isHidden){   //第一輪就塞進去											  
-					array3.push(meta.name);  //欄名
-				    array4.push(meta.width); //欄寬
-				}
-				oTd.style.textAlign = meta.align;
-				if (meta.isHidden) oTd.style.display = "none";
-			}		
-			
-	    }	
-		if( arr[i]['預期結餘_ISR_010']<0){  //預期結餘超過今天紅字
-			oTr.setAttribute("style","font-weight:bold;color:#E60000;");				 
-		}	 
-		if(arr[i]['序號_IHC_000']==left(sourceAccount(3,0),2)+sourceAccount('0',0)){
-			
-		   //oTr.setAttribute("style","font-weight:bold;color:#704214;");
-			 oTr.style.backgroundColor='#B9B9FF';
-		} 
-	}	
-	
-    if(cnt==0){
-	  blkshow("無資料!");
-	  return false;
-	}else{
-	    var oTr=ajTable.insertRow(0);
-	    for (let j = 0; j < array3.length; j++) {
-		    var th = document.createElement('th'); //column		   
-		    var text = document.createTextNode(array3[j]); //cell	
-			th.style.width=array4[j];
-		    th.appendChild(text);
-		    oTr.appendChild(th);		
-	    }						
-	}		
-	
-}
 function searchKeyHint(tbno){    //搜尋畫面出現提示
     return "搜尋出貨月報表對照欄位選擇";
 }
@@ -254,5 +149,5 @@ function page1OtherWindow2(){
 }
 
 function page1OtherWindow3(){		 
-   return "\u{1F4E6}:\u{300E}"+sourceAccount(1,0)+"\u{300F}\u{A0}\u{A0}預期庫存異動明細\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{1F4C4}目前庫存:"+sourceAccount(8,0);
+   return "\u{1F4E6}:\u{300E}"+sourceAccount(1,0)+"\u{300F}\u{A0}\u{A0}預期異動明細\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}\u{1F4C4}目前庫存:"+sourceAccount(8,0);
 }

@@ -4,7 +4,7 @@ function selfTag(jsvsn,jsPth){
 	 const frag2 = document.createDocumentFragment();
 	var text5 = document.createTextNode('\u{A0}\u{A0}\u{A0}\u{A0}\u{A0}');
 	
-	const notOutButton = btnManager.createBtn("REDYSHIP_BOTT", "\u{1F6D2}", "開單未過帳明細，快速鍵 Alt+G", "G", page1OtherButton1);
+	const notOutButton = btnManager.createBtn("REDYSHIP_BOTT", "\u{1F6D2}", "開單未過帳明細，快速鍵 Alt+W", "W", page1OtherButton1);
 	notOutButton.setAttribute("style","font-size:130%;margin:0px");
 	frag2.appendChild(text5);  
 	frag2.appendChild(notOutButton);
@@ -16,7 +16,7 @@ function selfTag(jsvsn,jsPth){
 	frag2.appendChild(invDetailButton);
 	var text7 = document.createTextNode('\u{A0}\u{A0}\u{A0}');
 	
-	const mrpListButton = btnManager.createBtn("IFUTURE_BOTT", "\u{1F453}", "預期庫存異動明細，快速鍵 Alt+R", "R", page1OtherButton3);
+	const mrpListButton = btnManager.createBtn("IFUTURE_BOTT", "\u{1F453}", "預期庫存異動明細，快速鍵 Alt+H", "H", page1OtherButton3);
 	mrpListButton.setAttribute("style","font-size:130%;margin:0px;");
 	frag2.appendChild(text7);
 	frag2.appendChild(mrpListButton);
@@ -28,6 +28,7 @@ function selfTag(jsvsn,jsPth){
 	let axtmpl2=jsPth+jsPth.substr(0,3)+'rgst.js?v='+jsvsn;
 	loadScript(`${axtmpl1}`,function(){DrawTable();});
 	loadScript(`${axtmpl2}`);
+	loadScript(`B01/JS/B01mrp.js?v=${jsvsn}`);
 	var tab1Click=document.getElementById("tab1");
 	if(tab1Click){
 	  attachEventListener(tab1Click,"click",tab1View,false);

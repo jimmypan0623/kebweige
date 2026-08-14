@@ -42,7 +42,7 @@ function selfTag(jsvsn, jsPth) {
     
    
     const btnAns = btnManager.createBtn("ANS_BOTT", "\u{2714}", "確認本張出貨單所有紀錄，快速鍵Alt+A", "A", ansproc);
-    const btnVrs = btnManager.createBtn("VRS_BOTT", "\u{1F504}", "反確認本張出貨單所有紀錄，快速鍵Alt+Z", "Z", vrsproc);
+    const btnVrs = btnManager.createBtn("VRS_BOTT", "\u{21A9}", "反確認本張出貨單所有紀錄，快速鍵Alt+Z", "Z", vrsproc);
     const btnPrnt = btnManager.createBtn("PRNT_BOTT", "\u{1F5A8}", "列印所選紀錄，快速鍵Alt+P", "P", prntproc);
 
     // 針對特殊樣式的按鈕進行調整

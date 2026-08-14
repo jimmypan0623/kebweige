@@ -1064,115 +1064,11 @@ async function page1Detail02(ajTable) {    // 查看預期結餘
         });
 
         const rsp = await mainRes.json();
-        searchHaveshiped(rsp,ajTable);
+        searchHaveshiped(rsp,ajTable,'B01');
 
     } catch (error) {
         console.error("查詢過程發生錯誤:", error);
     }
-}
-
-function srchStockNo(arr,ajTable) {       //搜尋相關料號
-    var cnt=0;
-	var array1=[];
-	var array2=[];
-	for(var i=0;i<arr.length;i++){				 
-        var oTr=ajTable.insertRow(ajTable,ajTable.length);		
-		cnt++;         
-		
-		for(var jk in arr[i]){		   
-		    var meta = parseFieldMeta(jk);
-		    var oTd = oTr.insertCell(oTr.cells.length); 
-			oTd.innerHTML=arr[i][jk];	
-            if (meta) {
-				oTd.className = meta.isDirect ? "directdata" : "indirectdata";				
-				oTd.style.width = meta.width;
-				if(i==0 && !meta.isHidden){   //第一輪就塞進去											  
-					array1.push(meta.name);  //欄名
-				    array2.push(meta.width); //欄寬
-				}
-				oTd.style.textAlign = meta.align;
-				if (meta.isHidden) oTd.style.display = "none";
-			}
-			if(meta.name=='庫存數量'){
-				
-				if(arr[i]['列入計算_IHC_000']!='Y'){
-			     
-				    oTd.setAttribute("style",`width:${meta.width};text-align:right;text-decoration: line-through;color:#7f8890;`);
-				
-				}else{
-					oTd.setAttribute("style",`width:${meta.width};text-align:right;`);
-				}
-			}
-	    }	
-        if(arr[i]['呆滯天數_IHC_000']>210 ){  //最後異動日期距今超過210天紅字		   
-			oTr.setAttribute("style","font-weight:bold;color:#E60000;");			
-		}else if(arr[i]['呆滯天數_IHC_000']>90 ){//最後異動日期距今超過90天低於210天棕色字
-			oTr.setAttribute("style","font-weight:bold;color:#704214;");			
-		}
-	}	
-   
-    if(cnt==0){
-	  blkshow("無庫存資料!");
-	  //return false;
-	}else{
-	    var oTr=ajTable.insertRow(ajTable,ajTable.length);
-	    for (var j = 0; j < array1.length; j++) {
-		    var th = document.createElement('th'); //column		   
-		    var text = document.createTextNode(array1[j]); //cell	
-			th.style.width=array2[j];
-		    th.appendChild(text);
-		    oTr.appendChild(th);		
-	    }						
-	}			
-}
-function searchHaveshiped(arr,ajTable) {       //搜尋相關料號預期異動
-    let cnt=0;
-	let array3=[];
-	let array4=[];	 
-	let initqty=sourceAccount(2,0);    //
-	for(var i=arr.length-1;i>-1;i--){				 
-	    var oTr=ajTable.insertRow(0);
-		cnt++;         
-		
-		for(let jk in arr[i]){		   
-		    var meta = parseFieldMeta(jk);
-		    var oTd = oTr.insertCell(oTr.cells.length); 
-			oTd.innerHTML=arr[i][jk];	
-            if (meta) {
-				oTd.className = meta.isDirect ? "directdata" : "indirectdata";				
-				oTd.style.width = meta.width;
-				if(i==0 && !meta.isHidden){   //第一輪就塞進去											  
-					array3.push(meta.name);  //欄名
-				    array4.push(meta.width); //欄寬
-				}
-				oTd.style.textAlign = meta.align;
-				if (meta.isHidden) oTd.style.display = "none";
-			}		
-			
-	    }	
-		if( arr[i]['預期結餘_ISR_010']<0){  //預期結餘超過今天紅字
-			oTr.setAttribute("style","font-weight:bold;color:#E60000;");				 
-		}	 
-		
-		if(arr[i]['序號_IHC_000'].slice(0, -10)== sourceAccount(1,0).substring(0, 2) +sourceAccount('0',1)){  //如果與訂單同筆則變色
-	
-			 oTr.style.background = "linear-gradient(to bottom, #C2C2FF 0%, #8E8EFF 100%)";
-		} 
-	}	
-	
-    if(cnt==0){
-	  blkshow("無資料!");
-	  return false;
-	}else{
-	    var oTr=ajTable.insertRow(0);		
-	    for (let j = 0; j < array3.length; j++) {
-		    var th = document.createElement('th'); //column		   
-		    var text = document.createTextNode(array3[j]); //cell	
-			th.style.width=array4[j];
-		    th.appendChild(text);
-		    oTr.appendChild(th);		
-	    }						
-	}
 }
 
 function  addNewRecordHint(tbno){
@@ -1209,7 +1105,7 @@ function page1OtherWindow1(){
    return "品號:\u{300E}"+document.getElementById("stock_no").innerHTML+"\u{300F}庫存明細";
 }
 function page1OtherWindow2() {
-    return "\u{A0}\u{1F4E6}:\u{300C}" + document.getElementById("stock_no").innerHTML + "\u{300D}預期庫存異動明細\u{A0}\u{A0}\u{1F4C4}目前庫存:<span id='runningQtyVal'></span>";
+    return "\u{A0}\u{1F4E6}:\u{300C}" + document.getElementById("stock_no").innerHTML + "\u{300D}預期異動明細\u{A0}\u{A0}\u{1F4C4}目前庫存:<span id='runningQtyVal'></span>";
 }
 ////以下處理回呼資料傳送給開窗選擇頁面
 function srcArgobj(srcId){
